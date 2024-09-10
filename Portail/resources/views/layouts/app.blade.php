@@ -20,7 +20,7 @@
                     <img class="header-logo" src="{{ asset('img/VTR-12080_logo_NOIR.png') }}" alt="VTR Logo">
                 </div>
                 <div class="col-6 d-flex justify-content-end align-items-center">
-                    <div class="p-2 border-end border-dark">Retour au site de la ville</div>
+                    <div class="p-2 border-end border-dark">{{__('navbar.returnHomeWebSite')}}</div>
                     <div class="p-2">Déconnexion</div>
                 </div>
             </div>
