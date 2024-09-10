@@ -1,0 +1,12 @@
+@font-face {
+    font-family: poppins;
+    src: url(/font/Poppins-Light.otf);
+}
+
+body{
+    background-color: #EEEEF0;
+}
+
+div{
+    font-family: poppins;
+}
