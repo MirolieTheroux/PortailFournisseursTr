@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-6 d-flex justify-content-end align-items-center">
                     <div class="p-2 border-end border-dark">{{__('navbar.returnHomeWebSite')}}</div>
-                    <div class="p-2">Déconnexion</div>
+                    <div class="p-2">{{__('navbar.disconnect')}}</div>
                 </div>
             </div>
         </div>
@@ -37,18 +37,18 @@
                 <div class="col-6 d-flex justify-content-start align-items-center">
                     <img class="footer-logo" src="{{ asset('img/VTR-12080_logo_NOIR.png') }}" alt="VTR Logo">
                     <div>
-                        <div>Ville de Trois-Rivières</div>
-                        <div>1325, place de l'Hotêl-de-Ville, C.P. 368</div>
-                        <div>Trois-Rivières, QC G9A 5H3</div>
-                        <div>Téléphone : 311 ou 819 374-2002</div>
-                        <div>Canada ou États-unis : 1 833 374-2002</div>
-                        <div>Courriel : 311@v3r.net</div>
+                        <div>{{__('footer.organisationName')}}</div>
+                        <div>{{__('footer.addressLine1')}}</div>
+                        <div>{{__('footer.addressLine2')}}</div>
+                        <div>{{__('footer.phoneLine1')}}</div>
+                        <div>{{__('footer.phoneLine2')}}</div>
+                        <div>{{__('footer.email')}}</div>
                     </div>
                 </div>
                 <div class="col-6 d-flex justify-content-center align-items-end flex-column">
                     <img class="header-logo" src="{{ asset('img/Logo_Technique_Informatique.png') }}" alt="VTR Logo">
-                    <div>© Ville de Trois-Rivières. Tous droits réservés.</div>
-                    <div>Réalisé par : Jérémy Faucher, Nicolas Fleurent et Mirolie Théroux</div>
+                    <div>{{__('footer.copyrights')}}</div>
+                    <div>{{__('footer.madeBy')}}</div>
                 </div>
             </div>
         </div>
