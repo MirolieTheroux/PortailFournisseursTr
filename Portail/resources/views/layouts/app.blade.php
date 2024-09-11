@@ -19,9 +19,26 @@
                 <div class="col-6">
                     <img class="header-logo" src="{{ asset('img/VTR-12080_logo_NOIR.png') }}" alt="VTR Logo">
                 </div>
-                <div class="col-6 d-flex justify-content-end align-items-center">
-                    <div class="p-2 border-end border-dark">{{__('navbar.returnHomeWebSite')}}</div>
+                <div class="col-6 justify-content-end align-items-center">
+                    <div class="d-none d-md-flex justify-content-end align-items-center h-100 w-100">
+                      <div class="p-2 border-end border-dark">{{__('navbar.returnHomeWebSite')}}</div>
+                      <div class="p-2">{{__('navbar.disconnect')}}</div>
+                    </div>
+                    
+                    
+                    <div class="d-flex d-md-none justify-content-end align-items-center h-100 w-100">
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                        </svg>
+                      </button>
+                    </div>
+                </div>
+                <div class="collapse" id="navbarToggleExternalContent">
+                  <div class="d-flex d-md-none flex-column justify-content-center align-items-center">
+                    <div class="p-2 border-bottom border-dark">{{__('navbar.returnHomeWebSite')}}</div>
                     <div class="p-2">{{__('navbar.disconnect')}}</div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -34,7 +51,7 @@
     <footer>
         <div class="container-fluid bg-white">
             <div class="row py-2">
-                <div class="col-6 d-flex justify-content-start align-items-center">
+                <div class="col-12 col-md-6 d-flex flex-column flex-md-row justify-content-start align-items-center">
                     <img class="footer-logo" src="{{ asset('img/VTR-12080_logo_NOIR.png') }}" alt="VTR Logo">
                     <div>
                         <div>{{__('footer.organisationName')}}</div>
@@ -45,10 +62,10 @@
                         <div>{{__('footer.email')}}</div>
                     </div>
                 </div>
-                <div class="col-6 d-flex justify-content-center align-items-end flex-column">
+                <div class="col-12 col-md-6 d-flex justify-content-center align-items-center align-items-md-end flex-column">
                     <img class="header-logo" src="{{ asset('img/Logo_Technique_Informatique.png') }}" alt="VTR Logo">
-                    <div>{{__('footer.copyrights')}}</div>
-                    <div>{{__('footer.madeBy')}}</div>
+                    <div class="text-center text-md-end">{{__('footer.copyrights')}}</div>
+                    <div class="text-center text-md-end">{{__('footer.madeBy')}}</div>
                 </div>
             </div>
         </div>

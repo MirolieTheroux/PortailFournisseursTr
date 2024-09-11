@@ -1,3 +1,11 @@
 .header-logo{
     height: 100px;
 }
+
+.icon-hamburger{
+  color: black;
+}
+
+.navbar-toggler:focus{
+  box-shadow: none !important;
+}
