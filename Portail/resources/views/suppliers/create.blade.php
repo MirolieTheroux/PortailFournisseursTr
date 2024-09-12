@@ -8,7 +8,7 @@
 <form method="post" action="">
 @csrf
     <!--IDENTIFICATION-->
-    <div class="container bg-white rounded my-2">
+    <div class="container bg-white rounded my-2" style="display:none">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-identification"></div>
         </div>
@@ -80,20 +80,27 @@
             <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
                 <h2 class="text-center section-subtitle">Catégorie</h2>
                 <div class="text-center">
-                    <label for="product-category" class="form-label">Liste des catégories</label>
-                    <div class="input-group mb-3">
-                        <select name="product-category" id="product-category" class="form-select">
+                    
+                    <div class="form-floating mb-3">
+                        <select name="product-category" id="product-category" class="form-select" aria-label="">
                             <option value="volvo">Volvo</option>
                             <option value="saab">Saab</option>
                             <option value="opel">Opel</option>
                             <option value="audi">Audi</option>
                         </select>
+                        <label for="product-category">Liste des catégories</label>
                     </div>
                 </div>
                 <div class="text-center">
-                    <label for="company-name" class="form-label">Nom de l'entreprise</label>
-                    <div class="input-group mb-3">
-                        <input type="text" name="company-name" id="company-name" class="form-control">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="service-search" id="service-search" class="form-control" placeholder="">
+                        <label for="service-search">Recherche d'un service</label>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" placeholder="" id="company-name" style="height: 160px; resize: none;" maxlength="128"></textarea>
+                        <label for="company-name">Détails et spécifications</label>
                     </div>
                 </div>
             </div>
