@@ -23,13 +23,13 @@
                 <div class="text-center">
                     <label for="neq">{{__('form.neqLabel')}}</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="neq" id="neq" class="form-control" placeholder="XXXXXXXX">
+                        <input type="text" name="neq" id="neq" class="form-control" placeholder="XXXXXXXXXX" maxlength="10">
                     </div>
                 </div>
                 <div class="text-center">
                     <label for="company-name">{{__('form.companyNameLabel')}}</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="company-name" id="company-name" class="form-control">
+                        <input type="text" name="company-name" id="company-name" class="form-control" maxlength="64">
                     </div>
                 </div>
             </div>
@@ -38,20 +38,20 @@
                 <div class="text-center">
                     <label for="company-email">{{__('form.emailLabel')}}</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="company-email" id="company-email" class="form-control" placeholder="example@gmail.com">
+                        <input type="text" name="company-email" id="company-email" class="form-control" placeholder="example@gmail.com" maxlength="64">
                     </div>
                 </div>
                 <div class="container-fluid text-center d-md-flex justify-content-between align-items-end p-0">
                     <div class="col-12 col-md-6 pe-md-3">
                         <label for="company-name">{{__('form.passwordLabel')}}</label>
                         <div class="input-group mb-3">
-                            <input type="password" name="password" id="password" class="form-control">
+                            <input type="password" name="password" id="password" class="form-control" maxlength="12">
                         </div>
                     </div>
                     <div class="col-12 col-md-6 ps-md-3">
                         <label for="company-name">{{__('form.passwordConfirmLabel')}}</label>
                         <div class="input-group mb-3">
-                            <input type="password" name="password-confirm" id="password-confirm" class="form-control">
+                            <input type="password" name="password-confirm" id="password-confirm" class="form-control" maxlength="12">
                         </div>
                     </div>
                 </div>
