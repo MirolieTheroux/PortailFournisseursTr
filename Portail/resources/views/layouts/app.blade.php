@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     @yield('css')
 </head>
-<body>
+<body class="d-flex flex-column justify-content-between vh-100">
     <!-- #HEADER -->
-    <header>
+    <header class="navbar">
         <div class="container-fluid bg-white shadow-sm">
-            <div class="row">
+            <div class="row w-100">
                 <div class="col-6">
                     <img class="header-logo" src="{{ asset('img/VTR-12080_logo_NOIR.png') }}" alt="VTR Logo">
                 </div>
@@ -44,8 +44,9 @@
         </div>
     </header>
     
-
-    @yield('content')
+    <main>
+        @yield('content')
+    </main>
 
     <!-- #FOOTER -->
     <footer>

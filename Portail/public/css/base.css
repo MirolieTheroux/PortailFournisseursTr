@@ -10,3 +10,17 @@ body{
 div{
     font-family: poppins;
 }
+
+.button-darkblue{
+    border: 0;
+    background-color: #0B2341;
+    color: white;
+}
+.button-darkblue:hover{
+    background-color: #0076D5;
+    color: black;
+}
+.button-darkblue:active{
+    background-color: #F3E700;
+    color: black;
+}
