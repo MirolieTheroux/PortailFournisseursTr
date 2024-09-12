@@ -53,6 +53,6 @@ div{
 }
 
 input:focus{
-    border: var(--dark_blue) solid 1px !important;
-    
+    border: var(--blue) solid 1px !important;
+    box-shadow: none !important;
 }
