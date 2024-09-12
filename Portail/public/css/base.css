@@ -24,3 +24,8 @@ div{
     background-color: #F3E700;
     color: black;
 }
+
+input:focus{
+    border: #0B2341 solid 1px !important;
+    
+}
