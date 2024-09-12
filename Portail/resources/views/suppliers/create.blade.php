@@ -2,6 +2,21 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/supplier.css') }}">
+<link rel="stylesheet" href="{{ asset('css/progressBar.css') }}">
+@endsection
+
+@section('progressBar')
+<div class="container">		
+     <div class="arrow-steps">
+        <div class="step current"> <span> Identification</span> </div>
+        <div class="step"> <span>Produits et services</span> </div>
+        <div class="step"> <span>Licence RBQ</span> </div>
+        <div class="step"> <span>Coordonnées</span> </div>
+        <div class="step"> <span>Contacts</span> </div>
+        <div class="step"> <span>Pièces jointes</span> </div>
+        <!-- faire des div interne plus petite de couleur du fond pour faire le border -->
+    </div>
+</div>
 @endsection
 
 @section('content')
