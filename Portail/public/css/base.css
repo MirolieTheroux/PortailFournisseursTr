@@ -1,3 +1,30 @@
+:root{
+    --dark_blue: #0B2341;
+    --light_blue: #78C6E0;
+    --blue: #0076D5;
+
+    --dark_green: #1E494D;
+    --light_green: #C5D800;
+    --green: #68B545;
+
+    --red: #E5004D;
+    --orange: #ED8C00;
+    --yellow: #F3E700;
+    --pink: #F99FD7;
+}
+
+.section-title{
+    font-size: 24pt;
+}
+
+.section-subtitle{
+    font-size: 16pt;
+}
+
+.form-label{
+    font-size: 10pt;
+}
+
 @font-face {
     font-family: poppins;
     src: url(/font/Poppins-Light.otf);
@@ -13,19 +40,19 @@ div{
 
 .button-darkblue{
     border: 0;
-    background-color: #0B2341;
+    background-color: var(--dark_blue);
     color: white;
 }
 .button-darkblue:hover{
-    background-color: #0076D5;
+    background-color: var(--blue);
     color: black;
 }
 .button-darkblue:active{
-    background-color: #F3E700;
+    background-color: var(--yellow);
     color: black;
 }
 
 input:focus{
-    border: #0B2341 solid 1px !important;
+    border: var(--dark_blue) solid 1px !important;
     
 }
