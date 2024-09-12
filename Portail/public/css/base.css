@@ -26,6 +26,6 @@ div{
 }
 
 input:focus{
-    border: #0B2341 solid 1px !important;
-    
+    border: #0076D5 solid 1px !important;
+    box-shadow: none !important;
 }
