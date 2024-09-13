@@ -6,17 +6,35 @@
 @endsection
 
 @section('progressBar')
-<div class="container">		
-     <div class="arrow-steps">
-        <div class="step current"> <span> Identification</span> </div>
-        <div class="step"> <span>Produits et services</span> </div>
-        <div class="step"> <span>Licence RBQ</span> </div>
-        <div class="step"> <span>Coordonnées</span> </div>
-        <div class="step"> <span>Contacts</span> </div>
-        <div class="step"> <span>Pièces jointes</span> </div>
-        <!-- faire des div interne plus petite de couleur du fond pour faire le border -->
+<div class="container-fluid d-flex justify-content-center">		
+    <div class="arrow-steps">
+        <div class="step current">
+            <span class="number">1</span>
+            <span class="name">Identification</span>
+        </div>
+        <div class="step">
+            <span class="number">2</span>
+            <span class="name">Produits et services</span>
+        </div>
+        <div class="step">
+            <span class="number">3</span>
+            <span class="name">Licence RBQ</span>
+        </div>
+        <div class="step">
+            <span class="number">4</span>
+            <span class="name">Coordonnées</span>
+        </div>
+        <div class="step">
+            <span class="number">5</span>
+            <span class="name">Contacts</span>
+        </div>
+        <div class="step">
+            <span class="number">6</span>
+            <span class="name">Pièces jointes</span>
+        </div>
     </div>
 </div>
+
 @endsection
 
 @section('content')
