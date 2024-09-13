@@ -189,6 +189,12 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+      'name' => 'nom',
+      'email' => 'adresse courriel',
+      'password' => 'mot de passe',
+      'password_confirmation' => 'confirmer le mot de passe',
+      'neq' => 'numéro d\'entreprise',
+    ],
 
 ];
