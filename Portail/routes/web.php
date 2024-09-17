@@ -8,3 +8,5 @@ use App\Http\Controllers\SuppliersController;
 });*/
 
 Route::get('/', [SuppliersController::class, 'create'])->name('suppliers.create');
+
+Route::post('suppliers', [SuppliersController::class, 'store'])->name('suppliers.store');
