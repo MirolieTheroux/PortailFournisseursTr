@@ -102,8 +102,22 @@
 	}
   
 	.arrow-steps .step:before,
-	.arrow-steps .step:after {
-	  content: none; 
+	.arrow-steps .step:after
+	 {
+		content: " ";
+		position: absolute;
+		top: 0;
+		right: -17px;
+		width: 0;
+		height: 0;
+		border-top:none;
+		border-bottom: none;
+		border-left: none;	
+		z-index: 2;
+	  transition: border-color 0.2s ease;
+	}
+	.arrow-steps .step:after{
+		border-right: 4px solid blue;
 	}
   
 	.arrow-steps .number {
@@ -128,20 +142,15 @@
 	.arrow-steps .step.current .number {
 	  background-color: var(--dark_blue); 
 	}
-
-	hr{
-		color: black;
-		opacity: 1;
-	}
-
-	hr:not([size]) {
-		height: 2px;
-	  }
 }
 
 @media (max-width: 700px){
 	.container-fluid{
-		margin-bottom: 0px;
+		margin-bottom: 15px;
+	}
+
+	.arrow-steps .step:after{
+		border-right: 2px solid blue ;
 	}
 
 	.arrow-steps .number {
@@ -151,7 +160,6 @@
 	font-size: 1rem;
 	line-height: 30px; 
 	}
-
 	.arrow-steps .step{
 	padding: 5px;
 	}
