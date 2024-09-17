@@ -7,9 +7,10 @@
 
 @section('progressBar')
 <div class="container-fluid d-flex justify-content-center">		
-    <div class="arrow-steps">
+    <div class="arrow-steps mt-3">
         <div class="step current">
             <span class="number">1</span>
+            <div> <hr/> </div>
             <span class="name">Identification</span>
         </div>
         <div class="step">
