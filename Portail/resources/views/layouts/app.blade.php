@@ -45,7 +45,6 @@
     </header>
     
     <main>
-        @yield('progressBar')
         @yield('content')
     </main>
 

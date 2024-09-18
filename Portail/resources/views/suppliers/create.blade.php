@@ -5,41 +5,40 @@
 <link rel="stylesheet" href="{{ asset('css/progressBar.css') }}">
 @endsection
 
-@section('progressBar')
-<div class="container-fluid d-flex justify-content-center">		
-    <div class="arrow-steps mt-3">
-        <div class="step current">
-            <span class="number">1</span>
-            <span class="name">Identification</span>
-        </div>
-        <div class="step">
-            <span class="number">2</span>
-            <span class="name">Produits et services</span>
-        </div>
-        <div class="step">
-            <span class="number">3</span>
-            <span class="name">Licence RBQ</span>
-        </div>
-        <div class="step">
-            <span class="number">4</span>
-            <span class="name">Coordonnées</span>
-        </div>
-        <div class="step">
-            <span class="number">5</span>
-            <span class="name">Contacts</span>
-        </div>
-        <div class="step">
-            <span class="number">6</span>
-            <span class="name">Pièces jointes</span>
-        </div>
-    </div>
-</div>
-
-@endsection
-
 @section('content')
 <form method="post" action="{{ route('suppliers.store') }}" enctype="multipart/form-data">
 @csrf
+    <!--PROGRESS BAR-->
+    <div class="container-fluid d-flex justify-content-center">		
+        <div class="arrow-steps mt-3">
+            <!-- faire des boutons  -->
+            <div class="step current">
+                <span class="number">1</span>
+                <span class="name">{{__('form.identificationTitle')}}</span>
+            </div>
+            <div class="step">
+                <span class="number">2</span>
+                <span class="name">Produits et services</span>
+            </div>
+            <div class="step">
+                <span class="number">3</span>
+                <span class="name">Licence RBQ</span>
+            </div>
+            <div class="step">
+                <span class="number">4</span>
+                <span class="name">Coordonnées</span>
+            </div>
+            <div class="step">
+                <span class="number">5</span>
+                <span class="name">Contacts</span>
+            </div>
+            <div class="step">
+                <span class="number">6</span>
+                <span class="name">Pièces jointes</span>
+            </div>
+        </div>
+    </div><!-- FIN PROGRESS BAR-->
+
     <!--IDENTIFICATION-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
