@@ -159,9 +159,6 @@
 	}
 
 	.arrow-steps .step:not(:last-child)::after {
-        content: "";
-        position: absolute;
-        top: 50%;
         right: -11px; 
         width: 21px; 
         height: 1.5px;
