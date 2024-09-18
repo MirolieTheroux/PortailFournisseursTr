@@ -2,11 +2,42 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/supplier.css') }}">
+<link rel="stylesheet" href="{{ asset('css/progressBar.css') }}">
 @endsection
 
 @section('content')
 <form method="post" action="{{ route('suppliers.store') }}" enctype="multipart/form-data">
 @csrf
+    <!--PROGRESS BAR-->
+    <div class="container-fluid d-flex justify-content-center">		
+        <div class="arrow-steps mt-3">
+            <div class="step current">
+                <span class="number">1</span>
+                <span class="name">{{__('form.identificationTitle')}}</span>
+            </div>
+            <div class="step">
+                <span class="number">2</span>
+                <span class="name">Produits et services</span>
+            </div>
+            <div class="step">
+                <span class="number">3</span>
+                <span class="name">Licence RBQ</span>
+            </div>
+            <div class="step">
+                <span class="number">4</span>
+                <span class="name">Coordonnées</span>
+            </div>
+            <div class="step">
+                <span class="number">5</span>
+                <span class="name">Contacts</span>
+            </div>
+            <div class="step">
+                <span class="number">6</span>
+                <span class="name">Pièces jointes</span>
+            </div>
+        </div>
+    </div><!-- FIN PROGRESS BAR-->
+
     <!--IDENTIFICATION-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
@@ -75,7 +106,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+                <button id="test" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
             </div>
         </div>
     </div>  <!--FIN IDENTIFICATION-->  
