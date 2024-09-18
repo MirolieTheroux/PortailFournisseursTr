@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password', 12);
             $table->string('email', 64);
             $table->string('site', 64)->nullable();
+            //TODO Corriger le nom "product_serivce_detail".
             $table->string('product_serivce_detail', 500)->nullable();
             $table->string('tps_number', 64)->nullable();
             $table->string('tvq_number', 64)->nullable();
