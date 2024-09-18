@@ -50,7 +50,7 @@
 
     <!-- #FOOTER -->
     <footer>
-        <div class="container-fluid bg-white">
+        <div class="container-fluid bg-white m-0">
             <div class="row py-2">
                 <div class="col-12 col-md-6 d-flex flex-column flex-md-row justify-content-start align-items-center">
                     <img class="footer-logo" src="{{ asset('img/VTR-12080_logo_NOIR.png') }}" alt="VTR Logo">
