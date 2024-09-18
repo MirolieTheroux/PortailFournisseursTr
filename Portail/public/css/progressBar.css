@@ -157,6 +157,7 @@
 	font-size: 1rem;
 	line-height: 30px; 
 	}
+
 	.arrow-steps .step:not(:last-child)::after {
         content: "";
         position: absolute;
@@ -169,6 +170,26 @@
 	.arrow-steps .step{
 	padding: 5px;
 	}
+}
+
+@media (max-width: 400px){
+	.arrow-steps .step{
+	padding: 2px;
+	}
+
+	.arrow-steps .number {
+		display: inline-block;
+		width: 28px;
+		height: 28px;
+		font-size: 1rem;
+		line-height: 30px; 
+	}
+
+	.arrow-steps .step:not(:last-child)::after {
+        width: 18px; 
+		right: -9px; 
+    }
+
 }
   
   

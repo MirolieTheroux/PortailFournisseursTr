@@ -11,7 +11,6 @@
     <!--PROGRESS BAR-->
     <div class="container-fluid d-flex justify-content-center">		
         <div class="arrow-steps mt-3">
-            <!-- faire des boutons  -->
             <div class="step current">
                 <span class="number">1</span>
                 <span class="name">{{__('form.identificationTitle')}}</span>
