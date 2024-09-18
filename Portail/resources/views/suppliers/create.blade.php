@@ -107,7 +107,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+                <button id="test" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
             </div>
         </div>
     </div>  <!--FIN IDENTIFICATION-->  
