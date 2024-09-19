@@ -9,6 +9,8 @@
 <form method="post" action="{{ route('suppliers.store') }}" enctype="multipart/form-data">
 @csrf
     <!--PROGRESS BAR-->
+    <!--TODO::Attention, faire que la ligne blanche n'apparaisse pas dans la pointe-->
+    <!--TODO::Attention, fait le ménage dans tes MediaQuery-->
     <div class="container-fluid d-flex justify-content-center">		
         <div class="arrow-steps mt-3">
             <div class="step current">
@@ -17,23 +19,23 @@
             </div>
             <div class="step">
                 <span class="number">2</span>
-                <span class="name">Produits et services</span>
+                <span class="name">Produits et services</span><!--TODO::Fichier de langue-->
             </div>
             <div class="step">
                 <span class="number">3</span>
-                <span class="name">Licence RBQ</span>
+                <span class="name">Licence RBQ</span><!--TODO::Fichier de langue-->
             </div>
             <div class="step">
                 <span class="number">4</span>
-                <span class="name">Coordonnées</span>
+                <span class="name">Coordonnées</span><!--TODO::Fichier de langue-->
             </div>
             <div class="step">
                 <span class="number">5</span>
-                <span class="name">Contacts</span>
+                <span class="name">Contacts</span><!--TODO::Fichier de langue-->
             </div>
             <div class="step">
                 <span class="number">6</span>
-                <span class="name">Pièces jointes</span>
+                <span class="name">Pièces jointes</span><!--TODO::Fichier de langue-->
             </div>
         </div>
     </div><!-- FIN PROGRESS BAR-->
@@ -105,8 +107,8 @@
         </div>
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
-                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-                <button id="test" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
+                <button id="test" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
             </div>
         </div>
     </div>  <!--FIN IDENTIFICATION-->  
