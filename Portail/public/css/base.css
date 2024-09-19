@@ -52,7 +52,7 @@ div{
     color: black;
 }
 
-input:focus{
+input:focus, select:focus{
     border: var(--blue) solid 1px !important;
     box-shadow: none !important;
 }

@@ -20,6 +20,12 @@
 .fond-rbq{
     background-image: url("/img/fond_form_rbq.jpg");
 }
+.rbq-category-label-number{
+    min-width: 40px;
+}
+.title-border{
+    border-bottom: solid var(--dark_blue) 1px;
+}
 
 /* COORDONNÉES */
 

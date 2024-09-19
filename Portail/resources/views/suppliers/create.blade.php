@@ -42,7 +42,7 @@
 
     <!--IDENTIFICATION-->  
     <!--TODO::Le titre de la section disparaît pour l'écran mobile-->
-    <div class="container bg-white rounded my-2">
+    <div class="d-none container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-identification"></div>
         </div>
@@ -116,7 +116,7 @@
 
     
     <!--PRODUIT ET SERVICE-->
-    <div class="container bg-white rounded my-2">
+    <div class="d-none container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-products_services"></div>
         </div>
@@ -214,44 +214,113 @@
             <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
                 <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
                 <div class="text-center">
-                    <label for="licenceRBQ">{{__('form.numberLabel')}}</label>
-                    <div class="input-group mb-3">
-                        <input type="text" name="licenceRBQ" id="licenceRBQ" class="form-control" placeholder="XXXX-XXXX-XX" maxlength="12">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="licenceRbq" id="licenceRbq" class="form-control" placeholder="XXXX-XXXX-XX" maxlength="12">
+                        <label for="licenceRbq">{{__('form.numberLabel')}}</label>
                     </div>
-                    @if($errors->has('neq'))
-                        <p>{{ $errors->first('neq') }}</p>
+                    @if($errors->has('licenceRbq'))
+                        <p>{{ $errors->first('licenceRbq') }}</p>
                     @endif
                 </div>
                 <div class="text-center">
-                    <label for="name">{{__('form.statusLabel')}}</label>
-                    <div class="input-group mb-3">
-                        <input type="text" name="name" id="name" class="form-control" maxlength="64">
+                    <div class="form-floating mb-3">
+                        <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
+                            <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
+                            <option value="valid">{{__('form.choiceValid')}}</option>
+                            <option value="restrictedValid">{{__('form.choiceRestrictedValid')}}</option>
+                            <option value="invalid">Non valide</option>
+                        </select>
+                        <label for="statusRbq">{{__('form.choiceInvalid')}}</label>
                     </div>
-                    @if($errors->has('name'))
-                        <p>{{ $errors->first('name') }}</p>
+                    @if($errors->has('statusRbq'))
+                        <p>{{ $errors->first('statusRbq') }}</p>
                     @endif
                 </div>
                 <div class="text-center">
-                    <label for="name">{{__('form.typeLabel')}}</label>
-                    <div class="input-group mb-3">
-                        <input type="text" name="name" id="name" class="form-control" maxlength="64">
+                    <div class="form-floating mb-3">
+                        <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
+                            <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                            <option value="entrepreneur">{{__('form.choiceEntrepreneur')}}</option>
+                            <option value="ownerBuilder">{{__('form.choiceOwnerBuilder')}}</option>
+                        </select>
+                        <label for="typeRbq">{{__('form.typeLabel')}}</label>
                     </div>
-                    @if($errors->has('name'))
-                        <p>{{ $errors->first('name') }}</p>
+                    @if($errors->has('typeRbq'))
+                        <p>{{ $errors->first('typeRbq') }}</p>
                     @endif
                 </div>
             </div>
             <div class="col-12 col-md-8 d-flex flex-column justify-content-between">
                 <h2 class="text-center">{{__('form.rbqCategoriesSection')}}</h2>
-                <div class="text-center rounded">
-                    
+                <div class="text-center">
+                <div class="form-floating mb-3">
+                        <div class="form-control pt-2" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+                            <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur général</div>
+                            <div class="form-check pb-2">
+                                <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
+                                <div class="d-flex">
+                                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                        15.1.1
+                                    </label>
+                                    <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                        Systèmes de chauffage à air pulsé pour certains travaux qui ne sont pas réservés exclusivement aux maîtres mécaniciens en tuyauterie
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-check pb-2">
+                                <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
+                                <div class="d-flex">
+                                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                        15.2
+                                    </label>
+                                    <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                        Systèmes de brûleurs au gaz naturel
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur spécialisé</div>
+                            <div class="form-check pb-2">
+                                <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
+                                <div class="d-flex">
+                                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                        15.2.1
+                                    </label>
+                                    <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                        Systèmes de brûleurs au gaz naturel pour certains travaux qui ne sont pas réservés exclusivement aux maîtres mécaniciens en tuyauterie
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-check pb-2">
+                                <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
+                                <div class="d-flex">
+                                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                        15.3
+                                    </label>
+                                    <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                        Systèmes de brûleurs à l’huile
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-check pb-2">
+                                <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
+                                <div class="d-flex">
+                                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                        15.3.1
+                                    </label>
+                                    <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                        Systèmes de brûleurs à l’huile pour certains travaux qui ne sont pas réservés exclusivement aux maîtres mécaniciens en tuyauterie
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+                <button type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
             </div>
         </div>
     </div>  <!--FIN LICENCE RBQ-->  

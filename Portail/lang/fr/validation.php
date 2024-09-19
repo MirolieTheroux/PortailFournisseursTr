@@ -195,6 +195,9 @@ return [
       'password' => 'mot de passe',
       'password_confirmation' => 'confirmer le mot de passe',
       'neq' => 'numéro d\'entreprise',
+      'licenceRbq' => 'licence',
+      'statusRbq' => 'statut',
+      'typeRbq' => 'type',
     ],
 
 ];
