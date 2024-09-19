@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SupplierRequest;
 use App\Models\Supplier;
+use App\Models\WorkSubcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class SuppliersController extends Controller
 {
@@ -22,7 +24,8 @@ class SuppliersController extends Controller
      */
     public function create()
     {
-        return View('suppliers.create');
+        $workSubcategories = WorkSubcategory::orderby('code')->get();
+        return View('suppliers.create', compact('workSubcategories'));
     }
 
     /**

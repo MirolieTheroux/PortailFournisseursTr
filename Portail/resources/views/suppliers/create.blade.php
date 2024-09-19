@@ -256,6 +256,19 @@
                 <div class="form-floating mb-3">
                         <div class="form-control pt-2" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
                             <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur général</div>
+                            @foreach($workSubcategories as $workSubcategory)
+                                <div class="form-check pb-2">
+                                    <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
+                                    <div class="d-flex">
+                                        <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                            {{$workSubcategory->code}}
+                                        </label>
+                                        <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                            {{$workSubcategory->name}}
+                                        </label>
+                                    </div>
+                                </div>
+                            @endforeach
                             <div class="form-check pb-2">
                                 <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
                                 <div class="d-flex">
