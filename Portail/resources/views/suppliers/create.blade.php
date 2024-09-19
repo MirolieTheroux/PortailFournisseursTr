@@ -40,7 +40,8 @@
         </div>
     </div><!-- FIN PROGRESS BAR-->
 
-    <!--IDENTIFICATION-->
+    <!--IDENTIFICATION-->  
+    <!--TODO::Le titre de la section disparaît pour l'écran mobile-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-identification"></div>
