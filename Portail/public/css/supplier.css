@@ -8,7 +8,7 @@
 
 /* IDENTIFICATION */
 .fond-identification{
-    background-image: url("/img/pont_laviolette.jpg");
+    background-image: url("/img/fond_form_indentification.jpg");
 }
 
 /* PRODUIT ET SERVICE */
@@ -17,6 +17,9 @@
 }
 
 /* LICENCE RBQ */
+.fond-rbq{
+    background-image: url("/img/fond_form_rbq.jpg");
+}
 
 /* COORDONNÉES */
 

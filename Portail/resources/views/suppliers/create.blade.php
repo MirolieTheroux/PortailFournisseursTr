@@ -204,7 +204,7 @@
     <!--LICENCE RBQ-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
-            <div class="col-12 rounded-top fond-image fond-identification"></div>
+            <div class="col-12 rounded-top fond-image fond-rbq"></div>
         </div>
         <div class="row">
             <div class="d-none d-md-block col-12 text-center">
@@ -215,9 +215,9 @@
             <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
                 <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
                 <div class="text-center">
-                    <label for="neq">{{__('form.numberLabel')}}</label>
+                    <label for="licenceRBQ">{{__('form.numberLabel')}}</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="neq" id="neq" class="form-control" placeholder="XXXXXXXXXX" maxlength="10">
+                        <input type="text" name="licenceRBQ" id="licenceRBQ" class="form-control" placeholder="XXXX-XXXX-XX" maxlength="12">
                     </div>
                     @if($errors->has('neq'))
                         <p>{{ $errors->first('neq') }}</p>
@@ -244,7 +244,7 @@
             </div>
             <div class="col-12 col-md-8 d-flex flex-column justify-content-between">
                 <h2 class="text-center">{{__('form.rbqCategoriesSection')}}</h2>
-                <div class="text-center">
+                <div class="text-center rounded">
                     
                 </div>
             </div>
