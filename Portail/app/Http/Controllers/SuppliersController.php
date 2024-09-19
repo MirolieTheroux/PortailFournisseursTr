@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SupplierRequest;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class SuppliersController extends Controller
 {
@@ -25,9 +28,11 @@ class SuppliersController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SupplierRequest $request)
     {
-        //
+        $supplier = new Supplier($request->all());
+        $supplier->password = Hash::make($request->password);
+        $supplier->save();
     }
 
     /**
