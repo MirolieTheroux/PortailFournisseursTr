@@ -3,10 +3,11 @@
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/supplier.css') }}">
 <link rel="stylesheet" href="{{ asset('css/progressBar.css') }}">
+<script src="{{ asset('js/createValidation.js') }}"></script>
 @endsection
 
 @section('content')
-<form method="post" action="{{ route('suppliers.store') }}" enctype="multipart/form-data">
+<form method="post" action="{{ route('suppliers.store') }}" class="was-validated needs-validation" novalidate enctype="multipart/form-data">
 @csrf
     <!--PROGRESS BAR-->
     <div class="container-fluid d-flex justify-content-center">		
@@ -39,66 +40,68 @@
     </div><!-- FIN PROGRESS BAR-->
 
     <!--IDENTIFICATION-->
-    <div class="container bg-white rounded my-2" style="display:none"> <!--REMOVE DISPLAY NONE-->
+    <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-identification"></div>
         </div>
         <div class="row">
             <div class="d-none d-md-block col-12 text-center">
-                <h1>{{__('form.identificationTitle')}}</h1>
+                <h1 class="section-title">{{__('form.identificationTitle')}}</h1>
             </div>
         </div>
         <div class="row px-3">
             <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-                <h2 class="text-center">{{__('form.identificationCompanySection')}}</h2>
+                <h2 class="text-center section-subtitle">{{__('form.identificationCompanySection')}}</h2>
                 <div class="text-center">
-                    <label for="neq">{{__('form.neqLabel')}}</label>
-                    <div class="input-group mb-3">
-                        <input type="text" name="neq" id="neq" class="form-control" placeholder="XXXXXXXXXX" maxlength="10">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="neq" id="neq" class="form-control" placeholder="" maxlength="10">
+                        <label for="neq">{{__('form.neqLabel')}}</label>
+                        <div class="valid-feedback" id="neqValid">Error message 1: This field is required.</div>
+                        <div class="invalid-feedback" id="neqInvalid1">Error message 1: This field is required.</div>
+                        <div class="invalid-feedback" id="neqInvalid2">Error message 2: Must be at least 5 characters.</div>
                     </div>
-                    @if($errors->has('neq'))
-                        <p>{{ $errors->first('neq') }}</p>
-                    @endif
                 </div>
                 <div class="text-center">
-                    <label for="name">{{__('form.companyNameLabel')}}</label>
-                    <div class="input-group mb-3">
-                        <input type="text" name="name" id="name" class="form-control" maxlength="64">
-                    </div>
-                    @if($errors->has('name'))
+                    <div class="form-floating mb-3">
+                        <input type="text" name="name" id="name" class="form-control" placeholder="" maxlength="64">
+                        <label for="name">{{__('form.companyNameLabel')}}</label>
+                        @if($errors->has('name'))
                         <p>{{ $errors->first('name') }}</p>
-                    @endif
+                        @endif
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-md-8 d-flex flex-column justify-content-between">
-                <h2 class="text-center">{{__('form.identificationAuthentificationSection')}}</h2>
+                <h2 class="text-center section-subtitle">{{__('form.identificationAuthentificationSection')}}</h2>
                 <div class="text-center">
-                    <label for="email">{{__('form.emailLabel')}}</label>
-                    <div class="input-group mb-3">
-                        <input type="email" name="email" id="email" class="form-control" placeholder="example@gmail.com" maxlength="64">
-                    </div>
-                    @if($errors->has('email'))
+                    <div class="form-floating mb-3">
+                        <input type="email" name="email" id="email" class="form-control" required placeholder="example@gmail.com" maxlength="64">
+                        <label for="email">{{__('form.emailLabel')}}</label>
+                        @if($errors->has('email'))
                         <p>{{ $errors->first('email') }}</p>
-                    @endif
-                </div>
-                <div class="container-fluid text-center d-md-flex justify-content-between align-items-end p-0">
-                    <div class="col-12 col-md-6 pe-md-3">
-                        <label for="password">{{__('form.passwordLabel')}}</label>
-                        <div class="input-group mb-3">
-                            <input type="password" name="password" id="password" class="form-control" maxlength="12">
-                        </div>
-                        @if($errors->has('password'))
-                            <p>{{ $errors->first('password') }}</p>
                         @endif
                     </div>
-                    <div class="col-12 col-md-6 ps-md-3">
-                        <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
-                        <div class="input-group mb-3">
-                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" maxlength="12">
+                </div>
+                <div class="text-center">
+                    <div class="row">
+                        <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
+                            <div class="form-floating mb-3">
+                                <input type="password" name="password" id="password" required class="form-control" placeholder="" maxlength="12">
+                                <label for="password">{{__('form.passwordLabel')}}</label>
+                                @if($errors->has('password'))
+                                <p>{{ $errors->first('password') }}</p>
+                                @endif
+                            </div>
                         </div>
-                        @if($errors->has('password_confirmation'))
-                            <p>{{ $errors->first('password_confirmation') }}</p>
-                        @endif
+                        <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
+                            <div class="form-floating mb-3">
+                                <input type="password" name="password_confirmation" required id="password_confirmation" placeholder="" class="form-control" maxlength="12">
+                                <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
+                                @if($errors->has('password_confirmation'))
+                                <p>{{ $errors->first('password_confirmation') }}</p>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,7 +109,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-                <button id="test" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+                <button id="test" type="button" class="m-2 py-1 px-3 rounded button-darkblue" onclick="validateIdentification()">{{__('global.next')}}</button>
             </div>
         </div>
     </div>  <!--FIN IDENTIFICATION-->  
@@ -119,12 +122,12 @@
         </div>
         <div class="row">
             <div class="d-none d-md-block col-12 text-center">
-                <h1 class="section-title">Produits et Services Offerts</h1>
+                <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
             </div>
         </div>
         <div class="row px-3">
             <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-                <h2 class="text-center section-subtitle">Catégorie</h2>
+                <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategories')}}</h2>
                 <div class="text-center">
                     
                     <div class="form-floating mb-3">
@@ -134,24 +137,24 @@
                             <option value="opel">Opel</option>
                             <option value="audi">Audi</option>
                         </select>
-                        <label for="product-category">Liste des catégories</label>
+                        <label for="product-category">{{__('form.productsAndServiceCategoriesList')}}</label>
                     </div>
                 </div>
                 <div class="text-center">
                     <div class="form-floating mb-3">
                         <input type="text" name="service-search" id="service-search" class="form-control" placeholder="">
-                        <label for="service-search">Recherche d'un service</label>
+                        <label for="service-search">{{__('form.productsAndServiceCategoriesSearch')}}</label>
                     </div>
                 </div>
                 <div class="text-center">
                     <div class="form-floating mb-3">
                         <textarea class="form-control" placeholder="details" id="company-name" style="height: 160px; resize: none;" maxlength="500"></textarea>
-                        <label for="company-name">Détails et spécifications</label>
+                        <label for="company-name">{{__('form.productsAndServiceCategoriesDetails')}}</label>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-                <h2 class="text-center section-subtitle">Services</h2>
+                <h2 class="text-center section-subtitle">{{__('form.productsAndServiceServices')}}</h2>
                 <div>
                     <div class="form-floating mb-3">
                         <div class="form-control" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
@@ -169,12 +172,12 @@
                                 </div>
                             </div>
                         </div>
-                        <label for="company-name">Sélectionnez une catégorie</label>
+                        <label for="company-name">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-                <h2 class="text-center section-subtitle">Liste des services choisis</h2>
+                <h2 class="text-center section-subtitle">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
                 <div>
                     <div class="form-floating mb-3">
                         <div class="form-control" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
@@ -190,8 +193,8 @@
         </div>
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
-                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">Annuler</button>
-                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">Suivant</button>
+                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
+                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
             </div>
         </div>
     </div> <!--FIN PRODUIT ET SERVICE-->

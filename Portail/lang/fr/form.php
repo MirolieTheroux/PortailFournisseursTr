@@ -11,4 +11,13 @@ return [
     'identificationTitle' => 'Identification',
     'identificationCompanySection' => 'Entreprise',
     'identificationAuthentificationSection' => 'Authentification',
+
+    'productsAndServiceTitle' => 'Produits et Services Offerts',
+    'productsAndServiceCategories' => 'Catégorie',
+    'productsAndServiceCategoriesList' => 'Liste des catégories',
+    'productsAndServiceCategoriesSearch' => 'Recherche d\'un service',
+    'productsAndServiceCategoriesDetails' => 'Détails et spécifications',
+    'productsAndServiceServices' => 'Services',
+    'productsAndServiceServicesCategorySelection' => 'Sélectionnez une catégorie',
+    'productsAndServiceSelectedServicesList' => 'Liste des services choisis',
 ];
