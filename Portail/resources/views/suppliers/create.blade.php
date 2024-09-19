@@ -93,15 +93,8 @@
                 </div>
                 <div class="text-center">
                     <div class="form-floating mb-3">
-                        <input type="text" name="service-search" id="service-search" class="form-control" list="datalistOptions" placeholder="">
+                        <input type="text" name="service-search" id="service-search" class="form-control" placeholder="">
                         <label for="service-search">Recherche d'un service</label>
-                        <datalist id="datalistOptions">
-                            <option value="San Francisco">
-                            <option value="New York">
-                            <option value="Seattle">
-                            <option value="Los Angeles">
-                            <option value="Chicago">
-                        </datalist>
                     </div>
                 </div>
                 <div class="text-center">
@@ -117,23 +110,14 @@
                     <div class="form-floating mb-3">
                         <div class="form-control" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <div class="col-4 col-md-4 d-flex flex-column justify-content-start">
-                                    <label class="form-check-label" for="flexCheckDefault">05736535</label>
-                                </div>
-                                <div class="col-12 col-md-12 d-flex flex-column justify-content-start">
-                                    <label class="form-check-label" for="flexCheckDefault">Service d'entretien</label>
-                                </div>
-                            </div>
-                            <div class="form-check">
                                 <div class="row align-items-center">
                                     <div class="col-1 col-md-1 d-flex flex-column justify-content-between">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                     </div>
-                                    <div class="col-4 col-md-4 d-flex flex-column justify-content-start">
+                                    <div class="col-3 col-md-4 d-flex flex-column justify-content-start">
                                         <label class="form-check-label" for="flexCheckDefault">05736535</label>
                                     </div>
-                                    <div class="col-7 col-md-7 d-flex flex-column justify-content-start">
+                                    <div class="col-3 col-md-7 d-flex flex-column justify-content-start">
                                         <label class="form-check-label" for="flexCheckDefault">Service d'entretien ménager</label>
                                     </div>
                                 </div>
@@ -148,24 +132,9 @@
                 <div>
                     <div class="form-floating mb-3">
                         <div class="form-control" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <div class="col-4 col-md-4 d-flex flex-column justify-content-between">
-                                    <label class="form-check-label" for="flexCheckDefault">05736535</label>
-                                </div>
-                                <div class="col-4 col-md-4 d-flex flex-column justify-content-between">
-                                    <label class="form-check-label" for="flexCheckDefault">Service d'entretien</label>
-                                </div>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <div class="row px-3">
-                                    <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-                                        <label class="" for="flexCheckDefault">05736535</label>
-                                    </div>
-                                    <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-                                        <label class="" for="flexCheckDefault">Service d'entretien</label>
-                                    </div>
+                            <div class="row px-3">
+                                <div class="col-12 col-md-12 d-flex flex-column justify-content-between">
+                                    <label class="" for="flexCheckDefault">Service d'entretien ménager</label>
                                 </div>
                             </div>
                         </div>
