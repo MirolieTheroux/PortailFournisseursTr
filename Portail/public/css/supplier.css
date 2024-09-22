@@ -22,7 +22,37 @@
 .fond-coordonnees{
     background-image: url("/img/coordonnees.jpg");
 }
+.autocomplete-items {
+    position: absolute;
+    top: 100%; /* This ensures it is placed just below the input field */
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensure it is above other elements */
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto; /* Allow scrolling if there are many suggestions */
+}
 
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+    background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+    background-color: DodgerBlue !important;
+    color: #fff;
+}
+
+.autocomplete-container{
+    position: relative;
+}
 /* CONTACT */
 
 /* PIÈCES JOINTES */

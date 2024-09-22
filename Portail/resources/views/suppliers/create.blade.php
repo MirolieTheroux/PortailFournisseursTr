@@ -216,7 +216,7 @@
             <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                 <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
                 <div class="text-center mb-3">
-                    <div class="form-floating ">
+                    <div class="form-floating autocomplete-container" id="autocomplete-container">
                         <input type="text" name="contactDetails-searchAddress" id="contactDetails-searchAddress" class="form-control" placeholder="">
                         <label for="contactDetails-searchAddress">{{__('form.searchAddress')}}</label>
                     </div>
@@ -237,13 +237,13 @@
                 </div>
                 <div class="text-center d-flex flex-row mb-3">
                     <div class="form-floating col-6 pe-2">
-                        <select name="contactDetails-category" id="contactDetails-city" class="form-select" aria-label="">
+                        <select name="contactDetails-city" id="contactDetails-city" class="form-select" aria-label="">
                             <option value="volvo">Volvo</option>
                             <option value="saab">Saab</option>
                             <option value="opel">Opel</option>
                             <option value="audi">Audi</option>
                         </select>
-                        <label for="contactDetails-category">{{__('form.city')}}</label>
+                        <label for="contactDetails-city">{{__('form.city')}}</label>
                     </div>
                     <div class="form-floating col-6">
                         <select name="contactDetails-province" id="contactDetails-province" class="form-select" aria-label="">
@@ -329,7 +329,6 @@
     </div> <!--FIN COORDONÉES-->
 
     <!--CONTACT-->
-    
     <!--PIÈCES JOINTES-->
 
 </form>

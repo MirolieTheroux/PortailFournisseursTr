@@ -66,4 +66,5 @@ class SuppliersController extends Controller
     {
         //
     }
+
 }
