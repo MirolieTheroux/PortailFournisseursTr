@@ -251,83 +251,46 @@
                 </div>
             </div>
             <div class="col-12 col-md-8 d-flex flex-column justify-content-between">
-                <h2 class="text-center">{{__('form.rbqCategoriesSection')}}</h2>
+              <h2 class="text-center">{{__('form.rbqCategoriesSection')}}</h2>
                 <div class="text-center">
-                <div class="form-floating mb-3">
-                        <div class="form-control pt-2" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-                            <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur général</div>
-                            @foreach($workSubcategories as $workSubcategory)
-                                <div class="form-check pb-2">
-                                    <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
-                                    <div class="d-flex">
-                                        <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
-                                            {{$workSubcategory->code}}
-                                        </label>
-                                        <label class="form-check-label text-start ps-2" for="flexCheckDefault">
-                                            {{$workSubcategory->name}}
-                                        </label>
-                                    </div>
-                                </div>
-                            @endforeach
-                            <div class="form-check pb-2">
-                                <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
-                                <div class="d-flex">
-                                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
-                                        15.1.1
-                                    </label>
-                                    <label class="form-check-label text-start ps-2" for="flexCheckDefault">
-                                        Systèmes de chauffage à air pulsé pour certains travaux qui ne sont pas réservés exclusivement aux maîtres mécaniciens en tuyauterie
-                                    </label>
-                                </div>
+                  <div class="form-floating mb-3">
+                    <div class="form-control pt-2" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+                      <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur général</div>
+                      @foreach($workSubcategories as $workSubcategory)
+                        @if($workSubcategory->is_specialised == false)
+                          <div class="form-check pb-2">
+                            <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
+                            <div class="d-flex">
+                              <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                {{$workSubcategory->code}}
+                              </label>
+                              <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                {{$workSubcategory->name}}
+                              </label>
                             </div>
-                            <div class="form-check pb-2">
-                                <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
-                                <div class="d-flex">
-                                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
-                                        15.2
-                                    </label>
-                                    <label class="form-check-label text-start ps-2" for="flexCheckDefault">
-                                        Systèmes de brûleurs au gaz naturel
-                                    </label>
-                                </div>
+                          </div>
+                        @endif
+                      @endforeach
+
+                      <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur spécialisé</div>
+                      @foreach($workSubcategories as $workSubcategory)
+                        @if($workSubcategory->is_specialised == true)
+                          <div class="form-check pb-2">
+                            <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
+                            <div class="d-flex">
+                              <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                {{$workSubcategory->code}}
+                              </label>
+                              <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                {{$workSubcategory->name}}
+                              </label>
                             </div>
-                            <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur spécialisé</div>
-                            <div class="form-check pb-2">
-                                <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
-                                <div class="d-flex">
-                                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
-                                        15.2.1
-                                    </label>
-                                    <label class="form-check-label text-start ps-2" for="flexCheckDefault">
-                                        Systèmes de brûleurs au gaz naturel pour certains travaux qui ne sont pas réservés exclusivement aux maîtres mécaniciens en tuyauterie
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-check pb-2">
-                                <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
-                                <div class="d-flex">
-                                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
-                                        15.3
-                                    </label>
-                                    <label class="form-check-label text-start ps-2" for="flexCheckDefault">
-                                        Systèmes de brûleurs à l’huile
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-check pb-2">
-                                <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
-                                <div class="d-flex">
-                                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
-                                        15.3.1
-                                    </label>
-                                    <label class="form-check-label text-start ps-2" for="flexCheckDefault">
-                                        Systèmes de brûleurs à l’huile pour certains travaux qui ne sont pas réservés exclusivement aux maîtres mécaniciens en tuyauterie
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                          </div>
+                        @endif
+                      @endforeach
+                  </div>
                 </div>
+              </div>
             </div>
         </div>
         <div class="row">
