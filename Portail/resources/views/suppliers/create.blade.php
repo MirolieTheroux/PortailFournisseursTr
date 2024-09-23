@@ -255,39 +255,76 @@
                 <div class="text-center">
                   <div class="form-floating mb-3">
                     <div class="form-control pt-2" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-                      <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur général</div>
-                      @foreach($workSubcategories as $workSubcategory)
-                        @if($workSubcategory->is_specialised == false)
-                          <div class="form-check pb-2">
-                            <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
-                            <div class="d-flex">
-                              <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
-                                {{$workSubcategory->code}}
-                              </label>
-                              <label class="form-check-label text-start ps-2" for="flexCheckDefault">
-                                {{$workSubcategory->name}}
-                              </label>
+                      <div id="entrepreneur-categories" class="d-none">
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur général</div>
+                        @foreach($workSubcategories as $workSubcategory)
+                          @if($workSubcategory->is_specialised == false)
+                            <div class="form-check pb-2">
+                              <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefaultGen{{$workSubcategory->id}}">
+                              <div class="d-flex">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                  {{$workSubcategory->code}}
+                                </label>
+                                <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                  {{$workSubcategory->name}}
+                                </label>
+                              </div>
                             </div>
-                          </div>
-                        @endif
-                      @endforeach
+                          @endif
+                        @endforeach
 
-                      <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur spécialisé</div>
-                      @foreach($workSubcategories as $workSubcategory)
-                        @if($workSubcategory->is_specialised == true)
-                          <div class="form-check pb-2">
-                            <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefault">
-                            <div class="d-flex">
-                              <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
-                                {{$workSubcategory->code}}
-                              </label>
-                              <label class="form-check-label text-start ps-2" for="flexCheckDefault">
-                                {{$workSubcategory->name}}
-                              </label>
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur spécialisé</div>
+                        @foreach($workSubcategories as $workSubcategory)
+                          @if($workSubcategory->is_specialised == true)
+                            <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
+                              <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefaultSpec{{$workSubcategory->id}}">
+                              <div class="d-flex">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                  {{$workSubcategory->code}}
+                                </label>
+                                <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                  {{$workSubcategory->name}}
+                                </label>
+                              </div>
                             </div>
-                          </div>
-                        @endif
-                      @endforeach
+                          @endif
+                        @endforeach
+                      </div>
+                      <div id="ownerBuilder-categories" class="d-none">
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur général</div>
+                        @foreach($workSubcategories as $workSubcategory)
+                          @if($workSubcategory->is_specialised == false && $workSubcategory->is_entrepreneur_only == false)
+                            <div class="form-check pb-2">
+                              <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefaultGen{{$workSubcategory->id}}">
+                              <div class="d-flex">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                  {{$workSubcategory->code}}
+                                </label>
+                                <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                  {{$workSubcategory->name}}
+                                </label>
+                              </div>
+                            </div>
+                          @endif
+                        @endforeach
+
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur spécialisé</div>
+                        @foreach($workSubcategories as $workSubcategory)
+                          @if($workSubcategory->is_specialised == true && $workSubcategory->is_entrepreneur_only == false)
+                            <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
+                              <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefaultSpec{{$workSubcategory->id}}">
+                              <div class="d-flex">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                  {{$workSubcategory->code}}
+                                </label>
+                                <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                  {{$workSubcategory->name}}
+                                </label>
+                              </div>
+                            </div>
+                          @endif
+                        @endforeach
+                      </div>
                   </div>
                 </div>
               </div>
@@ -308,4 +345,8 @@
     <!--PIÈCES JOINTES-->
 
 </form>
+@endsection
+
+@section('scripts')
+<script src="{{ asset('js/suppliersCreate.js') }} "></script>
 @endsection
