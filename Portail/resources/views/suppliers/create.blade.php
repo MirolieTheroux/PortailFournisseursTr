@@ -52,13 +52,13 @@
         <div class="row px-3">
             <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
                 <h2 class="text-center section-subtitle">{{__('form.identificationCompanySection')}}</h2>
-                <div class="text-center">
+                <div class="text-start">
                     <div class="form-floating mb-3">
                         <input type="text" name="neq" id="neq" class="form-control" placeholder="" maxlength="10">
                         <label for="neq">{{__('form.neqLabel')}}</label>
-                        <div class="valid-feedback" id="neqValid">Error message 1: This field is required.</div>
-                        <div class="invalid-feedback" id="neqInvalid1">Error message 1: This field is required.</div>
-                        <div class="invalid-feedback" id="neqInvalid2">Error message 2: Must be at least 5 characters.</div>
+                        <div class="valid-feedback" id="neqValid"></br></div>
+                        <div class="invalid-feedback" id="neqInvalid1">Le NEQ doit être composé de 10 chiffres!</div>
+                        <div class="invalid-feedback" id="neqInvalid2"></div>
                     </div>
                 </div>
                 <div class="text-center">
