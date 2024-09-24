@@ -263,7 +263,7 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == false)
                             <div class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefaultGen{{$workSubcategory->id}}">
+                              <input class="form-check-input mt-0" type="checkbox" value="{{$workSubcategory->code}}" id="flexCheckDefaultGen{{$workSubcategory->id}}Ent">
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
@@ -280,7 +280,7 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == true)
                             <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefaultSpec{{$workSubcategory->id}}">
+                              <input class="form-check-input mt-0" type="checkbox" value="{{$workSubcategory->code}}" id="flexCheckDefaultSpec{{$workSubcategory->id}}Ent">
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
@@ -299,7 +299,7 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == false && $workSubcategory->is_entrepreneur_only == false)
                             <div class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefaultGen{{$workSubcategory->id}}">
+                              <input class="form-check-input mt-0" type="checkbox" value="{{$workSubcategory->code}}" id="flexCheckDefaultGen{{$workSubcategory->id}}OB">
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
@@ -316,7 +316,7 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == true && $workSubcategory->is_entrepreneur_only == false)
                             <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" value="" id="flexCheckDefaultSpec{{$workSubcategory->id}}">
+                              <input class="form-check-input mt-0" type="checkbox" value="{{$workSubcategory->code}}" id="flexCheckDefaultSpec{{$workSubcategory->id}}OB">
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
