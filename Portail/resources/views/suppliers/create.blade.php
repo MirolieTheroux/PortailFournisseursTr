@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<form method="post" action="{{ route('suppliers.store') }}" class="was-validated needs-validation" novalidate enctype="multipart/form-data">
+<form method="post" action="{{ route('suppliers.store') }}" class="need-validation" novalidate enctype="multipart/form-data">
 @csrf
     <!--PROGRESS BAR-->
     <!--TODO::Attention, faire que la ligne blanche n'apparaisse pas dans la pointe-->
@@ -57,11 +57,15 @@
                 <h2 class="text-center section-subtitle">{{__('form.identificationCompanySection')}}</h2>
                 <div class="text-start">
                     <div class="form-floating mb-3">
-                        <input type="text" name="neq" id="neq" class="form-control" placeholder="" maxlength="10">
+                        <input type="text" pattern="[0-9]+" oninput="validateIdentificationNeq()" name="neq" id="neq" class="form-control is-valid" placeholder="" maxlength="10">
                         <label for="neq">{{__('form.neqLabel')}}</label>
-                        <div class="valid-feedback" id="neqValid"></br></div>
-                        <div class="invalid-feedback" id="neqInvalid1">Le NEQ doit être composé de 10 chiffres!</div>
-                        <div class="invalid-feedback" id="neqInvalid2"></div>
+                        <div class="valid-feedback" id="neqValid1">Le NEQ n'est pas obligatoire.</div>
+                        <div class="invalid-feedback" id="neqInvalid1" style="display: none;">Le NEQ doit débuter par 11, 22, 33 ou 88!</div>
+                        <div class="invalid-feedback" id="neqInvalid2" style="display: none;">Le troisième caractère doit être 4, 5, 6, 7, 8 ou 9!</div>
+                        <div class="invalid-feedback" id="neqInvalid3" style="display: none;">Le NEQ doit être composé uniquement de chiffres!</div>
+                        <div class="invalid-feedback" id="neqInvalid4" style="display: none;">Le NEQ doit être composé de 10 chiffres!</div>
+                        <div class="invalid-feedback" id="neqInvalid5" style="display: none;">Le NEQ est déjà enregistrer pour un autre compte!</div>
+                        <div class="valid-feedback" id="neqValid2" style="display: none;"></br></div>
                     </div>
                 </div>
                 <div class="text-center">
