@@ -23,10 +23,12 @@ return [
     'identificationAuthentificationSection' => 'Authentification',
     'rbqTitle' => 'Licence RBQ',
     'rbqLicenceSection' => 'Licence',
+    'rbqLicenceValidation' => 'Le format du champ licence doit corresprondre à 0000-0000-00.',
     'rbqCategoriesSection' => 'Catégories et sous-catégories autorisées',
     'rbqCategoriesUnselectedType' => 'Veuillez selectionner un type de licence pour voir la liste des sous-catégories',
     'rbqCategoriesGeneralEntrepreneur' => 'Catégories entrepreneur général',
     'rbqCategoriesSpecialisedEntrepreneur' => 'Catégories entrepreneur spécialisé',
     'rbqCategoriesGeneralOwnerBuilder' => 'Catégories constructeur-propriétaire général',
     'rbqCategoriesSpecialisedOwnerBuilder' => 'Catégories constructeur-propriétaire spécialisé',
+    'rbqCategoriesValidation' => 'Au moins une catégorie doit être sélectionnée lorsque Numéro est présent.',
 ];

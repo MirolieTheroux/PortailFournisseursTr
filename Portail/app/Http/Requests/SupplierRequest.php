@@ -27,9 +27,17 @@ class SupplierRequest extends FormRequest
             // 'email' => 'required|email',
             // 'password' => 'required|confirmed',
             // 'password_confirmation' => 'required',
-            'licenceRbq' => 'required',
-            'statusRbq' => 'required',
-            'typeRbq' => 'required',
+            'licenceRbq' => 'size:12|regex:/^[0-9]{4}-[0-9]{4}-[0-9]{2}$/i|nullable',
+            'statusRbq' => 'required_with:licenceRbq',
+            'typeRbq' => 'required_with:licenceRbq',
+            'rbqSubcategories' => 'required_with:licenceRbq',
+        ];
+    }
+
+    public function messages(){
+        return[
+            'licenceRbq.regex' => __('form.rbqLicenceValidation'),
+            'rbqSubcategories.required_with' => __('form.rbqCategoriesValidation'),
         ];
     }
 }

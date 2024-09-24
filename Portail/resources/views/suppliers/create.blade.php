@@ -215,7 +215,7 @@
                 <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
                 <div class="text-center">
                     <div class="form-floating mb-3">
-                        <input type="text" name="licenceRbq" id="licenceRbq" class="form-control" placeholder="" maxlength="12">
+                        <input type="text" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="12">
                         <label for="licenceRbq">{{__('form.numberLabel')}}</label>
                     </div>
                     @if($errors->has('licenceRbq'))
@@ -226,9 +226,9 @@
                     <div class="form-floating mb-3">
                         <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
                             <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
-                            <option value="valid">{{__('form.choiceValid')}}</option>
-                            <option value="restrictedValid">{{__('form.choiceRestrictedValid')}}</option>
-                            <option value="invalid">{{__('form.choiceInvalid')}}</option>
+                            <option value="valid" {{ "valid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
+                            <option value="restrictedValid" {{ "restrictedValid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
+                            <option value="invalid" {{ "invalid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
                         </select>
                         <label for="statusRbq">{{__('form.statusLabel')}}</label>
                     </div>
@@ -240,8 +240,8 @@
                     <div class="form-floating mb-3">
                         <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
                             <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
-                            <option value="entrepreneur">{{__('form.choiceEntrepreneur')}}</option>
-                            <option value="ownerBuilder">{{__('form.choiceOwnerBuilder')}}</option>
+                            <option value="entrepreneur" {{ "entrepreneur" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
+                            <option value="ownerBuilder" {{ "ownerBuilder" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
                         </select>
                         <label for="typeRbq">{{__('form.typeLabel')}}</label>
                     </div>
@@ -250,7 +250,7 @@
                     @endif
                 </div>
             </div>
-            <div class="col-12 col-md-8 d-flex flex-column justify-content-between">
+            <div class="col-12 col-md-8 d-flex flex-column justify-content-start">
               <h2 class="text-center">{{__('form.rbqCategoriesSection')}}</h2>
                 <div class="text-center">
                   <div class="form-floating mb-3">
@@ -263,7 +263,7 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == false)
                             <div class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" value="{{$workSubcategory->code}}" id="flexCheckDefaultGen{{$workSubcategory->id}}Ent">
+                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultGen{{$workSubcategory->id}}Ent">
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
@@ -280,7 +280,7 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == true)
                             <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" value="{{$workSubcategory->code}}" id="flexCheckDefaultSpec{{$workSubcategory->id}}Ent">
+                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultSpec{{$workSubcategory->id}}Ent">
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
@@ -299,7 +299,7 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == false && $workSubcategory->is_entrepreneur_only == false)
                             <div class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" value="{{$workSubcategory->code}}" id="flexCheckDefaultGen{{$workSubcategory->id}}OB">
+                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultGen{{$workSubcategory->id}}OB">
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
@@ -316,7 +316,7 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == true && $workSubcategory->is_entrepreneur_only == false)
                             <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" value="{{$workSubcategory->code}}" id="flexCheckDefaultSpec{{$workSubcategory->id}}OB">
+                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultSpec{{$workSubcategory->id}}OB">
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
@@ -330,6 +330,9 @@
                         @endforeach
                       </div>
                   </div>
+                    @if($errors->has('rbqSubcategories'))
+                        <p>{{ $errors->first('rbqSubcategories') }}</p>
+                    @endif
                 </div>
               </div>
             </div>

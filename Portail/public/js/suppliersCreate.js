@@ -1,8 +1,9 @@
 /*** Section Licence RBQ ***/
 let subcategories = [];
 let typeLicence;
-let licenceNumber;
+let licenceNumber = "";
 let licenceRestriction = false;
+let neqNumber = ""; //TODO::Modifier pour mettre la variable du NEQ
 
 async function fetchRBQ(rbqNumber) {
   const response = await fetch("https://donneesquebec.ca/recherche/api/action/datastore_search_sql?sql=SELECT\"Numero de licence\",\"Statut de la licence\",\"Restriction\",\"Type de licence\",\"Categorie\",\"Sous-categories\"FROM\"32f6ec46-85fd-45e9-945b-965d9235840a\"WHERE\"NEQ\"='"+ rbqNumber +"'AND\"Categorie\"<>'null'");
@@ -28,7 +29,7 @@ async function fetchRBQ(rbqNumber) {
 }
 
 document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifier pour mettre a jour après la premmière page NEQ
-  await fetchRBQ("8831854938"); //TODO::Modifier pour mettre la variable du NEQ
+  await fetchRBQ(neqNumber);
 
   const entrepreneurContainer = document.getElementById('entrepreneur-categories');
   const ownerBuilderContainer = document.getElementById('ownerBuilder-categories');
@@ -44,13 +45,14 @@ document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifie
 
   const checkboxes = document.querySelectorAll('input.form-check-input');
 
-  numberRbqInput.value = licenceNumber;
+  if(licenceNumber !== "")
+    numberRbqInput.value = licenceNumber;
 
   if(subcategories.length > 0 && !licenceRestriction)
     statusRbqSelect.value = 'valid'
   else if(subcategories.length > 0)
     statusRbqSelect.value = 'restrictedValid'
-  else
+  else if(licenceNumber !== "")
     statusRbqSelect.value = 'invalid'
 
   if(typeLicence === "Entrepreneur")
