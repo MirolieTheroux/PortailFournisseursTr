@@ -263,7 +263,7 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == false)
                             <div class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultGen{{$workSubcategory->id}}Ent">
+                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultGen{{$workSubcategory->id}}Ent" @checked(old('rbqSubcategories', $workSubcategory->id))>
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
@@ -330,9 +330,9 @@
                         @endforeach
                       </div>
                   </div>
-                    @if($errors->has('rbqSubcategories'))
-                        <p>{{ $errors->first('rbqSubcategories') }}</p>
-                    @endif
+                  @if($errors->has('rbqSubcategories'))
+                    <p>{{ $errors->first('rbqSubcategories') }}</p>
+                  @endif
                 </div>
               </div>
             </div>
