@@ -237,8 +237,8 @@
                 </div>
                 <div class="text-center d-flex flex-row mb-3">
                     <div class="form-floating col-6 pe-2" id="div-province">
-                        <select name="contactDetails-city" id="contactDetails-city" class="form-select d-none" aria-label=""></select>
-                        <input type="text" name="contactDetails-officeNumber" id="contactDetails-officeNumber" class="form-control" placeholder="">
+                        <select name="contactDetails-city" id="contactDetails-citySelect" class="form-select" aria-label=""></select>
+                        <input type="text" name="contactDetails-inputCity" id="contactDetails-inputCity" class="form-control d-none" placeholder="">
                         <label for="contactDetails-city">{{__('form.city')}}</label>
                     </div>
                     <div class="form-floating col-6">
@@ -271,7 +271,7 @@
                             <option value="Côte-Nord">Côte-Nord (région 09)</option>
                             <option value="Estrie">Estrie (région 05)</option>
                             <option value="Gaspésie–Îles-de-la-Madeleine">Gaspésie–Îles-de-la-Madeleine (région 11)</option>
-                            <option value="Lanaudière" selected>Lanaudière (région 14)</option>
+                            <option value="Lanaudière">Lanaudière (région 14)</option>
                             <option value="Laurentides">Laurentides (région 15)</option>
                             <option value="Laval">Laval (région 13)</option>
                             <option value="Mauricie">Mauricie (région 04)</option>
@@ -327,7 +327,9 @@
                                 <label class="" for="contactDetails-telNumberList">{{__('form.telNumberList')}}</label> 
                                 <div class="row align-items-center">
                                     <div class="col-3 col-md-4 d-flex flex-column justify-content-start">
-                                        <label class="form-check-label" for="flexCheckDefault">819-999-999</label>
+                                        <p class="form-check-label" for="flexCheckDefault">819-999-999</p>
+                                        <p class="form-check-label" for="flexCheckDefault">819-999-999</p>
+                                        <p class="form-check-label" for="flexCheckDefault">819-999-999</p>
                                     </div>
                                 </div>
                             </div>

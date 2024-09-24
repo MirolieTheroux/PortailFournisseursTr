@@ -53,7 +53,7 @@ function addressAutocomplete(containerElement, callback, options) {
                         document.getElementById("contactDetails-province").value = result.state ||'';
                         document.getElementById("contactDetails-region").value = result.region || '';
                         document.getElementById("contactDetails-postalCode").value = result.postcode || '';
-                        document.getElementById("contactDetails-city").value = result.city;
+                        document.getElementById("contactDetails-citySelect").value = result.city || '';
                         closeDropDownList();
                     });
                 });
@@ -120,33 +120,45 @@ async function getCitiesAndRegion() {
         throw error; 
     }
 }
-//fonction à faire pour enlever le dropdown du choix de la ville (id: contactDetails-city) et remplacer par un input normal texte (pas présent dans mon code html) 
-//si la province est autre que QC (id :contactDetails-province)
-//et afficher les villes de données québec si la province choisie  est QC dans le dropdown (id: contactDetails-city)
 //vérifier que même si on enlève un des 2 inputs, que lorsqu'on envoit le formulaire il prenne le bon champ pour envoyer dans la BD
-async function addCitiesInDropDown(){
+//Voir avec le required with
+async function addCitiesInDropDown() {
     const cities = await getCitiesAndRegion();
     const province = document.getElementById("contactDetails-province");
-    const selectCity = document.getElementById("contactDetails-city");
-    province.addEventListener("change", (event)=>{
-        if(province.value === "Québec"){
-            cities.map((city) => {
+    const selectCity = document.getElementById("contactDetails-citySelect");
+    const inputCity = document.getElementById("contactDetails-inputCity");
+
+    function addQuebecCities() {
+        selectCity.innerHTML = '';
+        cities.forEach((city) => {
             const optionCity = document.createElement("option");
             optionCity.text = city.munnom;
             selectCity.add(optionCity);
-            });
-            selectCity.classList.remove("d-none");
-        }
-        else{
+        });
+
+        selectCity.classList.remove("d-none");
+        inputCity.classList.add("d-none");
+    }
+
+    if (province.value === "Québec") {
+        addQuebecCities();
+    } else {
+        selectCity.classList.add("d-none");
+        inputCity.classList.remove("d-none");
+        inputCity.setAttribute("type", "text");
+    }
+
+    province.addEventListener("change", () => {
+        if (province.value === "Québec") {
+            addQuebecCities();
+        } else {
             selectCity.classList.add("d-none");
-            const input = document.createElement("input"); 
-            document.getElementById("div-province").appendChild(input);
-            input.setAttribute("type","text");
-            input.classList.add("")
+            inputCity.classList.remove("d-none");
+            inputCity.setAttribute("type", "text");
         }
-    })
-   
+    });
 }
+
 // Appels des fonctions
 addressAutocomplete(document.getElementById("autocomplete-container"), (data) => {
     console.log("Selected option: ", data);
@@ -155,4 +167,3 @@ addressAutocomplete(document.getElementById("autocomplete-container"), (data) =>
 });
 
 addCitiesInDropDown();
-//^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$  regex pour vérifier code postal
