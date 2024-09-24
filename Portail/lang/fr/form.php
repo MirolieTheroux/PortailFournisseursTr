@@ -24,4 +24,9 @@ return [
     'rbqTitle' => 'Licence RBQ',
     'rbqLicenceSection' => 'Licence',
     'rbqCategoriesSection' => 'Catégories et sous-catégories autorisées',
+    'rbqCategoriesUnselectedType' => 'Veuillez selectionner un type de licence pour voir la liste des sous-catégories',
+    'rbqCategoriesGeneralEntrepreneur' => 'Catégories entrepreneur général',
+    'rbqCategoriesSpecialisedEntrepreneur' => 'Catégories entrepreneur spécialisé',
+    'rbqCategoriesGeneralOwnerBuilder' => 'Catégories constructeur-propriétaire général',
+    'rbqCategoriesSpecialisedOwnerBuilder' => 'Catégories constructeur-propriétaire spécialisé',
 ];

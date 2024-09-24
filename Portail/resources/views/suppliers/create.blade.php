@@ -215,7 +215,7 @@
                 <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
                 <div class="text-center">
                     <div class="form-floating mb-3">
-                        <input type="text" name="licenceRbq" id="licenceRbq" class="form-control" placeholder="XXXX-XXXX-XX" maxlength="12">
+                        <input type="text" name="licenceRbq" id="licenceRbq" class="form-control" placeholder="" maxlength="12">
                         <label for="licenceRbq">{{__('form.numberLabel')}}</label>
                     </div>
                     @if($errors->has('licenceRbq'))
@@ -228,9 +228,9 @@
                             <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
                             <option value="valid">{{__('form.choiceValid')}}</option>
                             <option value="restrictedValid">{{__('form.choiceRestrictedValid')}}</option>
-                            <option value="invalid">Non valide</option>
+                            <option value="invalid">{{__('form.choiceInvalid')}}</option>
                         </select>
-                        <label for="statusRbq">{{__('form.choiceInvalid')}}</label>
+                        <label for="statusRbq">{{__('form.statusLabel')}}</label>
                     </div>
                     @if($errors->has('statusRbq'))
                         <p>{{ $errors->first('statusRbq') }}</p>
@@ -255,8 +255,11 @@
                 <div class="text-center">
                   <div class="form-floating mb-3">
                     <div class="form-control pt-2" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-                      <div id="entrepreneur-categories" class="d-none">
-                        <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur général</div>
+                    <div id="no-categories" class="d-block">
+                      {{__('form.rbqCategoriesUnselectedType')}}
+                    </div> 
+                    <div id="entrepreneur-categories" class="d-none">
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == false)
                             <div class="form-check pb-2">
@@ -273,7 +276,7 @@
                           @endif
                         @endforeach
 
-                        <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur spécialisé</div>
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == true)
                             <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
@@ -290,8 +293,9 @@
                           @endif
                         @endforeach
                       </div>
+
                       <div id="ownerBuilder-categories" class="d-none">
-                        <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur général</div>
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == false && $workSubcategory->is_entrepreneur_only == false)
                             <div class="form-check pb-2">
@@ -308,7 +312,7 @@
                           @endif
                         @endforeach
 
-                        <div class="fs-5 text-start fw-bold mb-2 title-border">Catégorie entrepreneur spécialisé</div>
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == true && $workSubcategory->is_entrepreneur_only == false)
                             <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">

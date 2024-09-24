@@ -24,7 +24,12 @@ class SuppliersController extends Controller
      */
     public function create()
     {
-        $workSubcategories = WorkSubcategory::orderby('code')->get();
+        
+        $workSubcategories = WorkSubcategory::orderByRaw('
+          CAST(SUBSTRING_INDEX(code, ".", 1) AS UNSIGNED), 
+          CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(code, ".0"), ".", 2), ".", -1) AS UNSIGNED), 
+          CAST(SUBSTRING_INDEX(CONCAT(code, ".0.0"), ".", -1) AS UNSIGNED)
+        ')->get();
         return View('suppliers.create', compact('workSubcategories'));
     }
 
