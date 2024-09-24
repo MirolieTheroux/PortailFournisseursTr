@@ -21,7 +21,7 @@ function addressAutocomplete(containerElement, callback, options) {
             const promise = new Promise((resolve, reject) => {
                 currentPromiseReject = reject;
                 const apiKey = window.geoapifyApiKey;
-                const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(currentValue)}&format=json&limit=5&apiKey=${apiKey}`;
+                const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(currentValue)}&format=json&limit=10&lang=fr&apiKey=${apiKey}`;
 
                 fetch(url).then(response => {
                     currentPromiseReject = null;
@@ -50,6 +50,8 @@ function addressAutocomplete(containerElement, callback, options) {
                         callback(result);
                         document.getElementById("contactDetails-civicNumber").value = result.housenumber || '';
                         document.getElementById("contactDetails-streetName").value = result.street || '';
+                        document.getElementById("contactDetails-province").value = result.state ||'';
+                        document.getElementById("contactDetails-region").value = result.region || '';
                         document.getElementById("contactDetails-postalCode").value = result.postcode || '';
                         document.getElementById("contactDetails-city").value = result.city;
                         closeDropDownList();
@@ -101,8 +103,56 @@ function addressAutocomplete(containerElement, callback, options) {
     }
 }
 
+async function getCitiesAndRegion() {
+    try {
+        const response = await fetch('https://www.donneesquebec.ca/recherche/api/3/action/datastore_search?resource_id=19385b4e-5503-4330-9e59-f998f5918363&fields=munnom,regadm&sort=regadm,munnom&limit=1400');
+        
+        if (response.ok) {
+            const data = await response.json();
+            return data.result.records;
+        } else {
+            const errorData = await response.json();
+            console.error('Erreur:', errorData);
+            throw new Error('Erreur lors de la récupération des données'); 
+        }
+    } catch (error) {
+        console.error('Erreur de réseau:', error);
+        throw error; 
+    }
+}
+//fonction à faire pour enlever le dropdown du choix de la ville (id: contactDetails-city) et remplacer par un input normal texte (pas présent dans mon code html) 
+//si la province est autre que QC (id :contactDetails-province)
+//et afficher les villes de données québec si la province choisie  est QC dans le dropdown (id: contactDetails-city)
+//vérifier que même si on enlève un des 2 inputs, que lorsqu'on envoit le formulaire il prenne le bon champ pour envoyer dans la BD
+async function addCitiesInDropDown(){
+    const cities = await getCitiesAndRegion();
+    const province = document.getElementById("contactDetails-province");
+    const selectCity = document.getElementById("contactDetails-city");
+    province.addEventListener("change", (event)=>{
+        if(province.value === "Québec"){
+            cities.map((city) => {
+            const optionCity = document.createElement("option");
+            optionCity.text = city.munnom;
+            selectCity.add(optionCity);
+            });
+            selectCity.classList.remove("d-none");
+        }
+        else{
+            selectCity.classList.add("d-none");
+            const input = document.createElement("input"); 
+            document.getElementById("div-province").appendChild(input);
+            input.setAttribute("type","text");
+            input.classList.add("")
+        }
+    })
+   
+}
+// Appels des fonctions
 addressAutocomplete(document.getElementById("autocomplete-container"), (data) => {
     console.log("Selected option: ", data);
 }, {
 
 });
+
+addCitiesInDropDown();
+//^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$  regex pour vérifier code postal

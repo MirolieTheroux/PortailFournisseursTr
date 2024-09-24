@@ -236,21 +236,26 @@
                     </div>
                 </div>
                 <div class="text-center d-flex flex-row mb-3">
-                    <div class="form-floating col-6 pe-2">
-                        <select name="contactDetails-city" id="contactDetails-city" class="form-select" aria-label="">
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="opel">Opel</option>
-                            <option value="audi">Audi</option>
-                        </select>
+                    <div class="form-floating col-6 pe-2" id="div-province">
+                        <select name="contactDetails-city" id="contactDetails-city" class="form-select d-none" aria-label=""></select>
+                        <input type="text" name="contactDetails-officeNumber" id="contactDetails-officeNumber" class="form-control" placeholder="">
                         <label for="contactDetails-city">{{__('form.city')}}</label>
                     </div>
                     <div class="form-floating col-6">
                         <select name="contactDetails-province" id="contactDetails-province" class="form-select" aria-label="">
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="opel">Opel</option>
-                            <option value="audi">Audi</option>
+                            <option value="Alberta">Alberta</option>
+                            <option value="Colombie-Britannique">Colombie-Britannique</option>
+                            <option value="Île-du-Prince-Édouard">Île-du-Prince-Édouard</option>
+                            <option value="Manitoba">Manitoba</option>
+                            <option value="Nouveau-Brunswick">Nouveau-Brunswick</option>
+                            <option value="Nouvelle-Écosse">Nouvelle-Écosse</option>
+                            <option value="Nunavut">Nunavut</option>
+                            <option value="Ontario">Ontario</option>
+                            <option value="Québec" selected>Québec</option>
+                            <option value="Saskatchewan">Saskatchewan</option>
+                            <option value="Terre-Neuve-et-Labrador">Terre-Neuve-et-Labrador</option>
+                            <option value="Territoires du Nord-Ouest">Territoires du Nord-Ouest</option>
+                            <option value="Yukon">Yukon</option>
                         </select>
                         <label for="contactDetails-province">{{__('form.province')}}</label>
                     </div>
@@ -258,10 +263,21 @@
                 <div class="text-center d-flex flex-row mb-3">
                     <div class="form-floating col-8 pe-2">
                         <select name="contactDetails-region" id="contactDetails-region" class="form-select" aria-label="">
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="opel">Opel</option>
-                            <option value="audi">Audi</option>
+                            <option value="Abitibi-Témiscamingue">Abitibi-Témiscamingue (région 08)</option>
+                            <option value="Bas-Saint-Laurent">Bas-Saint-Laurent (région 01)</option>
+                            <option value="Capitale-Nationale">Capitale-Nationale (région 03)</option>
+                            <option value="Centre-du-Québec">Centre-du-Québec (région 17)</option>
+                            <option value="Chaudière-Appalaches">Chaudière-Appalaches (région 12)</option>
+                            <option value="Côte-Nord">Côte-Nord (région 09)</option>
+                            <option value="Estrie">Estrie (région 05)</option>
+                            <option value="Gaspésie–Îles-de-la-Madeleine">Gaspésie–Îles-de-la-Madeleine (région 11)</option>
+                            <option value="Lanaudière" selected>Lanaudière (région 14)</option>
+                            <option value="Laurentides">Laurentides (région 15)</option>
+                            <option value="Laval">Laval (région 13)</option>
+                            <option value="Mauricie">Mauricie (région 04)</option>
+                            <option value="Nord-du-Québec">Nord-du-Québec (région 10)</option> 
+                            <option value="Outaouais">Outaouais (région 07)</option>
+                            <option value="Saguenay–Lac-Saint-Jean">Saguenay–Lac-Saint-Jean (région 02)</option>
                         </select>
                         <label for="contactDetails-region">{{__('form.region')}}</label>
                     </div>
@@ -277,7 +293,7 @@
                     </div>
                 </div>  
             </div>
-            <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
+            <div class="col-12 col-md-6 d-flex flex-column">
                 <h2 class="text-center section-subtitle">{{__('form.contactDetailsTelNumbersSection')}}</h2>
                 <div class="text-center d-flex flex-row mb-3">
                     <div class="form-floating col-3">
@@ -304,7 +320,7 @@
                         </button><!--TODO::Modifier le bouton-->
                     </div>
                 </div>
-                <div class="form-floating mb-3"><!--Prenne le reste de la place-->
+                <div class="form-floating mb-3">
                     <div class="form-control" id="contactDetails-telNumberList" >
                         <div class="row px-3">
                             <div class="col-12 col-md-12 d-flex flex-column justify-content-between">
