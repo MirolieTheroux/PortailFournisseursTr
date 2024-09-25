@@ -202,8 +202,8 @@
 
     <!--LICENCE RBQ-->
     <!--REMARQUES::
-    Est-ce qu'on veut que les catégories soit aussi cliquables ou juste les checkboxes? 
-    Essayer de mettre la boîte égale à la licence si temps?
+    VALIDER_AVEC_MIRO::Est-ce qu'on veut que les catégories soit aussi cliquables ou juste les checkboxes? 
+    VALIDER_AVEC_MIRO::Essayer de mettre la boîte égale à la licence si temps?
     -->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
@@ -401,6 +401,26 @@
     </div>  <!--FIN LICENCE RBQ-->  
     
     <!--COORDONNÉES-->
+    <!--REMARQUES::
+      - Le padding des labels numéro dans la section numéro de téléphone et de la rue dans la section adresse ne sont pas les même que le reste
+      - Est-ce que la boite des numéros de téléphones devrait être là mais vide lors du loading de la page? Serait plus clair pour le user pourquoi il doit faire le plus
+      - Au lieu de "# tel" ou "# téléphone", mettre "numéro de téléphone" pour éviter la confusion de certains users?
+      - Dans la boite de la liste des téléphones, si possible, je pense que se serait plus beau d'aligner tous les textes (La lignes "Liste des # téléphone" est plus proche du bord)
+      - Dans la liste des villes, est-ce que c'est possible de les afficher en ordre alphabétique? Car présentement, la recherche peut-être difficile pour les users qui savent pas qu'ils peuvent écrire
+      - Pour les provinces et régions, je pense que se serait bon de faire des tables dans la BD pourqu'elles ne soient pas hardcoder. Y'a peu de chance que ça change mais ça pourrait
+      - Il faudrait s'assurer d'utiliser le plus possible l'anglais dans les name, id, values, etc (Voir les provinces, région et type de téléphone)
+      - Ne jamais mettre d'accent dans les name, id, values, etc (Voir les provinces, région et type de téléphone)
+      - Il faudrait utiliser le fichier de langue même pour les listes d'éléments (Voir les provinces, région et type de téléphone)
+      - Responsive :
+        - Format (md) 
+            - Les labels de no civic et du code postal se confonde avec le text écrit, est-ce qu'il faudrait qu'il aie leur propre ligne à ce moment là?
+            - Le boutons pour ajouter les téléphones est très petit
+        - Format (sm) et moins
+            - La zone des numéros de téléphones qui ont été ajouter ne marche plus très bien, les éléments sont sur 3 lignes au lieu d'une
+        - Format Cellulaire dans l'inspecteur
+            - Les labels de no civic et du code postal se confonde avec le text écrit, est-ce qu'il faudrait qu'il aie leur propre ligne à ce moment là?
+            - Le boutons pour ajouter les téléphones est très petit
+    -->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
