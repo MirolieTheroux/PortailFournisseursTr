@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifie
     typeRbqSelect.value = 'ownerBuilder';
   
   changeSubCategoriesList();
-  console.log(formFailContainer);
+  
   if(formFailContainer === null){
     checkboxesReset(false);
   }
