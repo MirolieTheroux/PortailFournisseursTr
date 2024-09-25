@@ -67,6 +67,11 @@
 #add-tel{
     color : var(--dark_blue)
 }
+
+#details-section p{
+    font-size: 13px;
+    color : red;
+}
 /* CONTACT */
 
 /* PIÈCES JOINTES */

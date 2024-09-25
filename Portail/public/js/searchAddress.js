@@ -243,7 +243,6 @@ function addTelNumber() {
 
 document.addEventListener("DOMContentLoaded", function(){
    const addNumber = document.getElementById("add-icon");
-
    addNumber.addEventListener("click", function(event){
         event.preventDefault();
         addTelNumber();

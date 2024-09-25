@@ -350,7 +350,7 @@
     </div>  <!--FIN LICENCE RBQ-->  
     
     <!--COORDONNÉES-->
-    <div class="container bg-white rounded my-2">
+    <div class="container bg-white rounded my-2" id="details-section">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
         </div>
@@ -370,73 +370,91 @@
                 </div>
                 <div class="text-center d-flex flex-row mb-4">
                     <div class="form-floating col-3">
-                        <input type="text" name="contactDetails-civicNumber" id="contactDetails-civicNumber" class="form-control" placeholder="">
+                        <input type="text" name="contactDetails-civicNumber" id="contactDetails-civicNumber" class="form-control"  value="{{ old('contactDetails-civicNumber') }}" placeholder="" maxlength="8">
                         <label for="contactDetails-civicNumber">{{__('form.civicNumberLabel')}}</label>
+                        @if($errors->has('contactDetails-civicNumber'))
+                            <p>{{ $errors->first('contactDetails-civicNumber') }}</p>
+                        @endif
                     </div>
                     <div class="form-floating col-6 px-2">
-                        <input type="text" name="contactDetails-streetName" id="contactDetails-streetName" class="form-control" placeholder="">
+                        <input type="text" name="contactDetails-streetName" id="contactDetails-streetName" class="form-control" value="{{ old('contactDetails-streetName') }}" placeholder="" maxlength="64">
                         <label for="contactDetails-streetName">{{__('form.streetName')}}</label>
+                        @if($errors->has('contactDetails-streetName'))
+                            <p>{{ $errors->first('contactDetails-streetName') }}</p>
+                        @endif
                     </div>
                     <div class="form-floating col-3">
-                        <input type="text" name="contactDetails-officeNumber" id="contactDetails-officeNumber" class="form-control" placeholder="">
+                        <input type="text" name="contactDetails-officeNumber" id="contactDetails-officeNumber" class="form-control" value="{{ old('contactDetails-officeNumber') }}" placeholder="" maxlength="8">
                         <label for="contactDetails-officeNumber">{{__('form.officeNumber')}}</label>
+                        @if($errors->has('contactDetails-officeNumber'))
+                            <p>{{ $errors->first('contactDetails-officeNumber') }}</p>
+                        @endif
                     </div>
                 </div>
                 <div class="text-center d-flex flex-row mb-4">
                     <div class="form-floating col-6 pe-2" id="div-province">
-                        <select name="contactDetails-city" id="contactDetails-citySelect" class="form-select" aria-label=""></select>
-                        <input type="text" name="contactDetails-inputCity" id="contactDetails-inputCity" class="form-control d-none" placeholder="">
+                        <select name="contactDetails-city" id="contactDetails-citySelect" value="{{ old('contactDetails-citySelect') }}" class="form-select" aria-label=""></select>
+                        <input type="text" name="contactDetails-inputCity" id="contactDetails-inputCity" class="form-control d-none" value="{{ old('contactDetails-inputCity') }}" placeholder="" maxlength="64">
+                        @if($errors->has('contactDetails-inputCity'))
+                            <p>{{ $errors->first('contactDetails-inputCity') }}</p>
+                        @endif
                         <label for="contactDetails-city">{{__('form.city')}}</label>
                     </div>
                     <div class="form-floating col-6">
                         <select name="contactDetails-province" id="contactDetails-province" class="form-select" aria-label="">
-                            <option value="Alberta">Alberta</option>
-                            <option value="Colombie-Britannique">Colombie-Britannique</option>
-                            <option value="Île-du-Prince-Édouard">Île-du-Prince-Édouard</option>
-                            <option value="Manitoba">Manitoba</option>
-                            <option value="Nouveau-Brunswick">Nouveau-Brunswick</option>
-                            <option value="Nouvelle-Écosse">Nouvelle-Écosse</option>
-                            <option value="Nunavut">Nunavut</option>
-                            <option value="Ontario">Ontario</option>
-                            <option value="Québec" selected>Québec</option>
-                            <option value="Saskatchewan">Saskatchewan</option>
-                            <option value="Terre-Neuve-et-Labrador">Terre-Neuve-et-Labrador</option>
-                            <option value="Territoires du Nord-Ouest">Territoires du Nord-Ouest</option>
-                            <option value="Yukon">Yukon</option>
+                        <option value="Alberta" {{ old('contactDetails-province', 'Québec') == 'Alberta' ? 'selected' : '' }}>Alberta</option>
+                        <option value="Colombie-Britannique" {{ old('contactDetails-province', 'Québec') == 'Colombie-Britannique' ? 'selected' : '' }}>Colombie-Britannique</option>
+                        <option value="Île-du-Prince-Édouard" {{ old('contactDetails-province', 'Québec') == 'Île-du-Prince-Édouard' ? 'selected' : '' }}>Île-du-Prince-Édouard</option>
+                        <option value="Manitoba" {{ old('contactDetails-province', 'Québec') == 'Manitoba' ? 'selected' : '' }}>Manitoba</option>
+                        <option value="Nouveau-Brunswick" {{ old('contactDetails-province', 'Québec') == 'Nouveau-Brunswick' ? 'selected' : '' }}>Nouveau-Brunswick</option>
+                        <option value="Nouvelle-Écosse" {{ old('contactDetails-province', 'Québec') == 'Nouvelle-Écosse' ? 'selected' : '' }}>Nouvelle-Écosse</option>
+                        <option value="Nunavut" {{ old('contactDetails-province', 'Québec') == 'Nunavut' ? 'selected' : '' }}>Nunavut</option>
+                        <option value="Ontario" {{ old('contactDetails-province', 'Québec') == 'Ontario' ? 'selected' : '' }}>Ontario</option>
+                        <option value="Québec" {{ old('contactDetails-province', 'Québec') == 'Québec' ? 'selected' : '' }}>Québec</option>
+                        <option value="Saskatchewan" {{ old('contactDetails-province', 'Québec') == 'Saskatchewan' ? 'selected' : '' }}>Saskatchewan</option>
+                        <option value="Terre-Neuve-et-Labrador" {{ old('contactDetails-province', 'Québec') == 'Terre-Neuve-et-Labrador' ? 'selected' : '' }}>Terre-Neuve-et-Labrador</option>
+                        <option value="Territoires du Nord-Ouest" {{ old('contactDetails-province', 'Québec') == 'Territoires du Nord-Ouest' ? 'selected' : '' }}>Territoires du Nord-Ouest</option>
+                        <option value="Yukon" {{ old('contactDetails-province', 'Québec') == 'Yukon' ? 'selected' : '' }}>Yukon</option>
                         </select>
                         <label for="contactDetails-province">{{__('form.province')}}</label>
                     </div>
                 </div>
                 <div class="text-center d-flex flex-row mb-4">
                     <div class="form-floating col-8 pe-2">
-                        <select name="contactDetails-region" id="contactDetails-region" class="form-select" aria-label="">
-                            <option value="Abitibi-Témiscamingue">Abitibi-Témiscamingue (région 08)</option>
-                            <option value="Bas-Saint-Laurent">Bas-Saint-Laurent (région 01)</option>
-                            <option value="Capitale-Nationale">Capitale-Nationale (région 03)</option>
-                            <option value="Centre-du-Québec">Centre-du-Québec (région 17)</option>
-                            <option value="Chaudière-Appalaches">Chaudière-Appalaches (région 12)</option>
-                            <option value="Côte-Nord">Côte-Nord (région 09)</option>
-                            <option value="Estrie">Estrie (région 05)</option>
-                            <option value="Gaspésie–Îles-de-la-Madeleine">Gaspésie–Îles-de-la-Madeleine (région 11)</option>
-                            <option value="Lanaudière">Lanaudière (région 14)</option>
-                            <option value="Laurentides">Laurentides (région 15)</option>
-                            <option value="Laval">Laval (région 13)</option>
-                            <option value="Mauricie">Mauricie (région 04)</option>
-                            <option value="Nord-du-Québec">Nord-du-Québec (région 10)</option> 
-                            <option value="Outaouais">Outaouais (région 07)</option>
-                            <option value="Saguenay–Lac-Saint-Jean">Saguenay–Lac-Saint-Jean (région 02)</option>
+                        <select name="contactDetails-region" id="contactDetails-region" value="{{ old('contactDetails-region') }}" class="form-select" aria-label="">
+                        <option value="Abitibi-Témiscamingue" {{ old('contactDetails-region') == 'Abitibi-Témiscamingue' ? 'selected' : '' }}>Abitibi-Témiscamingue (région 08)</option>
+                        <option value="Bas-Saint-Laurent" {{ old('contactDetails-region') == 'Bas-Saint-Laurent' ? 'selected' : '' }}>Bas-Saint-Laurent (région 01)</option>
+                        <option value="Capitale-Nationale" {{ old('contactDetails-region') == 'Capitale-Nationale' ? 'selected' : '' }}>Capitale-Nationale (région 03)</option>
+                        <option value="Centre-du-Québec" {{ old('contactDetails-region') == 'Centre-du-Québec' ? 'selected' : '' }}>Centre-du-Québec (région 17)</option>
+                        <option value="Chaudière-Appalaches" {{ old('contactDetails-region') == 'Chaudière-Appalaches' ? 'selected' : '' }}>Chaudière-Appalaches (région 12)</option>
+                        <option value="Côte-Nord" {{ old('contactDetails-region') == 'Côte-Nord' ? 'selected' : '' }}>Côte-Nord (région 09)</option>
+                        <option value="Estrie" {{ old('contactDetails-region') == 'Estrie' ? 'selected' : '' }}>Estrie (région 05)</option>
+                        <option value="Gaspésie–Îles-de-la-Madeleine" {{ old('contactDetails-region') == 'Gaspésie–Îles-de-la-Madeleine' ? 'selected' : '' }}>Gaspésie–Îles-de-la-Madeleine (région 11)</option>
+                        <option value="Lanaudière" {{ old('contactDetails-region') == 'Lanaudière' ? 'selected' : '' }}>Lanaudière (région 14)</option>
+                        <option value="Laurentides" {{ old('contactDetails-region') == 'Laurentides' ? 'selected' : '' }}>Laurentides (région 15)</option>
+                        <option value="Laval" {{ old('contactDetails-region') == 'Laval' ? 'selected' : '' }}>Laval (région 13)</option>
+                        <option value="Mauricie" {{ old('contactDetails-region') == 'Mauricie' ? 'selected' : '' }}>Mauricie (région 04)</option>
+                        <option value="Nord-du-Québec" {{ old('contactDetails-region') == 'Nord-du-Québec' ? 'selected' : '' }}>Nord-du-Québec (région 10)</option>
+                        <option value="Outaouais" {{ old('contactDetails-region') == 'Outaouais' ? 'selected' : '' }}>Outaouais (région 07)</option>
+                        <option value="Saguenay–Lac-Saint-Jean" {{ old('contactDetails-region') == 'Saguenay–Lac-Saint-Jean' ? 'selected' : '' }}>Saguenay–Lac-Saint-Jean (région 02)</option>
                         </select>
                         <label for="contactDetails-region">{{__('form.region')}}</label>
                     </div>
                     <div class="form-floating">
-                        <input type="text" name="contactDetails-postalCode" id="contactDetails-postalCode" class="form-control" placeholder="">
+                        <input type="text" name="contactDetails-postalCode" id="contactDetails-postalCode" class="form-control" value="{{ old('contactDetails-postalCode') }}" placeholder="" maxlength="7">
                         <label for="contactDetails-postalCode">{{__('form.postalCode')}}</label>
+                        @if($errors->has('contactDetails-postalCode'))
+                            <p>{{ $errors->first('contactDetails-postalCode') }}</p>
+                        @endif
                     </div>
                 </div>  
                 <div class="text-center mb-4">
                     <div class="form-floating">
-                        <input type="text" name="contactDetails-website" id="contactDetails-website" class="form-control" placeholder="">
+                        <input type="text" name="contactDetails-website" id="contactDetails-website" class="form-control" value="{{ old('contactDetails-website') }}" placeholder="" maxlength="64">
                         <label for="contactDetails-website">{{__('form.website')}}</label>
+                        @if($errors->has('contactDetails-website'))
+                            <p>{{ $errors->first('contactDetails-website') }}</p>
+                        @endif
                     </div>
                 </div>  
             </div>
@@ -480,7 +498,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-                <button id="test" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+                <button type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
             </div>
         </div>
     </div> <!--FIN COORDONÉES-->

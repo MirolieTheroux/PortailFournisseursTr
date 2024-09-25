@@ -111,3 +111,5 @@ document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifie
     });
   }
 });
+
+/*** Section Coordonnées ***/
