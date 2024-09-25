@@ -22,11 +22,22 @@ class SupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'neq' => 'unique:suppliers|size:10',
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed',
-            'password_confirmation' => 'required',
+            // 'neq' => 'unique:suppliers|size:10',
+            // 'name' => 'required',
+            // 'email' => 'required|email',
+            // 'password' => 'required|confirmed',
+            // 'password_confirmation' => 'required',
+            'licenceRbq' => 'size:12|regex:/^[0-9]{4}-[0-9]{4}-[0-9]{2}$/i|nullable',
+            'statusRbq' => 'required_with:licenceRbq',
+            'typeRbq' => 'required_with:licenceRbq',
+            'rbqSubcategories' => 'required_with:licenceRbq',
+        ];
+    }
+
+    public function messages(){
+        return[
+            'licenceRbq.regex' => __('form.rbqLicenceValidation'),
+            'rbqSubcategories.required_with' => __('form.rbqCategoriesValidation'),
         ];
     }
 }

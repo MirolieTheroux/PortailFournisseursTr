@@ -42,7 +42,7 @@
 
     <!--IDENTIFICATION-->  
     <!--TODO::Le titre de la section disparaît pour l'écran mobile-->
-    <div class="container bg-white rounded my-2">
+    <div class="d-none container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-identification"></div>
         </div>
@@ -116,7 +116,7 @@
 
     
     <!--PRODUIT ET SERVICE-->
-    <div class="container bg-white rounded my-2">
+    <div class="d-none container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-products_services"></div>
         </div>
@@ -201,6 +201,149 @@
 
 
     <!--LICENCE RBQ-->
+    <div class="container bg-white rounded my-2">
+        <div class="row d-none d-md-block">
+            <div class="col-12 rounded-top fond-image fond-rbq"></div>
+        </div>
+        <div class="row">
+            <div class="d-none d-md-block col-12 text-center">
+                <h1>{{__('form.rbqTitle')}}</h1>
+            </div>
+        </div>
+        <div class="row px-3">
+            <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+                <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
+                <div class="text-center">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="12">
+                        <label for="licenceRbq">{{__('form.numberLabel')}}</label>
+                    </div>
+                    @if($errors->has('licenceRbq'))
+                        <p>{{ $errors->first('licenceRbq') }}</p>
+                    @endif
+                </div>
+                <div class="text-center">
+                    <div class="form-floating mb-3">
+                        <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
+                            <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
+                            <option value="valid" {{ "valid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
+                            <option value="restrictedValid" {{ "restrictedValid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
+                            <option value="invalid" {{ "invalid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
+                        </select>
+                        <label for="statusRbq">{{__('form.statusLabel')}}</label>
+                    </div>
+                    @if($errors->has('statusRbq'))
+                        <p>{{ $errors->first('statusRbq') }}</p>
+                    @endif
+                </div>
+                <div class="text-center">
+                    <div class="form-floating mb-3">
+                        <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
+                            <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                            <option value="entrepreneur" {{ "entrepreneur" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
+                            <option value="ownerBuilder" {{ "ownerBuilder" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
+                        </select>
+                        <label for="typeRbq">{{__('form.typeLabel')}}</label>
+                    </div>
+                    @if($errors->has('typeRbq'))
+                        <p>{{ $errors->first('typeRbq') }}</p>
+                    @endif
+                </div>
+            </div>
+            <div class="col-12 col-md-8 d-flex flex-column justify-content-start">
+              <h2 class="text-center">{{__('form.rbqCategoriesSection')}}</h2>
+                <div class="text-center">
+                  <div class="form-floating mb-3">
+                    <div class="form-control pt-2" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+                    <div id="no-categories" class="d-block">
+                      {{__('form.rbqCategoriesUnselectedType')}}
+                    </div> 
+                    <div id="entrepreneur-categories" class="d-none">
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
+                        @foreach($workSubcategories as $workSubcategory)
+                          @if($workSubcategory->is_specialised == false)
+                            <div class="form-check pb-2">
+                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultGen{{$workSubcategory->id}}Ent" @checked(old('rbqSubcategories', $workSubcategory->id))>
+                              <div class="d-flex">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                  {{$workSubcategory->code}}
+                                </label>
+                                <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                  {{$workSubcategory->name}}
+                                </label>
+                              </div>
+                            </div>
+                          @endif
+                        @endforeach
+
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
+                        @foreach($workSubcategories as $workSubcategory)
+                          @if($workSubcategory->is_specialised == true)
+                            <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
+                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultSpec{{$workSubcategory->id}}Ent">
+                              <div class="d-flex">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                  {{$workSubcategory->code}}
+                                </label>
+                                <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                  {{$workSubcategory->name}}
+                                </label>
+                              </div>
+                            </div>
+                          @endif
+                        @endforeach
+                      </div>
+
+                      <div id="ownerBuilder-categories" class="d-none">
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
+                        @foreach($workSubcategories as $workSubcategory)
+                          @if($workSubcategory->is_specialised == false && $workSubcategory->is_entrepreneur_only == false)
+                            <div class="form-check pb-2">
+                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultGen{{$workSubcategory->id}}OB">
+                              <div class="d-flex">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                  {{$workSubcategory->code}}
+                                </label>
+                                <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                  {{$workSubcategory->name}}
+                                </label>
+                              </div>
+                            </div>
+                          @endif
+                        @endforeach
+
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
+                        @foreach($workSubcategories as $workSubcategory)
+                          @if($workSubcategory->is_specialised == true && $workSubcategory->is_entrepreneur_only == false)
+                            <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
+                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultSpec{{$workSubcategory->id}}OB">
+                              <div class="d-flex">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                  {{$workSubcategory->code}}
+                                </label>
+                                <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                  {{$workSubcategory->name}}
+                                </label>
+                              </div>
+                            </div>
+                          @endif
+                        @endforeach
+                      </div>
+                  </div>
+                  @if($errors->has('rbqSubcategories'))
+                    <p>{{ $errors->first('rbqSubcategories') }}</p>
+                  @endif
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center mb-2">
+                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
+                <button type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+            </div>
+        </div>
+    </div>  <!--FIN LICENCE RBQ-->  
     
     <!--COORDONNÉES-->
     <div class="container bg-white rounded my-2">
@@ -342,4 +485,8 @@
     <!--PIÈCES JOINTES-->
 
 </form>
+@endsection
+
+@section('scripts')
+<script src="{{ asset('js/suppliersCreate.js') }} "></script>
 @endsection

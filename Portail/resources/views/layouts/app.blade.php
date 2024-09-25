@@ -78,5 +78,6 @@
     <script src="{{ asset('js/searchAddress.js') }} "></script>
     <!-- Créer une variable globale pour pouvoir utiliser dans fichier JS -->
     <script>window.geoapifyApiKey = "{{ config('services.geoapify.api_key') }}";</script>
+    @yield('scripts')
 </body>
 </html>
