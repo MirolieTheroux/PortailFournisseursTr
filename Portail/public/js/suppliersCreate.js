@@ -18,7 +18,7 @@ async function fetchRBQ(rbqNumber) {
     if(typeLicence === undefined){
       typeLicence = record["Type de licence"];
     }
-    if(licenceNumber === undefined){
+    if(licenceNumber === ""){
       licenceNumber = record["Numero de licence"];
     }
     if(record["restriction"] === "Oui"){
@@ -34,13 +34,14 @@ document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifie
   const entrepreneurContainer = document.getElementById('entrepreneur-categories');
   const ownerBuilderContainer = document.getElementById('ownerBuilder-categories');
   const noCategoriesContainer = document.getElementById('no-categories');
+  const formFailContainer = document.getElementById('form-fail-rbq');
   const numberRbqInput = document.getElementById('licenceRbq');
   const statusRbqSelect = document.getElementById('statusRbq');
   
   const typeRbqSelect = document.getElementById('typeRbq');
   typeRbqSelect.addEventListener('change', function(event) {
     changeSubCategoriesList();
-    checkboxesReset();
+    checkboxesReset(true);
   });
 
   const checkboxes = document.querySelectorAll('input.form-check-input');
@@ -59,9 +60,12 @@ document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifie
     typeRbqSelect.value = 'entrepreneur';
   else if(typeLicence === "Constructeur-proprietaire")
     typeRbqSelect.value = 'ownerBuilder';
+  
   changeSubCategoriesList();
-  checkboxesReset();
-
+  console.log(formFailContainer);
+  if(formFailContainer === null){
+    checkboxesReset(false);
+  }
 
   function changeSubCategoriesList(){
     if(typeRbqSelect.value === 'entrepreneur'){
@@ -90,15 +94,15 @@ document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifie
     }
   }
 
-  function checkboxesReset(){
+  function checkboxesReset(statusReset){
     checkboxes.forEach(checkbox => {
       const regexEnt = /Ent$/g;
       const regexOB = /OB$/g;
       if(checkbox.id.match(regexEnt) && typeLicence === "Entrepreneur"){
         if(subcategories.includes(checkbox.value))
           checkbox.checked  = true;
-          else
-            checkbox.checked  = false;
+        else
+          checkbox.checked  = false;
       }
       else if(checkbox.id.match(regexOB) && typeLicence === "Constructeur-proprietaire"){
         if(subcategories.includes(checkbox.value))
@@ -106,7 +110,7 @@ document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifie
         else
           checkbox.checked  = false;
       }
-      else
+      else if(licenceNumber === undefined || statusReset)
         checkbox.checked  = false;
     });
   }
