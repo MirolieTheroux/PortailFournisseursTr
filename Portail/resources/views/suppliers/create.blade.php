@@ -263,7 +263,16 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == false)
                             <div class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultGen{{$workSubcategory->id}}Ent" @checked(old('rbqSubcategories', $workSubcategory->id))>
+                              <input 
+                                class="form-check-input mt-0" 
+                                type="checkbox" 
+                                name="rbqSubcategories[]"
+                                value="{{$workSubcategory->code}}" 
+                                id="flexCheckDefaultGen{{$workSubcategory->id}}Ent"
+                                @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
+                                  checked 
+                                @endif
+                              >
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
@@ -280,7 +289,16 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == true)
                             <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultSpec{{$workSubcategory->id}}Ent">
+                              <input 
+                                class="form-check-input mt-0" 
+                                type="checkbox" 
+                                name="rbqSubcategories[]" 
+                                value="{{$workSubcategory->code}}" 
+                                id="flexCheckDefaultSpec{{$workSubcategory->id}}Ent"
+                                @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
+                                  checked 
+                                @endif
+                              >
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
@@ -299,7 +317,16 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == false && $workSubcategory->is_entrepreneur_only == false)
                             <div class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultGen{{$workSubcategory->id}}OB">
+                              <input 
+                                class="form-check-input mt-0" 
+                                type="checkbox" 
+                                name="rbqSubcategories[]" 
+                                value="{{$workSubcategory->code}}" 
+                                id="flexCheckDefaultGen{{$workSubcategory->id}}OB"
+                                @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
+                                  checked 
+                                @endif
+                              >
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
@@ -316,7 +343,16 @@
                         @foreach($workSubcategories as $workSubcategory)
                           @if($workSubcategory->is_specialised == true && $workSubcategory->is_entrepreneur_only == false)
                             <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
-                              <input class="form-check-input mt-0" type="checkbox" name="rbqSubcategories[]" value="{{$workSubcategory->code}}" id="flexCheckDefaultSpec{{$workSubcategory->id}}OB">
+                              <input 
+                                class="form-check-input mt-0" 
+                                type="checkbox" 
+                                name="rbqSubcategories[]" 
+                                value="{{$workSubcategory->code}}" 
+                                id="flexCheckDefaultSpec{{$workSubcategory->id}}OB"
+                                @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
+                                  checked 
+                                @endif
+                              >
                               <div class="d-flex">
                                 <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
                                   {{$workSubcategory->code}}
@@ -340,7 +376,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-                <button type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
             </div>
         </div>
     </div>  <!--FIN LICENCE RBQ-->  

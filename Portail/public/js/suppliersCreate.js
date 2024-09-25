@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifie
   else if(typeLicence === "Constructeur-proprietaire")
     typeRbqSelect.value = 'ownerBuilder';
   changeSubCategoriesList();
-  checkboxesReset();
+  //checkboxesReset();
 
 
   function changeSubCategoriesList(){
