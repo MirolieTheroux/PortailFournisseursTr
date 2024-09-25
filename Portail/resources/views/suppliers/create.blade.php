@@ -215,43 +215,45 @@
             </div>
         </div>
         <div class="row px-3">
-            <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+            <div class="col-12 col-md-4 d-flex flex-column">
                 <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
-                <div class="text-center">
-                    <div class="form-floating mb-3">
-                        <input type="text" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="12">
-                        <label for="licenceRbq">{{__('form.numberLabel')}}</label>
-                    </div>
-                    @if($errors->has('licenceRbq'))
-                        <p>{{ $errors->first('licenceRbq') }}</p>
-                    @endif
-                </div>
-                <div class="text-center">
-                    <div class="form-floating mb-3">
-                        <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
-                            <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
-                            <option value="valid" {{ "valid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
-                            <option value="restrictedValid" {{ "restrictedValid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
-                            <option value="invalid" {{ "invalid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
-                        </select>
-                        <label for="statusRbq">{{__('form.statusLabel')}}</label>
-                    </div>
-                    @if($errors->has('statusRbq'))
-                        <p>{{ $errors->first('statusRbq') }}</p>
-                    @endif
-                </div>
-                <div class="text-center">
-                    <div class="form-floating mb-3">
-                        <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
-                            <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
-                            <option value="entrepreneur" {{ "entrepreneur" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
-                            <option value="ownerBuilder" {{ "ownerBuilder" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
-                        </select>
-                        <label for="typeRbq">{{__('form.typeLabel')}}</label>
-                    </div>
-                    @if($errors->has('typeRbq'))
-                        <p>{{ $errors->first('typeRbq') }}</p>
-                    @endif
+                <div class="d-flex flex-column justify-content-between just h-100">
+                  <div class="text-center">
+                      <div class="form-floating mb-3">
+                          <input type="text" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="12">
+                          <label for="licenceRbq">{{__('form.numberLabel')}}</label>
+                      </div>
+                      @if($errors->has('licenceRbq'))
+                          <p>{{ $errors->first('licenceRbq') }}</p>
+                      @endif
+                  </div>
+                  <div class="text-center">
+                      <div class="form-floating mb-3">
+                          <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
+                              <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
+                              <option value="valid" {{ "valid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
+                              <option value="restrictedValid" {{ "restrictedValid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
+                              <option value="invalid" {{ "invalid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
+                          </select>
+                          <label for="statusRbq">{{__('form.statusLabel')}}</label>
+                      </div>
+                      @if($errors->has('statusRbq'))
+                          <p>{{ $errors->first('statusRbq') }}</p>
+                      @endif
+                  </div>
+                  <div class="text-center">
+                      <div class="form-floating mb-3">
+                          <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
+                              <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                              <option value="entrepreneur" {{ "entrepreneur" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
+                              <option value="ownerBuilder" {{ "ownerBuilder" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
+                          </select>
+                          <label for="typeRbq">{{__('form.typeLabel')}}</label>
+                      </div>
+                      @if($errors->has('typeRbq'))
+                          <p>{{ $errors->first('typeRbq') }}</p>
+                      @endif
+                  </div>
                 </div>
             </div>
             <div class="col-12 col-md-8 d-flex flex-column justify-content-start">
