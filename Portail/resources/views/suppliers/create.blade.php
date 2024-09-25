@@ -215,13 +215,13 @@
         <div class="row px-3">
             <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                 <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
-                <div class="text-center mb-3">
+                <div class="text-center mb-4">
                     <div class="form-floating autocomplete-container" id="autocomplete-container">
                         <input type="text" name="contactDetails-searchAddress" id="contactDetails-searchAddress" class="form-control" placeholder="">
                         <label for="contactDetails-searchAddress">{{__('form.searchAddress')}}</label>
                     </div>
                 </div>
-                <div class="text-center d-flex flex-row mb-3">
+                <div class="text-center d-flex flex-row mb-4">
                     <div class="form-floating col-3">
                         <input type="text" name="contactDetails-civicNumber" id="contactDetails-civicNumber" class="form-control" placeholder="">
                         <label for="contactDetails-civicNumber">{{__('form.civicNumberLabel')}}</label>
@@ -235,7 +235,7 @@
                         <label for="contactDetails-officeNumber">{{__('form.officeNumber')}}</label>
                     </div>
                 </div>
-                <div class="text-center d-flex flex-row mb-3">
+                <div class="text-center d-flex flex-row mb-4">
                     <div class="form-floating col-6 pe-2" id="div-province">
                         <select name="contactDetails-city" id="contactDetails-citySelect" class="form-select" aria-label=""></select>
                         <input type="text" name="contactDetails-inputCity" id="contactDetails-inputCity" class="form-control d-none" placeholder="">
@@ -260,7 +260,7 @@
                         <label for="contactDetails-province">{{__('form.province')}}</label>
                     </div>
                 </div>
-                <div class="text-center d-flex flex-row mb-3">
+                <div class="text-center d-flex flex-row mb-4">
                     <div class="form-floating col-8 pe-2">
                         <select name="contactDetails-region" id="contactDetails-region" class="form-select" aria-label="">
                             <option value="Abitibi-Témiscamingue">Abitibi-Témiscamingue (région 08)</option>
@@ -286,7 +286,7 @@
                         <label for="contactDetails-postalCode">{{__('form.postalCode')}}</label>
                     </div>
                 </div>  
-                <div class="text-center mb-3">
+                <div class="text-center mb-4">
                     <div class="form-floating">
                         <input type="text" name="contactDetails-website" id="contactDetails-website" class="form-control" placeholder="">
                         <label for="contactDetails-website">{{__('form.website')}}</label>
@@ -295,43 +295,35 @@
             </div>
             <div class="col-12 col-md-6 d-flex flex-column">
                 <h2 class="text-center section-subtitle">{{__('form.contactDetailsTelNumbersSection')}}</h2>
-                <div class="text-center d-flex flex-row mb-3">
+                <div class="text-center d-flex flex-row mb-4">
                     <div class="form-floating col-3">
                         <select name="contactDetails-telType" id="contactDetails-telType" class="form-select" aria-label="">
-                            <option value="bureau">Bureau</option>
-                            <option value="telecopieur">Télécopieur</option>
-                            <option value="cellulaire">Cellulaire</option>
+                            <option value="Bureau">Bureau</option>
+                            <option value="Télécopieur">Télécopieur</option>
+                            <option value="Cellulaire">Cellulaire</option>
                         </select>
                         <label for="contactDetails-telType">{{__('form.telType')}}</label>
                     </div>
-                    <div class="form-floating col-4 px-2">
+                    <div class="form-floating col-5 px-2">
                         <input type="text" name="contactDetails-telNumber" id="contactDetails-telNumber" class="form-control" placeholder="">
                         <label for="contactDetails-telNumber">{{__('form.telNumber')}}</label>
                     </div>
-                    <div class="form-floating col-2">
+                    <div class="form-floating col-3">
                         <input type="text" name="contactDetails-telExtension" id="contactDetails-telExtension" class="form-control" placeholder="">
                         <label for="contactDetails-telExtension">{{__('form.telExtension')}}</label>
                     </div>
-                    <div class="">
-                        <button type="button" class="m-2 py-1 px-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
-                            </svg>
-                        </button><!--TODO::Modifier le bouton-->
+                    <div class="col-1 d-flex align-items-center justify-content-center">
+                        <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; margin-left: 20px">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                        </svg>
                     </div>
                 </div>
-                <div class="form-floating mb-3">
-                    <div class="form-control" id="contactDetails-telNumberList" >
-                        <div class="row px-3">
+                <div class="form-floating d-none" id="div-telNumberList">
+                    <label for="contactDetails-telNumberList">{{__('form.telNumberList')}}</label>  
+                    <div class="form-control" id="contactDetails-telNumberList" style="overflow-x: hidden; overflow-y: auto;" >
+                       <div class="row px-3">
                             <div class="col-12 col-md-12 d-flex flex-column justify-content-between">
-                                <label class="" for="contactDetails-telNumberList">{{__('form.telNumberList')}}</label> 
-                                <div class="row align-items-center">
-                                    <div class="col-3 col-md-4 d-flex flex-column justify-content-start">
-                                        <p class="form-check-label" for="flexCheckDefault">819-999-999</p>
-                                        <p class="form-check-label" for="flexCheckDefault">819-999-999</p>
-                                        <p class="form-check-label" for="flexCheckDefault">819-999-999</p>
-                                    </div>
-                                </div>
+                                <div class="row align-items-center" id="telNumberList"></div>
                             </div>
                         </div>
                     </div>

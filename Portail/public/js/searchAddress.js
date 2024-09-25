@@ -48,12 +48,12 @@ function addressAutocomplete(containerElement, callback, options) {
                     itemElement.addEventListener("click", function () {
                         inputElement.value = result.formatted;
                         callback(result);
-                        document.getElementById("contactDetails-civicNumber").value = result.housenumber || '';
-                        document.getElementById("contactDetails-streetName").value = result.street || '';
-                        document.getElementById("contactDetails-province").value = result.state ||'';
-                        document.getElementById("contactDetails-region").value = result.region || '';
-                        document.getElementById("contactDetails-postalCode").value = result.postcode || '';
-                        document.getElementById("contactDetails-citySelect").value = result.city || '';
+                        document.getElementById("contactDetails-civicNumber").value = result.housenumber || "";
+                        document.getElementById("contactDetails-streetName").value = result.street || "";
+                        document.getElementById("contactDetails-province").value = result.state ||"";
+                        document.getElementById("contactDetails-region").value = result.region || "";
+                        document.getElementById("contactDetails-postalCode").value = result.postcode || "";
+                        document.getElementById("contactDetails-citySelect").value = result.city || "";
                         closeDropDownList();
                     });
                 });
@@ -105,22 +105,22 @@ function addressAutocomplete(containerElement, callback, options) {
 
 async function getCitiesAndRegion() {
     try {
-        const response = await fetch('https://www.donneesquebec.ca/recherche/api/3/action/datastore_search?resource_id=19385b4e-5503-4330-9e59-f998f5918363&fields=munnom,regadm&sort=regadm,munnom&limit=1400');
+        const response = await fetch("https://www.donneesquebec.ca/recherche/api/3/action/datastore_search?resource_id=19385b4e-5503-4330-9e59-f998f5918363&fields=munnom,regadm&sort=regadm,munnom&limit=1400");
         
         if (response.ok) {
             const data = await response.json();
             return data.result.records;
         } else {
             const errorData = await response.json();
-            console.error('Erreur:', errorData);
-            throw new Error('Erreur lors de la récupération des données'); 
+            console.error("Erreur:", errorData);
+            throw new Error("Erreur lors de la récupération des données"); 
         }
     } catch (error) {
-        console.error('Erreur de réseau:', error);
+        console.error("Erreur de réseau:", error);
         throw error; 
     }
 }
-//vérifier que même si on enlève un des 2 inputs, que lorsqu'on envoit le formulaire il prenne le bon champ pour envoyer dans la BD
+//vérifier que même si on enlève un des 2 inputs, que lorsqu"on envoit le formulaire il prenne le bon champ pour envoyer dans la BD
 //Voir avec le required with
 async function addCitiesInDropDown() {
     const cities = await getCitiesAndRegion();
@@ -129,9 +129,9 @@ async function addCitiesInDropDown() {
     const inputCity = document.getElementById("contactDetails-inputCity");
 
     function addQuebecCities() {
-        selectCity.innerHTML = '';
+        selectCity.innerHTML = "";
         cities.forEach((city) => {
-            const optionCity = document.createElement("option");
+            let optionCity = document.createElement("option");
             optionCity.text = city.munnom;
             selectCity.add(optionCity);
         });
@@ -159,11 +159,119 @@ async function addCitiesInDropDown() {
     });
 }
 
-// Appels des fonctions
-addressAutocomplete(document.getElementById("autocomplete-container"), (data) => {
-    console.log("Selected option: ", data);
-}, {
+function addTelNumber() {
+    const typeTel = document.getElementById("contactDetails-telType").value;
+    const telNumber = document.getElementById("contactDetails-telNumber");
+    const telExtension = document.getElementById("contactDetails-telExtension");
+    const telNumberList = document.getElementById("telNumberList");
 
-});
+    if (telNumberList.children.length === 0) {
+        const headerRow = document.createElement("div");
+        headerRow.classList.add("row", "fw-bold", "mb-2"); 
 
-addCitiesInDropDown();
+        const headerTelType = document.createElement("div");
+        headerTelType.classList.add("col-md-3","mt-3");
+        headerTelType.textContent = "Type";
+
+        const headerTelNum = document.createElement("div");
+        headerTelNum.classList.add("col-md-4","mt-3");
+        headerTelNum.textContent = "# Tel";
+
+        const headerTelExtension = document.createElement("div");
+        headerTelExtension.classList.add("col-md-3","mt-3");
+        headerTelExtension.textContent = "Poste";
+
+        const headerRemove = document.createElement("div");
+        headerRemove.classList.add("col-md-2");
+
+        headerRow.appendChild(headerTelType);
+        headerRow.appendChild(headerTelNum);
+        headerRow.appendChild(headerTelExtension);
+        headerRow.appendChild(headerRemove);
+
+        telNumberList.appendChild(headerRow);
+    }
+
+    const newTelNumber = document.createElement("div");
+    newTelNumber.classList.add("row", "mb-2", "align-items-center");
+
+    const colTelType = document.createElement("div");
+    colTelType.classList.add("col-md-3");
+    colTelType.textContent = typeTel;
+    newTelNumber.appendChild(colTelType);
+
+    const colTelNum = document.createElement("div");
+    colTelNum.classList.add("col-md-4");
+    colTelNum.textContent = telNumber.value;
+    newTelNumber.appendChild(colTelNum);
+
+    const colTelExtension = document.createElement("div");
+    colTelExtension.classList.add("col-md-3");
+    colTelExtension.textContent = telExtension.value ? telExtension.value : "-";
+    newTelNumber.appendChild(colTelExtension);
+
+    const colRemove = document.createElement("div");
+    colRemove.classList.add("col-md-2", "d-flex", "justify-content-center");
+
+    const removeTelNumber = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    removeTelNumber.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    removeTelNumber.setAttribute("width", "38");
+    removeTelNumber.setAttribute("height", "38");
+    removeTelNumber.setAttribute("fill", "currentColor");
+    removeTelNumber.setAttribute("class", "bi bi-trash-fill");
+    removeTelNumber.setAttribute("viewBox", "0 0 16 16");
+    removeTelNumber.style.cursor = "pointer";
+    removeTelNumber.innerHTML = `
+        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+    `;
+    removeTelNumber.addEventListener("click", function() {
+        telNumberList.removeChild(newTelNumber);
+    });
+
+    colRemove.appendChild(removeTelNumber);
+    newTelNumber.appendChild(colRemove);
+
+    telNumberList.appendChild(newTelNumber);
+
+    const divTelNumberList = document.getElementById("div-telNumberList");
+    divTelNumberList.classList.remove("d-none");
+
+    document.getElementById("contactDetails-telNumber").value = "";
+    document.getElementById("contactDetails-telExtension").value = "";
+}
+
+
+document.addEventListener("DOMContentLoaded", function(){
+   const addNumber = document.getElementById("add-icon");
+
+   addNumber.addEventListener("click", function(event){
+        event.preventDefault();
+        addTelNumber();
+    });
+
+    addressAutocomplete(document.getElementById("autocomplete-container"), (data) => {
+    }, {
+    });
+    addCitiesInDropDown();
+
+    //Ajuster hauteur boîte # telNumber
+    var firstInput = document.getElementById("contactDetails-civicNumber"); 
+    var lastInput = document.getElementById("contactDetails-website");       
+    var telNumberListContainer = document.getElementById("contactDetails-telNumberList");
+    var totalHeight = 0;
+    
+    if (firstInput && lastInput) {
+        var firstInputTop = firstInput.getBoundingClientRect().top;
+        var lastInputBottom = lastInput.getBoundingClientRect().bottom;
+        
+        totalHeight = lastInputBottom - firstInputTop;
+        telNumberListContainer.style.height = totalHeight + "px";
+    }
+})
+
+
+
+
+
+
+
