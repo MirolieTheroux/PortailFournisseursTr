@@ -75,6 +75,9 @@
     <!-- #SCRIPT -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="{{ asset('js/progressBar.js') }} "></script>
+    <script src="{{ asset('js/searchAddress.js') }} "></script>
+    <!-- Créer une variable globale pour pouvoir utiliser dans fichier JS -->
+    <script>window.geoapifyApiKey = "{{ config('services.geoapify.api_key') }}";</script>
     @yield('scripts')
 </body>
 </html>

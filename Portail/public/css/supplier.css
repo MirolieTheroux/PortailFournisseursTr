@@ -28,7 +28,45 @@
 }
 
 /* COORDONNÉES */
+.fond-coordonnees{
+    background-image: url("/img/coordonnees.jpg");
+}
+.autocomplete-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000; 
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+}
 
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+    background-color: var(--blue);
+    color: #fff;
+}
+
+.autocomplete-active {
+    background-color: var(--blue) !important;
+    color: #fff;
+}
+
+.autocomplete-container{
+    position: relative;
+}
+
+#add-tel{
+    color : var(--dark_blue)
+}
 /* CONTACT */
 
 /* PIÈCES JOINTES */
