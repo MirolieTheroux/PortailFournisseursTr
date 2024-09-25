@@ -201,6 +201,10 @@
 
 
     <!--LICENCE RBQ-->
+    <!--REMARQUES::
+    Est-ce qu'on veut que les catégories soit aussi cliquables ou juste les checkboxes? 
+    Essayer de mettre la boîte égale à la licence si temps?
+    -->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-rbq"></div>
