@@ -202,8 +202,8 @@
 
     <!--LICENCE RBQ-->
     <!--REMARQUES::
-    Est-ce qu'on veut que les catégories soit aussi cliquables ou juste les checkboxes? 
-    Essayer de mettre la boîte égale à la licence si temps?
+    VALIDER_AVEC_MIRO::Est-ce qu'on veut que les catégories soit aussi cliquables ou juste les checkboxes? 
+    VALIDER_AVEC_MIRO::Essayer de mettre la boîte égale à la licence si temps?
     -->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
@@ -215,43 +215,45 @@
             </div>
         </div>
         <div class="row px-3">
-            <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+            <div class="col-12 col-md-4 d-flex flex-column">
                 <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
-                <div class="text-center">
-                    <div class="form-floating mb-3">
-                        <input type="text" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="12">
-                        <label for="licenceRbq">{{__('form.numberLabel')}}</label>
-                    </div>
-                    @if($errors->has('licenceRbq'))
-                        <p>{{ $errors->first('licenceRbq') }}</p>
-                    @endif
-                </div>
-                <div class="text-center">
-                    <div class="form-floating mb-3">
-                        <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
-                            <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
-                            <option value="valid" {{ "valid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
-                            <option value="restrictedValid" {{ "restrictedValid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
-                            <option value="invalid" {{ "invalid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
-                        </select>
-                        <label for="statusRbq">{{__('form.statusLabel')}}</label>
-                    </div>
-                    @if($errors->has('statusRbq'))
-                        <p>{{ $errors->first('statusRbq') }}</p>
-                    @endif
-                </div>
-                <div class="text-center">
-                    <div class="form-floating mb-3">
-                        <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
-                            <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
-                            <option value="entrepreneur" {{ "entrepreneur" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
-                            <option value="ownerBuilder" {{ "ownerBuilder" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
-                        </select>
-                        <label for="typeRbq">{{__('form.typeLabel')}}</label>
-                    </div>
-                    @if($errors->has('typeRbq'))
-                        <p>{{ $errors->first('typeRbq') }}</p>
-                    @endif
+                <div class="d-flex flex-column justify-content-between just h-100">
+                  <div class="text-center">
+                      <div class="form-floating mb-3">
+                          <input type="text" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="12">
+                          <label for="licenceRbq">{{__('form.numberLabel')}}</label>
+                      </div>
+                      @if($errors->has('licenceRbq'))
+                          <p>{{ $errors->first('licenceRbq') }}</p>
+                      @endif
+                  </div>
+                  <div class="text-center">
+                      <div class="form-floating mb-3">
+                          <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
+                              <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
+                              <option value="valid" {{ "valid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
+                              <option value="restrictedValid" {{ "restrictedValid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
+                              <option value="invalid" {{ "invalid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
+                          </select>
+                          <label for="statusRbq">{{__('form.statusLabel')}}</label>
+                      </div>
+                      @if($errors->has('statusRbq'))
+                          <p>{{ $errors->first('statusRbq') }}</p>
+                      @endif
+                  </div>
+                  <div class="text-center">
+                      <div class="form-floating mb-3">
+                          <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
+                              <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                              <option value="entrepreneur" {{ "entrepreneur" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
+                              <option value="ownerBuilder" {{ "ownerBuilder" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
+                          </select>
+                          <label for="typeRbq">{{__('form.typeLabel')}}</label>
+                      </div>
+                      @if($errors->has('typeRbq'))
+                          <p>{{ $errors->first('typeRbq') }}</p>
+                      @endif
+                  </div>
                 </div>
             </div>
             <div class="col-12 col-md-8 d-flex flex-column justify-content-start">
@@ -272,7 +274,7 @@
                                 type="checkbox" 
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}" 
-                                id="flexCheckDefaultGen{{$workSubcategory->id}}Ent"
+                                id="flexCheckGen{{$workSubcategory->id}}Ent"
                                 @if(!is_null(old('rbqSubcategories')))
                                   @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
                                     checked 
@@ -280,10 +282,10 @@
                                 @endif
                               >
                               <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
                                   {{$workSubcategory->code}}
                                 </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
                                   {{$workSubcategory->name}}
                                 </label>
                               </div>
@@ -300,7 +302,7 @@
                                 type="checkbox" 
                                 name="rbqSubcategories[]" 
                                 value="{{$workSubcategory->code}}" 
-                                id="flexCheckDefaultSpec{{$workSubcategory->id}}Ent"
+                                id="flexCheckSpec{{$workSubcategory->id}}Ent"
                                 @if(!is_null(old('rbqSubcategories')))
                                   @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
                                     checked 
@@ -308,10 +310,10 @@
                                 @endif
                               >
                               <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckSpec{{$workSubcategory->id}}Ent">
                                   {{$workSubcategory->code}}
                                 </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                <label class="form-check-label text-start ps-2" for="flexCheckSpec{{$workSubcategory->id}}Ent">
                                   {{$workSubcategory->name}}
                                 </label>
                               </div>
@@ -330,7 +332,7 @@
                                 type="checkbox" 
                                 name="rbqSubcategories[]" 
                                 value="{{$workSubcategory->code}}" 
-                                id="flexCheckDefaultGen{{$workSubcategory->id}}OB"
+                                id="flexCheckGen{{$workSubcategory->id}}OB"
                                 @if(!is_null(old('rbqSubcategories')))
                                   @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
                                     checked 
@@ -338,10 +340,10 @@
                                 @endif
                               >
                               <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->code}}
                                 </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->name}}
                                 </label>
                               </div>
@@ -358,7 +360,7 @@
                                 type="checkbox" 
                                 name="rbqSubcategories[]" 
                                 value="{{$workSubcategory->code}}" 
-                                id="flexCheckDefaultSpec{{$workSubcategory->id}}OB"
+                                id="flexCheckSpec{{$workSubcategory->id}}OB"
                                 @if(!is_null(old('rbqSubcategories')))
                                   @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
                                     checked 
@@ -366,10 +368,10 @@
                                 @endif
                               >
                               <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckDefault">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckSpec{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->code}}
                                 </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckDefault">
+                                <label class="form-check-label text-start ps-2" for="flexCheckSpec{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->name}}
                                 </label>
                               </div>
@@ -399,6 +401,26 @@
     </div>  <!--FIN LICENCE RBQ-->  
     
     <!--COORDONNÉES-->
+    <!--REMARQUES::
+      - Le padding des labels numéro dans la section numéro de téléphone et de la rue dans la section adresse ne sont pas les même que le reste
+      - Est-ce que la boite des numéros de téléphones devrait être là mais vide lors du loading de la page? Serait plus clair pour le user pourquoi il doit faire le plus
+      - Au lieu de "# tel" ou "# téléphone", mettre "numéro de téléphone" pour éviter la confusion de certains users?
+      - Dans la boite de la liste des téléphones, si possible, je pense que se serait plus beau d'aligner tous les textes (La lignes "Liste des # téléphone" est plus proche du bord)
+      - Dans la liste des villes, est-ce que c'est possible de les afficher en ordre alphabétique? Car présentement, la recherche peut-être difficile pour les users qui savent pas qu'ils peuvent écrire
+      - Pour les provinces et régions, je pense que se serait bon de faire des tables dans la BD pourqu'elles ne soient pas hardcoder. Y'a peu de chance que ça change mais ça pourrait
+      - Il faudrait s'assurer d'utiliser le plus possible l'anglais dans les name, id, values, etc (Voir les provinces, région et type de téléphone)
+      - Ne jamais mettre d'accent dans les name, id, values, etc (Voir les provinces, région et type de téléphone)
+      - Il faudrait utiliser le fichier de langue même pour les listes d'éléments (Voir les provinces, région et type de téléphone)
+      - Responsive :
+        - Format (md) 
+            - Les labels de no civic et du code postal se confonde avec le text écrit, est-ce qu'il faudrait qu'il aie leur propre ligne à ce moment là?
+            - Le boutons pour ajouter les téléphones est très petit
+        - Format (sm) et moins
+            - La zone des numéros de téléphones qui ont été ajouter ne marche plus très bien, les éléments sont sur 3 lignes au lieu d'une
+        - Format Cellulaire dans l'inspecteur
+            - Les labels de no civic et du code postal se confonde avec le text écrit, est-ce qu'il faudrait qu'il aie leur propre ligne à ce moment là?
+            - Le boutons pour ajouter les téléphones est très petit
+    -->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
