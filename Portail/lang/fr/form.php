@@ -36,7 +36,7 @@ return [
     'telType' => 'Type',
     'telNumber' => 'Numéro',
     'telExtension' => 'Poste',
-    'telNumberList' => 'Liste des # téléphone'
+    'telNumberList' => 'Liste des # téléphone',
     'rbqTitle' => 'Licence RBQ',
     'rbqLicenceSection' => 'Licence',
     'rbqLicenceValidation' => 'Le format du champ licence doit corresprondre à 0000-0000-00.',
