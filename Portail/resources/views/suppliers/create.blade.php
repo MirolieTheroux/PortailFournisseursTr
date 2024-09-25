@@ -269,8 +269,10 @@
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}" 
                                 id="flexCheckDefaultGen{{$workSubcategory->id}}Ent"
-                                @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
-                                  checked 
+                                @if(!is_null(old('rbqSubcategories')))
+                                  @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
+                                    checked 
+                                  @endif
                                 @endif
                               >
                               <div class="d-flex">
@@ -295,8 +297,10 @@
                                 name="rbqSubcategories[]" 
                                 value="{{$workSubcategory->code}}" 
                                 id="flexCheckDefaultSpec{{$workSubcategory->id}}Ent"
-                                @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
-                                  checked 
+                                @if(!is_null(old('rbqSubcategories')))
+                                  @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
+                                    checked 
+                                  @endif
                                 @endif
                               >
                               <div class="d-flex">
@@ -323,8 +327,10 @@
                                 name="rbqSubcategories[]" 
                                 value="{{$workSubcategory->code}}" 
                                 id="flexCheckDefaultGen{{$workSubcategory->id}}OB"
-                                @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
-                                  checked 
+                                @if(!is_null(old('rbqSubcategories')))
+                                  @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
+                                    checked 
+                                  @endif
                                 @endif
                               >
                               <div class="d-flex">
@@ -349,8 +355,10 @@
                                 name="rbqSubcategories[]" 
                                 value="{{$workSubcategory->code}}" 
                                 id="flexCheckDefaultSpec{{$workSubcategory->id}}OB"
-                                @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
-                                  checked 
+                                @if(!is_null(old('rbqSubcategories')))
+                                  @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
+                                    checked 
+                                  @endif
                                 @endif
                               >
                               <div class="d-flex">
@@ -373,6 +381,11 @@
               </div>
             </div>
         </div>
+        
+        @if(!is_null(old('rbqSubcategories')))
+          <div id="form-fail-rbq" hidden></div>
+        @endif
+        
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
