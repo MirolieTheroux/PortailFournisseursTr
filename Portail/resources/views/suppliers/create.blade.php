@@ -469,13 +469,20 @@
                         </select>
                         <label for="contactDetails-telType">{{__('form.telType')}}</label>
                     </div>
+                    //faire la validation JS sur le + et serveur sur l'envoi du formulaire à la fin.
                     <div class="form-floating col-5 px-2">
-                        <input type="text" name="contactDetails-telNumber" id="contactDetails-telNumber" class="form-control" placeholder="">
+                        <input type="text" name="contactDetails-telNumber" id="contactDetails-telNumber" class="form-control" placeholder="" maxlength="10">
                         <label for="contactDetails-telNumber">{{__('form.telNumber')}}</label>
+                        @if($errors->has('contactDetails-telNumber'))
+                            <p>{{ $errors->first('contactDetails-telNumber') }}</p>
+                        @endif
                     </div>
                     <div class="form-floating col-3">
-                        <input type="text" name="contactDetails-telExtension" id="contactDetails-telExtension" class="form-control" placeholder="">
+                        <input type="text" name="contactDetails-telExtension" id="contactDetails-telExtension" class="form-control" placeholder="" maxlength="6">
                         <label for="contactDetails-telExtension">{{__('form.telExtension')}}</label>
+                        @if($errors->has('contactDetails-telExtension'))
+                            <p>{{ $errors->first('contactDetails-telExtension') }}</p>
+                        @endif
                     </div>
                     <div class="col-1 d-flex align-items-center justify-content-center">
                         <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; margin-left: 20px">

@@ -139,7 +139,7 @@ return [
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_if_accepted' => 'The :attribute field is required when :other is accepted.',
     'required_if_declined' => 'The :attribute field is required when :other is declined.',
-    'required_unless' => 'The :attribute field is required unless :other is in :values.',
+    'required_unless' => 'Le champ :attribute est requis sauf si :other est dans :values.',
     'required_with' => 'Le champ :attribute est requis quand :values est présent.',
     'required_with_all' => 'Le champ :attribute est requis quand :values sont présents.',
     'required_without' => 'Le champ :attribute est requis quand :values n\'est pas présent.',
@@ -199,6 +199,13 @@ return [
       'statusRbq' => 'Statut',
       'typeRbq' => 'Type',
       'rbqSubcategories' => 'Sous-Catégories',
+      'contactDetails-civicNumber' => 'Nᵒ civique',
+      'contactDetails-streetName'=> 'Rue',
+      'contactDetails-officeNumber' => 'Bureau',
+      'contactDetails-inputCity' => 'Ville',
+      'contactDetails-postalCode' => 'Code postal',
+      'contactDetails-website' => 'Site internet'
+
     ],
 
 ];

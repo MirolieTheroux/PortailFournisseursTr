@@ -35,10 +35,10 @@ class SupplierRequest extends FormRequest
             'contactDetails-streetName' => 'required|regex:/^[a-zA-Z0-9@#\-_À-ÿ ]+$/|max:64',
             'contactDetails-officeNumber' => 'nullable|alpha_num|max:8',
             'contactDetails-selectCity' => 'required_if:contactDetails-province,Québec',
-            'contactDetails-inputCity' => 'required_if:contactDetails-province,!Québec|max:64',
+            'contactDetails-inputCity' => 'required_unless:contactDetails-province,!Québec|max:64',
             // 'province' => 'required',
             'contactDetails-postalCode' => 'required|regex:/^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$/|max:7',
-            'contactDetails-website' => 'nullable|max:64',
+            'contactDetails-website' => 'nullable|url|max:64',
         ];
     }
 
@@ -46,6 +46,7 @@ class SupplierRequest extends FormRequest
         return[
             'licenceRbq.regex' => __('form.rbqLicenceValidation'),
             'rbqSubcategories.required_with' => __('form.rbqCategoriesValidation'),
+            'contactDetails-inputCity.required_unless' => __('form.inputCityValidation'),
         ];
     }
 }

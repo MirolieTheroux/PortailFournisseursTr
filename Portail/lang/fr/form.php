@@ -29,6 +29,7 @@ return [
     'streetName' => 'Rue',
     'officeNumber' => 'Bureau',
     'city' => 'Ville',
+    'inputCityValidation' => 'Le champ Ville est requis.',
     'province' => 'Province',
     'region' => 'Région administrative',
     'postalCode' => 'Code postal',
