@@ -56,3 +56,13 @@ input:focus, select:focus{
     border: var(--blue) solid 1px !important;
     box-shadow: none !important;
 }
+
+.bg-darkblue{
+    background-color: var(--dark_blue);
+}
+.bg-blue{
+    background-color: var(--blue);
+}
+.bg-lightblue{
+    background-color: var(--light_blue);
+}

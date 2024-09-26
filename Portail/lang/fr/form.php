@@ -8,6 +8,9 @@ return [
     'emailLabel' => 'Adresse courriel',
     'passwordLabel' => 'Mot de passe',
     'passwordConfirmLabel' => 'Confirmer le mot de passe',
+    'firstNameLabel' => 'Prénom',
+    'lastNameLabel' => 'Nom',
+    'jobLabel' => 'Fonction',
     'numberLabel' => 'Numéro',
     'statusLabel' => 'Statut',
     'typeLabel' => 'Type',
@@ -47,4 +50,6 @@ return [
     'rbqCategoriesGeneralOwnerBuilder' => 'Catégories constructeur-propriétaire général',
     'rbqCategoriesSpecialisedOwnerBuilder' => 'Catégories constructeur-propriétaire spécialisé',
     'rbqCategoriesValidation' => 'Au moins une catégorie doit être sélectionnée lorsque Numéro est présent.',
+    'contactsTitle' => 'Contacts',
+    'contactsSubtitle' => 'Contact'
 ];
