@@ -369,21 +369,21 @@
                     </div>
                 </div>
                 <div class="text-center d-flex flex-row mb-4">
-                    <div class="form-floating col-3">
+                    <div class="form-floating col-2">
                         <input type="text" name="contactDetails-civicNumber" id="contactDetails-civicNumber" class="form-control"  value="{{ old('contactDetails-civicNumber') }}" placeholder="" maxlength="8">
                         <label for="contactDetails-civicNumber">{{__('form.civicNumberLabel')}}</label>
                         @if($errors->has('contactDetails-civicNumber'))
                             <p>{{ $errors->first('contactDetails-civicNumber') }}</p>
                         @endif
                     </div>
-                    <div class="form-floating col-6 px-2">
+                    <div class="form-floating col-8 px-2">
                         <input type="text" name="contactDetails-streetName" id="contactDetails-streetName" class="form-control" value="{{ old('contactDetails-streetName') }}" placeholder="" maxlength="64">
-                        <label for="contactDetails-streetName">{{__('form.streetName')}}</label>
+                        <label class="ms-2" for="contactDetails-streetName">{{__('form.streetName')}}</label>
                         @if($errors->has('contactDetails-streetName'))
                             <p>{{ $errors->first('contactDetails-streetName') }}</p>
                         @endif
                     </div>
-                    <div class="form-floating col-3">
+                    <div class="form-floating col-2">
                         <input type="text" name="contactDetails-officeNumber" id="contactDetails-officeNumber" class="form-control" value="{{ old('contactDetails-officeNumber') }}" placeholder="" maxlength="8">
                         <label for="contactDetails-officeNumber">{{__('form.officeNumber')}}</label>
                         @if($errors->has('contactDetails-officeNumber'))
@@ -402,43 +402,18 @@
                     </div>
                     <div class="form-floating col-6">
                         <select name="contactDetails-province" id="contactDetails-province" class="form-select" aria-label="">
-                        <option value="Alberta" {{ old('contactDetails-province', 'Québec') == 'Alberta' ? 'selected' : '' }}>Alberta</option>
-                        <option value="Colombie-Britannique" {{ old('contactDetails-province', 'Québec') == 'Colombie-Britannique' ? 'selected' : '' }}>Colombie-Britannique</option>
-                        <option value="Île-du-Prince-Édouard" {{ old('contactDetails-province', 'Québec') == 'Île-du-Prince-Édouard' ? 'selected' : '' }}>Île-du-Prince-Édouard</option>
-                        <option value="Manitoba" {{ old('contactDetails-province', 'Québec') == 'Manitoba' ? 'selected' : '' }}>Manitoba</option>
-                        <option value="Nouveau-Brunswick" {{ old('contactDetails-province', 'Québec') == 'Nouveau-Brunswick' ? 'selected' : '' }}>Nouveau-Brunswick</option>
-                        <option value="Nouvelle-Écosse" {{ old('contactDetails-province', 'Québec') == 'Nouvelle-Écosse' ? 'selected' : '' }}>Nouvelle-Écosse</option>
-                        <option value="Nunavut" {{ old('contactDetails-province', 'Québec') == 'Nunavut' ? 'selected' : '' }}>Nunavut</option>
-                        <option value="Ontario" {{ old('contactDetails-province', 'Québec') == 'Ontario' ? 'selected' : '' }}>Ontario</option>
-                        <option value="Québec" {{ old('contactDetails-province', 'Québec') == 'Québec' ? 'selected' : '' }}>Québec</option>
-                        <option value="Saskatchewan" {{ old('contactDetails-province', 'Québec') == 'Saskatchewan' ? 'selected' : '' }}>Saskatchewan</option>
-                        <option value="Terre-Neuve-et-Labrador" {{ old('contactDetails-province', 'Québec') == 'Terre-Neuve-et-Labrador' ? 'selected' : '' }}>Terre-Neuve-et-Labrador</option>
-                        <option value="Territoires du Nord-Ouest" {{ old('contactDetails-province', 'Québec') == 'Territoires du Nord-Ouest' ? 'selected' : '' }}>Territoires du Nord-Ouest</option>
-                        <option value="Yukon" {{ old('contactDetails-province', 'Québec') == 'Yukon' ? 'selected' : '' }}>Yukon</option>
+                            @foreach($provinces as $province)
+                                <option value="{{ $province->name }}" {{ $province->name =='Québec' ? 'selected' : '' }}>{{ $province->name}}</option>
+                            @endforeach
                         </select>
                         <label for="contactDetails-province">{{__('form.province')}}</label>
                     </div>
                 </div>
                 <div class="text-center d-flex flex-row mb-4">
                     <div class="form-floating col-8 pe-2">
-                        <select name="contactDetails-region" id="contactDetails-region" value="{{ old('contactDetails-region') }}" class="form-select" aria-label="">
-                        <option value="Abitibi-Témiscamingue" {{ old('contactDetails-region') == 'Abitibi-Témiscamingue' ? 'selected' : '' }}>Abitibi-Témiscamingue (région 08)</option>
-                        <option value="Bas-Saint-Laurent" {{ old('contactDetails-region') == 'Bas-Saint-Laurent' ? 'selected' : '' }}>Bas-Saint-Laurent (région 01)</option>
-                        <option value="Capitale-Nationale" {{ old('contactDetails-region') == 'Capitale-Nationale' ? 'selected' : '' }}>Capitale-Nationale (région 03)</option>
-                        <option value="Centre-du-Québec" {{ old('contactDetails-region') == 'Centre-du-Québec' ? 'selected' : '' }}>Centre-du-Québec (région 17)</option>
-                        <option value="Chaudière-Appalaches" {{ old('contactDetails-region') == 'Chaudière-Appalaches' ? 'selected' : '' }}>Chaudière-Appalaches (région 12)</option>
-                        <option value="Côte-Nord" {{ old('contactDetails-region') == 'Côte-Nord' ? 'selected' : '' }}>Côte-Nord (région 09)</option>
-                        <option value="Estrie" {{ old('contactDetails-region') == 'Estrie' ? 'selected' : '' }}>Estrie (région 05)</option>
-                        <option value="Gaspésie–Îles-de-la-Madeleine" {{ old('contactDetails-region') == 'Gaspésie–Îles-de-la-Madeleine' ? 'selected' : '' }}>Gaspésie–Îles-de-la-Madeleine (région 11)</option>
-                        <option value="Lanaudière" {{ old('contactDetails-region') == 'Lanaudière' ? 'selected' : '' }}>Lanaudière (région 14)</option>
-                        <option value="Laurentides" {{ old('contactDetails-region') == 'Laurentides' ? 'selected' : '' }}>Laurentides (région 15)</option>
-                        <option value="Laval" {{ old('contactDetails-region') == 'Laval' ? 'selected' : '' }}>Laval (région 13)</option>
-                        <option value="Mauricie" {{ old('contactDetails-region') == 'Mauricie' ? 'selected' : '' }}>Mauricie (région 04)</option>
-                        <option value="Nord-du-Québec" {{ old('contactDetails-region') == 'Nord-du-Québec' ? 'selected' : '' }}>Nord-du-Québec (région 10)</option>
-                        <option value="Outaouais" {{ old('contactDetails-region') == 'Outaouais' ? 'selected' : '' }}>Outaouais (région 07)</option>
-                        <option value="Saguenay–Lac-Saint-Jean" {{ old('contactDetails-region') == 'Saguenay–Lac-Saint-Jean' ? 'selected' : '' }}>Saguenay–Lac-Saint-Jean (région 02)</option>
+                        <select name="contactDetails-districtArea" id="contactDetails-districtArea" value="{{ old('contactDetails-districtArea') }}" class="form-select" aria-label="">
                         </select>
-                        <label for="contactDetails-region">{{__('form.region')}}</label>
+                        <label for="contactDetails-districtArea">{{__('form.districtArea')}}</label>
                     </div>
                     <div class="form-floating">
                         <input type="text" name="contactDetails-postalCode" id="contactDetails-postalCode" class="form-control" value="{{ old('contactDetails-postalCode') }}" placeholder="" maxlength="7">
@@ -459,29 +434,28 @@
                 </div>  
             </div>
             <div class="col-12 col-md-6 d-flex flex-column">
-                <h2 class="text-center section-subtitle">{{__('form.contactDetailsTelNumbersSection')}}</h2>
+                <h2 class="text-center section-subtitle">{{__('form.contactDetailsphoneNumbersSection')}}</h2>
                 <div class="text-center d-flex flex-row mb-4">
                     <div class="form-floating col-3">
-                        <select name="contactDetails-telType" id="contactDetails-telType" class="form-select" aria-label="">
-                            <option value="Bureau">Bureau</option>
-                            <option value="Télécopieur">Télécopieur</option>
-                            <option value="Cellulaire">Cellulaire</option>
+                        <select name="contactDetails-phoneType" id="contactDetails-phoneType" class="form-select" aria-label="">
+                            <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
+                            <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
+                            <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
                         </select>
-                        <label for="contactDetails-telType">{{__('form.telType')}}</label>
+                        <label for="contactDetails-phoneType">{{__('form.phoneType')}}</label>
                     </div>
-                    //faire la validation JS sur le + et serveur sur l'envoi du formulaire à la fin.
                     <div class="form-floating col-5 px-2">
-                        <input type="text" name="contactDetails-telNumber" id="contactDetails-telNumber" class="form-control" placeholder="" maxlength="10">
-                        <label for="contactDetails-telNumber">{{__('form.telNumber')}}</label>
-                        @if($errors->has('contactDetails-telNumber'))
-                            <p>{{ $errors->first('contactDetails-telNumber') }}</p>
+                        <input type="text" name="contactDetails-phoneNumber" id="contactDetails-phoneNumber" class="form-control" placeholder="" maxlength="10">
+                        <label class="ms-2" for="contactDetails-phoneNumber">{{__('form.number')}}</label>
+                        @if($errors->has('contactDetails-phoneNumber'))
+                            <p>{{ $errors->first('contactDetails-phoneNumber') }}</p>
                         @endif
                     </div>
                     <div class="form-floating col-3">
-                        <input type="text" name="contactDetails-telExtension" id="contactDetails-telExtension" class="form-control" placeholder="" maxlength="6">
-                        <label for="contactDetails-telExtension">{{__('form.telExtension')}}</label>
-                        @if($errors->has('contactDetails-telExtension'))
-                            <p>{{ $errors->first('contactDetails-telExtension') }}</p>
+                        <input type="text" name="contactDetails-phoneExtension" id="contactDetails-phoneExtension" class="form-control" placeholder="" maxlength="6">
+                        <label for="contactDetails-phoneExtension">{{__('form.phoneExtension')}}</label>
+                        @if($errors->has('contactDetails-phoneExtension'))
+                            <p>{{ $errors->first('contactDetails-phoneExtension') }}</p>
                         @endif
                     </div>
                     <div class="col-1 d-flex align-items-center justify-content-center">
@@ -490,13 +464,18 @@
                         </svg>
                     </div>
                 </div>
-                <div class="form-floating d-none" id="div-telNumberList">
-                    <label for="contactDetails-telNumberList">{{__('form.telNumberList')}}</label>  
-                    <div class="form-control" id="contactDetails-telNumberList" style="overflow-x: hidden; overflow-y: auto;" >
+                <div class="form-floating " id="div-phoneNumberList">
+                    <div class="form-control pt-2" id="contactDetails-phoneNumberList" style="overflow-x: hidden; overflow-y: auto;" >
+                    <div class="fs-5 text-start title-border fw-bold" for="contactDetails-phoneNumberList">{{__('form.phoneNumberList')}}</div>  
                        <div class="row px-3">
-                            <div class="col-12 col-md-12 d-flex flex-column justify-content-between">
-                                <div class="row align-items-center" id="telNumberList"></div>
-                            </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <div class="col-2 fs-6">{{__('form.phoneType')}}</div>
+                            <div class="col-6 fs-6 text-center">{{__('form.phoneNumber')}}</div>
+                            <div class="col-2 fs-6">{{__('form.phoneExtension')}}</div>
+                        </div>
+                        <div class="col-12 col-md-12 d-flex flex-column justify-content-between">
+                            <div class="row align-items-center" id="phoneNumberList"></div>
+                        </div>
                         </div>
                     </div>
                 </div>
