@@ -42,7 +42,7 @@
 
     <!--IDENTIFICATION-->  
     <!--TODO::Le titre de la section disparaît pour l'écran mobile-->
-    <div class="d-none container bg-white rounded my-2">
+    <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-identification"></div>
         </div>
@@ -57,7 +57,7 @@
                 <div class="text-center">
                     <label for="neq">{{__('form.neqLabel')}}</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="neq" id="neq" class="form-control" placeholder="XXXXXXXXXX" maxlength="10">
+                        <input type="text" name="neq" id="neq" class="form-control" placeholder="XXXXXXXXXX" maxlength="10" value="{{ old('neq') }}">
                     </div>
                     @if($errors->has('neq'))
                         <p>{{ $errors->first('neq') }}</p>
@@ -66,7 +66,7 @@
                 <div class="text-center">
                     <label for="name">{{__('form.companyNameLabel')}}</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="name" id="name" class="form-control" maxlength="64">
+                        <input type="text" name="name" id="name" class="form-control" maxlength="64" value="{{ old('name') }}">
                     </div>
                     @if($errors->has('name'))
                         <p>{{ $errors->first('name') }}</p>
@@ -78,7 +78,7 @@
                 <div class="text-center">
                     <label for="email">{{__('form.emailLabel')}}</label>
                     <div class="input-group mb-3">
-                        <input type="email" name="email" id="email" class="form-control" placeholder="example@gmail.com" maxlength="64">
+                        <input type="email" name="email" id="email" class="form-control" placeholder="example@gmail.com" maxlength="64" value="{{ old('email') }}">
                     </div>
                     @if($errors->has('email'))
                         <p>{{ $errors->first('email') }}</p>
@@ -109,7 +109,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-                <button id="test" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+                <button id="test" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
             </div>
         </div>
     </div>  <!--FIN IDENTIFICATION-->  
