@@ -559,5 +559,5 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/suppliersCreate.js') }} "></script>
+<script src="{{ asset('js/suppliersCreate/rbq.js') }} "></script>
 @endsection
