@@ -57,7 +57,7 @@
                 <h2 class="text-center section-subtitle">{{__('form.identificationCompanySection')}}</h2>
                 <div class="text-start">
                     <div class="form-floating mb-3">
-                        <input type="text" pattern="[0-9]+" oninput="validateIdentificationNeq()" name="neq" id="neq" class="form-control is-valid" placeholder="" maxlength="10">
+                        <input type="text" oninput="validateIdentificationNeq()" name="neq" id="neq" class="form-control is-valid" placeholder="" maxlength="10">
                         <label for="neq">{{__('form.neqLabel')}}</label>
                         <div class="valid-feedback" id="neqValid1">Le NEQ n'est pas obligatoire.</div>
                         <div class="invalid-feedback" id="neqInvalid1" style="display: none;">Le NEQ doit débuter par 11, 22, 33 ou 88!</div>
@@ -68,45 +68,50 @@
                         <div class="valid-feedback" id="neqValid2" style="display: none;"></br></div>
                     </div>
                 </div>
-                <div class="text-center">
+                <div class="text-start">
                     <div class="form-floating mb-3">
-                        <input type="text" name="name" id="name" class="form-control" placeholder="" maxlength="64">
+                        <input type="text" oninput="validateIdentificationName()" name="name" id="name" class="form-control is-invalid" placeholder="" required maxlength="64">
                         <label for="name">{{__('form.companyNameLabel')}}</label>
-                        @if($errors->has('name'))
-                        <p>{{ $errors->first('name') }}</p>
-                        @endif
+                        <div class="valid-feedback" id="nameValid1" style="display: none;"></br></div>
+                        <div class="invalid-feedback" id="nameInvalid1">Le nom d'entreprise est obligatoire!</div>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-8 d-flex flex-column justify-content-between">
                 <h2 class="text-center section-subtitle">{{__('form.identificationAuthentificationSection')}}</h2>
-                <div class="text-center">
+                <div class="text-start">
                     <div class="form-floating mb-3">
-                        <input type="email" name="email" id="email" class="form-control" required placeholder="example@gmail.com" maxlength="64">
+                        <input type="email" oninput="validateIdentificationEmail()" name="email" id="email" class="form-control is-invalid" required placeholder="example@gmail.com" maxlength="64">
                         <label for="email">{{__('form.emailLabel')}}</label>
-                        @if($errors->has('email'))
-                        <p>{{ $errors->first('email') }}</p>
-                        @endif
+                        <div class="valid-feedback" id="emailValid1" style="display: none;"></br></div>
+                        <div class="invalid-feedback" id="emailInvalid1">L'adresse courriel est obligatoire!</div>
+                        <div class="invalid-feedback" id="emailInvalid2" style="display: none;">L'adresse courriel ne peut commencer par @!</div>
+                        <div class="invalid-feedback" id="emailInvalid3" style="display: none;">L'adresse courriel doit contenir un @!</div>
+                        <div class="invalid-feedback" id="emailInvalid4" style="display: none;">L'adresse courriel doit contenir un nom de domaine!</div>
                     </div>
                 </div>
-                <div class="text-center">
+                <div class="text-start">
                     <div class="row">
                         <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                             <div class="form-floating mb-3">
-                                <input type="password" name="password" id="password" required class="form-control" placeholder="" maxlength="12">
+                                <input type="password" oninput="validateIdentificationPassword()" name="password" id="password" required class="form-control is-invalid" placeholder="" maxlength="12">
                                 <label for="password">{{__('form.passwordLabel')}}</label>
-                                @if($errors->has('password'))
-                                <p>{{ $errors->first('password') }}</p>
-                                @endif
+                                <div class="valid-feedback" id="passwordValid1" style="display: none;"></br></div>
+                                <div class="invalid-feedback" id="passwordInvalid1">Le mot de passe est obligatoire!</div>
+                                <div class="invalid-feedback" id="passwordInvalid2" style="display: none;">Le mot de passe doit contenir entre 7 et 12 caractères!</div>
+                                <div class="invalid-feedback" id="passwordInvalid3" style="display: none;">Le mot de passe doit contenir une minuscule!</div>
+                                <div class="invalid-feedback" id="passwordInvalid4" style="display: none;">Le mot de passe doit contenir une majuscule!</div>
+                                <div class="invalid-feedback" id="passwordInvalid5" style="display: none;">Le mot de passe doit contenir un chiffre!</div>
+                                <div class="invalid-feedback" id="passwordInvalid6" style="display: none;">Le mot de passe doit contenir un caractère spécial!</div>
                             </div>
                         </div>
                         <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                             <div class="form-floating mb-3">
-                                <input type="password" name="password_confirmation" required id="password_confirmation" placeholder="" class="form-control" maxlength="12">
+                                <input type="password" oninput="validateIdentificationPasswordConfirmation()" name="password_confirmation" required id="password_confirmation" placeholder="" class="form-control is-invalid" maxlength="12">
                                 <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
-                                @if($errors->has('password_confirmation'))
-                                <p>{{ $errors->first('password_confirmation') }}</p>
-                                @endif
+                                <div class="valid-feedback" id="password_confirmationValid1" style="display: none;"></br></div>
+                                <div class="invalid-feedback" id="password_confirmationInvalid1">Le mot de passe est obligatoire!</div>
+                                <div class="invalid-feedback" id="password_confirmationInvalid2" style="display: none;">Le mot de passe n'est pas identique!</div>
                             </div>
                         </div>
                     </div>
