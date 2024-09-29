@@ -23,15 +23,15 @@
             </div>
             <div class="step">
                 <span class="number">3</span>
-                <span class="name">Licence RBQ</span><!--TODO::Fichier de langue-->
+                <span class="name">{{__('form.rbqTitle')}}</span>
             </div>
             <div class="step">
                 <span class="number">4</span>
-                <span class="name">Coordonnées</span><!--TODO::Fichier de langue-->
+                <span class="name">{{__('form.contactDetailsTitle')}}</span>
             </div>
             <div class="step">
                 <span class="number">5</span>
-                <span class="name">Contacts</span><!--TODO::Fichier de langue-->
+                <span class="name">{{__('form.contactsTitle')}}</span>
             </div>
             <div class="step">
                 <span class="number">6</span>
@@ -41,13 +41,12 @@
     </div><!-- FIN PROGRESS BAR-->
 
     <!--IDENTIFICATION-->  
-    <!--TODO::Le titre de la section disparaît pour l'écran mobile-->
-    <div class="container bg-white rounded my-2">
+    <div class="d-none container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-identification"></div>
         </div>
         <div class="row">
-            <div class="d-none d-md-block col-12 text-center">
+            <div class="col-12 text-center">
                 <h1>{{__('form.identificationTitle')}}</h1>
             </div>
         </div>
@@ -116,7 +115,7 @@
 
     
     <!--PRODUIT ET SERVICE-->
-    <div class="container bg-white rounded my-2">
+    <div class="d-none container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-products_services"></div>
         </div>
@@ -201,7 +200,7 @@
 
 
     <!--LICENCE RBQ-->
-    <div class="container bg-white rounded my-2">
+    <div class="d-none container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-rbq"></div>
         </div>
@@ -417,7 +416,7 @@
             - Les labels de no civic et du code postal se confonde avec le text écrit, est-ce qu'il faudrait qu'il aie leur propre ligne à ce moment là?
             - Le boutons pour ajouter les téléphones est très petit
     -->
-    <div class="container bg-white rounded my-2">
+    <div class="d-none container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
         </div>
@@ -562,15 +561,15 @@
                 <h1 class="section-title">{{__('form.contactsTitle')}}</h1>
             </div>
             <div class="col-1 d-flex align-items-center justify-content-center">
-                <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; margin-left: 20px">
+                <svg id="add-contact" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; margin-left: 20px">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                 </svg>
             </div>
         </div>
         <div class="row justify-content-center px-3">
-            <div class="col-6 d-flex flex-column justify-content-between">
+            <div id="referenceContact" class="col-6 d-flex flex-column justify-content-between">
                 <h2 class="text-center section-subtitle">{{__('form.contactsSubtitle')}} #1</h2>
-                <div class="rounded pt-3 px-3 bg-lightblue">
+                <div class="rounded pt-3 px-3 border">
                     <div class="row">
                         <div class="col-6 text-center mb-4">
                             <div class="form-floating">
