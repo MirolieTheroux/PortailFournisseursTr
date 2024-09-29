@@ -571,7 +571,7 @@
         <div id="contactsRow" class="row justify-content-center px-3">
             <div id="referenceContact" class="col-6 d-flex flex-column justify-content-between mb-2">
                 <div class="row">
-                    <h2 id="contactSubtitle" class="col-10 offset-1 text-center section-subtitle">{{__('form.contactsSubtitle')}} #</h2>
+                    <h2 id="contactSubtitle1" class="col-10 offset-1 text-center section-subtitle">{{__('form.contactsSubtitle')}} #1</h2>
                     <button type="button" class="col-1 delete-contact p-0 d-none">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
@@ -583,46 +583,46 @@
                     <div class="row">
                         <div class="col-6 text-center mb-4">
                             <div class="form-floating">
-                                <input type="text" name="contactFirstName[]" id="contactFirstName" class="form-control" placeholder="">
-                                <label for="contact1-firstName">{{__('form.firstNameLabel')}}</label>
+                                <input type="text" name="contactFirstName[]" id="contactFirstName1" class="form-control" placeholder="">
+                                <label id="contactFirstNameLabel1" for="contactFirstName1">{{__('form.firstNameLabel')}}</label>
                             </div>
                         </div>
                         <div class="col-6 text-center mb-4">
                             <div class="form-floating">
-                                <input type="text" name="contactLastName[]" id="contact-lastName" class="form-control" placeholder="">
-                                <label for="contact1-lastName">{{__('form.lastNameLabel')}}</label>
+                                <input type="text" name="contactLastName[]" id="contactLastName1" class="form-control" placeholder="">
+                                <label id="contactLastNameLabel1" for="contactLastName1">{{__('form.lastNameLabel')}}</label>
                             </div>
                         </div>
                     </div>
                     <div class="text-center mb-4">
                         <div class="form-floating">
-                            <input type="text" name="contactJob[]" id="contactJob" class="form-control" placeholder="">
-                            <label for="contactJob">{{__('form.jobLabel')}}</label>
+                            <input type="text" name="contactJob[]" id="contactJob1" class="form-control" placeholder="">
+                            <label id="contactJobLabel1" for="contactJob1">{{__('form.jobLabel')}}</label>
                         </div>
                     </div>  
                     <div class="text-center mb-4">
                         <div class="form-floating">
-                            <input type="text" name="contactEmail[]" id="contactEmail" class="form-control" placeholder="">
-                            <label for="contactEmail">{{__('form.emailLabel')}}</label>
+                            <input type="text" name="contactEmail[]" id="contactEmail1" class="form-control" placeholder="">
+                            <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}}</label>
                         </div>
                     </div>  
                     <h2 class="text-center section-subtitle">{{__('form.contactDetailsTelNumbersSection')}}</h2>
                     <div class="text-center d-flex flex-row mb-4">
                         <div class="form-floating col-3">
-                            <select name="contactTelType[]" id="contactTelType" class="form-select" aria-label="">
+                            <select name="contactTelType[]" id="contactTelType1" class="form-select" aria-label="">
                                 <option value="desktop">Bureau</option>
                                 <option value="fax">Télécopieur</option>
                                 <option value="cellphone">Cellulaire</option>
                             </select>
-                            <label for="contactTelType">{{__('form.telType')}}</label>
+                            <label id="contactTelTypeLabel1" for="contactTelType1">{{__('form.telType')}}</label>
                         </div>
                         <div class="form-floating col-6 px-2">
-                            <input type="text" name="contactTelNumber[]" id="contactTelNumber" class="form-control" placeholder="">
-                            <label class="ms-2" for="contactTelNumber">{{__('form.telNumber')}}</label>
+                            <input type="text" name="contactTelNumber[]" id="contactTelNumber1" class="form-control" placeholder="">
+                            <label id="contactTelNumberLabel1" class="ms-2" for="contactTelNumber1">{{__('form.telNumber')}}</label>
                         </div>
                         <div class="form-floating col-3">
-                            <input type="text" name="contactTelExtension[]" id="contactTelExtension" class="form-control" placeholder="">
-                            <label for="contactTelExtension">{{__('form.telExtension')}}</label>
+                            <input type="text" name="contactTelExtension[]" id="contactTelExtension1" class="form-control" placeholder="">
+                            <label id="contactTelExtensionLabel1" for="contactTelExtension1">{{__('form.telExtension')}}</label>
                         </div>
                     </div>
                 </div>
