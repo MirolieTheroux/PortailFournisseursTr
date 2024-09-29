@@ -554,7 +554,7 @@
     <!--CONTACT-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
-            <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
+            <div class="col-12 rounded-top fond-image fond-contacts"></div> <!--TODO::Trouver une autre image de fond-->
         </div>
         <div class="row">
             <div class="d-none d-md-block col-10 offset-1 text-center">
