@@ -561,58 +561,68 @@
                 <h1 class="section-title">{{__('form.contactsTitle')}}</h1>
             </div>
             <div class="col-1 d-flex align-items-center justify-content-center">
-                <svg id="add-contact" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; margin-left: 20px">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
-                </svg>
+                <button type="button" class="add-contact p-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                    </svg>
+                </button>
             </div>
         </div>
-        <div class="row justify-content-center px-3">
-            <div id="referenceContact" class="col-6 d-flex flex-column justify-content-between">
-                <h2 class="text-center section-subtitle">{{__('form.contactsSubtitle')}} #1</h2>
+        <div id="contactsRow" class="row justify-content-center px-3">
+            <div id="referenceContact" class="col-6 d-flex flex-column justify-content-between mb-2">
+                <div class="row">
+                    <h2 id="contactSubtitle" class="col-10 offset-1 text-center section-subtitle">{{__('form.contactsSubtitle')}} #</h2>
+                    <button type="button" class="col-1 delete-contact p-0 d-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                        </svg>
+                    </button>
+                </div>
+                
                 <div class="rounded pt-3 px-3 border">
                     <div class="row">
                         <div class="col-6 text-center mb-4">
                             <div class="form-floating">
-                                <input type="text" name="contact1-firstName" id="contact1-firstName" class="form-control" placeholder="">
+                                <input type="text" name="contactFirstName[]" id="contactFirstName" class="form-control" placeholder="">
                                 <label for="contact1-firstName">{{__('form.firstNameLabel')}}</label>
                             </div>
                         </div>
                         <div class="col-6 text-center mb-4">
                             <div class="form-floating">
-                                <input type="text" name="contact1-lastName" id="contact1-lastName" class="form-control" placeholder="">
+                                <input type="text" name="contactLastName[]" id="contact-lastName" class="form-control" placeholder="">
                                 <label for="contact1-lastName">{{__('form.lastNameLabel')}}</label>
                             </div>
                         </div>
                     </div>
                     <div class="text-center mb-4">
                         <div class="form-floating">
-                            <input type="text" name="contact1-job" id="contact1-job" class="form-control" placeholder="">
-                            <label for="contact1-job">{{__('form.jobLabel')}}</label>
+                            <input type="text" name="contactJob[]" id="contactJob" class="form-control" placeholder="">
+                            <label for="contactJob">{{__('form.jobLabel')}}</label>
                         </div>
                     </div>  
                     <div class="text-center mb-4">
                         <div class="form-floating">
-                            <input type="text" name="contact1-job" id="contact1-email" class="form-control" placeholder="">
-                            <label for="contact1-email">{{__('form.emailLabel')}}</label>
+                            <input type="text" name="contactEmail[]" id="contactEmail" class="form-control" placeholder="">
+                            <label for="contactEmail">{{__('form.emailLabel')}}</label>
                         </div>
                     </div>  
                     <h2 class="text-center section-subtitle">{{__('form.contactDetailsTelNumbersSection')}}</h2>
                     <div class="text-center d-flex flex-row mb-4">
                         <div class="form-floating col-3">
-                            <select name="contactDetails-telType" id="contactDetails-telType" class="form-select" aria-label="">
+                            <select name="contactTelType[]" id="contactTelType" class="form-select" aria-label="">
                                 <option value="desktop">Bureau</option>
                                 <option value="fax">Télécopieur</option>
                                 <option value="cellphone">Cellulaire</option>
                             </select>
-                            <label for="contact1-telType">{{__('form.telType')}}</label>
+                            <label for="contactTelType">{{__('form.telType')}}</label>
                         </div>
                         <div class="form-floating col-6 px-2">
-                            <input type="text" name="contact1-telNumber" id="contact1-telNumber" class="form-control" placeholder="">
-                            <label class="ms-2" for="contact1-telNumber">{{__('form.telNumber')}}</label>
+                            <input type="text" name="contactTelNumber[]" id="contactTelNumber" class="form-control" placeholder="">
+                            <label class="ms-2" for="contactTelNumber">{{__('form.telNumber')}}</label>
                         </div>
                         <div class="form-floating col-3">
-                            <input type="text" name="contact1-telExtension" id="contact1-telExtension" class="form-control" placeholder="">
-                            <label for="contact1-telExtension">{{__('form.telExtension')}}</label>
+                            <input type="text" name="contactTelExtension[]" id="contactTelExtension" class="form-control" placeholder="">
+                            <label for="contactTelExtension">{{__('form.telExtension')}}</label>
                         </div>
                     </div>
                 </div>
@@ -621,7 +631,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-                <button id="test" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+                <button id="test" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
             </div>
         </div>
     </div> <!--FIN CONTACT-->
@@ -633,4 +643,5 @@
 
 @section('scripts')
 <script src="{{ asset('js/suppliersCreate/rbq.js') }} "></script>
+<script src="{{ asset('js/suppliersCreate/contact.js') }} "></script>
 @endsection

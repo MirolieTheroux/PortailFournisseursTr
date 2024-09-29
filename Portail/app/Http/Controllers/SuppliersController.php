@@ -40,7 +40,8 @@ class SuppliersController extends Controller
     {
         $supplier = new Supplier($request->all());
         $supplier->password = Hash::make($request->password);
-        $supplier->save();
+
+        //$supplier->save();
     }
 
     /**

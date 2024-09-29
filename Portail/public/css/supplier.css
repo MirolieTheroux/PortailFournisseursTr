@@ -68,5 +68,14 @@
     color : var(--dark_blue)
 }
 /* CONTACT */
+.add-contact, .delete-contact{
+    border: none;
+    background-color: transparent;
+    width: 30px;
+}
+.add-contact svg{
+    cursor: pointer;
+}
+
 
 /* PIÈCES JOINTES */
