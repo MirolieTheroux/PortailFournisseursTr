@@ -136,7 +136,7 @@ return [
     'regex' => 'Le format du champ :attribute est invalide.:format',
     'required' => 'Le champ :attribute est requis.',
     'required_array_keys' => 'The :attribute field must contain entries for: :values.',
-    'required_if' => 'The :attribute field is required when :other is :value.',
+    'required_if' => 'Le champ :attribute est requis quand :other est :value.',
     'required_if_accepted' => 'The :attribute field is required when :other is accepted.',
     'required_if_declined' => 'The :attribute field is required when :other is declined.',
     'required_unless' => 'Le champ :attribute est requis sauf si :other est dans :values.',

@@ -73,6 +73,47 @@
     color : red;
     margin: 0;
 }
+
+.add-icon{
+    padding: 1.5vw 3vw; /* Ajuste la taille du padding selon la largeur de l'écran */
+    font-size: 2vw; /* Ajuste la taille de la police selon la largeur de l'écran */
+    min-width: 100px; /* Largeur minimum pour le bouton */
+    min-height: 40px; /* Hauteur minimum pour le bouton */
+}
+/* Font-size label selon écran */
+@media (max-width: 1400px) {
+    #civicNumber {
+        font-size: 10px; 
+        line-height: 1.5;
+    }
+
+    #add-icon {
+        width: 50px; 
+        height: 50px; 
+    }
+}
+
+/* @media (max-width :1200px){
+    #add-icon {
+        width: 25px; 
+    height: 25px; 
+    }
+} */
+
+@media (max-width: 992px) and (min-width:768px) {
+    #postalCode, #officeNumber {
+        font-size: 10px; 
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 516px)  {
+    #postalCode, #officeNumber {
+        font-size: 11px; 
+        line-height: 1.5;
+    }
+}
+
 /* CONTACT */
 
 /* PIÈCES JOINTES */

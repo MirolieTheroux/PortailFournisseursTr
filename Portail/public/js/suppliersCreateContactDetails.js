@@ -5,7 +5,7 @@ function addressAutocomplete(containerElement, callback, options) {
     let currentItems = [];
     let currentTimeout, currentPromiseReject;
 
-    const inpuphoneement = document.getElementById("contactDetails-searchAddress");
+    const inpuphoneement = document.getElementById("contactDetailsSearchAddress");
 
     inpuphoneement.addEventListener("input", function () {
         const currentValue = this.value;
@@ -21,7 +21,7 @@ function addressAutocomplete(containerElement, callback, options) {
             const promise = new Promise((resolve, reject) => {
                 currentPromiseReject = reject;
                 const apiKey = window.geoapifyApiKey;
-                const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(currentValue)}&format=json&limit=10&lang=en&apiKey=${apiKey}`;
+                const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(currentValue)}&format=json&limit=10&lang=fr&apiKey=${apiKey}`;
 
                 fetch(url).then(response => {
                     currentPromiseReject = null;
@@ -48,12 +48,12 @@ function addressAutocomplete(containerElement, callback, options) {
                     itemElement.addEventListener("click", function () {
                         inpuphoneement.value = result.formatted;
                         callback(result);
-                        document.getElementById("contactDetails-civicNumber").value = result.housenumber || "";
-                        document.getElementById("contactDetails-streetName").value = result.street || "";
-                        document.getElementById("contactDetails-province").value = result.state ||"";
-                        document.getElementById("contactDetails-districtArea").value = result.region || "";
-                        document.getElementById("contactDetails-postalCode").value = result.postcode || "";
-                        document.getElementById("contactDetails-citySelect").value = result.city || "";
+                        document.getElementById("contactDetailsCivicNumber").value = result.housenumber || "";
+                        document.getElementById("contactDetailsStreetName").value = result.street || "";
+                        document.getElementById("contactDetailsPovince").value = result.state || "";
+                        document.getElementById("contactDetailsDistrictArea").value = result.region || "";
+                        document.getElementById("contactDetailsPostalCode").value = result.postcode || "";
+                        document.getElementById("contactDetailsCitySelect").value = result.city || "";
                         closeDropDownList();
                     });
                 });
@@ -103,42 +103,49 @@ function addressAutocomplete(containerElement, callback, options) {
     }
 }
 
-async function getCities() {
+async function getCitiesAndDistrickAreas() {
     try {
-        const response = await fetch("https://www.donneesquebec.ca/recherche/api/3/action/datastore_search?resource_id=19385b4e-5503-4330-9e59-f998f5918363&fields=munnom&sort=munnom&limit=1400");
-        
+        const response = await fetch("https://www.donneesquebec.ca/recherche/api/3/action/datastore_search?resource_id=19385b4e-5503-4330-9e59-f998f5918363&fields=munnom,regadm&sort=munnom,regadm&limit=1400");
+
         if (response.ok) {
             const data = await response.json();
             return data.result.records;
         } else {
             const errorData = await response.json();
             console.error("Erreur:", errorData);
-            throw new Error("Erreur lors de la récupération des données"); 
+            throw new Error("Erreur lors de la récupération des données");
         }
     } catch (error) {
         console.error("Erreur de réseau:", error);
-        throw error; 
+        throw error;
     }
 }
-async function addCitiesInSelect() {
-    const cities = await getCities();
-    const province = document.getElementById("contactDetails-province");
-    const selectCity = document.getElementById("contactDetails-citySelect");
-    const inputCity = document.getElementById("contactDetails-inputCity");
+async function addCitiesAndDAInSelect() {
+    const citiesAndDA = await getCitiesAndDistrickAreas();
+    const province = document.getElementById("contactDetailsPovince");
+    const selectCity = document.getElementById("contactDetailsCitySelect");
+    const inputCity = document.getElementById("contactDetailsInputCity");
+    const districtArea = document.getElementById("contactDetailsDistrictArea");
+
+    const districtAreas = citiesAndDA.map((da) => da.regadm.replace(/--/g, '-'));
+    const uniqueDA = Array.from(new Set(districtAreas)).sort();
 
     function addQuebecCities() {
         selectCity.innerHTML = "";
-        cities.forEach((city) => {
+        citiesAndDA.forEach((city) => {
             let optionCity = document.createElement("option");
             optionCity.text = city.munnom;
+            optionCity.value = city.munmom;
             selectCity.add(optionCity);
         });
-
+        if (oldCity) {
+            selectCity.value = oldCity;
+        }
         selectCity.classList.remove("d-none");
         inputCity.classList.add("d-none");
     }
 
-    if (province.value === "Quebec") {
+    if (province.value === "Québec") {
         addQuebecCities();
     } else {
         selectCity.classList.add("d-none");
@@ -147,7 +154,7 @@ async function addCitiesInSelect() {
     }
 
     province.addEventListener("change", () => {
-        if (province.value === "Quebec") {
+        if (province.value === "Québec") {
             addQuebecCities();
         } else {
             selectCity.classList.add("d-none");
@@ -155,52 +162,27 @@ async function addCitiesInSelect() {
             inputCity.setAttribute("type", "text");
         }
     });
-}
+   
+    districtArea.innerHTML = "";
+    uniqueDA.forEach((DA) => {
+        let optionDA = document.createElement("option");
+        optionDA.text = DA;
+        optionDA.value = DA.replace(/\s*\(.*?\)/, '');
+        districtArea.add(optionDA);
+    }); 
 
-async function getDistrictAreas(){
-    try {
-        const response = await fetch("https://www.donneesquebec.ca/recherche/api/3/action/datastore_search?resource_id=19385b4e-5503-4330-9e59-f998f5918363&fields=regadm&sort=regadm&limit=1400");
-        
-        if (response.ok) {
-            const data = await response.json();
-            return data.result.records;
-        } else {
-            const errorData = await response.json();
-            console.error("Erreur:", errorData);
-            throw new Error("Erreur lors de la récupération des données"); 
-        }
-    } catch (error) {
-        console.error("Erreur de réseau:", error);
-        throw error; 
+    if (oldDistrictArea) {
+        districtArea.value = oldDistrictArea;
     }
+ 
 }
-
-async function addDistrictAreasInSelect() {
-    const districtAreas = await getDistrictAreas();
-    const uniquedistrictAreas = [...new Set(districtAreas)]
-    console.log(uniquedistrictAreas);
-    //sortir chaque résultat des objets
-    const selectDistricArea = document.getElementById("contactDetails-districtArea");
-    
-    // <option value="Abitibi-Témiscamingue" {{ old('contactDetails-districtArea') == 'Abitibi-Témiscamingue' ? 'selected' : '' }}>Abitibi-Témiscamingue (région 08)</option>
-
-    function addDistricArea() {
-        selectDistricArea.innerHTML = "";
-        districtAreas.forEach((districtArea) => {
-            let optiondistrictArea = document.createElement("option");
-            optiondistrictArea.text = districtArea.regadm;
-            selectDistricArea.add(optiondistrictArea);
-        });
-
-        selectCity.classList.remove("d-none");
-        inputCity.classList.add("d-none");
-    }
-}
-
+// pour que ca autofill je met la value des select = à la valeur que me donne l'API. Si on veut que ca fonctionne ils doivent être
+//écrits pareils donc quand je remplis mes selects pour la value soit je garde en francais (ce que tu ma dit de ne pas faire)
+//ou je met en anglais la value (trouver un moyen de traduire) et ce pour tout (province, ville et région).
 function addphoneNumber() {
-    const typephone = document.getElementById("contactDetails-phoneType").value;
-    const phoneNumber = document.getElementById("contactDetails-phoneNumber");
-    const phoneExtension = document.getElementById("contactDetails-phoneExtension");
+    const typephone = document.getElementById("contactDetailsPhoneType").value;
+    const phoneNumber = document.getElementById("contactDetailsPhoneNumber");
+    const phoneExtension = document.getElementById("contactDetailsPhoneExtension");
     const phoneNumberList = document.getElementById("phoneNumberList");
 
     console.log(document.getElementById("option").value);
@@ -236,7 +218,7 @@ function addphoneNumber() {
     removephoneNumber.innerHTML = `
         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
     `;
-    removephoneNumber.addEventListener("click", function() {
+    removephoneNumber.addEventListener("click", function () {
         phoneNumberList.removeChild(newphoneNumber);
     });
 
@@ -248,14 +230,14 @@ function addphoneNumber() {
     const divphoneNumberList = document.getElementById("div-phoneNumberList");
     divphoneNumberList.classList.remove("d-none");
 
-    document.getElementById("contactDetails-phoneNumber").value = "";
-    document.getElementById("contactDetails-phoneExtension").value = "";
+    document.getElementById("contactDetailsPhoneNumber").value = "";
+    document.getElementById("contactDetailsPhoneExtension").value = "";
 }
 
 
-document.addEventListener("DOMContentLoaded", function(){
-   const addNumber = document.getElementById("add-icon");
-   addNumber.addEventListener("click", function(event){
+document.addEventListener("DOMContentLoaded", function () {
+    const addNumber = document.getElementById("add-icon");
+    addNumber.addEventListener("click", function (event) {
         event.preventDefault();
         addphoneNumber();
     });
@@ -263,19 +245,18 @@ document.addEventListener("DOMContentLoaded", function(){
     addressAutocomplete(document.getElementById("autocomplete-container"), (data) => {
     }, {
     });
-    addCitiesInSelect();
-    addDistrictAreasInSelect();
+    addCitiesAndDAInSelect();
 
     //Ajuster hauteur boîte # phoneNumber
-    var firstInput = document.getElementById("contactDetails-civicNumber"); 
-    var lastInput = document.getElementById("contactDetails-website");       
-    var phoneNumberListContainer = document.getElementById("contactDetails-phoneNumberList");
+    var firstInput = document.getElementById("contactDetailsCivicNumber");
+    var lastInput = document.getElementById("contactDetailsWebsite");
+    var phoneNumberListContainer = document.getElementById("contactDetailsPhoneNumberList");
     var totalHeight = 0;
-    
+
     if (firstInput && lastInput) {
         var firstInputTop = firstInput.getBoundingClientRect().top;
         var lastInputBottom = lastInput.getBoundingClientRect().bottom;
-        
+
         totalHeight = lastInputBottom - firstInputTop;
         phoneNumberListContainer.style.height = totalHeight + "px";
     }
