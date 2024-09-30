@@ -25,7 +25,7 @@ class SupplierRequest extends FormRequest
             'neq' => 'unique:suppliers|size:10',
             'name' => 'required',
             'email' => 'required|email',
-            'password' => 'required|confirmed',
+            'password' => 'required|confirmed',//TODO::Faire les autres validation
             'password_confirmation' => 'required',
             'licenceRbq' => 'size:12|regex:/^[0-9]{4}-[0-9]{4}-[0-9]{2}$/i|nullable',
             'statusRbq' => 'required_with:licenceRbq',
