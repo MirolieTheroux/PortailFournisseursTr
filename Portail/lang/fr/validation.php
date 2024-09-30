@@ -199,13 +199,12 @@ return [
       'statusRbq' => 'Statut',
       'typeRbq' => 'Type',
       'rbqSubcategories' => 'Sous-Catégories',
-      'contactDetails-civicNumber' => 'Nᵒ civique',
-      'contactDetails-streetName'=> 'Rue',
-      'contactDetails-officeNumber' => 'Bureau',
-      'contactDetails-inputCity' => 'Ville',
-      'contactDetails-postalCode' => 'Code postal',
-      'contactDetails-website' => 'Site internet'
-
+      'contactDetailsCivicNumber' => 'Nᵒ civique',
+      'contactDetailsStreetName'=> 'Rue',
+      'contactDetailsOfficeNumber' => 'Bureau',
+      'contactDetailsInputCity' => 'Ville',
+      'contactDetailsPostalCode' => 'Code postal',
+      'contactDetailsWebsite' => 'Site internet',
     ],
 
 ];

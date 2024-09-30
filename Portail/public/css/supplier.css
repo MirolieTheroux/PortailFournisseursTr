@@ -75,10 +75,10 @@
 }
 
 .add-icon{
-    padding: 1.5vw 3vw; /* Ajuste la taille du padding selon la largeur de l'écran */
-    font-size: 2vw; /* Ajuste la taille de la police selon la largeur de l'écran */
-    min-width: 100px; /* Largeur minimum pour le bouton */
-    min-height: 40px; /* Hauteur minimum pour le bouton */
+    padding: 1.5vw 3vw; 
+    font-size: 2vw; 
+    min-width: 100px; 
+    min-height: 40px; 
 }
 /* Font-size label selon écran */
 @media (max-width: 1400px) {
@@ -104,6 +104,12 @@
     #postalCode, #officeNumber {
         font-size: 10px; 
         line-height: 1.5;
+    }
+}
+
+@media (max-width: 992px) {
+    #div-phoneNumberList div{
+        font-size: 12px;
     }
 }
 

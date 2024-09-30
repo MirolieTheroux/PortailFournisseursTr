@@ -393,12 +393,12 @@
         </div>
         <div class="text-center d-flex flex-row mb-4">
           <div class="form-floating col-6 pe-2" id="div-city">
-            <select name="contactDetails-city" id="contactDetailsCitySelect" class="form-select" aria-label=""></select>
+            <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" aria-label=""></select>
             <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none" placeholder="" maxlength="64">
             @if($errors->has('contactDetailsInputCity'))
             <p>{{ $errors->first('contactDetailsInputCity') }}</p>
             @endif
-            <label for="contactDetails-city">{{__('form.city')}}</label>
+            <label for="contactDetailsCitySelect">{{__('form.city')}}</label>
           </div>
           <div class="form-floating col-6">
             <select name="contactDetailsPovince" id="contactDetailsPovince" class="form-select" aria-label="">
@@ -436,7 +436,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-6 d-flex flex-column">
+      <div class="col-md-6 d-flex flex-column">
         <h2 class="text-center section-subtitle">{{__('form.contactDetailsphoneNumbersSection')}}</h2>
         <div class="text-center d-flex flex-row mb-4">
           <div class="form-floating col-3">
@@ -448,7 +448,7 @@
             <label for="contactDetailsPhoneType">{{__('form.phoneType')}}</label>
           </div>
           <div class="form-floating col-5 px-2">
-            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" placeholder="" maxlength="10">
+            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" placeholder="" maxlength="12">
             <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.number')}}</label>
             @if($errors->has('contactDetailsPhoneNumber'))
             <p>{{ $errors->first('contactDetailsPhoneNumber') }}</p>
@@ -473,11 +473,11 @@
             <div class="row px-3">
               <div class="d-flex justify-content-between mt-2">
                 <div class="col-2 fs-6">{{__('form.phoneType')}}</div>
-                <div class="col-6 fs-6 text-center">{{__('form.phoneNumber')}}</div>
-                <div class="col-2 fs-6">{{__('form.phoneExtension')}}</div>
+                <div class="col-6 fs-6 text-center" id="phoneNumber">{{__('form.phoneNumber')}}</div>
+                <div class="col-2 fs-6 text-center">{{__('form.phoneExtension')}}</div>
+                <div class="col-2 "></div>
               </div>
-              <div class="col-12 col-md-12 d-flex flex-column justify-content-between">
-                <div class="row align-items-center" id="phoneNumberList"></div>
+              <div class="d-flex flex-column justify-content-between"  id="phoneNumberList">
               </div>
             </div>
           </div>

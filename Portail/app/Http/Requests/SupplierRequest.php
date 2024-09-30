@@ -34,11 +34,12 @@ class SupplierRequest extends FormRequest
             'contactDetailsCivicNumber' => 'required|alpha_num|max:8',
             'contactDetailsStreetName' => 'required|regex:/^[a-zA-Z0-9@#\-_À-ÿ ]+$/|max:64',
             'contactDetailsOfficeNumber' => 'nullable|alpha_num|max:8',
-            'contactDetails-selectCity' => 'required_if:contactDetailsPovince,Québec',
+            'contactDetailsCitySelect' => 'required_if:contactDetailsPovince,Québec',
             'contactDetailsInputCity' => 'required_if:contactDetailsPovince,!Quebec|max:64',
-            // 'province' => 'required',
             'contactDetailsPostalCode' => 'required|regex:/^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$/|max:7',
             'contactDetailsWebsite' => 'nullable|url|max:64',
+            'contactDetailsPhoneNumber' => 'required|digits:10|regex:/^\d{3}-\d{3}-\d{4}$/',
+            'contactDetailsPhoneExtension' => 'nullable|numeric|max:6',
         ];
     }
 
