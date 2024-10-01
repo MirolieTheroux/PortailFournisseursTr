@@ -7,39 +7,39 @@
 @endsection
 
 @section('content')
-<form method="post" action="{{ route('suppliers.store') }}" class="need-validation" novalidate enctype="multipart/form-data">
-@csrf
-    <!--PROGRESS BAR-->
-    <!--TODO::Attention, faire que la ligne blanche n'apparaisse pas dans la pointe-->
-    <!--TODO::Attention, fait le ménage dans tes MediaQuery-->
-    <div class="container-fluid d-flex justify-content-center">		
-        <div class="arrow-steps mt-3">
-            <div class="step current">
-                <span class="number">1</span>
-                <span class="name">{{__('form.identificationTitle')}}</span>
-            </div>
-            <div class="step">
-                <span class="number">2</span>
-                <span class="name">Produits et services</span><!--TODO::Fichier de langue-->
-            </div>
-            <div class="step">
-                <span class="number">3</span>
-                <span class="name">Licence RBQ</span><!--TODO::Fichier de langue-->
-            </div>
-            <div class="step">
-                <span class="number">4</span>
-                <span class="name">Coordonnées</span><!--TODO::Fichier de langue-->
-            </div>
-            <div class="step">
-                <span class="number">5</span>
-                <span class="name">Contacts</span><!--TODO::Fichier de langue-->
-            </div>
-            <div class="step">
-                <span class="number">6</span>
-                <span class="name">Pièces jointes</span><!--TODO::Fichier de langue-->
-            </div>
-        </div>
-    </div><!-- FIN PROGRESS BAR-->
+<form method="post" action="{{ route('suppliers.store') }}" class="need-validation" enctype="multipart/form-data">
+  @csrf
+  <!--PROGRESS BAR-->
+  <!--TODO::Attention, faire que la ligne blanche n'apparaisse pas dans la pointe-->
+  <!--TODO::Attention, fait le ménage dans tes MediaQuery-->
+  <div class="container-fluid d-flex justify-content-center">
+    <div class="arrow-steps mt-3">
+      <div class="step current">
+        <span class="number">1</span>
+        <span class="name">{{__('form.identificationTitle')}}</span>
+      </div>
+      <div class="step">
+        <span class="number">2</span>
+        <span class="name">Produits et services</span><!--TODO::Fichier de langue-->
+      </div>
+      <div class="step">
+        <span class="number">3</span>
+        <span class="name">Licence RBQ</span><!--TODO::Fichier de langue-->
+      </div>
+      <div class="step">
+        <span class="number">4</span>
+        <span class="name">Coordonnées</span>
+      </div>
+      <div class="step">
+        <span class="number">5</span>
+        <span class="name">{{__('form.contactDetailsTitle')}}</span>
+      </div>
+      <div class="step">
+        <span class="number">6</span>
+        <span class="name">Pièces jointes</span><!--TODO::Fichier de langue-->
+      </div>
+    </div>
+  </div><!-- FIN PROGRESS BAR-->
 
     <!--IDENTIFICATION-->  
     <!--TODO::Le titre de la section disparaît pour l'écran mobile-->
@@ -57,7 +57,7 @@
                 <h2 class="text-center section-subtitle">{{__('form.identificationCompanySection')}}</h2>
                 <div class="text-start">
                     <div class="form-floating mb-3">
-                        <input type="text" oninput="validateIdentificationNeq()" name="neq" id="neq" class="form-control is-valid" placeholder="" maxlength="10">
+                        <input type="text" oninput="validateIdentificationNeq()" name="neq" id="neq" class="form-control is-valid" placeholder="" value="{{ old('neq') }}" maxlength="10">
                         <label for="neq">{{__('form.neqLabel')}}</label>
                         <div class="valid-feedback" id="neqValid1">Le NEQ n'est pas obligatoire.</div>
                         <div class="invalid-feedback" id="neqInvalid1" style="display: none;">Le NEQ doit débuter par 11, 22, 33 ou 88!</div>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="text-start">
                     <div class="form-floating mb-3">
-                        <input type="text" oninput="validateIdentificationName()" name="name" id="name" class="form-control is-invalid" placeholder="" required maxlength="64">
+                        <input type="text" oninput="validateIdentificationName()" name="name" id="name" class="form-control is-invalid" placeholder="" value="{{ old('name') }}" maxlength="64">
                         <label for="name">{{__('form.companyNameLabel')}}</label>
                         <div class="valid-feedback" id="nameValid1" style="display: none;"></br></div>
                         <div class="invalid-feedback" id="nameInvalid1">Le nom d'entreprise est obligatoire!</div>
@@ -81,7 +81,7 @@
                 <h2 class="text-center section-subtitle">{{__('form.identificationAuthentificationSection')}}</h2>
                 <div class="text-start">
                     <div class="form-floating mb-3">
-                        <input type="email" oninput="validateIdentificationEmail()" name="email" id="email" class="form-control is-invalid" required placeholder="example@gmail.com" maxlength="64">
+                        <input type="email" oninput="validateIdentificationEmail()" name="email" id="email" class="form-control is-invalid" required placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64">
                         <label for="email">{{__('form.emailLabel')}}</label>
                         <div class="valid-feedback" id="emailValid1" style="display: none;"></br></div>
                         <div class="invalid-feedback" id="emailInvalid1">L'adresse courriel est obligatoire!</div>
@@ -148,70 +148,7 @@
                                 <option value="G1">G1 - Aérospatiale</option>
                                 <option value="G2">G2 - Matériel de climatisation et de réfrigération</option>
                                 <option value="G3">G3 - Armement</option>
-                                <option value="G4">G4 - Produits et spécialités chimiques</option>
-                                <option value="G5">G5 - Communication, détection et fibres optiques</option>
-                                <option value="G6">G6 - Matériaux de construction</option>
-                                <option value="G7">G7 - Cosmétiques et articles de toilette</option>
-                                <option value="G8">G8 - Matériel et logiciel informatique</option>
-                                <option value="G9">G9 - Entretien d'équipement de bureau et d'informatique</option>
-                                <option value="G10">G10 - Produits électriques et électroniques</option>
-                                <option value="G11">G11 - Énergie</option>
-                                <option value="G12">G12 - Moteurs, turbines, composants et accessoires connexes</option>
-                                <option value="G13">G13 - Produits finis</option>
-                                <option value="G14">G14 - Équipement de lutte contre l'incendie, de sécurité et de protection</option>
-                                <option value="G15">G15 - Alimentation</option>
-                                <option value="G16">G16 - Préparation alimentaire et équipement de service</option>
-                                <option value="G17">G17 - Ameublement</option>
-                                <option value="G18">G18 - Équipement industriel</option>
-                                <option value="G19">G19 - Machinerie et outils</option>
-                                <option value="G20">G20 - Marine</option>
-                                <option value="G21">G21 - Fourniture et équipement médicaux et produits pharmaceutiques</option>
-                                <option value="G22">G22 - Produits divers</option>
-                                <option value="G23">G23 - Matériel de bureau</option>
-                                <option value="G24">G24 - Papeterie et fournitures de bureau</option>
-                                <option value="G25">G25 - Constructions préfabriqués</option>
-                                <option value="G26">G26 - Publications, formulaires et articles en papier</option>
-                                <option value="G27">G27 - Instruments scientifiques</option>
-                                <option value="G28">G28 - Véhicules spéciaux</option>
-                                <option value="G29">G29 - Intégration de systèmes</option>
-                                <option value="G30">G30 - Textiles et vêtements</option>
-                                <option value="G31">G31 - Équipement de transport et pièces de rechange</option>
                             </optgroup>
-                            <optgroup label="Services">
-                                <option value="S1">S1 - Recherche et développement (R et D)</option>
-                                <option value="S2">S2 - Études spéciales et analyses - (pas R et D)</option>
-                                <option value="S3">S3 - Services d'architecture et d'ingénierie</option>
-                                <option value="S4">S4 - Traitement de l'information et services de télécommunications connexes</option>
-                                <option value="S5">S5 - Services environnementaux</option>
-                                <option value="S6">S6 - Services de ressources naturelles</option>
-                                <option value="S7">S7 - Services de santé et services sociaux</option>
-                                <option value="S8">S8 - Contrôle de la qualité, essais et inspections et services de représentants techniques</option>
-                                <option value="S9">S9 - Entretien, réparation, modification, réfection et installation de biens et d'équipement</option>
-                                <option value="S10">S10 - Services de garde et autres services connexes</option>
-                                <option value="S11">S11 - Services financiers et autres services connexes</option>
-                                <option value="S12">S12 - Exploitation des installations gouvernementales</option>
-                                <option value="S13">S13 - Services de soutien professionnel et administratif et services de soutien à la gestion</option>
-                                <option value="S14">S14 - Services publics</option>
-                                <option value="S15">S15 - Services de communication, de photographie, de cartographie, d'impression et de publication</option>
-                                <option value="S16">S16 - Services pédagogiques et formation</option>
-                                <option value="S17">S17 - Services de transport, de voyage et de déménagement</option>
-                                <option value="S18">S18 - Location à bail / Location d'équipement</option>
-                                <option value="S19">S19 - Location à bail ou location d'installations immobilières</option>
-                            </optgroup>
-                            <optgroup label="Autres natures de contrat">
-                                <option value="C01">C01 - Bâtiments</option>
-                                <option value="C02">C02 - Ouvrages de génie civil</option>
-                                <option value="C03">C03 - Autres travaux de construction</option>
-                            </optgroup>
-                            <optgroup label="Travaux de construction">
-
-                            </optgroup>
-<!--				
-IMM - Vente de biens immeubles	
-MEU1 - Vente de biens meubles	
-C1 - Concession	
-O1 - Indéterminée	
--->
                         </select>
                         <label for="product-category">{{__('form.productsAndServiceCategoriesList')}}</label>
                     </div>
@@ -289,12 +226,428 @@ O1 - Indéterminée
 
 
     <!--LICENCE RBQ-->
-    
-    <!--COORDONNÉES-->
-    
+    <div class="container bg-white rounded my-2">
+        <div class="row d-none d-md-block">
+            <div class="col-12 rounded-top fond-image fond-rbq"></div>
+        </div>
+        <div class="row">
+            <div class="d-none d-md-block col-12 text-center">
+                <h1>{{__('form.rbqTitle')}}</h1>
+            </div>
+        </div>
+        <div class="row px-3">
+            <div class="col-12 col-md-4 d-flex flex-column">
+                <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
+                <div class="d-flex flex-column justify-content-between just h-100">
+                  <div class="text-center">
+                      <div class="form-floating mb-3">
+                          <input type="text" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="12">
+                          <label for="licenceRbq">{{__('form.numberLabel')}}</label>
+                      </div>
+                      @if($errors->has('licenceRbq'))
+                          <p>{{ $errors->first('licenceRbq') }}</p>
+                      @endif
+                  </div>
+                  <div class="text-center">
+                      <div class="form-floating mb-3">
+                          <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
+                              <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
+                              <option value="valid" {{ "valid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
+                              <option value="restrictedValid" {{ "restrictedValid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
+                              <option value="invalid" {{ "invalid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
+                          </select>
+                          <label for="statusRbq">{{__('form.statusLabel')}}</label>
+                      </div>
+                      @if($errors->has('statusRbq'))
+                          <p>{{ $errors->first('statusRbq') }}</p>
+                      @endif
+                  </div>
+                  <div class="text-center">
+                      <div class="form-floating mb-3">
+                          <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
+                              <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                              <option value="entrepreneur" {{ "entrepreneur" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
+                              <option value="ownerBuilder" {{ "ownerBuilder" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
+                          </select>
+                          <label for="typeRbq">{{__('form.typeLabel')}}</label>
+                      </div>
+                      @if($errors->has('typeRbq'))
+                          <p>{{ $errors->first('typeRbq') }}</p>
+                      @endif
+                  </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8 d-flex flex-column justify-content-start">
+              <h2 class="text-center">{{__('form.rbqCategoriesSection')}}</h2>
+                <div class="text-center">
+                  <div class="form-floating mb-3">
+                    <div class="form-control pt-2" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+                    <div id="no-categories" class="d-block">
+                      {{__('form.rbqCategoriesUnselectedType')}}
+                    </div> 
+                    <div id="entrepreneur-categories" class="d-none">
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
+                        @foreach($workSubcategories as $workSubcategory)
+                          @if($workSubcategory->is_specialised == false)
+                            <div class="form-check pb-2">
+                              <input 
+                                class="form-check-input mt-0" 
+                                type="checkbox" 
+                                name="rbqSubcategories[]"
+                                value="{{$workSubcategory->code}}" 
+                                id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                @if(!is_null(old('rbqSubcategories')))
+                                  @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
+                                    checked 
+                                  @endif
+                                @endif
+                              >
+                              <div class="d-flex">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                  {{$workSubcategory->code}}
+                                </label>
+                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                  {{$workSubcategory->name}}
+                                </label>
+                              </div>
+                            </div>
+                          @endif
+                        @endforeach
+
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
+                        @foreach($workSubcategories as $workSubcategory)
+                          @if($workSubcategory->is_specialised == true)
+                            <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
+                              <input 
+                                class="form-check-input mt-0" 
+                                type="checkbox" 
+                                name="rbqSubcategories[]" 
+                                value="{{$workSubcategory->code}}" 
+                                id="flexCheckSpec{{$workSubcategory->id}}Ent"
+                                @if(!is_null(old('rbqSubcategories')))
+                                  @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
+                                    checked 
+                                  @endif
+                                @endif
+                              >
+                              <div class="d-flex">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckSpec{{$workSubcategory->id}}Ent">
+                                  {{$workSubcategory->code}}
+                                </label>
+                                <label class="form-check-label text-start ps-2" for="flexCheckSpec{{$workSubcategory->id}}Ent">
+                                  {{$workSubcategory->name}}
+                                </label>
+                              </div>
+                            </div>
+                          @endif
+                        @endforeach
+                      </div>
+
+                      <div id="ownerBuilder-categories" class="d-none">
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
+                        @foreach($workSubcategories as $workSubcategory)
+                          @if($workSubcategory->is_specialised == false && $workSubcategory->is_entrepreneur_only == false)
+                            <div class="form-check pb-2">
+                              <input 
+                                class="form-check-input mt-0" 
+                                type="checkbox" 
+                                name="rbqSubcategories[]" 
+                                value="{{$workSubcategory->code}}" 
+                                id="flexCheckGen{{$workSubcategory->id}}OB"
+                                @if(!is_null(old('rbqSubcategories')))
+                                  @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
+                                    checked 
+                                  @endif
+                                @endif
+                              >
+                              <div class="d-flex">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}OB">
+                                  {{$workSubcategory->code}}
+                                </label>
+                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}OB">
+                                  {{$workSubcategory->name}}
+                                </label>
+                              </div>
+                            </div>
+                          @endif
+                        @endforeach
+
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
+                        @foreach($workSubcategories as $workSubcategory)
+                          @if($workSubcategory->is_specialised == true && $workSubcategory->is_entrepreneur_only == false)
+                            <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
+                              <input 
+                                class="form-check-input mt-0" 
+                                type="checkbox" 
+                                name="rbqSubcategories[]" 
+                                value="{{$workSubcategory->code}}" 
+                                id="flexCheckSpec{{$workSubcategory->id}}OB"
+                                @if(!is_null(old('rbqSubcategories')))
+                                  @if(in_array($workSubcategory->code, old('rbqSubcategories'))) 
+                                    checked 
+                                  @endif
+                                @endif
+                              >
+                              <div class="d-flex">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckSpec{{$workSubcategory->id}}OB">
+                                  {{$workSubcategory->code}}
+                                </label>
+                                <label class="form-check-label text-start ps-2" for="flexCheckSpec{{$workSubcategory->id}}OB">
+                                  {{$workSubcategory->name}}
+                                </label>
+                              </div>
+                            </div>
+                          @endif
+                        @endforeach
+                      </div>
+                  </div>
+                  @if($errors->has('rbqSubcategories'))
+                    <p>{{ $errors->first('rbqSubcategories') }}</p>
+                  @endif
+                </div>
+              </div>
+            </div>
+        </div>
+        
+        @if(!is_null(old('rbqSubcategories')))
+          <div id="form-fail-rbq" hidden></div>
+        @endif
+        
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center mb-2">
+                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
+                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+            </div>
+        </div>
+    </div>  <!--FIN LICENCE RBQ-->
+
+  <!--COORDONNÉES-->
+  <div class="container bg-white rounded my-2" id="details-section">
+    <div class="row d-none d-md-block">
+      <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
+    </div>
+    <div class="row">
+      <div class="d-none d-md-block col-12 text-center">
+        <h1 class="section-title">{{__('form.contactDetailsTitle')}}</h1>
+      </div>
+    </div>
+    <div class="row px-3">
+      <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
+        <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
+        <div class="text-center mb-4">
+          <div class="form-floating autocomplete-container" id="autocomplete-container">
+            <input type="text" name="contactDetailsSearchAddress" id="contactDetailsSearchAddress" class="form-control" placeholder="">
+            <label for="contactDetailsSearchAddress">{{__('form.searchAddress')}}</label>
+          </div>
+        </div>
+        <div class="text-center d-flex flex-row mb-4">
+          <div class="form-floating col-2">
+            <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ old('contactDetailsCivicNumber') }}" placeholder="" maxlength="8">
+            <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>
+            @if($errors->has('contactDetailsCivicNumber'))
+            <p>{{ $errors->first('contactDetailsCivicNumber') }}</p>
+            @endif
+          </div>
+          <div class="form-floating col-8 px-2">
+            <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control" value="{{ old('contactDetailsStreetName') }}" placeholder="" maxlength="64">
+            <label class="ms-2" for="contactDetailsStreetName">{{__('form.streetName')}}</label>
+            @if($errors->has('contactDetailsStreetName'))
+            <p>{{ $errors->first('contactDetailsStreetName') }}</p>
+            @endif
+          </div>
+          <div class="form-floating col-2">
+            <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control" value="{{ old('contactDetailsOfficeNumber') }}" placeholder="" maxlength="8">
+            <label for="contactDetailsOfficeNumber" id="officeNumber">{{__('form.officeNumber')}}</label>
+            @if($errors->has('contactDetailsOfficeNumber'))
+            <p>{{ $errors->first('contactDetailsOfficeNumber') }}</p>
+            @endif
+          </div>
+        </div>
+        <div class="text-center d-flex flex-row mb-4">
+          <div class="form-floating col-6 pe-2" id="div-city">
+            <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" aria-label=""></select>
+            <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none" placeholder="" maxlength="64">
+            @if($errors->has('contactDetailsInputCity'))
+            <p>{{ $errors->first('contactDetailsInputCity') }}</p>
+            @endif
+            <label for="contactDetailsCitySelect">{{__('form.city')}}</label>
+          </div>
+          <div class="form-floating col-6">
+            <select name="contactDetailsPovince" id="contactDetailsPovince" class="form-select" aria-label="">
+              @foreach($provinces as $province)
+              <option value="{{ $province->name }}"
+                {{ old('contactDetailsPovince', $selectedProvince ?? 'Québec') == $province->name ? 'selected' : '' }}>
+                {{ $province->name }}
+              </option>
+              @endforeach
+            </select>
+            <label for="contactDetailsPovince">{{__('form.province')}}</label>
+          </div>
+        </div>
+        <div class="text-center d-flex flex-row mb-4">
+          <div class="form-floating col-8 pe-2">
+            <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" aria-label="">
+            </select>
+            <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
+          </div>
+          <div class="form-floating">
+            <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ old('contactDetailsPostalCode') }}" placeholder="" maxlength="7">
+            <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
+            @if($errors->has('contactDetailsPostalCode'))
+            <p>{{ $errors->first('contactDetailsPostalCode') }}</p>
+            @endif
+          </div>
+        </div>
+        <div class="text-center mb-4">
+          <div class="form-floating">
+            <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control" value="{{ old('contactDetailsWebsite') }}" placeholder="" maxlength="64">
+            <label for="contactDetailsWebsite">{{__('form.website')}}</label>
+            @if($errors->has('contactDetailsWebsite'))
+            <p>{{ $errors->first('contactDetailsWebsite') }}</p>
+            @endif
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 d-flex flex-column">
+        <h2 class="text-center section-subtitle">{{__('form.contactDetailsphoneNumbersSection')}}</h2>
+        <div class="text-center d-flex flex-row mb-4">
+          <div class="form-floating col-3">
+            <select name="contactDetailsPhoneType" id="contactDetailsPhoneType" class="form-select" aria-label="">
+              <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
+              <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
+              <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
+            </select>
+            <label for="contactDetailsPhoneType">{{__('form.phoneType')}}</label>
+          </div>
+          <div class="form-floating col-5 px-2">
+            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" placeholder="" maxlength="12">
+            <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.number')}}</label>
+            @if($errors->has('contactDetailsPhoneNumber'))
+            <p>{{ $errors->first('contactDetailsPhoneNumber') }}</p>
+            @endif
+          </div>
+          <div class="form-floating col-3">
+            <input type="text" name="contactDetailsPhoneExtension" id="contactDetailsPhoneExtension" class="form-control" placeholder="" maxlength="6">
+            <label for="contactDetailsPhoneExtension">{{__('form.phoneExtension')}}</label>
+            @if($errors->has('contactDetailsPhoneExtension'))
+            <p>{{ $errors->first('contactDetailsPhoneExtension') }}</p>
+            @endif
+          </div>
+          <div class="col-1 d-flex align-items-center justify-content-center">
+            <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; padding-left:10px">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+            </svg>
+          </div>
+        </div>
+        <div class="form-floating " id="div-phoneNumberList">
+          <div class="form-control pt-2" id="contactDetailsPhoneNumberList" style="overflow-x: hidden; overflow-y: auto;">
+            <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}}</div>
+            <div class="row px-3">
+              <div class="d-flex justify-content-between mt-2">
+                <div class="col-2 fs-6">{{__('form.phoneType')}}</div>
+                <div class="col-6 fs-6 text-center" id="phoneNumber">{{__('form.phoneNumber')}}</div>
+                <div class="col-2 fs-6 text-center">{{__('form.phoneExtension')}}</div>
+                <div class="col-2 "></div>
+              </div>
+              <div class="d-flex flex-column justify-content-between"  id="phoneNumberList">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center mb-3">
+        <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
+        <button type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+      </div>
+    </div>
+  </div> <!--FIN COORDONÉES-->
+
     <!--CONTACT-->
-    
+    <div class="container bg-white rounded my-2">
+        <div class="row d-none d-md-block">
+            <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
+        </div>
+        <div class="row">
+            <div class="d-none d-md-block col-10 offset-1 text-center">
+                <h1 class="section-title">{{__('form.contactsTitle')}}</h1>
+            </div>
+            <div class="col-1 d-flex align-items-center justify-content-center">
+                <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; margin-left: 20px">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="row justify-content-center px-3">
+            <div class="col-6 d-flex flex-column justify-content-between">
+                <h2 class="text-center section-subtitle">{{__('form.contactsSubtitle')}} #1</h2>
+                <div class="rounded pt-3 px-3 bg-lightblue">
+                    <div class="row">
+                        <div class="col-6 text-center mb-4">
+                            <div class="form-floating">
+                                <input type="text" name="contact1-firstName" id="contact1-firstName" class="form-control" placeholder="">
+                                <label for="contact1-firstName">{{__('form.firstNameLabel')}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6 text-center mb-4">
+                            <div class="form-floating">
+                                <input type="text" name="contact1-lastName" id="contact1-lastName" class="form-control" placeholder="">
+                                <label for="contact1-lastName">{{__('form.lastNameLabel')}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mb-4">
+                        <div class="form-floating">
+                            <input type="text" name="contact1-job" id="contact1-job" class="form-control" placeholder="">
+                            <label for="contact1-job">{{__('form.jobLabel')}}</label>
+                        </div>
+                    </div>  
+                    <div class="text-center mb-4">
+                        <div class="form-floating">
+                            <input type="text" name="contact1-job" id="contact1-email" class="form-control" placeholder="">
+                            <label for="contact1-email">{{__('form.emailLabel')}}</label>
+                        </div>
+                    </div>  
+                    <h2 class="text-center section-subtitle">{{__('form.contactDetailsTelNumbersSection')}}</h2>
+                    <div class="text-center d-flex flex-row mb-4">
+                        <div class="form-floating col-3">
+                            <select name="contactDetails-telType" id="contactDetails-telType" class="form-select" aria-label="">
+                                <option value="desktop">Bureau</option>
+                                <option value="fax">Télécopieur</option>
+                                <option value="cellphone">Cellulaire</option>
+                            </select>
+                            <label for="contact1-telType">{{__('form.telType')}}</label>
+                        </div>
+                        <div class="form-floating col-6 px-2">
+                            <input type="text" name="contact1-telNumber" id="contact1-telNumber" class="form-control" placeholder="">
+                            <label class="ms-2" for="contact1-telNumber">{{__('form.telNumber')}}</label>
+                        </div>
+                        <div class="form-floating col-3">
+                            <input type="text" name="contact1-telExtension" id="contact1-telExtension" class="form-control" placeholder="">
+                            <label for="contact1-telExtension">{{__('form.telExtension')}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center mb-3">
+                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
+                <button id="test" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+            </div>
+        </div>
+    </div> <!--FIN CONTACT-->
+
     <!--PIÈCES JOINTES-->
 
 </form>
+@endsection
+
+@section('scripts')
+<script src="{{ asset('js/suppliersCreate/rbq.js') }} "></script>
+<script>
+  const oldCity = "{{ old('contactDetails-city') }}";
+  const oldDistrictArea = "{{ old('contactDetailsDistrictArea') }}";
+</script>
 @endsection

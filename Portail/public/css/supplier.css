@@ -8,7 +8,7 @@
 
 /* IDENTIFICATION */
 .fond-identification{
-    background-image: url("/img/pont_laviolette.jpg");
+    background-image: url("/img/fond_form_indentification.jpg");
 }
 
 /* PRODUIT ET SERVICE */
@@ -17,8 +17,108 @@
 }
 
 /* LICENCE RBQ */
+.fond-rbq{
+    background-image: url("/img/fond_form_rbq.jpg");
+}
+.rbq-category-label-number{
+    min-width: 40px;
+}
+.title-border{
+    border-bottom: solid var(--dark_blue) 1px;
+}
 
 /* COORDONNÉES */
+.fond-coordonnees{
+    background-image: url("/img/coordonnees.jpg");
+}
+.autocomplete-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000; 
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+    background-color: var(--blue);
+    color: #fff;
+}
+
+.autocomplete-active {
+    background-color: var(--blue) !important;
+    color: #fff;
+}
+
+.autocomplete-container{
+    position: relative;
+}
+
+#add-tel{
+    color : var(--dark_blue)
+}
+
+#details-section p{
+    font-size: 13px;
+    color : red;
+    margin: 0;
+}
+
+.add-icon{
+    padding: 1.5vw 3vw; 
+    font-size: 2vw; 
+    min-width: 100px; 
+    min-height: 40px; 
+}
+/* Font-size label selon écran */
+@media (max-width: 1400px) {
+    #civicNumber {
+        font-size: 10px; 
+        line-height: 1.5;
+    }
+
+    #add-icon {
+        width: 50px; 
+        height: 50px; 
+    }
+}
+
+/* @media (max-width :1200px){
+    #add-icon {
+        width: 25px; 
+    height: 25px; 
+    }
+} */
+
+@media (max-width: 992px) and (min-width:768px) {
+    #postalCode, #officeNumber {
+        font-size: 10px; 
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 992px) {
+    #div-phoneNumberList div{
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 516px)  {
+    #postalCode, #officeNumber {
+        font-size: 11px; 
+        line-height: 1.5;
+    }
+}
 
 /* CONTACT */
 
