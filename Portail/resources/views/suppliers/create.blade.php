@@ -200,7 +200,7 @@
 
 
     <!--LICENCE RBQ-->
-    <div class="d-none container bg-white rounded my-2">
+    <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-rbq"></div>
         </div>
