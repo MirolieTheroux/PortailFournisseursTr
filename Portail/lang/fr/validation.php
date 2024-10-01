@@ -199,6 +199,8 @@ return [
       'statusRbq' => 'Statut',
       'typeRbq' => 'Type',
       'rbqSubcategories' => 'Sous-Catégories',
+      'contactFirstNames' => 'Prénom',
+      'contactFirstNames.*' => 'Prénom',
     ],
 
 ];

@@ -31,6 +31,8 @@ class SupplierRequest extends FormRequest
             // 'statusRbq' => 'required_with:licenceRbq',
             // 'typeRbq' => 'required_with:licenceRbq',
             // 'rbqSubcategories' => 'required_with:licenceRbq',
+            'contactFirstNames[]' => 'required|gte:1',
+            'contactFirstNames.*' => 'required',
         ];
     }
 
