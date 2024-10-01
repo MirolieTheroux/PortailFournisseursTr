@@ -24,11 +24,11 @@
 	content: " ";
 	position: absolute;
 	top: 0;
-	right: -17px;
+	right: -16px;
 	width: 0;
 	height: 0;
 	border-top: 22px solid transparent;
-	border-bottom: 22px solid transparent;
+	border-bottom: 22.5px solid transparent;
 	border-left: 17px solid var(--blue);	
 	z-index: 2;
   transition: border-color 0.2s ease;
@@ -40,10 +40,6 @@
 	border-left: 17px solid #EEEEF0;	
 	z-index: 0;
 }
-
-/* .arrow-steps .step:first-child:before {
-	border: none;
-} */
 
 .arrow-steps .step span {
 	position: relative;
