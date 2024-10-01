@@ -427,19 +427,13 @@
       <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
     </div>
     <div class="row">
-      <div class="d-none d-md-block col-12 text-center">
+      <div class="d-md-block col-12 text-center">
         <h1 class="section-title">{{__('form.contactDetailsTitle')}}</h1>
       </div>
     </div>
     <div class="row px-3">
       <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
         <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
-        <div class="text-center mb-4">
-          <div class="form-floating autocomplete-container" id="autocomplete-container">
-            <input type="text" name="contactDetailsSearchAddress" id="contactDetailsSearchAddress" class="form-control" placeholder="">
-            <label for="contactDetailsSearchAddress">{{__('form.searchAddress')}}</label>
-          </div>
-        </div>
         <div class="text-center d-flex flex-row mb-4">
           <div class="form-floating col-2">
             <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ old('contactDetailsCivicNumber') }}" placeholder="" maxlength="8">
