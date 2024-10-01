@@ -554,6 +554,8 @@
     <!--CONTACT-->
     <!--TODO::Faire que les numéros des contacts soient relatif au dernier item et non au premier-->
     <!--TODO::Ajouter les messages de validation-->
+    <!--TODO::Attention, le x n'apparait pas suite au validation Laravel-->
+    <!--TODO::Attention, enlever x au 1 jsute quand seul-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-contacts"></div> <!--TODO::Trouver une autre image de fond-->
@@ -576,12 +578,12 @@
                 @foreach(old('contactFirstNames') as $contactFirstName)
                     <div hidden>
                         {{$contactFirstNameIndex = "contactFirstNames." . "$loop->index"}}
-                        {{$contactLastNameIndex = "contactFirstNames." . "$loop->index"}}
-                        {{$contactJobIndex = "contactFirstNames." . "$loop->index"}}
-                        {{$contactEmailIndex = "contactFirstNames." . "$loop->index"}}
-                        {{$contactTelTypeIndex = "contactFirstNames." . "$loop->index"}}
-                        {{$contactTelNumberIndex = "contactFirstNames." . "$loop->index"}}
-                        {{$contactTelExtensionIndex = "contactFirstNames." . "$loop->index"}}
+                        {{$contactLastNameIndex = "contactLastNames." . "$loop->index"}}
+                        {{$contactJobIndex = "contactJobs." . "$loop->index"}}
+                        {{$contactEmailIndex = "contactEmails." . "$loop->index"}}
+                        {{$contactTelTypeIndex = "contactTelTypes." . "$loop->index"}}
+                        {{$contactTelNumberIndex = "contactTelNumbers." . "$loop->index"}}
+                        {{$contactTelExtensionIndex = "contactTelExtensions." . "$loop->index"}}
                     </div>
                 
                     <div id="referenceContact" class="col-6 d-flex flex-column justify-content-between mb-2">
@@ -634,7 +636,7 @@
                                 @endif
                             </div>  
                             <h2 class="text-center section-subtitle">{{__('form.contactDetailsTelNumbersSection')}}</h2>
-                            <div class="text-center d-flex flex-row mb-4">
+                            <div class="text-center d-flex flex-row mb-0">
                                 <div class="form-floating col-3">
                                     <select name="contactTelTypes[]" id="contactTelType1" class="form-select" aria-label="" value="{{old('contactTelTypes')[$loop->index]}}">
                                         <option value="desktop">Bureau</option>
@@ -651,16 +653,16 @@
                                     <input type="text" name="contactTelExtensions[]" id="contactTelExtension1" class="form-control" placeholder="" value="{{old('contactTelExtensions')[$loop->index]}}">
                                     <label id="contactTelExtensionLabel1" for="contactTelExtension1">{{__('form.telExtension')}}</label>
                                 </div>
-                                @if($errors->has($contactTelTypeIndex))
-                                    <p>{{ $errors->first($contactTelTypeIndex) }}</p>
-                                @endif
-                                @if($errors->has($contactTelNumberIndex))
-                                    <p>{{ $errors->first($contactTelNumberIndex) }}</p>
-                                @endif
-                                @if($errors->has($contactTelExtensionIndex))
-                                    <p>{{ $errors->first($contactTelExtensionIndex) }}</p>
-                                @endif
                             </div>
+                            @if($errors->has($contactTelTypeIndex))
+                                <p class="m-0">{{ $errors->first($contactTelTypeIndex) }}</p>
+                            @endif
+                            @if($errors->has($contactTelNumberIndex))
+                                <p class="m-0">{{ $errors->first($contactTelNumberIndex) }}</p>
+                            @endif
+                            @if($errors->has($contactTelExtensionIndex))
+                                <p class="m-0 mb-4">{{ $errors->first($contactTelExtensionIndex) }}</p>
+                            @endif
                         </div>
                     </div>
                 @endforeach

@@ -201,6 +201,12 @@ return [
       'rbqSubcategories' => 'Sous-Catégories',
       'contactFirstNames' => 'Prénom',
       'contactFirstNames.*' => 'Prénom',
+      'contactLastNames.*' => 'Nom',
+      'contactJobs.*' => 'Fonction',
+      'contactEmails.*' => 'Adresse courriel',
+      'contactTelTypes.*' => 'Type',
+      'contactTelNumbers.*' => 'Numéro',
+      'contactTelExtensions.*' => 'Poste',
     ],
 
 ];
