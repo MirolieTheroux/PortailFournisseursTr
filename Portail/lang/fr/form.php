@@ -49,8 +49,6 @@ return [
     'website' => 'Site internet',
     'fax' => 'Télécopieur',
     'cellphone' => 'Cellulaire',
-    'phoneType' => 'Type',
-    'number' => 'Numéro',
     'phoneNumber' => 'Numéro de téléphone',
     'phoneExtension' => 'Poste',
     'phoneNumberList' => 'Liste des numéros de téléphone',
