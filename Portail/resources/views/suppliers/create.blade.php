@@ -57,7 +57,7 @@
                 <h2 class="text-center section-subtitle">{{__('form.identificationCompanySection')}}</h2>
                 <div class="text-start">
                     <div class="form-floating mb-3">
-                        <input type="text" oninput="validateIdentificationNeq()" name="neq" id="neq" class="form-control is-valid" placeholder="" value="{{ old('neq') }}" maxlength="10">
+                        <input type="text" oninput="validateIdentificationNeq()" name="neq" id="neq" class="form-control" placeholder="" value="{{ old('neq') }}" maxlength="10">
                         <label for="neq">{{__('form.neqLabel')}}</label>
                         <div class="valid-feedback" id="neqValid1">Le NEQ n'est pas obligatoire.</div>
                         <div class="invalid-feedback" id="neqInvalid1" style="display: none;">Le NEQ doit débuter par 11, 22, 33 ou 88!</div>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="text-start">
                     <div class="form-floating mb-3">
-                        <input type="text" oninput="validateIdentificationName()" name="name" id="name" class="form-control is-invalid" placeholder="" value="{{ old('name') }}" maxlength="64">
+                        <input type="text" oninput="validateIdentificationName()" name="name" id="name" class="form-control" placeholder="" value="{{ old('name') }}" maxlength="64">
                         <label for="name">{{__('form.companyNameLabel')}}</label>
                         <div class="valid-feedback" id="nameValid1" style="display: none;"></br></div>
                         <div class="invalid-feedback" id="nameInvalid1">Le nom d'entreprise est obligatoire!</div>
@@ -81,7 +81,7 @@
                 <h2 class="text-center section-subtitle">{{__('form.identificationAuthentificationSection')}}</h2>
                 <div class="text-start">
                     <div class="form-floating mb-3">
-                        <input type="email" oninput="validateIdentificationEmail()" name="email" id="email" class="form-control is-invalid" required placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64">
+                        <input type="email" oninput="validateIdentificationEmail()" name="email" id="email" class="form-control" required placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64">
                         <label for="email">{{__('form.emailLabel')}}</label>
                         <div class="valid-feedback" id="emailValid1" style="display: none;"></br></div>
                         <div class="invalid-feedback" id="emailInvalid1">L'adresse courriel est obligatoire!</div>
@@ -94,7 +94,7 @@
                     <div class="row">
                         <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                             <div class="form-floating mb-3">
-                                <input type="password" oninput="validateIdentificationPassword()" name="password" id="password" required class="form-control is-invalid" placeholder="" maxlength="12">
+                                <input type="password" oninput="validateIdentificationPassword()" name="password" id="password" required class="form-control" placeholder="" maxlength="12">
                                 <label for="password">{{__('form.passwordLabel')}}</label>
                                 <div class="valid-feedback" id="passwordValid1" style="display: none;"></br></div>
                                 <div class="invalid-feedback" id="passwordInvalid1">Le mot de passe est obligatoire!</div>
@@ -107,7 +107,7 @@
                         </div>
                         <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                             <div class="form-floating mb-3">
-                                <input type="password" oninput="validateIdentificationPasswordConfirmation()" name="password_confirmation" required id="password_confirmation" placeholder="" class="form-control is-invalid" maxlength="12">
+                                <input type="password" oninput="validateIdentificationPasswordConfirmation()" name="password_confirmation" required id="password_confirmation" placeholder="" class="form-control" maxlength="12">
                                 <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
                                 <div class="valid-feedback" id="password_confirmationValid1" style="display: none;"></br></div>
                                 <div class="invalid-feedback" id="password_confirmationInvalid1">Le mot de passe est obligatoire!</div>
