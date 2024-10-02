@@ -127,6 +127,8 @@
 
 
   <!--PRODUIT ET SERVICE-->
+  <!--Remarques-->
+  <!-- Responsive en bas de large (992px) les labels des inputs Recherche, Détails et Sélectionnez embarque sur le texte (contenu) -->
   <div class="container bg-white rounded my-2">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
