@@ -74,12 +74,6 @@
     margin: 0;
 }
 
-.add-icon{
-    padding: 1.5vw 3vw; 
-    font-size: 2vw; 
-    min-width: 100px; 
-    min-height: 40px; 
-}
 /* Font-size label selon écran */
 @media (max-width: 1400px) {
     #civicNumber {
@@ -87,10 +81,7 @@
         line-height: 1.5;
     }
 
-    #add-icon {
-        width: 50px; 
-        height: 50px; 
-    }
+    
 }
 
 /* @media (max-width :1200px){

@@ -85,10 +85,7 @@ function addPhoneNumber() {
     const typephone = document.getElementById("contactDetailsPhoneType").value;
     const phoneNumber = document.getElementById("contactDetailsPhoneNumber").value;
     const phoneExtension = document.getElementById("contactDetailsPhoneExtension").value || "-";
-
-    //vérif
     
-
     const phoneNumbers = loadPhoneNumbers();
     phoneNumbers.push({ type: typephone, number: phoneNumber, extension: phoneExtension });
     savePhoneNumbers(phoneNumbers);
@@ -162,20 +159,6 @@ document.addEventListener("DOMContentLoaded", function () {
         addPhoneNumber();
     });
     addCitiesAndDAInSelect();
-
-    //Ajuster hauteur boîte # phoneNumber
-    var firstInput = document.getElementById("contactDetailsCivicNumber");
-    var lastInput = document.getElementById("contactDetailsWebsite");
-    var phoneNumberListContainer = document.getElementById("contactDetailsPhoneNumberList");
-    var totalHeight = 0;
-
-    if (firstInput && lastInput) {
-        var firstInputTop = firstInput.getBoundingClientRect().top;
-        var lastInputBottom = lastInput.getBoundingClientRect().bottom;
-        console.log("ici");
-        totalHeight = lastInputBottom - firstInputTop;
-        phoneNumberListContainer.style.height = totalHeight + "px";
-    }
 })
 
 //Validation 
