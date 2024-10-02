@@ -115,7 +115,7 @@ return [
     'missing_with_all' => 'The :attribute field must be missing when :values are present.',
     'multiple_of' => 'The :attribute field must be a multiple of :value.',
     'not_in' => 'La valeur de :attribute sélectionnée est invalide.',
-    'not_regex' => 'La valeur de :attribute sélectionnée est invalide..',
+    'not_regex' => 'La valeur de :attribute sélectionnée est invalide.',
     'numeric' => 'Le champ :attribute doit être un nombre.',
     'password' => [
         'letters' => 'Le mot de passe doit contenir au moins une lettre.',
@@ -133,7 +133,7 @@ return [
     'prohibited_if' => 'The :attribute field is prohibited when :other is :value.',
     'prohibited_unless' => 'The :attribute field is prohibited unless :other is in :values.',
     'prohibits' => 'The :attribute field prohibits :other from being present.',
-    'regex' => 'Le format du champ :attribute est invalide.:format',
+    'regex' => 'Le format du champ :attribute est invalide.',
     'required' => 'Le champ :attribute est requis.',
     'required_array_keys' => 'The :attribute field must contain entries for: :values.',
     'required_if' => 'Le champ :attribute est requis quand :other est :value.',
@@ -205,6 +205,14 @@ return [
       'contactDetailsInputCity' => 'Ville',
       'contactDetailsPostalCode' => 'Code postal',
       'contactDetailsWebsite' => 'Site internet',
+      'contactFirstNames' => 'Prénom',
+      'contactFirstNames.*' => 'Prénom',
+      'contactLastNames.*' => 'Nom',
+      'contactJobs.*' => 'Fonction',
+      'contactEmails.*' => 'Adresse courriel',
+      'contactTelTypes.*' => 'Type',
+      'contactTelNumbers.*' => 'Numéro',
+      'contactTelExtensions.*' => 'Poste',
     ],
 
 ];

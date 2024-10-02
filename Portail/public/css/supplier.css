@@ -8,7 +8,7 @@
 
 /* IDENTIFICATION */
 .fond-identification{
-    background-image: url("/img/fond_form_indentification.jpg");
+    background-image: url("/img/indentification_background.jpg");
 }
 
 /* PRODUIT ET SERVICE */
@@ -18,7 +18,7 @@
 
 /* LICENCE RBQ */
 .fond-rbq{
-    background-image: url("/img/fond_form_rbq.jpg");
+    background-image: url("/img/rbq_background.jpg");
 }
 .rbq-category-label-number{
     min-width: 40px;
@@ -112,5 +112,18 @@
 }
 
 /* CONTACT */
+.fond-contacts{
+    background-image: url("/img/contacts_background.jpg");
+}
+
+.add-contact, .delete-contact{
+    border: none;
+    background-color: transparent;
+    width: 30px;
+}
+.add-contact svg{
+    cursor: pointer;
+}
+
 
 /* PIÈCES JOINTES */
