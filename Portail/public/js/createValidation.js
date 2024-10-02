@@ -1,15 +1,13 @@
 function validateIdentificationNeq() {
   const input = document.getElementById('neq');
-  const valid1 = document.getElementById('neqValid1');
-  const valid2 = document.getElementById('neqValid2');
+  const valid = document.getElementById('neqValid');
   const invalid1 = document.getElementById('neqInvalid1');
   const invalid2 = document.getElementById('neqInvalid2');
   const invalid3 = document.getElementById('neqInvalid3');
   const invalid4 = document.getElementById('neqInvalid4');
   const invalid5 = document.getElementById('neqInvalid5');
     // Reset all error messages
-    valid1.style.display = 'none';
-    valid2.style.display = 'none';
+    valid.style.display = 'none';
     invalid1.style.display = 'none';
     invalid2.style.display = 'none';
     invalid3.style.display = 'none';
@@ -19,8 +17,7 @@ function validateIdentificationNeq() {
     // Basic validation logic
     if (!input.value) {
       input.classList.remove('is-invalid');
-      input.classList.add('is-valid');
-      valid1.style.display = 'block';
+      valid.style.display = 'block';
     }
     else if (!input.value.match(/^11|22|33|88/)) {
       input.classList.remove('is-valid');
@@ -45,7 +42,7 @@ function validateIdentificationNeq() {
     else {
       input.classList.remove('is-invalid');
       input.classList.add('is-valid');
-      valid2.style.display = 'block';
+      valid.style.display = 'block';
     }
     
     //TODO Le NEQ est déjà enregistrer pour un autre compte!
