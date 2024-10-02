@@ -38,7 +38,6 @@ return [
     'contactDetailsTitle' => 'Coordonnées',
     'contactDetailsAddressSection' => 'Adresse',
     'contactDetailsphoneNumbersSection' => 'Téléphones',
-    'searchAddress' => 'Entrez votre adresse',
     'civicNumberLabel' => 'Nᵒ civique',
     'streetName' => 'Rue',
     'officeNumber' => 'Bureau',
