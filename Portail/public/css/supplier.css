@@ -67,6 +67,59 @@
 #add-tel{
     color : var(--dark_blue)
 }
+
+#details-section p{
+    font-size: 13px;
+    color : red;
+    margin: 0;
+}
+
+.add-icon{
+    padding: 1.5vw 3vw; 
+    font-size: 2vw; 
+    min-width: 100px; 
+    min-height: 40px; 
+}
+/* Font-size label selon écran */
+@media (max-width: 1400px) {
+    #civicNumber {
+        font-size: 10px; 
+        line-height: 1.5;
+    }
+
+    #add-icon {
+        width: 50px; 
+        height: 50px; 
+    }
+}
+
+/* @media (max-width :1200px){
+    #add-icon {
+        width: 25px; 
+    height: 25px; 
+    }
+} */
+
+@media (max-width: 992px) and (min-width:768px) {
+    #postalCode, #officeNumber {
+        font-size: 10px; 
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 992px) {
+    #div-phoneNumberList div{
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 516px)  {
+    #postalCode, #officeNumber {
+        font-size: 11px; 
+        line-height: 1.5;
+    }
+}
+
 /* CONTACT */
 .fond-contacts{
     background-image: url("/img/contacts_background.jpg");
