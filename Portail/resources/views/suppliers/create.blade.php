@@ -566,6 +566,7 @@
     <!--TODO::Attention, le x n'apparait pas suite au validation Laravel-->
     <!--TODO::Attention, enlever x au 1 jsute quand seul-->
     <!--TODO::Formater automatiquement le numéro de tel (Voir se que Miro à fait)-->
+    <!--TODO::Ajouter 2e numéro de tel-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-contacts"></div> <!--TODO::Trouver une autre image de fond-->
@@ -754,6 +755,7 @@
 
 @section('scripts')
 <script src="{{ asset('js/suppliersCreate/rbq.js') }} "></script>
+<script src="{{ asset('js/suppliersCreate/contact.js') }} "></script>
 <script src="{{ asset('js/progressBar.js') }} "></script>
 <script src="{{ asset('js/suppliersCreate/contactDetails.js') }} "></script>
 <script>
