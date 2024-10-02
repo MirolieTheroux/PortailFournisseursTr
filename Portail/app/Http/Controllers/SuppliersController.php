@@ -40,7 +40,6 @@ class SuppliersController extends Controller
      */
     public function create()
     {
-        
         $workSubcategories = WorkSubcategory::orderByRaw('
           CAST(SUBSTRING_INDEX(code, ".", 1) AS UNSIGNED), 
           CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(code, ".0"), ".", 2), ".", -1) AS UNSIGNED), 
@@ -57,7 +56,8 @@ class SuppliersController extends Controller
     {
         $supplier = new Supplier($request->all());
         $supplier->password = Hash::make($request->password);
-        $supplier->save();
+
+        //$supplier->save();
     }
 
     /**

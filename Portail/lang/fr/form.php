@@ -65,5 +65,8 @@ return [
     'rbqCategoriesSpecialisedOwnerBuilder' => 'Catégories constructeur-propriétaire spécialisé',
     'rbqCategoriesValidation' => 'Au moins une catégorie doit être sélectionnée lorsque Numéro est présent.',
     'contactsTitle' => 'Contacts',
-    'contactsSubtitle' => 'Contact'
+    'contactsSubtitle' => 'Contact',
+    'contactFirstNamesValidation' => 'Ce champ ne peut contenir que des lettres (y compris accentuées) et les caractères spéciaux \' et -.',
+    'contactsTelNumberValidation' => 'Le format du champ numéro doit corresprondre à 000-000-0000.',
+    'contactsTelExtensionValidation' => 'Le poste doit être un nombre.',
 ];
