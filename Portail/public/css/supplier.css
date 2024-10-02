@@ -8,7 +8,7 @@
 
 /* IDENTIFICATION */
 .fond-identification{
-    background-image: url("/img/fond_form_indentification.jpg");
+    background-image: url("/img/indentification_background.jpg");
 }
 
 /* PRODUIT ET SERVICE */
@@ -18,7 +18,7 @@
 
 /* LICENCE RBQ */
 .fond-rbq{
-    background-image: url("/img/fond_form_rbq.jpg");
+    background-image: url("/img/rbq_background.jpg");
 }
 .rbq-category-label-number{
     min-width: 40px;
@@ -74,12 +74,6 @@
     margin: 0;
 }
 
-.add-icon{
-    padding: 1.5vw 3vw; 
-    font-size: 2vw; 
-    min-width: 100px; 
-    min-height: 40px; 
-}
 /* Font-size label selon écran */
 @media (max-width: 1400px) {
     #civicNumber {
@@ -87,10 +81,7 @@
         line-height: 1.5;
     }
 
-    #add-icon {
-        width: 50px; 
-        height: 50px; 
-    }
+    
 }
 
 /* @media (max-width :1200px){
@@ -121,5 +112,18 @@
 }
 
 /* CONTACT */
+.fond-contacts{
+    background-image: url("/img/contacts_background.jpg");
+}
+
+.add-contact, .delete-contact{
+    border: none;
+    background-color: transparent;
+    width: 30px;
+}
+.add-contact svg{
+    cursor: pointer;
+}
+
 
 /* PIÈCES JOINTES */
