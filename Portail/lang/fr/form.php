@@ -21,6 +21,7 @@ return [
     'choiceDefaultType' => 'Choisir un type',
     'choiceEntrepreneur' => 'Entrepeneur',
     'choiceOwnerBuilder' => 'Constructeur-propriétaire',
+    
     'identificationTitle' => 'Identification',
     'identificationCompanySection' => 'Entreprise',
     'identificationAuthentificationSection' => 'Authentification',
@@ -54,6 +55,7 @@ return [
     'phoneNumber' => 'Numéro de téléphone',
     'phoneExtension' => 'Poste',
     'phoneNumberList' => 'Liste des numéros de téléphone',
+
     'rbqTitle' => 'Licence RBQ',
     'rbqLicenceSection' => 'Licence',
     'rbqLicenceValidation' => 'Le format du champ licence doit corresprondre à 0000-0000-00.',
@@ -64,6 +66,7 @@ return [
     'rbqCategoriesGeneralOwnerBuilder' => 'Catégories constructeur-propriétaire général',
     'rbqCategoriesSpecialisedOwnerBuilder' => 'Catégories constructeur-propriétaire spécialisé',
     'rbqCategoriesValidation' => 'Au moins une catégorie doit être sélectionnée lorsque Numéro est présent.',
+
     'contactsTitle' => 'Contacts',
     'contactsSubtitle' => 'Contact',
     'contactFirstNamesValidation' => 'Ce champ ne peut contenir que des lettres (y compris accentuées) et les caractères spéciaux \' et -.',

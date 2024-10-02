@@ -720,7 +720,7 @@
                                 <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}}</label>
                             </div>
                         </div>  
-                        <h2 class="text-center section-subtitle">{{__('form.contactDetailsTelNumbersSection')}}</h2>
+                        <h2 class="text-center section-subtitle">{{__('form.phoneNumber')}}</h2>
                         <div class="text-center d-flex flex-row mb-4">
                             <div class="form-floating col-3">
                                 <select name="contactTelTypes[]" id="contactTelType1" class="form-select" aria-label="">
@@ -728,15 +728,15 @@
                                     <option value="fax">Télécopieur</option>
                                     <option value="cellphone">Cellulaire</option>
                                 </select>
-                                <label id="contactTelTypeLabel1" for="contactTelType1">{{__('form.telType')}}</label>
+                                <label id="contactTelTypeLabel1" for="contactTelType1">{{__('form.phoneType')}}</label>
                             </div>
                             <div class="form-floating col-6 px-2">
                                 <input type="text" name="contactTelNumbers[]" id="contactTelNumber1" class="form-control" placeholder="" maxlength="12">
-                                <label id="contactTelNumberLabel1" class="ms-2" for="contactTelNumber1">{{__('form.telNumber')}}</label>
+                                <label id="contactTelNumberLabel1" class="ms-2" for="contactTelNumber1">{{__('form.numberLabel')}}</label>
                             </div>
                             <div class="form-floating col-3">
                                 <input type="text" name="contactTelExtensions[]" id="contactTelExtension1" class="form-control" placeholder="" maxlength="6">
-                                <label id="contactTelExtensionLabel1" for="contactTelExtension1">{{__('form.telExtension')}}</label>
+                                <label id="contactTelExtensionLabel1" for="contactTelExtension1">{{__('form.phoneExtension')}}</label>
                             </div>
                         </div>
                     </div>
