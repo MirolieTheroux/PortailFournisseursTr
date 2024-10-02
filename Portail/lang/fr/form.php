@@ -19,7 +19,7 @@ return [
     'choiceRestrictedValid' => 'Valide avec restriction',
     'choiceInvalid' => 'Non valide',
     'choiceDefaultType' => 'Choisir un type',
-    'choiceEntrepreneur' => 'Entrepeneur',
+    'choiceEntrepreneur' => 'Entrepreneur',
     'choiceOwnerBuilder' => 'Constructeur-propriétaire',
     
     'identificationTitle' => 'Identification',
