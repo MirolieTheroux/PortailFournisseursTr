@@ -66,7 +66,10 @@ return [
 
     'contactsTitle' => 'Contacts',
     'contactsSubtitle' => 'Contact',
-    'contactFirstNamesValidation' => 'Ce champ ne peut contenir que des lettres (y compris accentuées) et les caractères spéciaux \' et -.',
+    'contactsNamesValidationSymbols' => 'Ce champ ne peut contenir que des lettres (y compris accentuées) et les caractères spéciaux \' et -.',
+    'contactsFirstNamesValidationRequired' => 'Le prénom du contact est requis.',
+    'contactsLastNamesValidationRequired' => 'Le nom du contact est requis.',
+    'contactsJobsValidationRequired' => 'La fonction du contact est requise.',
     'contactsTelNumberValidation' => 'Le numéro doit être un nombre.',
     'contactsTelExtensionValidation' => 'Le poste doit être un nombre.',
 ];
