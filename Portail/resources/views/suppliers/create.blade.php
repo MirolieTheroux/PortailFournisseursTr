@@ -432,6 +432,7 @@
   </div> <!--FIN LICENCE RBQ-->
 
   <!--COORDONNÉES-->
+  <!--REMARQUE::En mode cellulaire, peut être mettre les champs un par dessus l'autre? (No civique, rue, bureau, etc)-->
   <div class="container bg-white rounded my-2" id="details-section">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
