@@ -37,7 +37,7 @@ return [
     
     'contactDetailsTitle' => 'Coordonnées',
     'contactDetailsAddressSection' => 'Adresse',
-    'contactDetailsphoneNumbersSection' => 'Téléphones',
+    'contactDetailsPhoneNumbersSection' => 'Téléphones',
     'civicNumberLabel' => 'Nᵒ civique',
     'streetName' => 'Rue',
     'officeNumber' => 'Bureau',
@@ -67,6 +67,6 @@ return [
     'contactsTitle' => 'Contacts',
     'contactsSubtitle' => 'Contact',
     'contactFirstNamesValidation' => 'Ce champ ne peut contenir que des lettres (y compris accentuées) et les caractères spéciaux \' et -.',
-    'contactsTelNumberValidation' => 'Le format du champ numéro doit corresprondre à 000-000-0000.',
+    'contactsTelNumberValidation' => 'Le numéro doit être un nombre.',
     'contactsTelExtensionValidation' => 'Le poste doit être un nombre.',
 ];

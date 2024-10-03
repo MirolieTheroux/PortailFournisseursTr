@@ -53,9 +53,11 @@ class SupplierRequest extends FormRequest
             'contactLastNames.*' => 'required|max:32|regex:/^[a-zA-ZÀ-ÿ\'\-]+$/',
             'contactJobs.*' => 'required|max:32',
             'contactEmails.*' => 'required|email|max:64',
-            'contactTelTypes.*' => 'required',
-            'contactTelNumbers.*' => 'required|size:12|regex:/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/i',
-            'contactTelExtensions.*' => 'max:6|regex:/^[0-9]+$/i|nullable',
+            'contactTelTypes1.*' => 'required',
+            'contactTelNumbers1.*' => 'required|regex:/^[0-9]+$/i|size:10',
+            'contactTelExtensions1.*' => 'regex:/^[0-9]+$/i|max:6|nullable',
+            'contactTelNumbers2.*' => 'regex:/^[0-9]+$/i|size:10|nullable',
+            'contactTelExtensions2.*' => 'regex:/^[0-9]+$/i|max:6|nullable',
         ];
     }
 
