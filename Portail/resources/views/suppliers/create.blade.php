@@ -42,6 +42,16 @@
 
 
     <!--IDENTIFICATION-->  
+    <!--
+      Remarques_Validations_Front_end::
+        - Mettre le texte dans les fichiers de langue
+        - Ne pas mettre de point d'exclamation dans les erreurs
+        - Ne pas mettre de message de validation quand c'est bon
+        - Ne pas mettre les erreurs quand la page load
+        - Mettre le fichier de validation dans js/suppliersCreate/createValidationIdentification.js
+        - Faire un fichier par section
+        - Validation du courriel, valider la fin avec le premier point et la premiee section après le point
+    -->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-identification"></div>
@@ -510,15 +520,15 @@
         <div class="text-center d-flex flex-row mb-4">
           <div class="form-floating col-3">
             <select name="contactDetailsPhoneType" id="contactDetailsPhoneType" class="form-select" aria-label="">
-              <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
-              <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
-              <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
+              <option value="desktop">{{__('form.officeNumber')}}</option>
+              <option value="fax">{{__('form.fax')}}</option>
+              <option value="cellphone">{{__('form.cellphone')}}</option>
             </select>
-            <label for="contactDetailsPhoneType">{{__('form.phoneType')}}</label>
+            <label for="contactDetailsPhoneType">{{__('form.typeLabel')}}</label>
           </div>
           <div class="form-floating col-5 px-2">
             <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" placeholder="" maxlength="12">
-            <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.number')}}</label>
+            <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.numberLabel')}}</label>
             @if($errors->has('contactDetailsPhoneNumber'))
             <p>{{ $errors->first('contactDetailsPhoneNumber') }}</p>
             @endif
@@ -541,7 +551,7 @@
             <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}}</div>
             <div class="row px-3">
               <div class="d-flex justify-content-between mt-2">
-                <div class="col-2 fs-6">{{__('form.phoneType')}}</div>
+                <div class="col-2 fs-6">{{__('form.typeLabel')}}</div>
                 <div class="col-6 fs-6 text-center" id="phoneNumber">{{__('form.phoneNumber')}}</div>
                 <div class="col-2 fs-6 text-center">{{__('form.phoneExtension')}}</div>
                 <div class="col-2 "></div>
@@ -566,6 +576,7 @@
     <!--TODO::Attention, le x n'apparait pas suite au validation Laravel-->
     <!--TODO::Attention, enlever x au 1 jsute quand seul-->
     <!--TODO::Formater automatiquement le numéro de tel (Voir se que Miro à fait)-->
+    <!--TODO::Ajouter 2e numéro de tel-->
 
     <!--REMARQUE::Mettre les numéros de contact par rapport au précédent quand on en efface un. (Ex: 1,2,3,4. Présentement, quand on en efface, ça peut donner 1,4,6,9.-->
     <!--REMARQUE::Mettre les numéros de contact et le "X" dans la boite de contact en haut à gauche, un peu comme les labels des champs.-->
@@ -648,24 +659,24 @@
                                     <p>{{ $errors->first($contactEmailIndex) }}</p>
                                 @endif
                             </div>  
-                            <h2 class="text-center section-subtitle">{{__('form.contactDetailsTelNumbersSection')}}</h2>
+                            <h2 class="text-center section-subtitle">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
                             <div class="mb-4">
                                 <div class="text-center d-flex flex-row mb-0">
                                     <div class="form-floating col-3">
                                         <select name="contactTelTypes[]" id="contactTelType1" class="form-select" aria-label="" value="{{old('contactTelTypes')[$loop->index]}}">
-                                            <option value="desktop">Bureau</option>
-                                            <option value="fax">Télécopieur</option>
-                                            <option value="cellphone">Cellulaire</option>
+                                            <option value="desktop">{{__('form.officeNumber')}}</option>
+                                            <option value="fax">{{__('form.fax')}}</option>
+                                            <option value="cellphone">{{__('form.cellphone')}}</option>
                                         </select>
-                                        <label id="contactTelTypeLabel1" for="contactTelType1">{{__('form.telType')}}</label>
+                                        <label id="contactTelTypeLabel1" for="contactTelType1">{{__('form.typeLabel')}}</label>
                                     </div>
                                     <div class="form-floating col-6 px-2">
                                         <input type="text" name="contactTelNumbers[]" id="contactTelNumber1" class="form-control" placeholder="" maxlength="12" value="{{old('contactTelNumbers')[$loop->index]}}">
-                                        <label id="contactTelNumberLabel1" class="ms-2" for="contactTelNumber1">{{__('form.telNumber')}}</label>
+                                        <label id="contactTelNumberLabel1" class="ms-2" for="contactTelNumber1">{{__('form.phoneNumber')}}</label>
                                     </div>
                                     <div class="form-floating col-3">
                                         <input type="text" name="contactTelExtensions[]" id="contactTelExtension1" class="form-control" placeholder="" maxlength="6" value="{{old('contactTelExtensions')[$loop->index]}}">
-                                        <label id="contactTelExtensionLabel1" for="contactTelExtension1">{{__('form.telExtension')}}</label>
+                                        <label id="contactTelExtensionLabel1" for="contactTelExtension1">{{__('form.phoneExtension')}}</label>
                                     </div>
                                 </div>
                                 @if($errors->has($contactTelTypeIndex))
@@ -723,11 +734,11 @@
                         <div class="text-center d-flex flex-row mb-4">
                             <div class="form-floating col-3">
                                 <select name="contactTelTypes[]" id="contactTelType1" class="form-select" aria-label="">
-                                    <option value="desktop">Bureau</option>
-                                    <option value="fax">Télécopieur</option>
-                                    <option value="cellphone">Cellulaire</option>
+                                    <option value="desktop">{{__('form.officeNumber')}}</option>
+                                    <option value="fax">{{__('form.fax')}}</option>
+                                    <option value="cellphone">{{__('form.cellphone')}}</option>
                                 </select>
-                                <label id="contactTelTypeLabel1" for="contactTelType1">{{__('form.phoneType')}}</label>
+                                <label id="contactTelTypeLabel1" for="contactTelType1">{{__('form.typeLabel')}}</label>
                             </div>
                             <div class="form-floating col-6 px-2">
                                 <input type="text" name="contactTelNumbers[]" id="contactTelNumber1" class="form-control" placeholder="" maxlength="12">
@@ -757,6 +768,7 @@
 
 @section('scripts')
 <script src="{{ asset('js/suppliersCreate/rbq.js') }} "></script>
+<script src="{{ asset('js/suppliersCreate/contact.js') }} "></script>
 <script src="{{ asset('js/progressBar.js') }} "></script>
 <script src="{{ asset('js/suppliersCreate/contactDetails.js') }} "></script>
 <script>

@@ -19,7 +19,7 @@ return [
     'choiceRestrictedValid' => 'Valide avec restriction',
     'choiceInvalid' => 'Non valide',
     'choiceDefaultType' => 'Choisir un type',
-    'choiceEntrepreneur' => 'Entrepeneur',
+    'choiceEntrepreneur' => 'Entrepreneur',
     'choiceOwnerBuilder' => 'Constructeur-propriétaire',
     
     'identificationTitle' => 'Identification',
@@ -49,8 +49,6 @@ return [
     'website' => 'Site internet',
     'fax' => 'Télécopieur',
     'cellphone' => 'Cellulaire',
-    'phoneType' => 'Type',
-    'number' => 'Numéro',
     'phoneNumber' => 'Numéro de téléphone',
     'phoneExtension' => 'Poste',
     'phoneNumberList' => 'Liste des numéros de téléphone',
