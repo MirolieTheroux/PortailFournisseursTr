@@ -42,6 +42,16 @@
 
 
     <!--IDENTIFICATION-->  
+    <!--
+      Remarques_Validations_Front_end::
+        - Mettre le texte dans les fichiers de langue
+        - Ne pas mettre de point d'exclamation dans les erreurs
+        - Ne pas mettre de message de validation quand c'est bon
+        - Ne pas mettre les erreurs quand la page load
+        - Mettre le fichier de validation dans js/suppliersCreate/createValidationIdentification.js
+        - Faire un fichier par section
+        - Validation du courriel, valider la fin avec le premier point et la premiee section après le point
+    -->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-identification"></div>

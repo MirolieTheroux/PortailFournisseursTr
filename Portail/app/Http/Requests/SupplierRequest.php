@@ -32,7 +32,7 @@ class SupplierRequest extends FormRequest
             'email' => 'required|email',
             'password' => [
                 'required',
-                Password::min(6)->max(12)->mixedCase()->numbers()->symbols(),
+                Password::min(7)->max(12)->mixedCase()->numbers()->symbols(),
                 'confirmed',
             ],
             'password_confirmation' => 'required',
