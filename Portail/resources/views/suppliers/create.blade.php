@@ -128,7 +128,11 @@
 
   <!--PRODUIT ET SERVICE-->
   <!--Remarques-->
+  <!-- Titre Produits et Services disparaît écran sm -->
   <!-- Responsive en bas de large (992px) les labels des inputs Recherche, Détails et Sélectionnez embarque sur le texte (contenu) -->
+  <!-- Table productsservices est-ce que la description on veut mettre plus de caractères. (Même si dans le diagramme de classe c'est écrit 64) ?-->
+  <!-- Table productsservices est-ce que le code on veut mettre moins de caractères selon le plus long dans la liste excel ? (Même si dans le diagramme de classe c'est écrit (8) ?-->
+  <!-- Table productsservices est-ce qu'on a besoin du category_code (string) puisqu'on a déjà sa clé étrangère?-->
   <div class="container bg-white rounded my-2">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
