@@ -3,7 +3,6 @@
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/supplier.css') }}">
 <link rel="stylesheet" href="{{ asset('css/progressBar.css') }}">
-<script src="{{ asset('js/createValidation.js') }}"></script>
 @endsection
 
 @section('content')
@@ -43,14 +42,7 @@
 
     <!--IDENTIFICATION-->  
     <!--
-      Remarques_Validations_Front_end::
         - Mettre le texte dans les fichiers de langue
-        - Ne pas mettre de point d'exclamation dans les erreurs
-        - Ne pas mettre de message de validation quand c'est bon
-        - Ne pas mettre les erreurs quand la page load
-        - Mettre le fichier de validation dans js/suppliersCreate/createValidationIdentification.js
-        - Faire un fichier par section
-        - Validation du courriel, valider la fin avec le premier point et la premiee section après le point
     -->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
@@ -68,21 +60,22 @@
                     <div class="form-floating mb-3">
                         <input type="text" oninput="validateIdentificationNeq()" name="neq" id="neq" class="form-control" placeholder="" value="{{ old('neq') }}" maxlength="10">
                         <label for="neq">{{__('form.neqLabel')}}</label>
-                        <div class="invalid-feedback" id="neqInvalid1" style="display: none;">Le NEQ doit débuter par 11, 22, 33 ou 88!</div>
-                        <div class="invalid-feedback" id="neqInvalid2" style="display: none;">Le troisième caractère doit être 4, 5, 6, 7, 8 ou 9!</div>
-                        <div class="invalid-feedback" id="neqInvalid3" style="display: none;">Le NEQ doit être composé uniquement de chiffres!</div>
-                        <div class="invalid-feedback" id="neqInvalid4" style="display: none;">Le NEQ doit être composé de 10 chiffres!</div>
-                        <div class="invalid-feedback" id="neqInvalid5" style="display: none;">Le NEQ est déjà enregistrer pour un autre compte!</div>
-                        <div id="neqValid"></br></div>
-                        
+                        <div id="neqStart"></br></div>
+                        <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
+                        <div class="invalid-feedback" id="neqInvalidThird" style="display: none;">{{__('validation.contain_at_position', ['index' => '3', 'values' => '4, 5, 6, 7, 8 ou 9'])}}</div>
+                        <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('validation.digits_only', ['attribute' => 'NEQ'])}}</div>
+                        <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('validation.size.string', ['attribute' => 'NEQ', 'size' => '10'])}}</div>
+                        <div class="invalid-feedback" id="neqInvalidExist" style="display: none;">{{__('form.identificationNeqExistValidation')}}</div>
+                        <div class="valid-feedback" id="neqValid" style="display: none;"></br></div>
                     </div>
                 </div>
                 <div class="text-start">
                     <div class="form-floating mb-3">
-                        <input type="text" oninput="validateIdentificationName()" name="name" id="name" class="form-control is-invalid" placeholder="" value="{{ old('name') }}" maxlength="64">
+                        <input type="text" oninput="validateIdentificationName()" name="name" id="name" class="form-control" placeholder="" value="{{ old('name') }}" maxlength="64">
                         <label for="name">{{__('form.companyNameLabel')}}</label>
-                        <div class="valid-feedback" id="nameValid1" style="display: none;"></br></div>
-                        <div class="invalid-feedback" id="nameInvalid1" style="display: none;">Le nom d'entreprise est obligatoire!</div>
+                        <div id="nameStart"></br></div>
+                        <div class="valid-feedback" id="nameValid" style="display: none;"></br></div>
+                        <div class="invalid-feedback" id="nameInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Nom d\'entreprise'])}}</div>
                     </div>
                 </div>
             </div>
@@ -92,11 +85,15 @@
                     <div class="form-floating mb-3">
                         <input type="email" oninput="validateIdentificationEmail()" name="email" id="email" class="form-control" required placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64">
                         <label for="email">{{__('form.emailLabel')}}</label>
-                        <div class="valid-feedback" id="emailValid1" style="display: none;"></br></div>
-                        <div class="invalid-feedback" id="emailInvalid1">L'adresse courriel est obligatoire!</div>
-                        <div class="invalid-feedback" id="emailInvalid2" style="display: none;">L'adresse courriel ne peut commencer par @!</div>
-                        <div class="invalid-feedback" id="emailInvalid3" style="display: none;">L'adresse courriel doit contenir un @!</div>
-                        <div class="invalid-feedback" id="emailInvalid4" style="display: none;">L'adresse courriel doit contenir un nom de domaine!</div>
+                        <div id="emailStart"></br></div>
+                        <div class="valid-feedback" id="emailValid" style="display: none;"></br></div>
+                        <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
+                        <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('validation.doesnt_start_with', ['attribute' => 'Adresse courriel', 'values' => '@'])}}</div>
+                        <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('validation.contains', ['attribute' => 'Adresse courriel', 'values' => '@'])}}</div>
+                        <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">L'adresse courriel ne peut contenir plusieurs @.</div>
+                        <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">L'adresse courriel doit contenir un nom de domaine.</div>
+                        <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">Le nom de domaine doit contenir un ".".</div>
+                        <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">Le nom de domaine ne peut finir ou commencer par ".".</div>
                     </div>
                 </div>
                 <div class="text-start">
@@ -105,22 +102,23 @@
                             <div class="form-floating mb-3">
                                 <input type="password" oninput="validateIdentificationPassword()" name="password" id="password" required class="form-control" placeholder="" maxlength="12">
                                 <label for="password">{{__('form.passwordLabel')}}</label>
-                                <div class="valid-feedback" id="passwordValid1" style="display: none;"></br></div>
-                                <div class="invalid-feedback" id="passwordInvalid1">Le mot de passe est obligatoire!</div>
-                                <div class="invalid-feedback" id="passwordInvalid2" style="display: none;">Le mot de passe doit contenir entre 7 et 12 caractères!</div>
-                                <div class="invalid-feedback" id="passwordInvalid3" style="display: none;">Le mot de passe doit contenir une minuscule!</div>
-                                <div class="invalid-feedback" id="passwordInvalid4" style="display: none;">Le mot de passe doit contenir une majuscule!</div>
-                                <div class="invalid-feedback" id="passwordInvalid5" style="display: none;">Le mot de passe doit contenir un chiffre!</div>
-                                <div class="invalid-feedback" id="passwordInvalid6" style="display: none;">Le mot de passe doit contenir un caractère spécial!</div>
+                                <div id="passwordStart"></br></div>
+                                <div class="valid-feedback" id="passwordValid" style="display: none;"></br></div>
+                                <div class="invalid-feedback" id="passwordInvalidEmpty" style="display: none;">Le mot de passe est obligatoire.</div>
+                                <div class="invalid-feedback" id="passwordInvalidAmount" style="display: none;">Le mot de passe doit contenir entre 7 et 12 caractères.</div>
+                                <div class="invalid-feedback" id="passwordInvalidLowercase" style="display: none;">Le mot de passe doit contenir une minuscule.</div>
+                                <div class="invalid-feedback" id="passwordInvalidUppercase" style="display: none;">Le mot de passe doit contenir une majuscule.</div>
+                                <div class="invalid-feedback" id="passwordInvalidNumber" style="display: none;">Le mot de passe doit contenir un chiffre.</div>
+                                <div class="invalid-feedback" id="passwordInvalidSpecial" style="display: none;">Le mot de passe doit contenir un caractère spécial.</div>
                             </div>
                         </div>
                         <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                             <div class="form-floating mb-3">
-                                <input type="password" oninput="validateIdentificationPasswordConfirmation()" name="password_confirmation" required id="password_confirmation" placeholder="" class="form-control" maxlength="12">
+                                <input type="password" oninput="validateIdentificationPasswordConfirmation(true)" name="password_confirmation" required id="password_confirmation" placeholder="" class="form-control" maxlength="12">
                                 <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
-                                <div class="valid-feedback" id="password_confirmationValid1" style="display: none;"></br></div>
-                                <div class="invalid-feedback" id="password_confirmationInvalid1">Le mot de passe est obligatoire!</div>
-                                <div class="invalid-feedback" id="password_confirmationInvalid2" style="display: none;">Le mot de passe n'est pas identique!</div>
+                                <div id="password_confirmationStart"></br></div>
+                                <div class="valid-feedback" id="password_confirmationValid" style="display: none;"></br></div>
+                                <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">Le mot de passe n'est pas identique.</div>
                             </div>
                         </div>
                     </div>
@@ -138,7 +136,6 @@
 
   <!--PRODUIT ET SERVICE-->
   <!--Remarques-->
-  <!-- Titre Produits et Services disparaît écran sm -->
   <!-- Responsive en bas de large (992px) les labels des inputs Recherche, Détails et Sélectionnez embarque sur le texte (contenu) -->
   <!-- Table productsservices est-ce que la description on veut mettre plus de caractères. (Même si dans le diagramme de classe c'est écrit 64) ?-->
   <!-- Table productsservices est-ce que le code on veut mettre moins de caractères selon le plus long dans la liste excel ? (Même si dans le diagramme de classe c'est écrit (8) ?-->
@@ -148,7 +145,7 @@
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
     </div>
     <div class="row">
-      <div class="d-none d-md-block col-12 text-center">
+      <div class="d-md-block col-12 text-center">
         <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
       </div>
     </div>
@@ -774,6 +771,8 @@
 @endsection
 
 @section('scripts')
+<script src="{{ asset('js/suppliersCreate/createValidationIdentification.js') }}"></script>
+<script src="{{ asset('js/suppliersCreate/produitsServices.js') }}"></script>
 <script src="{{ asset('js/suppliersCreate/rbq.js') }} "></script>
 <script src="{{ asset('js/suppliersCreate/contact.js') }} "></script>
 <script src="{{ asset('js/progressBar.js') }} "></script>

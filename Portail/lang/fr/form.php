@@ -25,6 +25,7 @@ return [
     'identificationTitle' => 'Identification',
     'identificationCompanySection' => 'Entreprise',
     'identificationAuthentificationSection' => 'Authentification',
+    'identificationNeqExistValidation' => 'Le NEQ est déjà enregistrer pour un autre compte.',
 
     'productsAndServiceTitle' => 'Produits et Services Offerts',
     'productsAndServiceCategories' => 'Catégorie',
