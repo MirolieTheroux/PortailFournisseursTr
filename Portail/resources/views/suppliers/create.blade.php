@@ -566,6 +566,9 @@
     <!--TODO::Attention, le x n'apparait pas suite au validation Laravel-->
     <!--TODO::Attention, enlever x au 1 jsute quand seul-->
     <!--TODO::Formater automatiquement le numéro de tel (Voir se que Miro à fait)-->
+
+    <!--REMARQUE::Mettre les numéros de contact par rapport au précédent quand on en efface un. (Ex: 1,2,3,4. Présentement, quand on en efface, ça peut donner 1,4,6,9.-->
+    <!--REMARQUE::Mettre les numéros de contact et le "X" dans la boite de contact en haut à gauche, un peu comme les labels des champs.-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-contacts"></div> <!--TODO::Trouver une autre image de fond-->
