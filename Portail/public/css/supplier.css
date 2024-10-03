@@ -68,31 +68,18 @@
     color : var(--dark_blue)
 }
 
-#details-section p{
+#contactDetails-section p{
     font-size: 13px;
     color : red;
     margin: 0;
 }
 
+
 /* Font-size label selon écran */
-@media (max-width: 1400px) {
-    #civicNumber {
-        font-size: 10px; 
-        line-height: 1.5;
-    }
 
-    
-}
-
-/* @media (max-width :1200px){
-    #add-icon {
-        width: 25px; 
-    height: 25px; 
-    }
-} */
 
 @media (max-width: 992px) and (min-width:768px) {
-    #postalCode, #officeNumber {
+    #postalCode{
         font-size: 10px; 
         line-height: 1.5;
     }
@@ -105,7 +92,7 @@
 }
 
 @media (max-width: 516px)  {
-    #postalCode, #officeNumber {
+    #postalCode {
         font-size: 11px; 
         line-height: 1.5;
     }

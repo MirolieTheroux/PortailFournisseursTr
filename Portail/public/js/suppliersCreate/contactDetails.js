@@ -30,12 +30,9 @@ async function addCitiesAndDAInSelect() {
         citiesAndDA.forEach((city) => {
             let optionCity = document.createElement("option");
             optionCity.text = city.munnom;
-            optionCity.value = city.munmom;
+            optionCity.value = city.munnom;
             selectCity.add(optionCity);
         });
-        if (oldCity) {
-            selectCity.value = oldCity;
-        }
         selectCity.classList.remove("d-none");
         inputCity.classList.add("d-none");
     }
@@ -65,11 +62,6 @@ async function addCitiesAndDAInSelect() {
         optionDA.value = DA.replace(/\s*\(.*?\)/, '');
         districtArea.add(optionDA);
     });
-
-    if (oldDistrictArea) {
-        districtArea.value = oldDistrictArea;
-    }
-
 }
 
 function savePhoneNumbers(phoneNumbers) {
@@ -82,12 +74,12 @@ function loadPhoneNumbers() {
 }
 
 function addPhoneNumber() {
-    const typephone = document.getElementById("contactDetailsPhoneType").value;
+    const typePhone = document.getElementById("contactDetailsPhoneType").value;
     const phoneNumber = document.getElementById("contactDetailsPhoneNumber").value;
     const phoneExtension = document.getElementById("contactDetailsPhoneExtension").value || "-";
     
     const phoneNumbers = loadPhoneNumbers();
-    phoneNumbers.push({ type: typephone, number: phoneNumber, extension: phoneExtension });
+    phoneNumbers.push({ type: typePhone, number: phoneNumber, extension: phoneExtension });
     savePhoneNumbers(phoneNumbers);
 
     displayPhoneNumbers();

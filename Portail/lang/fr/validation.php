@@ -205,6 +205,7 @@ return [
       'contactDetailsInputCity' => 'Ville',
       'contactDetailsPostalCode' => 'Code postal',
       'contactDetailsWebsite' => 'Site internet',
+      'contactDetailsPhoneNumber' => 'Numéro',
       'contactFirstNames' => 'Prénom',
       'contactFirstNames.*' => 'Prénom',
       'contactLastNames.*' => 'Nom',

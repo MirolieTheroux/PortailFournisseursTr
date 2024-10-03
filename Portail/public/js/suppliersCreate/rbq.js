@@ -2,11 +2,15 @@
 let subcategories = [];
 let typeLicence;
 let licenceNumber = "";
+let phoneNumber;
+let address = "";
+let city = "";
+let districtArea = "";
 let licenceRestriction = false;
 let neqNumber = ""; //TODO::Modifier pour mettre la variable du NEQ
 
 async function fetchRBQ(rbqNumber) {
-  const response = await fetch("https://donneesquebec.ca/recherche/api/action/datastore_search_sql?sql=SELECT\"Numero de licence\",\"Statut de la licence\",\"Restriction\",\"Type de licence\",\"Categorie\",\"Sous-categories\"FROM\"32f6ec46-85fd-45e9-945b-965d9235840a\"WHERE\"NEQ\"='"+ rbqNumber +"'AND\"Categorie\"<>'null'");
+  const response = await fetch("https://donneesquebec.ca/recherche/api/action/datastore_search_sql?sql=SELECT\"Numero de licence\",\"Statut de la licence\",\"Restriction\",\"Type de licence\",\"Categorie\",\"Sous-categories\",\"Numero de telephone\",\"Adresse\",\"Municipalite\",\"Region administrative\"FROM\"32f6ec46-85fd-45e9-945b-965d9235840a\"WHERE\"NEQ\"='"+ rbqNumber +"'AND\"Categorie\"<>'null'");
   const data = await response.json();
 
   licenceRestriction = false;
@@ -24,12 +28,26 @@ async function fetchRBQ(rbqNumber) {
     if(record["restriction"] === "Oui"){
       licenceRestriction = true;
     }
+    if(phoneNumber === undefined){
+      phoneNumber = record["Numero de telephone"];
+    }
+    if(address === ""){
+      address = record["Adresse"];
+    }
+    if(city === ""){
+      city = record["Municipalite"];
+    }
+    if(districtArea === ""){
+      districtArea = record["Region administrative"];
+    }
   });
+ 
   return data.result.records;
 }
 
 document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifier pour mettre a jour après la premmière page NEQ
   await fetchRBQ(neqNumber);
+  getAddressAndFillForm();
 
   const entrepreneurContainer = document.getElementById('entrepreneur-categories');
   const ownerBuilderContainer = document.getElementById('ownerBuilder-categories');
@@ -114,6 +132,20 @@ document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifie
         checkbox.checked  = false;
     });
   }
+ 
 });
 
 /*** Section Coordonnées ***/
+function getAddressAndFillForm(){
+  let addressInfo = address.split(city.toLocaleUpperCase());
+  let civicNumber = addressInfo[0].substring(0, addressInfo[0].indexOf(" "));
+  let streeName = addressInfo[0].substring(addressInfo[0].indexOf(" ") + 1);
+  let postalCode = addressInfo[1].substring(addressInfo[1].length-7,addressInfo[0].length);
+
+  document.getElementById("contactDetailsCivicNumberXxl").value = civicNumber;
+  document.getElementById("contactDetailsStreetNameXxl").value = streeName;
+  document.getElementById("contactDetailsCitySelect").value = city;
+  document.getElementById("contactDetailsPostalCode").value = postalCode;
+  document.getElementById("contactDetailsDistrictArea").value = districtArea;
+}
+
