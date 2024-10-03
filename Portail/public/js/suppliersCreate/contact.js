@@ -9,6 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const addContactButton = document.querySelector('.add-contact');
   addContactButton.addEventListener("click", cloneContact);
 
+  const delContactButton = referenceContainer.querySelector('.delete-contact');
+  delContactButton.addEventListener("click", function(){
+    referenceContainer.remove();
+    maskButton();
+  });
+  maskButton();
+
   const subtitle = contactsRow.querySelector('#contactSubtitle1');
   const firstnameInput = contactsRow.querySelector('#contactFirstName1');
   const firstnameLabel = contactsRow.querySelector('#contactFirstNameLabel1');
@@ -36,11 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
     newDeleteContactButton.classList.remove('d-none');
     newDeleteContactButton.addEventListener("click", function(){
       newContact.remove();
+      maskButton();
     });
 
     const newSubtitle = newContact.querySelector('#' + subtitle.getAttribute("id"));
     newSubtitle.setAttribute("id", newSubtitle.getAttribute("id").slice(0, -1) + contactNumber);
-    newSubtitle.innerHTML = newSubtitle.innerHTML.slice(0, -1) + contactNumber;
 
     const newFirstnameInput = newContact.querySelector('#'+firstnameInput.getAttribute("id"));
     newFirstnameInput.setAttribute("id", firstnameInput.getAttribute("id").slice(0, -1) + contactNumber);
@@ -92,7 +99,21 @@ document.addEventListener('DOMContentLoaded', function() {
     newTelExtensionLabel.setAttribute("for", newTelExtensionInput.getAttribute("id"));
 
     contactsRow.append(newContact);
+    maskButton();
   }
 
+  function maskButton(){
+    let delContactButtons = document.querySelectorAll('.delete-contact');
+    if(delContactButtons.length === 1){
+      delContactButtons.forEach(button => {
+        button.classList.add('d-none')
+      });
+    }
+    else{
+      delContactButtons.forEach(button => {
+        button.classList.remove('d-none')
+      });
+    }
+  }
 
 });

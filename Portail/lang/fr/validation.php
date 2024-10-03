@@ -210,9 +210,12 @@ return [
       'contactLastNames.*' => 'Nom',
       'contactJobs.*' => 'Fonction',
       'contactEmails.*' => 'Adresse courriel',
-      'contactTelTypes.*' => 'Type',
-      'contactTelNumbers.*' => 'Numéro',
-      'contactTelExtensions.*' => 'Poste',
+      'contactTelTypes1.*' => 'Type',
+      'contactTelNumbers1.*' => 'Numéro',
+      'contactTelExtensions1.*' => 'Poste',
+      'contactTelTypes2.*' => 'Type',
+      'contactTelNumbers2.*' => 'Numéro',
+      'contactTelExtensions2.*' => 'Poste',
     ],
 
 ];
