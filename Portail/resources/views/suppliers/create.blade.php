@@ -759,7 +759,7 @@
                         </div>
                         <div class="text-center mb-4">
                             <div class="form-floating">
-                                <input type="text" oninput="validateContactsJob('contactJob1')" name="contactJobs[]" id="contactJob1" class="form-control" placeholder="" maxlength="32">
+                                <input type="text" oninput="validateContactsJob('contactJob1')" name="contactJobs[]" id="contactJob1" class="form-control" placeholder="" maxlength="32" required>
                                 <label id="contactJobLabel1" for="contactJob1">{{__('form.jobLabel')}}</label>
                                 <div class="text-start valid-feedback jobValid" style="display: none;"></br></div>
                                 <div class="text-start invalid-feedback jobInvalidRequired" style="display: none;">{{__('form.contactsJobsValidationRequired')}}</div>
@@ -767,7 +767,7 @@
                         </div>
                         <div class="text-center mb-4">
                             <div class="form-floating">
-                                <input type="text" oninput="validateContactsEmail('contactEmail1')" name="contactEmails[]" id="contactEmail1" class="form-control" placeholder="" maxlength="64">
+                                <input type="text" oninput="validateContactsEmail('contactEmail1')" name="contactEmails[]" id="contactEmail1" class="form-control" placeholder="" maxlength="64" required>
                                 <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}}</label>
                                 <div class="text-start invalid-feedback emailInvalidRequired" style="display: none;">{{__('form.contactsEmailsValidationRequired')}}</div>
                                 <div class="text-start invalid-feedback emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
@@ -785,7 +785,7 @@
                                     <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                                    <input type="text" oninput="validateContactsPhone('contactTelNumberA1')" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control" placeholder="" maxlength="10">
+                                    <input type="text" oninput="validateContactsPhone('contactTelNumberA1')" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control" placeholder="" maxlength="10" required>
                                     <label id="contactTelNumberLabelA1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberA1">{{__('form.numberLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-3">
