@@ -769,8 +769,8 @@
                             <div class="form-floating">
                                 <input type="text" oninput="validateContactsEmail('contactEmail1')" name="contactEmails[]" id="contactEmail1" class="form-control" placeholder="" maxlength="64">
                                 <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}}</label>
-                                <div class="text-start invalid-feedback emailInvalidRequired" style="display: none;">L'adresse courriel est requise.</div>
-                                <div class="text-start invalid-feedback emailInvalidFormat" style="display: none;">Le format de l'adresse courriel n'est pas valide (exemple@gmail.com)</div>
+                                <div class="text-start invalid-feedback emailInvalidRequired" style="display: none;">{{__('form.contactsEmailsValidationRequired')}}</div>
+                                <div class="text-start invalid-feedback emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
                             </div>
                         </div>
                         <h2 class="text-center section-subtitle">{{__('form.phoneNumber')}}</h2>
@@ -793,9 +793,9 @@
                                     <label id="contactTelExtensionLabelA1" for="contactTelExtensionA1">{{__('form.phoneExtension')}}</label>
                                 </div>
                             </div>
-                            <div class="text-start invalid-feedback phoneInvalidRequired" style="display: none;">Le numéro de téléphone est requis.</div>
-                            <div class="text-start invalid-feedback phoneInvalidNumber" style="display: none;">Le champ numéro de téléphone ne doit contenir que des chiffres.</div>
-                            <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">Le poste ne doit contenir que des chiffres.</div>
+                            <div class="text-start invalid-feedback phoneInvalidRequired" style="display: none;">{{__('form.contactsTelNumberValidationRequired')}}</div>
+                            <div class="text-start invalid-feedback phoneInvalidNumber" style="display: none;">{{__('form.contactsTelNumberValidation')}}</div>
+                            <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">{{__('form.contactsTelExtensionValidation')}}</div>
                         </div>
 
                         <h2 class="text-center section-subtitle d-md-none">{{__('form.phoneNumber')}}</h2>
@@ -818,9 +818,9 @@
                                     <label id="contactTelExtensionLabelB1" for="contactTelExtensionB1">{{__('form.phoneExtension')}}</label>
                                 </div>
                             </div>
-                            <div class="text-start invalid-feedback phoneInvalidRequired" style="display: none;">Le numéro de téléphone est requis.</div>
-                            <div class="text-start invalid-feedback phoneInvalidNumber" style="display: none;">Le champ numéro de téléphone ne doit contenir que des chiffres.</div>
-                            <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">Le poste ne doit contenir que des chiffres.</div>
+                            <div class="text-start invalid-feedback phoneInvalidRequired" style="display: none;">{{__('form.contactsTelNumberValidationRequired')}}</div>
+                            <div class="text-start invalid-feedback phoneInvalidNumber" style="display: none;">{{__('form.contactsTelNumberValidation')}}</div>
+                            <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">{{__('form.contactsTelExtensionValidation')}}</div>
                         </div>
                     </div>
                 </div>
