@@ -241,7 +241,7 @@
 
 
     <!--LICENCE RBQ-->
-    <!--TODO::Formater automatiquement le numéro de licence RBQ-->
+    <!--NICE_TO_HAVE::Formater automatiquement le numéro de licence RBQ-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-rbq"></div>
@@ -259,6 +259,7 @@
                       <div class="form-floating mb-3">
                           <input type="text" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="12">
                           <label for="licenceRbq">{{__('form.numberLabel')}}</label>
+                          <div class="text-start invalid-feedback licenceInvalidNumber" style="display: none;">{{__('form.rbqLicenceValidation')}}</div>
                       </div>
                       @if($errors->has('licenceRbq'))
                           <p>{{ $errors->first('licenceRbq') }}</p>
@@ -795,6 +796,7 @@
                             </div>
                             <div class="text-start invalid-feedback phoneInvalidRequired" style="display: none;">{{__('form.contactsTelNumberValidationRequired')}}</div>
                             <div class="text-start invalid-feedback phoneInvalidNumber" style="display: none;">{{__('form.contactsTelNumberValidation')}}</div>
+                            <div class="text-start invalid-feedback phoneInvalidSize" style="display: none;">{{__('form.contactsTelNumberValidationSize')}}</div>
                             <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">{{__('form.contactsTelExtensionValidation')}}</div>
                         </div>
 
@@ -820,6 +822,7 @@
                             </div>
                             <div class="text-start invalid-feedback phoneInvalidRequired" style="display: none;">{{__('form.contactsTelNumberValidationRequired')}}</div>
                             <div class="text-start invalid-feedback phoneInvalidNumber" style="display: none;">{{__('form.contactsTelNumberValidation')}}</div>
+                            <div class="text-start invalid-feedback phoneInvalidSize" style="display: none;">{{__('form.contactsTelNumberValidationSize')}}</div>
                             <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">{{__('form.contactsTelExtensionValidation')}}</div>
                         </div>
                     </div>

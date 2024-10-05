@@ -1,3 +1,29 @@
+function validateRbqLicence() {
+  const input = document.getElementById("licenceRbq");
+  const parentDiv = input.parentElement;
+  const invalidNumberMessage = parentDiv.querySelector('.licenceInvalidNumber');
+
+  // Reset all error messages
+  invalidNumberMessage.style.display = 'none';
+
+  // Basic validation logic
+  if (isNaN(input.value)) {
+    input.classList.remove('is-valid');
+    input.classList.add('is-invalid');
+    invalidNumberMessage.style.display = 'block';
+  }
+  else if(!input.value){
+    input.classList.remove('is-invalid');
+    input.classList.remove('is-valid');
+  }
+  else {
+    input.classList.remove('is-invalid');
+    input.classList.add('is-valid');
+  }
+
+  input.classList.add('was-validated');
+};
+
 function validateContactsName(id) {
   console.log(id)
   const input = document.getElementById(id);
@@ -88,12 +114,10 @@ function validateContactsPhone(id) {
   const parentDiv = input.closest(".phone-container");
   const invalidRequiredMessage = parentDiv.querySelector('.phoneInvalidRequired');
   const invalidNumberMessage = parentDiv.querySelector('.phoneInvalidNumber');
-  const invalidSizeMessage = parentDiv.querySelector('.phoneInvalidSize');
 
   // Reset all error messages
   invalidRequiredMessage.style.display = 'none';
   invalidNumberMessage.style.display = 'none';
-  invalidSizeMessage.style.display = 'none';
 
   // Basic validation logic
   if (!input.value) {
@@ -106,11 +130,6 @@ function validateContactsPhone(id) {
     input.classList.add('is-invalid');
     invalidNumberMessage.style.display = 'block';
   }
-  else if(input.value.length !== 10){
-    input.classList.remove('is-valid');
-    input.classList.add('is-invalid');
-    invalidSizeMessage.style.display = 'block';
-  }
   else {
     input.classList.remove('is-invalid');
     input.classList.add('is-valid');
@@ -118,32 +137,6 @@ function validateContactsPhone(id) {
 
   input.classList.add('was-validated');
 };
-
-function validateContactsExtension(id) {
-    const input = document.getElementById(id);
-    const parentDiv = input.closest(".phone-container");
-    const invalidNumberMessage = parentDiv.querySelector('.phoneInvalidExtension');
-
-    // Reset all error messages
-    invalidNumberMessage.style.display = 'none';
-
-    // Basic validation logic
-    if (isNaN(input.value)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidNumberMessage.style.display = 'block';
-    }
-    else if(!input.value){
-        input.classList.remove('is-invalid');
-        input.classList.remove('is-valid');
-    }
-    else {
-      input.classList.remove('is-invalid');
-      input.classList.add('is-valid');
-    }
-
-    input.classList.add('was-validated');
-  };
 
 function validateContactsAll(){
     const inputs = document.querySelectorAll(".contact-input");

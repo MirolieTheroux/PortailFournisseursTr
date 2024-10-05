@@ -55,7 +55,7 @@ return [
 
     'rbqTitle' => 'Licence RBQ',
     'rbqLicenceSection' => 'Licence',
-    'rbqLicenceValidation' => 'Le format du champ licence doit corresprondre à 0000-0000-00.',
+    'rbqLicenceValidation' => 'Le champ licence ne doit contenir que des chiffres.',
     'rbqCategoriesSection' => 'Catégories et sous-catégories autorisées',
     'rbqCategoriesUnselectedType' => 'Veuillez selectionner un type de licence pour voir la liste des sous-catégories',
     'rbqCategoriesGeneralEntrepreneur' => 'Catégories entrepreneur général',
@@ -74,5 +74,6 @@ return [
     'contactsEmailsValidationFormat' => 'Le format de l\'adresse courriel n\'est pas valide (exemple@gmail.com).',
     'contactsTelNumberValidationRequired' => 'Le numéro de téléphone est requis.',
     'contactsTelNumberValidation' => 'Le champ numéro de téléphone ne doit contenir que des chiffres.',
+    'contactsTelNumberValidationSize' => 'Le champ numéro de téléphone ne doit contenir 10 chiffres.',
     'contactsTelExtensionValidation' => 'Le poste ne doit contenir que des chiffres.',
 ];

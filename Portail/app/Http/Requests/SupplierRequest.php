@@ -36,7 +36,7 @@ class SupplierRequest extends FormRequest
                 'confirmed',
             ],
             'password_confirmation' => 'required',
-            'licenceRbq' => 'size:12|regex:/^[0-9]{4}-[0-9]{4}-[0-9]{2}$/i|nullable',
+            'licenceRbq' => 'regex:/^[0-9]+$/i|size:12|nullable',
             'statusRbq' => 'required_with:licenceRbq',
             'typeRbq' => 'required_with:licenceRbq',
             'rbqSubcategories' => 'required_with:licenceRbq',
