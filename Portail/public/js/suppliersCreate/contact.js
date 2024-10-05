@@ -31,12 +31,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const telTypeLabelB = contactsRow.querySelector('#contactTelTypeLabelB1');
   const telnumberInputA = contactsRow.querySelector('#contactTelNumberA1');
   const telNumberLabelA = contactsRow.querySelector('#contactTelNumberLabelA1');
-  const telnumberInputB = contactsRow.querySelector('#contactTelNumberA1');
-  const telNumberLabelB = contactsRow.querySelector('#contactTelNumberLabelA1');
+  const telnumberInputB = contactsRow.querySelector('#contactTelNumberB1');
+  const telNumberLabelB = contactsRow.querySelector('#contactTelNumberLabelB1');
   const telExtensionInputA = contactsRow.querySelector('#contactTelExtensionA1');
   const telExtensionLabelA = contactsRow.querySelector('#contactTelExtensionLabelA1');
-  const telExtensionInputB = contactsRow.querySelector('#contactTelExtensionA1');
-  const telExtensionLabelB = contactsRow.querySelector('#contactTelExtensionLabelA1');
+  const telExtensionInputB = contactsRow.querySelector('#contactTelExtensionB1');
+  const telExtensionLabelB = contactsRow.querySelector('#contactTelExtensionLabelB1');
 
 
 
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const newFirstnameLabel = newContact.querySelector('#'+firstnameLabel.getAttribute("id"));
     newFirstnameLabel.setAttribute("id", newFirstnameLabel.getAttribute("id").slice(0, -1) + contactNumber);
     newFirstnameLabel.setAttribute("for", newFirstnameInput.getAttribute("id"));
-  
+
     const newlastnameInput = newContact.querySelector('#'+lastnameInput.getAttribute("id"));
     newlastnameInput.setAttribute("id", newlastnameInput.getAttribute("id").slice(0, -1) + contactNumber);
     newlastnameInput.setAttribute("oninput", "validateContactsName('"+newlastnameInput.getAttribute("id")+"')");
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const newlastnameLabel = newContact.querySelector('#'+lastnameLabel.getAttribute("id"));
     newlastnameLabel.setAttribute("id", newlastnameLabel.getAttribute("id").slice(0, -1) + contactNumber);
     newlastnameLabel.setAttribute("for", newlastnameInput.getAttribute("id"));
-  
+
     const newJobInput = newContact.querySelector('#'+jobInput.getAttribute("id"));
     newJobInput.setAttribute("id", newJobInput.getAttribute("id").slice(0, -1) + contactNumber);
     newJobInput.setAttribute("oninput", "validateContactsJob('"+newJobInput.getAttribute("id")+"')");
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const newJobLabel = newContact.querySelector('#'+jobLabel.getAttribute("id"));
     newJobLabel.setAttribute("id", newJobLabel.getAttribute("id").slice(0, -1) + contactNumber);
     newJobLabel.setAttribute("for", newJobInput.getAttribute("id"));
-  
+
     const newEmailInput = newContact.querySelector('#'+emailInput.getAttribute("id"));
     newEmailInput.setAttribute("id", newEmailInput.getAttribute("id").slice(0, -1) + contactNumber);
     newEmailInput.setAttribute("oninput", "validateContactsEmail('"+newEmailInput.getAttribute("id")+"')");
@@ -94,45 +94,57 @@ document.addEventListener('DOMContentLoaded', function() {
     const newEmailLabel = newContact.querySelector('#'+emailLabel.getAttribute("id"));
     newEmailLabel.setAttribute("id", newEmailLabel.getAttribute("id").slice(0, -1) + contactNumber);
     newEmailLabel.setAttribute("for", newEmailInput.getAttribute("id"));
-  
+
     const newtelTypeInputA = newContact.querySelector('#'+telTypeInputA.getAttribute("id"));
     newtelTypeInputA.setAttribute("id", newtelTypeInputA.getAttribute("id").slice(0, -1) + contactNumber);
     newtelTypeInputA.value = "desktop";
     const newtelTypeLabelA = newContact.querySelector('#'+telTypeLabelA.getAttribute("id"));
     newtelTypeLabelA.setAttribute("id", newtelTypeLabelA.getAttribute("id").slice(0, -1) + contactNumber);
     newtelTypeLabelA.setAttribute("for", newtelTypeInputA.getAttribute("id"));
-  
+
     const newtelTypeInputB = newContact.querySelector('#'+telTypeInputB.getAttribute("id"));
     newtelTypeInputB.setAttribute("id", newtelTypeInputB.getAttribute("id").slice(0, -1) + contactNumber);
     newtelTypeInputB.value = "desktop";
-    const newtelTypeLabelB = newContact.querySelector('#'+telTypeLabelA.getAttribute("id"));
+    const newtelTypeLabelB = newContact.querySelector('#'+telTypeLabelB.getAttribute("id"));
     newtelTypeLabelB.setAttribute("id", newtelTypeLabelB.getAttribute("id").slice(0, -1) + contactNumber);
     newtelTypeLabelB.setAttribute("for", newtelTypeInputB.getAttribute("id"));
-  
+
     const newtelnumberInputA = newContact.querySelector('#'+telnumberInputA.getAttribute("id"));
     newtelnumberInputA.setAttribute("id", newtelnumberInputA.getAttribute("id").slice(0, -1) + contactNumber);
+    newtelnumberInputA.setAttribute("oninput", "validateContactsPhone('"+newtelnumberInputA.getAttribute("id")+"')");
     newtelnumberInputA.value = "";
+    newtelnumberInputA.classList.remove('is-valid');
+    newtelnumberInputA.classList.remove('is-invalid');
     const newtelNumberLabelA = newContact.querySelector('#'+telNumberLabelA.getAttribute("id"));
     newtelNumberLabelA.setAttribute("id", newtelNumberLabelA.getAttribute("id").slice(0, -1) + contactNumber);
     newtelNumberLabelA.setAttribute("for", newtelnumberInputA.getAttribute("id"));
-  
+
     const newtelnumberInputB = newContact.querySelector('#'+telnumberInputB.getAttribute("id"));
     newtelnumberInputB.setAttribute("id", newtelnumberInputB.getAttribute("id").slice(0, -1) + contactNumber);
+    newtelnumberInputB.setAttribute("oninput", "validateContactsPhone('"+newtelnumberInputB.getAttribute("id")+"')");
     newtelnumberInputB.value = "";
+    newtelnumberInputB.classList.remove('is-valid');
+    newtelnumberInputB.classList.remove('is-invalid');
     const newtelNumberLabelB = newContact.querySelector('#'+telNumberLabelB.getAttribute("id"));
     newtelNumberLabelB.setAttribute("id", newtelNumberLabelB.getAttribute("id").slice(0, -1) + contactNumber);
     newtelNumberLabelB.setAttribute("for", newtelnumberInputB.getAttribute("id"));
-  
+
     const newtelExtensionInputA = newContact.querySelector('#'+telExtensionInputA.getAttribute("id"));
     newtelExtensionInputA.setAttribute("id", newtelExtensionInputA.getAttribute("id").slice(0, -1) + contactNumber);
+    newtelExtensionInputA.setAttribute("oninput", "validateContactsExtension('"+newtelExtensionInputA.getAttribute("id")+"')");
     newtelExtensionInputA.value = "";
+    newtelExtensionInputA.classList.remove('is-valid');
+    newtelExtensionInputA.classList.remove('is-invalid');
     const newtelExtensionLabelA = newContact.querySelector('#'+telExtensionLabelA.getAttribute("id"));
     newtelExtensionLabelA.setAttribute("id", newtelExtensionLabelA.getAttribute("id").slice(0, -1) + contactNumber);
     newtelExtensionLabelA.setAttribute("for", newtelExtensionInputA.getAttribute("id"));
 
     const newtelExtensionInputB = newContact.querySelector('#'+telExtensionInputB.getAttribute("id"));
     newtelExtensionInputB.setAttribute("id", newtelExtensionInputB.getAttribute("id").slice(0, -1) + contactNumber);
+    newtelExtensionInputB.setAttribute("oninput", "validateContactsExtension('"+newtelExtensionInputB.getAttribute("id")+"')");
     newtelExtensionInputB.value = "";
+    newtelExtensionInputB.classList.remove('is-valid');
+    newtelExtensionInputB.classList.remove('is-invalid');
     const newtelExtensionLabelB = newContact.querySelector('#'+telExtensionLabelB.getAttribute("id"));
     newtelExtensionLabelB.setAttribute("id", newtelExtensionLabelB.getAttribute("id").slice(0, -1) + contactNumber);
     newtelExtensionLabelB.setAttribute("for", newtelExtensionInputB.getAttribute("id"));
