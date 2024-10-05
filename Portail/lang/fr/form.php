@@ -1,7 +1,7 @@
 <?php
- 
+
 // lang/en/messages.php
- 
+
 return [
     'neqLabel' => 'Numéro d\'entreprise du Québec (NEQ)',
     'companyNameLabel' => 'Nom de l\'entreprise',
@@ -21,7 +21,7 @@ return [
     'choiceDefaultType' => 'Choisir un type',
     'choiceEntrepreneur' => 'Entrepreneur',
     'choiceOwnerBuilder' => 'Constructeur-propriétaire',
-    
+
     'identificationTitle' => 'Identification',
     'identificationCompanySection' => 'Entreprise',
     'identificationAuthentificationSection' => 'Authentification',
@@ -34,7 +34,7 @@ return [
     'productsAndServiceServices' => 'Services',
     'productsAndServiceServicesCategorySelection' => 'Sélectionnez une catégorie',
     'productsAndServiceSelectedServicesList' => 'Liste des services choisis',
-    
+
     'contactDetailsTitle' => 'Coordonnées',
     'contactDetailsAddressSection' => 'Adresse',
     'contactDetailsPhoneNumbersSection' => 'Téléphones',
@@ -66,7 +66,13 @@ return [
 
     'contactsTitle' => 'Contacts',
     'contactsSubtitle' => 'Contact',
-    'contactFirstNamesValidation' => 'Ce champ ne peut contenir que des lettres (y compris accentuées) et les caractères spéciaux \' et -.',
-    'contactsTelNumberValidation' => 'Le numéro doit être un nombre.',
-    'contactsTelExtensionValidation' => 'Le poste doit être un nombre.',
+    'contactsNamesValidationSymbols' => 'Ce champ ne peut contenir que des lettres (y compris accentuées) et les caractères spéciaux \' et -.',
+    'contactsFirstNamesValidationRequired' => 'Le prénom du contact est requis.',
+    'contactsLastNamesValidationRequired' => 'Le nom du contact est requis.',
+    'contactsJobsValidationRequired' => 'La fonction du contact est requise.',
+    'contactsEmailsValidationRequired' => 'L\'adresse courriel est requise.',
+    'contactsEmailsValidationFormat' => 'Le format de l\'adresse courriel n\'est pas valide (exemple@gmail.com).',
+    'contactsTelNumberValidationRequired' => 'Le numéro de téléphone est requis.',
+    'contactsTelNumberValidation' => 'Le champ numéro de téléphone ne doit contenir que des chiffres.',
+    'contactsTelExtensionValidation' => 'Le poste ne doit contenir que des chiffres.',
 ];

@@ -53,11 +53,11 @@ class SupplierRequest extends FormRequest
             'contactLastNames.*' => 'required|max:32|regex:/^[a-zA-ZÀ-ÿ\'\-]+$/',
             'contactJobs.*' => 'required|max:32',
             'contactEmails.*' => 'required|email|max:64',
-            'contactTelTypes1.*' => 'required',
-            'contactTelNumbers1.*' => 'required|regex:/^[0-9]+$/i|size:10',
-            'contactTelExtensions1.*' => 'regex:/^[0-9]+$/i|max:6|nullable',
-            'contactTelNumbers2.*' => 'regex:/^[0-9]+$/i|size:10|nullable',
-            'contactTelExtensions2.*' => 'regex:/^[0-9]+$/i|max:6|nullable',
+            'contactTelTypesA.*' => 'required',
+            'contactTelNumbersA.*' => 'required|regex:/^[0-9]+$/i|size:10',
+            'contactTelExtensionsA.*' => 'regex:/^[0-9]+$/i|max:6|nullable',
+            'contactTelNumbersB.*' => 'regex:/^[0-9]+$/i|size:10|nullable',
+            'contactTelExtensionsB.*' => 'regex:/^[0-9]+$/i|max:6|nullable',
         ];
     }
 
@@ -66,7 +66,7 @@ class SupplierRequest extends FormRequest
             'licenceRbq.regex' => __('form.rbqLicenceValidation'),
             'rbqSubcategories.required_with' => __('form.rbqCategoriesValidation'),
             'contactDetailsInputCity.required_if' => __('form.inputCityValidation'),
-            'contactFirstNames.*.regex' => __('form.contactFirstNamesValidation'),
+            'contactFirstNames.*.regex' => __('form.contactsFirstNamesValidationSymbols'),
             'contactTelNumbers.*.regex' => __('form.contactsTelNumberValidation'),
             'contactTelExtensions.*.regex' => __('form.contactsTelExtensionValidation'),
         ];
