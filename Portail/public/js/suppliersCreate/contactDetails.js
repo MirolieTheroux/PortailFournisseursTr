@@ -1,6 +1,8 @@
 async function getCitiesAndDistrickAreas() {
     try {
-        const response = await fetch("https://www.donneesquebec.ca/recherche/api/3/action/datastore_search?resource_id=19385b4e-5503-4330-9e59-f998f5918363&fields=munnom,regadm&sort=munnom,regadm&limit=1400");
+        const response = await fetch(
+            "https://www.donneesquebec.ca/recherche/api/3/action/datastore_search?resource_id=19385b4e-5503-4330-9e59-f998f5918363&fields=munnom,regadm&sort=munnom,regadm&limit=1400"
+        );
 
         if (response.ok) {
             const data = await response.json();
@@ -22,7 +24,9 @@ async function addCitiesAndDAInSelect() {
     const inputCity = document.getElementById("contactDetailsInputCity");
     const districtArea = document.getElementById("contactDetailsDistrictArea");
 
-    const districtAreas = citiesAndDA.map((da) => da.regadm.replace(/--/g, '-'));
+    const districtAreas = citiesAndDA.map((da) =>
+        da.regadm.replace(/--/g, "-")
+    );
     const uniqueDA = Array.from(new Set(districtAreas)).sort();
 
     function addQuebecCities() {
@@ -59,27 +63,34 @@ async function addCitiesAndDAInSelect() {
     uniqueDA.forEach((DA) => {
         let optionDA = document.createElement("option");
         optionDA.text = DA;
-        optionDA.value = DA.replace(/\s*\(.*?\)/, '');
+        optionDA.value = DA.replace(/\s*\(.*?\)/, "");
         districtArea.add(optionDA);
     });
 }
 
 function savePhoneNumbers(phoneNumbers) {
-    localStorage.setItem('phoneNumbers', JSON.stringify(phoneNumbers));
+    localStorage.setItem("phoneNumbers", JSON.stringify(phoneNumbers));
 }
 
 function loadPhoneNumbers() {
-    const savedPhoneNumbers = localStorage.getItem('phoneNumbers');
+    const savedPhoneNumbers = localStorage.getItem("phoneNumbers");
     return savedPhoneNumbers ? JSON.parse(savedPhoneNumbers) : [];
 }
 
 function addPhoneNumber() {
     const typePhone = document.getElementById("contactDetailsPhoneType").value;
-    const phoneNumber = document.getElementById("contactDetailsPhoneNumber").value;
-    const phoneExtension = document.getElementById("contactDetailsPhoneExtension").value || "-";
-    
+    const phoneNumber = document.getElementById(
+        "contactDetailsPhoneNumber"
+    ).value;
+    const phoneExtension =
+        document.getElementById("contactDetailsPhoneExtension").value || "-";
+
     const phoneNumbers = loadPhoneNumbers();
-    phoneNumbers.push({ type: typePhone, number: phoneNumber, extension: phoneExtension });
+    phoneNumbers.push({
+        type: typePhone,
+        number: phoneNumber,
+        extension: phoneExtension,
+    });
     savePhoneNumbers(phoneNumbers);
 
     displayPhoneNumbers();
@@ -90,12 +101,17 @@ function addPhoneNumber() {
 
 function displayPhoneNumbers() {
     const phoneNumberList = document.getElementById("phoneNumberList");
-    phoneNumberList.innerHTML = '';
+    phoneNumberList.innerHTML = "";
 
     const phoneNumbers = loadPhoneNumbers();
     phoneNumbers.forEach((phone, index) => {
         const newphoneNumber = document.createElement("div");
-        newphoneNumber.classList.add("row", "mb-2", "align-items-center", "justify-content-between");
+        newphoneNumber.classList.add(
+            "row",
+            "mb-2",
+            "align-items-center",
+            "justify-content-between"
+        );
 
         const colphoneType = document.createElement("div");
         colphoneType.classList.add("col-2", "text-start");
@@ -115,7 +131,10 @@ function displayPhoneNumbers() {
         const colRemove = document.createElement("div");
         colRemove.classList.add("col-2", "d-flex", "justify-content-center");
 
-        const removephoneNumber = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        const removephoneNumber = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "svg"
+        );
         removephoneNumber.setAttribute("xmlns", "http://www.w3.org/2000/svg");
         removephoneNumber.setAttribute("width", "38");
         removephoneNumber.setAttribute("height", "38");
@@ -137,8 +156,6 @@ function displayPhoneNumbers() {
 
         phoneNumberList.appendChild(newphoneNumber);
     });
-
-
 }
 window.onload = function () {
     displayPhoneNumbers();
@@ -151,44 +168,220 @@ document.addEventListener("DOMContentLoaded", function () {
         addPhoneNumber();
     });
     addCitiesAndDAInSelect();
-})
+});
 
-//Validation 
-function validatePhoneNumber(phoneNumber) {
-    if (!phoneNumber) {
-        return 'Le numéro de téléphone est requis.';
-    }
+//Validation
+const regexAlphanum = /^[a-zA-Z0-9 ]+$/;
+const regexAlphanumAndSpecialCar =/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~ ]+$/;
 
-    const digitsOnly = phoneNumber.replace(/-/g, '');
-    if (digitsOnly.length !== 10 || isNaN(digitsOnly)) {
-        return 'Le numéro de téléphone doit contenir exactement 10 chiffres.';
-    }
-
-    const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
-    if (!phoneRegex.test(phoneNumber)) {
-        return 'Le format du numéro de téléphone doit être ###-###-####.';
-    }
-    return null; 
+function validateCivicNumber(id) {
+  const input = document.getElementById(id);
+  const invalidRequiredCivicNumber = document.getElementById("invalidRequiredCivicNumber");
+  const invalidCivicNumber = document.getElementById("invalidCivicNumber");
+  const invalidCivicNumberLength = document.getElementById("invalidCivicNumberLength");
+  // Reset all error messages
+  invalidRequiredCivicNumber.style.display = "none";
+  invalidCivicNumber.style.display = "none";
+  invalidCivicNumberLength.style.display = "none";
+    // Basic validation logic
+  if(!input.value) {
+    console.log("ici");
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidRequiredCivicNumber.style.display ="block";
+  }else if(!input.value.match(regexAlphanum)) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidCivicNumber.style.display ="block";
+  }else if(input.value.length > 8) {
+    console.log("8");
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidCivicNumberLength.style.display = "block";
+  }else {
+    input.classList.remove("is-invalid");
+    input.classList.add("is-valid");
+  }
+  input.classList.add('was-validated');
 }
 
-function validatePhoneExtension(extension) {
-    if (!extension) {
-        return null; 
-    }
+function validateStreetName(id) {
+  const input = document.getElementById(id);
+  const invalidRequiredStreetName = document.getElementById("invalidRequiredStreetName");
+  const invalidStreetName = document.getElementById("invalidStreetName");
+  const invalidStreetNameLength = document.getElementById("invalidStreetNameLength");
 
-    if (isNaN(extension)) {
-        return 'L\'extension doit être un nombre.';
-    }
-
-    if (extension.length > 6) {
-        return 'L\'extension ne doit pas dépasser 6 chiffres.';
-    }
-    return null;
+  // Reset all error messages
+  invalidRequiredStreetName.style.display = "none"
+  invalidStreetName.style.display = "none";
+  invalidStreetNameLength.style.display = "none";
+  // Basic validation logic
+  if(!input.value) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidRequiredStreetName.style.display = "block";
+  } else if(!input.value.match(regexAlphanumAndSpecialCar)) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidStreetName.style.display = "block";
+  } else if(input.value.length > 64) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidStreetNameLength.style.display = "block";
+  } else {
+    input.classList.remove("is-invalid");
+    input.classList.add("is-valid");
+  }
+  input.classList.add('was-validated');
 }
 
+function validateOfficeNumber(id){
+  const input = document.getElementById(id);
+  const invalidOfficeNumber = document.getElementById("invalidOfficeNumber");
+  const invalidOfficeNumberLength = document.getElementById("invalidOfficeNumberLength");
 
+  // Reset all error messages
+  invalidOfficeNumber.style.display = "none";
+  invalidOfficeNumberLength.style.display = "none";
+  // Basic validation logic
+ if(!input.value.match(regexAlphanum) && (input.value !== "")) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidOfficeNumber.style.display = "block";
+  } else if(input.value.length > 8) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidOfficeNumberLength.style.display = "block";
+  } else if(!input.value){
+    input.classList.remove("is-invalid");
+    input.classList.remove("is-valid");
+  }else {
+    input.classList.remove("is-invalid");
+    input.classList.add("is-valid");
+  }
+  input.classList.add('was-validated');
+}
 
+function validateCity(id){
+  const input = document.getElementById(id);
+  const invalidRequiredCity = document.getElementById("invalidRequiredCity");
+  const invalidCityLength = document.getElementById("invalidCityLength");
 
+  // Reset all error messages
+  invalidRequiredCity.style.display = "none";
+  invalidCityLength.style.display = "none";
+  // Basic validation logic
+ if(!input.value) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidRequiredCity.style.display = "block";
+  } else if(input.value.length > 64) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidCityLength.style.display = "block";
+  }else {
+    input.classList.remove("is-invalid");
+    input.classList.add("is-valid");
+  }
+  input.classList.add('was-validated');
+}
 
+function validatePostalCodeOnInput(id) {
+  const regexFullCP = /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/; 
+  const input = document.getElementById(id);
+  const invalidRequiredPostalCode = document.getElementById("invalidRequiredPostalCode");
+  const invalidPostalCodeFormat = document.getElementById("invalidPostalCodeFormat");
+  const invalidPostalCodeLength = document.getElementById("invalidPostalCodeLength");
 
+  // Reset all error messages
+  invalidRequiredPostalCode.style.display = "none";
+  invalidPostalCodeFormat.style.display = "none";
+  invalidPostalCodeLength.style.display = "none";
 
+  const pcValue = input.value.replace(/\s+/g, '').toUpperCase(); 
+
+  // Basic validation logiée
+  if (!input.value) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidRequiredPostalCode.style.display = "block";
+  } else if (pcValue.length > 6) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidPostalCodeLength.style.display = "block";
+  } else if (pcValue.length === 1 && !/^[A-Za-z]$/.test(pcValue)) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidPostalCodeFormat.style.display = "block";
+  } else if (pcValue.length === 2 && !/^[A-Za-z]\d$/.test(pcValue)) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidPostalCodeFormat.style.display = "block";
+  } else if (pcValue.length === 3 && !/^[A-Za-z]\d[A-Za-z]$/.test(pcValue)) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidPostalCodeFormat.style.display = "block";
+  } else if (pcValue.length === 4 && !/^[A-Za-z]\d[A-Za-z]\d$/.test(pcValue)) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidPostalCodeFormat.style.display = "block";
+  } else if (pcValue.length === 5 && !/^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]$/.test(pcValue)) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidPostalCodeFormat.style.display = "block";
+  } else if (pcValue.length === 6 && !regexFullCP.test(pcValue)) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidPostalCodeFormat.style.display = "block";
+  } else {
+    input.classList.remove("is-invalid");
+    input.classList.add("is-valid");
+  }
+  input.classList.add('was-validated');
+}
+
+function formatPostalCodeOnBlur(id) {
+  const input = document.getElementById(id);
+  const pcValue = input.value.replace(/\s+/g, '').toUpperCase(); 
+
+  if (/^[A-Za-z]\d[A-Za-z]\d[A-Za-z]\d$/.test(pcValue)) {
+    input.value = pcValue.replace(/\s+/g, '').toUpperCase().replace(/^([A-Za-z]\d[A-Za-z])(\d[A-Za-z]\d)$/, '$1 $2');
+  }
+}
+
+function validateWebsiteOnBlur(id){
+  const urlRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9.-]+)(\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
+  const input = document.getElementById(id);
+  const invalidWebsite = document.getElementById("invalidWebsite");
+  const invalidWebsiteLength = document.getElementById("invalidWebsiteLength");
+
+  // Reset all error messages
+  invalidWebsite.style.display = "none";
+  invalidWebsiteLength.style.display = "none";
+  // Basic validation logic
+ if(!urlRegex.test(input.value) && (input.value !== "")) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidWebsite.style.display = "block";
+  } else if(input.value.length > 64) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidWebsiteLength.style.display = "block";
+  }else if(!input.value){
+    input.classList.remove("is-invalid");
+    input.classList.remove("is-valid");
+  }else {
+    input.classList.remove("is-invalid");
+    input.classList.add("is-valid");
+  }
+  input.classList.add('was-validated');
+}
+
+function validateContactDetailsAll() {
+    const inputs = document.querySelectorAll(".contactDetails-input");
+    const oninput = new Event("input");
+
+    inputs.forEach((input) => {
+        input.dispatchEvent(oninput);
+    });
+}

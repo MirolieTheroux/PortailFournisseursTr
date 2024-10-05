@@ -7,8 +7,8 @@ let address = "";
 let city = "";
 let districtArea = "";
 let licenceRestriction = false;
-let neqNumber = ""; //TODO::Modifier pour mettre la variable du NEQ
-
+let neqNumber = "8831854938"; //TODO::Modifier pour mettre la variable du NEQ
+//8831854938
 async function fetchRBQ(rbqNumber) {
   const response = await fetch("https://donneesquebec.ca/recherche/api/action/datastore_search_sql?sql=SELECT\"Numero de licence\",\"Statut de la licence\",\"Restriction\",\"Type de licence\",\"Categorie\",\"Sous-categories\",\"Numero de telephone\",\"Adresse\",\"Municipalite\",\"Region administrative\"FROM\"32f6ec46-85fd-45e9-945b-965d9235840a\"WHERE\"NEQ\"='"+ rbqNumber +"'AND\"Categorie\"<>'null'");
   const data = await response.json();
@@ -137,15 +137,18 @@ document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifie
 
 /*** Section Coordonnées ***/
 function getAddressAndFillForm(){
-  let addressInfo = address.split(city.toLocaleUpperCase());
-  let civicNumber = addressInfo[0].substring(0, addressInfo[0].indexOf(" "));
-  let streeName = addressInfo[0].substring(addressInfo[0].indexOf(" ") + 1);
-  let postalCode = addressInfo[1].substring(addressInfo[1].length-7,addressInfo[0].length);
+  if(neqNumber != ""){
+    let addressInfo = address.split(city.toLocaleUpperCase());
+    let civicNumber = addressInfo[0].substring(0, addressInfo[0].indexOf(" "));
+    let streetName = addressInfo[0].substring(addressInfo[0].indexOf(" ") + 1);
+    let postalCode = addressInfo[1].substring(addressInfo[1].length-7,addressInfo[0].length);
 
-  document.getElementById("contactDetailsCivicNumberXxl").value = civicNumber;
-  document.getElementById("contactDetailsStreetNameXxl").value = streeName;
-  document.getElementById("contactDetailsCitySelect").value = city;
-  document.getElementById("contactDetailsPostalCode").value = postalCode;
-  document.getElementById("contactDetailsDistrictArea").value = districtArea;
+    document.querySelectorAll("[name='contactDetailsCivicNumber']").forEach(input => {input.value = civicNumber;});
+    document.querySelectorAll("[name='contactDetailsStreetName']").forEach(input => {input.value = streetName; });
+    document.getElementById("contactDetailsCitySelect").value = city;
+    document.getElementById("contactDetailsPostalCode").value = postalCode;
+    document.getElementById("contactDetailsDistrictArea").value = districtArea;
+    document.getElementById("contactDetailsPhoneNumber").value = phoneNumber;
+  }
 }
 
