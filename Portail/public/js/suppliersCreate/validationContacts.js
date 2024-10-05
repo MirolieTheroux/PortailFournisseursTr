@@ -137,3 +137,12 @@ function validateContactsExtension(id) {
 
     input.classList.add('was-validated');
   };
+
+function validateContactsAll(){
+    const inputs = document.querySelectorAll(".contact-input");
+    const oninput = new Event('input');
+
+    inputs.forEach(input => {
+        input.dispatchEvent(oninput);
+    });
+}
