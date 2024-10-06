@@ -1,6 +1,4 @@
-/*** Section Contacts ***/
-
-
+/*** Section operation ***/
 document.addEventListener('DOMContentLoaded', function() {
   let contactNumber = 1;
   const contactsRow = document.getElementById('contactsRow');
@@ -176,6 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+/*** Validation ***/
 function validateContactsName(id) {
   console.log(id)
   const input = document.getElementById(id);
