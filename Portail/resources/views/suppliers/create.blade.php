@@ -441,9 +441,9 @@
 
   <!--COORDONNÉES-->
   <!--TODO::S'assurer que le champ rue que l'utilisateur va remplir lui même de mettre en MAJUSCULES-->
-  <!--TODO::Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent-->
-   <!--TODO::Garder les valeurs pour les champs ville et région-->
+  <!--Nice To Have::Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent-->
   <!--Remarques:: Voir pour l'ordre de # civique, rue et bureau en format XL-->
+  <!--TESTS:: Pour la validation des # de téléphone, j'ai testé beaucoup. J'ai peut-être oublié une façon que l'utilisateur peut en ajouter un même si le champ numéro n'est pas ok ou autre -->
   <!--Questions:: 
     - Pour validation pourquoi on utilise pas la classe bootstrap d-none au lieu de style="display: none;
     - Pour le site, est-ce qu'on veut que ca vérifie sur le oninput ou onblur quand l'utilisateur a fini d'entrer le site ?
@@ -597,12 +597,13 @@
           @if($errors->has('contactDetailsPhoneExtension'))
             <p>{{ $errors->first('contactDetailsPhoneExtension') }}</p>
           @endif
-          <div class="col-12">
+          <div class="col-12 errorMessagesPhone">
             <div class="text-start invalid-feedback" id="invalidRequiredPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberRequired')}}</div>
             <div class="text-start invalid-feedback" id="invalidPostalPhoneNumberNumeric" style="display: none;">{{__('form.contactDetailsPhoneNumberNumeric')}}</div>
             <div class="text-start invalid-feedback" id="invalidPhoneNumberFormat" style="display: none;">{{__('form.contactDetailsPhoneNumberFormat')}}</div>
             <div class="text-start invalid-feedback" id="invalidPostalPhoneExtension" style="display: none;">{{__('form.contactDetailsPhoneExtension')}}</div>
             <div class="text-start invalid-feedback" id="invalidPhoneExtensionLength" style="display: none;">{{__('form.contactDetailsPhoneExtensionLength')}}</div>
+            <div class="text-start invalid-feedback" id="invalidAddPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberAdd')}}</div>
           </div>
         </div>
      

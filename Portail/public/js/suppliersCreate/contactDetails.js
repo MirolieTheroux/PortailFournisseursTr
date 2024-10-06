@@ -111,6 +111,8 @@ function addPhoneNumber() {
 
   document.getElementById("contactDetailsPhoneNumber").value = "";
   document.getElementById("contactDetailsPhoneExtension").value = "";
+  document.getElementById("contactDetailsPhoneNumber").classList.remove("is-valid");
+  document.getElementById("contactDetailsPhoneExtension").classList.remove("is-valid");
 }
 
 function displayPhoneNumbers() {
@@ -177,13 +179,32 @@ window.onload = function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   const addNumber = document.getElementById("add-icon");
+
   addNumber.addEventListener("click", function (event) {
-    event.preventDefault();
-    addPhoneNumber();
+    event.preventDefault();  
+    if(isPhoneNumberValid())
+      addPhoneNumber();
   });
   addCitiesAndDAInSelect();
 });
 
+function isPhoneNumberValid(){
+  const errorMessages = document.querySelector('.errorMessagesPhone').children;
+  const errorMessagesArray = Array.from(errorMessages);
+  const invalidAddPhoneNumber = document.getElementById("invalidAddPhoneNumber");
+  const valuePhoneNumber = document.getElementById("contactDetailsPhoneNumber").value;
+  const valuePhoneExtension = document.getElementById("");
+  invalidAddPhoneNumber.style.display = "none";
+  for (const message of errorMessagesArray) {
+    if (message.style.display === "block") {
+      return false;
+    }else if (valuePhoneNumber === ""){
+      invalidAddPhoneNumber.style.display = "block";
+      return false;
+    }
+  }
+  return true;
+}
 
 //Validation section Adresse
 const regexAlphanum = /^[a-zA-Z0-9 ]+$/;
@@ -424,6 +445,7 @@ function validatePhoneNumberOnBlur(id) {
   const regexPhoneNumber = /^(?:\d{10}|\d{3}-\d{3}-\d{4})$/;
   const regexNumberFormat = /^\d{3}-\d{3}-\d{4}$/;
   const input = document.getElementById(id);
+  const invalidAddPhoneNumber = document.getElementById("invalidAddPhoneNumber");
   const invalidPhoneNumberFormat = document.getElementById("invalidPhoneNumberFormat");
 
   // Reset all error messages
@@ -437,6 +459,7 @@ function validatePhoneNumberOnBlur(id) {
   } else {
     input.classList.remove("is-invalid");
     input.classList.add("is-valid");
+    invalidAddPhoneNumber.style.display = "none";
     if (!regexNumberFormat.test(input.value)) {
       input.value = `${input.value.slice(0, 3)}-${input.value.slice(3,6)}-${input.value.slice(6)}`;
     }
