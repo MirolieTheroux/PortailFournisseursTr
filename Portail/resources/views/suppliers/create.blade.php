@@ -442,11 +442,15 @@
   <!--COORDONNÉES-->
   <!--TODO::S'assurer que le champ rue que l'utilisateur va remplir lui même de mettre en MAJUSCULES-->
   <!--TODO::Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent-->
+   <!--TODO::Garder les valeurs pour les champs ville et région-->
   <!--Remarques:: Voir pour l'ordre de # civique, rue et bureau en format XL-->
   <!--Questions:: 
     - Pour validation pourquoi on utilise pas la classe bootstrap d-none au lieu de style="display: none;
     - Pour le site, est-ce qu'on veut que ca vérifie sur le oninput ou onblur quand l'utilisateur a fini d'entrer le site ?
     - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse)
+    - # Téléphone obligatoire ? Pas écrit dans le PDF.
+    - Pour l'accessibilité est-ce qu'on garde le aria-label ? Qu'est-ce que les gens de la ville avaient dit déjà?
+    - Pour l'expérience utilisateur, est-ce que je veux lui formater aussi s'il fait une faute du genre 555555-5555 ?
     -->
   <div class="container bg-white rounded my-2" id="contactDetails-section">
     <div class="row d-none d-md-block">
@@ -502,20 +506,20 @@
         <div class="d-flex flex-column justify-content-between h-100">
           <div class="text-center d-flex flex-row">
             <div class="form-floating col-6 pe-2" id="div-city">
-              <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" aria-label=""></select>
-              <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none contactDetails-input" oninput="validateCity('contactDetailsInputCity')" placeholder="" maxlength="64">
+              <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" onchange="selectedCity('contactDetailsCitySelect')" aria-label=""></select>
+              <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none contactDetails-input" value="{{ old('contactDetailsInputCity') }}" oninput="validateCity('contactDetailsInputCity')" placeholder="" maxlength="64">
               <label for="contactDetailsCitySelect">{{__('form.city')}}</label>
             </div>
             <div class="form-floating col-6">
-              <select name="contactDetailsPovince" id="contactDetailsPovince" class="form-select" aria-label="">
+              <select name="contactDetailsProvince" id="contactDetailsProvince" class="form-select" aria-label="">
                 @foreach($provinces as $province)
                 <option value="{{ $province->name }}"
-                  {{ old('contactDetailsPovince', $selectedProvince ?? 'Québec') == $province->name ? 'selected' : '' }}>
+                  {{ old('contactDetailsProvince', $selectedProvince ?? 'Québec') == $province->name ? 'selected' : '' }}>
                   {{ $province->name }}
                 </option>
                 @endforeach
               </select>
-              <label for="contactDetailsPovince">{{__('form.province')}}</label>
+              <label for="contactDetailsProvince">{{__('form.province')}}</label>
             </div>
           </div>
           <div class="row mb-4">
@@ -529,7 +533,7 @@
           </div>
           <div class="text-center d-flex flex-row">
             <div class="form-floating col-8 pe-2">
-              <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" aria-label="">
+              <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" onchange="selectedDA('contactDetailsDistrictArea')" aria-label="">
               </select>
               <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
             </div>
@@ -563,7 +567,7 @@
       </div>
       <div class="col-12 col-md-6 d-flex flex-column">
         <h2 class="text-center section-subtitle">{{__('form.contactDetailsphoneNumbersSection')}}</h2>
-        <div class="text-center d-flex flex-row mb-4">
+        <div class="text-center d-flex flex-row">
           <div class="form-floating col-3">
             <select name="contactDetailsPhoneType" id="contactDetailsPhoneType" class="form-select" aria-label="">
               <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
@@ -573,7 +577,7 @@
             <label for="contactDetailsPhoneType">{{__('form.typeLabel')}}</label>
           </div>
           <div class="form-floating col-5 px-2">
-            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" placeholder="" maxlength="12">
+            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" oninput="validatePhoneNumberOnInput('contactDetailsPhoneNumber')" onblur="validatePhoneNumberOnBlur('contactDetailsPhoneNumber')"  placeholder="###-###-####" maxlength="12">
             <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.numberLabel')}}</label>
           </div>
           <div class="form-floating col-3">
@@ -586,12 +590,20 @@
             </svg>
           </div>
         </div>
-        @if($errors->has('contactDetailsPhoneNumber'))
-        <p>{{ $errors->first('contactDetailsPhoneNumber') }}</p>
-        @endif
-        @if($errors->has('contactDetailsPhoneExtension'))
-        <p>{{ $errors->first('contactDetailsPhoneExtension') }}</p>
-        @endif
+        <div class="row mb-4">
+          @if($errors->has('contactDetailsPhoneNumber'))
+            <p>{{ $errors->first('contactDetailsPhoneNumber') }}</p>
+          @endif
+          @if($errors->has('contactDetailsPhoneExtension'))
+            <p>{{ $errors->first('contactDetailsPhoneExtension') }}</p>
+          @endif
+          <div class="col-12">
+            <div class="text-start invalid-feedback" id="invalidRequiredPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberRequired')}}</div>
+            <div class="text-start invalid-feedback" id="invalidPostalPhoneNumberNumeric" style="display: none;">{{__('form.contactDetailsPhoneNumberNumeric')}}</div>
+            <div class="text-start invalid-feedback" id="invalidPhoneNumberFormat" style="display: none;">{{__('form.contactDetailsPhoneNumberFormat')}}</div>
+          </div>
+        </div>
+     
         <div class="form-floating h-100 pb-4" id="div-phoneNumberList">
           <div class="form-control pt-2 h-100 mb-4" id="contactDetailsPhoneNumberList" style="overflow-x: hidden; overflow-y: auto;">
             <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}}</div>
@@ -603,6 +615,7 @@
                 <div class="col-2 "></div>
               </div>
               <div class="d-flex flex-column justify-content-between" id="phoneNumberList">
+                <!-- La vérification back-end des #tel doit vérifier tous ceux entrés ici -->
               </div>
             </div>
           </div>

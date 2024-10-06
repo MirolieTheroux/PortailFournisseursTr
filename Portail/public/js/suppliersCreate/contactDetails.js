@@ -6,7 +6,7 @@ async function getCitiesAndDistrickAreas() {
 
         if (response.ok) {
             const data = await response.json();
-            return data.result.records;
+            return data.result.records;    
         } else {
             const errorData = await response.json();
             console.error("Erreur:", errorData);
@@ -16,64 +16,82 @@ async function getCitiesAndDistrickAreas() {
         console.error("Erreur de réseau:", error);
         throw error;
     }
+
 }
+
 async function addCitiesAndDAInSelect() {
-    const citiesAndDA = await getCitiesAndDistrickAreas();
-    const province = document.getElementById("contactDetailsPovince");
-    const selectCity = document.getElementById("contactDetailsCitySelect");
-    const inputCity = document.getElementById("contactDetailsInputCity");
-    const districtArea = document.getElementById("contactDetailsDistrictArea");
+  const citiesAndDA = await getCitiesAndDistrickAreas();
+  const province = document.getElementById("contactDetailsProvince");
+  const selectCity = document.getElementById("contactDetailsCitySelect");
+  const inputCity = document.getElementById("contactDetailsInputCity");
+  const districtArea = document.getElementById("contactDetailsDistrictArea");
+ 
+  const districtAreas = citiesAndDA.map((da) =>
+      da.regadm.replace(/--/g, "-")
+  );
+  const uniqueDA = Array.from(new Set(districtAreas)).sort();
 
-    const districtAreas = citiesAndDA.map((da) =>
-        da.regadm.replace(/--/g, "-")
-    );
-    const uniqueDA = Array.from(new Set(districtAreas)).sort();
-
-    function addQuebecCities() {
-        selectCity.innerHTML = "";
-        citiesAndDA.forEach((city) => {
-            let optionCity = document.createElement("option");
-            optionCity.text = city.munnom;
-            optionCity.value = city.munnom;
-            selectCity.add(optionCity);
-        });
-        selectCity.classList.remove("d-none");
-        inputCity.classList.add("d-none");
-    }
-
-    if (province.value === "Québec") {
-        addQuebecCities();
-    } else {
-        selectCity.classList.add("d-none");
-        inputCity.classList.remove("d-none");
-        inputCity.setAttribute("type", "text");
-    }
-
-    province.addEventListener("change", () => {
-        if (province.value === "Québec") {
-            addQuebecCities();
-        } else {
-            selectCity.classList.add("d-none");
-            inputCity.classList.remove("d-none");
-            inputCity.setAttribute("type", "text");
-        }
+  function addQuebecCities() {
+    selectCity.innerHTML = "";
+    citiesAndDA.forEach((city) => {
+        let optionCity = document.createElement("option");
+        optionCity.text = city.munnom;
+        optionCity.value = city.munnom;
+        selectCity.add(optionCity);
     });
+    selectCity.classList.remove("d-none");
+    inputCity.classList.add("d-none");
+  }
 
-    districtArea.innerHTML = "";
-    uniqueDA.forEach((DA) => {
-        let optionDA = document.createElement("option");
-        optionDA.text = DA;
-        optionDA.value = DA.replace(/\s*\(.*?\)/, "");
-        districtArea.add(optionDA);
-    });
+  if (province.value === "Québec") {
+      addQuebecCities();
+  } else {
+      selectCity.classList.add("d-none");
+      inputCity.classList.remove("d-none");
+      inputCity.setAttribute("type", "text");
+  }
+
+  province.addEventListener("change", () => {
+      if (province.value === "Québec") {
+          addQuebecCities();
+      } else {
+          selectCity.classList.add("d-none");
+          inputCity.classList.remove("d-none");
+          inputCity.setAttribute("type", "text");
+      }
+  });
+
+  districtArea.innerHTML = "";
+  uniqueDA.forEach((DA) => {
+      let optionDA = document.createElement("option");
+      optionDA.text = DA;
+      optionDA.value = DA.replace(/\s*\(.*?\)/, "");
+      districtArea.add(optionDA);
+  });
+
+  if (sessionStorage.getItem("selectedCity") !== null) 
+    selectCity.value = sessionStorage.getItem("selectedCity");
+
+  if (sessionStorage.getItem("selectedDA") !== null)
+    districtArea.value = sessionStorage.getItem("selectedDA");
+}
+
+function selectedCity(id){
+  const selectCity = document.getElementById(id);
+  sessionStorage.setItem("selectedCity", selectCity.value);
+}
+
+function selectedDA(id){
+  const selectDA = document.getElementById(id);
+  sessionStorage.setItem("selectedDA", selectDA.value);
 }
 
 function savePhoneNumbers(phoneNumbers) {
-    localStorage.setItem("phoneNumbers", JSON.stringify(phoneNumbers));
+  sessionStorage.setItem("phoneNumbers", JSON.stringify(phoneNumbers));
 }
 
 function loadPhoneNumbers() {
-    const savedPhoneNumbers = localStorage.getItem("phoneNumbers");
+    const savedPhoneNumbers = sessionStorage.getItem("phoneNumbers");
     return savedPhoneNumbers ? JSON.parse(savedPhoneNumbers) : [];
 }
 
@@ -167,10 +185,11 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         addPhoneNumber();
     });
+    
     addCitiesAndDAInSelect();
 });
 
-//Validation
+//Validation section Adresse
 const regexAlphanum = /^[a-zA-Z0-9 ]+$/;
 const regexAlphanumAndSpecialCar =/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~ ]+$/;
 
@@ -185,7 +204,6 @@ function validateCivicNumber(id) {
   invalidCivicNumberLength.style.display = "none";
     // Basic validation logic
   if(!input.value) {
-    console.log("ici");
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
     invalidRequiredCivicNumber.style.display ="block";
@@ -194,7 +212,6 @@ function validateCivicNumber(id) {
     input.classList.add("is-invalid");
     invalidCivicNumber.style.display ="block";
   }else if(input.value.length > 8) {
-    console.log("8");
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
     invalidCivicNumberLength.style.display = "block";
@@ -377,11 +394,67 @@ function validateWebsiteOnBlur(id){
   input.classList.add('was-validated');
 }
 
-function validateContactDetailsAll() {
-    const inputs = document.querySelectorAll(".contactDetails-input");
-    const oninput = new Event("input");
+//Validation section Téléphones
+function validatePhoneNumberOnInput(id){
+  const regexNumeric = /^[\d-]*$/;
+  const input = document.getElementById(id); 
+  const invalidRequiredPhoneNumber = document.getElementById("invalidRequiredPhoneNumber");
+  const invalidPostalPhoneNumberNumeric = document.getElementById("invalidPostalPhoneNumberNumeric");
+ 
+  // Reset all error messages
+  invalidRequiredPhoneNumber.style.display = "none";
+  invalidPostalPhoneNumberNumeric.style.display = "none";
+ 
+  // Basic validation logic
+  if(!input.value){
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidRequiredPhoneNumber.style.display = "block";
+  } else if (!regexNumeric.test(input.value)){
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidPostalPhoneNumberNumeric.style.display = "block";
+  }else {
+    input.classList.remove("is-invalid");
+    input.classList.add("is-valid");
+  }
+  input.classList.add('was-validated');
+}
 
-    inputs.forEach((input) => {
-        input.dispatchEvent(oninput);
-    });
+function validatePhoneNumberOnBlur(id){
+  const regexPhoneNumber = /^(?:\d{10}|\d{3}-\d{3}-\d{4})$/;
+  const regexNumberFormat= /^\d{3}-\d{3}-\d{4}$/;
+  const input = document.getElementById(id); 
+  const invalidPhoneNumberFormat = document.getElementById("invalidPhoneNumberFormat"); 
+
+  // Reset all error messages
+  invalidPhoneNumberFormat.style.display = "none";
+
+    // Basic validation logic
+ if(!regexPhoneNumber.test(input.value)) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidPhoneNumberFormat.style.display = "block";
+  }
+  else {
+    input.classList.remove("is-invalid");
+    input.classList.add("is-valid");
+    if (!regexNumberFormat.test(input.value)) {
+      input.value = `${input.value.slice(0, 3)}-${input.value.slice(3, 6)}-${input.value.slice(6)}`;
+  }
+  }
+  input.classList.add('was-validated'); 
+}
+
+function validatePhoneExtension(){
+
+}
+
+function validateContactDetailsAll() {
+  const inputs = document.querySelectorAll(".contactDetails-input");
+  const oninput = new Event("input");
+
+  inputs.forEach((input) => {
+      input.dispatchEvent(oninput);
+  });
 }

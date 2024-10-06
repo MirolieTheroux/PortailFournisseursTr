@@ -67,7 +67,9 @@ return [
     'contactDetailsPostalCodeLength' => 'Le Code Postal doit contenir 6 caractères.',
     'contactDetailsWebsite' => 'Le Site n\'est pas valide.',
     'contactDetailsWebsiteLength' => 'Le Site ne peut pas dépasser 64 caractères.',
-
+    'contactDetailsPhoneNumberRequired' => 'Le Numéro est requis.',
+    'contactDetailsPhoneNumberNumeric' => 'Le Numéro doit seulement contenir des chiffres.',
+    'contactDetailsPhoneNumberFormat' => 'Le Numéro doit être sous ce format ###-###-####.',
 
     'rbqTitle' => 'Licence RBQ',
     'rbqLicenceSection' => 'Licence',

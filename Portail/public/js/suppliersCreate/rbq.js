@@ -7,7 +7,7 @@ let address = "";
 let city = "";
 let districtArea = "";
 let licenceRestriction = false;
-let neqNumber = "8831854938"; //TODO::Modifier pour mettre la variable du NEQ
+let neqNumber = ""; //TODO::Modifier pour mettre la variable du NEQ
 //8831854938
 async function fetchRBQ(rbqNumber) {
   const response = await fetch("https://donneesquebec.ca/recherche/api/action/datastore_search_sql?sql=SELECT\"Numero de licence\",\"Statut de la licence\",\"Restriction\",\"Type de licence\",\"Categorie\",\"Sous-categories\",\"Numero de telephone\",\"Adresse\",\"Municipalite\",\"Region administrative\"FROM\"32f6ec46-85fd-45e9-945b-965d9235840a\"WHERE\"NEQ\"='"+ rbqNumber +"'AND\"Categorie\"<>'null'");
