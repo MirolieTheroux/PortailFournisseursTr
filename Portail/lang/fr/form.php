@@ -70,6 +70,8 @@ return [
     'contactDetailsPhoneNumberRequired' => 'Le Numéro est requis.',
     'contactDetailsPhoneNumberNumeric' => 'Le Numéro doit seulement contenir des chiffres.',
     'contactDetailsPhoneNumberFormat' => 'Le Numéro doit être sous ce format ###-###-####.',
+    'contactDetailsPhoneExtension' => 'Le Poste doit seulement contenir des chiffres.',
+    'contactDetailsPhoneExtensionLength' => 'Le Poste ne peut pas dépasser 6 caractères.',
 
     'rbqTitle' => 'Licence RBQ',
     'rbqLicenceSection' => 'Licence',

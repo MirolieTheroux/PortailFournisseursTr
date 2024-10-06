@@ -577,11 +577,11 @@
             <label for="contactDetailsPhoneType">{{__('form.typeLabel')}}</label>
           </div>
           <div class="form-floating col-5 px-2">
-            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" oninput="validatePhoneNumberOnInput('contactDetailsPhoneNumber')" onblur="validatePhoneNumberOnBlur('contactDetailsPhoneNumber')"  placeholder="###-###-####" maxlength="12">
+            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control contactDetails-input" oninput="validatePhoneNumberOnInput('contactDetailsPhoneNumber')" onblur="validatePhoneNumberOnBlur('contactDetailsPhoneNumber')"  placeholder="###-###-####" maxlength="12">
             <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.numberLabel')}}</label>
           </div>
           <div class="form-floating col-3">
-            <input type="text" name="contactDetailsPhoneExtension" id="contactDetailsPhoneExtension" class="form-control" placeholder="" maxlength="6">
+            <input type="text" name="contactDetailsPhoneExtension" id="contactDetailsPhoneExtension" class="form-control contactDetails-input" oninput="validatePhoneExtension('contactDetailsPhoneExtension')" placeholder="" maxlength="6">
             <label for="contactDetailsPhoneExtension">{{__('form.phoneExtension')}}</label>
           </div>
           <div class="col-1 d-flex align-items-center ">
@@ -601,6 +601,8 @@
             <div class="text-start invalid-feedback" id="invalidRequiredPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberRequired')}}</div>
             <div class="text-start invalid-feedback" id="invalidPostalPhoneNumberNumeric" style="display: none;">{{__('form.contactDetailsPhoneNumberNumeric')}}</div>
             <div class="text-start invalid-feedback" id="invalidPhoneNumberFormat" style="display: none;">{{__('form.contactDetailsPhoneNumberFormat')}}</div>
+            <div class="text-start invalid-feedback" id="invalidPostalPhoneExtension" style="display: none;">{{__('form.contactDetailsPhoneExtension')}}</div>
+            <div class="text-start invalid-feedback" id="invalidPhoneExtensionLength" style="display: none;">{{__('form.contactDetailsPhoneExtensionLength')}}</div>
           </div>
         </div>
      
