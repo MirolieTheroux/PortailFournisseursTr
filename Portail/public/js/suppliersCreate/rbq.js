@@ -31,42 +31,55 @@ function getElements(){
 }
 
 async function fetchRBQ() {
+  console.log('test')
   const neqNumber = document.getElementById("neq").value;
+  subcategories = [];
+  typeLicence = "";
+  licenceNumber = "";
+  licenceRestriction = false;
+  if(formFailContainer === null){
+    checkboxesReset(true);
+  }
 
   const response = await fetch("https://donneesquebec.ca/recherche/api/action/datastore_search_sql?sql=SELECT\"Numero de licence\",\"Statut de la licence\",\"Restriction\",\"Type de licence\",\"Categorie\",\"Sous-categories\"FROM\"32f6ec46-85fd-45e9-945b-965d9235840a\"WHERE\"NEQ\"='"+ neqNumber +"'AND\"Categorie\"<>'null'");
   const data = await response.json();
 
-  licenceRestriction = false;
-
   data.result.records.forEach(record => {
+    console.log(record);
     if(record["Statut de la licence"] === "Active"){
       subcategories.push(record["Sous-categories"])
     }
-    if(typeLicence === undefined){
+    if(typeLicence === ""){
       typeLicence = record["Type de licence"];
     }
     if(licenceNumber === ""){
-      licenceNumber = record["Numero de licence"];
+      licenceNumber = record["Numero de licence"].replace(/-/g, '');
     }
-    if(record["restriction"] === "Oui"){
+    if(record["Restriction"] === "Oui"){
       licenceRestriction = true;
     }
   });
 
   if(licenceNumber !== "")
     numberRbqInput.value = licenceNumber;
+  else
+    numberRbqInput.value = "";
 
   if(subcategories.length > 0 && !licenceRestriction)
-    statusRbqSelect.value = 'valid'
+    statusRbqSelect.value = 'valid';
   else if(subcategories.length > 0)
-    statusRbqSelect.value = 'restrictedValid'
+    statusRbqSelect.value = 'restrictedValid';
   else if(licenceNumber !== "")
-    statusRbqSelect.value = 'invalid'
+    statusRbqSelect.value = 'invalid';
+  else
+    statusRbqSelect.value = '';
 
   if(typeLicence === "Entrepreneur")
     typeRbqSelect.value = 'entrepreneur';
   else if(typeLicence === "Constructeur-proprietaire")
     typeRbqSelect.value = 'ownerBuilder';
+  else
+  typeRbqSelect.value = '';
 
   changeSubCategoriesList();
 
