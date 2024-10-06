@@ -148,7 +148,7 @@
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
     </div>
     <div class="row">
-      <div class="d-none d-md-block col-12 text-center">
+      <div class="col-12 text-center">
         <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
       </div>
     </div>
@@ -234,7 +234,7 @@
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
         <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-        <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+        <button onclick="fetchRBQ()" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN PRODUIT ET SERVICE-->
@@ -247,7 +247,7 @@
             <div class="col-12 rounded-top fond-image fond-rbq"></div>
         </div>
         <div class="row">
-            <div class="d-none d-md-block col-12 text-center">
+            <div class="col-12 text-center">
                 <h1>{{__('form.rbqTitle')}}</h1>
             </div>
         </div>
@@ -456,7 +456,7 @@
       <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
     </div>
     <div class="row">
-      <div class="d-md-block col-12 text-center">
+      <div class="col-12 text-center">
         <h1 class="section-title">{{__('form.contactDetailsTitle')}}</h1>
       </div>
     </div>
@@ -862,5 +862,4 @@
   const oldCity = "{{ old('contactDetails-city') }}";
   const oldDistrictArea = "{{ old('contactDetailsDistrictArea') }}";
 </script>
-<script src="{{ asset('js/suppliersCreate/validationContacts.js') }}"></script>
 @endsection
