@@ -36,7 +36,7 @@ class SupplierRequest extends FormRequest
                 'confirmed',
             ],
             'password_confirmation' => 'required',
-            'licenceRbq' => 'size:12|regex:/^[0-9]{4}-[0-9]{4}-[0-9]{2}$/i|nullable',
+            'licenceRbq' => 'regex:/^[0-9]+$/i|size:10|nullable',
             'statusRbq' => 'required_with:licenceRbq',
             'typeRbq' => 'required_with:licenceRbq',
             'rbqSubcategories' => 'required_with:licenceRbq',
@@ -53,9 +53,11 @@ class SupplierRequest extends FormRequest
             'contactLastNames.*' => 'required|max:32|regex:/^[a-zA-ZÀ-ÿ\'\-]+$/',
             'contactJobs.*' => 'required|max:32',
             'contactEmails.*' => 'required|email|max:64',
-            'contactTelTypes.*' => 'required',
-            'contactTelNumbers.*' => 'required|size:12|regex:/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/i',
-            'contactTelExtensions.*' => 'max:6|regex:/^[0-9]+$/i|nullable',
+            'contactTelTypesA.*' => 'required',
+            'contactTelNumbersA.*' => 'required|regex:/^[0-9]+$/i|size:10',
+            'contactTelExtensionsA.*' => 'regex:/^[0-9]+$/i|max:6|nullable',
+            'contactTelNumbersB.*' => 'regex:/^[0-9]+$/i|size:10|nullable',
+            'contactTelExtensionsB.*' => 'regex:/^[0-9]+$/i|max:6|nullable',
         ];
     }
 
@@ -64,7 +66,7 @@ class SupplierRequest extends FormRequest
             'licenceRbq.regex' => __('form.rbqLicenceValidation'),
             'rbqSubcategories.required_with' => __('form.rbqCategoriesValidation'),
             'contactDetailsInputCity.required_unless' => __('form.inputCityValidation'),
-            'contactFirstNames.*.regex' => __('form.contactFirstNamesValidation'),
+            'contactFirstNames.*.regex' => __('form.contactsFirstNamesValidationSymbols'),
             'contactTelNumbers.*.regex' => __('form.contactsTelNumberValidation'),
             'contactTelExtensions.*.regex' => __('form.contactsTelExtensionValidation'),
         ];

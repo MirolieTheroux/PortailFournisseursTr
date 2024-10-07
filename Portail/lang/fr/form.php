@@ -1,7 +1,7 @@
 <?php
- 
+
 // lang/en/messages.php
- 
+
 return [
     'neqLabel' => 'Numéro d\'entreprise du Québec (NEQ)',
     'companyNameLabel' => 'Nom de l\'entreprise',
@@ -21,7 +21,7 @@ return [
     'choiceDefaultType' => 'Choisir un type',
     'choiceEntrepreneur' => 'Entrepreneur',
     'choiceOwnerBuilder' => 'Constructeur-propriétaire',
-    
+
     'identificationTitle' => 'Identification',
     'identificationCompanySection' => 'Entreprise',
     'identificationAuthentificationSection' => 'Authentification',
@@ -34,10 +34,10 @@ return [
     'productsAndServiceServices' => 'Services',
     'productsAndServiceServicesCategorySelection' => 'Sélectionnez une catégorie',
     'productsAndServiceSelectedServicesList' => 'Liste des services choisis',
-    
+
     'contactDetailsTitle' => 'Coordonnées',
     'contactDetailsAddressSection' => 'Adresse',
-    'contactDetailsphoneNumbersSection' => 'Téléphones',
+    'contactDetailsPhoneNumbersSection' => 'Téléphones',
     'civicNumberLabel' => 'Nᵒ civique',
     'streetName' => 'Rue',
     'officeNumber' => 'Bureau',
@@ -76,7 +76,12 @@ return [
 
     'rbqTitle' => 'Licence RBQ',
     'rbqLicenceSection' => 'Licence',
-    'rbqLicenceValidation' => 'Le format du champ licence doit corresprondre à 0000-0000-00.',
+    'rbqLicenceValidation' => 'Le champ licence ne doit contenir que des chiffres.',
+    'rbqLicenceValidationSize' => 'Le champ licence doit contenir 10 chiffres.',
+    'rbqStatusValidationRequired' => 'Le champ status est requis lorsqu\'il y a une licence.',
+    'rbqStatusValidationRequiredNot' => 'Le champ status ne doit pas être rempli lorsqu\'il n\'y a pas de licence.',
+    'rbqTypeValidationRequired' => 'Le champ type est requis lorsqu\'il y a une licence.',
+    'rbqTypeValidationRequiredNot' => 'Le champ type ne doit pas être rempli lorsqu\'il n\'y a pas de licence.',
     'rbqCategoriesSection' => 'Catégories et sous-catégories autorisées',
     'rbqCategoriesUnselectedType' => 'Veuillez selectionner un type de licence pour voir la liste des sous-catégories',
     'rbqCategoriesGeneralEntrepreneur' => 'Catégories entrepreneur général',
@@ -84,10 +89,19 @@ return [
     'rbqCategoriesGeneralOwnerBuilder' => 'Catégories constructeur-propriétaire général',
     'rbqCategoriesSpecialisedOwnerBuilder' => 'Catégories constructeur-propriétaire spécialisé',
     'rbqCategoriesValidation' => 'Au moins une catégorie doit être sélectionnée lorsque Numéro est présent.',
+    'rbqSubcategorieValidationRequired' => 'Au moins une catégorie doit être choisie lorsqu\'il y a une licence.',
+    'rbqSubcategorieValidationRequiredNot' => 'Aucune catégorie ne doit être choisie lorsqu\'il n\'y a pas de licence.',
 
     'contactsTitle' => 'Contacts',
     'contactsSubtitle' => 'Contact',
-    'contactFirstNamesValidation' => 'Ce champ ne peut contenir que des lettres (y compris accentuées) et les caractères spéciaux \' et -.',
-    'contactsTelNumberValidation' => 'Le format du champ numéro doit corresprondre à 000-000-0000.',
-    'contactsTelExtensionValidation' => 'Le poste doit être un nombre.',
+    'contactsNamesValidationSymbols' => 'Ce champ ne peut contenir que des lettres (y compris accentuées) et les caractères spéciaux \' et -.',
+    'contactsFirstNamesValidationRequired' => 'Le prénom du contact est requis.',
+    'contactsLastNamesValidationRequired' => 'Le nom du contact est requis.',
+    'contactsJobsValidationRequired' => 'La fonction du contact est requise.',
+    'contactsEmailsValidationRequired' => 'L\'adresse courriel est requise.',
+    'contactsEmailsValidationFormat' => 'Le format de l\'adresse courriel n\'est pas valide (exemple@gmail.com).',
+    'contactsTelNumberValidationRequired' => 'Le numéro de téléphone est requis.',
+    'contactsTelNumberValidation' => 'Le champ numéro de téléphone ne doit contenir que des chiffres.',
+    'contactsTelNumberValidationSize' => 'Le champ numéro de téléphone doit contenir 10 chiffres.',
+    'contactsTelExtensionValidation' => 'Le poste ne doit contenir que des chiffres.',
 ];
