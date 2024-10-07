@@ -441,7 +441,7 @@
 
   <!--COORDONNÉES-->
   <!--TODO::S'assurer que le champ rue que l'utilisateur va remplir lui même de mettre en MAJUSCULES-->
-  <!--Nice To Have::Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent-->
+  <!--NICE_TO_HAVE::Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent-->
   <!--Remarques:: Voir pour l'ordre de # civique, rue et bureau en format XL-->
   <!--TESTS:: Pour la validation des # de téléphone, j'ai testé beaucoup. J'ai peut-être oublié une façon que l'utilisateur peut en ajouter un même si le champ numéro n'est pas ok ou autre -->
   <!--Questions:: 

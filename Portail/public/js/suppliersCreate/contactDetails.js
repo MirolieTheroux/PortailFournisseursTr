@@ -132,16 +132,19 @@ function displayPhoneNumbers() {
     const colphoneType = document.createElement("div");
     colphoneType.classList.add("col-2", "text-start");
     colphoneType.textContent = phone.type;
+    colphoneType.setAttribute("id", "phoneType");
     newphoneNumber.appendChild(colphoneType);
 
     const colphoneNum = document.createElement("div");
     colphoneNum.classList.add("col-6", "text-center");
     colphoneNum.textContent = phone.number;
+    colphoneNum.setAttribute("id", "phoneNumber");
     newphoneNumber.appendChild(colphoneNum);
 
     const colphoneExtension = document.createElement("div");
     colphoneExtension.classList.add("col-2", "text-center");
     colphoneExtension.textContent = phone.extension;
+    colphoneExtension.setAttribute("id", "phoneExtension");
     newphoneNumber.appendChild(colphoneExtension);
 
     const colRemove = document.createElement("div");
