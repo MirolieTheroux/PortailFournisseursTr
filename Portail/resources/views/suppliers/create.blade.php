@@ -24,7 +24,7 @@
       <div class="step">
         <span class="number">3</span>
         <span class="name">{{__('form.rbqTitle')}}</span>
-       </div>
+      </div>
       <div class="step">
         <span class="number">4</span>
         <span class="name">{{__('form.contactDetailsTitle')}}</span>
@@ -41,7 +41,9 @@
   </div><!-- FIN PROGRESS BAR-->
 
 
-    <!--IDENTIFICATION-->
+
+     <!--IDENTIFICATION-->
+     <!--Coquille:: Dans le PDF la validation du NEQ dit que le 3e carac doit être (4,5,6,7,8,9), mais le NEQ de 3R est : 8831854938 ? -->
     <!--
       Remarques_Validations_Front_end::
         - Mettre le texte dans les fichiers de langue
@@ -134,7 +136,6 @@
             </div>
         </div>
     </div>  <!--FIN IDENTIFICATION-->
-
 
   <!--PRODUIT ET SERVICE-->
   <!--Remarques-->
@@ -239,8 +240,7 @@
     </div>
   </div> <!--FIN PRODUIT ET SERVICE-->
 
-
-    <!--LICENCE RBQ-->
+      <!--LICENCE RBQ-->
     <!--NICE_TO_HAVE::Formater automatiquement le numéro de licence RBQ-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
@@ -449,9 +449,20 @@
     </div>
   </div> <!--FIN LICENCE RBQ-->
 
-  <!--COORDONNÉES-->
-  <!--REMARQUE::En mode cellulaire, peut être mettre les champs un par dessus l'autre? (No civique, rue, bureau, etc)-->
-  <div class="container bg-white rounded my-2" id="details-section">
+   <!--COORDONNÉES-->
+  <!--TODO::S'assurer que le champ rue que l'utilisateur va remplir lui même de mettre en MAJUSCULES-->
+  <!--NICE_TO_HAVE::Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent-->
+  <!--Remarques:: Voir pour l'ordre de # civique, rue et bureau en format XL-->
+  <!--TESTS:: Pour la validation des # de téléphone, j'ai testé beaucoup. J'ai peut-être oublié une façon que l'utilisateur peut en ajouter un même si le champ numéro n'est pas ok ou autre -->
+  <!--Questions:: 
+    - Pour validation pourquoi on utilise pas la classe bootstrap d-none au lieu de style="display: none;
+    - Pour le site, est-ce qu'on veut que ca vérifie sur le oninput ou onblur quand l'utilisateur a fini d'entrer le site ?
+    - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse)
+    - # Téléphone obligatoire ? Pas écrit dans le PDF.
+    - Pour l'accessibilité est-ce qu'on garde le aria-label ? Qu'est-ce que les gens de la ville avaient dit déjà?
+    - Pour l'expérience utilisateur, est-ce que je veux lui formater aussi s'il fait une faute du genre 555555-5555 ?
+    -->
+  <div class="container bg-white rounded my-2" id="contactDetails-section">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
     </div>
@@ -463,101 +474,125 @@
     <div class="row px-3">
       <div class="col-12 col-md-6 d-flex flex-column">
         <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
-
-          <div class="text-center d-flex flex-row mb-4">
-            <div class="form-floating col-2">
-              <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ old('contactDetailsCivicNumber') }}" placeholder="" maxlength="8">
-              <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>
-              @if($errors->has('contactDetailsCivicNumber'))
-              <p>{{ $errors->first('contactDetailsCivicNumber') }}</p>
-              @endif
-            </div>
-            <div class="form-floating col-8 px-2">
-              <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control" value="{{ old('contactDetailsStreetName') }}" placeholder="" maxlength="64">
-              <label class="ms-2" for="contactDetailsStreetName">{{__('form.streetName')}}</label>
-              @if($errors->has('contactDetailsStreetName'))
-              <p>{{ $errors->first('contactDetailsStreetName') }}</p>
-              @endif
-            </div>
-            <div class="form-floating col-2">
-              <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control" value="{{ old('contactDetailsOfficeNumber') }}" placeholder="" maxlength="8">
-              <label for="contactDetailsOfficeNumber" id="officeNumber">{{__('form.officeNumber')}}</label>
-              @if($errors->has('contactDetailsOfficeNumber'))
-              <p>{{ $errors->first('contactDetailsOfficeNumber') }}</p>
-              @endif
-            </div>
+        <div class=" text-center d-flex flex-row">
+          <div class="form-floating col-6 pe-2">
+            <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control contactDetails-input" value="{{ old('contactDetailsCivicNumber') }}" oninput="validateCivicNumber('contactDetailsCivicNumber')" placeholder="" maxlength="8">
+            <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>
           </div>
-          <div class="d-flex flex-column justify-content-between h-100">
-          <div class="text-center d-flex flex-row mb-4">
+          <div class="form-floating col-6">
+            <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control contactDetails-input" value="{{ old('contactDetailsOfficeNumber') }}" oninput="validateOfficeNumber('contactDetailsOfficeNumber')" placeholder="" maxlength="8">
+            <label for="contactDetailsOfficeNumber" id="officeNumber">{{__('form.officeNumber')}}</label>
+          </div>
+        </div>
+        <div class="row mb-4">
+          @if($errors->has('contactDetailsCivicNumber'))
+          <p>{{ $errors->first('contactDetailsCivicNumber') }}</p>
+          @endif
+          @if($errors->has('contactDetailsOfficeNumber'))
+          <p>{{ $errors->first('contactDetailsOfficeNumber') }}</p>
+          @endif
+          <div class="col-12">
+            <div class="text-start invalid-feedback" id="invalidRequiredCivicNumber" style="display: none;">{{__('form.contactDetailsCNValidationRequired')}}</div>
+            <div class="text-start invalid-feedback" id="invalidCivicNumber" style="display: none;">{{__('form.contactDetailsCNValidationAlphanum')}}</div>
+            <div class="text-start invalid-feedback" id="invalidCivicNumberLength" style="display: none;">{{__('form.contactDetailsCNValidationLength')}}</div>
+          </div>
+          <div class="col-12">
+            <div class="text-start invalid-feedback" id="invalidOfficeNumber" style="display: none;">{{__('form.contactDetailsONValidationAlphaNum')}}</div>
+            <div class="text-start invalid-feedback" id="invalidOfficeNumberLength" style="display: none;">{{__('form.contactDetailsONValidationLenght')}}</div>
+          </div>
+        </div>
+        <div class="text-center mb-4">
+          <div class="form-floating">
+            <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control contactDetails-input" value="{{ old('contactDetailsStreetName') }}" oninput="validateStreetName('contactDetailsStreetName')" placeholder="" maxlength="64">
+            <label for="contactDetailsStreetName">{{__('form.streetName')}}</label>
+            <div class="text-start invalid-feedback" id="invalidRequiredStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationRequired')}}</div>
+            <div class="text-start invalid-feedback" id="invalidStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationAlphaNumSC')}}</div>
+            <div class="text-start invalid-feedback" id="invalidStreetNameLength" style="display: none;">{{__('form.contactDetailsStreetNameValidationLength')}}</div>
+            @if($errors->has('contactDetailsStreetName'))
+            <p>{{ $errors->first('contactDetailsStreetName') }}</p>
+            @endif
+          </div>
+        </div>
+        <div class="d-flex flex-column justify-content-between h-100">
+          <div class="text-center d-flex flex-row">
             <div class="form-floating col-6 pe-2" id="div-city">
-              <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" aria-label=""></select>
-              <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none" placeholder="" maxlength="64">
-              @if($errors->has('contactDetailsInputCity'))
-              <p>{{ $errors->first('contactDetailsInputCity') }}</p>
-              @endif
+              <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" onchange="selectedCity('contactDetailsCitySelect')" aria-label=""></select>
+              <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none contactDetails-input" value="{{ old('contactDetailsInputCity') }}" oninput="validateCity('contactDetailsInputCity')" placeholder="" maxlength="64">
               <label for="contactDetailsCitySelect">{{__('form.city')}}</label>
             </div>
             <div class="form-floating col-6">
-              <select name="contactDetailsPovince" id="contactDetailsPovince" class="form-select" aria-label="">
+              <select name="contactDetailsProvince" id="contactDetailsProvince" class="form-select" aria-label="">
                 @foreach($provinces as $province)
                 <option value="{{ $province->name }}"
-                  {{ old('contactDetailsPovince', $selectedProvince ?? 'Québec') == $province->name ? 'selected' : '' }}>
+                  {{ old('contactDetailsProvince', $selectedProvince ?? 'Québec') == $province->name ? 'selected' : '' }}>
                   {{ $province->name }}
                 </option>
                 @endforeach
               </select>
-              <label for="contactDetailsPovince">{{__('form.province')}}</label>
+              <label for="contactDetailsProvince">{{__('form.province')}}</label>
             </div>
           </div>
-          <div class="text-center d-flex flex-row mb-4">
+          <div class="row mb-4">
+              @if($errors->has('contactDetailsInputCity'))
+                <p>{{ $errors->first('contactDetailsInputCity') }}</p>
+              @endif
+              <div class="col-12">
+                <div class="text-start invalid-feedback" id="invalidRequiredCity" style="display: none;">{{__('form.contactDetailsCityRequired')}}</div>
+                <div class="text-start invalid-feedback" id="invalidCityLength" style="display: none;">{{__('form.contactDetailsCityLength')}}</div>
+              </div>
+          </div>
+          <div class="text-center d-flex flex-row">
             <div class="form-floating col-8 pe-2">
-              <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" aria-label="">
+              <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" onchange="selectedDA('contactDetailsDistrictArea')" aria-label="">
               </select>
               <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
             </div>
             <div class="form-floating">
-              <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ old('contactDetailsPostalCode') }}" placeholder="" maxlength="7">
+              <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control contactDetails-input" value="{{ old('contactDetailsPostalCode') }}" oninput="validatePostalCodeOnInput('contactDetailsPostalCode')"  onblur="formatPostalCodeOnBlur('contactDetailsPostalCode')" placeholder="" maxlength="7">
               <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
-              @if($errors->has('contactDetailsPostalCode'))
+            </div>
+          </div>
+          <div class="row mb-4">
+            @if($errors->has('contactDetailsPostalCode'))
               <p>{{ $errors->first('contactDetailsPostalCode') }}</p>
-              @endif
+            @endif
+            <div class="col-12">
+              <div class="text-start invalid-feedback" id="invalidRequiredPostalCode" style="display: none;">{{__('form.contactDetailsPostalCodeRequired')}}</div>
+              <div class="text-start invalid-feedback" id="invalidPostalCodeFormat" style="display: none;">{{__('form.contactDetailsPostalCodeFormat')}}</div>
+              <div class="text-start invalid-feedback" id="invalidPostalCodeLength" style="display: none;">{{__('form.contactDetailsPostalCodeLength')}}</div>
             </div>
           </div>
           <div class="text-center mb-4">
             <div class="form-floating">
-              <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control" value="{{ old('contactDetailsWebsite') }}" placeholder="" maxlength="64">
+              <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control contactDetails-input" value="{{ old('contactDetailsWebsite') }}" oninput="validateWebsiteOnBlur('contactDetailsWebsite')" placeholder="" maxlength="64">
               <label for="contactDetailsWebsite">{{__('form.website')}}</label>
               @if($errors->has('contactDetailsWebsite'))
               <p>{{ $errors->first('contactDetailsWebsite') }}</p>
               @endif
+              <div class="text-start invalid-feedback" id="invalidWebsite" style="display: none;">{{__('form.contactDetailsWebsite')}}</div>
+              <div class="text-start invalid-feedback" id="invalidWebsiteLength" style="display: none;">{{__('form.contactDetailsWebsiteLength')}}</div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-12 col-md-6 d-flex flex-column">
         <h2 class="text-center section-subtitle">{{__('form.contactDetailsphoneNumbersSection')}}</h2>
-        <div class="text-center d-flex flex-row mb-4">
+        <div class="text-center d-flex flex-row">
           <div class="form-floating col-3">
             <select name="contactDetailsPhoneType" id="contactDetailsPhoneType" class="form-select" aria-label="">
-              <option value="desktop">{{__('form.officeNumber')}}</option>
-              <option value="fax">{{__('form.fax')}}</option>
-              <option value="cellphone">{{__('form.cellphone')}}</option>
+              <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
+              <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
+              <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
             </select>
             <label for="contactDetailsPhoneType">{{__('form.typeLabel')}}</label>
           </div>
           <div class="form-floating col-5 px-2">
-            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" placeholder="" maxlength="12">
+            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control contactDetails-input" oninput="validatePhoneNumberOnInput('contactDetailsPhoneNumber')" onblur="validatePhoneNumberOnBlur('contactDetailsPhoneNumber')"  placeholder="###-###-####" maxlength="12">
             <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.numberLabel')}}</label>
-            @if($errors->has('contactDetailsPhoneNumber'))
-            <p>{{ $errors->first('contactDetailsPhoneNumber') }}</p>
-            @endif
           </div>
           <div class="form-floating col-3">
-            <input type="text" name="contactDetailsPhoneExtension" id="contactDetailsPhoneExtension" class="form-control" placeholder="" maxlength="6">
+            <input type="text" name="contactDetailsPhoneExtension" id="contactDetailsPhoneExtension" class="form-control contactDetails-input" oninput="validatePhoneExtension('contactDetailsPhoneExtension')" placeholder="" maxlength="6">
             <label for="contactDetailsPhoneExtension">{{__('form.phoneExtension')}}</label>
-            @if($errors->has('contactDetailsPhoneExtension'))
-            <p>{{ $errors->first('contactDetailsPhoneExtension') }}</p>
-            @endif
           </div>
           <div class="col-1 d-flex align-items-center ">
             <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; padding-left:10px">
@@ -565,6 +600,23 @@
             </svg>
           </div>
         </div>
+        <div class="row mb-4">
+          @if($errors->has('contactDetailsPhoneNumber'))
+            <p>{{ $errors->first('contactDetailsPhoneNumber') }}</p>
+          @endif
+          @if($errors->has('contactDetailsPhoneExtension'))
+            <p>{{ $errors->first('contactDetailsPhoneExtension') }}</p>
+          @endif
+          <div class="col-12 errorMessagesPhone">
+            <div class="text-start invalid-feedback" id="invalidRequiredPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberRequired')}}</div>
+            <div class="text-start invalid-feedback" id="invalidPostalPhoneNumberNumeric" style="display: none;">{{__('form.contactDetailsPhoneNumberNumeric')}}</div>
+            <div class="text-start invalid-feedback" id="invalidPhoneNumberFormat" style="display: none;">{{__('form.contactDetailsPhoneNumberFormat')}}</div>
+            <div class="text-start invalid-feedback" id="invalidPostalPhoneExtension" style="display: none;">{{__('form.contactDetailsPhoneExtension')}}</div>
+            <div class="text-start invalid-feedback" id="invalidPhoneExtensionLength" style="display: none;">{{__('form.contactDetailsPhoneExtensionLength')}}</div>
+            <div class="text-start invalid-feedback" id="invalidAddPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberAdd')}}</div>
+          </div>
+        </div>
+     
         <div class="form-floating h-100 pb-4" id="div-phoneNumberList">
           <div class="form-control pt-2 h-100 mb-4" id="contactDetailsPhoneNumberList" style="overflow-x: hidden; overflow-y: auto;">
             <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}}</div>
@@ -576,6 +628,7 @@
                 <div class="col-2 "></div>
               </div>
               <div class="d-flex flex-column justify-content-between" id="phoneNumberList">
+                <!-- La vérification back-end des #tel doit vérifier tous ceux entrés ici -->
               </div>
             </div>
           </div>
@@ -585,7 +638,7 @@
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-3">
         <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-        <button type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+        <button onclick="validateContactDetailsAll()" id="test" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">suivant section</button><!--TODO::Mettre un nom significatif au Id-->
       </div>
     </div>
   </div> <!--FIN COORDONÉES-->
@@ -858,9 +911,6 @@
 <script src="{{ asset('js/suppliersCreate/contact.js') }} "></script>
 <script src="{{ asset('js/progressBar.js') }} "></script>
 <script src="{{ asset('js/suppliersCreate/contactDetails.js') }} "></script>
-<script>
-  const oldCity = "{{ old('contactDetails-city') }}";
-  const oldDistrictArea = "{{ old('contactDetailsDistrictArea') }}";
-</script>
 <script src="{{ asset('js/suppliersCreate/validationContacts.js') }}"></script>
 @endsection
+
