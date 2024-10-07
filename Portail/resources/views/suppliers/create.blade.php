@@ -176,7 +176,7 @@
         </div>
         <div class="text-center">
           <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="details" id="company-name" style="height: 160px; resize: none;" maxlength="500"></textarea>
+            <textarea class="form-control" name="product_service_detail" placeholder="details" id="company-name" style="height: 160px; resize: none;" maxlength="500"></textarea>
             <label for="company-name">{{__('form.productsAndServiceCategoriesDetails')}}</label>
           </div>
         </div>

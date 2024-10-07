@@ -54,13 +54,24 @@ class SuppliersController extends Controller
      */
     public function store(SupplierRequest $request)
     {
-        $supplier = new Supplier($request->all());
-        $supplier->password = Hash::make($request->password);
+      //$supplier = new Supplier($request->all());
+      $supplier = new Supplier();
+      $supplier->neq = $request->neq;
+      $supplier->name = $request->name;
+      $supplier->email = $request->email;
+      $supplier->site = $request->contactDetailsDistrictArea;
+      $supplier->product_service_detail = $request->product_service_detail;
+      $supplier->password = Hash::make($request->password);
 
-        Log::debug($request);
-        Log::debug($supplier);
+      Log::debug($request);
+      Log::debug($supplier);
+      Log::debug($supplier->password);
 
-        //$supplier->save();
+      $supplier->save();
+
+      $supplier = Supplier::where('email', $request->email)->firstOrFail();
+
+      Log::debug($supplier->id);
     }
 
     /**
