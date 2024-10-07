@@ -451,6 +451,7 @@
 
    <!--COORDONNÉES-->
   <!--TODO::S'assurer que le champ rue que l'utilisateur va remplir lui même de mettre en MAJUSCULES-->
+  <!--TODO::Le message d'erreur continu d'apparaître si je met une province autre que QC sans inscire de ville et qu'apres je change pour quebec et je met choisi une ville dans la liste-> suivant -->
   <!--NICE_TO_HAVE::Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent-->
   <!--Remarques:: Voir pour l'ordre de # civique, rue et bureau en format XL-->
   <!--TESTS:: Pour la validation des # de téléphone, j'ai testé beaucoup. J'ai peut-être oublié une façon que l'utilisateur peut en ajouter un même si le champ numéro n'est pas ok ou autre -->
