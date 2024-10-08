@@ -39,7 +39,7 @@
     </div>
   </div><!-- FIN PROGRESS BAR-->
 
-    <!--IDENTIFICATION-->  
+    <!--IDENTIFICATION-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-identification"></div>
@@ -446,7 +446,7 @@
   <!--NICE_TO_HAVE::Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent-->
   <!--Remarques:: Voir pour l'ordre de # civique, rue et bureau en format XL-->
   <!--TESTS:: Pour la validation des # de téléphone, j'ai testé beaucoup. J'ai peut-être oublié une façon que l'utilisateur peut en ajouter un même si le champ numéro n'est pas ok ou autre -->
-  <!--Questions:: 
+  <!--Questions::
     - Pour validation pourquoi on utilise pas la classe bootstrap d-none au lieu de style="display: none;
     - Pour le site, est-ce qu'on veut que ca vérifie sur le oninput ou onblur quand l'utilisateur a fini d'entrer le site ?
     - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse)
@@ -608,7 +608,7 @@
             <div class="text-start invalid-feedback" id="invalidAddPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberAdd')}}</div>
           </div>
         </div>
-     
+
         <div class="form-floating h-100 pb-4" id="div-phoneNumberList">
           <div class="form-control pt-2 h-100 mb-4" id="contactDetailsPhoneNumberList" style="overflow-x: hidden; overflow-y: auto;">
             <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}}</div>
@@ -842,7 +842,7 @@
                                     <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                                    <input type="text" oninput="validateContactsPhone('contactTelNumberA1')" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control contact-input" placeholder="" maxlength="10" required>
+                                    <input type="text" oninput="validateContactsPrimaryPhone('contactTelNumberA1')" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control contact-input" placeholder="" maxlength="10" required>
                                     <label id="contactTelNumberLabelA1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberA1">{{__('form.numberLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-3">
@@ -868,7 +868,7 @@
                                     <label id="contactTelTypeLabelB1" for="contactTelTypeB1">{{__('form.typeLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                                    <input type="text" oninput="validateContactsPhone('contactTelNumberB1')" name="contactTelNumbersB[]" id="contactTelNumberB1" class="form-control contact-input" placeholder="" maxlength="10">
+                                    <input type="text" oninput="validateContactsSecondaryPhone('contactTelNumberB1')" name="contactTelNumbersB[]" id="contactTelNumberB1" class="form-control contact-input" placeholder="" maxlength="10">
                                     <label id="contactTelNumberLabelB1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberB1">{{__('form.numberLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-3">
@@ -876,7 +876,6 @@
                                     <label id="contactTelExtensionLabelB1" for="contactTelExtensionB1">{{__('form.phoneExtension')}}</label>
                                 </div>
                             </div>
-                            <div class="text-start invalid-feedback phoneInvalidRequired" style="display: none;">{{__('form.contactsTelNumberValidationRequired')}}</div>
                             <div class="text-start invalid-feedback phoneInvalidNumber" style="display: none;">{{__('form.contactsTelNumberValidation')}}</div>
                             <div class="text-start invalid-feedback phoneInvalidSize" style="display: none;">{{__('form.contactsTelNumberValidationSize')}}</div>
                             <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">{{__('form.contactsTelExtensionValidation')}}</div>

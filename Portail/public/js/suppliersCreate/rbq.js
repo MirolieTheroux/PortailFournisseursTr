@@ -35,7 +35,6 @@ function getElements(){
 }
 
 async function fetchRBQ() {
-  console.log('test')
   const neqNumber = document.getElementById("neq").value;
   subcategories = [];
   typeLicence = "";

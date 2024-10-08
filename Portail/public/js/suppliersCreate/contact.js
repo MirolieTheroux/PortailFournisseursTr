@@ -36,8 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const telExtensionInputB = contactsRow.querySelector('#contactTelExtensionB1');
   const telExtensionLabelB = contactsRow.querySelector('#contactTelExtensionLabelB1');
 
-
-
   function cloneContact(){
     contactNumber++;
 
@@ -260,7 +258,7 @@ function validateContactsEmail(id) {
   input.classList.add('was-validated');
 };
 
-function validateContactsPhone(id) {
+function validateContactsPrimaryPhone(id) {
   const input = document.getElementById(id);
   const parentDiv = input.closest(".phone-container");
   const invalidRequiredMessage = parentDiv.querySelector('.phoneInvalidRequired');
@@ -277,6 +275,39 @@ function validateContactsPhone(id) {
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
     invalidRequiredMessage.style.display = 'block';
+  }
+  else if(isNaN(input.value)){
+    input.classList.remove('is-valid');
+    input.classList.add('is-invalid');
+    invalidNumberMessage.style.display = 'block';
+  }
+  else if(input.value.length !== 10){
+    input.classList.remove('is-valid');
+    input.classList.add('is-invalid');
+    invalidSizeMessage.style.display = 'block';
+  }
+  else {
+    input.classList.remove('is-invalid');
+    input.classList.add('is-valid');
+  }
+
+  input.classList.add('was-validated');
+};
+
+function validateContactsSecondaryPhone(id) {
+  const input = document.getElementById(id);
+  const parentDiv = input.closest(".phone-container");
+  const invalidNumberMessage = parentDiv.querySelector('.phoneInvalidNumber');
+  const invalidSizeMessage = parentDiv.querySelector('.phoneInvalidSize');
+
+  // Reset all error messages
+  invalidNumberMessage.style.display = 'none';
+  invalidSizeMessage.style.display = 'none';
+
+  // Basic validation logic
+  if (!input.value) {
+    input.classList.remove('is-valid');
+    input.classList.remove('is-invalid');
   }
   else if(isNaN(input.value)){
     input.classList.remove('is-valid');
