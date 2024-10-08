@@ -6,6 +6,7 @@ use App\Http\Requests\SupplierRequest;
 use App\Models\Supplier;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
+use App\Models\RbqLicence;
 use App\Models\WorkSubcategory;
 use App\Models\Province;
 use Illuminate\Http\Request;
@@ -43,8 +44,8 @@ class SuppliersController extends Controller
     public function create()
     {
         $workSubcategories = WorkSubcategory::orderByRaw('
-          CAST(SUBSTRING_INDEX(code, ".", 1) AS UNSIGNED), 
-          CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(code, ".0"), ".", 2), ".", -1) AS UNSIGNED), 
+          CAST(SUBSTRING_INDEX(code, ".", 1) AS UNSIGNED),
+          CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(code, ".0"), ".", 2), ".", -1) AS UNSIGNED),
           CAST(SUBSTRING_INDEX(CONCAT(code, ".0.0"), ".", -1) AS UNSIGNED)
         ')->get();
         $provinces = Province::all();
@@ -68,6 +69,13 @@ class SuppliersController extends Controller
       $supplier->save();
 
       $supplier = Supplier::where('email', $request->email)->firstOrFail();
+
+      $licence = new RbqLicence();
+      $licence->number = $request->licenceRbq;
+      $licence->status = $request->statusRbq;
+      $licence->type = $request->typeRbq;
+      $licence->supplier()->associate($supplier);
+      $licence->save();
 
       for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
         $contact = new Contact();
