@@ -77,6 +77,11 @@ class SuppliersController extends Controller
       $licence->supplier()->associate($supplier);
       $licence->save();
 
+      foreach($request->rbqSubcategories as $rbqSubCategory){
+        $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
+        $supplier->workSubcategories()->attach($subCategory);
+      }
+
       for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
         $contact = new Contact();
         $contact->email = $request->contactEmails[$i];
