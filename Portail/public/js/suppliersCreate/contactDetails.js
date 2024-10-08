@@ -40,6 +40,7 @@ async function addCitiesAndDAInSelect() {
     });
     selectCity.classList.remove("d-none");
     inputCity.classList.add("d-none");
+    inputCity.removeAttribute("required" ,"");
   }
 
   if (province.value === "Québec") {
@@ -48,15 +49,18 @@ async function addCitiesAndDAInSelect() {
     selectCity.classList.add("d-none");
     inputCity.classList.remove("d-none");
     inputCity.setAttribute("type", "text");
+    inputCity.setAttribute("required", "");
   }
 
   province.addEventListener("change", () => {
     if (province.value === "Québec") {
       addQuebecCities();
+      
     } else {
       selectCity.classList.add("d-none");
       inputCity.classList.remove("d-none");
       inputCity.setAttribute("type", "text");
+      inputCity.setAttribute("required", "");
     }
   });
 
@@ -130,22 +134,34 @@ function displayPhoneNumbers() {
     );
 
     const colphoneType = document.createElement("div");
-    colphoneType.classList.add("col-2", "text-start");
+    colphoneType.classList.add("col-2", "text-start","phoneType");
     colphoneType.textContent = phone.type;
-    colphoneType.setAttribute("id", "phoneType");
+    const inputPhoneTypeHidden = document.createElement("input");
+    inputPhoneTypeHidden.value = phone.type;
+    inputPhoneTypeHidden.classList.add("d-none");
+    inputPhoneTypeHidden.setAttribute("name", "phoneTypes[]");
     newphoneNumber.appendChild(colphoneType);
+    newphoneNumber.appendChild(inputPhoneTypeHidden);
 
     const colphoneNum = document.createElement("div");
-    colphoneNum.classList.add("col-6", "text-center");
+    colphoneNum.classList.add("col-6", "text-center", "phoneNumber");
     colphoneNum.textContent = phone.number;
-    colphoneNum.setAttribute("id", "phoneNumber");
+    const inputPhoneNumHidden = document.createElement("input");
+    inputPhoneNumHidden.value = phone.type;
+    inputPhoneNumHidden.classList.add("d-none");
+    inputPhoneNumHidden.setAttribute("name", "phoneNumbers[]");
     newphoneNumber.appendChild(colphoneNum);
+    newphoneNumber.appendChild(inputPhoneNumHidden);
 
     const colphoneExtension = document.createElement("div");
-    colphoneExtension.classList.add("col-2", "text-center");
-    colphoneExtension.textContent = phone.extension;
-    colphoneExtension.setAttribute("id", "phoneExtension");
+    colphoneExtension.classList.add("col-2", "text-center","phoneExtension");
+    colphoneExtension.textContent = phone.extension; 
+    const inputPhoneExtensionHidden = document.createElement("input");
+    inputPhoneExtensionHidden.value = phone.extension;
+    inputPhoneExtensionHidden.classList.add("d-none");
+    inputPhoneExtensionHidden.setAttribute("name", "phoneExtensions[]");
     newphoneNumber.appendChild(colphoneExtension);
+    newphoneNumber.appendChild(inputPhoneExtensionHidden);
 
     const colRemove = document.createElement("div");
     colRemove.classList.add("col-2", "d-flex", "justify-content-center");
@@ -169,7 +185,6 @@ function displayPhoneNumbers() {
       savePhoneNumbers(phoneNumbers);
       displayPhoneNumbers();
     });
-
     colRemove.appendChild(removephoneNumber);
     newphoneNumber.appendChild(colRemove);
     phoneNumberList.appendChild(newphoneNumber);
@@ -182,13 +197,14 @@ window.onload = function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   const addNumber = document.getElementById("add-icon");
-
   addNumber.addEventListener("click", function (event) {
     event.preventDefault();  
     if(isPhoneNumberValid())
       addPhoneNumber();
+      validateListPhoneNumber()
   });
   addCitiesAndDAInSelect();
+  validateSelectCity();
 });
 
 function isPhoneNumberValid(){
@@ -196,10 +212,9 @@ function isPhoneNumberValid(){
   const errorMessagesArray = Array.from(errorMessages);
   const invalidAddPhoneNumber = document.getElementById("invalidAddPhoneNumber");
   const valuePhoneNumber = document.getElementById("contactDetailsPhoneNumber").value;
-  const valuePhoneExtension = document.getElementById("");
   invalidAddPhoneNumber.style.display = "none";
   for (const message of errorMessagesArray) {
-    if (message.style.display === "block") {
+    if (message.style.display === "block" && !message.id === "invalidListPhoneNumbers") {
       return false;
     }else if (valuePhoneNumber === ""){
       invalidAddPhoneNumber.style.display = "block";
@@ -300,7 +315,8 @@ function validateOfficeNumber(id) {
 }
 
 function validateCity(id) {
-  const input = document.getElementById(id);
+  const inputCity = document.getElementById(id);
+  const selectCity = document.getElementById("contactDetailsCitySelect");
   const invalidRequiredCity = document.getElementById("invalidRequiredCity");
   const invalidCityLength = document.getElementById("invalidCityLength");
 
@@ -308,19 +324,30 @@ function validateCity(id) {
   invalidRequiredCity.style.display = "none";
   invalidCityLength.style.display = "none";
   // Basic validation logic
-  if (!input.value) {
-    input.classList.remove("is-valid");
-    input.classList.add("is-invalid");
+  if (!inputCity.value && !inputCity.classList.contains("d-none")) {
+    inputCity.classList.remove("is-valid");
+    inputCity.classList.add("is-invalid");
     invalidRequiredCity.style.display = "block";
-  } else if (input.value.length > 64) {
-    input.classList.remove("is-valid");
-    input.classList.add("is-invalid");
+  } else if (inputCity.value.length > 64) {
+    inputCity.classList.remove("is-valid");
+    inputCity.classList.add("is-invalid");
     invalidCityLength.style.display = "block";
-  } else {
-    input.classList.remove("is-invalid");
-    input.classList.add("is-valid");
+  }else{
+    inputCity.classList.remove("is-invalid");
+    inputCity.classList.add("is-valid");
   }
-  input.classList.add("was-validated");
+   inputCity.classList.add("was-validated");
+}
+
+function validateSelectCity(){
+  const inputCity = document.getElementById("contactDetailsInputCity");
+  const province = document.getElementById("contactDetailsProvince");
+  province.addEventListener("change", () => {
+    if (province.value === "Québec") {
+      document.getElementById("invalidRequiredCity").style.display = "none";
+      inputCity.classList.remove("is-invalid");
+    }
+  });
 }
 
 function validatePostalCodeOnInput(id) {
@@ -337,7 +364,7 @@ function validatePostalCodeOnInput(id) {
 
   const pcValue = input.value.replace(/\s+/g, "").toUpperCase();
 
-  // Basic validation logiée
+  // Basic validation logic
   if (!input.value) {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
@@ -470,6 +497,13 @@ function validatePhoneNumberOnBlur(id) {
   input.classList.add("was-validated");
 }
 
+function validateListPhoneNumber(){
+  if(document.getElementById("phoneNumberList").children.length == 0)
+    document.getElementById("invalidListPhoneNumbers").style.display = "block";
+  else
+    document.getElementById("invalidListPhoneNumbers").style.display = "none";
+} 
+
 function validatePhoneExtension(id) {
   const regexNumeric = /^\d*$/;;
   const input = document.getElementById(id);
@@ -500,9 +534,9 @@ function validatePhoneExtension(id) {
 }
 
 function validateContactDetailsAll() {
+  validateListPhoneNumber()
   const inputs = document.querySelectorAll(".contactDetails-input");
   const oninput = new Event("input");
-
   inputs.forEach((input) => {
     input.dispatchEvent(oninput);
   });

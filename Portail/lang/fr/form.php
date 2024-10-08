@@ -84,6 +84,7 @@ return [
     'contactDetailsPhoneExtension' => 'Le Poste doit seulement contenir des chiffres.',
     'contactDetailsPhoneExtensionLength' => 'Le Poste ne peut pas dépasser 6 caractères.',
     'contactDetailsPhoneNumberAdd' => 'Le Numéro doit être rempli pour ajouter un numéro de téléphone.',
+    'contactDetailsPhoneNumbersList' => 'Il doit y avoir un numéro dans la liste.',
 
     'rbqTitle' => 'Licence RBQ',
     'rbqLicenceSection' => 'Licence',

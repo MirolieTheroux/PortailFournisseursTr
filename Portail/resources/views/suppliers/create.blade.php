@@ -429,13 +429,16 @@
 
    <!--COORDONNÉES-->
   <!--TODO::S'assurer que le champ rue que l'utilisateur va remplir lui même de mettre en MAJUSCULES-->
-  <!--TODO::Le message d'erreur continu d'apparaître si je met une province autre que QC sans inscire de ville et qu'apres je change pour quebec et je met choisi une ville dans la liste-> suivant -->
-  <!--NICE_TO_HAVE::Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent-->
-  <!--Remarques:: Voir pour l'ordre de # civique, rue et bureau en format XL-->
+  <!--NICE_TO_HAVE::
+    - Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent
+    - Trier les Régions avec le code (1,2,3...)  
+    - Vérifier si le site web est déjà présent dans la BD
+    - Vérifier si le # de tel est déjà dans la liste
+  -->
   <!--TESTS:: Pour la validation des # de téléphone, j'ai testé beaucoup. J'ai peut-être oublié une façon que l'utilisateur peut en ajouter un même si le champ numéro n'est pas ok ou autre -->
   <!--Questions:: 
     - Pour validation pourquoi on utilise pas la classe bootstrap d-none au lieu de style="display: none;
-    - Pour le site, est-ce qu'on veut que ca vérifie sur le oninput ou onblur quand l'utilisateur a fini d'entrer le site ?
+    - Pour le site internet, est-ce qu'on veut que ca vérifie sur le oninput ou onblur quand l'utilisateur a fini d'entrer le site en ce moment syr onblur?
     - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse)
     - # Téléphone obligatoire ? Pas écrit dans le PDF.
     - Pour l'accessibilité est-ce qu'on garde le aria-label ? Qu'est-ce que les gens de la ville avaient dit déjà?
@@ -455,11 +458,11 @@
         <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
         <div class=" text-center d-flex flex-row">
           <div class="form-floating col-6 pe-2">
-            <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control contactDetails-input" value="{{ old('contactDetailsCivicNumber') }}" oninput="validateCivicNumber('contactDetailsCivicNumber')" placeholder="" maxlength="8">
+            <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control contactDetails-input" value="{{ old('contactDetailsCivicNumber') }}" oninput="validateCivicNumber('contactDetailsCivicNumber')" placeholder="" maxlength="8" required>
             <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>
           </div>
           <div class="form-floating col-6">
-            <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control contactDetails-input" value="{{ old('contactDetailsOfficeNumber') }}" oninput="validateOfficeNumber('contactDetailsOfficeNumber')" placeholder="" maxlength="8">
+            <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control contactDetails-input" value="{{ old('contactDetailsOfficeNumber') }}" oninput="validateOfficeNumber('contactDetailsOfficeNumber')" placeholder="" maxlength="8" >
             <label for="contactDetailsOfficeNumber" id="officeNumber">{{__('form.officeNumber')}}</label>
           </div>
         </div>
@@ -482,7 +485,7 @@
         </div>
         <div class="text-center mb-4">
           <div class="form-floating">
-            <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control contactDetails-input" value="{{ old('contactDetailsStreetName') }}" oninput="validateStreetName('contactDetailsStreetName')" placeholder="" maxlength="64">
+            <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control contactDetails-input" value="{{ old('contactDetailsStreetName') }}" oninput="validateStreetName('contactDetailsStreetName')" placeholder="" maxlength="64" required>
             <label for="contactDetailsStreetName">{{__('form.streetName')}}</label>
             <div class="text-start invalid-feedback" id="invalidRequiredStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationRequired')}}</div>
             <div class="text-start invalid-feedback" id="invalidStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationAlphaNumSC')}}</div>
@@ -496,7 +499,7 @@
           <div class="text-center d-flex flex-row">
             <div class="form-floating col-6 pe-2" id="div-city">
               <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" onchange="selectedCity('contactDetailsCitySelect')" aria-label=""></select>
-              <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none contactDetails-input" value="{{ old('contactDetailsInputCity') }}" oninput="validateCity('contactDetailsInputCity')" placeholder="" maxlength="64">
+              <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none contactDetails-input" value="{{ old('contactDetailsInputCity') }}" oninput="validateCity('contactDetailsInputCity')" placeholder="" maxlength="64" >
               <label for="contactDetailsCitySelect">{{__('form.city')}}</label>
             </div>
             <div class="form-floating col-6">
@@ -520,30 +523,27 @@
                 <div class="text-start invalid-feedback" id="invalidCityLength" style="display: none;">{{__('form.contactDetailsCityLength')}}</div>
               </div>
           </div>
-          <div class="text-center d-flex flex-row">
+          <div class="text-center d-flex flex-row mb-4">
             <div class="form-floating col-8 pe-2">
               <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" onchange="selectedDA('contactDetailsDistrictArea')" aria-label="">
               </select>
               <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
             </div>
             <div class="form-floating">
-              <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control contactDetails-input" value="{{ old('contactDetailsPostalCode') }}" oninput="validatePostalCodeOnInput('contactDetailsPostalCode')"  onblur="formatPostalCodeOnBlur('contactDetailsPostalCode')" placeholder="" maxlength="7">
+              <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control contactDetails-input" value="{{ old('contactDetailsPostalCode') }}" oninput="validatePostalCodeOnInput('contactDetailsPostalCode')"  onblur="formatPostalCodeOnBlur('contactDetailsPostalCode')" placeholder="" maxlength="7" required>
               <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
-            </div>
-          </div>
-          <div class="row mb-4">
-            @if($errors->has('contactDetailsPostalCode'))
-              <p>{{ $errors->first('contactDetailsPostalCode') }}</p>
-            @endif
-            <div class="col-12">
+               @if($errors->has('contactDetailsPostalCode'))
+                <p>{{ $errors->first('contactDetailsPostalCode') }}</p>
+              @endif
               <div class="text-start invalid-feedback" id="invalidRequiredPostalCode" style="display: none;">{{__('form.contactDetailsPostalCodeRequired')}}</div>
               <div class="text-start invalid-feedback" id="invalidPostalCodeFormat" style="display: none;">{{__('form.contactDetailsPostalCodeFormat')}}</div>
               <div class="text-start invalid-feedback" id="invalidPostalCodeLength" style="display: none;">{{__('form.contactDetailsPostalCodeLength')}}</div>
             </div>
           </div>
+         
           <div class="text-center mb-4">
             <div class="form-floating">
-              <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control contactDetails-input" value="{{ old('contactDetailsWebsite') }}" oninput="validateWebsiteOnBlur('contactDetailsWebsite')" placeholder="" maxlength="64">
+              <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control contactDetails-input" value="{{ old('contactDetailsWebsite') }}" onblur="validateWebsiteOnBlur('contactDetailsWebsite')" placeholder="" maxlength="64">
               <label for="contactDetailsWebsite">{{__('form.website')}}</label>
               @if($errors->has('contactDetailsWebsite'))
               <p>{{ $errors->first('contactDetailsWebsite') }}</p>
@@ -555,7 +555,7 @@
         </div>
       </div>
       <div class="col-12 col-md-6 d-flex flex-column">
-        <h2 class="text-center section-subtitle">{{__('form.contactDetailsphoneNumbersSection')}}</h2>
+        <h2 class="text-center section-subtitle">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
         <div class="text-center d-flex flex-row">
           <div class="form-floating col-3">
             <select name="contactDetailsPhoneType" id="contactDetailsPhoneType" class="form-select" aria-label="">
@@ -566,11 +566,11 @@
             <label for="contactDetailsPhoneType">{{__('form.typeLabel')}}</label>
           </div>
           <div class="form-floating col-5 px-2">
-            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control contactDetails-input" oninput="validatePhoneNumberOnInput('contactDetailsPhoneNumber')" onblur="validatePhoneNumberOnBlur('contactDetailsPhoneNumber')"  placeholder="###-###-####" maxlength="12">
+            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" oninput="validatePhoneNumberOnInput('contactDetailsPhoneNumber')" onblur="validatePhoneNumberOnBlur('contactDetailsPhoneNumber')"  placeholder="" maxlength="12" required>
             <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.numberLabel')}}</label>
           </div>
           <div class="form-floating col-3">
-            <input type="text" name="contactDetailsPhoneExtension" id="contactDetailsPhoneExtension" class="form-control contactDetails-input" oninput="validatePhoneExtension('contactDetailsPhoneExtension')" placeholder="" maxlength="6">
+            <input type="text" name="contactDetailsPhoneExtension" id="contactDetailsPhoneExtension" class="form-control" oninput="validatePhoneExtension('contactDetailsPhoneExtension')" placeholder="" maxlength="6">
             <label for="contactDetailsPhoneExtension">{{__('form.phoneExtension')}}</label>
           </div>
           <div class="col-1 d-flex align-items-center ">
@@ -593,6 +593,7 @@
             <div class="text-start invalid-feedback" id="invalidPostalPhoneExtension" style="display: none;">{{__('form.contactDetailsPhoneExtension')}}</div>
             <div class="text-start invalid-feedback" id="invalidPhoneExtensionLength" style="display: none;">{{__('form.contactDetailsPhoneExtensionLength')}}</div>
             <div class="text-start invalid-feedback" id="invalidAddPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberAdd')}}</div>
+            <div class="text-start invalid-feedback" id="invalidListPhoneNumbers" style="display: none;">{{__('form.contactDetailsPhoneNumbersList')}}</div>
           </div>
         </div>
      
