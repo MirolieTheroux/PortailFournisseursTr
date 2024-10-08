@@ -25,6 +25,7 @@ return [
     'identificationTitle' => 'Identification',
     'identificationCompanySection' => 'Entreprise',
     'identificationAuthentificationSection' => 'Authentification',
+    'identificationNeqExistValidation' => 'Le NEQ est déjà enregistrer pour un autre compte.',
 
     'productsAndServiceTitle' => 'Produits et Services Offerts',
     'productsAndServiceCategories' => 'Catégorie',
@@ -34,7 +35,17 @@ return [
     'productsAndServiceServices' => 'Services',
     'productsAndServiceServicesCategorySelection' => 'Sélectionnez une catégorie',
     'productsAndServiceSelectedServicesList' => 'Liste des services choisis',
-
+    'productsAndServiceValidationEmailOneArobaseOnly' => 'L\'adresse courriel ne peut contenir plusieurs @.',
+    'productsAndServiceValidationEmailDomain' => 'L\'adresse courriel doit contenir un nom de domaine.',
+    'productsAndServiceValidationEmailDomainContainDot' => 'Le nom de domaine doit contenir un ".".',
+    'productsAndServiceValidationEmailDomainDotWrongPosition' => 'Le nom de domaine ne peut finir ou commencer par ".".',
+    'productsAndServiceValidationMDPAmount' => 'Le mot de passe doit contenir entre 7 et 12 caractères.',
+    'productsAndServiceValidationMDPLowercase' => 'Le mot de passe doit contenir une minuscule.',
+    'productsAndServiceValidationMDPUppercase' => 'Le mot de passe doit contenir une majuscule.',
+    'productsAndServiceValidationMDPDigits' => 'Le mot de passe doit contenir un chiffre.',
+    'productsAndServiceValidationMDPSpecial' => 'Le mot de passe doit contenir un caractère spécial.',
+    'productsAndServiceValidationMDPConfirm' => 'Le mot de passe n\'est pas identique.',
+    
     'contactDetailsTitle' => 'Coordonnées',
     'contactDetailsAddressSection' => 'Adresse',
     'contactDetailsPhoneNumbersSection' => 'Téléphones',
