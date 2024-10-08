@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('neq', 10)->unique()->nullable();
             $table->string('name', 64);
-            $table->string('password', 12);
-            $table->string('email', 64);
+            $table->string('password', 128);
+            $table->string('email', 64)->unique();
             $table->string('site', 64)->nullable();
-            //TODO Corriger le nom "product_serivce_detail".
-            $table->string('product_serivce_detail', 500)->nullable();
+            $table->string('product_service_detail', 500)->nullable();
             $table->string('tps_number', 64)->nullable();
             $table->string('tvq_number', 64)->nullable();
             $table->string('payment_condition', 64)->nullable();

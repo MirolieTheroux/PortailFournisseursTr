@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SupplierRequest;
 use App\Models\Supplier;
+use App\Models\Contact;
+use App\Models\PhoneNumber;
 use App\Models\WorkSubcategory;
 use App\Models\Province;
 use Illuminate\Http\Request;
@@ -54,10 +56,46 @@ class SuppliersController extends Controller
      */
     public function store(SupplierRequest $request)
     {
-        $supplier = new Supplier($request->all());
-        $supplier->password = Hash::make($request->password);
+      Log::debug($request);
 
-        //$supplier->save();
+      $supplier = new Supplier();
+      $supplier->neq = $request->neq;
+      $supplier->name = $request->name;
+      $supplier->email = $request->email;
+      $supplier->site = $request->contactDetailsWebsite;
+      $supplier->product_service_detail = $request->product_service_detail;
+      $supplier->password = Hash::make($request->password);
+      $supplier->save();
+
+      $supplier = Supplier::where('email', $request->email)->firstOrFail();
+
+      for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
+        $contact = new Contact();
+        $contact->email = $request->contactEmails[$i];
+        $contact->first_name = $request->contactFirstNames[$i];
+        $contact->last_name = $request->contactLastNames[$i];
+        $contact->job = $request->contactJobs[$i];
+        $contact->supplier()->associate($supplier);
+        $contact->save();
+
+        $contact = Contact::where('email', $request->contactEmails[$i])->firstOrFail();
+
+        $phoneNumberA = new PhoneNumber();
+        $phoneNumberA->number = $request->contactTelNumbersA[$i];
+        $phoneNumberA->type = $request->contactTelTypesA[$i];
+        $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
+        $phoneNumberA->supplier()->associate(null);
+        $phoneNumberA->contact()->associate($contact);
+        $phoneNumberA->save();
+
+        $phoneNumberB = new PhoneNumber();
+        $phoneNumberB->number = $request->contactTelNumbersB[$i];
+        $phoneNumberB->type = $request->contactTelTypesB[$i];
+        $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
+        $phoneNumberB->supplier()->associate(null);
+        $phoneNumberB->contact()->associate($contact);
+        $phoneNumberB->save();
+      }
     }
 
     /**

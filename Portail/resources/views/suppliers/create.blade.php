@@ -39,7 +39,6 @@
     </div>
   </div><!-- FIN PROGRESS BAR-->
 
-
     <!--IDENTIFICATION-->  
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
@@ -65,6 +64,9 @@
                         <div class="invalid-feedback" id="neqInvalidExist" style="display: none;">{{__('form.identificationNeqExistValidation')}}</div>
                         <div class="valid-feedback" id="neqValid" style="display: none;"></br></div>
                     </div>
+                    @if($errors->has('neq'))
+                      <p>{{ $errors->first('neq') }}</p>
+                    @endif
                 </div>
                 <div class="text-start">
                     <div class="form-floating mb-3">
@@ -75,6 +77,9 @@
                         <div class="invalid-feedback" id="nameInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Nom d\'entreprise'])}}</div>
                     </div>
                 </div>
+                @if($errors->has('name'))
+                  <p>{{ $errors->first('name') }}</p>
+                @endif
             </div>
             <div class="col-12 col-md-8 d-flex flex-column justify-content-between">
                 <h2 class="text-center section-subtitle">{{__('form.identificationAuthentificationSection')}}</h2>
@@ -92,6 +97,9 @@
                         <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">{{__('form.productsAndServiceValidationEmailDomainContainDot')}}</div>
                         <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">{{__('form.productsAndServiceValidationEmailDomainDotWrongPosition')}}</div>
                     </div>
+                    @if($errors->has('email'))
+                      <p>{{ $errors->first('email') }}</p>
+                    @endif
                 </div>
                 <div class="text-start">
                     <div class="row">
@@ -108,6 +116,9 @@
                                 <div class="invalid-feedback" id="passwordInvalidNumber" style="display: none;">{{__('form.productsAndServiceValidationMDPDigits')}}</div>
                                 <div class="invalid-feedback" id="passwordInvalidSpecial" style="display: none;">{{__('form.productsAndServiceValidationMDPSpecial')}}</div>
                             </div>
+                            @if($errors->has('password'))
+                              <p>{{ $errors->first('password') }}</p>
+                            @endif
                         </div>
                         <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                             <div class="form-floating mb-3">
@@ -117,6 +128,9 @@
                                 <div class="valid-feedback" id="password_confirmationValid" style="display: none;"></br></div>
                                 <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">{{__('form.productsAndServiceValidationMDPConfirm')}}</div>
                             </div>
+                            @if($errors->has('password_confirmation'))
+                              <p>{{ $errors->first('password_confirmation') }}</p>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -140,7 +154,7 @@
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
     </div>
     <div class="row">
-      <div class="d-md-block col-12 text-center">
+      <div class="col-12 text-center">
         <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
       </div>
     </div>
@@ -155,7 +169,7 @@
         </div>
         <div class="text-center">
           <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="details" id="company-name" style="height: 232px; resize: none;" maxlength="500"></textarea>
+            <textarea class="form-control" name="product_service_detail" placeholder="details" id="company-name" style="height: 160px; resize: none;" maxlength="500"></textarea>
             <label for="company-name" class="labelbackground">{{__('form.productsAndServiceCategoriesDetails')}}</label>
           </div>
         </div>
@@ -213,7 +227,7 @@
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
         <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-        <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+        <button onclick="fetchRBQ()" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN PRODUIT ET SERVICE-->
@@ -225,7 +239,7 @@
             <div class="col-12 rounded-top fond-image fond-rbq"></div>
         </div>
         <div class="row">
-            <div class="d-none d-md-block col-12 text-center">
+            <div class="col-12 text-center">
                 <h1>{{__('form.rbqTitle')}}</h1>
             </div>
         </div>
@@ -445,7 +459,7 @@
       <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
     </div>
     <div class="row">
-      <div class="d-md-block col-12 text-center">
+      <div class="col-12 text-center">
         <h1 class="section-title">{{__('form.contactDetailsTitle')}}</h1>
       </div>
     </div>
@@ -891,6 +905,9 @@
 <script src="{{ asset('js/suppliersCreate/contact.js') }} "></script>
 <script src="{{ asset('js/progressBar.js') }} "></script>
 <script src="{{ asset('js/suppliersCreate/contactDetails.js') }} "></script>
-<script src="{{ asset('js/suppliersCreate/validationContacts.js') }}"></script>
+<script>
+  const oldCity = "{{ old('contactDetails-city') }}";
+  const oldDistrictArea = "{{ old('contactDetailsDistrictArea') }}";
+</script>
 @endsection
 
