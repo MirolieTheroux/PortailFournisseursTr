@@ -41,9 +41,6 @@
 
 
     <!--IDENTIFICATION-->  
-    <!--
-        - Mettre le texte dans les fichiers de langue
-    -->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-identification"></div>
@@ -90,10 +87,10 @@
                         <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
                         <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('validation.doesnt_start_with', ['attribute' => 'Adresse courriel', 'values' => '@'])}}</div>
                         <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('validation.contains', ['attribute' => 'Adresse courriel', 'values' => '@'])}}</div>
-                        <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">L'adresse courriel ne peut contenir plusieurs @.</div>
-                        <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">L'adresse courriel doit contenir un nom de domaine.</div>
-                        <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">Le nom de domaine doit contenir un ".".</div>
-                        <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">Le nom de domaine ne peut finir ou commencer par ".".</div>
+                        <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">{{__('form.productsAndServiceValidationEmailOneArobaseOnly')}}</div>
+                        <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">{{__('form.productsAndServiceValidationEmailDomain')}}</div>
+                        <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">{{__('form.productsAndServiceValidationEmailDomainContainDot')}}</div>
+                        <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">{{__('form.productsAndServiceValidationEmailDomainDotWrongPosition')}}</div>
                     </div>
                 </div>
                 <div class="text-start">
@@ -104,7 +101,7 @@
                                 <label for="password">{{__('form.passwordLabel')}}</label>
                                 <div id="passwordStart"></br></div>
                                 <div class="valid-feedback" id="passwordValid" style="display: none;"></br></div>
-                                <div class="invalid-feedback" id="passwordInvalidEmpty" style="display: none;">Le mot de passe est obligatoire.</div>
+                                <div class="invalid-feedback" id="passwordInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Mot de passe'])}}</div>
                                 <div class="invalid-feedback" id="passwordInvalidAmount" style="display: none;">Le mot de passe doit contenir entre 7 et 12 caractères.</div>
                                 <div class="invalid-feedback" id="passwordInvalidLowercase" style="display: none;">Le mot de passe doit contenir une minuscule.</div>
                                 <div class="invalid-feedback" id="passwordInvalidUppercase" style="display: none;">Le mot de passe doit contenir une majuscule.</div>

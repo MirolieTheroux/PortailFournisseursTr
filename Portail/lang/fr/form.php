@@ -35,6 +35,10 @@ return [
     'productsAndServiceServices' => 'Services',
     'productsAndServiceServicesCategorySelection' => 'Sélectionnez une catégorie',
     'productsAndServiceSelectedServicesList' => 'Liste des services choisis',
+    'productsAndServiceValidationEmailOneArobaseOnly' => 'L\'adresse courriel ne peut contenir plusieurs @.',
+    'productsAndServiceValidationEmailDomain' => 'L\'adresse courriel doit contenir un nom de domaine.',
+    'productsAndServiceValidationEmailDomainContainDot' => 'Le nom de domaine doit contenir un ".".',
+    'productsAndServiceValidationEmailDomainDotWrongPosition' => 'Le nom de domaine ne peut finir ou commencer par ".".',
     
     'contactDetailsTitle' => 'Coordonnées',
     'contactDetailsAddressSection' => 'Adresse',
