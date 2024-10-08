@@ -44,8 +44,16 @@ class Supplier extends Model
     public function phoneNumbers(){
       return $this->hasMany(PhoneNumber::class);
     }
-    
+
     public function rbqLicence(){
       return $this->hasOne(RbqLicence::class);
+    }
+
+    public function workSubcategories(){
+      return $this->belongsToMany(WorkSubcategory::class, 'supplier_work_subcategory');
+    }
+
+    public function addresses(){
+      return $this->hasOne(Address::class);
     }
 }
