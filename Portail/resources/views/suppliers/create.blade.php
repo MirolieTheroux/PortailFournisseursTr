@@ -102,11 +102,11 @@
                                 <div id="passwordStart"></br></div>
                                 <div class="valid-feedback" id="passwordValid" style="display: none;"></br></div>
                                 <div class="invalid-feedback" id="passwordInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Mot de passe'])}}</div>
-                                <div class="invalid-feedback" id="passwordInvalidAmount" style="display: none;">Le mot de passe doit contenir entre 7 et 12 caractères.</div>
-                                <div class="invalid-feedback" id="passwordInvalidLowercase" style="display: none;">Le mot de passe doit contenir une minuscule.</div>
-                                <div class="invalid-feedback" id="passwordInvalidUppercase" style="display: none;">Le mot de passe doit contenir une majuscule.</div>
-                                <div class="invalid-feedback" id="passwordInvalidNumber" style="display: none;">Le mot de passe doit contenir un chiffre.</div>
-                                <div class="invalid-feedback" id="passwordInvalidSpecial" style="display: none;">Le mot de passe doit contenir un caractère spécial.</div>
+                                <div class="invalid-feedback" id="passwordInvalidAmount" style="display: none;">{{__('form.productsAndServiceValidationMDPAmount')}}</div>
+                                <div class="invalid-feedback" id="passwordInvalidLowercase" style="display: none;">{{__('form.productsAndServiceValidationMDPLowercase')}}</div>
+                                <div class="invalid-feedback" id="passwordInvalidUppercase" style="display: none;">{{__('form.productsAndServiceValidationMDPUppercase')}}</div>
+                                <div class="invalid-feedback" id="passwordInvalidNumber" style="display: none;">{{__('form.productsAndServiceValidationMDPDigits')}}</div>
+                                <div class="invalid-feedback" id="passwordInvalidSpecial" style="display: none;">{{__('form.productsAndServiceValidationMDPSpecial')}}</div>
                             </div>
                         </div>
                         <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
@@ -115,7 +115,7 @@
                                 <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
                                 <div id="password_confirmationStart"></br></div>
                                 <div class="valid-feedback" id="password_confirmationValid" style="display: none;"></br></div>
-                                <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">Le mot de passe n'est pas identique.</div>
+                                <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">{{__('form.productsAndServiceValidationMDPConfirm')}}</div>
                             </div>
                         </div>
                     </div>
@@ -133,7 +133,6 @@
 
   <!--PRODUIT ET SERVICE-->
   <!--Remarques-->
-  <!-- Responsive en bas de large (992px) les labels des inputs Recherche, Détails et Sélectionnez embarque sur le texte (contenu) -->
   <!-- Table productsservices est-ce que la description on veut mettre plus de caractères. (Même si dans le diagramme de classe c'est écrit 64) ?-->
   <!-- Table productsservices est-ce que le code on veut mettre moins de caractères selon le plus long dans la liste excel ? (Même si dans le diagramme de classe c'est écrit (8) ?-->
   <!-- Table productsservices est-ce qu'on a besoin du category_code (string) puisqu'on a déjà sa clé étrangère?-->
@@ -151,27 +150,14 @@
         <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategories')}}</h2>
         <div class="text-center">
           <div class="form-floating mb-3">
-            <select name="product-category" id="product-category" class="form-select" aria-label="Default select example">
-              <option selected></option>
-              <optgroup label="Approvissionements">
-                <option value="G1">G1 - Aérospatiale</option>
-                <option value="G2">G2 - Matériel de climatisation et de réfrigération</option>
-                <option value="G3">G3 - Armement</option>
-              </optgroup>
-            </select>
-            <label for="product-category">{{__('form.productsAndServiceCategoriesList')}}</label>
-          </div>
-        </div>
-        <div class="text-center">
-          <div class="form-floating mb-3">
             <input type="text" name="service-search" id="service-search" class="form-control" placeholder="">
             <label for="service-search">{{__('form.productsAndServiceCategoriesSearch')}}</label>
           </div>
         </div>
         <div class="text-center">
           <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="details" id="company-name" style="height: 160px; resize: none;" maxlength="500"></textarea>
-            <label for="company-name">{{__('form.productsAndServiceCategoriesDetails')}}</label>
+            <textarea class="form-control" placeholder="details" id="company-name" style="height: 232px; resize: none;" maxlength="500"></textarea>
+            <label for="company-name" class="labelbackground">{{__('form.productsAndServiceCategoriesDetails')}}</label>
           </div>
         </div>
       </div>
@@ -180,7 +166,7 @@
         <div>
           <div class="form-floating mb-3">
             <div class="form-control" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-              <div>
+              <div class="mt-lg-0 mt-md-4">
                 <div class="row align-items-start">
                   <div class="col-1 col-md-1 d-flex flex-column justify-content-start">
                     <input class="form-check-input" type="checkbox" onclick="checkedbox(this)" id="category1" value="">
@@ -205,7 +191,7 @@
                 </div>
               </div>
             </div>
-            <label for="company-name">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
+            <label for="company-name" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
           </div>
         </div>
       </div>
