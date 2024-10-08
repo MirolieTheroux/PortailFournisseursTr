@@ -62,7 +62,7 @@ async function addCitiesAndDAInSelect() {
     uniqueDA.forEach((DA) => {
         let optionDA = document.createElement("option");
         optionDA.text = DA;
-        optionDA.value = DA.replace(/\s*\(.*?\)/, '');
+        optionDA.value = DA;
         districtArea.add(optionDA);
     });
 

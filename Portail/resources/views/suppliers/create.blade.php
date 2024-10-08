@@ -40,7 +40,6 @@
     </div>
   </div><!-- FIN PROGRESS BAR-->
 
-
     <!--IDENTIFICATION-->
     <!--
       Remarques_Validations_Front_end::
@@ -74,8 +73,10 @@
                         <div class="invalid-feedback" id="neqInvalid4" style="display: none;">Le NEQ doit être composé de 10 chiffres!</div>
                         <div class="invalid-feedback" id="neqInvalid5" style="display: none;">Le NEQ est déjà enregistrer pour un autre compte!</div>
                         <div id="neqValid"></br></div>
-
                     </div>
+                    @if($errors->has('neq'))
+                      <p>{{ $errors->first('neq') }}</p>
+                    @endif
                 </div>
                 <div class="text-start">
                     <div class="form-floating mb-3">
@@ -85,6 +86,9 @@
                         <div class="invalid-feedback" id="nameInvalid1" style="display: none;">Le nom d'entreprise est obligatoire!</div>
                     </div>
                 </div>
+                @if($errors->has('name'))
+                  <p>{{ $errors->first('name') }}</p>
+                @endif
             </div>
             <div class="col-12 col-md-8 d-flex flex-column justify-content-between">
                 <h2 class="text-center section-subtitle">{{__('form.identificationAuthentificationSection')}}</h2>
@@ -98,6 +102,9 @@
                         <div class="invalid-feedback" id="emailInvalid3" style="display: none;">L'adresse courriel doit contenir un @!</div>
                         <div class="invalid-feedback" id="emailInvalid4" style="display: none;">L'adresse courriel doit contenir un nom de domaine!</div>
                     </div>
+                    @if($errors->has('email'))
+                      <p>{{ $errors->first('email') }}</p>
+                    @endif
                 </div>
                 <div class="text-start">
                     <div class="row">
@@ -113,6 +120,9 @@
                                 <div class="invalid-feedback" id="passwordInvalid5" style="display: none;">Le mot de passe doit contenir un chiffre!</div>
                                 <div class="invalid-feedback" id="passwordInvalid6" style="display: none;">Le mot de passe doit contenir un caractère spécial!</div>
                             </div>
+                            @if($errors->has('password'))
+                              <p>{{ $errors->first('password') }}</p>
+                            @endif
                         </div>
                         <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                             <div class="form-floating mb-3">
@@ -122,6 +132,9 @@
                                 <div class="invalid-feedback" id="password_confirmationInvalid1">Le mot de passe est obligatoire!</div>
                                 <div class="invalid-feedback" id="password_confirmationInvalid2" style="display: none;">Le mot de passe n'est pas identique!</div>
                             </div>
+                            @if($errors->has('password_confirmation'))
+                              <p>{{ $errors->first('password_confirmation') }}</p>
+                            @endif
                         </div>
                     </div>
                 </div>
