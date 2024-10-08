@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('productsservices', function (Blueprint $table) {
+        Schema::create('products_services', function (Blueprint $table) {
             $table->string('code', 8)->primary();
-            $table->string('description', 64);
+            $table->string('description', 256);
             $table->string('category_code', 8);
             $table->foreign('category_code')
             ->references('code')
-            ->on('productsservicescategories') // Assuming your suppliers table is named 'suppliers'
+            ->on('products_services_categories') // Assuming your suppliers table is named 'suppliers'
             ->onDelete('cascade'); // Adjust this as needed for your case
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('productsservices');
+        Schema::dropIfExists('products_services');
     }
 };

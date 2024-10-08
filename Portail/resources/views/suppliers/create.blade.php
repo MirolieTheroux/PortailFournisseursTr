@@ -59,9 +59,9 @@
                         <label for="neq">{{__('form.neqLabel')}}</label>
                         <div id="neqStart"></br></div>
                         <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
-                        <div class="invalid-feedback" id="neqInvalidThird" style="display: none;">{{__('validation.contain_at_position', ['index' => '3', 'values' => '4, 5, 6, 7, 8 ou 9'])}}</div>
-                        <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('validation.digits_only', ['attribute' => 'NEQ'])}}</div>
-                        <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('validation.size.string', ['attribute' => 'NEQ', 'size' => '10'])}}</div>
+                        <div class="invalid-feedback" id="neqInvalidThird" style="display: none;">{{__('form.productsAndServiceValidationNEQ3rd')}}</div>
+                        <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('form.productsAndServiceValidationNEQOnlyDigits')}}</div>
+                        <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('form.productsAndServiceValidationNEQAmount')}}</div>
                         <div class="invalid-feedback" id="neqInvalidExist" style="display: none;">{{__('form.identificationNeqExistValidation')}}</div>
                         <div class="valid-feedback" id="neqValid" style="display: none;"></br></div>
                     </div>
@@ -85,8 +85,8 @@
                         <div id="emailStart"></br></div>
                         <div class="valid-feedback" id="emailValid" style="display: none;"></br></div>
                         <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
-                        <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('validation.doesnt_start_with', ['attribute' => 'Adresse courriel', 'values' => '@'])}}</div>
-                        <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('validation.contains', ['attribute' => 'Adresse courriel', 'values' => '@'])}}</div>
+                        <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('form.productsAndServiceValidationEmailStartWithArobase')}}</div>
+                        <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('form.productsAndServiceValidationEmailArobaseRequired')}}</div>
                         <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">{{__('form.productsAndServiceValidationEmailOneArobaseOnly')}}</div>
                         <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">{{__('form.productsAndServiceValidationEmailDomain')}}</div>
                         <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">{{__('form.productsAndServiceValidationEmailDomainContainDot')}}</div>
@@ -131,10 +131,6 @@
     </div>  <!--FIN IDENTIFICATION-->
 
   <!--PRODUIT ET SERVICE-->
-  <!--Remarques-->
-  <!-- Table productsservices est-ce que la description on veut mettre plus de caractères. (Même si dans le diagramme de classe c'est écrit 64) ?-->
-  <!-- Table productsservices est-ce que le code on veut mettre moins de caractères selon le plus long dans la liste excel ? (Même si dans le diagramme de classe c'est écrit (8) ?-->
-  <!-- Table productsservices est-ce qu'on a besoin du category_code (string) puisqu'on a déjà sa clé étrangère?-->
   <div class="container bg-white rounded my-2">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
@@ -166,17 +162,22 @@
           <div class="form-floating mb-3">
             <div class="form-control" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
               <div class="mt-lg-0 mt-md-4">
-                <div class="row align-items-start">
-                  <div class="col-1 col-md-1 d-flex flex-column justify-content-start">
-                    <input class="form-check-input" type="checkbox" onclick="checkedbox(this)" id="category1" value="">
-                  </div>
-                  <div class="col-4 col-md-4 d-flex flex-column justify-content-start">
-                    <label class="form-check-label" for="category1">05736535</label>
-                  </div>
-                  <div class="col-7 col-md-7 d-flex flex-column justify-content-start">
-                    <label class="form-check-label" for="category1">Service d'entretien ménager</label>
-                  </div>
-                </div>
+                @foreach($productServiceCategories as $productServiceCategory)
+                  <div style="color: red;">{{$productServiceCategory->name}}</div>
+                  @foreach($productServiceSubcategories->where('category_code', $productServiceCategory->code) as $productServiceSubcategory)
+                    <div class="row align-items-start mt-2">
+                      <div class="col-1 col-md-1 d-flex flex-column justify-content-start">
+                        <input class="form-check-input" type="checkbox" onclick="checkedbox(this)" id="category{{ $loop->index }}" value="">
+                      </div>
+                      <div class="col-4 col-md-4 d-flex flex-column justify-content-start">
+                        <label class="form-check-label" for="category{{ $loop->index }}">{{$productServiceSubcategory->code}}</label>
+                      </div>
+                      <div class="col-7 col-md-7 d-flex flex-column justify-content-start">
+                        <label class="form-check-label" for="category{{ $loop->index }}">{{$productServiceSubcategory->description}}</label>
+                      </div>
+                    </div>
+                  @endforeach
+                @endforeach
                 <div class="row align-items-start">
                   <div class="col-1 col-md-1 d-flex flex-column justify-content-start">
                     <input class="form-check-input" type="checkbox" onclick="checkedbox(this)" id="category2" value="">
