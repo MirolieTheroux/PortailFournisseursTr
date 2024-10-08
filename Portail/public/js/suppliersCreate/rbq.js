@@ -11,6 +11,10 @@ let checkboxes;
 let subcategories = [];
 let typeLicence;
 let licenceNumber = "";
+let phoneNumber;
+let address = "";
+let city = "";
+let districtArea = "";
 let licenceRestriction = false;
 
 function getElements(){
@@ -57,6 +61,18 @@ async function fetchRBQ() {
     }
     if(record["Restriction"] === "Oui"){
       licenceRestriction = true;
+    }
+    if(phoneNumber === undefined){
+      phoneNumber = record["Numero de telephone"];
+    }
+    if(address === ""){
+      address = record["Adresse"];
+    }
+    if(city === ""){
+      city = record["Municipalite"];
+    }
+    if(districtArea === ""){
+      districtArea = record["Region administrative"];
     }
   });
 
@@ -318,3 +334,21 @@ function validateRbqAll(){
   const onclick = new Event('click');
   subcategoriesChecks.dispatchEvent(onclick);
 }
+
+/*** Section Coordonnées ***/
+function getAddressAndFillForm(){
+  if(neqNumber != ""){
+    let addressInfo = address.split(city.toLocaleUpperCase());
+    let civicNumber = addressInfo[0].substring(0, addressInfo[0].indexOf(" "));
+    let streetName = addressInfo[0].substring(addressInfo[0].indexOf(" ") + 1);
+    let postalCode = addressInfo[1].substring(addressInfo[1].length-7,addressInfo[0].length);
+
+    document.querySelectorAll("[name='contactDetailsCivicNumber']").forEach(input => {input.value = civicNumber;});
+    document.querySelectorAll("[name='contactDetailsStreetName']").forEach(input => {input.value = streetName; });
+    document.getElementById("contactDetailsCitySelect").value = city;
+    document.getElementById("contactDetailsPostalCode").value = postalCode;
+    document.getElementById("contactDetailsDistrictArea").value = districtArea;
+    document.getElementById("contactDetailsPhoneNumber").value = phoneNumber;
+  }
+}
+
