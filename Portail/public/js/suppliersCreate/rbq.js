@@ -160,9 +160,11 @@ document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifie
 });
 
 /*** Validation ***/
+const inputLicenceRbq = document.getElementById("licenceRbq");
+inputLicenceRbq.addEventListener('input', validateRbqLicence);
+
 function validateRbqLicence() {
-  const input = document.getElementById("licenceRbq");
-  const parentDiv = input.parentElement;
+  const parentDiv = inputLicenceRbq.parentElement;
   const invalidNumberMessage = parentDiv.querySelector('.licenceInvalidNumber');
   const invalidSizeMessage = parentDiv.querySelector('.licenceInvalidSize');
 
@@ -171,34 +173,35 @@ function validateRbqLicence() {
   invalidSizeMessage.style.display = 'none';
 
   // Basic validation logic
-  if (isNaN(input.value)) {
-    input.classList.remove('is-valid');
-    input.classList.add('is-invalid');
+  if (isNaN(inputLicenceRbq.value)) {
+    inputLicenceRbq.classList.remove('is-valid');
+    inputLicenceRbq.classList.add('is-invalid');
     invalidNumberMessage.style.display = 'block';
   }
-  else if(!input.value){
-    input.classList.remove('is-invalid');
-    input.classList.remove('is-valid');
+  else if(!inputLicenceRbq.value){
+    inputLicenceRbq.classList.remove('is-invalid');
+    inputLicenceRbq.classList.remove('is-valid');
   }
-  else if(input.value.length !== 10){
-    input.classList.remove('is-valid');
-    input.classList.add('is-invalid');
+  else if(inputLicenceRbq.value.length !== 10){
+    inputLicenceRbq.classList.remove('is-valid');
+    inputLicenceRbq.classList.add('is-invalid');
     invalidSizeMessage.style.display = 'block';
   }
   else {
-    input.classList.remove('is-invalid');
-    input.classList.add('is-valid');
+    inputLicenceRbq.classList.remove('is-invalid');
+    inputLicenceRbq.classList.add('is-valid');
   }
 
-  input.classList.add('was-validated');
+  inputLicenceRbq.classList.add('was-validated');
   validateRbqStatus();
   validateRbqType();
   validateRbqCategories();
 };
 
+const selectStatus = document.getElementById("statusRbq");
+selectStatus.addEventListener('change', validateRbqStatus);
+
 function validateRbqStatus() {
-  const inputLicence = document.getElementById("licenceRbq");
-  const selectStatus = document.getElementById("statusRbq");
   const parentDiv = selectStatus.parentElement;
   const invalidStatusRequired = parentDiv.querySelector('.statusInvalidRequired');
   const invalidStatusRequiredNot = parentDiv.querySelector('.statusInvalidRequiredNot');
@@ -208,7 +211,7 @@ function validateRbqStatus() {
   invalidStatusRequiredNot.style.display = 'none';
 
   // Basic validation logic
-  if(inputLicence.value){
+  if(inputLicenceRbq.value){
     if(!selectStatus.value){
       selectStatus.classList.remove('is-valid');
       selectStatus.classList.add('is-invalid');
@@ -234,9 +237,10 @@ function validateRbqStatus() {
   selectStatus.classList.add('was-validated');
 };
 
+const selectType = document.getElementById("typeRbq");
+selectType.addEventListener('change', validateRbqType);
+
 function validateRbqType() {
-  const inputLicence = document.getElementById("licenceRbq");
-  const selectType = document.getElementById("typeRbq");
   const parentDiv = selectType.parentElement;
   const invalidTypeRequired = parentDiv.querySelector('.typeInvalidRequired');
   const invalidTypeRequiredNot = parentDiv.querySelector('.typeInvalidRequiredNot');
@@ -246,7 +250,7 @@ function validateRbqType() {
   invalidTypeRequiredNot.style.display = 'none';
 
   // Basic validation logic
-  if(inputLicence.value){
+  if(inputLicenceRbq.value){
     if(!selectType.value){
       selectType.classList.remove('is-valid');
       selectType.classList.add('is-invalid');
@@ -272,14 +276,17 @@ function validateRbqType() {
   selectType.classList.add('was-validated');
 };
 
+const subcategorieContainer = document.getElementById("subcategories-container");
+const subcategoriesCheckBoxes = subcategorieContainer.getElementsByClassName("rbq-subcategories-check");
+selectType.addEventListener('change', validateRbqType);
+for(let checkbox of subcategoriesCheckBoxes){
+  checkbox.addEventListener('click', validateRbqCategories);
+}
+
 function validateRbqCategories(){
-  const inputLicence = document.getElementById("licenceRbq");
-  const subcategorieContainer = document.getElementById("subcategories-container");
   const parentDiv = subcategorieContainer.parentElement;
   const invalidSubcategorieRequired = parentDiv.querySelector('.subcategorieInvalidRequired');
   const invalidSubcategorieRequiredNot = parentDiv.querySelector('.subcategorieInvalidRequiredNot');
-
-  const subcategoriesCheckBoxes = subcategorieContainer.getElementsByClassName("rbq-subcategories-check");
 
   // Reset all error messages
   invalidSubcategorieRequired.style.display = 'none';
@@ -292,7 +299,7 @@ function validateRbqCategories(){
       subcategorieFound = true;
     }
   }
-  if(inputLicence.value){
+  if(inputLicenceRbq.value){
     if(subcategorieFound){
       subcategorieContainer.classList.remove('is-invalid');
       subcategorieContainer.classList.add('is-valid');
@@ -317,21 +324,16 @@ function validateRbqCategories(){
 
 }
 
+const rbqSectionNext = document.getElementById("rbqLicence-button");
+rbqSectionNext.addEventListener("click", (event)=>{
+  validateRbqAll();
+});
+
 function validateRbqAll(){
-  const licenceInput = document.getElementById("licenceRbq");
-  const oninput = new Event('input');
-  licenceInput.dispatchEvent(oninput);
-
-  const statusSelect = document.getElementById("statusRbq");
-  const typeSelect = document.getElementById("typeRbq");
-
-  const onchange = new Event('change');
-  statusSelect.dispatchEvent(onchange);
-  typeSelect.dispatchEvent(onchange);
-
-  const subcategoriesChecks = document.getElementsByClassName("rbq-subcategories-check");
-  const onclick = new Event('click');
-  subcategoriesChecks.dispatchEvent(onclick);
+  validateRbqLicence();
+  validateRbqStatus();
+  validateRbqType();
+  validateRbqCategories();
 }
 
 /*** Section Coordonnées ***/

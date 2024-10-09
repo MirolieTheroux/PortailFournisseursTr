@@ -16,21 +16,6 @@ use Illuminate\Support\Facades\Log;
 
 class SuppliersController extends Controller
 {
-    public function validateNeq(Request $request)
-    {
-        // Validate incoming request
-        $request->validate([
-            'neq' => 'required|string|size:10'  // Ensure NEQ is a 10-character string
-        ]);
-
-        $neq = $request->input('neq');
-
-        // Query the database for the NEQ
-        $exists = DB::table('suppliers')->where('neq', $neq)->exists();
-
-        // Return JSON response
-        return response()->json(['exists' => $exists]);
-    }
     /**
      * Display a listing of the resource.
      */

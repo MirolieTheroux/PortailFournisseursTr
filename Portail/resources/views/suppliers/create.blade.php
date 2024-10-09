@@ -249,7 +249,7 @@
                 <div class="d-flex flex-column justify-content-between just h-100">
                   <div class="text-center">
                       <div class="form-floating mb-3">
-                          <input type="text" oninput="validateRbqLicence()" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="10">
+                          <input type="text" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="10">
                           <label for="licenceRbq">{{__('form.numberLabel')}}</label>
                           <div class="text-start invalid-feedback licenceInvalidNumber" style="display: none;">{{__('form.rbqLicenceValidation')}}</div>
                           <div class="text-start invalid-feedback licenceInvalidSize" style="display: none;">{{__('form.rbqLicenceValidationSize')}}</div>
@@ -260,7 +260,7 @@
                   </div>
                   <div class="text-center">
                       <div class="form-floating mb-3">
-                          <select onchange="validateRbqStatus()" name="statusRbq" id="statusRbq" class="form-select" aria-label="">
+                          <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
                               <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
                               <option value="valid" {{ "valid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
                               <option value="restrictedValid" {{ "restrictedValid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
@@ -276,7 +276,7 @@
                   </div>
                   <div class="text-center">
                       <div class="form-floating mb-3">
-                          <select onchange="validateRbqType()" name="typeRbq" id="typeRbq" class="form-select" aria-label="">
+                          <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
                               <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
                               <option value="entrepreneur" {{ "entrepreneur" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
                               <option value="ownerBuilder" {{ "ownerBuilder" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
@@ -305,7 +305,6 @@
                           @if($workSubcategory->is_specialised == false)
                             <div class="form-check pb-2">
                               <input
-                                onclick="validateRbqCategories()"
                                 class="form-check-input mt-0 rbq-subcategories-check"
                                 type="checkbox"
                                 name="rbqSubcategories[]"
@@ -334,7 +333,6 @@
                           @if($workSubcategory->is_specialised == true)
                             <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
                               <input
-                                onclick="validateRbqCategories()"
                                 class="form-check-input mt-0 rbq-subcategories-check"
                                 type="checkbox"
                                 name="rbqSubcategories[]"
@@ -365,7 +363,6 @@
                             @if($workSubcategory->is_specialised == false && $workSubcategory->is_entrepreneur_only == false)
                               <div class="form-check pb-2">
                                 <input
-                                  onclick="validateRbqCategories()"
                                   class="form-check-input mt-0 rbq-subcategories-check"
                                   type="checkbox"
                                   name="rbqSubcategories[]"
@@ -394,7 +391,6 @@
                               @if($workSubcategory->is_specialised == true && $workSubcategory->is_entrepreneur_only == false)
                                 <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
                                   <input
-                                    onclick="validateRbqCategories()"
                                     class="form-check-input mt-0 rbq-subcategories-check"
                                     type="checkbox"
                                     name="rbqSubcategories[]"
@@ -436,7 +432,7 @@
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
         <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-        <button onclick="validateRbqAll()" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+        <button id="rbqLicence-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN LICENCE RBQ-->
