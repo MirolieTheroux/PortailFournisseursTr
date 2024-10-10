@@ -2,92 +2,86 @@ const neqInput = document.getElementById('neq');
 neqInput.addEventListener('input', validateIdentificationNeq);
 
 function validateIdentificationNeq() {
-  const input = document.getElementById('neq');
-  //const start = document.getElementById('neqStart');
-  //const valid = document.getElementById('neqValid');
   const invalidStart = document.getElementById('neqInvalidStart');
   const invalidThird = document.getElementById('neqInvalidThird');
   const invalidCharacters = document.getElementById('neqInvalidCharacters');
   const invalidAmount = document.getElementById('neqInvalidAmount');
   const invalidExist = document.getElementById('neqInvalidExist');
-    // Reset all error messages
-    // start.style.display = 'none';
-    // valid.style.display = 'none';
-    invalidStart.style.display = 'none';
-    invalidThird.style.display = 'none';
-    invalidCharacters.style.display = 'none';
-    invalidAmount.style.display = 'none';
-    invalidExist.style.display = 'none';
-    
-    // Basic validation logic
-    if (!input.value) {
-      input.classList.remove('is-invalid');
-      input.classList.remove('is-valid');
-      //valid.style.display = 'block';
-    }
-    else if (!input.value.match(/^11|22|33|88/)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidStart.style.display = 'block';
-    }
-    else if (!input.value.match(/^..(4|5|6|7|8|9)/)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidThird.style.display = 'block';
-    }
-    else if (input.value.match(/\D/)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidCharacters.style.display = 'block';
-    }
-    else if (input.value.length !== 10) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidAmount.style.display = 'block';
-    }
-    else {
-      input.classList.remove('is-invalid');
-      input.classList.add('is-valid');
-      //valid.style.display = 'block';
-    }
-    
-    //TODO::Le NEQ est déjà enregistrer pour un autre compte!
 
-    input.classList.add('was-validated');
+  // Reset all error messages
+  invalidStart.style.display = 'none';
+  invalidThird.style.display = 'none';
+  invalidCharacters.style.display = 'none';
+  invalidAmount.style.display = 'none';
+  invalidExist.style.display = 'none';
+  
+  // Basic validation logic
+  if (!neqInput.value) {
+    neqInput.classList.remove('is-invalid');
+    neqInput.classList.remove('is-valid');
+  }
+  else if (!neqInput.value.match(/^11|22|33|88/)) {
+    neqInput.classList.remove('is-valid');
+    neqInput.classList.add('is-invalid');
+    invalidStart.style.display = 'block';
+  }
+  else if (!neqInput.value.match(/^..(4|5|6|7|8|9)/)) {
+    neqInput.classList.remove('is-valid');
+    neqInput.classList.add('is-invalid');
+    invalidThird.style.display = 'block';
+  }
+  else if (neqInput.value.match(/\D/)) {
+    neqInput.classList.remove('is-valid');
+    neqInput.classList.add('is-invalid');
+    invalidCharacters.style.display = 'block';
+  }
+  else if (neqInput.value.length !== 10) {
+    neqInput.classList.remove('is-valid');
+    neqInput.classList.add('is-invalid');
+    invalidAmount.style.display = 'block';
+  }
+  else {
+    neqInput.classList.remove('is-invalid');
+    neqInput.classList.add('is-valid');
+  }
+  
+  //TODO::Le NEQ est déjà enregistrer pour un autre compte!
+
+  neqInput.classList.add('was-validated');
 };
 
 const nameInput = document.getElementById('name');
 nameInput.addEventListener('input', validateIdentificationName);
 
 function validateIdentificationName() {
-  const input = document.getElementById('name');
   const start = document.getElementById('nameStart');
   const valid = document.getElementById('nameValid');
   const invalidEmpty = document.getElementById('nameInvalidEmpty');
-    // Reset all error messages
-    start.style.display = 'none';
-    valid.style.display = 'none';
-    invalidEmpty.style.display = 'none';
-    
-    // Basic validation logic
-    if (!input.value) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidEmpty.style.display = 'block';
-    }
-    else {
-      input.classList.remove('is-invalid');
-      input.classList.add('is-valid');
-      valid.style.display = 'block';
-    }
-    
-    input.classList.add('was-validated');
+
+  // Reset all error messages
+  start.style.display = 'none';
+  valid.style.display = 'none';
+  invalidEmpty.style.display = 'none';
+  
+  // Basic validation logic
+  if (!nameInput.value) {
+    nameInput.classList.remove('is-valid');
+    nameInput.classList.add('is-invalid');
+    invalidEmpty.style.display = 'block';
+  }
+  else {
+    nameInput.classList.remove('is-invalid');
+    nameInput.classList.add('is-valid');
+    valid.style.display = 'block';
+  }
+  
+  nameInput.classList.add('was-validated');
 };
 
+const emailInput = document.getElementById('email');
+emailInput.addEventListener('input', validateIdentificationEmail);
+
 function validateIdentificationEmail() {
-  const input = document.getElementById('email');
-  const start = document.getElementById('emailStart');
-  const valid = document.getElementById('emailValid');
   const invalidEmpty = document.getElementById('emailInvalidEmpty');
   const invalidStart = document.getElementById('emailInvalidStart');
   const invalidNoArobase = document.getElementById('emailInvalidNoArobase');
@@ -95,64 +89,65 @@ function validateIdentificationEmail() {
   const invalidEmptyDomain = document.getElementById('emailInvalidEmptyDomain');
   const invalidDomainFormat = document.getElementById('emailInvalidDomainFormat');
   const invalidDomainDot = document.getElementById('emailInvalidDomainDot');
-    // Reset all error messages
-    start.style.display = 'none';
-    valid.style.display = 'none';
-    invalidEmpty.style.display = 'none';
-    invalidStart.style.display = 'none';
-    invalidNoArobase.style.display = 'none';
-    invalidManyArobase.style.display = 'none';
-    invalidEmptyDomain.style.display = 'none';
-    invalidDomainFormat.style.display = 'none';
-    invalidDomainDot.style.display = 'none';
-    
-    // Basic validation logic
-    if (!input.value) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidEmpty.style.display = 'block';
-    }
-    else if (input.value.match(/^@/)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidStart.style.display = 'block';
-    }
-    else if (!input.value.match(/@/)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidNoArobase.style.display = 'block';
-    }
-    else if (input.value.match(/@.*@/)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidManyArobase.style.display = 'block';
-    }
-    else if (input.value.match(/@$/)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidEmptyDomain.style.display = 'block';
-    }
-    else if (!input.value.match(/@.*\./)){
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidDomainFormat.style.display = 'block';
-    }
-    else if (input.value.match(/(@\.)|(\.$)/)){
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidDomainDot.style.display = 'block';
-    }
-    else {
-      input.classList.remove('is-invalid');
-      input.classList.add('is-valid');
-      valid.style.display = 'block';
-    }
-    
-    input.classList.add('was-validated');
+
+  // Reset all error messages
+  invalidEmpty.style.display = 'none';
+  invalidStart.style.display = 'none';
+  invalidNoArobase.style.display = 'none';
+  invalidManyArobase.style.display = 'none';
+  invalidEmptyDomain.style.display = 'none';
+  invalidDomainFormat.style.display = 'none';
+  invalidDomainDot.style.display = 'none';
+  
+  // Basic validation logic
+  if (!emailInput.value) {
+    emailInput.classList.remove('is-valid');
+    emailInput.classList.add('is-invalid');
+    invalidEmpty.style.display = 'block';
+  }
+  else if (emailInput.value.match(/^@/)) {
+    emailInput.classList.remove('is-valid');
+    emailInput.classList.add('is-invalid');
+    invalidStart.style.display = 'block';
+  }
+  else if (!emailInput.value.match(/@/)) {
+    emailInput.classList.remove('is-valid');
+    emailInput.classList.add('is-invalid');
+    invalidNoArobase.style.display = 'block';
+  }
+  else if (emailInput.value.match(/@.*@/)) {
+    emailInput.classList.remove('is-valid');
+    emailInput.classList.add('is-invalid');
+    invalidManyArobase.style.display = 'block';
+  }
+  else if (emailInput.value.match(/@$/)) {
+    emailInput.classList.remove('is-valid');
+    emailInput.classList.add('is-invalid');
+    invalidEmptyDomain.style.display = 'block';
+  }
+  else if (!emailInput.value.match(/@.*\./)){
+    emailInput.classList.remove('is-valid');
+    emailInput.classList.add('is-invalid');
+    invalidDomainFormat.style.display = 'block';
+  }
+  else if (emailInput.value.match(/(@\.)|(\.$)/)){
+    emailInput.classList.remove('is-valid');
+    emailInput.classList.add('is-invalid');
+    invalidDomainDot.style.display = 'block';
+  }
+  else {
+    emailInput.classList.remove('is-invalid');
+    emailInput.classList.add('is-valid');
+  }
+  
+  emailInput.classList.add('was-validated');
 };
 
+const passwordInput = document.getElementById('password');
+passwordInput.addEventListener('input', validateIdentificationPassword);
+
 function validateIdentificationPassword() {
-  const input = document.getElementById('password');
+  console.log('tesRT');
   const start = document.getElementById('passwordStart');
   const valid = document.getElementById('passwordValid');
   const invalidEmpty = document.getElementById('passwordInvalidEmpty');
@@ -173,55 +168,58 @@ function validateIdentificationPassword() {
     invalidSpecial.style.display = 'none';
     
     // Basic validation logic
-    if (!input.value) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
+    if (!passwordInput.value) {
+      passwordInput.classList.remove('is-valid');
+      passwordInput.classList.add('is-invalid');
       invalidEmpty.style.display = 'block';
     }
-    else if (input.value.length < 7 || input.value.length > 12) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
+    else if (passwordInput.value.length < 7 || passwordInput.value.length > 12) {
+      passwordInput.classList.remove('is-valid');
+      passwordInput.classList.add('is-invalid');
       invalidAmount.style.display = 'block';
     }
-    else if (!input.value.match(/[a-z]/)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
+    else if (!passwordInput.value.match(/[a-z]/)) {
+      passwordInput.classList.remove('is-valid');
+      passwordInput.classList.add('is-invalid');
       invalidLowercase.style.display = 'block';
     }
-    else if (!input.value.match(/[A-Z]/)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
+    else if (!passwordInput.value.match(/[A-Z]/)) {
+      passwordInput.classList.remove('is-valid');
+      passwordInput.classList.add('is-invalid');
       invalidUppercase.style.display = 'block';
     }
-    else if (!input.value.match(/[0-9]/)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
+    else if (!passwordInput.value.match(/[0-9]/)) {
+      passwordInput.classList.remove('is-valid');
+      passwordInput.classList.add('is-invalid');
       invalidNumber.style.display = 'block';
     }
-    else if (!input.value.match(/[^a-zA-Z0-9]/)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
+    else if (!passwordInput.value.match(/[^a-zA-Z0-9]/)) {
+      passwordInput.classList.remove('is-valid');
+      passwordInput.classList.add('is-invalid');
       invalidSpecial.style.display = 'block';
     }
     else {
-      input.classList.remove('is-invalid');
-      input.classList.add('is-valid');
+      passwordInput.classList.remove('is-invalid');
+      passwordInput.classList.add('is-valid');
       valid.style.display = 'block';
     }
     
-    input.classList.add('was-validated');
+    passwordInput.classList.add('was-validated');
 
     validateIdentificationPasswordConfirmation(false);
 };
 
-let test = false;
+const passwordConfirmInput = document.getElementById('password_confirmation');
+passwordConfirmInput.addEventListener("input", (event)=>{
+  validateIdentificationPasswordConfirmation(true);
+});
+
+let defaultIsEdited = false;
 function validateIdentificationPasswordConfirmation(hasBeenEdited) {
-  if (test == false){
-    test = hasBeenEdited;
+  if (defaultIsEdited == false){
+    defaultIsEdited = hasBeenEdited;
   }
-  if (test == true){
-    const input = document.getElementById('password_confirmation');
-    const confirmation = document.getElementById('password');
+  if (defaultIsEdited == true){
     const start = document.getElementById('password_confirmationStart');
     const valid = document.getElementById('password_confirmationValid');
     const invalidDifferent = document.getElementById('password_confirmationInvalidDifferent');
@@ -232,17 +230,17 @@ function validateIdentificationPasswordConfirmation(hasBeenEdited) {
     invalidDifferent.style.display = 'none';
     
     // Basic validation logic
-    if (input.value !== confirmation.value) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
+    if (passwordConfirmInput.value !== passwordInput.value) {
+      passwordConfirmInput.classList.remove('is-valid');
+      passwordConfirmInput.classList.add('is-invalid');
       invalidDifferent.style.display = 'block';
     }
     else {
-      input.classList.remove('is-invalid');
-      input.classList.add('is-valid');
+      passwordConfirmInput.classList.remove('is-invalid');
+      passwordConfirmInput.classList.add('is-valid');
       valid.style.display = 'block';
     }
     
-    input.classList.add('was-validated');
+    passwordConfirmInput.classList.add('was-validated');
   }
 };
