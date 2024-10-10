@@ -13,7 +13,7 @@ class ProductsservicescategoriesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('productsservicescategories')->insert([
+        DB::table('products_services_categories')->insert([
             // Approvissionements
             ['code' => 'G1', 'nature' => 'Approvissionements', 'name' => 'Aérospatiale'],
             ['code' => 'G2', 'nature' => 'Approvissionements', 'name' => 'Matériel de climatisation et de réfrigération'],
