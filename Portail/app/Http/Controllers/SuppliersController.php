@@ -55,6 +55,8 @@ class SuppliersController extends Controller
         return View('suppliers.create', compact('workSubcategories','provinces', 'productServices', 'productServiceSubCategories', 'productServiceCategories'));
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      */
