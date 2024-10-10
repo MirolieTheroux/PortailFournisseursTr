@@ -58,9 +58,9 @@
                           <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ old('neq') }}" maxlength="10">
                           <label for="neq">{{__('form.neqLabel')}}</label>
                           <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
-                          <div class="invalid-feedback" id="neqInvalidThird" style="display: none;">{{__('form.productsAndServiceValidationNEQ3rd')}}</div>
-                          <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('form.productsAndServiceValidationNEQOnlyDigits')}}</div>
-                          <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('form.productsAndServiceValidationNEQAmount')}}</div>
+                          <div class="invalid-feedback" id="neqInvalidThird" style="display: none;">{{__('form.identificationValidationNEQ3rd')}}</div>
+                          <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('form.identificationValidationNEQOnlyDigits')}}</div>
+                          <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('form.identificationValidationNEQAmount')}}</div>
                           <div class="invalid-feedback" id="neqInvalidExist" style="display: none;">{{__('form.identificationNeqExistValidation')}}</div>
                       </div>
                       @if($errors->has('neq'))
@@ -89,12 +89,13 @@
                           <input type="email" name="email" id="email" class="form-control"  placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64" required>
                           <label for="email">{{__('form.emailLabel')}}</label>
                           <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
-                          <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('form.productsAndServiceValidationEmailStartWithArobase')}}</div>
-                          <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('form.productsAndServiceValidationEmailArobaseRequired')}}</div>
-                          <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">{{__('form.productsAndServiceValidationEmailOneArobaseOnly')}}</div>
-                          <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">{{__('form.productsAndServiceValidationEmailDomain')}}</div>
-                          <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">{{__('form.productsAndServiceValidationEmailDomainContainDot')}}</div>
-                          <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">{{__('form.productsAndServiceValidationEmailDomainDotWrongPosition')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('form.identificationValidationEmailStartWithArobase')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('form.identificationValidationEmailArobaseRequired')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">{{__('form.identificationValidationEmailOneArobaseOnly')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">{{__('form.identificationValidationEmailDomain')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">{{__('form.identificationValidationEmailDomainContainDot')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">{{__('form.identificationValidationEmailDomainDotWrongPosition')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidUnique" style="display: none;">{{__('form.identificationValidationEmailUnique')}}</div>
                       </div>
                       @if($errors->has('email'))
                         <p>{{ $errors->first('email') }}</p>
@@ -109,11 +110,11 @@
                                   <div id="passwordStart"></br></div>
                                   <div class="valid-feedback" id="passwordValid" style="display: none;"></br></div>
                                   <div class="invalid-feedback" id="passwordInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Mot de passe'])}}</div>
-                                  <div class="invalid-feedback" id="passwordInvalidAmount" style="display: none;">{{__('form.productsAndServiceValidationMDPAmount')}}</div>
-                                  <div class="invalid-feedback" id="passwordInvalidLowercase" style="display: none;">{{__('form.productsAndServiceValidationMDPLowercase')}}</div>
-                                  <div class="invalid-feedback" id="passwordInvalidUppercase" style="display: none;">{{__('form.productsAndServiceValidationMDPUppercase')}}</div>
-                                  <div class="invalid-feedback" id="passwordInvalidNumber" style="display: none;">{{__('form.productsAndServiceValidationMDPDigits')}}</div>
-                                  <div class="invalid-feedback" id="passwordInvalidSpecial" style="display: none;">{{__('form.productsAndServiceValidationMDPSpecial')}}</div>
+                                  <div class="invalid-feedback" id="passwordInvalidAmount" style="display: none;">{{__('form.identificationValidationMDPAmount')}}</div>
+                                  <div class="invalid-feedback" id="passwordInvalidLowercase" style="display: none;">{{__('form.identificationValidationMDPLowercase')}}</div>
+                                  <div class="invalid-feedback" id="passwordInvalidUppercase" style="display: none;">{{__('form.identificationValidationMDPUppercase')}}</div>
+                                  <div class="invalid-feedback" id="passwordInvalidNumber" style="display: none;">{{__('form.identificationValidationMDPDigits')}}</div>
+                                  <div class="invalid-feedback" id="passwordInvalidSpecial" style="display: none;">{{__('form.identificationValidationMDPSpecial')}}</div>
                               </div>
                               @if($errors->has('password'))
                                 <p>{{ $errors->first('password') }}</p>
@@ -262,6 +263,7 @@
                           <label for="licenceRbq">{{__('form.numberLabel')}}</label>
                           <div class="text-start invalid-feedback licenceInvalidNumber" style="display: none;">{{__('form.rbqLicenceValidation')}}</div>
                           <div class="text-start invalid-feedback licenceInvalidSize" style="display: none;">{{__('form.rbqLicenceValidationSize')}}</div>
+                          <div id="rbqInvalidExist" class="text-start invalid-feedback licenceInvalidSize" style="display: none;">{{__('form.rbqLicenceExistValidation')}}</div>
                       </div>
                       @if($errors->has('licenceRbq'))
                           <p>{{ $errors->first('licenceRbq') }}</p>

@@ -89,6 +89,7 @@ function validateIdentificationEmail() {
   const invalidEmptyDomain = document.getElementById('emailInvalidEmptyDomain');
   const invalidDomainFormat = document.getElementById('emailInvalidDomainFormat');
   const invalidDomainDot = document.getElementById('emailInvalidDomainDot');
+  const emailInvalidUnique = document.getElementById('emailInvalidUnique');
 
   // Reset all error messages
   invalidEmpty.style.display = 'none';
@@ -98,6 +99,7 @@ function validateIdentificationEmail() {
   invalidEmptyDomain.style.display = 'none';
   invalidDomainFormat.style.display = 'none';
   invalidDomainDot.style.display = 'none';
+  emailInvalidUnique.style.display = 'none';
   
   // Basic validation logic
   if (!emailInput.value) {
@@ -147,7 +149,6 @@ const passwordInput = document.getElementById('password');
 passwordInput.addEventListener('input', validateIdentificationPassword);
 
 function validateIdentificationPassword() {
-  console.log('tesRT');
   const start = document.getElementById('passwordStart');
   const valid = document.getElementById('passwordValid');
   const invalidEmpty = document.getElementById('passwordInvalidEmpty');
@@ -246,12 +247,61 @@ function validateIdentificationPasswordConfirmation(hasBeenEdited) {
 };
 
 const idSectionNext = document.getElementById("identification-button");
-idSectionNext.addEventListener("click", validateIdentificationAll);
+idSectionNext.addEventListener("click", async ()=>{
+  await validateIdentificationAll();
+});
 
-function validateIdentificationAll(){
+async function validateIdentificationAll(){
   validateIdentificationNeq();
   validateIdentificationName();
   validateIdentificationEmail();
   validateIdentificationPassword();
   validateIdentificationPasswordConfirmation(true);
+
+  if(emailInput.classList.contains("is-valid")){
+    let emailExist = await checkEmailUnique(emailInput.value);
+    if(emailExist){
+      const emailInvalidUnique = document.getElementById('emailInvalidUnique');
+      emailInput.classList.remove('is-valid');
+      emailInput.classList.add('is-invalid');
+      emailInvalidUnique.style.display = 'block';
+    }
+  }
+
+  if(neqInput.classList.contains("is-valid")){
+    let neqExist = await checkNeqUnique(neqInput.value);
+    if(neqExist){
+      const neqInvalidExist = document.getElementById('neqInvalidExist');
+      neqInput.classList.remove('is-valid');
+      neqInput.classList.add('is-invalid');
+      neqInvalidExist.style.display = 'block';
+    }
+  }
+  
+}
+
+async function checkEmailUnique(email){
+  const response = await fetch('/suppliers/checkEmail', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
+    },        
+    body: JSON.stringify({ email: email })
+  })
+  const data = await response.json();
+  return data.exists;
+}
+
+async function checkNeqUnique(neq){
+  const response = await fetch('/suppliers/checkNeq', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
+    },        
+    body: JSON.stringify({ neq: neq })
+  })
+  const data = await response.json();
+  return data.exists;
 }

@@ -164,4 +164,34 @@ class SuppliersController extends Controller
         //
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function checkEmail(Request $request)
+    {
+      $email = $request->email;
+      $exists = Supplier::where('email', $email)->exists();
+      return response()->json(['exists' => $exists]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function checkNeq(Request $request)
+    {
+      $neq = $request->neq;
+      $exists = Supplier::where('neq', $neq)->exists();
+      return response()->json(['exists' => $exists]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function checkRbq(Request $request)
+    {
+      $number = $request->number;
+      $exists = RbqLicence::where('number', $number)->exists();
+      return response()->json(['exists' => $exists]);
+    }
+
 }

@@ -325,15 +325,38 @@ function validateRbqCategories(){
 }
 
 const rbqSectionNext = document.getElementById("rbqLicence-button");
-rbqSectionNext.addEventListener("click", (event)=>{
-  validateRbqAll();
+rbqSectionNext.addEventListener("click", async (event)=>{
+  await validateRbqAll();
 });
 
-function validateRbqAll(){
+async function validateRbqAll(){
   validateRbqLicence();
   validateRbqStatus();
   validateRbqType();
   validateRbqCategories();
+
+  if(inputLicenceRbq.classList.contains("is-valid")){
+    let rbqExist = await checkRbqUnique(inputLicenceRbq.value);
+    if(rbqExist){
+      const rbqInvalidExist = document.getElementById('rbqInvalidExist');
+      inputLicenceRbq.classList.remove('is-valid');
+      inputLicenceRbq.classList.add('is-invalid');
+      rbqInvalidExist.style.display = 'block';
+    }
+  }
+}
+
+async function checkRbqUnique(number){
+  const response = await fetch('/suppliers/checkRbq', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
+    },        
+    body: JSON.stringify({ number: number })
+  })
+  const data = await response.json();
+  return data.exists;
 }
 
 /*** Section Coordonnées ***/
