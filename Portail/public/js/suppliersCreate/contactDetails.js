@@ -93,13 +93,15 @@ async function addCitiesAndDAInSelect() {
   });
 }
 
-function selectedCity(id) {
-  const selectCity = document.getElementById(id);
+document.getElementById("contactDetailsCitySelect").addEventListener("change", saveSelectedCity);
+function saveSelectedCity() {
+  const selectCity = document.getElementById("contactDetailsCitySelect");
   sessionStorage.setItem("selectedCity", selectCity.value);
 }
 
-function selectedDA(id) {
-  const selectDA = document.getElementById(id);
+document.getElementById("contactDetailsDistrictArea").addEventListener("change", saveSelectedDA);
+function saveSelectedDA(id) {
+  const selectDA = document.getElementById("contactDetailsDistrictArea");
   sessionStorage.setItem("selectedDA", selectDA.value);
 }
 
@@ -209,18 +211,6 @@ window.onload = function () {
     displayPhoneNumbers();
 };
 
-document.addEventListener("DOMContentLoaded", function () {
-  const addNumber = document.getElementById("add-icon");
-  addNumber.addEventListener("click", function (event) {
-    event.preventDefault();  
-    if(isPhoneNumberValid())
-      addPhoneNumber();
-      validateListPhoneNumber();
-  });
-  addCitiesAndDAInSelect();
-  validateSelectCity();
-});
-
 function isPhoneNumberValid(){
   const errorMessages = document.querySelector('.errorMessagesPhone').children;
   const errorMessagesArray = Array.from(errorMessages);
@@ -240,6 +230,8 @@ function isPhoneNumberValid(){
 
 //Validation section Adresse
 const regexAlphanum = /^[a-zA-Z0-9 ]+$/;
+
+document.getElementById("contactDetailsCivicNumber").addEventListener("input", validateCivicNumber);
 function validateCivicNumber() {
   const input = document.getElementById("contactDetailsCivicNumber");
   const invalidRequiredCivicNumber = document.getElementById("invalidRequiredCivicNumber" );
@@ -270,9 +262,10 @@ function validateCivicNumber() {
   input.classList.add("was-validated");
 }
 
-function validateStreetName(id) {
+document.getElementById("contactDetailsStreetName").addEventListener("input", validateStreetName);
+function validateStreetName() {
   const regexAlphanumAndSpecialCar = /^[\p{L}0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~ ]+$/u;
-  const input = document.getElementById(id);
+  const input = document.getElementById("contactDetailsStreetName");
   const invalidRequiredStreetName = document.getElementById("invalidRequiredStreetName");
   const invalidStreetName = document.getElementById("invalidStreetName");
   const invalidStreetNameLength = document.getElementById("invalidStreetNameLength");
@@ -301,8 +294,9 @@ function validateStreetName(id) {
   input.classList.add("was-validated");
 }
 
-function validateOfficeNumber(id) {
-  const input = document.getElementById(id);
+document.getElementById("contactDetailsOfficeNumber").addEventListener("input",validateOfficeNumber);
+function validateOfficeNumber() {
+  const input = document.getElementById("contactDetailsStreetName");
   const invalidOfficeNumber = document.getElementById("invalidOfficeNumber");
   const invalidOfficeNumberLength = document.getElementById("invalidOfficeNumberLength");
 
@@ -328,8 +322,9 @@ function validateOfficeNumber(id) {
   input.classList.add("was-validated");
 }
 
-function validateCity(id) {
-  const inputCity = document.getElementById(id);
+document.getElementById("contactDetailsInputCity").addEventListener("input", validateCity);
+function validateCity() {
+  const inputCity = document.getElementById("contactDetailsInputCity");
   const selectCity = document.getElementById("contactDetailsCitySelect");
   const invalidRequiredCity = document.getElementById("invalidRequiredCity");
   const invalidCityLength = document.getElementById("invalidCityLength");
@@ -364,9 +359,10 @@ function validateSelectCity(){
   });
 }
 
-function validatePostalCodeOnInput(id) {
+document.getElementById("contactDetailsPostalCode").addEventListener("input", validatePostalCodeOnInput);
+function validatePostalCodeOnInput() {
   const regexFullCP = /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/;
-  const input = document.getElementById(id);
+  const input = document.getElementById("contactDetailsPostalCode");
   const invalidRequiredPostalCode = document.getElementById("invalidRequiredPostalCode");
   const invalidPostalCodeFormat = document.getElementById("invalidPostalCodeFormat");
   const invalidPostalCodeLength = document.getElementById( "invalidPostalCodeLength");
@@ -418,39 +414,46 @@ function validatePostalCodeOnInput(id) {
   input.classList.add("was-validated");
 }
 
-function formatPostalCodeOnBlur(id) {
-  const input = document.getElementById(id);
+document.getElementById("contactDetailsPostalCode").addEventListener("blur", formatPostalCodeOnBlur);
+function formatPostalCodeOnBlur() {
+  const input = document.getElementById("contactDetailsPostalCode");
+  const invalidPostalCodeFormat = document.getElementById("invalidPostalCodeFormat");
   const pcValue = input.value.replace(/\s+/g, "").toUpperCase();
-
+  invalidPostalCodeFormat.style.display = "none";
   if (/^[A-Za-z]\d[A-Za-z]\d[A-Za-z]\d$/.test(pcValue)) {
     input.value = pcValue
-      .replace(/\s+/g, "")
-      .toUpperCase()
-      .replace(/^([A-Za-z]\d[A-Za-z])(\d[A-Za-z]\d)$/, "$1 $2");
+    .replace(/\s+/g, "")
+    .toUpperCase()
+    .replace(/^([A-Za-z]\d[A-Za-z])(\d[A-Za-z]\d)$/, "$1 $2");
+  }else{
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidPostalCodeFormat.style.display = "block";
   }
 }
 
-function validateWebsiteOnBlur(id) {
+document.getElementById("contactDetailsWebsite").addEventListener("blur", validateWebsite);
+function validateWebsite() {
   const urlRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9.-]+)(\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
-  const input = document.getElementById(id);
+  const input = document.getElementById("contactDetailsWebsite");
   const invalidWebsite = document.getElementById("invalidWebsite");
-  const invalidWebsiteLength = document.getElementById( "invalidWebsiteLength");
+  const invalidWebsiteLength = document.getElementById("invalidWebsiteLength");
 
   // Reset all error messages
   invalidWebsite.style.display = "none";
   invalidWebsiteLength.style.display = "none";
   // Basic validation logic
-  if (!urlRegex.test(input.value) && input.value !== "") {
+  if (!input.value) {
+    input.classList.remove("is-invalid");
     input.classList.remove("is-valid");
-    input.classList.add("is-invalid");
-    invalidWebsite.style.display = "block";
   } else if (input.value.length > 64) {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
     invalidWebsiteLength.style.display = "block";
-  } else if (!input.value) {
-    input.classList.remove("is-invalid");
+  } else if (!urlRegex.test(input.value)) {
     input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidWebsite.style.display = "block";
   } else {
     input.classList.remove("is-invalid");
     input.classList.add("is-valid");
@@ -458,10 +461,12 @@ function validateWebsiteOnBlur(id) {
   input.classList.add("was-validated");
 }
 
+
 //Validation section Téléphones
-function validatePhoneNumberOnInput(id) {
+document.getElementById("contactDetailsPhoneNumber").addEventListener("input", validatePhoneNumberOnInput);
+function validatePhoneNumberOnInput() {
   const regexNumeric = /^[\d-]*$/;
-  const input = document.getElementById(id);
+  const input = document.getElementById("contactDetailsPhoneNumber");
   const invalidRequiredPhoneNumber = document.getElementById("invalidRequiredPhoneNumber");
   const invalidPostalPhoneNumberNumeric = document.getElementById("invalidPostalPhoneNumberNumeric");
 
@@ -485,10 +490,11 @@ function validatePhoneNumberOnInput(id) {
   input.classList.add("was-validated");
 }
 
-function validatePhoneNumberOnBlur(id) {
+document.getElementById("contactDetailsPhoneNumber").addEventListener("blur", validatePhoneNumberOnBlur);
+function validatePhoneNumberOnBlur() {
   const regexPhoneNumber = /^(?:\d{10}|\d{3}-\d{3}-\d{4})$/;
   const regexNumberFormat = /^\d{3}-\d{3}-\d{4}$/;
-  const input = document.getElementById(id);
+  const input = document.getElementById("contactDetailsPhoneNumber");
   const invalidAddPhoneNumber = document.getElementById("invalidAddPhoneNumber");
   const invalidPhoneNumberFormat = document.getElementById("invalidPhoneNumberFormat");
 
@@ -534,9 +540,10 @@ function validateListPhoneNumber(){
   }
 } 
 
-function validatePhoneExtension(id) {
+document,getElementById("contactDetailsPhoneExtension").addEventListener("input",validatePhoneExtension);
+function validatePhoneExtension() {
   const regexNumeric = /^\d*$/;;
-  const input = document.getElementById(id);
+  const input = document.getElementById("contactDetailsPhoneExtension");
   const invalidPostalPhoneExtension = document.getElementById( "invalidPostalPhoneExtension");
   const invalidPhoneExtensionLength = document.getElementById( "invalidPhoneExtensionLength");
 
@@ -563,11 +570,31 @@ function validatePhoneExtension(id) {
   input.classList.add("was-validated");
 }
 
-function validateContactDetailsAll() {
-  validateListPhoneNumber()
-  const inputs = document.querySelectorAll(".contactDetails-input");
-  const oninput = new Event("input");
-  inputs.forEach((input) => {
-    input.dispatchEvent(oninput);
+document.addEventListener("DOMContentLoaded", function () {
+  const addNumber = document.getElementById("add-icon");
+  addNumber.addEventListener("click", function (event) {
+    event.preventDefault();  
+    if(isPhoneNumberValid())
+      addPhoneNumber();
+      validateListPhoneNumber();
   });
+  addCitiesAndDAInSelect();
+  validateSelectCity();
+});
+
+document.getElementById("contactDetails-button").addEventListener("click", (event)=>{
+  validateContactDetailsAll();
+})
+function validateContactDetailsAll() {
+  validateListPhoneNumber();
+  validateCivicNumber();
+  validateStreetName();
+  validateOfficeNumber();
+  validateCity();
+  validatePostalCodeOnInput();
+  formatPostalCodeOnBlur();
+  validateWebsite();
+  validatePhoneNumberOnInput();
+  validatePhoneNumberOnBlur();
+  validatePhoneExtension();
 }
