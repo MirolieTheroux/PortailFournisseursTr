@@ -45,17 +45,17 @@ async function addCitiesAndDAInSelect() {
   if (province.value === "Québec") {
     addQuebecCities();
     districtArea.removeAttribute("disabled", "");
+    addDistrictsAreas();
   } else {
     selectCity.classList.add("d-none");
     inputCity.classList.remove("d-none");
-    inputCity.setAttribute("type", "text");
-    inputCity.setAttribute("required", "");
   }
 
   province.addEventListener("change", () => {
     if (province.value === "Québec") {
       addQuebecCities();
       districtArea.removeAttribute("disabled");
+      addDistrictsAreas();
     } else {
       selectCity.classList.add("d-none");
       inputCity.classList.remove("d-none");
@@ -71,14 +71,16 @@ async function addCitiesAndDAInSelect() {
     }
   });
   
-  console.log(districtArea);
-  districtArea.innerHTML = "";
-  uniqueDA.forEach((DA) => {
+  function addDistrictsAreas(){
+    districtArea.innerHTML = "";
+    uniqueDA.forEach((DA) => {
     let optionDA = document.createElement("option");
     optionDA.text = DA;
     optionDA.value = DA.replace(/\s*\(.*?\)/, "");
     districtArea.add(optionDA);
-  });
+    });
+  }
+ 
 
   if (sessionStorage.getItem("selectedCity") !== null)
     selectCity.value = sessionStorage.getItem("selectedCity");
@@ -373,7 +375,6 @@ function validatePostalCodeOnInput() {
   invalidPostalCodeLength.style.display = "none";
 
   const pcValue = input.value.replace(/\s+/g, "").toUpperCase();
-// bug pour la validation code postal pas derreur si juste 1 lettre
   // Basic validation logic
   if (!input.value) {
     input.classList.remove("is-valid");
@@ -540,7 +541,7 @@ function validateListPhoneNumber(){
   }
 } 
 
-document,getElementById("contactDetailsPhoneExtension").addEventListener("input",validatePhoneExtension);
+document.getElementById("contactDetailsPhoneExtension").addEventListener("input",validatePhoneExtension);
 function validatePhoneExtension() {
   const regexNumeric = /^\d*$/;;
   const input = document.getElementById("contactDetailsPhoneExtension");
@@ -574,8 +575,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const addNumber = document.getElementById("add-icon");
   addNumber.addEventListener("click", function (event) {
     event.preventDefault();  
+    addPhoneNumber();
     if(isPhoneNumberValid())
-      addPhoneNumber();
+    
       validateListPhoneNumber();
   });
   addCitiesAndDAInSelect();
@@ -594,7 +596,7 @@ function validateContactDetailsAll() {
   validatePostalCodeOnInput();
   formatPostalCodeOnBlur();
   validateWebsite();
-  validatePhoneNumberOnInput();
-  validatePhoneNumberOnBlur();
+  // validatePhoneNumberOnInput();
+  // validatePhoneNumberOnBlur();
   validatePhoneExtension();
 }
