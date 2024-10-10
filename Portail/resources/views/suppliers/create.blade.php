@@ -52,94 +52,95 @@
         <div class="row px-3">
             <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
                 <h2 class="text-center section-subtitle">{{__('form.identificationCompanySection')}}</h2>
-                <div class="text-start">
-                    <div class="form-floating mb-3">
-                        <input type="text" oninput="validateIdentificationNeq()" name="neq" id="neq" class="form-control" placeholder="" value="{{ old('neq') }}" maxlength="10">
-                        <label for="neq">{{__('form.neqLabel')}}</label>
-                        <div id="neqStart"></br></div>
-                        <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
-                        <div class="invalid-feedback" id="neqInvalidThird" style="display: none;">{{__('form.productsAndServiceValidationNEQ3rd')}}</div>
-                        <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('form.productsAndServiceValidationNEQOnlyDigits')}}</div>
-                        <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('form.productsAndServiceValidationNEQAmount')}}</div>
-                        <div class="invalid-feedback" id="neqInvalidExist" style="display: none;">{{__('form.identificationNeqExistValidation')}}</div>
-                        <div class="valid-feedback" id="neqValid" style="display: none;"></br></div>
-                    </div>
-                    @if($errors->has('neq'))
-                      <p>{{ $errors->first('neq') }}</p>
-                    @endif
+                <div class="d-flex flex-column justify-content-between h-100">
+                  <div class="text-start">
+                      <div class="form-floating mb-3">
+                          <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ old('neq') }}" maxlength="10">
+                          <label for="neq">{{__('form.neqLabel')}}</label>
+                          <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
+                          <div class="invalid-feedback" id="neqInvalidThird" style="display: none;">{{__('form.identificationValidationNEQ3rd')}}</div>
+                          <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('form.identificationValidationNEQOnlyDigits')}}</div>
+                          <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('form.identificationValidationNEQAmount')}}</div>
+                          <div class="invalid-feedback" id="neqInvalidExist" style="display: none;">{{__('form.identificationNeqExistValidation')}}</div>
+                      </div>
+                      @if($errors->has('neq'))
+                        <p>{{ $errors->first('neq') }}</p>
+                      @endif
+                  </div>
+                  <div class="text-start">
+                      <div class="form-floating mb-3">
+                          <input type="text" name="name" id="name" class="form-control" placeholder="" value="{{ old('name') }}" maxlength="64">
+                          <label for="name">{{__('form.companyNameLabel')}}</label>
+                          <div id="nameStart"></br></div>
+                          <div class="valid-feedback" id="nameValid" style="display: none;"></br></div>
+                          <div class="invalid-feedback" id="nameInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Nom d\'entreprise'])}}</div>
+                      </div>
+                      @if($errors->has('name'))
+                        <p>{{ $errors->first('name') }}</p>
+                      @endif
+                  </div>
                 </div>
-                <div class="text-start">
-                    <div class="form-floating mb-3">
-                        <input type="text" oninput="validateIdentificationName()" name="name" id="name" class="form-control" placeholder="" value="{{ old('name') }}" maxlength="64">
-                        <label for="name">{{__('form.companyNameLabel')}}</label>
-                        <div id="nameStart"></br></div>
-                        <div class="valid-feedback" id="nameValid" style="display: none;"></br></div>
-                        <div class="invalid-feedback" id="nameInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Nom d\'entreprise'])}}</div>
-                    </div>
-                </div>
-                @if($errors->has('name'))
-                  <p>{{ $errors->first('name') }}</p>
-                @endif
             </div>
             <div class="col-12 col-md-8 d-flex flex-column justify-content-between">
                 <h2 class="text-center section-subtitle">{{__('form.identificationAuthentificationSection')}}</h2>
-                <div class="text-start">
-                    <div class="form-floating mb-3">
-                        <input type="email" oninput="validateIdentificationEmail()" name="email" id="email" class="form-control"  placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64" required>
-                        <label for="email">{{__('form.emailLabel')}}</label>
-                        <div id="emailStart"></br></div>
-                        <div class="valid-feedback" id="emailValid" style="display: none;"></br></div>
-                        <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
-                        <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('form.productsAndServiceValidationEmailStartWithArobase')}}</div>
-                        <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('form.productsAndServiceValidationEmailArobaseRequired')}}</div>
-                        <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">{{__('form.productsAndServiceValidationEmailOneArobaseOnly')}}</div>
-                        <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">{{__('form.productsAndServiceValidationEmailDomain')}}</div>
-                        <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">{{__('form.productsAndServiceValidationEmailDomainContainDot')}}</div>
-                        <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">{{__('form.productsAndServiceValidationEmailDomainDotWrongPosition')}}</div>
-                    </div>
-                    @if($errors->has('email'))
-                      <p>{{ $errors->first('email') }}</p>
-                    @endif
-                </div>
-                <div class="text-start">
-                    <div class="row">
-                        <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
-                            <div class="form-floating mb-3">
-                                <input type="password" oninput="validateIdentificationPassword()" name="password" id="password"  class="form-control" placeholder="" maxlength="12" required>
-                                <label for="password">{{__('form.passwordLabel')}}</label>
-                                <div id="passwordStart"></br></div>
-                                <div class="valid-feedback" id="passwordValid" style="display: none;"></br></div>
-                                <div class="invalid-feedback" id="passwordInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Mot de passe'])}}</div>
-                                <div class="invalid-feedback" id="passwordInvalidAmount" style="display: none;">{{__('form.productsAndServiceValidationMDPAmount')}}</div>
-                                <div class="invalid-feedback" id="passwordInvalidLowercase" style="display: none;">{{__('form.productsAndServiceValidationMDPLowercase')}}</div>
-                                <div class="invalid-feedback" id="passwordInvalidUppercase" style="display: none;">{{__('form.productsAndServiceValidationMDPUppercase')}}</div>
-                                <div class="invalid-feedback" id="passwordInvalidNumber" style="display: none;">{{__('form.productsAndServiceValidationMDPDigits')}}</div>
-                                <div class="invalid-feedback" id="passwordInvalidSpecial" style="display: none;">{{__('form.productsAndServiceValidationMDPSpecial')}}</div>
-                            </div>
-                            @if($errors->has('password'))
-                              <p>{{ $errors->first('password') }}</p>
-                            @endif
-                        </div>
-                        <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
-                            <div class="form-floating mb-3">
-                                <input type="password" oninput="validateIdentificationPasswordConfirmation(true)" name="password_confirmation" required id="password_confirmation" placeholder="" class="form-control" maxlength="12">
-                                <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
-                                <div id="password_confirmationStart"></br></div>
-                                <div class="valid-feedback" id="password_confirmationValid" style="display: none;"></br></div>
-                                <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">{{__('form.productsAndServiceValidationMDPConfirm')}}</div>
-                            </div>
-                            @if($errors->has('password_confirmation'))
-                              <p>{{ $errors->first('password_confirmation') }}</p>
-                            @endif
-                        </div>
-                    </div>
+                <div class="d-flex flex-column justify-content-between h-100">
+                  <div class="text-start">
+                      <div class="form-floating mb-3">
+                          <input type="email" name="email" id="email" class="form-control"  placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64" required>
+                          <label for="email">{{__('form.emailLabel')}}</label>
+                          <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
+                          <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('form.identificationValidationEmailStartWithArobase')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('form.identificationValidationEmailArobaseRequired')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">{{__('form.identificationValidationEmailOneArobaseOnly')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">{{__('form.identificationValidationEmailDomain')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">{{__('form.identificationValidationEmailDomainContainDot')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">{{__('form.identificationValidationEmailDomainDotWrongPosition')}}</div>
+                          <div class="invalid-feedback" id="emailInvalidUnique" style="display: none;">{{__('form.identificationValidationEmailUnique')}}</div>
+                      </div>
+                      @if($errors->has('email'))
+                        <p>{{ $errors->first('email') }}</p>
+                      @endif
+                  </div>
+                  <div class="text-start">
+                      <div class="row">
+                          <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
+                              <div class="form-floating mb-3">
+                                  <input type="password" name="password" id="password"  class="form-control" placeholder="" maxlength="12" required>
+                                  <label for="password">{{__('form.passwordLabel')}}</label>
+                                  <div id="passwordStart"></br></div>
+                                  <div class="valid-feedback" id="passwordValid" style="display: none;"></br></div>
+                                  <div class="invalid-feedback" id="passwordInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Mot de passe'])}}</div>
+                                  <div class="invalid-feedback" id="passwordInvalidAmount" style="display: none;">{{__('form.identificationValidationMDPAmount')}}</div>
+                                  <div class="invalid-feedback" id="passwordInvalidLowercase" style="display: none;">{{__('form.identificationValidationMDPLowercase')}}</div>
+                                  <div class="invalid-feedback" id="passwordInvalidUppercase" style="display: none;">{{__('form.identificationValidationMDPUppercase')}}</div>
+                                  <div class="invalid-feedback" id="passwordInvalidNumber" style="display: none;">{{__('form.identificationValidationMDPDigits')}}</div>
+                                  <div class="invalid-feedback" id="passwordInvalidSpecial" style="display: none;">{{__('form.identificationValidationMDPSpecial')}}</div>
+                              </div>
+                              @if($errors->has('password'))
+                                <p>{{ $errors->first('password') }}</p>
+                              @endif
+                          </div>
+                          <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
+                              <div class="form-floating mb-3">
+                                  <input type="password" name="password_confirmation" required id="password_confirmation" placeholder="" class="form-control" maxlength="12">
+                                  <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
+                                  <div id="password_confirmationStart"></br></div>
+                                  <div class="valid-feedback" id="password_confirmationValid" style="display: none;"></br></div>
+                                  <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">{{__('form.productsAndServiceValidationMDPConfirm')}}</div>
+                              </div>
+                              @if($errors->has('password_confirmation'))
+                                <p>{{ $errors->first('password_confirmation') }}</p>
+                              @endif
+                          </div>
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-                <button id="test" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+                <button id="identification-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
             </div>
         </div>
     </div>  <!--FIN IDENTIFICATION-->
@@ -255,13 +256,14 @@
         <div class="row px-3">
             <div class="col-12 col-md-4 d-flex flex-column">
                 <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
-                <div class="d-flex flex-column justify-content-between just h-100">
+                <div class="d-flex flex-column justify-content-between h-100">
                   <div class="text-center">
                       <div class="form-floating mb-3">
-                          <input type="text" oninput="validateRbqLicence()" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="10">
+                          <input type="text" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="10">
                           <label for="licenceRbq">{{__('form.numberLabel')}}</label>
                           <div class="text-start invalid-feedback licenceInvalidNumber" style="display: none;">{{__('form.rbqLicenceValidation')}}</div>
                           <div class="text-start invalid-feedback licenceInvalidSize" style="display: none;">{{__('form.rbqLicenceValidationSize')}}</div>
+                          <div id="rbqInvalidExist" class="text-start invalid-feedback licenceInvalidSize" style="display: none;">{{__('form.rbqLicenceExistValidation')}}</div>
                       </div>
                       @if($errors->has('licenceRbq'))
                           <p>{{ $errors->first('licenceRbq') }}</p>
@@ -269,7 +271,7 @@
                   </div>
                   <div class="text-center">
                       <div class="form-floating mb-3">
-                          <select onchange="validateRbqStatus()" name="statusRbq" id="statusRbq" class="form-select" aria-label="">
+                          <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
                               <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
                               <option value="valid" {{ "valid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
                               <option value="restrictedValid" {{ "restrictedValid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
@@ -285,7 +287,7 @@
                   </div>
                   <div class="text-center">
                       <div class="form-floating mb-3">
-                          <select onchange="validateRbqType()" name="typeRbq" id="typeRbq" class="form-select" aria-label="">
+                          <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
                               <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
                               <option value="entrepreneur" {{ "entrepreneur" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
                               <option value="ownerBuilder" {{ "ownerBuilder" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
@@ -314,7 +316,6 @@
                           @if($workSubcategory->is_specialised == false)
                             <div class="form-check pb-2">
                               <input
-                                onclick="validateRbqCategories()"
                                 class="form-check-input mt-0 rbq-subcategories-check"
                                 type="checkbox"
                                 name="rbqSubcategories[]"
@@ -343,7 +344,6 @@
                           @if($workSubcategory->is_specialised == true)
                             <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
                               <input
-                                onclick="validateRbqCategories()"
                                 class="form-check-input mt-0 rbq-subcategories-check"
                                 type="checkbox"
                                 name="rbqSubcategories[]"
@@ -374,7 +374,6 @@
                             @if($workSubcategory->is_specialised == false && $workSubcategory->is_entrepreneur_only == false)
                               <div class="form-check pb-2">
                                 <input
-                                  onclick="validateRbqCategories()"
                                   class="form-check-input mt-0 rbq-subcategories-check"
                                   type="checkbox"
                                   name="rbqSubcategories[]"
@@ -403,7 +402,6 @@
                               @if($workSubcategory->is_specialised == true && $workSubcategory->is_entrepreneur_only == false)
                                 <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
                                   <input
-                                    onclick="validateRbqCategories()"
                                     class="form-check-input mt-0 rbq-subcategories-check"
                                     type="checkbox"
                                     name="rbqSubcategories[]"
@@ -445,7 +443,7 @@
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
         <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-        <button onclick="validateRbqAll()" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+        <button id="rbqLicence-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN LICENCE RBQ-->
@@ -692,7 +690,7 @@
                             <div class="row">
                                 <div class="col-12 col-lg-6 text-center mb-4">
                                     <div class="form-floating">
-                                        <input type="text" name="contactFirstNames[]" id="contactFirstName1" class="form-control" placeholder="" maxlength="32" value="{{old('contactFirstNames')[$loop->index]}}" required>
+                                        <input type="text" name="contactFirstNames[]" id="contactFirstName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="{{old('contactFirstNames')[$loop->index]}}" required>
                                         <label id="contactFirstNameLabel1" for="contactFirstName1">{{__('form.firstNameLabel')}}</label>
                                     </div>
                                     @if($errors->has($contactFirstNameIndex))
@@ -701,7 +699,7 @@
                                 </div>
                                 <div class="col-12 col-lg-6 text-center mb-4">
                                     <div class="form-floating">
-                                        <input type="text" name="contactLastNames[]" id="contactLastName1" class="form-control" placeholder="" maxlength="32" value="{{old('contactLastNames')[$loop->index]}}">
+                                        <input type="text" name="contactLastNames[]" id="contactLastName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="{{old('contactLastNames')[$loop->index]}}">
                                         <label id="contactLastNameLabel1" for="contactLastName1">{{__('form.lastNameLabel')}}</label>
                                     </div>
                                     @if($errors->has($contactLastNameIndex))
@@ -711,7 +709,7 @@
                             </div>
                             <div class="text-center mb-4">
                                 <div class="form-floating">
-                                    <input type="text" name="contactJobs[]" id="contactJob1" class="form-control" placeholder="" maxlength="32" value="{{old('contactJobs')[$loop->index]}}">
+                                    <input type="text" name="contactJobs[]" id="contactJob1" class="form-control contact-input contact-job-input" placeholder="" maxlength="32" value="{{old('contactJobs')[$loop->index]}}">
                                     <label id="contactJobLabel1" for="contactJob1">{{__('form.jobLabel')}}</label>
                                 </div>
                                 @if($errors->has($contactJobIndex))
@@ -720,7 +718,7 @@
                             </div>
                             <div class="text-center mb-4">
                                 <div class="form-floating">
-                                    <input type="text" name="contactEmails[]" id="contactEmail1" class="form-control" placeholder="" maxlength="64" value="{{old('contactEmails')[$loop->index]}}">
+                                    <input type="text" name="contactEmails[]" id="contactEmail1" class="form-control contact-input contact-email-input" placeholder="" maxlength="64" value="{{old('contactEmails')[$loop->index]}}">
                                     <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}}</label>
                                 </div>
                                 @if($errors->has($contactEmailIndex))
@@ -808,7 +806,7 @@
                         <div class="row">
                             <div class="col-12 col-lg-6 text-center mb-4">
                                 <div class="form-floating">
-                                    <input type="text" oninput="validateContactsName('contactFirstName1')" name="contactFirstNames[]" id="contactFirstName1" class="form-control contact-input" placeholder="" maxlength="32" required>
+                                    <input type="text" name="contactFirstNames[]" id="contactFirstName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" required>
                                     <label id="contactFirstNameLabel1" for="contactFirstName1">{{__('form.firstNameLabel')}}</label>
                                     <div class="text-start invalid-feedback nameInvalidRequired" style="display: none;">{{__('form.contactsFirstNamesValidationRequired')}}</div>
                                     <div class="text-start invalid-feedback nameInvalidSymbols" style="display: none;">{{__('form.contactsNamesValidationSymbols')}}</div>
@@ -816,7 +814,7 @@
                             </div>
                             <div class="col-12 col-lg-6 text-center mb-4">
                                 <div class="form-floating">
-                                    <input type="text" oninput="validateContactsName('contactLastName1')" name="contactLastNames[]" id="contactLastName1" class="form-control contact-input" placeholder="" maxlength="32" required>
+                                    <input type="text" name="contactLastNames[]" id="contactLastName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" required>
                                     <label id="contactLastNameLabel1" for="contactLastName1">{{__('form.lastNameLabel')}}</label>
                                     <div class="text-start invalid-feedback nameInvalidRequired" style="display: none;">{{__('form.contactsLastNamesValidationRequired')}}</div>
                                     <div class="text-start invalid-feedback nameInvalidSymbols" style="display: none;">{{__('form.contactsNamesValidationSymbols')}}</div>
@@ -825,7 +823,7 @@
                         </div>
                         <div class="text-center mb-4">
                             <div class="form-floating">
-                                <input type="text" oninput="validateContactsJob('contactJob1')" name="contactJobs[]" id="contactJob1" class="form-control contact-input" placeholder="" maxlength="32" required>
+                                <input type="text" name="contactJobs[]" id="contactJob1" class="form-control contact-input contact-job-input" placeholder="" maxlength="32" required>
                                 <label id="contactJobLabel1" for="contactJob1">{{__('form.jobLabel')}}</label>
                                 <div class="text-start valid-feedback jobValid" style="display: none;"></br></div>
                                 <div class="text-start invalid-feedback jobInvalidRequired" style="display: none;">{{__('form.contactsJobsValidationRequired')}}</div>
@@ -833,7 +831,7 @@
                         </div>
                         <div class="text-center mb-4">
                             <div class="form-floating">
-                                <input type="text" oninput="validateContactsEmail('contactEmail1')" name="contactEmails[]" id="contactEmail1" class="form-control contact-input" placeholder="" maxlength="64" required>
+                                <input type="text" name="contactEmails[]" id="contactEmail1" class="form-control contact-input contact-email-input" placeholder="" maxlength="64" required>
                                 <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}}</label>
                                 <div class="text-start invalid-feedback emailInvalidRequired" style="display: none;">{{__('form.contactsEmailsValidationRequired')}}</div>
                                 <div class="text-start invalid-feedback emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
@@ -851,11 +849,11 @@
                                     <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                                    <input type="text" oninput="validateContactsPrimaryPhone('contactTelNumberA1')" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control contact-input" placeholder="" maxlength="10" required>
+                                    <input type="text" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control contact-input contact-primary-phone-input" placeholder="" maxlength="10" required>
                                     <label id="contactTelNumberLabelA1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberA1">{{__('form.numberLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-3">
-                                    <input type="text" oninput="validateContactsExtension('contactTelExtensionA1')" name="contactTelExtensionsA[]" id="contactTelExtensionA1" class="form-control contact-input" placeholder="" maxlength="6">
+                                    <input type="text" name="contactTelExtensionsA[]" id="contactTelExtensionA1" class="form-control contact-input contact-extension-input" placeholder="" maxlength="6">
                                     <label id="contactTelExtensionLabelA1" for="contactTelExtensionA1">{{__('form.phoneExtension')}}</label>
                                 </div>
                             </div>
@@ -877,11 +875,11 @@
                                     <label id="contactTelTypeLabelB1" for="contactTelTypeB1">{{__('form.typeLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                                    <input type="text" oninput="validateContactsSecondaryPhone('contactTelNumberB1')" name="contactTelNumbersB[]" id="contactTelNumberB1" class="form-control contact-input" placeholder="" maxlength="10">
+                                    <input type="text" name="contactTelNumbersB[]" id="contactTelNumberB1" class="form-control contact-input contact-secondary-phone-input" placeholder="" maxlength="10">
                                     <label id="contactTelNumberLabelB1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberB1">{{__('form.numberLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-3">
-                                    <input type="text" oninput="validateContactsExtension('contactTelExtensionB1')" name="contactTelExtensionsB[]" id="contactTelExtensionB1" class="form-control contact-input" placeholder="" maxlength="6">
+                                    <input type="text" name="contactTelExtensionsB[]" id="contactTelExtensionB1" class="form-control contact-input contact-extension-input" placeholder="" maxlength="6">
                                     <label id="contactTelExtensionLabelB1" for="contactTelExtensionB1">{{__('form.phoneExtension')}}</label>
                                 </div>
                             </div>
@@ -896,7 +894,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-                <button onclick="validateContactsAll()" id="test" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+                <button id="contacts-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
             </div>
         </div>
     </div> <!--FIN CONTACT-->

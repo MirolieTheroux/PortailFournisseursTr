@@ -18,21 +18,6 @@ use Illuminate\Support\Facades\Log;
 
 class SuppliersController extends Controller
 {
-    public function validateNeq(Request $request)
-    {
-        // Validate incoming request
-        $request->validate([
-            'neq' => 'required|string|size:10'  // Ensure NEQ is a 10-character string
-        ]);
-
-        $neq = $request->input('neq');
-
-        // Query the database for the NEQ
-        $exists = DB::table('suppliers')->where('neq', $neq)->exists();
-
-        // Return JSON response
-        return response()->json(['exists' => $exists]);
-    }
     /**
      * Display a listing of the resource.
      */
@@ -177,6 +162,36 @@ class SuppliersController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function checkEmail(Request $request)
+    {
+      $email = $request->email;
+      $exists = Supplier::where('email', $email)->exists();
+      return response()->json(['exists' => $exists]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function checkNeq(Request $request)
+    {
+      $neq = $request->neq;
+      $exists = Supplier::where('neq', $neq)->exists();
+      return response()->json(['exists' => $exists]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function checkRbq(Request $request)
+    {
+      $number = $request->number;
+      $exists = RbqLicence::where('number', $number)->exists();
+      return response()->json(['exists' => $exists]);
     }
 
 }
