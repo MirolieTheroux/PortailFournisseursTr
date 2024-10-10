@@ -244,3 +244,14 @@ function validateIdentificationPasswordConfirmation(hasBeenEdited) {
     passwordConfirmInput.classList.add('was-validated');
   }
 };
+
+const idSectionNext = document.getElementById("identification-button");
+idSectionNext.addEventListener("click", validateIdentificationAll);
+
+function validateIdentificationAll(){
+  validateIdentificationNeq();
+  validateIdentificationName();
+  validateIdentificationEmail();
+  validateIdentificationPassword();
+  validateIdentificationPasswordConfirmation(true);
+}
