@@ -555,7 +555,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-12 col-md-6 d-flex flex-column">
         <h2 class="text-center section-subtitle">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
         <div class="text-center d-flex flex-row">
@@ -609,30 +608,7 @@
                 <div class="col-2 "></div>
               </div>
               <div class="d-flex flex-column justify-content-between" id="phoneNumberList">
-                @foreach(old('phoneNumbers', $phoneNumbers ?? []) as $index => $phone)
-                  <div class="row mb-2 align-items-center justify-content-between">
-                    <div class="col-2 text-start phoneType">
-                      <input type="text" name="phoneTypes[{{ $index }}]" value="{{ old('phoneTypes')[$loop->index]}}" >
-                      @if ($errors->has('phoneTypes.'.$index))
-                        <div class="invalid-feedback">{{ $errors->first('phoneTypes.'.$index) }}</div>
-                      @endif
-                    </div>
-
-                    <div class="col-6 text-center phoneNumber">
-                      <input type="text" name="phoneNumbers[{{ $index }}]" value="{{ old('phoneNumbers')[$loop->index] }}" >
-                      @if ($errors->has('phoneNumbers.'.$index))
-                        <div class="invalid-feedback">{{ $errors->first('phoneNumbers.'.$index) }}</div>
-                      @endif
-                    </div>
-
-                    <div class="col-2 text-center phoneExtension">
-                      <input type="text" name="phoneExtensions[{{ $index }}]" value="{{ old('phoneExtensions')[$loop->index]}}" >
-                      @if ($errors->has('phoneExtensions.'.$index))
-                        <div class="invalid-feedback">{{ $errors->first('phoneExtensions.'.$index) }}</div>
-                      @endif
-                    </div>
-                  </div>
-                @endforeach
+                <!-- La vérification back-end des #tel doit vérifier tous ceux entrés ici -->
               </div>
             </div>
           </div>
