@@ -45,17 +45,17 @@ async function addCitiesAndDAInSelect() {
   if (province.value === "Québec") {
     addQuebecCities();
     districtArea.removeAttribute("disabled", "");
+    addDistrictsAreas()
   } else {
     selectCity.classList.add("d-none");
     inputCity.classList.remove("d-none");
-    inputCity.setAttribute("type", "text");
-    inputCity.setAttribute("required", "");
   }
 
   province.addEventListener("change", () => {
     if (province.value === "Québec") {
       addQuebecCities();
       districtArea.removeAttribute("disabled");
+      addDistrictsAreas()
     } else {
       selectCity.classList.add("d-none");
       inputCity.classList.remove("d-none");
@@ -70,16 +70,17 @@ async function addCitiesAndDAInSelect() {
       districtArea.add(optionNA);
     }
   });
-  
-  console.log(districtArea);
-  districtArea.innerHTML = "";
-  uniqueDA.forEach((DA) => {
+  function addDistrictsAreas(){
+    districtArea.innerHTML = "";
+    uniqueDA.forEach((DA) => {
     let optionDA = document.createElement("option");
     optionDA.text = DA;
     optionDA.value = DA.replace(/\s*\(.*?\)/, "");
     districtArea.add(optionDA);
   });
 
+  }
+ 
   if (sessionStorage.getItem("selectedCity") !== null)
     selectCity.value = sessionStorage.getItem("selectedCity");
 
@@ -540,7 +541,7 @@ function validateListPhoneNumber(){
   }
 } 
 
-document,getElementById("contactDetailsPhoneExtension").addEventListener("input",validatePhoneExtension);
+document.getElementById("contactDetailsPhoneExtension").addEventListener("input",validatePhoneExtension);
 function validatePhoneExtension() {
   const regexNumeric = /^\d*$/;;
   const input = document.getElementById("contactDetailsPhoneExtension");
