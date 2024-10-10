@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products_services_categories', function (Blueprint $table) {
-            $table->string('code', 8)->primary();
-            $table->string('nature', 64);
-            $table->string('name', 128);
+        Schema::create('supplier_work_subcategory', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('supplier_id')->constrained('suppliers');
+            $table->foreignId('work_subcategory_id')->constrained('work_subcategories');
+            $table->timestamps();
         });
     }
 
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products_services_categories');
+        Schema::dropIfExists('supplier_work_subcategory');
     }
 };

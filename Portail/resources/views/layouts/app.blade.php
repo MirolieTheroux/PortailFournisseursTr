@@ -24,8 +24,8 @@
                       <div class="p-2 border-end border-dark">{{__('navbar.returnHomeWebSite')}}</div>
                       <div class="p-2">{{__('navbar.disconnect')}}</div>
                     </div>
-                    
-                    
+
+
                     <div class="d-flex d-md-none justify-content-end align-items-center h-100 w-100">
                       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
@@ -43,7 +43,7 @@
             </div>
         </div>
     </header>
-    
+
     <main>
         @yield('content')
     </main>
