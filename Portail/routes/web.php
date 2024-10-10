@@ -11,3 +11,5 @@ use App\Http\Middleware\LoggerMiddleware;
 Route::get('/', [SuppliersController::class, 'create'])->name('suppliers.create');
 
 Route::post('suppliers', [SuppliersController::class, 'store'])->name('suppliers.store');
+
+Route::get('/services', [SuppliersController::class, 'search']);

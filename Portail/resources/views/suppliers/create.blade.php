@@ -146,7 +146,7 @@
         <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategories')}}</h2>
         <div class="text-center">
           <div class="form-floating mb-3">
-            <input type="text" name="service-search" id="service-search" class="form-control" placeholder="">
+            <input type="text" name="service-search" id="service-search" class="form-control" placeholder="" onkeyup="fetchServices()">
             <label for="service-search">{{__('form.productsAndServiceCategoriesSearch')}}</label>
           </div>
         </div>
@@ -162,41 +162,7 @@
         <div>
           <div class="form-floating mb-3">
             <div class="form-control" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-              <div class="mt-lg-0 mt-md-4">
-                @php
-                  $totalDisplayed = 0; // Counter to track the number of displayed productServices
-                @endphp
-                @foreach($productServiceCategories as $productServiceCategory)
-                  @if ($totalDisplayed >= 50)
-                    @break
-                  @endif
-                  <div style="color: red;">{{$productServiceCategory->nature}}</div>
-                  @foreach($productServiceSubCategories->where('nature', $productServiceCategory->nature) as $productServiceSubCategory)
-                    @if ($totalDisplayed >= 50)
-                      @break
-                    @endif
-                    <div style="color: blue;">{{$productServiceSubCategory->name}}</div>
-                    @foreach($productServices->where('category_code', $productServiceSubCategory->code) as $productService)
-                      @if ($totalDisplayed >= 50)
-                        @break
-                      @endif
-                      <div class="row align-items-start mt-2">
-                        <div class="col-1 col-md-1 d-flex flex-column justify-content-start">
-                          <input class="form-check-input" type="checkbox" onclick="checkedbox(this)" id="category{{ $loop->index }}" value="">
-                        </div>
-                        <div class="col-3 col-md-3 d-flex flex-column justify-content-start">
-                          <label class="form-check-label" for="category{{ $loop->index }}">{{$productService->code}}</label>
-                        </div>
-                        <div class="col-8 col-md-8 d-flex flex-column justify-content-start">
-                          <label class="form-check-label" for="category{{ $loop->index }}">{{$productService->description}}</label>
-                        </div>
-                      </div>
-                      @php
-                        $totalDisplayed++; // Increment the counter
-                      @endphp
-                    @endforeach
-                  @endforeach
-                @endforeach
+              <div class="mt-lg-0 mt-md-4" id="service-list">
               </div>
             </div>
             <label for="company-name" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
@@ -895,7 +861,7 @@
 
 @section('scripts')
 <script src="{{ asset('js/suppliersCreate/createValidationIdentification.js') }}"></script>
-<script src="{{ asset('js/suppliersCreate/produitsServices.js') }}"></script>
+<script src="{{ asset('js/suppliersCreate/productsServices.js') }}"></script>
 <script src="{{ asset('js/suppliersCreate/rbq.js') }} "></script>
 <script src="{{ asset('js/suppliersCreate/contact.js') }} "></script>
 <script src="{{ asset('js/progressBar.js') }} "></script>

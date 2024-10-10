@@ -55,6 +55,44 @@ class SuppliersController extends Controller
         return View('suppliers.create', compact('workSubcategories','provinces', 'productServices', 'productServiceSubCategories', 'productServiceCategories'));
     }
 
+    public function search(Request $request)
+    {
+        $searchTerm = $request->input('search');
+        
+        // Using LOWER() for case-insensitive search and handling whole words
+        $services = ProductService::where('code', 'LIKE', "%{$searchTerm}%")
+            ->orWhere(function ($query) use ($searchTerm) {
+                // Conditions for full word matches
+                $query->where('description', 'LIKE', "% {$searchTerm} %")
+                      ->orWhere('description', 'LIKE', "{$searchTerm} %")
+                      ->orWhere('description', 'LIKE', "% {$searchTerm}")
+                      ->orWhere('description', $searchTerm); // Exact match
+            })
+            ->orWhere(function ($query) use ($searchTerm) {
+                // Conditions for partial matches (anywhere in the description)
+                $query->where('description', 'LIKE', "%{$searchTerm}%")
+                      ->whereNot(function ($subQuery) use ($searchTerm) {
+                          // Exclude those that are full word matches
+                          $subQuery->where('description', 'LIKE', "% {$searchTerm} %")
+                                  ->orWhere('description', 'LIKE', "{$searchTerm} %")
+                                  ->orWhere('description', 'LIKE', "% {$searchTerm}")
+                                  ->orWhere('description', $searchTerm); // Exact match
+                      });
+            })
+            ->orderByRaw("CASE 
+                WHEN description LIKE '{$searchTerm}' THEN 1
+                WHEN description LIKE '{$searchTerm} %' THEN 2
+                WHEN description LIKE '% {$searchTerm} %' THEN 3
+                WHEN description LIKE '% {$searchTerm}' THEN 4
+                ELSE 5 
+            END")
+            ->orderByRaw("POSITION('{$searchTerm}' IN description) ASC")
+            ->take(50) // Limit results for performance
+            ->get();
+
+        return response()->json($services);
+    }
+
 
 
     /**
