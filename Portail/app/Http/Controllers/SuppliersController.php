@@ -6,7 +6,7 @@ use App\Http\Requests\SupplierRequest;
 use App\Models\Supplier;
 use App\Models\WorkSubcategory;
 use App\Models\Province;
-use App\Models\ProductServiceSubcategory;
+use App\Models\ProductService;
 use App\Models\ProductServiceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -48,9 +48,11 @@ class SuppliersController extends Controller
           CAST(SUBSTRING_INDEX(CONCAT(code, ".0.0"), ".", -1) AS UNSIGNED)
         ')->get();
         $provinces = Province::all();
-        $productServiceSubcategories = ProductServiceSubcategory::all();
-        $productServiceCategories = ProductServiceCategory::all();
-        return View('suppliers.create', compact('workSubcategories','provinces', 'productServiceSubcategories', 'productServiceCategories'));
+        $productServices = ProductService::all();
+        $productServiceSubCategories = ProductServiceCategory::all();
+        $productServiceCategories = ProductServiceCategory::select('nature')->groupBy('nature')->orderBy('nature')->get();
+
+        return View('suppliers.create', compact('workSubcategories','provinces', 'productServices', 'productServiceSubCategories', 'productServiceCategories'));
     }
 
     /**

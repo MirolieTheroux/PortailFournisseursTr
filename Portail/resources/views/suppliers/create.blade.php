@@ -131,6 +131,7 @@
     </div>  <!--FIN IDENTIFICATION-->
 
   <!--PRODUIT ET SERVICE-->
+  <!--NICE_TO_HAVE::Drag and drop pour les catégories-->
   <div class="container bg-white rounded my-2">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
@@ -162,33 +163,40 @@
           <div class="form-floating mb-3">
             <div class="form-control" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
               <div class="mt-lg-0 mt-md-4">
+                @php
+                  $totalDisplayed = 0; // Counter to track the number of displayed productServices
+                @endphp
                 @foreach($productServiceCategories as $productServiceCategory)
-                  <div style="color: red;">{{$productServiceCategory->name}}</div>
-                  @foreach($productServiceSubcategories->where('category_code', $productServiceCategory->code) as $productServiceSubcategory)
-                    <div class="row align-items-start mt-2">
-                      <div class="col-1 col-md-1 d-flex flex-column justify-content-start">
-                        <input class="form-check-input" type="checkbox" onclick="checkedbox(this)" id="category{{ $loop->index }}" value="">
+                  @if ($totalDisplayed >= 50)
+                    @break
+                  @endif
+                  <div style="color: red;">{{$productServiceCategory->nature}}</div>
+                  @foreach($productServiceSubCategories->where('nature', $productServiceCategory->nature) as $productServiceSubCategory)
+                    @if ($totalDisplayed >= 50)
+                      @break
+                    @endif
+                    <div style="color: blue;">{{$productServiceSubCategory->name}}</div>
+                    @foreach($productServices->where('category_code', $productServiceSubCategory->code) as $productService)
+                      @if ($totalDisplayed >= 50)
+                        @break
+                      @endif
+                      <div class="row align-items-start mt-2">
+                        <div class="col-1 col-md-1 d-flex flex-column justify-content-start">
+                          <input class="form-check-input" type="checkbox" onclick="checkedbox(this)" id="category{{ $loop->index }}" value="">
+                        </div>
+                        <div class="col-3 col-md-3 d-flex flex-column justify-content-start">
+                          <label class="form-check-label" for="category{{ $loop->index }}">{{$productService->code}}</label>
+                        </div>
+                        <div class="col-8 col-md-8 d-flex flex-column justify-content-start">
+                          <label class="form-check-label" for="category{{ $loop->index }}">{{$productService->description}}</label>
+                        </div>
                       </div>
-                      <div class="col-4 col-md-4 d-flex flex-column justify-content-start">
-                        <label class="form-check-label" for="category{{ $loop->index }}">{{$productServiceSubcategory->code}}</label>
-                      </div>
-                      <div class="col-7 col-md-7 d-flex flex-column justify-content-start">
-                        <label class="form-check-label" for="category{{ $loop->index }}">{{$productServiceSubcategory->description}}</label>
-                      </div>
-                    </div>
+                      @php
+                        $totalDisplayed++; // Increment the counter
+                      @endphp
+                    @endforeach
                   @endforeach
                 @endforeach
-                <div class="row align-items-start">
-                  <div class="col-1 col-md-1 d-flex flex-column justify-content-start">
-                    <input class="form-check-input" type="checkbox" onclick="checkedbox(this)" id="category2" value="">
-                  </div>
-                  <div class="col-4 col-md-4 d-flex flex-column justify-content-start">
-                    <label class="form-check-label" for="category2">09563559</label>
-                  </div>
-                  <div class="col-7 col-md-7 d-flex flex-column justify-content-start">
-                    <label class="form-check-label" for="category2">Service d'entretien de pelouse</label>
-                  </div>
-                </div>
               </div>
             </div>
             <label for="company-name" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
