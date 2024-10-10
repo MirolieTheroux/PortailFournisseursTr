@@ -1,5 +1,6 @@
 /*** Section operation ***/
 document.addEventListener('DOMContentLoaded', function() {
+  addCustomListener();
   let contactNumber = 1;
   const contactsRow = document.getElementById('contactsRow');
   const referenceContainer = document.getElementById('referenceContact');
@@ -53,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const newFirstnameInput = newContact.querySelector('#'+firstnameInput.getAttribute("id"));
     newFirstnameInput.setAttribute("id", firstnameInput.getAttribute("id").slice(0, -1) + contactNumber);
-    newFirstnameInput.setAttribute("oninput", "validateContactsName('"+newFirstnameInput.getAttribute("id")+"')");
     newFirstnameInput.value = "";
     newFirstnameInput.classList.remove('is-valid');
     newFirstnameInput.classList.remove('is-invalid');
@@ -63,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const newlastnameInput = newContact.querySelector('#'+lastnameInput.getAttribute("id"));
     newlastnameInput.setAttribute("id", newlastnameInput.getAttribute("id").slice(0, -1) + contactNumber);
-    newlastnameInput.setAttribute("oninput", "validateContactsName('"+newlastnameInput.getAttribute("id")+"')");
     newlastnameInput.value = "";
     newlastnameInput.classList.remove('is-valid');
     newlastnameInput.classList.remove('is-invalid');
@@ -73,7 +72,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const newJobInput = newContact.querySelector('#'+jobInput.getAttribute("id"));
     newJobInput.setAttribute("id", newJobInput.getAttribute("id").slice(0, -1) + contactNumber);
-    newJobInput.setAttribute("oninput", "validateContactsJob('"+newJobInput.getAttribute("id")+"')");
     newJobInput.value = "";
     newJobInput.classList.remove('is-valid');
     newJobInput.classList.remove('is-invalid');
@@ -83,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const newEmailInput = newContact.querySelector('#'+emailInput.getAttribute("id"));
     newEmailInput.setAttribute("id", newEmailInput.getAttribute("id").slice(0, -1) + contactNumber);
-    newEmailInput.setAttribute("oninput", "validateContactsEmail('"+newEmailInput.getAttribute("id")+"')");
     newEmailInput.value = "";
     newEmailInput.classList.remove('is-valid');
     newEmailInput.classList.remove('is-invalid');
@@ -107,7 +104,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const newtelnumberInputA = newContact.querySelector('#'+telnumberInputA.getAttribute("id"));
     newtelnumberInputA.setAttribute("id", newtelnumberInputA.getAttribute("id").slice(0, -1) + contactNumber);
-    newtelnumberInputA.setAttribute("oninput", "validateContactsPhone('"+newtelnumberInputA.getAttribute("id")+"')");
     newtelnumberInputA.value = "";
     newtelnumberInputA.classList.remove('is-valid');
     newtelnumberInputA.classList.remove('is-invalid');
@@ -117,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const newtelnumberInputB = newContact.querySelector('#'+telnumberInputB.getAttribute("id"));
     newtelnumberInputB.setAttribute("id", newtelnumberInputB.getAttribute("id").slice(0, -1) + contactNumber);
-    newtelnumberInputB.setAttribute("oninput", "validateContactsPhone('"+newtelnumberInputB.getAttribute("id")+"')");
     newtelnumberInputB.value = "";
     newtelnumberInputB.classList.remove('is-valid');
     newtelnumberInputB.classList.remove('is-invalid');
@@ -127,7 +122,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const newtelExtensionInputA = newContact.querySelector('#'+telExtensionInputA.getAttribute("id"));
     newtelExtensionInputA.setAttribute("id", newtelExtensionInputA.getAttribute("id").slice(0, -1) + contactNumber);
-    newtelExtensionInputA.setAttribute("oninput", "validateContactsExtension('"+newtelExtensionInputA.getAttribute("id")+"')");
     newtelExtensionInputA.value = "";
     newtelExtensionInputA.classList.remove('is-valid');
     newtelExtensionInputA.classList.remove('is-invalid');
@@ -137,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const newtelExtensionInputB = newContact.querySelector('#'+telExtensionInputB.getAttribute("id"));
     newtelExtensionInputB.setAttribute("id", newtelExtensionInputB.getAttribute("id").slice(0, -1) + contactNumber);
-    newtelExtensionInputB.setAttribute("oninput", "validateContactsExtension('"+newtelExtensionInputB.getAttribute("id")+"')");
     newtelExtensionInputB.value = "";
     newtelExtensionInputB.classList.remove('is-valid');
     newtelExtensionInputB.classList.remove('is-invalid');
@@ -154,6 +147,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     contactsRow.append(newContact);
     maskButton();
+    
+    addCustomListener();
   }
 
   function maskButton(){
@@ -173,8 +168,51 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /*** Validation ***/
+function addCustomListener(){
+  const nameInputs = document.querySelectorAll('.contact-name-input');
+  nameInputs.forEach(input => {
+    input.addEventListener('input', (event)=>{
+      validateContactsName(input.id);
+    })
+  });
+
+  const jobInputs = document.querySelectorAll('.contact-job-input');
+  jobInputs.forEach(input => {
+    input.addEventListener('input', (event)=>{
+      validateContactsJob(input.id);
+    })
+  });
+
+  const emailInputs = document.querySelectorAll('.contact-email-input');
+  emailInputs.forEach(input => {
+    input.addEventListener('input', (event)=>{
+      validateContactsEmail(input.id);
+    })
+  });
+
+  const primaryPhoneInputs = document.querySelectorAll('.contact-primary-phone-input');
+  primaryPhoneInputs.forEach(input => {
+    input.addEventListener('input', (event)=>{
+      validateContactsPrimaryPhone(input.id);
+    })
+  });
+
+  const secondaryPhoneInputs = document.querySelectorAll('.contact-secondary-phone-input');
+  secondaryPhoneInputs.forEach(input => {
+    input.addEventListener('input', (event)=>{
+      validateContactsSecondaryPhone(input.id);
+    })
+  });
+
+  const extensionInputs = document.querySelectorAll('.contact-extension-input');
+  extensionInputs.forEach(input => {
+    input.addEventListener('input', (event)=>{
+      validateContactsExtension(input.id);
+    })
+  });
+}
+
 function validateContactsName(id) {
-  console.log(id)
   const input = document.getElementById(id);
   const parentDiv = input.parentElement;
   const invalidRequiredMessage = parentDiv.querySelector('.nameInvalidRequired');
@@ -352,6 +390,11 @@ function validateContactsExtension(id) {
 
     input.classList.add('was-validated');
   };
+
+const contactsSectionNext = document.getElementById("contacts-button");
+contactsSectionNext.addEventListener("click", (event)=>{
+  validateContactsAll();
+});
 
 function validateContactsAll(){
     const inputs = document.querySelectorAll(".contact-input");

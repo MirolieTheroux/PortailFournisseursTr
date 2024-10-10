@@ -1,15 +1,18 @@
+const neqInput = document.getElementById('neq');
+neqInput.addEventListener('input', validateIdentificationNeq);
+
 function validateIdentificationNeq() {
   const input = document.getElementById('neq');
-  const start = document.getElementById('neqStart');
-  const valid = document.getElementById('neqValid');
+  //const start = document.getElementById('neqStart');
+  //const valid = document.getElementById('neqValid');
   const invalidStart = document.getElementById('neqInvalidStart');
   const invalidThird = document.getElementById('neqInvalidThird');
   const invalidCharacters = document.getElementById('neqInvalidCharacters');
   const invalidAmount = document.getElementById('neqInvalidAmount');
   const invalidExist = document.getElementById('neqInvalidExist');
     // Reset all error messages
-    start.style.display = 'none';
-    valid.style.display = 'none';
+    // start.style.display = 'none';
+    // valid.style.display = 'none';
     invalidStart.style.display = 'none';
     invalidThird.style.display = 'none';
     invalidCharacters.style.display = 'none';
@@ -19,8 +22,8 @@ function validateIdentificationNeq() {
     // Basic validation logic
     if (!input.value) {
       input.classList.remove('is-invalid');
-      input.classList.add('is-valid');
-      valid.style.display = 'block';
+      input.classList.remove('is-valid');
+      //valid.style.display = 'block';
     }
     else if (!input.value.match(/^11|22|33|88/)) {
       input.classList.remove('is-valid');
@@ -45,13 +48,16 @@ function validateIdentificationNeq() {
     else {
       input.classList.remove('is-invalid');
       input.classList.add('is-valid');
-      valid.style.display = 'block';
+      //valid.style.display = 'block';
     }
     
     //TODO::Le NEQ est déjà enregistrer pour un autre compte!
 
     input.classList.add('was-validated');
 };
+
+const nameInput = document.getElementById('name');
+nameInput.addEventListener('input', validateIdentificationName);
 
 function validateIdentificationName() {
   const input = document.getElementById('name');
