@@ -68,7 +68,7 @@ return [
     'contactDetailsCNValidationLength' => 'Le Nᵒ civique ne peut dépasser 8 caractères.',
     'contactDetailsStreetNameValidationRequired' => 'La Rue est requise.',
     'contactDetailsStreetNameValidationLength' => 'La Rue ne peut dépasser 64 caractères.',
-    'contactDetailsStreetNameValidationAlphaNumSC' => 'La Rue peut seulement contenir des chiffres, lettres et caractères spéciaux.',
+    'contactDetailsStreetNameValidationAlphaNumSC' => 'La Rue peut seulement contenir des chiffres, lettres et caractères spéciaux : \' , - et , .',
     'contactDetailsONValidationAlphaNum' => 'Le Bureau peut seulement contenir des chiffres et des lettres.',
     'contactDetailsONValidationLenght' => 'Le Bureau ne peut dépasser 8 caractères.',
     'contactDetailsCityRequired' => 'La Ville est requise.',

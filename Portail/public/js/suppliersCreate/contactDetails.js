@@ -24,24 +24,35 @@ async function addCitiesAndDAInSelect() {
   const selectCity = document.getElementById("contactDetailsCitySelect");
   const inputCity = document.getElementById("contactDetailsInputCity");
   const districtArea = document.getElementById("contactDetailsDistrictArea");
+  const optionsCity = [];
+  const optionsDA = [];
 
   const districtAreas = citiesAndDA.map((da) =>
     da.regadm.replace(/--/g, "-")
   );
   const uniqueDA = Array.from(new Set(districtAreas)).sort();
+  const uniqueCity = Array.from(new Set(citiesAndDA.map((city)=>city.munnom)))
+  uniqueCity.splice(uniqueCity.indexOf("Toponyme à venir"),1);
   function addQuebecCities() {
     selectCity.innerHTML = "";
-    citiesAndDA.forEach((city) => {
+    uniqueCity.forEach((city) => {
         let optionCity = document.createElement("option");
-        optionCity.text = city.munnom;
-        optionCity.value = city.munnom;
+        optionCity.text = city;
+        optionCity.value = city;
         selectCity.add(optionCity);
+        optionsCity.push(optionCity);
     });
     selectCity.classList.remove("d-none");
     inputCity.classList.add("d-none");
     inputCity.removeAttribute("required" ,"");
+    if(oldCity !== undefined){
+      optionsCity.forEach((city) => {
+        if(oldCity === city.value)
+          city.setAttribute("selected","selected");
+      });
+    }
   }
-
+ 
   if (province.value === "Québec") {
     addQuebecCities();
     districtArea.removeAttribute("disabled", "");
@@ -73,37 +84,28 @@ async function addCitiesAndDAInSelect() {
   function addDistrictsAreas(){
     districtArea.innerHTML = "";
     uniqueDA.forEach((DA) => {
-    let optionDA = document.createElement("option");
-    optionDA.text = DA;
-    optionDA.value = DA.replace(/\s*\(.*?\)/, "");
-    districtArea.add(optionDA);
-  });
-
+      let optionDA = document.createElement("option");
+      optionDA.text = DA;
+      optionDA.value = DA.replace(/\s*\(.*?\)/, "");
+      districtArea.add(optionDA);
+      optionsDA.push(optionDA);
+    });
+    if(oldDistrictArea !== undefined){
+      optionsDA.forEach((da) => {
+        if(oldDistrictArea === da.value)
+          da.setAttribute("selected", "selected");
+      });
+    }
   }
- 
-  if (sessionStorage.getItem("selectedCity") !== null)
-    selectCity.value = sessionStorage.getItem("selectedCity");
 
-  if (sessionStorage.getItem("selectedDA") !== null)
-    districtArea.value = sessionStorage.getItem("selectedDA");
-  
   selectCity.addEventListener("change", () =>{
     let cityAndDA = citiesAndDA.find(city => city.munnom === selectCity.value);
+    let daWithoutCode = cityAndDA.regadm.replace(/\s*\(.*?\)/, "");
+    let daWithoutDoubleDash = daWithoutCode.replace(/--/g, "-");
+    //voir si je peux faire en 1 replace.
     if(cityAndDA)
-      districtArea.value = cityAndDA.regadm.replace(/\s*\(.*?\)/, "");
+      districtArea.value = daWithoutDoubleDash;
   });
-}
-
-document.getElementById("contactDetailsCitySelect").addEventListener("change", saveSelectedCity);
-function saveSelectedCity() {
-  const selectCity = document.getElementById("contactDetailsCitySelect");
-  sessionStorage.setItem("selectedCity", selectCity.value);
-}
-
-document.getElementById("contactDetailsDistrictArea").addEventListener("change", saveSelectedDA);
-function saveSelectedDA(id) {
-  const selectDA = document.getElementById("contactDetailsDistrictArea");
-  sessionStorage.setItem("selectedDA", selectDA.value);
 }
 
 function savePhoneNumbers(phoneNumbers) {
@@ -111,7 +113,7 @@ function savePhoneNumbers(phoneNumbers) {
 }
 
 function loadPhoneNumbers() {
-  const savedPhoneNumbers = sessionStorage.getItem("phoneNumbers");
+  const savedPhoneNumbers = sessionStorage.getItem("phoneNumbers"); 
   return savedPhoneNumbers ? JSON.parse(savedPhoneNumbers) : [];
 }
 
@@ -149,7 +151,6 @@ function displayPhoneNumbers() {
       "align-items-center",
       "justify-content-between"
     );
-
     const colphoneType = document.createElement("div");
     colphoneType.classList.add("col-2", "text-start","phoneType");
     colphoneType.textContent = phone.type;
@@ -164,7 +165,7 @@ function displayPhoneNumbers() {
     colphoneNum.classList.add("col-6", "text-center", "phoneNumber");
     colphoneNum.textContent = phone.number;
     const inputPhoneNumHidden = document.createElement("input");
-    inputPhoneNumHidden.value = phone.type;
+    inputPhoneNumHidden.value = phone.number;
     inputPhoneNumHidden.classList.add("d-none");
     inputPhoneNumHidden.setAttribute("name", "phoneNumbers[]");
     newphoneNumber.appendChild(colphoneNum);
@@ -265,7 +266,7 @@ function validateCivicNumber() {
 
 document.getElementById("contactDetailsStreetName").addEventListener("input", validateStreetName);
 function validateStreetName() {
-  const regexAlphanumAndSpecialCar = /^[\p{L}0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~ ]+$/u;
+  const regexAlphanumAndSpecialCar = /^[a-zA-Z0-9\'\,\-_À-ÿ ]+$/;
   const input = document.getElementById("contactDetailsStreetName");
   const invalidRequiredStreetName = document.getElementById("invalidRequiredStreetName");
   const invalidStreetName = document.getElementById("invalidStreetName");
@@ -297,7 +298,7 @@ function validateStreetName() {
 
 document.getElementById("contactDetailsOfficeNumber").addEventListener("input",validateOfficeNumber);
 function validateOfficeNumber() {
-  const input = document.getElementById("contactDetailsStreetName");
+  const input = document.getElementById("contactDetailsOfficeNumber");
   const invalidOfficeNumber = document.getElementById("invalidOfficeNumber");
   const invalidOfficeNumberLength = document.getElementById("invalidOfficeNumberLength");
 
@@ -309,7 +310,7 @@ function validateOfficeNumber() {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
     invalidOfficeNumber.style.display = "block";
-  } else if (input.value.length > 8) {
+  } else if (input.value.length > 8 && input.value) {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
     invalidOfficeNumberLength.style.display = "block";
@@ -326,7 +327,6 @@ function validateOfficeNumber() {
 document.getElementById("contactDetailsInputCity").addEventListener("input", validateCity);
 function validateCity() {
   const inputCity = document.getElementById("contactDetailsInputCity");
-  const selectCity = document.getElementById("contactDetailsCitySelect");
   const invalidRequiredCity = document.getElementById("invalidRequiredCity");
   const invalidCityLength = document.getElementById("invalidCityLength");
 
@@ -573,6 +573,7 @@ function validatePhoneExtension() {
 
 document.addEventListener("DOMContentLoaded", function () {
   const addNumber = document.getElementById("add-icon");
+  const selectCity = document.getElementById("contactDetailsCitySelect");
   addNumber.addEventListener("click", function (event) {
     event.preventDefault();  
     if(isPhoneNumberValid())

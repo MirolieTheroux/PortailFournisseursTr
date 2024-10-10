@@ -439,8 +439,7 @@
   <!--Questions:: 
     - Pour validation pourquoi on utilise pas la classe bootstrap d-none au lieu de style="display: none;
     - Pour le site internet, est-ce qu'on veut que ca vérifie sur le oninput ou onblur quand l'utilisateur a fini d'entrer le site en ce moment syr onblur?
-    - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse)
-    - # Téléphone obligatoire ? Pas écrit dans le PDF.
+    - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse quand on a NEQ)
     - Pour l'accessibilité est-ce qu'on garde le aria-label ? Qu'est-ce que les gens de la ville avaient dit déjà?
     - Pour l'expérience utilisateur, est-ce que je veux lui formater aussi s'il fait une faute du genre 555555-5555 ?
     -->
@@ -526,7 +525,6 @@
           <div class="text-center d-flex flex-row mb-4">
             <div class="form-floating col-8 pe-2">
               <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" aria-label="">
-                <option>N/A</option>
               </select>
               <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
             </div>
@@ -610,6 +608,24 @@
               <div class="d-flex flex-column justify-content-between" id="phoneNumberList">
                 <!-- La vérification back-end des #tel doit vérifier tous ceux entrés ici -->
               </div>
+               @if(!is_null(old('phoneNumbers')))
+                  @foreach(old('phoneNumbers') as $phoneNumber)
+                    <div hidden>
+                      {{$phoneTypeIndex = "phoneTypes." . "$loop->index"}}
+                      {{$phoneNumberIndex = "phoneNumbers." . "$loop->index"}}
+                      {{$phoneExtensionIndex = "phoneExtensions." . "$loop->index"}}
+                    </div>
+                    @if($errors->has($phoneTypeIndex))
+                      <p class="m-0">{{ $errors->first($phoneTypeIndex) }}</p>
+                    @endif
+                    @if($errors->has($phoneNumberIndex))
+                      <p class="m-0">{{ $errors->first($phoneNumberIndex) }}</p>
+                    @endif
+                    @if($errors->has($phoneExtensionIndex))
+                      <p class="m-0">{{ $errors->first($phoneExtensionIndex) }}</p>
+                    @endif
+                  @endforeach
+                @endif
             </div>
           </div>
         </div>
@@ -889,6 +905,11 @@
 @endsection
 
 @section('scripts')
+<script>
+  const oldCity = "{{ old('contactDetailsCitySelect') }}";
+  const oldDistrictArea = "{{ old('contactDetailsDistrictArea') }}";
+</script>
+<!-- Voir comment donner les infos des # au JS pour ne pas utiliser de storage -->
 <script src="{{ asset('js/suppliersCreate/createValidationIdentification.js') }}"></script>
 <script src="{{ asset('js/suppliersCreate/produitsServices.js') }}"></script>
 <script src="{{ asset('js/suppliersCreate/rbq.js') }} "></script>
