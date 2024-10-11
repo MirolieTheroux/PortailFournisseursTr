@@ -463,6 +463,7 @@
     - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse quand on a NEQ)
     - Pour l'accessibilité est-ce qu'on garde le aria-label ? Qu'est-ce que les gens de la ville avaient dit déjà?
     - Pour l'expérience utilisateur, est-ce que je veux lui formater aussi s'il fait une faute du genre 555555-5555 ?
+    - Question pour la ville, le format téléphone est ###-###-#### mais si le # est 1-450 ou 1-418... En ce moment ca se formatte tout seul en ###-###-#### 
     -->
   <div class="container bg-white rounded my-2" id="contactDetails-section">
     <div class="row d-none d-md-block">
@@ -608,9 +609,9 @@
           @endif
           <div class="col-12 errorMessagesPhone">
             <div class="text-start invalid-feedback" id="invalidRequiredPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberRequired')}}</div>
-            <div class="text-start invalid-feedback" id="invalidPostalPhoneNumberNumeric" style="display: none;">{{__('form.contactDetailsPhoneNumberNumeric')}}</div>
+            <div class="text-start invalid-feedback" id="invalidPhoneNumberNumeric" style="display: none;">{{__('form.contactDetailsPhoneNumberNumeric')}}</div>
             <div class="text-start invalid-feedback" id="invalidPhoneNumberFormat" style="display: none;">{{__('form.contactDetailsPhoneNumberFormat')}}</div>
-            <div class="text-start invalid-feedback" id="invalidPostalPhoneExtension" style="display: none;">{{__('form.contactDetailsPhoneExtension')}}</div>
+            <div class="text-start invalid-feedback" id="invalidPhoneExtension" style="display: none;">{{__('form.contactDetailsPhoneExtension')}}</div>
             <div class="text-start invalid-feedback" id="invalidPhoneExtensionLength" style="display: none;">{{__('form.contactDetailsPhoneExtensionLength')}}</div>
             <div class="text-start invalid-feedback" id="invalidAddPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberAdd')}}</div>
           </div>
@@ -627,7 +628,6 @@
                 <div class="col-2 "></div>
               </div>
               <div class="d-flex flex-column justify-content-between" id="phoneNumberList">
-                <!-- La vérification back-end des #tel doit vérifier tous ceux entrés ici -->
               </div>
                @if(!is_null(old('phoneNumbers')))
                   @foreach(old('phoneNumbers') as $phoneNumber)
@@ -650,7 +650,6 @@
             </div>
           </div>
         </div>
- 
         <div class="text-start invalid-feedback" id="invalidListPhoneNumbers" style="display: none;">{{__('form.contactDetailsPhoneNumbersList')}}</div>
       </div>
     </div>
@@ -843,7 +842,6 @@
                         </div>
                         <div class="text-center mb-4">
                             <div class="form-floating">
-                                <input type="text" oninput="validateContactsJob('contactJob1')" name="contactJobs[]" id="contactJob1" class="form-control contact-input" placeholder="" maxlength="32" >
                                 <input type="text" name="contactJobs[]" id="contactJob1" class="form-control contact-input contact-job-input" placeholder="" maxlength="32" required>
                                 <label id="contactJobLabel1" for="contactJob1">{{__('form.jobLabel')}}</label>
                                 <div class="text-start valid-feedback jobValid" style="display: none;"></br></div>
@@ -931,6 +929,10 @@
   const oldDistrictArea = "{{ old('contactDetailsDistrictArea') }}";
 </script>
 <!-- Voir comment donner les infos des # au JS pour ne pas utiliser de storage -->
+<script>
+  // Passer un tableau de valeurs
+  const array = "{{ json_encode(old('phoneNumbers')) }}";
+</script>
 <script src="{{ asset('js/suppliersCreate/createValidationIdentification.js') }}"></script>
 <script src="{{ asset('js/suppliersCreate/produitsServices.js') }}"></script>
 <script src="{{ asset('js/suppliersCreate/rbq.js') }} "></script>

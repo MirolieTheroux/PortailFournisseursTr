@@ -213,23 +213,6 @@ window.onload = function () {
     displayPhoneNumbers();
 };
 
-function isPhoneNumberValid(){
-  const errorMessages = document.querySelector('.errorMessagesPhone').children;
-  const errorMessagesArray = Array.from(errorMessages);
-  const invalidAddPhoneNumber = document.getElementById("invalidAddPhoneNumber");
-  const valuePhoneNumber = document.getElementById("contactDetailsPhoneNumber").value;
-  invalidAddPhoneNumber.style.display = "none";
-  for (const message of errorMessagesArray) {
-    if (message.style.display === "block" && !message.id === "invalidListPhoneNumbers") {
-      return false;
-    }else if (valuePhoneNumber === ""){
-      invalidAddPhoneNumber.style.display = "block";
-      return false;
-    }
-  }
-  return true;
-}
-
 //Validation section Adresse
 const regexAlphanum = /^[a-zA-Z0-9 ]+$/;
 
@@ -462,67 +445,109 @@ function validateWebsite() {
   input.classList.add("was-validated");
 }
 
-
 //Validation section Téléphones
 document.getElementById("contactDetailsPhoneNumber").addEventListener("input", validatePhoneNumberOnInput);
 function validatePhoneNumberOnInput() {
-  const regexNumeric = /^[\d-]*$/;
   const input = document.getElementById("contactDetailsPhoneNumber");
   const invalidRequiredPhoneNumber = document.getElementById("invalidRequiredPhoneNumber");
-  const invalidPostalPhoneNumberNumeric = document.getElementById("invalidPostalPhoneNumberNumeric");
-
-  // Reset all error messages
-  invalidRequiredPhoneNumber.style.display = "none";
-  invalidPostalPhoneNumberNumeric.style.display = "none";
-
-  // Basic validation logic
-  if (!input.value) {
-    input.classList.remove("is-valid");
-    input.classList.add("is-invalid");
-    invalidRequiredPhoneNumber.style.display = "block";
-  } else if (!regexNumeric.test(input.value)) {
-    input.classList.remove("is-valid");
-    input.classList.add("is-invalid");
-    invalidPostalPhoneNumberNumeric.style.display = "block";
-  } else {
-    input.classList.remove("is-invalid");
-    input.classList.add("is-valid");
-  }
-  input.classList.add("was-validated");
-}
-
-document.getElementById("contactDetailsPhoneNumber").addEventListener("blur", validatePhoneNumberOnBlur);
-function validatePhoneNumberOnBlur() {
-  const regexPhoneNumber = /^(?:\d{10}|\d{3}-\d{3}-\d{4})$/;
-  const regexNumberFormat = /^\d{3}-\d{3}-\d{4}$/;
-  const input = document.getElementById("contactDetailsPhoneNumber");
-  const invalidAddPhoneNumber = document.getElementById("invalidAddPhoneNumber");
+  const invalidPhoneNumberNumeric = document.getElementById("invalidPhoneNumberNumeric");
   const invalidPhoneNumberFormat = document.getElementById("invalidPhoneNumberFormat");
 
   // Reset all error messages
+  invalidRequiredPhoneNumber.style.display = "none";
+  invalidPhoneNumberNumeric.style.display = "none";
   invalidPhoneNumberFormat.style.display = "none";
 
+  const phoneValue = input.value.replace(/\D/g, ''); 
+  //Basic validation logic
+  if (!phoneValue) {
+    input.classList.remove('is-valid');
+    input.classList.add('is-invalid');
+    invalidRequiredPhoneNumber.style.display = 'block';
+  } else if (isNaN(phoneValue)) {
+    input.classList.remove('is-valid');
+    input.classList.add('is-invalid');
+    invalidPhoneNumberNumeric.style.display = 'block';
+  } else if (phoneValue.length === 10) {
+    const formattedNumber = `${phoneValue.slice(0, 3)}-${phoneValue.slice(3, 6)}-${phoneValue.slice(6)}`;
+    input.value = formattedNumber;
+    input.classList.remove('is-invalid');
+    input.classList.add('is-valid');
+  } else {
+    input.classList.remove('is-valid');
+    input.classList.add('is-invalid');
+    invalidPhoneNumberFormat.style.display = 'block';
+  }
+
+  input.classList.add('was-validated');
+}
+
+document.getElementById("contactDetailsPhoneExtension").addEventListener("input",validatePhoneExtension);
+function validatePhoneExtension() {
+  const input = document.getElementById("contactDetailsPhoneExtension");
+  const invalidPhoneExtension = document.getElementById( "invalidPhoneExtension");
+  const invalidPhoneExtensionLength = document.getElementById( "invalidPhoneExtensionLength");
+
+  // Reset all error messages
+  invalidPhoneExtension.style.display = "none";
+  invalidPhoneExtensionLength.style.display = "none";
+
   // Basic validation logic
-  if (!regexPhoneNumber.test(input.value)) {
+  if (isNaN(input.value) && input.value !== "") {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
-    invalidPhoneNumberFormat.style.display = "block";
-  } else {
+    invalidPhoneExtension.style.display = "block";
+  } else if (input.value.length > 6) {
     input.classList.remove("is-invalid");
     input.classList.add("is-valid");
-    invalidAddPhoneNumber.style.display = "none";
-    if (!regexNumberFormat.test(input.value)) {
-      input.value = `${input.value.slice(0, 3)}-${input.value.slice(3,6)}-${input.value.slice(6)}`;
-    }
+    invalidPhoneExtensionLength.style.display = "none";
+  } else if (!input.value) {
+    input.classList.remove("is-invalid");
+    input.classList.remove("is-valid");
+  }else {
+    input.classList.remove("is-invalid");
+    input.classList.add("is-valid");
   }
   input.classList.add("was-validated");
 }
+
+function isPhoneNumberValid() {
+  const errorMessages = document.querySelector('.errorMessagesPhone').children;
+  const errorMessagesArray = Array.from(errorMessages);
+  const invalidAddPhoneNumber = document.getElementById("invalidAddPhoneNumber");
+  const valuePhoneNumber = document.getElementById("contactDetailsPhoneNumber").value;
+  let hasError = false;
+
+  errorMessagesArray.forEach(message => {
+    if (message.style.display === "block") {
+      hasError = true; 
+    }
+  });
+
+  if (hasError) 
+    return false;
+  else if (valuePhoneNumber === "") {
+    invalidAddPhoneNumber.style.display = "block";
+    return false;
+  }else{
+    invalidAddPhoneNumber.style.display = "none";
+    return true;
+  }
+}
+
+document.getElementById("add-icon").addEventListener("click", function () {
+  if (isPhoneNumberValid()) {
+    console.log("ajouté");
+    addPhoneNumber();
+    // validateListPhoneNumber();
+  }
+});
+
 
 function validateListPhoneNumber(){
   const invalidListPhoneNumbers = document.getElementById("invalidListPhoneNumbers");
   const divPhoneNumberList = document.getElementById("div-phoneNumberList");
   const contactDetailsPhoneNumberList = document.getElementById("contactDetailsPhoneNumberList");
-  
   if(document.getElementById("phoneNumberList").children.length == 0){
     invalidListPhoneNumbers.style.display = "block";
     contactDetailsPhoneNumberList.classList.remove("mb-4");
@@ -541,47 +566,14 @@ function validateListPhoneNumber(){
   }
 } 
 
-document.getElementById("contactDetailsPhoneExtension").addEventListener("input",validatePhoneExtension);
-function validatePhoneExtension() {
-  const regexNumeric = /^\d*$/;;
-  const input = document.getElementById("contactDetailsPhoneExtension");
-  const invalidPostalPhoneExtension = document.getElementById( "invalidPostalPhoneExtension");
-  const invalidPhoneExtensionLength = document.getElementById( "invalidPhoneExtensionLength");
-
-  // Reset all error messages
-  invalidPostalPhoneExtension.style.display = "none";
-  invalidPhoneExtensionLength.style.display = "none";
-
-  // Basic validation logic
-  if (!regexNumeric.test(input.value) && input.value !== "") {
-    input.classList.remove("is-valid");
-    input.classList.add("is-invalid");
-    invalidPostalPhoneExtension.style.display = "block";
-  } else if (input.value.length > 6) {
-    input.classList.remove("is-invalid");
-    input.classList.add("is-valid");
-    invalidPhoneExtensionLength.style.display = "none";
-  } else if (!input.value) {
-    input.classList.remove("is-invalid");
-    input.classList.remove("is-valid");
-  }else {
-    input.classList.remove("is-invalid");
-    input.classList.add("is-valid");
-  }
-  input.classList.add("was-validated");
-}
 
 document.addEventListener("DOMContentLoaded", function () {
-  const addNumber = document.getElementById("add-icon");
-  const selectCity = document.getElementById("contactDetailsCitySelect");
-  addNumber.addEventListener("click", function (event) {
-    event.preventDefault();  
-    if(isPhoneNumberValid())
-      addPhoneNumber();
-      validateListPhoneNumber();
-  });
+  
   addCitiesAndDAInSelect();
   validateSelectCity();
+  if(array !== undefined){
+    console.log(array); 
+  }
 });
 
 document.getElementById("contactDetails-button").addEventListener("click", (event)=>{
@@ -596,7 +588,4 @@ function validateContactDetailsAll() {
   validatePostalCodeOnInput();
   formatPostalCodeOnBlur();
   validateWebsite();
-  validatePhoneNumberOnInput();
-  validatePhoneNumberOnBlur();
-  validatePhoneExtension();
 }
