@@ -498,9 +498,10 @@
         le chant input de la ville arrive en vert même si il est vide.
           - Je pense qu'il faudrais qu'il n'est pas de couleur (Potentiel Nice_to_have).
       - Il manque la validation backend pour le chant bureau qui doit être alpha_numérique
+      - Lorsqu'on tombe dans le old, la liste des numéros de téléphone ne se refait pas.
+          - Je pense qu'on pourrait mettre ça en nice to have car normalement le gens devrait pas se rendre à la validation backend
       - NICE_TO_HAVE : Lorsqu'il y a l'erreur du site suite au onblur, utiliser le oninput pour dire quand le site est bon (Comme les autres chants sont comme ça,
                        je pense que ça peut créer de la confusion)
-
   -->
   <div class="container bg-white rounded my-2" id="contactDetails-section">
     <div class="row d-none d-md-block">
