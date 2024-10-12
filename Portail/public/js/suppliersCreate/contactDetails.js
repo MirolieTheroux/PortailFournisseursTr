@@ -86,7 +86,7 @@ async function addCitiesAndDAInSelect() {
     uniqueDA.forEach((DA) => {
       let optionDA = document.createElement("option");
       optionDA.text = DA;
-      optionDA.value = DA.replace(/\s*\(.*?\)/, "");
+      optionDA.value = DA;
       districtArea.add(optionDA);
       optionsDA.push(optionDA);
     });
@@ -100,37 +100,98 @@ async function addCitiesAndDAInSelect() {
 
   selectCity.addEventListener("change", () =>{
     let cityAndDA = citiesAndDA.find(city => city.munnom === selectCity.value);
-    let daWithoutCode = cityAndDA.regadm.replace(/\s*\(.*?\)/, "");
-    let daWithoutDoubleDash = daWithoutCode.replace(/--/g, "-");
-    //voir si je peux faire en 1 replace.
+    let daWithoutDoubleDash = cityAndDA.regadm.replace(/--/g, "-");
     if(cityAndDA)
       districtArea.value = daWithoutDoubleDash;
   });
 }
 
-function savePhoneNumbers(phoneNumbers) {
-  sessionStorage.setItem("phoneNumbers", JSON.stringify(phoneNumbers));
-}
+// function savePhoneNumbers(phoneNumbers) {
+//   sessionStorage.setItem("phoneNumbers", JSON.stringify(phoneNumbers));
+// }
 
-function loadPhoneNumbers() {
-  const savedPhoneNumbers = sessionStorage.getItem("phoneNumbers"); 
-  return savedPhoneNumbers ? JSON.parse(savedPhoneNumbers) : [];
-}
 
 function addPhoneNumber() {
   const typePhone = document.getElementById("contactDetailsPhoneType").value;
   const phoneNumber = document.getElementById("contactDetailsPhoneNumber").value;
   const phoneExtension = document.getElementById("contactDetailsPhoneExtension").value;
 
-  const phoneNumbers = loadPhoneNumbers();
+  const phoneNumbers = [];
   phoneNumbers.push({
     type: typePhone,
     number: phoneNumber,
     extension: phoneExtension,
   });
-  savePhoneNumbers(phoneNumbers);
-
   displayPhoneNumbers();
+  function displayPhoneNumbers() {
+    const phoneNumberList = document.getElementById("phoneNumberList");
+    phoneNumberList.innerHTML = "";
+
+    phoneNumbers.forEach((phone, index) => {
+      const newphoneNumber = document.createElement("div");
+      newphoneNumber.classList.add(
+        "row",
+        "mb-2",
+        "align-items-center",
+        "justify-content-between"
+      );
+      const colphoneType = document.createElement("div");
+      colphoneType.classList.add("col-2", "text-start","phoneType");
+      colphoneType.textContent = phone.type;
+      const inputPhoneTypeHidden = document.createElement("input");
+      inputPhoneTypeHidden.value = phone.type;
+      inputPhoneTypeHidden.classList.add("d-none");
+      inputPhoneTypeHidden.setAttribute("name", "phoneTypes[]");
+      newphoneNumber.appendChild(colphoneType);
+      newphoneNumber.appendChild(inputPhoneTypeHidden);
+  
+      const colphoneNum = document.createElement("div");
+      colphoneNum.classList.add("col-6", "text-center", "phoneNumber");
+      colphoneNum.textContent = phone.number;
+      const inputPhoneNumHidden = document.createElement("input");
+      inputPhoneNumHidden.value = phone.number;
+      inputPhoneNumHidden.classList.add("d-none");
+      inputPhoneNumHidden.setAttribute("name", "phoneNumbers[]");
+      newphoneNumber.appendChild(colphoneNum);
+      newphoneNumber.appendChild(inputPhoneNumHidden);
+  
+      const colphoneExtension = document.createElement("div");
+      colphoneExtension.classList.add("col-2", "text-center","phoneExtension");
+      colphoneExtension.textContent = phone.extension; 
+      const inputPhoneExtensionHidden = document.createElement("input");
+      inputPhoneExtensionHidden.value = phone.extension;
+      inputPhoneExtensionHidden.classList.add("d-none");
+      inputPhoneExtensionHidden.setAttribute("name", "phoneExtensions[]");
+      newphoneNumber.appendChild(colphoneExtension);
+      newphoneNumber.appendChild(inputPhoneExtensionHidden);
+  
+      const colRemove = document.createElement("div");
+      colRemove.classList.add("col-2", "d-flex", "justify-content-center");
+  
+      const removephoneNumber = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "svg"
+      );
+      removephoneNumber.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      removephoneNumber.setAttribute("width", "38");
+      removephoneNumber.setAttribute("height", "38");
+      removephoneNumber.setAttribute("fill", "currentColor");
+      removephoneNumber.setAttribute("class", "bi bi-trash-fill");
+      removephoneNumber.setAttribute("viewBox", "0 0 16 16");
+      removephoneNumber.style.cursor = "pointer";
+      removephoneNumber.innerHTML = `
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+      `;
+      removephoneNumber.addEventListener("click", function () {
+        phoneNumbers.splice(index, 1);
+        //savePhoneNumbers(phoneNumbers);
+        displayPhoneNumbers();
+      });
+      colRemove.appendChild(removephoneNumber);
+      newphoneNumber.appendChild(colRemove);
+      phoneNumberList.appendChild(newphoneNumber);
+    });
+  }
 
   document.getElementById("contactDetailsPhoneNumber").value = "";
   document.getElementById("contactDetailsPhoneExtension").value = "";
@@ -138,80 +199,7 @@ function addPhoneNumber() {
   document.getElementById("contactDetailsPhoneExtension").classList.remove("is-valid");
 }
 
-function displayPhoneNumbers() {
-  const phoneNumberList = document.getElementById("phoneNumberList");
-  phoneNumberList.innerHTML = "";
 
-  const phoneNumbers = loadPhoneNumbers();
-  phoneNumbers.forEach((phone, index) => {
-    const newphoneNumber = document.createElement("div");
-    newphoneNumber.classList.add(
-      "row",
-      "mb-2",
-      "align-items-center",
-      "justify-content-between"
-    );
-    const colphoneType = document.createElement("div");
-    colphoneType.classList.add("col-2", "text-start","phoneType");
-    colphoneType.textContent = phone.type;
-    const inputPhoneTypeHidden = document.createElement("input");
-    inputPhoneTypeHidden.value = phone.type;
-    inputPhoneTypeHidden.classList.add("d-none");
-    inputPhoneTypeHidden.setAttribute("name", "phoneTypes[]");
-    newphoneNumber.appendChild(colphoneType);
-    newphoneNumber.appendChild(inputPhoneTypeHidden);
-
-    const colphoneNum = document.createElement("div");
-    colphoneNum.classList.add("col-6", "text-center", "phoneNumber");
-    colphoneNum.textContent = phone.number;
-    const inputPhoneNumHidden = document.createElement("input");
-    inputPhoneNumHidden.value = phone.number;
-    inputPhoneNumHidden.classList.add("d-none");
-    inputPhoneNumHidden.setAttribute("name", "phoneNumbers[]");
-    newphoneNumber.appendChild(colphoneNum);
-    newphoneNumber.appendChild(inputPhoneNumHidden);
-
-    const colphoneExtension = document.createElement("div");
-    colphoneExtension.classList.add("col-2", "text-center","phoneExtension");
-    colphoneExtension.textContent = phone.extension; 
-    const inputPhoneExtensionHidden = document.createElement("input");
-    inputPhoneExtensionHidden.value = phone.extension;
-    inputPhoneExtensionHidden.classList.add("d-none");
-    inputPhoneExtensionHidden.setAttribute("name", "phoneExtensions[]");
-    newphoneNumber.appendChild(colphoneExtension);
-    newphoneNumber.appendChild(inputPhoneExtensionHidden);
-
-    const colRemove = document.createElement("div");
-    colRemove.classList.add("col-2", "d-flex", "justify-content-center");
-
-    const removephoneNumber = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "svg"
-    );
-    removephoneNumber.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-    removephoneNumber.setAttribute("width", "38");
-    removephoneNumber.setAttribute("height", "38");
-    removephoneNumber.setAttribute("fill", "currentColor");
-    removephoneNumber.setAttribute("class", "bi bi-trash-fill");
-    removephoneNumber.setAttribute("viewBox", "0 0 16 16");
-    removephoneNumber.style.cursor = "pointer";
-    removephoneNumber.innerHTML = `
-        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-    `;
-    removephoneNumber.addEventListener("click", function () {
-      phoneNumbers.splice(index, 1);
-      savePhoneNumbers(phoneNumbers);
-      displayPhoneNumbers();
-    });
-    colRemove.appendChild(removephoneNumber);
-    newphoneNumber.appendChild(colRemove);
-    phoneNumberList.appendChild(newphoneNumber);
-  });
-}
-
-window.onload = function () {
-    displayPhoneNumbers();
-};
 
 //Validation section Adresse
 const regexAlphanum = /^[a-zA-Z0-9 ]+$/;
@@ -555,28 +543,27 @@ function validateListPhoneNumber(){
     contactDetailsPhoneNumberList.classList.remove("is-valid");
   }
   else{
-    invalidListPhoneNumbers.style.display = "none";
-    invalidListPhoneNumbers.remove("mb-4");
-    divPhoneNumberList.classList.add("pb-4");
-    contactDetailsPhoneNumberList.classList.add("mb-4");
-    contactDetailsPhoneNumberList.classList.remove("is-invalid");
-    contactDetailsPhoneNumberList.classList.add("is-valid");
+    if(invalidListPhoneNumbers !== null){
+      invalidListPhoneNumbers.style.display = "none";
+      invalidListPhoneNumbers.remove("mb-4");
+      divPhoneNumberList.classList.add("pb-4");
+      contactDetailsPhoneNumberList.classList.add("mb-4");
+      contactDetailsPhoneNumberList.classList.remove("is-invalid");
+      contactDetailsPhoneNumberList.classList.add("is-valid");
+    }
   }
 } 
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  
   addCitiesAndDAInSelect();
   validateSelectCity();
-  if(array !== undefined){
-    console.log(array); 
-  }
 });
 
 document.getElementById("contactDetails-button").addEventListener("click", (event)=>{
   validateContactDetailsAll();
-})
+});
+
 function validateContactDetailsAll() {
   validateListPhoneNumber();
   validateCivicNumber();

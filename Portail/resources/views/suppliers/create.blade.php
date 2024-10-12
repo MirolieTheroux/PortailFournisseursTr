@@ -449,9 +449,11 @@
   </div> <!--FIN LICENCE RBQ-->
 
    <!--COORDONNÉES-->
-  <!--TODO::S'assurer que le champ rue que l'utilisateur va remplir lui même de mettre en MAJUSCULES-->
-  <!--TODO::Faire le responsive pour les téléphones comme la section Contacts-->
-   
+  <!--TODO::
+  - S'assurer que le champ rue que l'utilisateur va remplir lui même de mettre en MAJUSCULES
+  - Faire le responsive pour les téléphones comme la section Contacts
+  -Trouver pourquoi lors du refresh les old values s'affichent encore 
+  -->
   <!--NICE_TO_HAVE::
     - Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent
     - Trier les Régions avec le code (1,2,3...)  
@@ -465,7 +467,7 @@
     - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse quand on a NEQ)
     - Pour l'accessibilité est-ce qu'on garde le aria-label ? Qu'est-ce que les gens de la ville avaient dit déjà?
     - Pour l'expérience utilisateur, est-ce que je veux lui formater aussi s'il fait une faute du genre 555555-5555 ?
-    - Question pour la ville, le format téléphone est ###-###-#### mais si le # est 1-450 ou 1-418... En ce moment ca se formatte tout seul en ###-###-#### 
+    - Question pour la ville, le format téléphone est ###-###-#### mais si le # est 1-450 ou 1-418... En ce moment ca se formate tout seul en ###-###-#### 
     -->
   <div class="container bg-white rounded my-2" id="contactDetails-section">
     <div class="row d-none d-md-block">
@@ -658,7 +660,7 @@
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-3">
         <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-        <button id="contactDetails-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue ">suivant section</button><!--TODO::Mettre un nom significatif au Id-->
+        <button id="contactDetails-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue ">Suivant</button><!--TODO::Mettre un nom significatif au Id-->
       </div>
     </div>
   </div> <!--FIN COORDONÉES-->
@@ -929,11 +931,6 @@
 <script>
   const oldCity = "{{ old('contactDetailsCitySelect') }}";
   const oldDistrictArea = "{{ old('contactDetailsDistrictArea') }}";
-</script>
-<!-- Voir comment donner les infos des # au JS pour ne pas utiliser de storage -->
-<script>
-  // Passer un tableau de valeurs
-  const array = "{{ json_encode(old('phoneNumbers')) }}";
 </script>
 <script src="{{ asset('js/suppliersCreate/createValidationIdentification.js') }}"></script>
 <script src="{{ asset('js/suppliersCreate/produitsServices.js') }}"></script>
