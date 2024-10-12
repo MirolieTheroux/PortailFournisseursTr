@@ -452,6 +452,7 @@ function validatePhoneNumberOnInput() {
   const invalidRequiredPhoneNumber = document.getElementById("invalidRequiredPhoneNumber");
   const invalidPhoneNumberNumeric = document.getElementById("invalidPhoneNumberNumeric");
   const invalidPhoneNumberFormat = document.getElementById("invalidPhoneNumberFormat");
+  const invalidAddPhoneNumber = document.getElementById("invalidAddPhoneNumber");
 
   // Reset all error messages
   invalidRequiredPhoneNumber.style.display = "none";
@@ -477,8 +478,8 @@ function validatePhoneNumberOnInput() {
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
     invalidPhoneNumberFormat.style.display = 'block';
+    invalidAddPhoneNumber.style.display = "none";
   }
-
   input.classList.add('was-validated');
 }
 
@@ -517,7 +518,6 @@ function isPhoneNumberValid() {
   const invalidAddPhoneNumber = document.getElementById("invalidAddPhoneNumber");
   const valuePhoneNumber = document.getElementById("contactDetailsPhoneNumber").value;
   let hasError = false;
-
   errorMessagesArray.forEach(message => {
     if (message.style.display === "block") {
       hasError = true; 
@@ -537,12 +537,10 @@ function isPhoneNumberValid() {
 
 document.getElementById("add-icon").addEventListener("click", function () {
   if (isPhoneNumberValid()) {
-    console.log("ajouté");
     addPhoneNumber();
-    // validateListPhoneNumber();
+    //validateListPhoneNumber();
   }
 });
-
 
 function validateListPhoneNumber(){
   const invalidListPhoneNumbers = document.getElementById("invalidListPhoneNumbers");

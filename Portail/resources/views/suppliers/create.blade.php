@@ -450,6 +450,8 @@
 
    <!--COORDONNÉES-->
   <!--TODO::S'assurer que le champ rue que l'utilisateur va remplir lui même de mettre en MAJUSCULES-->
+  <!--TODO::Faire le responsive pour les téléphones comme la section Contacts-->
+   
   <!--NICE_TO_HAVE::
     - Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent
     - Trier les Régions avec le code (1,2,3...)  
