@@ -242,7 +242,7 @@
     </div>
   </div> <!--FIN PRODUIT ET SERVICE-->
 
-      <!--LICENCE RBQ-->
+    <!--LICENCE RBQ-->
     <!--NICE_TO_HAVE::Formater automatiquement le numéro de licence RBQ-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
@@ -664,6 +664,10 @@
 
     <!--CONTACT-->
     <!--NICE_TO_HAVE::Formater automatiquement le numéro de tel sous le format 000-000-0000-->
+    <!--REMARQUES::
+    - Pourrait être dans les Nice to have ; est-ce qu'on permet de mettre des espaces pour le prénom/nom si la personne en a plusieurs ?
+    - Dans la request il n'y a pas de contactTelTypesB.*' => 'required',. Peut-etre un bug dans le merge ou c'était voulu ?.
+    -->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-contacts"></div> <!--TODO::Trouver une autre image de fond-->
@@ -843,7 +847,6 @@
                         </div>
                         <div class="text-center mb-4">
                             <div class="form-floating">
-                                <input type="text" oninput="validateContactsJob('contactJob1')" name="contactJobs[]" id="contactJob1" class="form-control contact-input" placeholder="" maxlength="32" >
                                 <input type="text" name="contactJobs[]" id="contactJob1" class="form-control contact-input contact-job-input" placeholder="" maxlength="32" required>
                                 <label id="contactJobLabel1" for="contactJob1">{{__('form.jobLabel')}}</label>
                                 <div class="text-start valid-feedback jobValid" style="display: none;"></br></div>
