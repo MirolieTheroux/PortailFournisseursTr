@@ -86,7 +86,7 @@ return [
     'contactDetailsWebsiteLength' => 'Le Site ne peut pas dépasser 64 caractères.',
     'contactDetailsPhoneNumberRequired' => 'Le Numéro est requis.',
     'contactDetailsPhoneNumberNumeric' => 'Le Numéro doit seulement contenir des chiffres.',
-    'contactDetailsPhoneNumberFormat' => 'Le Numéro doit être sous ce format ###-###-####.',
+    'contactDetailsPhoneNumberFormat' => 'Le Numéro doit contenir 10 chiffres.',
     'contactDetailsPhoneExtension' => 'Le Poste doit seulement contenir des chiffres.',
     'contactDetailsPhoneExtensionLength' => 'Le Poste ne peut pas dépasser 6 caractères.',
     'contactDetailsPhoneNumberAdd' => 'Le Numéro doit être rempli pour ajouter un numéro de téléphone.',
