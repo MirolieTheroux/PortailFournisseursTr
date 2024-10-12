@@ -700,11 +700,9 @@
   </div> <!--FIN COORDONÉES-->
 
     <!--CONTACT-->
+    <!--Questions::Pourrait être dans les Nice to have ; est-ce qu'on permet de mettre des espaces pour le prénom/nom si la personne en a plusieurs ?-->
     <!--NICE_TO_HAVE::Formater automatiquement le numéro de tel sous le format 000-000-0000-->
-    <!--REMARQUES::
-    - Pourrait être dans les Nice to have ; est-ce qu'on permet de mettre des espaces pour le prénom/nom si la personne en a plusieurs ?
-    - Dans la request il n'y a pas de contactTelTypesB.*' => 'required',. Peut-etre un bug dans le merge ou c'était voulu ?.
-    -->
+    <!--NICE_TO_HAVE::Faire que l'on peut entrer le numéro de téléphone soit dans A ou dans B et que ça fonctionne-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-contacts"></div> <!--TODO::Trouver une autre image de fond-->
