@@ -86,7 +86,7 @@
                 <div class="d-flex flex-column justify-content-between h-100">
                   <div class="text-start">
                       <div class="form-floating mb-3">
-                          <input type="email" name="email" id="email" class="form-control"  placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64" required>
+                          <input type="email" name="email" id="email" class="form-control" placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64">
                           <label for="email">{{__('form.emailLabel')}}</label>
                           <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
                           <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('form.identificationValidationEmailStartWithArobase')}}</div>
@@ -105,7 +105,7 @@
                       <div class="row">
                           <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                               <div class="form-floating mb-3">
-                                  <input type="password" name="password" id="password"  class="form-control" placeholder="" maxlength="12" required>
+                                  <input type="password" name="password" id="password"  class="form-control" placeholder="" maxlength="12">
                                   <label for="password">{{__('form.passwordLabel')}}</label>
                                   <div id="passwordStart"></br></div>
                                   <div class="valid-feedback" id="passwordValid" style="display: none;"></br></div>
@@ -122,7 +122,7 @@
                           </div>
                           <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                               <div class="form-floating mb-3">
-                                  <input type="password" name="password_confirmation" required id="password_confirmation" placeholder="" class="form-control" maxlength="12">
+                                  <input type="password" name="password_confirmation" id="password_confirmation" placeholder="" class="form-control" maxlength="12">
                                   <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
                                   <div id="password_confirmationStart"></br></div>
                                   <div class="valid-feedback" id="password_confirmationValid" style="display: none;"></br></div>
@@ -451,24 +451,58 @@
    <!--COORDONNÉES-->
   <!--TODO::
   - S'assurer que le champ rue que l'utilisateur va remplir lui même de mettre en MAJUSCULES
+    - Nico : On va le gérer en back-end dans le controller, casse toi pas trop le cul avec ça
+
   - Faire le responsive pour les téléphones comme la section Contacts
-  -Trouver pourquoi lors du refresh les old values s'affichent encore 
+  -Trouver pourquoi lors du refresh les old values s'affichent encore
+    - Nico : Vive Firefox!
   -->
   <!--NICE_TO_HAVE::
     - Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent
-    - Trier les Régions avec le code (1,2,3...)  
+    - Trier les Régions avec le code (1,2,3...)
     - Vérifier si le site web est déjà présent dans la BD
     - Vérifier si le # de tel est déjà dans la liste
   -->
   <!--TESTS:: Pour la validation des # de téléphone, j'ai testé beaucoup. J'ai peut-être oublié une façon que l'utilisateur peut en ajouter un même si le champ numéro n'est pas ok ou autre -->
   <!--Questions::
     - Pour validation pourquoi on utilise pas la classe bootstrap d-none au lieu de style="display: none;
+        - Nico : C'est vrai que le code serait plus propre mais ça implique beaucoup de changement donc je mettrerais en nice to have
+
     - Pour le site internet, est-ce qu'on veut que ca vérifie sur le oninput ou onblur quand l'utilisateur a fini d'entrer le site en ce moment syr onblur?
+        - Nico : onblur pour ce genre d'input c'est bon, pourrait être ça aussi pour les emails? (Je mettrais en nice to have pour les emails)
+
     - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse quand on a NEQ)
+        - Nico : Je metterais dans les nice to have mais oui
+
     - Pour l'accessibilité est-ce qu'on garde le aria-label ? Qu'est-ce que les gens de la ville avaient dit déjà?
+        - Nico : Ça va me prendre une explication de c'est quoi. Et on pourrait leur demander après la relâche.
+
     - Pour l'expérience utilisateur, est-ce que je veux lui formater aussi s'il fait une faute du genre 555555-5555 ?
-    - Question pour la ville, le format téléphone est ###-###-#### mais si le # est 1-450 ou 1-418... En ce moment ca se formate tout seul en ###-###-#### 
+        - Nico : C'est sur que l'idéal serait qu'on corrige automatiquement les erreurs par contre, je pense pas que c'est une nécessité
+
+    - Question pour la ville, le format téléphone est ###-###-#### mais si le # est 1-450 ou 1-418... En ce moment ca se formate tout seul en ###-###-####
+        - Nico : J'ai ajouté au word
     -->
+
+  <!--
+    REMARQUES::
+      - Pour le chant code postal, commme on va devoir enlever l'espace en back-end, ce serait pas mieux de la demander sans?
+      - Pour les numéros de téléphones, lorsque j'ajoute plusieurs numéro, ça remplace le dernier plutôt que d'ajouter à la liste.
+      - Pour les numéros de téléphones, lorsque j'ai valider et qu'il y a une erreur, lorsque j'ajout un numéro de téléphone, la boite reste en rouge.
+          - Je pense qu'elle devrait devenir verte aussitot à ce moment là (Potentiel Nice_to_have).
+      - Pour les numéros de téléphones, lorsque j'ai valider et que c'est bon, lorsque j'enlève le dernier numéro de téléphone, la boite reste en verte.
+          - Je pense qu'elle devrait devenir rouge avec le message d'erreur aussitot à ce moment là (Potentiel Nice_to_have).
+      - Pour les téléphones, ta validation front-end demande au moins 1 numéro mais ta validation Back-end non. Il faudrait que se soit la même pour les 2
+          - Je pense que se serait bien de l'ajouter au back-end.
+      - Lorsqu'on valide la section en fesant suivant et que la province est sur québec, puis qu'on change la province,
+        le chant input de la ville arrive en vert même si il est vide.
+          - Je pense qu'il faudrais qu'il n'est pas de couleur (Potentiel Nice_to_have).
+      - Il manque la validation backend pour le chant bureau qui doit être alpha_numérique
+      - Lorsqu'on tombe dans le old, la liste des numéros de téléphone ne se refait pas.
+          - Je pense qu'on pourrait mettre ça en nice to have car normalement le gens devrait pas se rendre à la validation backend
+      - NICE_TO_HAVE : Lorsqu'il y a l'erreur du site suite au onblur, utiliser le oninput pour dire quand le site est bon (Comme les autres chants sont comme ça,
+                       je pense que ça peut créer de la confusion)
+  -->
   <div class="container bg-white rounded my-2" id="contactDetails-section">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
@@ -565,7 +599,7 @@
               <div class="text-start invalid-feedback" id="invalidPostalCodeLength" style="display: none;">{{__('form.contactDetailsPostalCodeLength')}}</div>
             </div>
           </div>
-         
+
           <div class="text-center mb-4">
             <div class="form-floating">
               <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control" value="{{ old('contactDetailsWebsite') }}" placeholder="" maxlength="64">
@@ -717,7 +751,7 @@
                             <div class="row">
                                 <div class="col-12 col-lg-6 text-center mb-4">
                                     <div class="form-floating">
-                                        <input type="text" name="contactFirstNames[]" id="contactFirstName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="{{old('contactFirstNames')[$loop->index]}}" required>
+                                        <input type="text" name="contactFirstNames[]" id="contactFirstName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="{{old('contactFirstNames')[$loop->index]}}">
                                         <label id="contactFirstNameLabel1" for="contactFirstName1">{{__('form.firstNameLabel')}}</label>
                                     </div>
                                     @if($errors->has($contactFirstNameIndex))
@@ -833,7 +867,7 @@
                         <div class="row">
                             <div class="col-12 col-lg-6 text-center mb-4">
                                 <div class="form-floating">
-                                    <input type="text" name="contactFirstNames[]" id="contactFirstName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" required>
+                                    <input type="text" name="contactFirstNames[]" id="contactFirstName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32">
                                     <label id="contactFirstNameLabel1" for="contactFirstName1">{{__('form.firstNameLabel')}}</label>
                                     <div class="text-start invalid-feedback nameInvalidRequired" style="display: none;">{{__('form.contactsFirstNamesValidationRequired')}}</div>
                                     <div class="text-start invalid-feedback nameInvalidSymbols" style="display: none;">{{__('form.contactsNamesValidationSymbols')}}</div>
@@ -841,7 +875,7 @@
                             </div>
                             <div class="col-12 col-lg-6 text-center mb-4">
                                 <div class="form-floating">
-                                    <input type="text" name="contactLastNames[]" id="contactLastName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" required>
+                                    <input type="text" name="contactLastNames[]" id="contactLastName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32">
                                     <label id="contactLastNameLabel1" for="contactLastName1">{{__('form.lastNameLabel')}}</label>
                                     <div class="text-start invalid-feedback nameInvalidRequired" style="display: none;">{{__('form.contactsLastNamesValidationRequired')}}</div>
                                     <div class="text-start invalid-feedback nameInvalidSymbols" style="display: none;">{{__('form.contactsNamesValidationSymbols')}}</div>
@@ -850,7 +884,7 @@
                         </div>
                         <div class="text-center mb-4">
                             <div class="form-floating">
-                                <input type="text" name="contactJobs[]" id="contactJob1" class="form-control contact-input contact-job-input" placeholder="" maxlength="32" required>
+                                <input type="text" name="contactJobs[]" id="contactJob1" class="form-control contact-input contact-job-input" placeholder="" maxlength="32">
                                 <label id="contactJobLabel1" for="contactJob1">{{__('form.jobLabel')}}</label>
                                 <div class="text-start valid-feedback jobValid" style="display: none;"></br></div>
                                 <div class="text-start invalid-feedback jobInvalidRequired" style="display: none;">{{__('form.contactsJobsValidationRequired')}}</div>
@@ -858,7 +892,7 @@
                         </div>
                         <div class="text-center mb-4">
                             <div class="form-floating">
-                                <input type="text" name="contactEmails[]" id="contactEmail1" class="form-control contact-input contact-email-input" placeholder="" maxlength="64" required>
+                                <input type="text" name="contactEmails[]" id="contactEmail1" class="form-control contact-input contact-email-input" placeholder="" maxlength="64">
                                 <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}}</label>
                                 <div class="text-start invalid-feedback emailInvalidRequired" style="display: none;">{{__('form.contactsEmailsValidationRequired')}}</div>
                                 <div class="text-start invalid-feedback emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
@@ -876,7 +910,7 @@
                                     <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                                    <input type="text" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control contact-input contact-primary-phone-input" placeholder="" maxlength="10" required>
+                                    <input type="text" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control contact-input contact-primary-phone-input" placeholder="" maxlength="10">
                                     <label id="contactTelNumberLabelA1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberA1">{{__('form.numberLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-3">

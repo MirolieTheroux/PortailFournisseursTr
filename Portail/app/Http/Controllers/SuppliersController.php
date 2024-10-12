@@ -89,7 +89,7 @@ class SuppliersController extends Controller
       $postal_code = strtoupper($postal_code);
       $address->postal_code = $postal_code;
 
-      if(is_null($request->contactDetailsInputCity)){
+      if($request->contactDetailsProvince == "Québec"){
         $address->city = $request->contactDetailsCitySelect;
         $address->region = $request->contactDetailsDistrictArea;
       }
