@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('civic_no', 8);
             $table->string('street', 64);
-            $table->string('office', 8);
+            $table->string('office', 8)->nullable();
             $table->string('postal_code', 6);
             $table->string('city', 64);
             $table->string('region', 64)->nullable();

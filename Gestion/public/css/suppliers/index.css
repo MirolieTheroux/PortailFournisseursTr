@@ -1,0 +1,34 @@
+.full-viewport{
+    height: calc(100vh - var(--header_logo_height)) !important;
+    z-index: -1;
+}
+
+.sticky-under-navbar{
+    position: sticky;
+    top: var(--header_logo_height);
+}
+
+.supplier-list-header-text{
+    font-size: 0.88em;
+}
+
+.supplier-list-table-text{
+    font-size: 0.75em;
+}
+
+.supplier-table:nth-child(odd){
+    background-color: white;
+}
+
+.text-accepted{
+    color: #02542d;
+}
+.text-waiting{
+    color: #975102;
+}
+.text-refused{
+    color: #900b09;
+}
+.text-to-review{
+    color: #bf6a02;
+}
