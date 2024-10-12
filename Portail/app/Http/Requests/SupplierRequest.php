@@ -41,6 +41,7 @@ class SupplierRequest extends FormRequest
             'typeRbq' => 'required_with:licenceRbq',
             'rbqSubcategories' => 'required_with:licenceRbq',
             'contactDetailsCivicNumber' => 'required|alpha_num|max:8',
+            'contactDetailsOfficeNumber' => 'nullable|alpha_num|max:8',
             'contactDetailsStreetName' => 'required|regex:/^[a-zA-Z0-9\'\,\-_À-ÿ ]+$/|max:64',
             'contactDetailsCitySelect' => 'required_if:contactDetailsProvince,Québec',
             'contactDetailsInputCity' => 'required_unless:contactDetailsProvince,Québec|max:64',

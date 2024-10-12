@@ -40,10 +40,6 @@
     background-image: url("/img/coordonnees.jpg");
 }
 
-#add-tel{
-    color : var(--dark_blue)
-}
-
 /* Font-size label selon écran */
 @media (max-width: 992px) and (min-width:768px) {
     #postalCode{
@@ -81,3 +77,6 @@
 
 
 /* PIÈCES JOINTES */
+.fond-attachment{
+    background-image: url("/img/coordonnees.jpg");
+}
