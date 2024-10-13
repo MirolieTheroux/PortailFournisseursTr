@@ -89,7 +89,7 @@ class SuppliersController extends Controller
       $postal_code = strtoupper($postal_code);
       $address->postal_code = $postal_code;
 
-      if(is_null($request->contactDetailsInputCity)){
+      if($request->contactDetailsProvince == "Québec"){
         $address->city = $request->contactDetailsCitySelect;
         $address->region = $request->contactDetailsDistrictArea;
       }
@@ -100,6 +100,16 @@ class SuppliersController extends Controller
       $address->supplier()->associate($supplier);
       $address->province()->associate($province);
       $address->save();
+
+      for($i = 0 ; $i < Count($request->phoneNumbers) ; $i++){
+        $phoneNumber = new PhoneNumber();
+        $phoneNumber->number = str_replace('-', '', $request->phoneNumbers[$i]);
+        $phoneNumber->type = $request->phoneTypes[$i];
+        $phoneNumber->extension = $request->phoneExtensions[$i];
+        $phoneNumber->supplier()->associate($supplier);
+        $phoneNumber->contact()->associate(null);
+        $phoneNumber->save();
+      }
 
       for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
         $contact = new Contact();

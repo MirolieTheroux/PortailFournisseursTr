@@ -1,7 +1,7 @@
 <?php
- 
+
 // lang/en/messages.php
- 
+
 return [
     'previous' => 'Précédent',
     'next' => 'Suivant',
