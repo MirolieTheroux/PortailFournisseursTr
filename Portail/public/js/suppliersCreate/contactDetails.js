@@ -518,11 +518,7 @@ document.addEventListener("DOMContentLoaded", function () {
   validateSelectCity();
 });
 
-document.getElementById("contactDetails-button").addEventListener("click", (event)=>{
-  validateContactDetailsAll();
-});
-
-function validateContactDetailsAll() {
+document.getElementById("contactDetails-button").addEventListener("click", () =>{
   validateListPhoneNumber();
   validateCivicNumber();
   validateStreetName();
@@ -530,4 +526,5 @@ function validateContactDetailsAll() {
   validateCity();
   validatePostalCodeOnInput();
   validateWebsite();
-}
+});
+

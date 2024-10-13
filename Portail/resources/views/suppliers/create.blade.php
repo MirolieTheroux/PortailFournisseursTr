@@ -672,7 +672,7 @@
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-3">
         <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-        <button id="contactDetails-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue ">Suivant</button><!--TODO::Mettre un nom significatif au Id-->
+        <button id="contactDetails-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue ">Suivant</button>
       </div>
     </div>
   </div> <!--FIN COORDONÉES-->
@@ -988,7 +988,7 @@
             <div class="row px-3">
               <div class="d-flex justify-content-between mt-2">
                 <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
-                <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div><!--TODO::Enlever le id?-->
+                <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
                 <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
                 <div class="col-2 "></div>
               </div>
@@ -1001,8 +1001,8 @@
     </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
-        <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-        <button id="attachmentFiles-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+        <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
+        <button id="attachmentFiles-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN PIÈCES JOINTES-->
