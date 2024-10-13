@@ -52,6 +52,9 @@
     #div-phoneNumberList div{
         font-size: 12px;
     }
+    #attachmentFilesList div{
+        font-size: 14px !important;
+    }
 }
 
 @media (max-width: 516px)  {
@@ -79,4 +82,14 @@
 /* PIÈCES JOINTES */
 .fond-attachment{
     background-image: url("/img/coordonnees.jpg");
+}
+
+.w-60{
+    width: 60%;
+}
+
+@media (max-width: 1200px)  {
+    .width-sm{
+        width: 100% !important ;
+    }
 }

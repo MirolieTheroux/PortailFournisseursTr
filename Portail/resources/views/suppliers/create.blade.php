@@ -599,7 +599,7 @@
             <label for="contactDetailsPhoneExtension">{{__('form.phoneExtension')}}</label>
           </div>
           <div class="col-1 d-flex align-items-center ">
-            <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer; padding-left:10px">
+            <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; padding-left:10px">
               <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
             </svg>
           </div>
@@ -927,7 +927,8 @@
   </div> <!--FIN CONTACT-->
 
   <!--PIÈCES JOINTES-->
-  <div class="container bg-white rounded my-2 w-50 w-100">
+   <!--NICE_TO_HAVE::Voir pour qu'au format mobile on voit bien la date. Pour l'instant on voit bien avec le résumé du fichier choisi.-->
+  <div class="container bg-white rounded my-2 width-sm w-60">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-attachment"></div> <!--TODO::Trouver une autre image de fond-->
     </div>
@@ -940,15 +941,15 @@
       <div class="col-12 d-flex flex-column justify-content-between mb-3">
         <h2 class="text-center section-subtitle">{{__('form.attachmentFilesSection')}}</h2>
       </div>
-      <div class=" col-sm-12 col-md-6 d-flex flex-column justify-content-between">
+      <div class=" col-12 d-flex flex-column justify-content-between">
         <div class="row flex-row justify-content-between">
           <div class="col-10">
             <div class="mb-3">
               <input class="form-control" type="file" id="formFile">
             </div>
           </div>
-          <div class="col-2 text-end pt-1">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
+          <div class="col-2 text-center pt-1">
+            <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
               <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
             </svg>
           </div>
@@ -970,15 +971,15 @@
           </tbody>
         </table>
       </div>
-      <div class="col-sm-12 col-md-6 d-flex flex-column justify-content-between">
+      <div class="col-12 d-flex flex-column justify-content-between">
         <div class="form-floating h-100 pb-4" id="div-attachmentFilesList">
           <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto;">
             <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
             <div class="row px-3">
               <div class="d-flex justify-content-between mt-2">
-                <div class="col-2 fs-6">{{__('form.attachmentFileName')}}</div>
-                <div class="col-6 fs-6 text-center" id="phoneNumber">{{__('form.attachmentFileSize')}}</div>
-                <div class="col-2 fs-6 text-center">{{__('form.attachmentAddedFileDate')}}</div>
+                <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
+                <div class="col-2 fs-6 text-center fst-italic" id="phoneNumber">{{__('form.attachmentFileSize')}}</div>
+                <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
                 <div class="col-2 "></div>
               </div>
               <div class="d-flex flex-column justify-content-between" id="attachmentFilesList">
