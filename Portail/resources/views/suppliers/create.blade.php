@@ -18,7 +18,7 @@
       </div>
       <div class="step">
         <span class="number">2</span>
-        <span class="name">Produits et services</span><!--TODO::Fichier de langue-->
+        <span class="name">{{__('form.productsAndServiceTitle')}}</span>
       </div>
       <div class="step">
         <span class="number">3</span>
@@ -34,12 +34,12 @@
       </div>
       <div class="step">
         <span class="number">6</span>
-        <span class="name">Pièces jointes</span><!--TODO::Fichier de langue-->
+        <span class="name">{{__('form.attachmentFilesTitle')}}</span>
       </div>
     </div>
   </div><!-- FIN PROGRESS BAR-->
 
- <!--IDENTIFICATION-->
+  <!--IDENTIFICATION-->
     <div class="container bg-white rounded my-2">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-identification"></div>
@@ -179,38 +179,38 @@
             <div class="form-control" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
               <div class="mt-lg-0 mt-md-4">
                 @php
-                  $totalDisplayed = 0; // Counter to track the number of displayed productServices
+                $totalDisplayed = 0; // Counter to track the number of displayed productServices
                 @endphp
                 @foreach($productServiceCategories as $productServiceCategory)
-                  @if ($totalDisplayed >= 50)
-                    @break
-                  @endif
-                  <div style="color: red;">{{$productServiceCategory->nature}}</div>
-                  @foreach($productServiceSubCategories->where('nature', $productServiceCategory->nature) as $productServiceSubCategory)
-                    @if ($totalDisplayed >= 50)
-                      @break
-                    @endif
-                    <div style="color: blue;">{{$productServiceSubCategory->name}}</div>
-                    @foreach($productServices->where('category_code', $productServiceSubCategory->code) as $productService)
-                      @if ($totalDisplayed >= 50)
-                        @break
-                      @endif
-                      <div class="row align-items-start mt-2">
-                        <div class="col-1 col-md-1 d-flex flex-column justify-content-start">
-                          <input class="form-check-input" type="checkbox" onclick="checkedbox(this)" id="category{{ $loop->index }}" value="">
-                        </div>
-                        <div class="col-3 col-md-3 d-flex flex-column justify-content-start">
-                          <label class="form-check-label" for="category{{ $loop->index }}">{{$productService->code}}</label>
-                        </div>
-                        <div class="col-8 col-md-8 d-flex flex-column justify-content-start">
-                          <label class="form-check-label" for="category{{ $loop->index }}">{{$productService->description}}</label>
-                        </div>
-                      </div>
-                      @php
-                        $totalDisplayed++; // Increment the counter
-                      @endphp
-                    @endforeach
-                  @endforeach
+                @if ($totalDisplayed >= 50)
+                @break
+                @endif
+                <div style="color: red;">{{$productServiceCategory->nature}}</div>
+                @foreach($productServiceSubCategories->where('nature', $productServiceCategory->nature) as $productServiceSubCategory)
+                @if ($totalDisplayed >= 50)
+                @break
+                @endif
+                <div style="color: blue;">{{$productServiceSubCategory->name}}</div>
+                @foreach($productServices->where('category_code', $productServiceSubCategory->code) as $productService)
+                @if ($totalDisplayed >= 50)
+                @break
+                @endif
+                <div class="row align-items-start mt-2">
+                  <div class="col-1 col-md-1 d-flex flex-column justify-content-start">
+                    <input class="form-check-input" type="checkbox" onclick="checkedbox(this)" id="category{{ $loop->index }}" value="">
+                  </div>
+                  <div class="col-3 col-md-3 d-flex flex-column justify-content-start">
+                    <label class="form-check-label" for="category{{ $loop->index }}">{{$productService->code}}</label>
+                  </div>
+                  <div class="col-8 col-md-8 d-flex flex-column justify-content-start">
+                    <label class="form-check-label" for="category{{ $loop->index }}">{{$productService->description}}</label>
+                  </div>
+                </div>
+                @php
+                $totalDisplayed++; // Increment the counter
+                @endphp
+                @endforeach
+                @endforeach
                 @endforeach
               </div>
             </div>
@@ -242,196 +242,196 @@
     </div>
   </div> <!--FIN PRODUIT ET SERVICE-->
 
-    <!--LICENCE RBQ-->
-    <!--NICE_TO_HAVE::Formater automatiquement le numéro de licence RBQ-->
-    <div class="container bg-white rounded my-2">
-        <div class="row d-none d-md-block">
-            <div class="col-12 rounded-top fond-image fond-rbq"></div>
-        </div>
-        <div class="row">
-            <div class="col-12 text-center">
-                <h1>{{__('form.rbqTitle')}}</h1>
+  <!--LICENCE RBQ-->
+  <!--NICE_TO_HAVE::Formater automatiquement le numéro de licence RBQ-->
+  <div class="container bg-white rounded my-2">
+    <div class="row d-none d-md-block">
+      <div class="col-12 rounded-top fond-image fond-rbq"></div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>{{__('form.rbqTitle')}}</h1>
+      </div>
+    </div>
+    <div class="row px-3">
+      <div class="col-12 col-md-4 d-flex flex-column">
+        <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
+        <div class="d-flex flex-column justify-content-between h-100">
+          <div class="text-center">
+            <div class="form-floating mb-3">
+              <input type="text" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="10">
+              <label for="licenceRbq">{{__('form.numberLabel')}}</label>
+              <div class="text-start invalid-feedback licenceInvalidNumber" style="display: none;">{{__('form.rbqLicenceValidation')}}</div>
+              <div class="text-start invalid-feedback licenceInvalidSize" style="display: none;">{{__('form.rbqLicenceValidationSize')}}</div>
+              <div id="rbqInvalidExist" class="text-start invalid-feedback licenceInvalidSize" style="display: none;">{{__('form.rbqLicenceExistValidation')}}</div>
             </div>
+            @if($errors->has('licenceRbq'))
+            <p>{{ $errors->first('licenceRbq') }}</p>
+            @endif
+          </div>
+          <div class="text-center">
+            <div class="form-floating mb-3">
+              <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
+                <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
+                <option value="valid" {{ "valid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
+                <option value="restrictedValid" {{ "restrictedValid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
+                <option value="invalid" {{ "invalid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
+              </select>
+              <label for="statusRbq">{{__('form.statusLabel')}}</label>
+              <div class="text-start invalid-feedback statusInvalidRequired" style="display: none;">{{__('form.rbqStatusValidationRequired')}}</div>
+              <div class="text-start invalid-feedback statusInvalidRequiredNot" style="display: none;">{{__('form.rbqStatusValidationRequiredNot')}}</div>
+            </div>
+            @if($errors->has('statusRbq'))
+            <p>{{ $errors->first('statusRbq') }}</p>
+            @endif
+          </div>
+          <div class="text-center">
+            <div class="form-floating mb-3">
+              <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
+                <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                <option value="entrepreneur" {{ "entrepreneur" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
+                <option value="ownerBuilder" {{ "ownerBuilder" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
+              </select>
+              <label for="typeRbq">{{__('form.typeLabel')}}</label>
+              <div class="text-start invalid-feedback typeInvalidRequired" style="display: none;">{{__('form.rbqTypeValidationRequired')}}</div>
+              <div class="text-start invalid-feedback typeInvalidRequiredNot" style="display: none;">{{__('form.rbqTypeValidationRequiredNot')}}</div>
+            </div>
+            @if($errors->has('typeRbq'))
+            <p>{{ $errors->first('typeRbq') }}</p>
+            @endif
+          </div>
         </div>
-        <div class="row px-3">
-            <div class="col-12 col-md-4 d-flex flex-column">
-                <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
-                <div class="d-flex flex-column justify-content-between h-100">
-                  <div class="text-center">
-                      <div class="form-floating mb-3">
-                          <input type="text" name="licenceRbq" id="licenceRbq" value="{{ old('licenceRbq') }}" class="form-control" placeholder="" maxlength="10">
-                          <label for="licenceRbq">{{__('form.numberLabel')}}</label>
-                          <div class="text-start invalid-feedback licenceInvalidNumber" style="display: none;">{{__('form.rbqLicenceValidation')}}</div>
-                          <div class="text-start invalid-feedback licenceInvalidSize" style="display: none;">{{__('form.rbqLicenceValidationSize')}}</div>
-                          <div id="rbqInvalidExist" class="text-start invalid-feedback licenceInvalidSize" style="display: none;">{{__('form.rbqLicenceExistValidation')}}</div>
-                      </div>
-                      @if($errors->has('licenceRbq'))
-                          <p>{{ $errors->first('licenceRbq') }}</p>
-                      @endif
-                  </div>
-                  <div class="text-center">
-                      <div class="form-floating mb-3">
-                          <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
-                              <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
-                              <option value="valid" {{ "valid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
-                              <option value="restrictedValid" {{ "restrictedValid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
-                              <option value="invalid" {{ "invalid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
-                          </select>
-                          <label for="statusRbq">{{__('form.statusLabel')}}</label>
-                          <div class="text-start invalid-feedback statusInvalidRequired" style="display: none;">{{__('form.rbqStatusValidationRequired')}}</div>
-                          <div class="text-start invalid-feedback statusInvalidRequiredNot" style="display: none;">{{__('form.rbqStatusValidationRequiredNot')}}</div>
-                      </div>
-                      @if($errors->has('statusRbq'))
-                          <p>{{ $errors->first('statusRbq') }}</p>
-                      @endif
-                  </div>
-                  <div class="text-center">
-                      <div class="form-floating mb-3">
-                          <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
-                              <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
-                              <option value="entrepreneur" {{ "entrepreneur" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
-                              <option value="ownerBuilder" {{ "ownerBuilder" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
-                          </select>
-                          <label for="typeRbq">{{__('form.typeLabel')}}</label>
-                          <div class="text-start invalid-feedback typeInvalidRequired" style="display: none;">{{__('form.rbqTypeValidationRequired')}}</div>
-                          <div class="text-start invalid-feedback typeInvalidRequiredNot" style="display: none;">{{__('form.rbqTypeValidationRequiredNot')}}</div>
-                      </div>
-                      @if($errors->has('typeRbq'))
-                          <p>{{ $errors->first('typeRbq') }}</p>
-                      @endif
+      </div>
+      <div class="col-12 col-md-8 d-flex flex-column justify-content-start">
+        <h2 class="text-center">{{__('form.rbqCategoriesSection')}}</h2>
+        <div class="text-center">
+          <div class="form-floating mb-3">
+            <div id="subcategories-container" class="form-control pt-2" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+              <div id="no-categories" class="d-block">
+                {{__('form.rbqCategoriesUnselectedType')}}
+              </div>
+              <div id="entrepreneur-categories" class="d-none">
+                <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
+                @foreach($workSubcategories as $workSubcategory)
+                @if($workSubcategory->is_specialised == false)
+                <div class="form-check pb-2">
+                  <input
+                    class="form-check-input mt-0 rbq-subcategories-check"
+                    type="checkbox"
+                    name="rbqSubcategories[]"
+                    value="{{$workSubcategory->code}}"
+                    id="flexCheckGen{{$workSubcategory->id}}Ent"
+                    @if(!is_null(old('rbqSubcategories')))
+                    @if(in_array($workSubcategory->code, old('rbqSubcategories')))
+                  checked
+                  @endif
+                  @endif
+                  >
+                  <div class="d-flex">
+                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                      {{$workSubcategory->code}}
+                    </label>
+                    <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                      {{$workSubcategory->name}}
+                    </label>
                   </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-8 d-flex flex-column justify-content-start">
-              <h2 class="text-center">{{__('form.rbqCategoriesSection')}}</h2>
-                <div class="text-center">
-                  <div class="form-floating mb-3">
-                    <div id="subcategories-container" class="form-control pt-2" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-                      <div id="no-categories" class="d-block">
-                        {{__('form.rbqCategoriesUnselectedType')}}
-                      </div>
-                      <div id="entrepreneur-categories" class="d-none">
-                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
-                        @foreach($workSubcategories as $workSubcategory)
-                          @if($workSubcategory->is_specialised == false)
-                            <div class="form-check pb-2">
-                              <input
-                                class="form-check-input mt-0 rbq-subcategories-check"
-                                type="checkbox"
-                                name="rbqSubcategories[]"
-                                value="{{$workSubcategory->code}}"
-                                id="flexCheckGen{{$workSubcategory->id}}Ent"
-                                @if(!is_null(old('rbqSubcategories')))
-                                  @if(in_array($workSubcategory->code, old('rbqSubcategories')))
-                                    checked
-                                  @endif
-                                @endif
-                              >
-                              <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
-                                  {{$workSubcategory->code}}
-                                </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
-                                  {{$workSubcategory->name}}
-                                </label>
-                              </div>
-                            </div>
-                          @endif
-                        @endforeach
+                @endif
+                @endforeach
 
-                      <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
-                        @foreach($workSubcategories as $workSubcategory)
-                          @if($workSubcategory->is_specialised == true)
-                            <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
-                              <input
-                                class="form-check-input mt-0 rbq-subcategories-check"
-                                type="checkbox"
-                                name="rbqSubcategories[]"
-                                value="{{$workSubcategory->code}}"
-                                id="flexCheckSpec{{$workSubcategory->id}}Ent"
-                                @if(!is_null(old('rbqSubcategories')))
-                                  @if(in_array($workSubcategory->code, old('rbqSubcategories')))
-                                    checked
-                                  @endif
-                                @endif
-                              >
-                              <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckSpec{{$workSubcategory->id}}Ent">
-                                  {{$workSubcategory->code}}
-                                </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckSpec{{$workSubcategory->id}}Ent">
-                                  {{$workSubcategory->name}}
-                                </label>
-                              </div>
-                            </div>
-                          @endif
-                        @endforeach
-                      </div>
-
-                      <div id="ownerBuilder-categories" class="d-none">
-                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
-                          @foreach($workSubcategories as $workSubcategory)
-                            @if($workSubcategory->is_specialised == false && $workSubcategory->is_entrepreneur_only == false)
-                              <div class="form-check pb-2">
-                                <input
-                                  class="form-check-input mt-0 rbq-subcategories-check"
-                                  type="checkbox"
-                                  name="rbqSubcategories[]"
-                                  value="{{$workSubcategory->code}}"
-                                  id="flexCheckGen{{$workSubcategory->id}}OB"
-                                  @if(!is_null(old('rbqSubcategories')))
-                                    @if(in_array($workSubcategory->code, old('rbqSubcategories')))
-                                      checked
-                                    @endif
-                                  @endif
-                                >
-                                <div class="d-flex">
-                                  <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}OB">
-                                    {{$workSubcategory->code}}
-                                  </label>
-                                  <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}OB">
-                                    {{$workSubcategory->name}}
-                                  </label>
-                                </div>
-                              </div>
-                            @endif
-                          @endforeach
-
-                          <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
-                            @foreach($workSubcategories as $workSubcategory)
-                              @if($workSubcategory->is_specialised == true && $workSubcategory->is_entrepreneur_only == false)
-                                <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
-                                  <input
-                                    class="form-check-input mt-0 rbq-subcategories-check"
-                                    type="checkbox"
-                                    name="rbqSubcategories[]"
-                                    value="{{$workSubcategory->code}}"
-                                    id="flexCheckSpec{{$workSubcategory->id}}OB"
-                                    @if(!is_null(old('rbqSubcategories')))
-                                      @if(in_array($workSubcategory->code, old('rbqSubcategories')))
-                                        checked
-                                      @endif
-                                    @endif
-                                  >
-                                  <div class="d-flex">
-                                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckSpec{{$workSubcategory->id}}OB">
-                                      {{$workSubcategory->code}}
-                                    </label>
-                                    <label class="form-check-label text-start ps-2" for="flexCheckSpec{{$workSubcategory->id}}OB">
-                                      {{$workSubcategory->name}}
-                                    </label>
-                                  </div>
-                                </div>
-                              @endif
-                            @endforeach
-                          </div>
-                        </div>
-                    @if($errors->has('rbqSubcategories'))
-                      <p>{{ $errors->first('rbqSubcategories') }}</p>
-                    @endif
-                    <div class="text-start invalid-feedback subcategorieInvalidRequired" style="display: none;">{{__('form.rbqSubcategorieValidationRequired')}}</div>
-                    <div class="text-start invalid-feedback subcategorieInvalidRequiredNot" style="display: none;">{{__('form.rbqSubcategorieValidationRequiredNot')}}</div>
+                <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
+                @foreach($workSubcategories as $workSubcategory)
+                @if($workSubcategory->is_specialised == true)
+                <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
+                  <input
+                    class="form-check-input mt-0 rbq-subcategories-check"
+                    type="checkbox"
+                    name="rbqSubcategories[]"
+                    value="{{$workSubcategory->code}}"
+                    id="flexCheckSpec{{$workSubcategory->id}}Ent"
+                    @if(!is_null(old('rbqSubcategories')))
+                    @if(in_array($workSubcategory->code, old('rbqSubcategories')))
+                  checked
+                  @endif
+                  @endif
+                  >
+                  <div class="d-flex">
+                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckSpec{{$workSubcategory->id}}Ent">
+                      {{$workSubcategory->code}}
+                    </label>
+                    <label class="form-check-label text-start ps-2" for="flexCheckSpec{{$workSubcategory->id}}Ent">
+                      {{$workSubcategory->name}}
+                    </label>
+                  </div>
+                </div>
+                @endif
+                @endforeach
               </div>
+
+              <div id="ownerBuilder-categories" class="d-none">
+                <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
+                @foreach($workSubcategories as $workSubcategory)
+                @if($workSubcategory->is_specialised == false && $workSubcategory->is_entrepreneur_only == false)
+                <div class="form-check pb-2">
+                  <input
+                    class="form-check-input mt-0 rbq-subcategories-check"
+                    type="checkbox"
+                    name="rbqSubcategories[]"
+                    value="{{$workSubcategory->code}}"
+                    id="flexCheckGen{{$workSubcategory->id}}OB"
+                    @if(!is_null(old('rbqSubcategories')))
+                    @if(in_array($workSubcategory->code, old('rbqSubcategories')))
+                  checked
+                  @endif
+                  @endif
+                  >
+                  <div class="d-flex">
+                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}OB">
+                      {{$workSubcategory->code}}
+                    </label>
+                    <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}OB">
+                      {{$workSubcategory->name}}
+                    </label>
+                  </div>
+                </div>
+                @endif
+                @endforeach
+
+                <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
+                @foreach($workSubcategories as $workSubcategory)
+                @if($workSubcategory->is_specialised == true && $workSubcategory->is_entrepreneur_only == false)
+                <div key="spec{{$workSubcategory->id}}" class="form-check pb-2">
+                  <input
+                    class="form-check-input mt-0 rbq-subcategories-check"
+                    type="checkbox"
+                    name="rbqSubcategories[]"
+                    value="{{$workSubcategory->code}}"
+                    id="flexCheckSpec{{$workSubcategory->id}}OB"
+                    @if(!is_null(old('rbqSubcategories')))
+                    @if(in_array($workSubcategory->code, old('rbqSubcategories')))
+                  checked
+                  @endif
+                  @endif
+                  >
+                  <div class="d-flex">
+                    <label class="form-check-label text-start rbq-category-label-number" for="flexCheckSpec{{$workSubcategory->id}}OB">
+                      {{$workSubcategory->code}}
+                    </label>
+                    <label class="form-check-label text-start ps-2" for="flexCheckSpec{{$workSubcategory->id}}OB">
+                      {{$workSubcategory->name}}
+                    </label>
+                  </div>
+                </div>
+                @endif
+                @endforeach
+              </div>
+            </div>
+            @if($errors->has('rbqSubcategories'))
+            <p>{{ $errors->first('rbqSubcategories') }}</p>
+            @endif
+            <div class="text-start invalid-feedback subcategorieInvalidRequired" style="display: none;">{{__('form.rbqSubcategorieValidationRequired')}}</div>
+            <div class="text-start invalid-feedback subcategorieInvalidRequiredNot" style="display: none;">{{__('form.rbqSubcategorieValidationRequiredNot')}}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -448,11 +448,10 @@
     </div>
   </div> <!--FIN LICENCE RBQ-->
 
-   <!--COORDONNÉES-->
+  <!--COORDONNÉES-->
   <!--TODO::
   - S'assurer que le champ rue que l'utilisateur va remplir lui même de mettre en MAJUSCULES
     - Nico : On va le gérer en back-end dans le controller, casse toi pas trop le cul avec ça
-
   - Faire le responsive pour les téléphones comme la section Contacts
   -Trouver pourquoi lors du refresh les old values s'affichent encore
     - Nico : Vive Firefox!
@@ -517,11 +516,11 @@
         <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
         <div class=" text-center d-flex flex-row">
           <div class="form-floating col-6 pe-2">
-            <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ old('contactDetailsCivicNumber') }}" placeholder="" maxlength="8" >
+            <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ old('contactDetailsCivicNumber') }}" placeholder="" maxlength="8">
             <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>
           </div>
           <div class="form-floating col-6">
-            <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control" value="{{ old('contactDetailsOfficeNumber') }}" placeholder="" maxlength="8" >
+            <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control" value="{{ old('contactDetailsOfficeNumber') }}" placeholder="" maxlength="8">
             <label for="contactDetailsOfficeNumber" id="officeNumber">{{__('form.officeNumber')}}</label>
           </div>
         </div>
@@ -544,7 +543,7 @@
         </div>
         <div class="text-center mb-4">
           <div class="form-floating">
-            <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control" value="{{ old('contactDetailsStreetName') }}" placeholder="" maxlength="64" >
+            <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control" value="{{ old('contactDetailsStreetName') }}" placeholder="" maxlength="64">
             <label for="contactDetailsStreetName">{{__('form.streetName')}}</label>
             <div class="text-start invalid-feedback" id="invalidRequiredStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationRequired')}}</div>
             <div class="text-start invalid-feedback" id="invalidStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationAlphaNumSC')}}</div>
@@ -558,7 +557,7 @@
           <div class="text-center d-flex flex-row">
             <div class="form-floating col-6 pe-2" id="div-city">
               <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" aria-label=""></select>
-              <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none" value="{{ old('contactDetailsInputCity') }}" placeholder="" maxlength="64" >
+              <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none" value="{{ old('contactDetailsInputCity') }}" placeholder="" maxlength="64">
               <label for="contactDetailsCitySelect">{{__('form.city')}}</label>
             </div>
             <div class="form-floating col-6">
@@ -574,13 +573,13 @@
             </div>
           </div>
           <div class="row mb-4">
-              @if($errors->has('contactDetailsInputCity'))
-                <p>{{ $errors->first('contactDetailsInputCity') }}</p>
-              @endif
-              <div class="col-12">
-                <div class="text-start invalid-feedback" id="invalidRequiredCity" style="display: none;">{{__('form.contactDetailsCityRequired')}}</div>
-                <div class="text-start invalid-feedback" id="invalidCityLength" style="display: none;">{{__('form.contactDetailsCityLength')}}</div>
-              </div>
+            @if($errors->has('contactDetailsInputCity'))
+            <p>{{ $errors->first('contactDetailsInputCity') }}</p>
+            @endif
+            <div class="col-12">
+              <div class="text-start invalid-feedback" id="invalidRequiredCity" style="display: none;">{{__('form.contactDetailsCityRequired')}}</div>
+              <div class="text-start invalid-feedback" id="invalidCityLength" style="display: none;">{{__('form.contactDetailsCityLength')}}</div>
+            </div>
           </div>
           <div class="text-center d-flex flex-row mb-4">
             <div class="form-floating col-8 pe-2">
@@ -589,10 +588,10 @@
               <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
             </div>
             <div class="form-floating">
-              <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ old('contactDetailsPostalCode') }}" placeholder="" maxlength="7" >
+              <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ old('contactDetailsPostalCode') }}" placeholder="" maxlength="7">
               <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
-               @if($errors->has('contactDetailsPostalCode'))
-                <p>{{ $errors->first('contactDetailsPostalCode') }}</p>
+              @if($errors->has('contactDetailsPostalCode'))
+              <p>{{ $errors->first('contactDetailsPostalCode') }}</p>
               @endif
               <div class="text-start invalid-feedback" id="invalidRequiredPostalCode" style="display: none;">{{__('form.contactDetailsPostalCodeRequired')}}</div>
               <div class="text-start invalid-feedback" id="invalidPostalCodeFormat" style="display: none;">{{__('form.contactDetailsPostalCodeFormat')}}</div>
@@ -625,7 +624,7 @@
             <label for="contactDetailsPhoneType">{{__('form.typeLabel')}}</label>
           </div>
           <div class="form-floating col-5 px-2">
-            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" placeholder="" maxlength="12" >
+            <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" placeholder="" maxlength="12">
             <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.numberLabel')}}</label>
           </div>
           <div class="form-floating col-3">
@@ -640,10 +639,10 @@
         </div>
         <div class="row mb-4">
           @if($errors->has('contactDetailsPhoneNumber'))
-            <p>{{ $errors->first('contactDetailsPhoneNumber') }}</p>
+          <p>{{ $errors->first('contactDetailsPhoneNumber') }}</p>
           @endif
           @if($errors->has('contactDetailsPhoneExtension'))
-            <p>{{ $errors->first('contactDetailsPhoneExtension') }}</p>
+          <p>{{ $errors->first('contactDetailsPhoneExtension') }}</p>
           @endif
           <div class="col-12 errorMessagesPhone">
             <div class="text-start invalid-feedback" id="invalidRequiredPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberRequired')}}</div>
@@ -667,24 +666,24 @@
               </div>
               <div class="d-flex flex-column justify-content-between" id="phoneNumberList">
               </div>
-               @if(!is_null(old('phoneNumbers')))
-                  @foreach(old('phoneNumbers') as $phoneNumber)
-                    <div hidden>
-                      {{$phoneTypeIndex = "phoneTypes." . "$loop->index"}}
-                      {{$phoneNumberIndex = "phoneNumbers." . "$loop->index"}}
-                      {{$phoneExtensionIndex = "phoneExtensions." . "$loop->index"}}
-                    </div>
-                    @if($errors->has($phoneTypeIndex))
-                      <p class="m-0">{{ $errors->first($phoneTypeIndex) }}</p>
-                    @endif
-                    @if($errors->has($phoneNumberIndex))
-                      <p class="m-0">{{ $errors->first($phoneNumberIndex) }}</p>
-                    @endif
-                    @if($errors->has($phoneExtensionIndex))
-                      <p class="m-0">{{ $errors->first($phoneExtensionIndex) }}</p>
-                    @endif
-                  @endforeach
-                @endif
+              @if(!is_null(old('phoneNumbers')))
+              @foreach(old('phoneNumbers') as $phoneNumber)
+              <div hidden>
+                {{$phoneTypeIndex = "phoneTypes." . "$loop->index"}}
+                {{$phoneNumberIndex = "phoneNumbers." . "$loop->index"}}
+                {{$phoneExtensionIndex = "phoneExtensions." . "$loop->index"}}
+              </div>
+              @if($errors->has($phoneTypeIndex))
+              <p class="m-0">{{ $errors->first($phoneTypeIndex) }}</p>
+              @endif
+              @if($errors->has($phoneNumberIndex))
+              <p class="m-0">{{ $errors->first($phoneNumberIndex) }}</p>
+              @endif
+              @if($errors->has($phoneExtensionIndex))
+              <p class="m-0">{{ $errors->first($phoneExtensionIndex) }}</p>
+              @endif
+              @endforeach
+              @endif
             </div>
           </div>
         </div>
@@ -699,7 +698,7 @@
     </div>
   </div> <!--FIN COORDONÉES-->
 
-    <!--CONTACT-->
+ <!--CONTACT-->
     <!--Questions::Pourrait être dans les Nice to have ; est-ce qu'on permet de mettre des espaces pour le prénom/nom si la personne en a plusieurs ?-->
     <!--NICE_TO_HAVE::Formater automatiquement le numéro de tel sous le format 000-000-0000-->
     <!--NICE_TO_HAVE::Faire que l'on peut entrer le numéro de téléphone soit dans A ou dans B et que ça fonctionne-->
@@ -959,6 +958,75 @@
     </div> <!--FIN CONTACT-->
 
   <!--PIÈCES JOINTES-->
+   <!--NICE_TO_HAVE::Voir pour qu'au format mobile on voit bien la date. Pour l'instant on voit bien avec le résumé du fichier choisi.-->
+  <div class="container bg-white rounded my-2 width-sm w-60">
+    <div class="row d-none d-md-block">
+      <div class="col-12 rounded-top fond-image fond-attachment"></div> <!--TODO::Trouver une autre image de fond-->
+    </div>
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>{{__('form.attachmentFilesTitle')}}</h1>
+      </div>
+    </div>
+    <div class="row px-3 mb-5">
+      <div class="col-12 d-flex flex-column justify-content-between mb-3">
+        <h2 class="text-center section-subtitle">{{__('form.attachmentFilesSection')}}</h2>
+      </div>
+      <div class=" col-12 d-flex flex-column justify-content-between">
+        <div class="row flex-row justify-content-between">
+          <div class="col-10">
+            <div class="mb-3">
+              <input class="form-control" type="file" id="formFile">
+            </div>
+          </div>
+          <div class="col-2 text-center pt-1">
+            <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+            </svg>
+          </div>
+        </div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
+              <td class="text-center" id="fileName"></td>
+            </tr>
+            <tr>
+              <td class="fw-bold">{{__('form.attachmentFileSize')}}</td>
+              <td class="text-center" id="fileSize"></td>
+            </tr>
+            <tr>
+              <td class="fw-bold">{{__('form.attachmentAddedFileDate')}}</td>
+              <td class="text-center" id="addedFileDate"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-12 d-flex flex-column justify-content-between">
+        <div class="form-floating h-100 pb-4" id="div-attachmentFilesList">
+          <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto;">
+            <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
+            <div class="row px-3">
+              <div class="d-flex justify-content-between mt-2">
+                <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
+                <div class="col-2 fs-6 text-center fst-italic" id="phoneNumber">{{__('form.attachmentFileSize')}}</div>
+                <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
+                <div class="col-2 "></div>
+              </div>
+              <div class="d-flex flex-column justify-content-between" id="attachmentFilesList">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center mb-2">
+        <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
+        <button id="attachmentFiles-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+      </div>
+    </div>
+  </div> <!--FIN PIÈCES JOINTES-->
 
 </form>
 @endsection
@@ -974,5 +1042,5 @@
 <script src="{{ asset('js/suppliersCreate/contact.js') }} "></script>
 <script src="{{ asset('js/progressBar.js') }} "></script>
 <script src="{{ asset('js/suppliersCreate/contactDetails.js') }} "></script>
+<script src="{{ asset('js/suppliersCreate/attachmentFiles.js') }} "></script>
 @endsection
-

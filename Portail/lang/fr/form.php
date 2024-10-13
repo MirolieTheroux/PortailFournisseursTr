@@ -123,4 +123,11 @@ return [
     'contactsTelNumberValidation' => 'Le champ numéro de téléphone ne doit contenir que des chiffres.',
     'contactsTelNumberValidationSize' => 'Le champ numéro de téléphone doit contenir 10 chiffres.',
     'contactsTelExtensionValidation' => 'Le poste ne doit contenir que des chiffres.',
+
+    'attachmentFilesTitle' => 'Pièces jointes',
+    'attachmentFilesSection' => 'Brochures et cartes d\'affaires',
+    'attachmentFileName' => 'Nom du fichier',
+    'attachmentFileSize' => 'Taille (Mo)',
+    'attachmentAddedFileDate' => 'Date',
+    'attachmentFilesList' => 'Liste des pièces jointes'
 ];
