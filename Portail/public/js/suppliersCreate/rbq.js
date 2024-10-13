@@ -366,11 +366,12 @@ function getAddressAndFillForm(){
     let civicNumber = addressInfo[0].substring(0, addressInfo[0].indexOf(" "));
     let streetName = addressInfo[0].substring(addressInfo[0].indexOf(" ") + 1);
     let postalCode = addressInfo[1].substring(addressInfo[1].length-7,addressInfo[0].length);
+    let postalCodeNoSpace = postalCode.replace(" ", ""); 
 
     document.querySelectorAll("[name='contactDetailsCivicNumber']").forEach(input => {input.value = civicNumber;});
     document.querySelectorAll("[name='contactDetailsStreetName']").forEach(input => {input.value = streetName; });
     document.getElementById("contactDetailsCitySelect").value = city;
-    document.getElementById("contactDetailsPostalCode").value = postalCode;
+    document.getElementById("contactDetailsPostalCode").value = postalCodeNoSpace;
     document.getElementById("contactDetailsDistrictArea").value = districtArea;
     document.getElementById("contactDetailsPhoneNumber").value = phoneNumber;
   }

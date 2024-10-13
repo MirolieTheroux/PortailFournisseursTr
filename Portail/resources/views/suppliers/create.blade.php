@@ -452,57 +452,34 @@
 
   <!--COORDONNÉES-->
   <!--TODO::
-  - S'assurer que le champ rue que l'utilisateur va remplir lui même de mettre en MAJUSCULES
-    - Nico : On va le gérer en back-end dans le controller, casse toi pas trop le cul avec ça
   - Faire le responsive pour les téléphones comme la section Contacts
-  -Trouver pourquoi lors du refresh les old values s'affichent encore
-    - Nico : Vive Firefox!
   -->
   <!--NICE_TO_HAVE::
     - Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent
     - Trier les Régions avec le code (1,2,3...)
     - Vérifier si le site web est déjà présent dans la BD
     - Vérifier si le # de tel est déjà dans la liste
-  -->
-  <!--TESTS:: Pour la validation des # de téléphone, j'ai testé beaucoup. J'ai peut-être oublié une façon que l'utilisateur peut en ajouter un même si le champ numéro n'est pas ok ou autre -->
-  <!--Questions::
     - Pour validation pourquoi on utilise pas la classe bootstrap d-none au lieu de style="display: none;
-        - Nico : C'est vrai que le code serait plus propre mais ça implique beaucoup de changement donc je mettrerais en nice to have
-
-    - Pour le site internet, est-ce qu'on veut que ca vérifie sur le oninput ou onblur quand l'utilisateur a fini d'entrer le site en ce moment syr onblur?
-        - Nico : onblur pour ce genre d'input c'est bon, pourrait être ça aussi pour les emails? (Je mettrais en nice to have pour les emails)
-
+    -  Pour le site internet, est-ce qu'on veut que ca vérifie sur le oninput ou onblur quand l'utilisateur a fini d'entrer le site en ce moment syr onblur?
     - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse quand on a NEQ)
-        - Nico : Je metterais dans les nice to have mais oui
-
+    - Lorsqu'on tombe dans le old, la liste des numéros de téléphone ne se refait pas.
+    - Je pense qu'on pourrait mettre ça en nice to have car normalement le gens devrait pas se rendre à la validation backend
+    - Lorsqu'il y a l'erreur du site suite au onblur, utiliser le oninput pour dire quand le site est bon (Comme les autres chants sont comme ça,
+      je pense que ça peut créer de la confusion)
+  -->
+  <!--Questions::
     - Pour l'accessibilité est-ce qu'on garde le aria-label ? Qu'est-ce que les gens de la ville avaient dit déjà?
-        - Nico : Ça va me prendre une explication de c'est quoi. Et on pourrait leur demander après la relâche.
-
-    - Pour l'expérience utilisateur, est-ce que je veux lui formater aussi s'il fait une faute du genre 555555-5555 ?
-        - Nico : C'est sur que l'idéal serait qu'on corrige automatiquement les erreurs par contre, je pense pas que c'est une nécessité
-
-    - Question pour la ville, le format téléphone est ###-###-#### mais si le # est 1-450 ou 1-418... En ce moment ca se formate tout seul en ###-###-####
-        - Nico : J'ai ajouté au word
-    -->
-
-  <!--
-    REMARQUES::
-      - Pour le chant code postal, commme on va devoir enlever l'espace en back-end, ce serait pas mieux de la demander sans?
-      - Pour les numéros de téléphones, lorsque j'ajoute plusieurs numéro, ça remplace le dernier plutôt que d'ajouter à la liste.
+      - Nico : Ça va me prendre une explication de c'est quoi. Et on pourrait leur demander après la relâche.
+    - Voir pour les erreurs front-end back-end
+  -->
+  <!--REMARQUES::
       - Pour les numéros de téléphones, lorsque j'ai valider et qu'il y a une erreur, lorsque j'ajout un numéro de téléphone, la boite reste en rouge.
-          - Je pense qu'elle devrait devenir verte aussitot à ce moment là (Potentiel Nice_to_have).
-      - Pour les numéros de téléphones, lorsque j'ai valider et que c'est bon, lorsque j'enlève le dernier numéro de téléphone, la boite reste en verte.
-          - Je pense qu'elle devrait devenir rouge avec le message d'erreur aussitot à ce moment là (Potentiel Nice_to_have).
+          - Je pense qu'elle devrait devenir verte aussitot à ce moment là (Potentiel Nice_to_have). Me montrer en classe
       - Pour les téléphones, ta validation front-end demande au moins 1 numéro mais ta validation Back-end non. Il faudrait que se soit la même pour les 2
           - Je pense que se serait bien de l'ajouter au back-end.
       - Lorsqu'on valide la section en fesant suivant et que la province est sur québec, puis qu'on change la province,
-        le chant input de la ville arrive en vert même si il est vide.
+        le champ input de la ville arrive en vert même si il est vide.
           - Je pense qu'il faudrais qu'il n'est pas de couleur (Potentiel Nice_to_have).
-      - Il manque la validation backend pour le chant bureau qui doit être alpha_numérique
-      - Lorsqu'on tombe dans le old, la liste des numéros de téléphone ne se refait pas.
-          - Je pense qu'on pourrait mettre ça en nice to have car normalement le gens devrait pas se rendre à la validation backend
-      - NICE_TO_HAVE : Lorsqu'il y a l'erreur du site suite au onblur, utiliser le oninput pour dire quand le site est bon (Comme les autres chants sont comme ça,
-                       je pense que ça peut créer de la confusion)
   -->
   <div class="container bg-white rounded my-2" id="contactDetails-section">
     <div class="row d-none d-md-block">
@@ -590,7 +567,7 @@
               <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
             </div>
             <div class="form-floating">
-              <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ old('contactDetailsPostalCode') }}" placeholder="" maxlength="7">
+              <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ old('contactDetailsPostalCode') }}" placeholder="" maxlength="6">
               <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
               @if($errors->has('contactDetailsPostalCode'))
               <p>{{ $errors->first('contactDetailsPostalCode') }}</p>

@@ -80,7 +80,7 @@ return [
     'contactDetailsCityRequired' => 'La Ville est requise.',
     'contactDetailsCityLength' => 'La Ville ne peut dépasser 64 caractères.',
     'contactDetailsPostalCodeRequired' => 'Le Code Postal est requis.',
-    'contactDetailsPostalCodeFormat' => 'Le Code Postal doit être sous ce format : A1A 1A1.',
+    'contactDetailsPostalCodeFormat' => 'Le Code Postal doit être sous ce format : A1A1A1.',
     'contactDetailsPostalCodeLength' => 'Le Code Postal doit contenir 6 caractères.',
     'contactDetailsWebsite' => 'Le Site n\'est pas valide.',
     'contactDetailsWebsiteLength' => 'Le Site ne peut pas dépasser 64 caractères.',
