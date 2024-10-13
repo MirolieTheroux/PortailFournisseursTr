@@ -20,8 +20,8 @@
               <h1>{{__('index.suppliersListTitle')}}</h1>
             </div>
             <div class="col-6 d-flex flex-column justify-content-end">
-              <h3 class="text-end">{{__('index.productsServicesCount')}} : 2</h3><!--TODO::Calculer la quantité-->
-              <h3 class="text-end">{{__('index.workCategoriesCount')}} : 3</h3><!--TODO::Calculer la quantité-->
+              <h4 class="text-end">{{__('index.productsServicesCount')}} : 2</h4><!--TODO::Calculer la quantité-->
+              <h4 class="text-end">{{__('index.workCategoriesCount')}} : 3</h4><!--TODO::Calculer la quantité-->
             </div>
           </div>
           <div class="container-fluid border-bottom border-dark mb-0">
