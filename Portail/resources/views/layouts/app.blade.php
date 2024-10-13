@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     @yield('css')
 </head>
-<body class="d-flex flex-column justify-content-between vh-100">
+<body class="d-flex flex-column justify-content-between min-vh-100">
     <!-- #HEADER -->
     <header class="navbar">
         <div class="container-fluid bg-white shadow-sm mb-2">
@@ -44,7 +44,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="h-100">
         @yield('content')
     </main>
 
