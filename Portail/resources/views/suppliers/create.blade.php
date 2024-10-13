@@ -960,7 +960,12 @@
     </div> <!--FIN CONTACT-->
 
   <!--PIÈCES JOINTES-->
-   <!--NICE_TO_HAVE::Voir pour qu'au format mobile on voit bien la date. Pour l'instant on voit bien avec le résumé du fichier choisi.-->
+  <!--NICE_TO_HAVE::Voir pour qu'au format mobile on voit bien la date. Pour l'instant on voit bien avec le résumé du fichier choisi.-->
+  <!--
+    REMARQUES::
+      - En mobile, la date se retouvre en plusieurs lignes, on pourrait réduire le nom et grandir la date pour essayer qu'elle soit sur une ligne?
+      - Attenttion, à la ligne 1019, tu as laisse le id phone number. J'ai mis un TODO.
+  -->
   <div class="container bg-white rounded my-2 width-sm w-60">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-attachment"></div> <!--TODO::Trouver une autre image de fond-->
@@ -1011,7 +1016,7 @@
             <div class="row px-3">
               <div class="d-flex justify-content-between mt-2">
                 <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
-                <div class="col-2 fs-6 text-center fst-italic" id="phoneNumber">{{__('form.attachmentFileSize')}}</div>
+                <div class="col-2 fs-6 text-center fst-italic" id="phoneNumber">{{__('form.attachmentFileSize')}}</div><!--TODO::Enlever le id?-->
                 <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
                 <div class="col-2 "></div>
               </div>
