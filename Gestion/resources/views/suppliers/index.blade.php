@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+ <!--Remarque:: Je diminuerai peut-être la grosseur des h3-->
   <div class="container-fluid h-100">
     <div class="row h-100">
       <div class="col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-between">
