@@ -11,16 +11,17 @@
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     @yield('css')
 </head>
-<body class="d-flex flex-column justify-content-between vh-100">
+<body class="d-flex flex-column justify-content-between min-vh-100">
     <!-- #HEADER -->
     <header class="navbar">
-        <div class="container-fluid bg-white shadow-sm mb-2">
+        <div class="container-fluid bg-white shadow-sm">
             <div class="row w-100">
                 <div class="col-6">
                     <img class="header-logo" src="{{ asset('img/VTR-12080_logo_NOIR.png') }}" alt="VTR Logo">
                 </div>
                 <div class="col-6 justify-content-end align-items-center">
                     <div class="d-none d-md-flex justify-content-end align-items-center h-100 w-100">
+                      <div class="p-2 border-end border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
                       <div class="p-2 border-end border-dark">{{__('navbar.returnHomeWebSite')}}</div>
                       <div class="p-2">{{__('navbar.disconnect')}}</div>
                     </div>
@@ -36,15 +37,17 @@
                 </div>
                 <div class="collapse" id="navbarToggleExternalContent">
                   <div class="d-flex d-md-none flex-column justify-content-center align-items-center">
-                    <div class="p-2 border-bottom border-dark">{{__('navbar.returnHomeWebSite')}}</div>
-                    <div class="p-2">{{__('navbar.disconnect')}}</div>
+                    <div class="text-center w-100 p-2 border-bottom border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
+                    <div class="text-center w-100 p-2 border-bottom border-dark">{{__('navbar.returnHomeWebSite')}}</div>
+                    <div class="text-center w-100 p-2">{{__('navbar.disconnect')}}</div>
+                    @yield('mobile-navbar')
                   </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <main>
+    <main class="h-100">
         @yield('content')
     </main>
 

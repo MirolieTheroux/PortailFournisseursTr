@@ -1,4 +1,6 @@
 :root{
+    --light_grey: #EEEEF0;
+
     --dark_blue: #0B2341;
     --light_blue: #78C6E0;
     --blue: #0076D5;
@@ -11,6 +13,8 @@
     --orange: #ED8C00;
     --yellow: #F3E700;
     --pink: #F99FD7;
+
+    --header_logo_height: 100px;
 }
 
 .section-title{
@@ -65,4 +69,14 @@ input:focus, select:focus{
 }
 .bg-lightblue{
     background-color: var(--light_blue);
+}
+
+.full-viewport{
+    height: calc(100vh - var(--header_logo_height)) !important;
+    z-index: 0;
+}
+
+.sticky-under-navbar{
+    position: sticky;
+    top: var(--header_logo_height);
 }

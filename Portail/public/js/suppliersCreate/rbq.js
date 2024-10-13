@@ -154,7 +154,7 @@ function checkboxesReset(statusReset){
   });
 }
 
-document.addEventListener('DOMContentLoaded', async function() { //TODO::Modifier pour mettre a jour après la premmière page NEQ
+document.addEventListener('DOMContentLoaded', async function() {
   getElements();
   await fetchRBQ();
 });
@@ -352,7 +352,7 @@ async function checkRbqUnique(number){
     headers: {
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
-    },        
+    },
     body: JSON.stringify({ number: number })
   })
   const data = await response.json();
