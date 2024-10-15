@@ -18,6 +18,15 @@ use Illuminate\Support\Facades\Log;
 
 class SuppliersController extends Controller
 {
+
+  /**
+   * Show the form for creating a new resource.
+   */
+  public function showLogin()
+  {
+    return View('suppliers.login');
+  }
+
     /**
      * Display a listing of the resource.
      */
@@ -43,8 +52,6 @@ class SuppliersController extends Controller
 
         return View('suppliers.create', compact('workSubcategories','provinces', 'productServices', 'productServiceSubCategories', 'productServiceCategories'));
     }
-
-
 
     /**
      * Store a newly created resource in storage.

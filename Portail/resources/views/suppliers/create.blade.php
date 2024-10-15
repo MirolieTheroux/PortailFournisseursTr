@@ -672,7 +672,7 @@
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-3">
         <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-        <button id="contactDetails-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue ">Suivant</button>
+        <button id="contactDetails-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue ">Suivant</button>
       </div>
     </div>
   </div> <!--FIN COORDONÉES-->
@@ -931,7 +931,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-                <button id="contacts-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+                <button id="contacts-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
             </div>
         </div>
     </div> <!--FIN CONTACT-->
@@ -1002,7 +1002,7 @@
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
         <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-        <button id="attachmentFiles-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+        <button id="attachmentFiles-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN PIÈCES JOINTES-->
