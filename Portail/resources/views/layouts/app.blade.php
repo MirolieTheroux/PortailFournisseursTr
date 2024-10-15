@@ -47,7 +47,8 @@
         </div>
     </header>
 
-    <main class="container-fluid d-flex flex-column h-100 flex-grow-1">
+    <!-- #MAIN -->
+    <main class="container-fluid h-100">
         @yield('content')
     </main>
 
