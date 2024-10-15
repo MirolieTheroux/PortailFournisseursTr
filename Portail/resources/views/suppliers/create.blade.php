@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/supplier.css') }}">
 <link rel="stylesheet" href="{{ asset('css/progressBar.css') }}">
 <link rel="stylesheet" href="{{ asset('css/documentation.css') }}">
-<link rel="stylesheet" href="{{ asset('css/test.css') }}">
 @endsection
 
 @section('content')
