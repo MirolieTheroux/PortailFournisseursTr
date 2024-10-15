@@ -3,6 +3,7 @@ const attachmentFileRequired = document.getElementById("attachmentFileRequired")
 const divFileName = document.getElementById("fileName");
 const divFileSize = document.getElementById("fileSize");
 const divAddedFileDate = document.getElementById("addedFileDate");
+let pTotalSize = document.getElementById("totalSize");
 let fileNameWithoutExtension;
 let fileSizeMo;
 let totalSizeMo = 0;
@@ -11,6 +12,7 @@ document.getElementById("formFile").addEventListener("change", () => {
   attachmentFileRequired.style.display = "none";
   validateFile();
   validateSameFileName();
+  validateTotalSize(inputFile.files[0].size/(1024 * 1024).toFixed(2));
   if (inputFile.files.length > 0 && validateFileBeforeClick()) {
     const file = inputFile.files[0];
     const fileSizeInMo = (file.size / (1024 * 1024)).toFixed(2);
@@ -19,16 +21,13 @@ document.getElementById("formFile").addEventListener("change", () => {
     divFileSize.textContent = fileSizeInMo;
     divAddedFileDate.textContent = new Date().toLocaleDateString("fr-CA");
   }
-  //vérifier la taille aussi ici au cas où le fichier choisi va dépasser le maximum.
 });
 document.getElementById("add-file").addEventListener("click", () => {
-  const attachmentFilesExceedSize = document.getElementById("attachmentFilesExceedSize");
-  const inputAttachmentsList = document.getElementById("attachmentList");
-
   validateFileRequired();
   validateFile();
   validateSameFileName();
-  if(validateFileBeforeClick() && totalSizeMo <= 0.25){
+  validateTotalSize(inputFile.files[0].size/(1024 * 1024).toFixed(2));
+  if(validateFileBeforeClick()){
     const fileName = document.getElementById("fileName").textContent;
     const fileSize = document.getElementById("fileSize").textContent;
     const addedFileDate = document.getElementById("addedFileDate").textContent;
@@ -63,7 +62,11 @@ document.getElementById("add-file").addEventListener("click", () => {
     removeFile.innerHTML = `<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>`;
     
     removeDiv.onclick = () => {
+      const fileSize = parseFloat(fileSizeDiv.textContent); 
+      // const pTotalSize = document.getElementById("totalSize");
       fileItem.remove();
+      totalSizeMo -= fileSize; 
+      pTotalSize.textContent = totalSizeMo.toFixed(2) + " Mo" + "/75 Mo";
     };
 
     removeDiv.appendChild(removeFile);
@@ -76,11 +79,7 @@ document.getElementById("add-file").addEventListener("click", () => {
     attachmentFilesList.appendChild(fileItem);
     clearInfos()
     inputFile.value = ""; 
-    updateTotalSize()
-  }
-  else{
-    console.log("taille dépassée");
-    attachmentFilesExceedSize.style.display = "block";
+    updateTotalSize();
   }
 });
 
@@ -106,31 +105,33 @@ function validateFile(){
     "application/vnd.ms-powerpoint", 
     "application/vnd.openxmlformats-officedocument.presentationml.presentation" 
   ];
-  fileNameWithoutExtension = inputFile.files[0].name.substring(0, inputFile.files[0].name.lastIndexOf("."))
-  // Reset all error messages
-  attachmentFileNameLength.style.display = "none";
-  attachmentFileFormat.style.display = "none";
-  attachmentFileNameAlphaNum.style.display = "none";
-  // Basic validation logic
-  if (inputFile.files[0].name.length > 32){
-    inputFile.classList.remove("is-valid");
-    inputFile.classList.add("is-invalid");
-    attachmentFileNameLength.style.display = "block";
-  } else if (!regexAlphanum.test(fileNameWithoutExtension)) {
-    inputFile.classList.remove("is-valid");
-    inputFile.classList.add("is-invalid");
-    attachmentFileNameAlphaNum.style.display = "block";
+  if(inputFile.files[0] !== undefined){
+    fileNameWithoutExtension = inputFile.files[0].name.substring(0, inputFile.files[0].name.lastIndexOf("."))
+    // Reset all error messages
+    attachmentFileNameLength.style.display = "none";
+    attachmentFileFormat.style.display = "none";
+    attachmentFileNameAlphaNum.style.display = "none";
+    // Basic validation logic
+    if (inputFile.files[0].name.length > 32){
+      inputFile.classList.remove("is-valid");
+      inputFile.classList.add("is-invalid");
+      attachmentFileNameLength.style.display = "block";
+    } else if (!regexAlphanum.test(fileNameWithoutExtension)) {
+      inputFile.classList.remove("is-valid");
+      inputFile.classList.add("is-invalid");
+      attachmentFileNameAlphaNum.style.display = "block";
+    }
+    else if (!validMimeTypes.includes(inputFile.files[0].type)){
+      inputFile.classList.remove("is-valid");
+      inputFile.classList.add("is-invalid");
+      attachmentFileFormat.style.display = "block";
+    }
+    else{
+      inputFile.classList.remove("is-invalid");
+      inputFile.classList.add("is-valid");
+    }
+    inputFile.classList.add("was-validated");
   }
-  else if (!validMimeTypes.includes(inputFile.files[0].type)){
-    inputFile.classList.remove("is-valid");
-    inputFile.classList.add("is-invalid");
-    attachmentFileFormat.style.display = "block";
-  }
-  else{
-    inputFile.classList.remove("is-invalid");
-    inputFile.classList.add("is-valid");
-  }
-  inputFile.classList.add("was-validated");
 }
 
 function validateFileRequired(){
@@ -167,6 +168,18 @@ function validateSameFileName(){
   }
 }
 
+
+function validateTotalSize(size){
+  const attachmentFilesExceedSize = document.getElementById("attachmentFilesExceedSize");
+  let addedSize = parseFloat(size) + totalSizeMo;
+  attachmentFileRequired.style.display = "none";
+  if(addedSize > 75){
+    inputFile.classList.remove("is-valid");
+    inputFile.classList.add("is-invalid");
+    attachmentFilesExceedSize.style.display = "block";
+  }
+}
+
 function validateFileBeforeClick(){
   const attachmentErrorMessages = document.querySelectorAll(".attachment");
   let isValid = true;
@@ -178,7 +191,6 @@ function validateFileBeforeClick(){
 }
 
 function updateTotalSize(){
-  const pTotalSize = document.getElementById("totalSize");
   totalSizeMo += parseFloat(fileSizeMo);
   pTotalSize.textContent = totalSizeMo.toFixed(2) + " Mo" + "/75 Mo";
 }

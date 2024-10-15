@@ -136,5 +136,5 @@ return [
     'attachmentFileNameAlphaNum' => 'Le nom du fichier doit seulement contenir des caractères alphanumériques.',
     'attachmentFileFormat' => 'Le fichier sélectionné doit être dans un format imprimable. (doc, docx, pdf, jpg, jpeg, png, bmp, tiff, txt, rtf, odt, xls, xlsx, ppt, pptx)',
     'attachmentSameFileName' => 'Il y a déjà un fichier avec le même nom dans la liste.',
-    'attachmentFilesExceedSize' => 'La somme des tailles des fichiers a atteint le maximum.',
+    'attachmentFilesExceedSize' => 'Le fichier ne peut pas être ajouté, car la somme des tailles va dépasser 75 Mo.',
 ];
