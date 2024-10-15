@@ -462,8 +462,6 @@
     - Pour validation pourquoi on utilise pas la classe bootstrap d-none au lieu de style="display: none;
     -  Pour le site internet, est-ce qu'on veut que ca vérifie sur le oninput ou onblur quand l'utilisateur a fini d'entrer le site en ce moment syr onblur?
     - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse quand on a NEQ)
-    - Lorsqu'on tombe dans le old, la liste des numéros de téléphone ne se refait pas.
-    - Je pense qu'on pourrait mettre ça en nice to have car normalement le gens devrait pas se rendre à la validation backend
     - Lorsqu'il y a l'erreur du site suite au onblur, utiliser le oninput pour dire quand le site est bon (Comme les autres chants sont comme ça,
       je pense que ça peut créer de la confusion)
   -->
@@ -471,15 +469,6 @@
     - Pour l'accessibilité est-ce qu'on garde le aria-label ? Qu'est-ce que les gens de la ville avaient dit déjà?
       - Nico : Ça va me prendre une explication de c'est quoi. Et on pourrait leur demander après la relâche.
     - Voir pour les erreurs front-end back-end
-  -->
-  <!--REMARQUES::
-      - Pour les numéros de téléphones, lorsque j'ai valider et qu'il y a une erreur, lorsque j'ajout un numéro de téléphone, la boite reste en rouge.
-          - Je pense qu'elle devrait devenir verte aussitot à ce moment là (Potentiel Nice_to_have). Me montrer en classe
-      - Pour les téléphones, ta validation front-end demande au moins 1 numéro mais ta validation Back-end non. Il faudrait que se soit la même pour les 2
-          - Je pense que se serait bien de l'ajouter au back-end.
-      - Lorsqu'on valide la section en fesant suivant et que la province est sur québec, puis qu'on change la province,
-        le champ input de la ville arrive en vert même si il est vide.
-          - Je pense qu'il faudrais qu'il n'est pas de couleur (Potentiel Nice_to_have).
   -->
   <div class="container bg-white rounded my-2" id="contactDetails-section">
     <div class="row d-none d-md-block">
@@ -644,29 +633,49 @@
                 <div class="col-2 "></div>
               </div>
               <div class="d-flex flex-column justify-content-between" id="phoneNumberList">
+                @if(!is_null(old('phoneNumbers')))
+                  @foreach(old('phoneNumbers') as $phoneNumber)
+                    <div class="row mb-2 align-items-center justify-content-between divPhone">
+                      <div class="col-2 text-start phoneType">{{old('phoneTypes')[$loop->index]}}</div>
+                      <input class="d-none" name="phoneTypes[]" value="{{old('phoneTypes')[$loop->index]}}"/>
+                      <div class="col-6 text-center phoneNumber">{{old('phoneNumbers')[$loop->index]}}</div>
+                      <input class="d-none" name="phoneNumbers[]" value="{{old('phoneNumbers')[$loop->index]}}"/>
+                      <div class="col-2 text-center phoneExtension">{{old('phoneExtensions')[$loop->index]}}</div>
+                      <input class="d-none" name="phoneExtensions[]" value="{{old('phoneExtensions')[$loop->index]}}"/>
+                      <div class="col-2 d-flex justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-x removePhone" viewBox="0 0 16 16" style="cursor:pointer;">
+                          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                        </svg>
+                      </div>
+                    </div>
+                  @endforeach
+                @endif
               </div>
-              @if(!is_null(old('phoneNumbers')))
-              @foreach(old('phoneNumbers') as $phoneNumber)
-              <div hidden>
-                {{$phoneTypeIndex = "phoneTypes." . "$loop->index"}}
-                {{$phoneNumberIndex = "phoneNumbers." . "$loop->index"}}
-                {{$phoneExtensionIndex = "phoneExtensions." . "$loop->index"}}
-              </div>
-              @if($errors->has($phoneTypeIndex))
-              <p class="m-0">{{ $errors->first($phoneTypeIndex) }}</p>
-              @endif
-              @if($errors->has($phoneNumberIndex))
-              <p class="m-0">{{ $errors->first($phoneNumberIndex) }}</p>
-              @endif
-              @if($errors->has($phoneExtensionIndex))
-              <p class="m-0">{{ $errors->first($phoneExtensionIndex) }}</p>
-              @endif
-              @endforeach
-              @endif
             </div>
           </div>
         </div>
         <div class="text-start invalid-feedback" id="invalidListPhoneNumbers" style="display: none;">{{__('form.contactDetailsPhoneNumbersList')}}</div>
+        @if(!is_null(old('phoneNumbers')))
+          @foreach(old('phoneNumbers') as $phoneNumber)
+          <div hidden>
+            {{$phoneTypeIndex = "phoneTypes." . "$loop->index"}}
+            {{$phoneNumberIndex = "phoneNumbers." . "$loop->index"}}
+            {{$phoneExtensionIndex = "phoneExtensions." . "$loop->index"}}
+          </div>
+          @if($errors->has($phoneTypeIndex))
+            <p class="m-0">{{ $errors->first($phoneTypeIndex) }}</p>
+          @endif
+          @if($errors->has($phoneNumberIndex))
+              <p class="m-0">{{ $errors->first($phoneNumberIndex) }}</p>
+          @endif
+          @if($errors->has($phoneExtensionIndex))
+            <p class="m-0">{{ $errors->first($phoneExtensionIndex) }}</p>
+          @endif
+          @endforeach
+        @endif
+        @if($errors->has('phoneNumbers'))
+          <p>{{ $errors->first('phoneNumbers') }}</p>
+        @endif
       </div>
     </div>
     <div class="row">
@@ -937,7 +946,15 @@
     </div> <!--FIN CONTACT-->
 
   <!--PIÈCES JOINTES-->
-  <!--NICE_TO_HAVE::Voir pour qu'au format mobile on voit bien la date. Pour l'instant on voit bien avec le résumé du fichier choisi.-->
+  <!--NICE_TO_HAVE::
+    - Voir pour qu'au format mobile on voit bien la date. Pour l'instant on voit bien avec le résumé du fichier choisi.
+  -->
+    <!--REMARQUES::
+    - 
+  -->
+  <!--QUESTIONs::
+    - J'ai fait une liste des extensions les plus communs imprimables, est-ce que j'en rajoute ? Est-ce que faire une const [] est ok ?
+  -->
   <div class="container bg-white rounded my-2 width-sm w-60">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-attachment"></div> <!--TODO::Trouver une autre image de fond-->
@@ -954,9 +971,15 @@
       <div class=" col-12 d-flex flex-column justify-content-between">
         <div class="row flex-row justify-content-between">
           <div class="col-10">
-            <div class="mb-3">
+            <div>
               <input class="form-control" type="file" id="formFile">
-            </div>
+            </div> 
+            <div class="text-start invalid-feedback attachment" id="attachmentFileRequired" style="display: none;">{{__('form.attachmentFileRequired')}}</div>
+            <div class="text-start invalid-feedback attachment" id="attachmentFileNameLength" style="display: none;">{{__('form.attachmentFileNameLength')}}</div>
+            <div class="text-start invalid-feedback attachment" id="attachmentFileNameAlphaNum" style="display: none;">{{__('form.attachmentFileNameAlphaNum')}}</div>
+            <div class="text-start invalid-feedback attachment" id="attachmentFileFormat" style="display: none;">{{__('form.attachmentFileFormat')}}</div>
+            <div class="text-start invalid-feedback attachment" id="attachmentSameFileName" style="display: none;">{{__('form.attachmentSameFileName')}}</div>
+            <div class="text-start invalid-feedback attachment" id="attachmentFilesExceedSize" style="display: none;">{{__('form.attachmentFilesExceedSize')}}</div>
           </div>
           <div class="col-2 text-center pt-1">
             <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
@@ -981,9 +1004,9 @@
           </tbody>
         </table>
       </div>
-      <div class="col-12 d-flex flex-column justify-content-between">
-        <div class="form-floating h-100 pb-4" id="div-attachmentFilesList">
-          <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto;">
+      <div class="col-12 ">
+        <div class="form-floating h-100" id="div-attachmentFilesList">
+          <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
             <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
             <div class="row px-3">
               <div class="d-flex justify-content-between mt-2">
@@ -998,11 +1021,14 @@
           </div>
         </div>
       </div>
+      <div class="text-end inline-block">
+        <p id="totalSize">/75Mo</p>
+      </div>
     </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
         <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-        <button id="attachmentFiles-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+        <button id="attachmentFiles-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN PIÈCES JOINTES-->

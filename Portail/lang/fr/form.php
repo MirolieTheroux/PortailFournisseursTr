@@ -85,6 +85,7 @@ return [
     'contactDetailsWebsite' => 'Le Site n\'est pas valide.',
     'contactDetailsWebsiteLength' => 'Le Site ne peut pas dépasser 64 caractères.',
     'contactDetailsPhoneNumberRequired' => 'Le Numéro est requis.',
+    'contactDetailsPhoneNumberValidation' => 'Il doit y avoir au moins un numéro d\'ajouté.',
     'contactDetailsPhoneNumberNumeric' => 'Le Numéro doit seulement contenir des chiffres.',
     'contactDetailsPhoneNumberFormat' => 'Le Numéro doit contenir 10 chiffres.',
     'contactDetailsPhoneExtension' => 'Le Poste doit seulement contenir des chiffres.',
@@ -129,5 +130,11 @@ return [
     'attachmentFileName' => 'Nom du fichier',
     'attachmentFileSize' => 'Taille (Mo)',
     'attachmentAddedFileDate' => 'Date',
-    'attachmentFilesList' => 'Liste des pièces jointes'
+    'attachmentFilesList' => 'Liste des pièces jointes',
+    'attachmentFileRequired' => 'Un fichier est requis pour ajouter dans la liste.',
+    'attachmentFileNameLength' => 'Le nom du fichier doit avoir une taille maximale de 32 caractères.',
+    'attachmentFileNameAlphaNum' => 'Le nom du fichier doit seulement contenir des caractères alphanumériques.',
+    'attachmentFileFormat' => 'Le fichier sélectionné doit être dans un format imprimable. (doc, docx, pdf, jpg, jpeg, png, bmp, tiff, txt, rtf, odt, xls, xlsx, ppt, pptx)',
+    'attachmentSameFileName' => 'Il y a déjà un fichier avec le même nom dans la liste.',
+    'attachmentFilesExceedSize' => 'Le fichier ne peut pas être ajouté, car la somme des tailles va dépasser 75 Mo.',
 ];

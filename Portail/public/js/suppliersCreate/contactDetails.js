@@ -222,8 +222,11 @@ function validateCity() {
     inputCity.classList.remove("is-invalid");
     inputCity.classList.add("is-valid");
   }
-   inputCity.classList.add("was-validated");
+  inputCity.classList.add("was-validated");
 }
+
+
+
 
 function validateSelectCity(){
   const inputCity = document.getElementById("contactDetailsInputCity");
@@ -232,6 +235,10 @@ function validateSelectCity(){
     if (province.value === "Québec") {
       document.getElementById("invalidRequiredCity").style.display = "none";
       inputCity.classList.remove("is-invalid");
+    }
+    else{
+      if(inputCity.value === "")
+        inputCity.classList.remove("is-valid");
     }
   });
 }
@@ -289,7 +296,6 @@ function validatePostalCodeOnInput() {
     input.classList.remove("is-invalid");
     input.classList.add("is-valid");
   }
-
   input.classList.add("was-validated");
 }
 
@@ -338,14 +344,15 @@ function validatePhoneNumber() {
 
   const phoneValue = input.value.replace(/\D/g, ''); 
   //Basic validation logic
-  if (!phoneValue) {
-    input.classList.remove('is-valid');
-    input.classList.add('is-invalid');
-    invalidRequiredPhoneNumber.style.display = 'block';
-  } else if (isNaN(phoneValue)) {
+  if (/\D/.test(input.value)) {
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
     invalidPhoneNumberNumeric.style.display = 'block';
+  
+  } else if (!phoneValue) {
+    input.classList.remove('is-valid');
+    input.classList.add('is-invalid');
+    invalidRequiredPhoneNumber.style.display = 'block';
   } else if (phoneValue.length === 10) {
     const formattedNumber = `${phoneValue.slice(0, 3)}-${phoneValue.slice(3, 6)}-${phoneValue.slice(6)}`;
     input.value = formattedNumber;
@@ -354,7 +361,7 @@ function validatePhoneNumber() {
   } else {
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
-    invalidPhoneNumberFormat.style.display = 'block';
+    invalidPhoneNumberFormat.style.display = "block";
     invalidAddPhoneNumber.style.display = "none";
   }
   input.classList.add('was-validated');
@@ -369,7 +376,6 @@ function validatePhoneExtension() {
   // Reset all error messages
   invalidPhoneExtension.style.display = "none";
   invalidPhoneExtensionLength.style.display = "none";
-
   // Basic validation logic
   if (isNaN(input.value) && input.value !== "") {
     input.classList.remove("is-valid");
@@ -388,9 +394,6 @@ function validatePhoneExtension() {
   }
   input.classList.add("was-validated");
 }
-// function savePhoneNumbers(phoneNumbers) {
-//   sessionStorage.setItem("phoneNumbers", JSON.stringify(phoneNumbers));
-// }
 
 document.getElementById("add-icon").addEventListener("click", function () {
   if (isPhoneNumberValid()) {
@@ -464,7 +467,7 @@ document.getElementById("add-icon").addEventListener("click", function () {
     document.getElementById("contactDetailsPhoneNumber").classList.remove("is-valid");
     document.getElementById("contactDetailsPhoneExtension").classList.remove("is-valid");
   }
-  validateListPhoneNumber();
+  //validateListPhoneNumber();
 });
 
 function isPhoneNumberValid() {
@@ -514,6 +517,13 @@ function validateListPhoneNumber() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  const buttonsDelete = document.querySelectorAll(".removePhone");
+  buttonsDelete.forEach(button => {
+    const conteneurButton = button.closest(".divPhone");
+    button.addEventListener("click", () => {
+      conteneurButton.remove();
+    });
+  });
   addCitiesAndDAInSelect();
   validateSelectCity();
 });
