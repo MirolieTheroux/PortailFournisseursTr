@@ -54,7 +54,7 @@
           </div>
           <div class="row">
             <div class="col-12 d-flex justify-content-center text-center mb-3">
-              <a class="singin-link" href="">{{__('login.signinLink')}}</a>
+              <a class="singin-link" href="{{ route('suppliers.create') }}">{{__('login.signinLink')}}</a>
             </div>
           </div>
         </form>
