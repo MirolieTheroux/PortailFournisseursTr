@@ -1,11 +1,106 @@
-fetchServices()
+let debounceTimer = 0;
 
-/*function highlightText(text, searchTerm) {
-  const regex = new RegExp(`(${searchTerm})`, 'gi'); // Create a regex to match the search term
-  return text.replace(regex, '<span class="highlight">$1</span>'); // Wrap matches in a span
-}*/
+function fetchServices() {
+    const searchTerm = document.getElementById('service-search').value;
 
-//TEST
+    clearTimeout(debounceTimer);
+
+    debounceTimer = setTimeout(() => {
+        fetch(`/services?search=${encodeURIComponent(searchTerm)}`)
+            .then(response => response.json())
+            .then(data => {
+                const serviceList = document.getElementById('service-list');
+                serviceList.innerHTML = ''; // Clear previous results
+
+                data.forEach(service => {
+                    const serviceItem = document.createElement('div');
+                    serviceItem.classList.add('row', 'align-items-start', 'mt-2', 'hover-options');
+
+                    // Original values for non-highlighted cloning
+                    const originalCode = service.code;
+                    const originalDescription = service.description;
+
+                    // Highlighting the code and description with the search term
+                    const highlightedCode = highlightText(originalCode, searchTerm);
+                    const highlightedDescription = highlightText(originalDescription, searchTerm);
+
+                    serviceItem.innerHTML = `
+                        <div class="col-4 col-md-4 d-flex flex-column justify-content-start">
+                            <label class="form-check-label" id="category${service.code}">${highlightedCode}</label>
+                        </div>
+                        <div class="col-8 col-md-8 d-flex flex-column justify-content-start">
+                            <label class="form-check-label" id="category${service.code}">${highlightedDescription}</label>
+                        </div>
+                    `;
+
+                    // Check for existing cloned services and hide originals if found
+                    const clonedService = document.querySelector(`#service-selected [data-code="${service.code}"]`);
+                    if (clonedService) {
+                        serviceItem.classList.add('disabled-options'); // Hide the original if a cloned service exists
+                    }
+
+                    // Handle click event for selecting service
+                    serviceItem.addEventListener('click', function () {
+                        serviceItem.classList.add('disabled-options');
+
+                        // Clone the service without the highlight
+                        const selectedService = document.createElement('div');
+                        selectedService.classList.add('row', 'align-items-start', 'mt-2', 'hover-options');
+                        selectedService.dataset.code = service.code;
+
+                        selectedService.innerHTML = `
+                            <div class="col-4 col-md-4 d-flex flex-column justify-content-start">
+                                <label class="form-check-label">${originalCode}</label>
+                            </div>
+                            <div class="col-8 col-md-8 d-flex flex-column justify-content-start">
+                                <label class="form-check-label">${originalDescription}</label>
+                            </div>
+                        `;
+
+                        // Handle click event on the cloned service to remove it and show the original
+                        selectedService.addEventListener('click', function () {
+                            selectedContainer.removeChild(selectedService);
+
+                            const originalService = document.getElementById(`category${service.code}`);
+                            if (originalService) {
+                                originalService.closest('.row').classList.remove('disabled-options'); // Show the original service
+                            }
+                        });
+
+                        // Insert the cloned service into the selected services list
+                        const selectedContainer = document.getElementById('service-selected');
+                        selectedContainer.appendChild(selectedService);
+                    });
+
+                    serviceList.appendChild(serviceItem);
+                });
+
+                // Call update function to handle hiding originals if cloned versions exist
+                updateServiceList();
+            })
+            .catch(error => console.error('Error fetching services:', error));
+    }, 500); // 0.5 second delay
+}
+
+function updateServiceList() {
+    // Get all cloned services
+    const clonedServices = document.querySelectorAll('#service-selected .row');
+    
+    clonedServices.forEach(clonedService => {
+        const clonedCode = clonedService.dataset.code;
+        const originalService = document.getElementById(`category${clonedCode}`);
+        
+        // Hide the original if it exists and has a corresponding cloned version
+        if (originalService) {
+            originalService.closest('.row').classList.add('disabled-options'); // Hide the original service
+        }
+    });
+}
+
+fetchServices();
+var searchBar = document.getElementById('service-search');
+searchBar.addEventListener("input", fetchServices);
+
 function removeAccents(text) {
     return text.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Normalize and remove accents
 }
@@ -27,40 +122,4 @@ function highlightText(text, searchTerm) {
 
     // Return the original text if no match is found
     return text;
-}
-//ENDTEST
-
-function fetchServices() {
-    const searchTerm = document.getElementById('service-search').value;
-
-    // Make an AJAX request to the server to get filtered services
-    fetch(`/services?search=${encodeURIComponent(searchTerm)}`)
-        .then(response => response.json())
-        .then(data => {
-            const serviceList = document.getElementById('service-list');
-            serviceList.innerHTML = ''; // Clear previous results
-
-            data.forEach(service => {
-                const serviceItem = document.createElement('div');
-                serviceItem.classList.add('row', 'align-items-start', 'mt-2');
-
-                // Highlighting the code and description with the search term
-                const highlightedCode = highlightText(service.code, searchTerm);
-                const highlightedDescription = highlightText(service.description, searchTerm);
-
-                serviceItem.innerHTML = `
-                    <div class="col-1 col-md-1 d-flex flex-column justify-content-start">
-                        <input class="form-check-input" type="checkbox" onclick="checkedbox(this)" id="category${service.id}" value="">
-                    </div>
-                    <div class="col-3 col-md-3 d-flex flex-column justify-content-start">
-                        <label class="form-check-label" for="category${service.id}">${highlightedCode}</label>
-                    </div>
-                    <div class="col-8 col-md-8 d-flex flex-column justify-content-start">
-                        <label class="form-check-label" for="category${service.id}">${highlightedDescription}</label>
-                    </div>
-                `;
-                serviceList.appendChild(serviceItem);
-            });
-        })
-        .catch(error => console.error('Error fetching services:', error));
 }

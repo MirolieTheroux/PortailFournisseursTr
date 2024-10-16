@@ -58,40 +58,47 @@ class SuppliersController extends Controller
     public function search(Request $request)
     {
         $searchTerm = $request->input('search');
-        
-        // Using LOWER() for case-insensitive search and handling whole words
-        $services = ProductService::where('code', 'LIKE', "%{$searchTerm}%")
-            ->orWhere(function ($query) use ($searchTerm) {
-                // Conditions for full word matches
-                $query->where('description', 'LIKE', "% {$searchTerm} %")
-                      ->orWhere('description', 'LIKE', "{$searchTerm} %")
-                      ->orWhere('description', 'LIKE', "% {$searchTerm}")
-                      ->orWhere('description', $searchTerm); // Exact match
+
+        // Remove accents from search term
+        $normalizedSearchTerm = str_replace(
+            ['À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'à', 'á', 'â', 'ã', 'ä', 'å', 'È', 'É', 'Ê', 'Ë', 'è', 'é', 'ê', 'ë', 'Ì', 'Í', 'Î', 'Ï', 'ì', 'í', 'î', 'ï', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'Ù', 'Ú', 'Û', 'Ü', 'ù', 'ú', 'û', 'ü', 'Ç', 'ç', 'Ñ', 'ñ'], 
+            ['A', 'A', 'A', 'A', 'A', 'A', 'a', 'a', 'a', 'a', 'a', 'a', 'E', 'E', 'E', 'E', 'e', 'e', 'e', 'e', 'I', 'I', 'I', 'I', 'i', 'i', 'i', 'i', 'O', 'O', 'O', 'O', 'O', 'O', 'o', 'o', 'o', 'o', 'o', 'o', 'U', 'U', 'U', 'U', 'u', 'u', 'u', 'u', 'C', 'c', 'N', 'n'],
+            $searchTerm
+        );
+
+        $services = ProductService::whereRaw("LOWER(CONVERT(code USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["%{$normalizedSearchTerm}%"])
+            ->orWhere(function ($query) use ($normalizedSearchTerm) {
+                // Exact matches with description normalization
+                $query->whereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["% {$normalizedSearchTerm} %"])
+                    ->orWhereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["{$normalizedSearchTerm} %"])
+                    ->orWhereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["% {$normalizedSearchTerm}"])
+                    ->orWhereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci = ?", [$normalizedSearchTerm]);
             })
-            ->orWhere(function ($query) use ($searchTerm) {
-                // Conditions for partial matches (anywhere in the description)
-                $query->where('description', 'LIKE', "%{$searchTerm}%")
-                      ->whereNot(function ($subQuery) use ($searchTerm) {
-                          // Exclude those that are full word matches
-                          $subQuery->where('description', 'LIKE', "% {$searchTerm} %")
-                                  ->orWhere('description', 'LIKE', "{$searchTerm} %")
-                                  ->orWhere('description', 'LIKE', "% {$searchTerm}")
-                                  ->orWhere('description', $searchTerm); // Exact match
-                      });
+            ->orWhere(function ($query) use ($normalizedSearchTerm) {
+                // Partial matches anywhere in the description with normalization
+                $query->whereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["%{$normalizedSearchTerm}%"])
+                    ->whereNot(function ($subQuery) use ($normalizedSearchTerm) {
+                        // Exclude those that are full word matches with normalization
+                        $subQuery->whereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["% {$normalizedSearchTerm} %"])
+                                ->orWhereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["{$normalizedSearchTerm} %"])
+                                ->orWhereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["% {$normalizedSearchTerm}"])
+                                ->orWhereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci = ?", [$normalizedSearchTerm]);
+                    });
             })
             ->orderByRaw("CASE 
-                WHEN description LIKE '{$searchTerm}' THEN 1
-                WHEN description LIKE '{$searchTerm} %' THEN 2
-                WHEN description LIKE '% {$searchTerm} %' THEN 3
-                WHEN description LIKE '% {$searchTerm}' THEN 4
+                WHEN LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE '{$normalizedSearchTerm}' THEN 1
+                WHEN LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE '{$normalizedSearchTerm} %' THEN 2
+                WHEN LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE '% {$normalizedSearchTerm} %' THEN 3
+                WHEN LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE '% {$normalizedSearchTerm}' THEN 4
                 ELSE 5 
             END")
-            ->orderByRaw("POSITION('{$searchTerm}' IN description) ASC")
+            ->orderByRaw("POSITION('{$normalizedSearchTerm}' IN LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci) ASC")
             ->take(50) // Limit results for performance
             ->get();
 
         return response()->json($services);
     }
+
 
 
 

@@ -132,6 +132,7 @@
 
   <!--PRODUIT ET SERVICE-->
   <!--NICE_TO_HAVE::Drag and drop pour les catégories-->
+  <!--NICE_TO_HAVE::Synonymes pour la fonction de recherche-->
   <div class="container bg-white rounded my-2">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
@@ -146,14 +147,14 @@
         <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategories')}}</h2>
         <div class="text-center">
           <div class="form-floating mb-3">
-            <input type="text" name="service-search" id="service-search" class="form-control" placeholder="" onkeyup="fetchServices()">
+            <input type="text" name="service-search" id="service-search" class="form-control" placeholder="">
             <label for="service-search">{{__('form.productsAndServiceCategoriesSearch')}}</label>
           </div>
         </div>
         <div class="text-center">
           <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="details" id="company-name" style="height: 232px; resize: none;" maxlength="500"></textarea>
-            <label for="company-name" class="labelbackground">{{__('form.productsAndServiceCategoriesDetails')}}</label>
+            <textarea class="form-control" placeholder="details" id="products-details" style="height: 232px; resize: none;" maxlength="500"></textarea>
+            <label for="products-details" class="labelbackground">{{__('form.productsAndServiceCategoriesDetails')}}</label>
           </div>
         </div>
       </div>
@@ -161,11 +162,11 @@
         <h2 class="text-center section-subtitle">{{__('form.productsAndServiceServices')}}</h2>
         <div>
           <div class="form-floating mb-3">
-            <div class="form-control" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+            <div class="form-control" placeholder="details" id="products-categories" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
               <div class="mt-lg-0 mt-md-4" id="service-list">
               </div>
             </div>
-            <label for="company-name" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
+            <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
           </div>
         </div>
       </div>
@@ -173,14 +174,11 @@
         <h2 class="text-center section-subtitle">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
         <div>
           <div class="form-floating mb-3">
-            <div class="form-control" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-              <div class="row px-3">
-                <div class="col-12 col-md-12 d-flex flex-column justify-content-between">
-                  <label class="mb-2" id="selectedcategory1" for="category1" style="display:none;">Service d'entretien ménager</label>
-                  <label class="mb-2" id="selectedcategory2" for="category2" style="display:none;">Service d'entretien de pelouse</label>
-                </div>
+            <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+              <div class="mt-lg-0 mt-md-4" id="service-selected">
               </div>
             </div>
+            <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label>
           </div>
         </div>
       </div>

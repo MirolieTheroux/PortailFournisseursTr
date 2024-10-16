@@ -13,6 +13,16 @@
     --pink: #F99FD7;
 }
 
+.hover-options:hover{
+    background-color: rgb(225, 225, 225);
+}
+
+.disabled-options{
+    background-color: rgb(175, 175, 175);
+    color: white;
+    pointer-events: none;
+}
+
 .section-title{
     font-size: 24pt;
 }
