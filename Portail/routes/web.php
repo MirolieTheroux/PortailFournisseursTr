@@ -9,7 +9,8 @@ use App\Http\Middleware\LoggerMiddleware;
     return view('welcome');
 });*/
 
-Route::get('/', [SuppliersController::class,'showLogin'])->name('suppliers.login');
+Route::get('/', [SuppliersController::class,'showLogin'])->name('suppliers.showLogin');
+Route::post('/login', [SuppliersController::class,'login'])->name('suppliers.login');
 Route::get('/signin', [SuppliersController::class, 'create'])->name('suppliers.create');
 
 Route::post('suppliers', [SuppliersController::class, 'store'])->name('suppliers.store')->middleware(LoggerMiddleware::class);

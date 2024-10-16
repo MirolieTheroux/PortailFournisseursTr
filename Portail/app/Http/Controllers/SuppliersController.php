@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SupplierRequest;
+use App\Http\Requests\LoginRequest;
 use App\Models\Supplier;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
@@ -15,16 +16,28 @@ use App\Models\ProductServiceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\facades\Auth;
+use Illuminate\Support\facades\Session;
 
 class SuppliersController extends Controller
 {
-
-  /**
-   * Show the form for creating a new resource.
-   */
   public function showLogin()
   {
     return View('suppliers.login');
+  }
+
+  public function login(LoginRequest $request)
+  {
+    Log::debug($request);
+
+    $reussiNEQ=Auth::attempt(['neq' => $request->id,'password' => $request->password]);
+    //$reussiEmail=Auth::attempt(['email' => $request->id,'password' => $request->password]);
+    if($reussiNEQ){
+      return redirect()->route('suppliers.create')->with('message',"Connexion réussie");
+    }
+    else{
+      return redirect()->route('suppliers.showLogin')->withErrors(['Votre courriel ou mot de passe est invalide']);
+    }
   }
 
     /**

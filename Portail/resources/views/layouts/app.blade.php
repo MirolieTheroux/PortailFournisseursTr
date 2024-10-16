@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/toast.css') }}">
     @yield('css')
 </head>
 <body class="d-flex flex-column justify-content-between min-vh-100">
@@ -76,8 +77,40 @@
         </div>
     </footer>
 
+    {{-- TOAST RÉUSSI --}}
+    @if(session('message'))
+    <div class="toast ">
+      <div class="toast-content">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <div class="message">
+          <span class="text text-1">Réussi</span>
+          <span class="text text-2">{{session('message')}}</span>
+        </div>
+      </div>
+      <div class="progress "></div>
+    </div> 
+    @elseif(isset($errors) && $errors->any())
+    {{-- TOAST ERREUR --}}
+    <div class="toast">
+      <div class="toast-content">
+        <ion-icon class="text-erreur" name="close-circle-outline"></ion-icon>
+        <div class="message">
+          <span class="text text-1 text-erreur">Erreur</span>
+          @foreach($errors->all() as $error)
+            <span class="text text-2">{{$error}}</span>
+          @endforeach
+        </div>
+      </div>
+      <div class="progress progress-erreur"></div>
+    </div>
+    @endif
+
     <!-- #SCRIPT -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="{{ asset('js/toast.js') }}"></script>
+    
     @yield('scripts')
 </body>
 </html>
