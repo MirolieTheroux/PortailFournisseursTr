@@ -19,8 +19,13 @@
 
 .disabled-options{
     background-color: rgb(175, 175, 175);
-    color: white;
+    color: black;
     pointer-events: none;
+}
+
+.note{
+    font-size: 10pt;
+    color: gray;
 }
 
 .section-title{

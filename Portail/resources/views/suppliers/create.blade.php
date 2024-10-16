@@ -133,6 +133,9 @@
   <!--PRODUIT ET SERVICE-->
   <!--NICE_TO_HAVE::Drag and drop pour les catégories-->
   <!--NICE_TO_HAVE::Synonymes pour la fonction de recherche-->
+  <!--NICE_TO_HAVE::Quand la recherche est vide, trier par ordre de numéro-->
+  <!--NICE_TO_HAVE::Ajouter un X pour supprimer les catégories-->
+  <!--NICE_TO_HAVE::Indicateur lorsque les données charge-->
   <div class="container bg-white rounded my-2">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
@@ -152,33 +155,37 @@
           </div>
         </div>
         <div class="text-center">
-          <div class="form-floating mb-3">
+          <div class="form-floating">
             <textarea class="form-control" placeholder="details" id="products-details" style="height: 232px; resize: none;" maxlength="500"></textarea>
             <label for="products-details" class="labelbackground">{{__('form.productsAndServiceCategoriesDetails')}}</label>
+            <div class="note"><br></div>
           </div>
         </div>
       </div>
       <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
         <h2 class="text-center section-subtitle">{{__('form.productsAndServiceServices')}}</h2>
         <div>
-          <div class="form-floating mb-3">
+          <div class="form-floating">
             <div class="form-control" placeholder="details" id="products-categories" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
               <div class="mt-lg-0 mt-md-4" id="service-list">
               </div>
+              <input type="button" id="load-more-button" class="d-none" value="Show more"></input>
             </div>
             <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
+            <div class="note" id="results-count"><br></div>
           </div>
         </div>
       </div>
       <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
         <h2 class="text-center section-subtitle">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
         <div>
-          <div class="form-floating mb-3">
+          <div class="form-floating">
             <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
               <div class="mt-lg-0 mt-md-4" id="service-selected">
               </div>
             </div>
             <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label>
+            <div class="note"><br></div>
           </div>
         </div>
       </div>

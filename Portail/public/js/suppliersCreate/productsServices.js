@@ -1,4 +1,10 @@
+const productsCategories = document.getElementById('products-categories');
 let debounceTimer = 0;
+let offset = 0;
+const limit = 50;
+let scrolled = false;
+let totalCount = 0;
+let curentCount = 0;
 
 function fetchServices() {
     const searchTerm = document.getElementById('service-search').value;
@@ -6,15 +12,23 @@ function fetchServices() {
     clearTimeout(debounceTimer);
 
     debounceTimer = setTimeout(() => {
-        fetch(`/services?search=${encodeURIComponent(searchTerm)}`)
+        fetch(`/services?search=${encodeURIComponent(searchTerm)}&offset=${offset}&limit=${limit}`)
             .then(response => response.json())
             .then(data => {
                 const serviceList = document.getElementById('service-list');
-                serviceList.innerHTML = ''; // Clear previous results
+                
+                if (offset === 0) {
+                    serviceList.innerHTML = ''; // Clear previous results
+                }
+                curentCount = data.services.length + offset;
+                totalCount = data.total_count;
 
-                data.forEach(service => {
+                const resultCount = document.getElementById('results-count');
+                resultCount.innerHTML = `${curentCount} sur ${totalCount} resultat(s)`; // Update with count of results shown vs total
+
+                data.services.forEach(service => {
                     const serviceItem = document.createElement('div');
-                    serviceItem.classList.add('row', 'align-items-start', 'mt-2', 'hover-options');
+                    serviceItem.classList.add('row', 'align-items-start', 'mt-2', 'hover-options', 'user-select-none');
 
                     // Original values for non-highlighted cloning
                     const originalCode = service.code;
@@ -45,7 +59,7 @@ function fetchServices() {
 
                         // Clone the service without the highlight
                         const selectedService = document.createElement('div');
-                        selectedService.classList.add('row', 'align-items-start', 'mt-2', 'hover-options');
+                        selectedService.classList.add('row', 'align-items-start', 'mt-2', 'hover-options', 'user-select-none');
                         selectedService.dataset.code = service.code;
 
                         selectedService.innerHTML = `
@@ -79,7 +93,16 @@ function fetchServices() {
                 updateServiceList();
             })
             .catch(error => console.error('Error fetching services:', error));
+            scrolled = false;
     }, 500); // 0.5 second delay
+}
+
+function loadMoreServices() {
+    if (productsCategories.scrollTop >= productsCategories.scrollHeight-606  && scrolled == false && curentCount < totalCount){
+        offset += limit; // Increment offset
+        scrolled = true;
+        fetchServices(); // Fetch services with new offset
+    }
 }
 
 function updateServiceList() {
@@ -97,9 +120,16 @@ function updateServiceList() {
     });
 }
 
+productsCategories.addEventListener('scroll', loadMoreServices);
+
 fetchServices();
 var searchBar = document.getElementById('service-search');
-searchBar.addEventListener("input", fetchServices);
+searchBar.addEventListener("input", function() {
+    offset = 0; // Reset offset when searching new terms
+    productsCategories.scrollTop = 0;
+    fetchServices();
+});
+
 
 function removeAccents(text) {
     return text.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Normalize and remove accents

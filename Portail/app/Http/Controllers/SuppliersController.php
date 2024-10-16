@@ -58,6 +58,8 @@ class SuppliersController extends Controller
     public function search(Request $request)
     {
         $searchTerm = $request->input('search');
+        $offset = $request->input('offset', 1); // Get the offset value, default to 0
+        $limit = $request->input('limit', 50); // Get the limit value, default to 50
 
         // Remove accents from search term
         $normalizedSearchTerm = str_replace(
@@ -66,6 +68,14 @@ class SuppliersController extends Controller
             $searchTerm
         );
 
+        // Get total count of matching services (without limiting)
+        $total_count = ProductService::whereRaw("LOWER(CONVERT(code USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["%{$normalizedSearchTerm}%"])
+            ->orWhere(function ($query) use ($normalizedSearchTerm) {
+                $query->whereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["%{$normalizedSearchTerm}%"]);
+            })
+            ->count();
+
+        // Get filtered services with limit of 50
         $services = ProductService::whereRaw("LOWER(CONVERT(code USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["%{$normalizedSearchTerm}%"])
             ->orWhere(function ($query) use ($normalizedSearchTerm) {
                 // Exact matches with description normalization
@@ -76,14 +86,7 @@ class SuppliersController extends Controller
             })
             ->orWhere(function ($query) use ($normalizedSearchTerm) {
                 // Partial matches anywhere in the description with normalization
-                $query->whereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["%{$normalizedSearchTerm}%"])
-                    ->whereNot(function ($subQuery) use ($normalizedSearchTerm) {
-                        // Exclude those that are full word matches with normalization
-                        $subQuery->whereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["% {$normalizedSearchTerm} %"])
-                                ->orWhereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["{$normalizedSearchTerm} %"])
-                                ->orWhereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["% {$normalizedSearchTerm}"])
-                                ->orWhereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci = ?", [$normalizedSearchTerm]);
-                    });
+                $query->whereRaw("LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE ?", ["%{$normalizedSearchTerm}%"]);
             })
             ->orderByRaw("CASE 
                 WHEN LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci LIKE '{$normalizedSearchTerm}' THEN 1
@@ -93,11 +96,17 @@ class SuppliersController extends Controller
                 ELSE 5 
             END")
             ->orderByRaw("POSITION('{$normalizedSearchTerm}' IN LOWER(CONVERT(description USING utf8mb4)) COLLATE utf8mb4_unicode_ci) ASC")
-            ->take(50) // Limit results for performance
+            ->offset($offset)
+            ->take($limit) // Limit results for performance
             ->get();
 
-        return response()->json($services);
+        // Return both the services and the total count
+        return response()->json([
+            'services' => $services,
+            'total_count' => $total_count
+        ]);
     }
+
 
 
 
