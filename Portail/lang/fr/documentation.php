@@ -17,7 +17,7 @@ return [
 
     'signUpForm' => 'Formulaire d\'inscription',
     'idSection' => 'Section identification',
-    'contactDetailSection' => 'Section coordonées',
+    'contactDetailSection' => 'Section coordonnées',
     'contactsSection' => 'Section contacts',
     'productServiceSection' => 'Section produit et services',
     'rbqSection' => 'Section licence RBQ',

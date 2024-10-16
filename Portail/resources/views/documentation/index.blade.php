@@ -5,6 +5,10 @@
 @endsection
 
 @section('mobile-navbar')
+<!--NICE_TO_HAVE::
+  - Mettre le curseur que c'est cliquable en mode mobile les sections de la documentation.
+  - Peut-être diminuer les titres.
+-->
 <div class="w-100 border-top border-dark">
   <div class="text-center w-100 p-2 fw-bolder">{{__('documentation.title')}}</div>
   <div id="login-nav-button-mobile" class="text-center w-100 p-2">{{__('documentation.login')}}</div>
@@ -18,7 +22,14 @@
 @section('content')
 <div class="container-fluid d-flex flex-column h-100">
   <div class="row h-100">
-    <!--NICE_TO_HAVE::Box-Shadow pour le menu du côté-->
+    <!--NICE_TO_HAVE::
+      - Box-Shadow pour le menu du côté.
+      - Les nom des variables signup au lieu de singup.
+    -->
+    <!--QUESTIONS::
+     - Les fonctions pour faire afficher les documentations, est-ce qu'on pourrait à la place en faire une pour tout ? Qui prendrait en 
+       argument le id de la section ?
+    -->
     <div class="d-none d-md-block col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-start">
       <div id="login-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.login')}}</div>
       <div id="singup-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.signUp')}}</div>
