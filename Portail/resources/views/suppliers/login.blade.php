@@ -11,7 +11,7 @@
   </div>
   <div class="col-12 col-md-6 d-flex align-items-center justify-content-center h-100 bg-grey-transparent-gradient py-3">
     <div class="row w-100">
-      <div class="offset-md-3 col-12 col-md-6 bg-white rounded-custom">
+      <div class="offset-md-1 offset-lg-2 offset-xl-3 col-12 col-md-10 col-lg-8 col-xl-6 bg-white rounded-custom">
         <!--TODO::Programer le changement de formulaire selon les réponses des employés de la ville-->
         <div class="row d-none d-md-flex">
           <div id="company-button" class="col-6 text-white bg-blue text-center fs-5 py-3 rounded-top-left">{{__('login.company')}}</div>

@@ -9,6 +9,7 @@ return [
   'particular' => 'Particulier',
   'signinLink' => 'Soumettre une demande d\'inscription',
   'id' => 'Identifiant (NEQ ou Courriel)',
+  'idShort' => 'Identifiant',
   'imACompany' => 'Je suis une entreprise',
   'imAParticular' => 'Je suis un particulier',
 
