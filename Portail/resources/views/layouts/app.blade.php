@@ -23,8 +23,10 @@
                 <div class="col-6 justify-content-end align-items-center">
                     <div class="d-none d-md-flex justify-content-end align-items-center h-100 w-100">
                       <div class="p-2 border-end border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
-                      <div class="p-2 border-end border-dark">{{__('navbar.returnHomeWebSite')}}</div>
-                      <div class="p-2">{{__('navbar.disconnect')}}</div>
+                      <div class="p-2"><a href="{{__('navbar.returnHomeWebSiteLink')}}">{{__('navbar.returnHomeWebSite')}}</a></div>
+                      @auth
+                        <div class="p-2 border-start border-dark"><a href="{{route('suppliers.logout')}}">{{__('navbar.disconnect')}}</a></div>
+                      @endauth
                     </div>
 
 
@@ -39,8 +41,10 @@
                 <div class="collapse" id="navbarToggleExternalContent">
                   <div class="d-flex d-md-none flex-column justify-content-center align-items-center">
                     <div class="text-center w-100 p-2 border-bottom border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
-                    <div class="text-center w-100 p-2 border-bottom border-dark">{{__('navbar.returnHomeWebSite')}}</div>
-                    <div class="text-center w-100 p-2">{{__('navbar.disconnect')}}</div>
+                    <div class="text-center w-100 p-2">{{__('navbar.returnHomeWebSite')}}</div>
+                    @auth
+                      <div class="text-center w-100 p-2 border-top border-dark"><a href="{{route('suppliers.logout')}}">{{__('navbar.disconnect')}}</a></div>
+                    @endauth
                     @yield('mobile-navbar')
                   </div>
                 </div>

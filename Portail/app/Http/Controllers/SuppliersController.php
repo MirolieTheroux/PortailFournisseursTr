@@ -39,6 +39,17 @@ class SuppliersController extends Controller
     }
   }
 
+  public function logout(Request $request)
+  {
+      Auth::logout();
+  
+      $request->session()->invalidate();
+  
+      $request->session()->regenerateToken();
+  
+      return redirect()->route('suppliers.showLogin')->with('message',"Déconnexion réussie");
+  }  
+
     /**
      * Display a listing of the resource.
      */
