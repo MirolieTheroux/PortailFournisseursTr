@@ -41,110 +41,110 @@
   </div><!-- FIN PROGRESS BAR-->
 
   <!--IDENTIFICATION-->
-    <div class="container bg-white rounded my-2">
-        <div class="row d-none d-md-block">
-            <div class="col-12 rounded-top fond-image fond-identification"></div>
-        </div>
-        <div class="row">
-            <div class="col-12 text-center">
-                <h1>{{__('form.identificationTitle')}}</h1>
+  <div class="container bg-white rounded my-2">
+    <div class="row d-none d-md-block">
+      <div class="col-12 rounded-top fond-image fond-identification"></div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>{{__('form.identificationTitle')}}</h1>
+      </div>
+    </div>
+    <div class="row px-3">
+      <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+        <h2 class="text-center section-subtitle">{{__('form.identificationCompanySection')}}</h2>
+        <div class="d-flex flex-column justify-content-between h-100">
+          <div class="text-start">
+            <div class="form-floating mb-3">
+              <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ old('neq') }}" maxlength="10">
+              <label for="neq">{{__('form.neqLabel')}}</label>
+              <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
+              <div class="invalid-feedback" id="neqInvalidThird" style="display: none;">{{__('form.identificationValidationNEQ3rd')}}</div>
+              <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('form.identificationValidationNEQOnlyDigits')}}</div>
+              <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('form.identificationValidationNEQAmount')}}</div>
+              <div class="invalid-feedback" id="neqInvalidExist" style="display: none;">{{__('form.identificationNeqExistValidation')}}</div>
             </div>
+            @if($errors->has('neq'))
+            <p>{{ $errors->first('neq') }}</p>
+            @endif
+          </div>
+          <div class="text-start">
+            <div class="form-floating mb-3">
+              <input type="text" name="name" id="name" class="form-control" placeholder="" value="{{ old('name') }}" maxlength="64">
+              <label for="name">{{__('form.companyNameLabel')}}</label>
+              <div id="nameStart"></br></div>
+              <div class="valid-feedback" id="nameValid" style="display: none;"></br></div>
+              <div class="invalid-feedback" id="nameInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Nom d\'entreprise'])}}</div>
+            </div>
+            @if($errors->has('name'))
+            <p>{{ $errors->first('name') }}</p>
+            @endif
+          </div>
         </div>
-        <div class="row px-3">
-            <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-                <h2 class="text-center section-subtitle">{{__('form.identificationCompanySection')}}</h2>
-                <div class="d-flex flex-column justify-content-between h-100">
-                  <div class="text-start">
-                      <div class="form-floating mb-3">
-                          <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ old('neq') }}" maxlength="10">
-                          <label for="neq">{{__('form.neqLabel')}}</label>
-                          <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
-                          <div class="invalid-feedback" id="neqInvalidThird" style="display: none;">{{__('form.identificationValidationNEQ3rd')}}</div>
-                          <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('form.identificationValidationNEQOnlyDigits')}}</div>
-                          <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('form.identificationValidationNEQAmount')}}</div>
-                          <div class="invalid-feedback" id="neqInvalidExist" style="display: none;">{{__('form.identificationNeqExistValidation')}}</div>
-                      </div>
-                      @if($errors->has('neq'))
-                        <p>{{ $errors->first('neq') }}</p>
-                      @endif
-                  </div>
-                  <div class="text-start">
-                      <div class="form-floating mb-3">
-                          <input type="text" name="name" id="name" class="form-control" placeholder="" value="{{ old('name') }}" maxlength="64">
-                          <label for="name">{{__('form.companyNameLabel')}}</label>
-                          <div id="nameStart"></br></div>
-                          <div class="valid-feedback" id="nameValid" style="display: none;"></br></div>
-                          <div class="invalid-feedback" id="nameInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Nom d\'entreprise'])}}</div>
-                      </div>
-                      @if($errors->has('name'))
-                        <p>{{ $errors->first('name') }}</p>
-                      @endif
-                  </div>
+      </div>
+      <div class="col-12 col-md-8 d-flex flex-column justify-content-between">
+        <h2 class="text-center section-subtitle">{{__('form.identificationAuthentificationSection')}}</h2>
+        <div class="d-flex flex-column justify-content-between h-100">
+          <div class="text-start">
+            <div class="form-floating mb-3">
+              <input type="email" name="email" id="email" class="form-control" placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64">
+              <label for="email">{{__('form.emailLabel')}}</label>
+              <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
+              <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('form.identificationValidationEmailStartWithArobase')}}</div>
+              <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('form.identificationValidationEmailArobaseRequired')}}</div>
+              <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">{{__('form.identificationValidationEmailOneArobaseOnly')}}</div>
+              <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">{{__('form.identificationValidationEmailDomain')}}</div>
+              <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">{{__('form.identificationValidationEmailDomainContainDot')}}</div>
+              <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">{{__('form.identificationValidationEmailDomainDotWrongPosition')}}</div>
+              <div class="invalid-feedback" id="emailInvalidUnique" style="display: none;">{{__('form.identificationValidationEmailUnique')}}</div>
+            </div>
+            @if($errors->has('email'))
+            <p>{{ $errors->first('email') }}</p>
+            @endif
+          </div>
+          <div class="text-start">
+            <div class="row">
+              <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
+                <div class="form-floating mb-3">
+                  <input type="password" name="password" id="password" class="form-control" placeholder="" maxlength="12">
+                  <label for="password">{{__('form.passwordLabel')}}</label>
+                  <div id="passwordStart"></br></div>
+                  <div class="valid-feedback" id="passwordValid" style="display: none;"></br></div>
+                  <div class="invalid-feedback" id="passwordInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Mot de passe'])}}</div>
+                  <div class="invalid-feedback" id="passwordInvalidAmount" style="display: none;">{{__('form.identificationValidationMDPAmount')}}</div>
+                  <div class="invalid-feedback" id="passwordInvalidLowercase" style="display: none;">{{__('form.identificationValidationMDPLowercase')}}</div>
+                  <div class="invalid-feedback" id="passwordInvalidUppercase" style="display: none;">{{__('form.identificationValidationMDPUppercase')}}</div>
+                  <div class="invalid-feedback" id="passwordInvalidNumber" style="display: none;">{{__('form.identificationValidationMDPDigits')}}</div>
+                  <div class="invalid-feedback" id="passwordInvalidSpecial" style="display: none;">{{__('form.identificationValidationMDPSpecial')}}</div>
                 </div>
-            </div>
-            <div class="col-12 col-md-8 d-flex flex-column justify-content-between">
-                <h2 class="text-center section-subtitle">{{__('form.identificationAuthentificationSection')}}</h2>
-                <div class="d-flex flex-column justify-content-between h-100">
-                  <div class="text-start">
-                      <div class="form-floating mb-3">
-                          <input type="email" name="email" id="email" class="form-control" placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64">
-                          <label for="email">{{__('form.emailLabel')}}</label>
-                          <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
-                          <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('form.identificationValidationEmailStartWithArobase')}}</div>
-                          <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('form.identificationValidationEmailArobaseRequired')}}</div>
-                          <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">{{__('form.identificationValidationEmailOneArobaseOnly')}}</div>
-                          <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">{{__('form.identificationValidationEmailDomain')}}</div>
-                          <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">{{__('form.identificationValidationEmailDomainContainDot')}}</div>
-                          <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">{{__('form.identificationValidationEmailDomainDotWrongPosition')}}</div>
-                          <div class="invalid-feedback" id="emailInvalidUnique" style="display: none;">{{__('form.identificationValidationEmailUnique')}}</div>
-                      </div>
-                      @if($errors->has('email'))
-                        <p>{{ $errors->first('email') }}</p>
-                      @endif
-                  </div>
-                  <div class="text-start">
-                      <div class="row">
-                          <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
-                              <div class="form-floating mb-3">
-                                  <input type="password" name="password" id="password"  class="form-control" placeholder="" maxlength="12">
-                                  <label for="password">{{__('form.passwordLabel')}}</label>
-                                  <div id="passwordStart"></br></div>
-                                  <div class="valid-feedback" id="passwordValid" style="display: none;"></br></div>
-                                  <div class="invalid-feedback" id="passwordInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Mot de passe'])}}</div>
-                                  <div class="invalid-feedback" id="passwordInvalidAmount" style="display: none;">{{__('form.identificationValidationMDPAmount')}}</div>
-                                  <div class="invalid-feedback" id="passwordInvalidLowercase" style="display: none;">{{__('form.identificationValidationMDPLowercase')}}</div>
-                                  <div class="invalid-feedback" id="passwordInvalidUppercase" style="display: none;">{{__('form.identificationValidationMDPUppercase')}}</div>
-                                  <div class="invalid-feedback" id="passwordInvalidNumber" style="display: none;">{{__('form.identificationValidationMDPDigits')}}</div>
-                                  <div class="invalid-feedback" id="passwordInvalidSpecial" style="display: none;">{{__('form.identificationValidationMDPSpecial')}}</div>
-                              </div>
-                              @if($errors->has('password'))
-                                <p>{{ $errors->first('password') }}</p>
-                              @endif
-                          </div>
-                          <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
-                              <div class="form-floating mb-3">
-                                  <input type="password" name="password_confirmation" id="password_confirmation" placeholder="" class="form-control" maxlength="12">
-                                  <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
-                                  <div id="password_confirmationStart"></br></div>
-                                  <div class="valid-feedback" id="password_confirmationValid" style="display: none;"></br></div>
-                                  <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">{{__('form.productsAndServiceValidationMDPConfirm')}}</div>
-                              </div>
-                              @if($errors->has('password_confirmation'))
-                                <p>{{ $errors->first('password_confirmation') }}</p>
-                              @endif
-                          </div>
-                      </div>
-                  </div>
+                @if($errors->has('password'))
+                <p>{{ $errors->first('password') }}</p>
+                @endif
+              </div>
+              <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
+                <div class="form-floating mb-3">
+                  <input type="password" name="password_confirmation" id="password_confirmation" placeholder="" class="form-control" maxlength="12">
+                  <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
+                  <div id="password_confirmationStart"></br></div>
+                  <div class="valid-feedback" id="password_confirmationValid" style="display: none;"></br></div>
+                  <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">{{__('form.productsAndServiceValidationMDPConfirm')}}</div>
                 </div>
+                @if($errors->has('password_confirmation'))
+                <p>{{ $errors->first('password_confirmation') }}</p>
+                @endif
+              </div>
             </div>
+          </div>
         </div>
-        <div class="row">
-            <div class="col-12 d-flex justify-content-center mb-2">
-                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-                <button id="identification-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
-            </div>
-        </div>
-    </div>  <!--FIN IDENTIFICATION-->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center mb-2">
+        <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
+        <button id="identification-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+      </div>
+    </div>
+  </div> <!--FIN IDENTIFICATION-->
 
   <!--PRODUIT ET SERVICE-->
   <!--
@@ -442,9 +442,6 @@
   </div> <!--FIN LICENCE RBQ-->
 
   <!--COORDONNÉES-->
-  <!--TODO::
-  - Faire le responsive pour les téléphones comme la section Contacts
-  -->
   <!--NICE_TO_HAVE::
     - Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent
     - Trier les Régions avec le code (1,2,3...)
@@ -455,6 +452,7 @@
     - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse quand on a NEQ)
     - Lorsqu'il y a l'erreur du site suite au onblur, utiliser le oninput pour dire quand le site est bon (Comme les autres chants sont comme ça,
       je pense que ça peut créer de la confusion)
+    - Faire le responsive pour les téléphones comme la section Contacts
   -->
   <!--Questions::
     - Pour l'accessibilité est-ce qu'on garde le aria-label ? Qu'est-ce que les gens de la ville avaient dit déjà?
@@ -625,21 +623,21 @@
               </div>
               <div class="d-flex flex-column justify-content-between" id="phoneNumberList">
                 @if(!is_null(old('phoneNumbers')))
-                  @foreach(old('phoneNumbers') as $phoneNumber)
-                    <div class="row mb-2 align-items-center justify-content-between divPhone">
-                      <div class="col-2 text-start phoneType">{{old('phoneTypes')[$loop->index]}}</div>
-                      <input class="d-none" name="phoneTypes[]" value="{{old('phoneTypes')[$loop->index]}}"/>
-                      <div class="col-6 text-center phoneNumber">{{old('phoneNumbers')[$loop->index]}}</div>
-                      <input class="d-none" name="phoneNumbers[]" value="{{old('phoneNumbers')[$loop->index]}}"/>
-                      <div class="col-2 text-center phoneExtension">{{old('phoneExtensions')[$loop->index]}}</div>
-                      <input class="d-none" name="phoneExtensions[]" value="{{old('phoneExtensions')[$loop->index]}}"/>
-                      <div class="col-2 d-flex justify-content-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-x removePhone" viewBox="0 0 16 16" style="cursor:pointer;">
-                          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                        </svg>
-                      </div>
-                    </div>
-                  @endforeach
+                @foreach(old('phoneNumbers') as $phoneNumber)
+                <div class="row mb-2 align-items-center justify-content-between divPhone">
+                  <div class="col-2 text-start phoneType">{{old('phoneTypes')[$loop->index]}}</div>
+                  <input class="d-none" name="phoneTypes[]" value="{{old('phoneTypes')[$loop->index]}}" />
+                  <div class="col-6 text-center phoneNumber">{{old('phoneNumbers')[$loop->index]}}</div>
+                  <input class="d-none" name="phoneNumbers[]" value="{{old('phoneNumbers')[$loop->index]}}" />
+                  <div class="col-2 text-center phoneExtension">{{old('phoneExtensions')[$loop->index]}}</div>
+                  <input class="d-none" name="phoneExtensions[]" value="{{old('phoneExtensions')[$loop->index]}}" />
+                  <div class="col-2 d-flex justify-content-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-x removePhone" viewBox="0 0 16 16" style="cursor:pointer;">
+                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                    </svg>
+                  </div>
+                </div>
+                @endforeach
                 @endif
               </div>
             </div>
@@ -648,24 +646,24 @@
         <div class="text-start invalid-feedback" id="invalidListPhoneNumbers" style="display: none;">{{__('form.contactDetailsPhoneNumbersList')}}</div>
         @if(!is_null(old('phoneNumbers')))
           @foreach(old('phoneNumbers') as $phoneNumber)
-          <div hidden>
-            {{$phoneTypeIndex = "phoneTypes." . "$loop->index"}}
-            {{$phoneNumberIndex = "phoneNumbers." . "$loop->index"}}
-            {{$phoneExtensionIndex = "phoneExtensions." . "$loop->index"}}
-          </div>
-          @if($errors->has($phoneTypeIndex))
+            <div hidden>
+              {{$phoneTypeIndex = "phoneTypes." . "$loop->index"}}
+              {{$phoneNumberIndex = "phoneNumbers." . "$loop->index"}}
+              {{$phoneExtensionIndex = "phoneExtensions." . "$loop->index"}}
+            </div>
+            @if($errors->has($phoneTypeIndex))
             <p class="m-0">{{ $errors->first($phoneTypeIndex) }}</p>
-          @endif
-          @if($errors->has($phoneNumberIndex))
-              <p class="m-0">{{ $errors->first($phoneNumberIndex) }}</p>
-          @endif
-          @if($errors->has($phoneExtensionIndex))
+            @endif
+            @if($errors->has($phoneNumberIndex))
+            <p class="m-0">{{ $errors->first($phoneNumberIndex) }}</p>
+            @endif
+            @if($errors->has($phoneExtensionIndex))
             <p class="m-0">{{ $errors->first($phoneExtensionIndex) }}</p>
-          @endif
+            @endif
           @endforeach
         @endif
         @if($errors->has('phoneNumbers'))
-          <p>{{ $errors->first('phoneNumbers') }}</p>
+        <p>{{ $errors->first('phoneNumbers') }}</p>
         @endif
       </div>
     </div>
@@ -677,7 +675,7 @@
     </div>
   </div> <!--FIN COORDONÉES-->
 
- <!--CONTACT-->
+  <!--CONTACT-->
     <!--Questions::Pourrait être dans les Nice to have ; est-ce qu'on permet de mettre des espaces pour le prénom/nom si la personne en a plusieurs ?-->
     <!--NICE_TO_HAVE::Formater automatiquement le numéro de tel sous le format 000-000-0000-->
     <!--NICE_TO_HAVE::Faire que l'on peut entrer le numéro de téléphone soit dans A ou dans B et que ça fonctionne-->
@@ -937,11 +935,14 @@
     </div> <!--FIN CONTACT-->
 
   <!--PIÈCES JOINTES-->
+   <!--TODO::
+    - Trouver comment envoyer le contenu du fichier pour stocker dans la BD.
+  -->
   <!--NICE_TO_HAVE::
     - Voir pour qu'au format mobile on voit bien la date. Pour l'instant on voit bien avec le résumé du fichier choisi.
   -->
-    <!--REMARQUES::
-    - 
+  <!--REMARQUES::
+   
   -->
   <!--QUESTIONs::
     - J'ai fait une liste des extensions les plus communs imprimables, est-ce que j'en rajoute ? Est-ce que faire une const [] est ok ?
@@ -964,7 +965,7 @@
           <div class="col-10">
             <div>
               <input class="form-control" type="file" id="formFile">
-            </div> 
+            </div>
             <div class="text-start invalid-feedback attachment" id="attachmentFileRequired" style="display: none;">{{__('form.attachmentFileRequired')}}</div>
             <div class="text-start invalid-feedback attachment" id="attachmentFileNameLength" style="display: none;">{{__('form.attachmentFileNameLength')}}</div>
             <div class="text-start invalid-feedback attachment" id="attachmentFileNameAlphaNum" style="display: none;">{{__('form.attachmentFileNameAlphaNum')}}</div>
@@ -1015,11 +1016,33 @@
       <div class="text-end inline-block">
         <p id="totalSize">/75Mo</p>
       </div>
+      @if(!is_null(old('fileNames')))
+        @foreach(old('fileNames') as $fileName)
+          <div hidden>
+            {{$fileNameIndex = "phoneTypes." . "$loop->index"}}
+            {{$fileSizeIndex = "fileSizes." . "$loop->index"}}
+            {{$fileTypeIndex = "fileTypes." . "$loop->index"}}
+            {{$addedFileDateIndex = "addedFileDates." . "$loop->index"}}
+          </div>
+          @if($errors->has($fileNameIndex))
+            <p class="m-0">{{ $errors->first($fileNameIndex) }}</p>
+          @endif
+          @if($errors->has($fileSizeIndex))
+            <p class="m-0">{{ $errors->first($fileSizeIndex) }}</p>
+          @endif
+          @if($errors->has($fileTypeIndex))
+            <p class="m-0">{{ $errors->first($fileTypeIndex) }}</p>
+          @endif
+          @if($errors->has($addedFileDateIndex))
+            <p class="m-0">{{ $errors->first($addedFileDateIndex) }}</p>
+          @endif
+        @endforeach
+      @endif
     </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
         <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-        <button id="attachmentFiles-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+        <button id="submit-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.submit')}}</button>
       </div>
     </div>
   </div> <!--FIN PIÈCES JOINTES-->

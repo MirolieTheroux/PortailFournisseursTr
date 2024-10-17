@@ -61,6 +61,10 @@ class SupplierRequest extends FormRequest
             'contactTelExtensionsA.*' => 'regex:/^[0-9]+$/i|max:6|nullable',
             'contactTelNumbersB.*' => 'regex:/^[0-9]+$/i|size:10|nullable',
             'contactTelExtensionsB.*' => 'regex:/^[0-9]+$/i|max:6|nullable',
+            'fileNames.*' => 'nullable|alpha_num|max:32',
+            'fileSizes.*' => 'nullable',
+            'fileTypes.*' => 'nullable|mimetypes:application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/jpeg,image/png,image/bmp,image/tiff,text/plain,application/rtf,application/vnd.oasis.opendocument.text,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'addedFileDates.*' => 'nullable|date_format:Y-m-d',
         ];
     }
 
