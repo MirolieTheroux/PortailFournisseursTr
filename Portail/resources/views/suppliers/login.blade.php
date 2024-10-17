@@ -21,7 +21,7 @@
         @csrf
           <div class="text-start">
             <div class="form-floating mb-3">
-                <input type="text" name="id" id="id" class="form-control" placeholder="" value="{{ old('id') }}" maxlength="10">
+                <input type="text" name="id" id="id" class="form-control" placeholder="" value="{{ old('id') }}">
                 <label for="neq">{{__('login.id')}}</label>
                 {{-- <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
                 <div class="invalid-feedback" id="neqInvalidThird" style="display: none;">{{__('form.identificationValidationNEQ3rd')}}</div>

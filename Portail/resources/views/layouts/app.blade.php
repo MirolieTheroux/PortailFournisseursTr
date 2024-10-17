@@ -89,16 +89,14 @@
       </div>
       <div class="progress "></div>
     </div> 
-    @elseif(isset($errors) && $errors->any())
+    @elseif(session('errorMessage'))
     {{-- TOAST ERREUR --}}
     <div class="toast">
       <div class="toast-content">
         <ion-icon class="text-erreur" name="close-circle-outline"></ion-icon>
         <div class="message">
           <span class="text text-1 text-erreur">Erreur</span>
-          @foreach($errors->all() as $error)
-            <span class="text text-2">{{$error}}</span>
-          @endforeach
+            <span class="text text-2">{{session('errorMessage')}}</span>
         </div>
       </div>
       <div class="progress progress-erreur"></div>

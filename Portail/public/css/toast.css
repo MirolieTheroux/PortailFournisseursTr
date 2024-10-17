@@ -91,7 +91,7 @@
   right: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(226, 215, 3, 1);
+  background-color: #68B545;
 }
 
 .progress.active:before {
@@ -125,7 +125,7 @@
 }
 
 .toast .toast-content ion-icon {
-  color: rgba(226, 215, 3, 1);
+  color: #68B545;
   font-size: 32px;
 }
 

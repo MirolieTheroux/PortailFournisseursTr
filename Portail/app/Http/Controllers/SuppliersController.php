@@ -31,12 +31,13 @@ class SuppliersController extends Controller
     Log::debug($request);
 
     $reussiNEQ=Auth::attempt(['neq' => $request->id,'password' => $request->password]);
-    //$reussiEmail=Auth::attempt(['email' => $request->id,'password' => $request->password]);
-    if($reussiNEQ){
+    $reussiEmail=Auth::attempt(['email' => $request->id,'password' => $request->password]);
+    if($reussiNEQ || $reussiEmail){
+      $supplier = Auth::user();
       return redirect()->route('suppliers.create')->with('message',"Connexion réussie");
     }
     else{
-      return redirect()->route('suppliers.showLogin')->withErrors(['Votre courriel ou mot de passe est invalide']);
+      return redirect()->route('suppliers.showLogin')->with('errorMessage',"Votre courriel ou mot de passe est invalide");
     }
   }
 
