@@ -9,4 +9,7 @@ return [
   'particular' => 'Particulier',
   'signinLink' => 'Soumettre une demande d\'inscription',
   'id' => 'Identifiant (NEQ ou Courriel)',
+
+  'getWrongSupplier' => 'Vous ne pouvez pas consulter la page d\'un autre fournisseur',
+  'wrongCredentials' => 'Votre courriel ou mot de passe est invalide'
 ];

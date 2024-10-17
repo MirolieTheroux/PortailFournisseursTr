@@ -28,8 +28,6 @@ class SuppliersController extends Controller
 
   public function login(LoginRequest $request)
   {
-    Log::debug($request);
-
     $reussiNEQ=Auth::attempt(['neq' => $request->id,'password' => $request->password]);
     $reussiEmail=Auth::attempt(['email' => $request->id,'password' => $request->password]);
     if($reussiNEQ || $reussiEmail){
@@ -37,7 +35,7 @@ class SuppliersController extends Controller
       return redirect()->route('suppliers.show', $supplier)->with('message',"Connexion réussie");
     }
     else{
-      return redirect()->route('suppliers.showLogin')->with('errorMessage',"Votre courriel ou mot de passe est invalide");
+      return redirect()->route('suppliers.showLogin')->with('errorMessage',__('login.wrongCredentials'));
     }
   }
 
@@ -168,7 +166,10 @@ class SuppliersController extends Controller
      */
     public function show(Supplier $supplier)
     {
-      return View('suppliers.show', compact('supplier'));
+      if($supplier == Auth::user())
+        return View('suppliers.show', compact('supplier'));
+      else
+        return redirect()->route('suppliers.showLogin')->with('errorMessage',__('login.getWrongSupplier'));
     }
 
     /**
