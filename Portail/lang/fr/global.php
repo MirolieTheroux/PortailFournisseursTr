@@ -8,4 +8,5 @@ return [
     'cancel' => 'Annuler',
     'save' => 'Enregistrer',
     'submit' => 'Soumettre',
+    'login' => 'Connexion',
 ];

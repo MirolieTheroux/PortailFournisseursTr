@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(WorkSubcategoriesSeeder::class);
         $this->call(ProvincesSeeder::class);
+        $this->call(SuppliersSeeder::class);
+        $this->call(AdressesSeeder::class);
     }
 }

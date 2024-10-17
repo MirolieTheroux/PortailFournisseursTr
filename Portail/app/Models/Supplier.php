@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Supplier extends Model
+class Supplier extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +22,13 @@ class Supplier extends Model
         'name',
         'email',
         'password',
+        'site',
+        'product_service_detail',
+        'tps_number',
+        'tvq_number',
+        'payment_condition',
+        'currency',
+        'communication_mode',
     ];
 
     /**
@@ -29,4 +39,24 @@ class Supplier extends Model
     protected $hidden = [
       'password',
     ];
+
+    public function contacts(){
+      return $this->hasMany(Contact::class);
+    }
+
+    public function phoneNumbers(){
+      return $this->hasMany(PhoneNumber::class);
+    }
+
+    public function rbqLicence(){
+      return $this->hasOne(RbqLicence::class);
+    }
+
+    public function workSubcategories(){
+      return $this->belongsToMany(WorkSubcategory::class, 'supplier_work_subcategory');
+    }
+
+    public function addresses(){
+      return $this->hasOne(Address::class);
+    }
 }

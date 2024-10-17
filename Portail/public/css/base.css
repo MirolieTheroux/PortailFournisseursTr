@@ -1,4 +1,6 @@
 :root{
+    --light_grey: #EEEEF0;
+
     --dark_blue: #0B2341;
     --light_blue: #78C6E0;
     --blue: #0076D5;
@@ -11,6 +13,8 @@
     --orange: #ED8C00;
     --yellow: #F3E700;
     --pink: #F99FD7;
+
+    --header_logo_height: 100px;
 }
 
 .hover-options:hover{
@@ -43,6 +47,12 @@
 @font-face {
     font-family: poppins;
     src: url(/font/Poppins-Light.otf);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body{
@@ -80,4 +90,35 @@ input:focus, select:focus{
 }
 .bg-lightblue{
     background-color: var(--light_blue);
+}
+
+.full-viewport{
+    height: calc(100vh - var(--header_logo_height)) !important;
+    z-index: 0;
+}
+
+.sticky-under-navbar{
+    position: sticky;
+    top: var(--header_logo_height);
+}
+
+.full-height{
+    min-height: 100% !important;
+    height: 100% !important;
+}
+
+.rounded-custom{
+  border-radius: 1.25em;
+}
+.rounded-top-left{
+  border-top-left-radius: 1.25rem;
+}
+.rounded-top-right{
+  border-top-right-radius: 1.25rem;
+}
+.rounded-bottom-left{
+  border-bottom-left-radius: 1.25rem;
+}
+.rounded-bottom-right{
+  border-bottom-right-radius: 1.25rem;
 }

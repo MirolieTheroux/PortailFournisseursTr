@@ -1,0 +1,75 @@
+:root{
+    --light_grey: #EEEEF0;
+
+    --dark_blue: #0B2341;
+    --light_blue: #78C6E0;
+    --blue: #0076D5;
+
+    --dark_green: #1E494D;
+    --light_green: #C5D800;
+    --green: #68B545;
+
+    --red: #E5004D;
+    --orange: #ED8C00;
+    --yellow: #F3E700;
+    --pink: #F99FD7;
+
+    --header_logo_height: 100px;
+}
+
+.section-title{
+    font-size: 24pt;
+}
+
+.section-subtitle{
+    font-size: 16pt;
+}
+
+.form-label{
+    font-size: 10pt;
+}
+
+@font-face {
+    font-family: poppins;
+    src: url(/font/Poppins-Light.otf);
+}
+
+body{
+    background-color: var(--light_grey);
+}
+
+div{
+    font-family: poppins;
+}
+
+.button-darkblue{
+    border: 0;
+    background-color: var(--dark_blue);
+    color: white;
+}
+.button-darkblue:hover{
+    background-color: var(--blue);
+    color: black;
+}
+.button-darkblue:active{
+    background-color: var(--yellow);
+    color: black;
+}
+
+input:focus, select:focus{
+    border: var(--blue) solid 1px !important;
+    box-shadow: none !important;
+}
+
+.bg-darkblue{
+    background-color: var(--dark_blue);
+}
+.bg-blue{
+    background-color: var(--blue);
+}
+.bg-lightblue{
+    background-color: var(--light_blue);
+}
+.bg-lightgrey{
+    background-color: var(--light_grey);
+}

@@ -45,10 +45,6 @@
     background-image: url("/img/coordonnees.jpg");
 }
 
-#add-tel{
-    color : var(--dark_blue)
-}
-
 /* Font-size label selon écran */
 @media (max-width: 992px) and (min-width:768px) {
     #postalCode{
@@ -60,6 +56,9 @@
 @media (max-width: 992px) {
     #div-phoneNumberList div{
         font-size: 12px;
+    }
+    #attachmentFilesList div{
+        font-size: 14px !important;
     }
 }
 
@@ -86,3 +85,16 @@
 
 
 /* PIÈCES JOINTES */
+.fond-attachment{
+    background-image: url("/img/coordonnees.jpg");
+}
+
+.w-60{
+    width: 60%;
+}
+
+@media (max-width: 1200px)  {
+    .width-sm{
+        width: 100% !important ;
+    }
+}

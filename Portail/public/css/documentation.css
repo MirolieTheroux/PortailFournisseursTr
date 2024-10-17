@@ -1,0 +1,9 @@
+.doc-nav-button:hover{
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+video {
+  max-width: 100%;
+  height: auto;
+}

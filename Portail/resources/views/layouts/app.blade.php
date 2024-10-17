@@ -9,23 +9,27 @@
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/toast.css') }}">
     @yield('css')
 </head>
-<body class="d-flex flex-column justify-content-between vh-100">
+<body class="d-flex flex-column justify-content-between min-vh-100">
     <!-- #HEADER -->
     <header class="navbar">
-        <div class="container-fluid bg-white shadow-sm mb-2">
+        <div class="container-fluid bg-white shadow-sm">
             <div class="row w-100">
                 <div class="col-6">
                     <img class="header-logo" src="{{ asset('img/VTR-12080_logo_NOIR.png') }}" alt="VTR Logo">
                 </div>
                 <div class="col-6 justify-content-end align-items-center">
                     <div class="d-none d-md-flex justify-content-end align-items-center h-100 w-100">
-                      <div class="p-2 border-end border-dark">{{__('navbar.returnHomeWebSite')}}</div>
-                      <div class="p-2">{{__('navbar.disconnect')}}</div>
+                      <div class="p-2 border-end border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
+                      <div class="p-2"><a href="{{__('navbar.returnHomeWebSiteLink')}}">{{__('navbar.returnHomeWebSite')}}</a></div>
+                      @auth
+                        <div class="p-2 border-start border-dark"><a href="{{route('suppliers.logout')}}">{{__('navbar.disconnect')}}</a></div>
+                      @endauth
                     </div>
-                    
-                    
+
+
                     <div class="d-flex d-md-none justify-content-end align-items-center h-100 w-100">
                       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
@@ -36,15 +40,20 @@
                 </div>
                 <div class="collapse" id="navbarToggleExternalContent">
                   <div class="d-flex d-md-none flex-column justify-content-center align-items-center">
-                    <div class="p-2 border-bottom border-dark">{{__('navbar.returnHomeWebSite')}}</div>
-                    <div class="p-2">{{__('navbar.disconnect')}}</div>
+                    <div class="text-center w-100 p-2 border-bottom border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
+                    <div class="text-center w-100 p-2">{{__('navbar.returnHomeWebSite')}}</div>
+                    @auth
+                      <div class="text-center w-100 p-2 border-top border-dark"><a href="{{route('suppliers.logout')}}">{{__('navbar.disconnect')}}</a></div>
+                    @endauth
+                    @yield('mobile-navbar')
                   </div>
                 </div>
             </div>
         </div>
     </header>
-    
-    <main>
+
+    <!-- #MAIN -->
+    <main class="container-fluid flex-grow-1">
         @yield('content')
     </main>
 
@@ -72,8 +81,38 @@
         </div>
     </footer>
 
+    {{-- TOAST RÉUSSI --}}
+    @if(session('message'))
+    <div class="toast ">
+      <div class="toast-content">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <div class="message">
+          <span class="text text-1">Réussi</span>
+          <span class="text text-2">{{session('message')}}</span>
+        </div>
+      </div>
+      <div class="progress "></div>
+    </div> 
+    @elseif(session('errorMessage'))
+    {{-- TOAST ERREUR --}}
+    <div class="toast">
+      <div class="toast-content">
+        <ion-icon class="text-erreur" name="close-circle-outline"></ion-icon>
+        <div class="message">
+          <span class="text text-1 text-erreur">Erreur</span>
+            <span class="text text-2">{{session('errorMessage')}}</span>
+        </div>
+      </div>
+      <div class="progress progress-erreur"></div>
+    </div>
+    @endif
+
     <!-- #SCRIPT -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="{{ asset('js/toast.js') }}"></script>
+    
     @yield('scripts')
 </body>
 </html>

@@ -2,14 +2,25 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuppliersController;
+use App\Http\Controllers\DocumentationController;
 use App\Http\Middleware\LoggerMiddleware;
 
 /*Route::get('/', function () {
     return view('welcome');
 });*/
 
-Route::get('/', [SuppliersController::class, 'create'])->name('suppliers.create');
-
-Route::post('suppliers', [SuppliersController::class, 'store'])->name('suppliers.store');
+Route::get('/', [SuppliersController::class,'showLogin'])->name('suppliers.showLogin');
+Route::post('/login', [SuppliersController::class,'login'])->name('suppliers.login');
+Route::get('/signin', [SuppliersController::class, 'create'])->name('suppliers.create');
+Route::get('/logout', [SuppliersController::class, 'logout'])->name('suppliers.logout');
 
 Route::get('/services', [SuppliersController::class, 'search']);
+
+Route::post('suppliers', [SuppliersController::class, 'store'])->name('suppliers.store')->middleware(LoggerMiddleware::class);
+Route::get('suppliers/{supplier}', [SuppliersController::class, 'show'])->name('suppliers.show');
+
+Route::post('/suppliers/checkEmail', [SuppliersController::class, 'checkEmail'])->name('suppliers.checkEmail');
+Route::post('/suppliers/checkNeq', [SuppliersController::class, 'checkNeq'])->name('suppliers.checkNeq');
+Route::post('/suppliers/checkRbq', [SuppliersController::class, 'checkRbq'])->name('suppliers.checkRbq');
+
+Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');

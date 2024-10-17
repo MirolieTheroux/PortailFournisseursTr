@@ -1,0 +1,18 @@
+.header-logo{
+    height: var(--header_logo_height);
+}
+
+.icon-hamburger{
+  color: black;
+}
+
+.navbar-toggler:focus{
+  box-shadow: none !important;
+}
+
+.navbar {
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+}

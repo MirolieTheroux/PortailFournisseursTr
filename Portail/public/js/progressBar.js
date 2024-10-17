@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-    nextButton.addEventListener('click', function() {
-        if ((currentStep < steps.length - 1) && areFieldsValid) {
-            steps[currentStep].classList.remove('current'); 
-            currentStep++; 
-            steps[currentStep].classList.add('current'); 
-        }
-    });
+    // nextButton.addEventListener('click', function() {
+    //     if ((currentStep < steps.length - 1) && areFieldsValid) {
+    //         steps[currentStep].classList.remove('current'); 
+    //         currentStep++; 
+    //         steps[currentStep].classList.add('current'); 
+    //     }
+    // });
 });
