@@ -20,21 +20,16 @@
         <form method="post" action="{{route('suppliers.login') }}" id="company-form" class="form d-flex flex-column mx-3">
         @csrf
           <div class="text-start">
-            <div class="form-floating mb-3">
+            <div class="form-floating">
                 <input type="text" name="id" id="id" class="form-control" placeholder="" value="{{ old('id') }}">
                 <label for="neq">{{__('login.id')}}</label>
-                {{-- <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
-                <div class="invalid-feedback" id="neqInvalidThird" style="display: none;">{{__('form.identificationValidationNEQ3rd')}}</div>
-                <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('form.identificationValidationNEQOnlyDigits')}}</div>
-                <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('form.identificationValidationNEQAmount')}}</div>
-                <div class="invalid-feedback" id="neqInvalidExist" style="display: none;">{{__('form.identificationNeqExistValidation')}}</div> --}}
             </div>
             @if($errors->has('id'))
-              <p>{{ $errors->first('id') }}</p>
+              <div class="invalid-feedback-custom">{{ $errors->first('id') }}</div>
             @endif
           </div>
           <div class="col-12 d-flex flex-column justify-content-between">
-            <div class="form-floating mb-3">
+            <div class="form-floating mt-3">
                 <input type="password" name="password" id="password"  class="form-control" placeholder="" value="{{ old('password') }}" maxlength="12">
                 <label for="password">{{__('form.passwordLabel')}}</label>
                 {{-- <div class="invalid-feedback" id="passwordInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Mot de passe'])}}</div>
@@ -45,10 +40,10 @@
                 <div class="invalid-feedback" id="passwordInvalidSpecial" style="display: none;">{{__('form.identificationValidationMDPSpecial')}}</div> --}}
             </div>
             @if($errors->has('password'))
-              <p>{{ $errors->first('password') }}</p>
+              <div class="invalid-feedback-custom">{{ $errors->first('password') }}</div>
             @endif
           </div>
-          <div class="row">
+          <div class="row mt-3">
             <div class="col-12 d-flex justify-content-center mb-3">
               <button type="submit" class="py-1 px-3 rounded button-darkblue">{{__('global.login')}}</button>
             </div>

@@ -14,3 +14,8 @@
 .singin-link{
   font-size: 0.80em;
 }
+
+.invalid-feedback-custom{
+  color: #dc3545;
+  font-size: 0.875em;
+}
