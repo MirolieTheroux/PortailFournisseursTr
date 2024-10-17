@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/supplier.css') }}">
 <link rel="stylesheet" href="{{ asset('css/progressBar.css') }}">
 <link rel="stylesheet" href="{{ asset('css/documentation.css') }}">
-<link rel="stylesheet" href="{{ asset('css/test.css') }}">
 @endsection
 
 @section('content')
@@ -681,7 +680,7 @@
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-3">
         <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-        <button id="contactDetails-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue ">Suivant</button>
+        <button id="contactDetails-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue ">Suivant</button>
       </div>
     </div>
   </div> <!--FIN COORDONÉES-->
@@ -940,7 +939,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
                 <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-                <button id="contacts-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+                <button id="contacts-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
             </div>
         </div>
     </div> <!--FIN CONTACT-->

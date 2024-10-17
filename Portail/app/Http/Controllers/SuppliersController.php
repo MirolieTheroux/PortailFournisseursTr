@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SupplierRequest;
+use App\Http\Requests\LoginRequest;
 use App\Models\Supplier;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
@@ -15,9 +16,40 @@ use App\Models\ProductServiceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\facades\Auth;
+use Illuminate\Support\facades\Session;
 
 class SuppliersController extends Controller
 {
+  public function showLogin()
+  {
+    return View('suppliers.login');
+  }
+
+  public function login(LoginRequest $request)
+  {
+    $reussiNEQ=Auth::attempt(['neq' => $request->id,'password' => $request->password]);
+    $reussiEmail=Auth::attempt(['email' => $request->id,'password' => $request->password]);
+    if($reussiNEQ || $reussiEmail){
+      $supplier = Auth::user();
+      return redirect()->route('suppliers.show', $supplier)->with('message',"Connexion réussie");
+    }
+    else{
+      return redirect()->route('suppliers.showLogin')->with('errorMessage',__('login.wrongCredentials'));
+    }
+  }
+
+  public function logout(Request $request)
+  {
+      Auth::logout();
+  
+      $request->session()->invalidate();
+  
+      $request->session()->regenerateToken();
+  
+      return redirect()->route('suppliers.showLogin')->with('message',"Déconnexion réussie");
+  }  
+
     /**
      * Display a listing of the resource.
      */
@@ -43,8 +75,6 @@ class SuppliersController extends Controller
 
         return View('suppliers.create', compact('workSubcategories','provinces', 'productServices', 'productServiceSubCategories', 'productServiceCategories'));
     }
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -145,9 +175,12 @@ class SuppliersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Supplier $supplier)
     {
-        //
+      if($supplier == Auth::user())
+        return View('suppliers.show', compact('supplier'));
+      else
+        return redirect()->route('suppliers.showLogin')->with('errorMessage',__('login.getWrongSupplier'));
     }
 
     /**

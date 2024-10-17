@@ -4,6 +4,7 @@
 
 return [
     'neqLabel' => 'Numéro d\'entreprise du Québec (NEQ)',
+    'neqLabelShort' => 'NEQ',
     'companyNameLabel' => 'Nom de l\'entreprise',
     'emailLabel' => 'Adresse courriel',
     'passwordLabel' => 'Mot de passe',
