@@ -17,6 +17,21 @@
     --header_logo_height: 100px;
 }
 
+.hover-options:hover{
+    background-color: rgb(225, 225, 225);
+}
+
+.disabled-options{
+    background-color: rgb(175, 175, 175);
+    color: black;
+    pointer-events: none;
+}
+
+.note{
+    font-size: 10pt;
+    color: gray;
+}
+
 .section-title{
     font-size: 24pt;
 }
@@ -32,6 +47,12 @@
 @font-face {
     font-family: poppins;
     src: url(/font/Poppins-Light.otf);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body{
@@ -79,4 +100,25 @@ input:focus, select:focus{
 .sticky-under-navbar{
     position: sticky;
     top: var(--header_logo_height);
+}
+
+.full-height{
+    min-height: 100% !important;
+    height: 100% !important;
+}
+
+.rounded-custom{
+  border-radius: 1.25em;
+}
+.rounded-top-left{
+  border-top-left-radius: 1.25rem;
+}
+.rounded-top-right{
+  border-top-right-radius: 1.25rem;
+}
+.rounded-bottom-left{
+  border-bottom-left-radius: 1.25rem;
+}
+.rounded-bottom-right{
+  border-bottom-right-radius: 1.25rem;
 }

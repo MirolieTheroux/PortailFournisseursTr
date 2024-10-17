@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Supplier extends Model
+class Supplier extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +22,7 @@ class Supplier extends Model
         'name',
         'email',
         'password',
+        'confirmPassword',
         'site',
         'product_service_detail',
         'tps_number',
@@ -35,6 +39,8 @@ class Supplier extends Model
      */
     protected $hidden = [
       'password',
+      'confirmPassword',
+      'remember_token',
     ];
 
     public function contacts(){

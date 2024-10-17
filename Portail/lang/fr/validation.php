@@ -190,6 +190,7 @@ return [
     */
 
     'attributes' => [
+      'id' => 'Identifiant',
       'name' => 'Nom',
       'email' => 'Adresse courriel',
       'password' => 'Mot de passe',

@@ -17,6 +17,13 @@
     --header_logo_height: 100px;
 }
 
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .section-title{
     font-size: 24pt;
 }
@@ -72,4 +79,20 @@ input:focus, select:focus{
 }
 .bg-lightgrey{
     background-color: var(--light_grey);
+}
+
+.rounded-custom{
+  border-radius: 1.25em;
+}
+.rounded-top-left{
+  border-top-left-radius: 1.25rem;
+}
+.rounded-top-right{
+  border-top-right-radius: 1.25rem;
+}
+.rounded-bottom-left{
+  border-bottom-left-radius: 1.25rem;
+}
+.rounded-bottom-right{
+  border-bottom-right-radius: 1.25rem;
 }

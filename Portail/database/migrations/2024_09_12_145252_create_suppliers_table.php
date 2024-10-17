@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('payment_condition', 64)->nullable();
             $table->integer('currency')->nullable();
             $table->integer('communication_mode')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@
 
 return [
     'returnHomeWebSite' => 'Retour au site de la ville',
+    'returnHomeWebSiteLink' => 'https://www.v3r.net/affaires/faire-affaire-avec-la-ville#sinscrire-au-fichier-des-fournisseuses-et-des-fournisseurs',
     'disconnect' => 'Déconnexion',
     'help' => 'Aide',
 ];

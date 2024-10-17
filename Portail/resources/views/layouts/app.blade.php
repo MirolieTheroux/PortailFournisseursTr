@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/toast.css') }}">
     @yield('css')
 </head>
 <body class="d-flex flex-column justify-content-between min-vh-100">
@@ -22,8 +23,13 @@
                 <div class="col-6 justify-content-end align-items-center">
                     <div class="d-none d-md-flex justify-content-end align-items-center h-100 w-100">
                       <div class="p-2 border-end border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
-                      <div class="p-2 border-end border-dark">{{__('navbar.returnHomeWebSite')}}</div>
-                      <div class="p-2">{{__('navbar.disconnect')}}</div>
+                      <div class="p-2"><a href="{{__('navbar.returnHomeWebSiteLink')}}">{{__('navbar.returnHomeWebSite')}}</a></div>
+                      @auth
+                        <form action="{{route('suppliers.logout')}}" method="post">
+                          @csrf
+                          <button class="p-2 border-start border-dark link-button" type="submit">{{__('navbar.disconnect')}}</button>
+                        </form>
+                      @endauth
                     </div>
 
 
@@ -38,8 +44,13 @@
                 <div class="collapse" id="navbarToggleExternalContent">
                   <div class="d-flex d-md-none flex-column justify-content-center align-items-center">
                     <div class="text-center w-100 p-2 border-bottom border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
-                    <div class="text-center w-100 p-2 border-bottom border-dark">{{__('navbar.returnHomeWebSite')}}</div>
-                    <div class="text-center w-100 p-2">{{__('navbar.disconnect')}}</div>
+                    <div class="text-center w-100 p-2">{{__('navbar.returnHomeWebSite')}}</div>
+                    @auth
+                      <form class="w-100" action="{{route('suppliers.logout')}}" method="post">
+                        @csrf
+                        <button class="text-center w-100 p-2 border-top border-dark link-button" type="submit">{{__('navbar.disconnect')}}</button>
+                      </form>
+                    @endauth
                     @yield('mobile-navbar')
                   </div>
                 </div>
@@ -47,7 +58,8 @@
         </div>
     </header>
 
-    <main class="h-100">
+    <!-- #MAIN -->
+    <main class="container-fluid flex-grow-1">
         @yield('content')
     </main>
 
@@ -75,8 +87,38 @@
         </div>
     </footer>
 
+    {{-- TOAST RÉUSSI --}}
+    @if(session('message'))
+    <div class="toast ">
+      <div class="toast-content">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <div class="message">
+          <span class="text text-1">Réussi</span>
+          <span class="text text-2">{{session('message')}}</span>
+        </div>
+      </div>
+      <div class="progress "></div>
+    </div> 
+    @elseif(session('errorMessage'))
+    {{-- TOAST ERREUR --}}
+    <div class="toast">
+      <div class="toast-content">
+        <ion-icon class="text-erreur" name="close-circle-outline"></ion-icon>
+        <div class="message">
+          <span class="text text-1 text-erreur">Erreur</span>
+            <span class="text text-2">{{session('errorMessage')}}</span>
+        </div>
+      </div>
+      <div class="progress progress-erreur"></div>
+    </div>
+    @endif
+
     <!-- #SCRIPT -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="{{ asset('js/toast.js') }}"></script>
+    
     @yield('scripts')
 </body>
 </html>

@@ -5,14 +5,11 @@
 @endsection
 
 @section('mobile-navbar')
-<!--NICE_TO_HAVE::
-  - Mettre le curseur que c'est cliquable en mode mobile les sections de la documentation.
-  - Peut-être diminuer les titres.
--->
+<!--NICE_TO_HAVE::- Peut-être diminuer les titres.-->
 <div class="w-100 border-top border-dark">
   <div class="text-center w-100 p-2 fw-bolder">{{__('documentation.title')}}</div>
   <div id="login-nav-button-mobile" class="text-center w-100 p-2">{{__('documentation.login')}}</div>
-  <div id="singup-nav-button-mobile" class="text-center w-100 p-2">{{__('documentation.signUp')}}</div>
+  <div id="signup-nav-button-mobile" class="text-center w-100 p-2">{{__('documentation.signUp')}}</div>
   <div id="home-nav-button-mobile" class="text-center w-100 p-2">{{__('documentation.homePage')}}</div>
   <div id="update-nav-button-mobile" class="text-center w-100 p-2">{{__('documentation.updateAccount')}}</div>
   <div id="delete-nav-button-mobile" class="text-center w-100 p-2">{{__('documentation.deleteAccount')}}</div>
@@ -22,17 +19,10 @@
 @section('content')
 <div class="container-fluid d-flex flex-column h-100">
   <div class="row h-100">
-    <!--NICE_TO_HAVE::
-      - Box-Shadow pour le menu du côté.
-      - Les nom des variables signup au lieu de singup.
-    -->
-    <!--QUESTIONS::
-     - Les fonctions pour faire afficher les documentations, est-ce qu'on pourrait à la place en faire une pour tout ? Qui prendrait en 
-       argument le id de la section ?
-    -->
+    <!--NICE_TO_HAVE::Box-Shadow pour le menu du côté.-->
     <div class="d-none d-md-block col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-start">
       <div id="login-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.login')}}</div>
-      <div id="singup-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.signUp')}}</div>
+      <div id="signup-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.signUp')}}</div>
       <div id="home-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.homePage')}}</div>
       <div id="update-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.updateAccount')}}</div>
       <div id="delete-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.deleteAccount')}}</div>
@@ -50,7 +40,7 @@
         </div>
         <h3 class="text-start">{{__('documentation.login')}} - {{__('documentation.particular')}}</h3>
       </div>
-      <div id="doc-section-singup" class="d-none doc-section">
+      <div id="doc-section-signup" class="d-none doc-section">
         <h2 class="text-start">{{__('documentation.signUpForm')}}</h2>
         <h3 class="text-start">{{__('documentation.idSection')}}</h3>
         <div class="d-flex w-100 justify-content-center">
