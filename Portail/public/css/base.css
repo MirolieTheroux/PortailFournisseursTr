@@ -17,6 +17,21 @@
     --header_logo_height: 100px;
 }
 
+.hover-options:hover{
+    background-color: rgb(225, 225, 225);
+}
+
+.disabled-options{
+    background-color: rgb(175, 175, 175);
+    color: black;
+    pointer-events: none;
+}
+
+.note{
+    font-size: 10pt;
+    color: gray;
+}
+
 .section-title{
     font-size: 24pt;
 }

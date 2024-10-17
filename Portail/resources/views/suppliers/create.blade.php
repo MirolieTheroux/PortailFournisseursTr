@@ -147,7 +147,32 @@
     </div>  <!--FIN IDENTIFICATION-->
 
   <!--PRODUIT ET SERVICE-->
+  <!--
+    REMARQUES::
+      - (Ligne : 187) Le titre de colonne "Catégorie" serait à changer car ça n'a plus rapport. Je pense que je metterais rien en fait.
+      - (Ligne : 196) Dans ton textarea pour les détails et spécifications, tu as pas de name donc ça risque de causé des problèmes pour la sauvegarde dans la bd
+      - (Ligne : 190) Dans le même ordre d'idée, le input pour la recherche d'un service ne devrait pas avoir de name, comme ça, ça se rendra pas dans le backend du formulaire.
+          - A moins que tu t'en serve dans à quelque part que j'ai pas vu.
+      - (Ligne : 209) Tu as encore un bouton load more même si il est toujours en display none. Peut-être que j'ai manqué un bout mais ça me semble un oublie.
+        Si c'est ça, il faudrait le supprimer.
+      - Lorsque tu créer tes service dans la liste à offrir, tu n'as pas mis d'input caché. Je pense que ça va t'en prendre au moins un avec le code UNSPSC
+        pour qu'on puisse les récupérer en backend et les linker au fournisseur.
+          - Le input pourrait avoir comme "name" : "produitsServices[]" et comme value le code UNSPSC (Surment que tu as trouvé de quoi mais t'en qu'a y avoir pensé je met ça là)
+      - Personnellement, je ne pense pas que le X pour supprimer est un nice to have, je pense que c'est un must.
+          - Même si c'est marque de cliquez pour supprimer, je pense que plusieurs personne ne le liront pas et comme ce n'est pas intuitif, je pense
+            que ça pourrait créer de la confusion chez certains utilisateurs
+          - On peut attendre de voir avec le gars de UX/UI de la ville si tu aimes mieux par contre. (Car je pense que se sera pas trop long à changer)
+      - Pour les catégories sélectionnées, est-ce que au lieu de mettre le background en gris, si on change le text en gris et 
+        que quand on hover ça reste blanc ça pourrait faire plus beau?
+      - Responsive :
+        - Changer le titre pour "Produits et Services" pour éviter qu'il tombe sur 2 ligne en mobile
+        - NICE_TO_HAVE : Mettre la section détails et spécification à la fin pour que la barre de recherche soit directement au dessus des services.
+  -->
+  <!--NICE_TO_HAVE::Ajouter un X pour supprimer les catégories-->
+  <!--NICE_TO_HAVE::Quand la recherche est vide, trier par ordre de numéro-->
   <!--NICE_TO_HAVE::Drag and drop pour les catégories-->
+  <!--NICE_TO_HAVE::Synonymes pour la fonction de recherche-->
+  <!--NICE_TO_HAVE::Indicateur lorsque les données charge-->
   <div class="container bg-white rounded my-2">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
@@ -167,70 +192,37 @@
           </div>
         </div>
         <div class="text-center">
-          <div class="form-floating mb-3">
-            <textarea class="form-control" name="product_service_detail" placeholder="details" id="company-name" style="height: 160px; resize: none;" maxlength="500"></textarea>
-            <label for="company-name" class="labelbackground">{{__('form.productsAndServiceCategoriesDetails')}}</label>
+          <div class="form-floating">
+            <textarea class="form-control" placeholder="details" id="products-details" style="height: 232px; resize: none;" maxlength="500"></textarea>
+            <label for="products-details" class="labelbackground">{{__('form.productsAndServiceCategoriesDetails')}}</label>
+            <div class="note"><br></div>
           </div>
         </div>
       </div>
       <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
         <h2 class="text-center section-subtitle">{{__('form.productsAndServiceServices')}}</h2>
         <div>
-          <div class="form-floating mb-3">
-            <div class="form-control" placeholder="details" id="company-name" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-              <div class="mt-lg-0 mt-md-4">
-                @php
-                $totalDisplayed = 0; // Counter to track the number of displayed productServices
-                @endphp
-                @foreach($productServiceCategories as $productServiceCategory)
-                @if ($totalDisplayed >= 50)
-                @break
-                @endif
-                <div style="color: red;">{{$productServiceCategory->nature}}</div>
-                @foreach($productServiceSubCategories->where('nature', $productServiceCategory->nature) as $productServiceSubCategory)
-                @if ($totalDisplayed >= 50)
-                @break
-                @endif
-                <div style="color: blue;">{{$productServiceSubCategory->name}}</div>
-                @foreach($productServices->where('category_code', $productServiceSubCategory->code) as $productService)
-                @if ($totalDisplayed >= 50)
-                @break
-                @endif
-                <div class="row align-items-start mt-2">
-                  <div class="col-1 col-md-1 d-flex flex-column justify-content-start">
-                    <input class="form-check-input" type="checkbox" onclick="checkedbox(this)" id="category{{ $loop->index }}" value="">
-                  </div>
-                  <div class="col-3 col-md-3 d-flex flex-column justify-content-start">
-                    <label class="form-check-label" for="category{{ $loop->index }}">{{$productService->code}}</label>
-                  </div>
-                  <div class="col-8 col-md-8 d-flex flex-column justify-content-start">
-                    <label class="form-check-label" for="category{{ $loop->index }}">{{$productService->description}}</label>
-                  </div>
-                </div>
-                @php
-                $totalDisplayed++; // Increment the counter
-                @endphp
-                @endforeach
-                @endforeach
-                @endforeach
+          <div class="form-floating">
+            <div class="form-control" placeholder="details" id="products-categories" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+              <div class="mt-lg-0 mt-md-4" id="service-list">
               </div>
+              <input type="button" id="load-more-button" class="d-none" value="Show more"></input>
             </div>
-            <label for="company-name" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
+            <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
+            <div class="note" id="results-count"><br></div>
           </div>
         </div>
       </div>
       <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
         <h2 class="text-center section-subtitle">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
         <div>
-          <div class="form-floating mb-3">
-            <div class="form-control" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-              <div class="row px-3">
-                <div class="col-12 col-md-12 d-flex flex-column justify-content-between">
-                  <label class="mb-2" id="selectedcategory1" for="category1" style="display:none;">Service d'entretien ménager</label>
-                  <label class="mb-2" id="selectedcategory2" for="category2" style="display:none;">Service d'entretien de pelouse</label>
-                </div>
+          <div class="form-floating">
+            <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+              <div class="mt-lg-0 mt-md-4" id="service-selected">
               </div>
             </div>
+            <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label>
+            <div class="note"><br></div>
           </div>
         </div>
       </div>
@@ -1041,7 +1033,7 @@
   const oldDistrictArea = "{{ old('contactDetailsDistrictArea') }}";
 </script>
 <script src="{{ asset('js/suppliersCreate/createValidationIdentification.js') }}"></script>
-<script src="{{ asset('js/suppliersCreate/produitsServices.js') }}"></script>
+<script src="{{ asset('js/suppliersCreate/productsServices.js') }}"></script>
 <script src="{{ asset('js/suppliersCreate/rbq.js') }} "></script>
 <script src="{{ asset('js/suppliersCreate/contact.js') }} "></script>
 <script src="{{ asset('js/progressBar.js') }} "></script>
