@@ -1,19 +1,30 @@
 const inputFile = document.getElementById("formFile");
-const attachmentFileRequired = document.getElementById("attachmentFileRequired");
 const divFileName = document.getElementById("fileName");
 const divFileSize = document.getElementById("fileSize");
 const divAddedFileDate = document.getElementById("addedFileDate");
+//Error messages DIV
+const attachmentFileRequired = document.getElementById("attachmentFileRequired");
+const attachmentFileNameLength = document.getElementById("attachmentFileNameLength");
+const attachmentFileFormat = document.getElementById("attachmentFileFormat");
+const attachmentFileNameAlphaNum = document.getElementById("attachmentFileNameAlphaNum");
+const attachmentSameFileName = document.getElementById("attachmentSameFileName");
+const attachmentFilesExceedSize = document.getElementById("attachmentFilesExceedSize");
+
 let pTotalSize = document.getElementById("totalSize");
 let fileNameWithoutExtension;
 let fileSizeMo;
 let totalSizeMo = 0;
 
 document.getElementById("formFile").addEventListener("change", () => {
+  // Reset all error messages
+  attachmentFileNameLength.style.display = "none";
+  attachmentFileFormat.style.display = "none";
+  attachmentFileNameAlphaNum.style.display = "none";
+  attachmentSameFileName.style.display = "none";
   attachmentFileRequired.style.display = "none";
+  attachmentFilesExceedSize.style.display = "none";
   validateFile();
-  validateSameFileName();
-  validateTotalSize(inputFile.files[0].size/(1024 * 1024).toFixed(2));
-  if (inputFile.files.length > 0 && validateFileBeforeClick()) {
+  if (inputFile.files.length > 0) {
     const file = inputFile.files[0];
     const fileSizeInMo = (file.size / (1024 * 1024)).toFixed(2);
     fileSizeMo = fileSizeInMo;
@@ -32,21 +43,44 @@ document.getElementById("add-file").addEventListener("click", () => {
     const fileSize = document.getElementById("fileSize").textContent;
     const addedFileDate = document.getElementById("addedFileDate").textContent;
     
-
     const fileItem = document.createElement("div");
     fileItem.classList.add("row", "mb-2", "align-items-center", "justify-content-between");
-
+    //INPUT FILEFORM
+    const fileForm = document.createElement("input");
+    fileForm.type = "file"
+    fileForm.classList.add("d-none");
+    fileForm.files = inputFile.files;
+    fileForm.setAttribute("name", "files[]");
+    // fileForm.setAttribute("id", "files");
+    //DIV FILE NAME
     const fileNameDiv = document.createElement("div");
     fileNameDiv.classList.add("col-6", "fs-6", "text-wrap", "fileName");
     fileNameDiv.textContent = fileName;
-
+    const inputFileNameHidden = document.createElement("input");
+    inputFileNameHidden.value = fileName;
+    inputFileNameHidden.classList.add("d-none");
+    inputFileNameHidden.setAttribute("name", "fileNames[]");
+    //DIV FILE SIZE
     const fileSizeDiv = document.createElement("div");
-    fileSizeDiv.classList.add("col-2", "fs-6", "text-center");
+    fileSizeDiv.classList.add("col-2", "fs-6", "text-center", "fileSize");
     fileSizeDiv.textContent = fileSize;
-
+    const inputFileSizeHidden = document.createElement("input");
+    inputFileSizeHidden.value = fileSize;
+    inputFileSizeHidden.classList.add("d-none");
+    inputFileSizeHidden.setAttribute("name", "fileSizes[]");
+    //DIV FILE ADDED DATE
     const fileDateDiv = document.createElement("div");
-    fileDateDiv.classList.add("col-2", "fs-6", "text-center");
+    fileDateDiv.classList.add("col-2", "fs-6", "text-center", "addedFileDate");
     fileDateDiv.textContent = addedFileDate;
+    const inputAddedFileDateHidden = document.createElement("input");
+    inputAddedFileDateHidden.value = addedFileDate;
+    inputAddedFileDateHidden.classList.add("d-none");
+    inputAddedFileDateHidden.setAttribute("name", "addedFileDates[]");
+    //TYPES
+    const inputFileTypeHidden = document.createElement("input");
+    inputFileTypeHidden.value = inputFile.files[0].type;
+    inputFileTypeHidden.classList.add("d-none");
+    inputFileTypeHidden.setAttribute("name", "fileTypes[]");
 
     const removeDiv = document.createElement("div");
     removeDiv.classList.add("col-2", "text-center");
@@ -63,10 +97,13 @@ document.getElementById("add-file").addEventListener("click", () => {
     
     removeDiv.onclick = () => {
       const fileSize = parseFloat(fileSizeDiv.textContent); 
-      // const pTotalSize = document.getElementById("totalSize");
       fileItem.remove();
       totalSizeMo -= fileSize; 
       pTotalSize.textContent = totalSizeMo.toFixed(2) + " Mo" + "/75 Mo";
+      inputFile.classList.remove("is-valid");
+      inputFile.classList.remove("is-invalid");
+      if(inputFile.files.length > 0)
+        validateSameFileName();
     };
 
     removeDiv.appendChild(removeFile);
@@ -75,6 +112,10 @@ document.getElementById("add-file").addEventListener("click", () => {
     fileItem.appendChild(fileSizeDiv);
     fileItem.appendChild(fileDateDiv);
     fileItem.appendChild(removeDiv);
+    fileItem.appendChild(fileForm);
+    fileItem.appendChild(inputFileNameHidden);
+    fileItem.appendChild(inputFileSizeHidden);
+    fileItem.appendChild(inputAddedFileDateHidden);
 
     attachmentFilesList.appendChild(fileItem);
     clearInfos()
@@ -86,9 +127,6 @@ document.getElementById("add-file").addEventListener("click", () => {
 //VALIDATIONS
 function validateFile(){
   const regexAlphanum = /^[a-zA-Z0-9 ]+$/;
-  const attachmentFileNameLength = document.getElementById("attachmentFileNameLength");
-  const attachmentFileFormat = document.getElementById("attachmentFileFormat");
-  const attachmentFileNameAlphaNum = document.getElementById("attachmentFileNameAlphaNum");
   const validMimeTypes = [
     "application/msword", 
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -151,7 +189,6 @@ function validateFileRequired(){
 }
 
 function validateSameFileName(){
-  const attachmentSameFileName = document.getElementById("attachmentSameFileName");
   const allDivsFileName = document.querySelectorAll(".fileName");
   let isFileName = false;
   allDivsFileName.forEach(file => {
@@ -168,9 +205,7 @@ function validateSameFileName(){
   }
 }
 
-
 function validateTotalSize(size){
-  const attachmentFilesExceedSize = document.getElementById("attachmentFilesExceedSize");
   let addedSize = parseFloat(size) + totalSizeMo;
   attachmentFileRequired.style.display = "none";
   if(addedSize > 75){
@@ -202,10 +237,37 @@ function clearInfos(){
   inputFile.classList.remove("is-valid");
 }
 
-
-document.getElementById("attachmentFiles-button").addEventListener("click", () =>{
- validateFile()
+document.addEventListener("DOMContentLoaded", function () {
+  const buttonsDelete = document.querySelectorAll(".removeFile");
+  buttonsDelete.forEach(button => {
+    const conteneurButton = button.closest(".divFile");
+    button.addEventListener("click", () => {
+      conteneurButton.remove();
+    });
+  });
+  addCitiesAndDAInSelect();
+  validateSelectCity();
 });
+
+// let filesArray = [];
+
+// document.getElementById("add-file").addEventListener("click", () => {
+//     filesArray.push(inputFile.files[0]);
+// });
+
+// function uploadFiles(event){
+//     event.preventDefault();
+//     if(filesArray.length > 0){
+//         const formData = new FormData();
+//         filesArray.forEach((file, index) => {
+//             formData.append(`files[${index}]`, file);
+//         });
+       
+//         console.log([...formData]); 
+//     }
+// }
+
+// document.getElementById("submit-button").addEventListener("click", uploadFiles);
 
 window.addEventListener("beforeunload", () => {
   inputFile.value = ""; 
