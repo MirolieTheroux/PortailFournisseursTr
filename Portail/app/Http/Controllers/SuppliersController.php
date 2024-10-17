@@ -34,7 +34,7 @@ class SuppliersController extends Controller
     $reussiEmail=Auth::attempt(['email' => $request->id,'password' => $request->password]);
     if($reussiNEQ || $reussiEmail){
       $supplier = Auth::user();
-      return redirect()->route('suppliers.create')->with('message',"Connexion réussie");
+      return redirect()->route('suppliers.show', $supplier)->with('message',"Connexion réussie");
     }
     else{
       return redirect()->route('suppliers.showLogin')->with('errorMessage',"Votre courriel ou mot de passe est invalide");
@@ -166,9 +166,9 @@ class SuppliersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Supplier $supplier)
     {
-        //
+      return View('suppliers.show', compact('supplier'));
     }
 
     /**

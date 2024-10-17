@@ -14,6 +14,7 @@ Route::post('/login', [SuppliersController::class,'login'])->name('suppliers.log
 Route::get('/signin', [SuppliersController::class, 'create'])->name('suppliers.create');
 
 Route::post('suppliers', [SuppliersController::class, 'store'])->name('suppliers.store')->middleware(LoggerMiddleware::class);
+Route::get('suppliers/{supplier}', [SuppliersController::class, 'show'])->name('suppliers.show');
 
 Route::post('/suppliers/checkEmail', [SuppliersController::class, 'checkEmail'])->name('suppliers.checkEmail');
 Route::post('/suppliers/checkNeq', [SuppliersController::class, 'checkNeq'])->name('suppliers.checkNeq');
