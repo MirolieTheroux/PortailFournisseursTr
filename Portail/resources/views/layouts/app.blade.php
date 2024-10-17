@@ -53,7 +53,7 @@
     </header>
 
     <!-- #MAIN -->
-    <main class="container-fluid h-100">
+    <main class="container-fluid flex-grow-1">
         @yield('content')
     </main>
 
