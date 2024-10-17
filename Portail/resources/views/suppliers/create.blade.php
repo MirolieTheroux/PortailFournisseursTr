@@ -147,10 +147,31 @@
     </div>  <!--FIN IDENTIFICATION-->
 
   <!--PRODUIT ET SERVICE-->
+  <!--
+    REMARQUES::
+      - (Ligne : 187) Le titre de colonne "Catégorie" serait à changer car ça n'a plus rapport. Je pense que je metterais rien en fait.
+      - (Ligne : 196) Dans ton textarea pour les détails et spécifications, tu as pas de name donc ça risque de causé des problèmes pour la sauvegarde dans la bd
+      - (Ligne : 190) Dans le même ordre d'idée, le input pour la recherche d'un service ne devrait pas avoir de name, comme ça, ça se rendra pas dans le backend du formulaire.
+          - A moins que tu t'en serve dans à quelque part que j'ai pas vu.
+      - (Ligne : 209) Tu as encore un bouton load more même si il est toujours en display none. Peut-être que j'ai manqué un bout mais ça me semble un oublie.
+        Si c'est ça, il faudrait le supprimer.
+      - Lorsque tu créer tes service dans la liste à offrir, tu n'as pas mis d'input caché. Je pense que ça va t'en prendre au moins un avec le code UNSPSC
+        pour qu'on puisse les récupérer en backend et les linker au fournisseur.
+          - Le input pourrait avoir comme "name" : "produitsServices[]" et comme value le code UNSPSC (Surment que tu as trouvé de quoi mais t'en qu'a y avoir pensé je met ça là)
+      - Personnellement, je ne pense pas que le X pour supprimer est un nice to have, je pense que c'est un must.
+          - Même si c'est marque de cliquez pour supprimer, je pense que plusieurs personne ne le liront pas et comme ce n'est pas intuitif, je pense
+            que ça pourrait créer de la confusion chez certains utilisateurs
+          - On peut attendre de voir avec le gars de UX/UI de la ville si tu aimes mieux par contre. (Car je pense que se sera pas trop long à changer)
+      - Pour les catégories sélectionnées, est-ce que au lieu de mettre le background en gris, si on change le text en gris et 
+        que quand on hover ça reste blanc ça pourrait faire plus beau?
+      - Responsive :
+        - Changer le titre pour "Produits et Services" pour éviter qu'il tombe sur 2 ligne en mobile
+        - NICE_TO_HAVE : Mettre la section détails et spécification à la fin pour que la barre de recherche soit directement au dessus des services.
+  -->
+  <!--NICE_TO_HAVE::Ajouter un X pour supprimer les catégories-->
+  <!--NICE_TO_HAVE::Quand la recherche est vide, trier par ordre de numéro-->
   <!--NICE_TO_HAVE::Drag and drop pour les catégories-->
   <!--NICE_TO_HAVE::Synonymes pour la fonction de recherche-->
-  <!--NICE_TO_HAVE::Quand la recherche est vide, trier par ordre de numéro-->
-  <!--NICE_TO_HAVE::Ajouter un X pour supprimer les catégories-->
   <!--NICE_TO_HAVE::Indicateur lorsque les données charge-->
   <div class="container bg-white rounded my-2">
     <div class="row d-none d-md-block">
