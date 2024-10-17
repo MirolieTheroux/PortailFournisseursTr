@@ -24,3 +24,11 @@
 .navbar a:hover{
     color: var(--blue);
 }
+
+.link-button{
+  background: none;
+  border: none;
+}
+.link-button:hover{
+  color: var(--blue);
+}

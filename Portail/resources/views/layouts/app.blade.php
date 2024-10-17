@@ -25,7 +25,10 @@
                       <div class="p-2 border-end border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
                       <div class="p-2"><a href="{{__('navbar.returnHomeWebSiteLink')}}">{{__('navbar.returnHomeWebSite')}}</a></div>
                       @auth
-                        <div class="p-2 border-start border-dark"><a href="{{route('suppliers.logout')}}">{{__('navbar.disconnect')}}</a></div>
+                        <form action="{{route('suppliers.logout')}}" method="post">
+                          @csrf
+                          <button class="p-2 border-start border-dark link-button" type="submit">{{__('navbar.disconnect')}}</button>
+                        </form>
                       @endauth
                     </div>
 
@@ -43,7 +46,10 @@
                     <div class="text-center w-100 p-2 border-bottom border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
                     <div class="text-center w-100 p-2">{{__('navbar.returnHomeWebSite')}}</div>
                     @auth
-                      <div class="text-center w-100 p-2 border-top border-dark"><a href="{{route('suppliers.logout')}}">{{__('navbar.disconnect')}}</a></div>
+                      <form class="w-100" action="{{route('suppliers.logout')}}" method="post">
+                        @csrf
+                        <button class="text-center w-100 p-2 border-top border-dark link-button" type="submit">{{__('navbar.disconnect')}}</button>
+                      </form>
                     @endauth
                     @yield('mobile-navbar')
                   </div>

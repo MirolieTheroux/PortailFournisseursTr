@@ -24,7 +24,7 @@
           <div class="text-start">
             <div class="form-floating">
                 <input type="text" name="id" id="id" class="form-control" placeholder="" value="{{ old('id') }}">
-                <label for="neq">{{__('login.id')}}</label>
+                <label for="id">{{__('login.id')}}</label>
             </div>
             @if($errors->has('id'))
               <div class="invalid-feedback-custom">{{ $errors->first('id') }}</div>
