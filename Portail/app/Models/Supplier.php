@@ -22,6 +22,7 @@ class Supplier extends Authenticatable
         'name',
         'email',
         'password',
+        'confirmPassword',
         'site',
         'product_service_detail',
         'tps_number',
@@ -38,6 +39,8 @@ class Supplier extends Authenticatable
      */
     protected $hidden = [
       'password',
+      'confirmPassword',
+      'remember_token',
     ];
 
     public function contacts(){
