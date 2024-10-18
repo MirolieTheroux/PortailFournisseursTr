@@ -13,6 +13,6 @@ return [
   'imACompany' => 'Je suis une entreprise',
   'imAParticular' => 'Je suis un particulier',
 
-  'getWrongSupplier' => 'Vous ne pouvez pas consulter la page d\'un autre fournisseur',
+  'notConnected' => 'Vous devez être connecté pour accéder à cette page.',
   'wrongCredentials' => 'Votre courriel ou mot de passe est invalide'
 ];

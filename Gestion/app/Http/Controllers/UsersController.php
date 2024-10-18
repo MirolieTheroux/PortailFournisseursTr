@@ -23,7 +23,7 @@ class UsersController extends Controller
       return redirect()->route('suppliers.index')->with('message',"Connexion réussie");
     }
     else{
-      return redirect()->route('users.showLogin')->with('errorMessage',__('login.wrongCredentials'));
+      return redirect()->route('login')->with('errorMessage',__('login.wrongCredentials'));
     }
   }
 
@@ -35,7 +35,7 @@ class UsersController extends Controller
 
     $request->session()->regenerateToken();
 
-    return redirect()->route('users.showLogin')->with('message',"Déconnexion réussie");
+    return redirect()->route('login')->with('message',"Déconnexion réussie");
   }  
 
   /**

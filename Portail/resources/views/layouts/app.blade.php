@@ -18,7 +18,7 @@
         <div class="container-fluid bg-white shadow-sm">
             <div class="row w-100">
                 <div class="col-6">
-                    <img class="header-logo" src="{{ asset('img/VTR-12080_logo_NOIR.png') }}" alt="VTR Logo">
+                  <a href="{{route('suppliers.show')}}"><img class="header-logo" src="{{ asset('img/VTR-12080_logo_NOIR.png') }}" alt="VTR Logo"></a>
                 </div>
                 <div class="col-6 justify-content-end align-items-center">
                     <div class="d-none d-md-flex justify-content-end align-items-center h-100 w-100">

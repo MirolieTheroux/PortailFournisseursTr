@@ -32,7 +32,7 @@ class SuppliersController extends Controller
     $reussiEmail=Auth::attempt(['email' => $request->id,'password' => $request->password]);
     if($reussiNEQ || $reussiEmail){
       $supplier = Auth::user();
-      return redirect()->route('suppliers.show', $supplier)->with('message',"Connexion réussie");
+      return redirect()->route('suppliers.show')->with('message',"Connexion réussie");
     }
     else{
       return redirect()->route('suppliers.showLogin')->with('errorMessage',__('login.wrongCredentials'));
@@ -227,12 +227,14 @@ class SuppliersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Supplier $supplier)
+    public function show()
     {
-      if($supplier == Auth::user())
+      if(Auth::user()){
+        $supplier = Auth::user();
         return View('suppliers.show', compact('supplier'));
+      }
       else
-        return redirect()->route('suppliers.showLogin')->with('errorMessage',__('login.getWrongSupplier'));
+        return redirect()->route('suppliers.showLogin')->with('errorMessage',__('login.notConnected'));
     }
 
     /**
