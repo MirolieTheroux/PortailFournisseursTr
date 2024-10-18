@@ -8,8 +8,9 @@ use App\Http\Controllers\UsersController;
 //     return view('welcome');
 // });
 
-Route::get('/', [UsersController::class, 'showLogin'])->name('users.showLogin');
+Route::get('/', [UsersController::class, 'showLogin'])->name('login');
 Route::post('/login', [UsersController::class,'login'])->name('users.login');
 Route::post('/logout', [UsersController::class, 'logout'])->name('users.logout');
 
-Route::get('/suppliers', [SuppliersController::class, 'index'])->name('suppliers.index');
+//TODO::Ajouter le middleware d'authentification
+Route::get('/suppliers', [SuppliersController::class, 'index'])->name('suppliers.index')->middleware('auth');
