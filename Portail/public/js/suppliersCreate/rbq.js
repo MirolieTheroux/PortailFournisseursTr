@@ -7,6 +7,7 @@ let numberRbqInput;
 let statusRbqSelect;
 let typeRbqSelect;
 let checkboxes;
+let idButton;
 
 let subcategories = [];
 let typeLicence;
@@ -32,6 +33,9 @@ function getElements(){
   });
 
   checkboxes = document.querySelectorAll('input.form-check-input');
+
+  idButton = document.getElementById('identification-button');
+  idButton.addEventListener('click', fetchRBQ);
 }
 
 async function fetchRBQ() {
