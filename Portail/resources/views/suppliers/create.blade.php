@@ -10,6 +10,7 @@
 <form id="form" method="post" action="{{ route('suppliers.store') }}" class="need-validation" enctype="multipart/form-data">
   @csrf
   <!--PROGRESS BAR-->
+  <!--NICE_TO_HAVE::Changer la couleur aussi quand on change avec la progress bar-->
   <div class="container-fluid d-flex justify-content-center">
     <div id="progressBar" class="arrow-steps mt-3">
       <div class="step current clickFleche">
