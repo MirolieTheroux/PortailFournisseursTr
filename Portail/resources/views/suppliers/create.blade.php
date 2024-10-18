@@ -946,6 +946,8 @@
       pour avoir assez d'espace de stockage je ne suis toujours pas capable d'ajouter mon fichier.
         - Se serait bien de ne pas avoir a rechoisir le fichier
     - Le margin en bas, entre le stockage total et les boutons, est peut-être un peu intense
+    - Les fichiers ne réapparaissent pas lorsque si la validation backend ne passe pas (les old ne sont pas gérés)
+      - A rajouter dans les nice to have?
   -->
   <!--QUESTIONs::
     - J'ai fait une liste des extensions les plus communs imprimables, est-ce que j'en rajoute ? Est-ce que faire une const [] est ok ?
