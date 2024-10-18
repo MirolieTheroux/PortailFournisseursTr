@@ -44,7 +44,7 @@ async function addCitiesAndDAInSelect() {
     });
     selectCity.classList.remove("d-none");
     inputCity.classList.add("d-none");
-    inputCity.removeAttribute("required" ,"");
+    // inputCity.removeAttribute("required" ,"");
     if(oldCity !== undefined){
       optionsCity.forEach((city) => {
         if(oldCity === city.value)
@@ -467,7 +467,7 @@ document.getElementById("add-icon").addEventListener("click", function () {
     document.getElementById("contactDetailsPhoneNumber").classList.remove("is-valid");
     document.getElementById("contactDetailsPhoneExtension").classList.remove("is-valid");
   }
-  //validateListPhoneNumber();
+  validateListPhoneNumber();
 });
 
 function isPhoneNumberValid() {

@@ -7,41 +7,40 @@
 @endsection
 
 @section('content')
-<form method="post" action="{{ route('suppliers.store') }}" class="need-validation" enctype="multipart/form-data">
+<form id="form" method="post" action="{{ route('suppliers.store') }}" class="need-validation" enctype="multipart/form-data">
   @csrf
   <!--PROGRESS BAR-->
-  <!--TODO::Attention, faire que la ligne blanche n'apparaisse pas dans la pointe-->
   <div class="container-fluid d-flex justify-content-center">
-    <div class="arrow-steps mt-3">
-      <div class="step current">
-        <span class="number">1</span>
+    <div id="progressBar" class="arrow-steps mt-3">
+      <div class="step current clickFleche">
+        <span class="number clickCircle">1</span>
         <span class="name">{{__('form.identificationTitle')}}</span>
       </div>
-      <div class="step">
-        <span class="number">2</span>
-        <span class="name">{{__('form.productsAndServiceTitle')}}</span>
-      </div>
-      <div class="step">
-        <span class="number">3</span>
-        <span class="name">{{__('form.rbqTitle')}}</span>
-      </div>
-      <div class="step">
-        <span class="number">4</span>
+      <div class="step clickFleche">
+        <span class="number clickCircle">2</span>
         <span class="name">{{__('form.contactDetailsTitle')}}</span>
       </div>
-      <div class="step">
-        <span class="number">5</span>
+      <div class="step clickFleche">
+        <span class="number clickCircle">3</span>
         <span class="name">{{__('form.contactsTitle')}}</span>
       </div>
-      <div class="step">
-        <span class="number">6</span>
+      <div class="step clickFleche">
+        <span class="number clickCircle">4</span>
+        <span class="name">{{__('form.productsAndServiceTitle')}}</span>
+      </div>
+      <div class="step clickFleche">
+        <span class="number clickCircle">5</span>
+        <span class="name">{{__('form.rbqTitle')}}</span>
+      </div>
+      <div class="step clickFleche">
+        <span class="number clickCircle">6</span>
         <span class="name">{{__('form.attachmentFilesTitle')}}</span>
       </div>
     </div>
   </div><!-- FIN PROGRESS BAR-->
 
   <!--IDENTIFICATION-->
-  <div class="container bg-white rounded my-2">
+  <div class="container bg-white rounded my-2 form-section d-none" id="identification-section">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-identification"></div>
     </div>
@@ -140,8 +139,8 @@
     </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
-        <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-        <button id="identification-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+        <!-- <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.previous')}}</button> -->
+        <button id="identification-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue next-button">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN IDENTIFICATION-->
@@ -173,7 +172,7 @@
   <!--NICE_TO_HAVE::Drag and drop pour les catégories-->
   <!--NICE_TO_HAVE::Synonymes pour la fonction de recherche-->
   <!--NICE_TO_HAVE::Indicateur lorsque les données charge-->
-  <div class="container bg-white rounded my-2">
+  <div class="container bg-white rounded my-2 form-section d-none" id="productsServices-section">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
     </div>
@@ -229,15 +228,15 @@
     </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
-        <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-        <button onclick="fetchRBQ()" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+        <button type="button" class="m-2 py-1 px-3 rounded  previous-button">{{__('global.previous')}}</button>
+        <button id="productsServices-button" onclick="fetchRBQ()" type="button" class="m-2 py-1 px-3 rounded button-darkblue next-button">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN PRODUIT ET SERVICE-->
 
   <!--LICENCE RBQ-->
   <!--NICE_TO_HAVE::Formater automatiquement le numéro de licence RBQ-->
-  <div class="container bg-white rounded my-2">
+  <div class="container bg-white rounded my-2 form-section d-none" id="licence-section">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-rbq"></div>
     </div>
@@ -435,8 +434,8 @@
 
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
-        <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
-        <button id="rbqLicence-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button>
+        <button type="button" class="m-2 py-1 px-3 rounded previous-button">{{__('global.previous')}}</button>
+        <button id="rbqLicence-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue next-button">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN LICENCE RBQ-->
@@ -459,7 +458,7 @@
       - Nico : Ça va me prendre une explication de c'est quoi. Et on pourrait leur demander après la relâche.
     - Voir pour les erreurs front-end back-end
   -->
-  <div class="container bg-white rounded my-2" id="contactDetails-section">
+  <div class="container bg-white rounded my-2 form-section d-none" id="contactDetails-section">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
     </div>
@@ -669,8 +668,8 @@
     </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-3">
-        <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-        <button id="contactDetails-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue ">Suivant</button>
+        <button type="button" class="m-2 py-1 px-3 rounded  previous-button">{{__('global.previous')}}</button><!--TODO::Mettre un nom significatif au Id-->
+        <button id="contactDetails-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue next-button">Suivant</button>
       </div>
     </div>
   </div> <!--FIN COORDONÉES-->
@@ -679,7 +678,7 @@
     <!--Questions::Pourrait être dans les Nice to have ; est-ce qu'on permet de mettre des espaces pour le prénom/nom si la personne en a plusieurs ?-->
     <!--NICE_TO_HAVE::Formater automatiquement le numéro de tel sous le format 000-000-0000-->
     <!--NICE_TO_HAVE::Faire que l'on peut entrer le numéro de téléphone soit dans A ou dans B et que ça fonctionne-->
-    <div class="container bg-white rounded my-2">
+    <div class="container bg-white rounded my-2 form-section d-none" id="contacts-section">
         <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-contacts"></div> <!--TODO::Trouver une autre image de fond-->
         </div>
@@ -928,8 +927,8 @@
         </div>
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
-                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button><!--TODO::Mettre un nom significatif au Id-->
-                <button id="contacts-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
+                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue previous-button">{{__('global.previous')}}</button><!--TODO::Mettre un nom significatif au Id-->
+                <button id="contacts-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue next-button">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
             </div>
         </div>
     </div> <!--FIN CONTACT-->
@@ -947,7 +946,7 @@
   <!--QUESTIONs::
     - J'ai fait une liste des extensions les plus communs imprimables, est-ce que j'en rajoute ? Est-ce que faire une const [] est ok ?
   -->
-  <div class="container bg-white rounded my-2 width-sm w-60">
+  <div class="container bg-white rounded my-2 width-sm w-60 form-section d-none" id="attachments-section">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-attachment"></div> <!--TODO::Trouver une autre image de fond-->
     </div>
@@ -1041,7 +1040,7 @@
     </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
-        <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.cancel')}}</button>
+        <button type="button" class="m-2 py-1 px-3 rounded previous-button">{{__('global.previous')}}</button>
         <button id="submit-button" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.submit')}}</button>
       </div>
     </div>
@@ -1062,4 +1061,5 @@
 <script src="{{ asset('js/progressBar.js') }} "></script>
 <script src="{{ asset('js/suppliersCreate/contactDetails.js') }} "></script>
 <script src="{{ asset('js/suppliersCreate/attachmentFiles.js') }} "></script>
+<script src="{{ asset('js/suppliersCreate/formFinalValidation.js') }} "></script>
 @endsection
