@@ -11,8 +11,12 @@
       <div class="col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-between">
         <!--TODO::Faire la section des filtres-->
         <h1>Section des filtres</h1>
-        <h2>Section des filtres responsable only</h2>
-        <h2>Section des filtres admin only</h2>
+        @role(['responsable', 'admin'])
+          <h2>Section des filtres responsable only</h2>
+          @role(['admin'])
+            <h2>Section des filtres admin only</h2>
+          @endrole
+        @endrole
         <h1>Bas de la section</h1>
       </div>
       <div class="col-10 h-100 px-5">

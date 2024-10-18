@@ -12,4 +12,5 @@ Route::get('/', [UsersController::class, 'showLogin'])->name('users.showLogin');
 Route::post('/login', [UsersController::class,'login'])->name('users.login');
 Route::post('/logout', [UsersController::class, 'logout'])->name('users.logout');
 
+//TODO::Ajouter le middleware d'authentification
 Route::get('/suppliers', [SuppliersController::class, 'index'])->name('suppliers.index');
