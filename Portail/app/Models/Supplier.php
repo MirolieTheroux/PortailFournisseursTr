@@ -62,4 +62,8 @@ class Supplier extends Authenticatable
     public function addresses(){
       return $this->hasOne(Address::class);
     }
+
+    public function attachments(){
+      return $this->hasMany(Attachment::class);
+    }
 }

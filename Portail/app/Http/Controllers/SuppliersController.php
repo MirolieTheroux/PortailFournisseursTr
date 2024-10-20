@@ -13,6 +13,7 @@ use App\Models\Address;
 use App\Models\Province;
 use App\Models\ProductService;
 use App\Models\ProductServiceCategory;
+use App\Models\Attachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -21,6 +22,15 @@ use Illuminate\Support\facades\Session;
 
 class SuppliersController extends Controller
 {
+  public function home(){
+    if(Auth::user()){
+      $supplier = Auth::user();
+      return View('suppliers.show', compact('supplier'));
+    }
+    else
+      return redirect()->route('suppliers.showLogin');
+  }
+
   public function showLogin()
   {
     return View('suppliers.login');
@@ -221,6 +231,61 @@ class SuppliersController extends Controller
           $phoneNumberB->contact()->associate($contact);
           $phoneNumberB->save();
         }
+      }
+
+      if(!is_null($request->fileNames)){
+        $uploadedFiles = $request->file('files');
+
+        for($i = 0 ; $i < Count($request->fileNames) ; $i++){
+
+          if (!$uploadedFiles[$i]->isValid()) {
+            Log::error("Fichier invalide : ", [
+                'error' => $uploadedFiles[$i]->getError(),
+                'nom' => $uploadedFiles[$i]->getClientOriginalName(),
+                'taille' => $uploadedFiles[$i]->getSize(),
+                'mime' => $uploadedFiles[$i]->getMimeType(),
+            ]);
+          }
+
+          if (isset($request->fileNames[$i]) && $uploadedFiles[$i]->isValid()) {
+            $fileNameWithoutExtension = $request->fileNames[$i];
+            $fileName = $fileNameWithoutExtension.'.'.$uploadedFiles[$i]->extension();
+            $path = 'uploads/suppliers/' . $request->name;
+            $fullPath = storage_path('app/' . $path . '/' . $fileName);
+
+
+            if (!file_exists(storage_path('app/' . $path))) {
+              mkdir(storage_path('app/' . $path), 0777, true);
+            }
+            else if(file_exists($fullPath)){
+              while (file_exists($fullPath)) {
+                $fileNameWithoutExtension = $fileNameWithoutExtension."_1";
+                $fileName = $fileNameWithoutExtension.'.'.$uploadedFiles[$i]->extension();
+                $fullPath = storage_path('app/' . $path . '/' . $fileName);
+              }
+            }
+
+            try{
+              $uploadedFiles[$i]->storeAs($path, $fileName);
+            }
+            catch(\Symfony\Component\HttpFoundation\File\Exception\FileException $e){
+              Log::error("Erreur lors du téléversement du fichier.", [$e]);
+            }
+          }
+
+          $attachment = new Attachment();
+          $attachment->name = $fileNameWithoutExtension;
+          $attachment->type = $uploadedFiles[$i]->extension();
+          $attachment->size = $request->fileSizes[$i];
+          $attachment->deposit_date = $request->addedFileDates[$i];
+          $attachment->supplier()->associate($supplier);
+          $attachment->save();
+        }
+      }
+
+      $reussi=Auth::attempt(['email' => $request->email,'password' => $request->password]);
+      if($reussi){
+        return redirect()->route('suppliers.show')->with('message',"Demande d'inscription envoyée");
       }
     }
 
