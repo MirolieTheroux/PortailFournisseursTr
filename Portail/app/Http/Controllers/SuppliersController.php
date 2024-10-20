@@ -13,6 +13,7 @@ use App\Models\Address;
 use App\Models\Province;
 use App\Models\ProductService;
 use App\Models\ProductServiceCategory;
+use App\Models\Attachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -230,6 +231,17 @@ class SuppliersController extends Controller
           $phoneNumberB->contact()->associate($contact);
           $phoneNumberB->save();
         }
+      }
+
+      for($i = 0 ; $i < Count($request->fileNames) ; $i++){
+        $attachment = new Attachment();
+        $attachment->name = $request->fileNames[$i];;
+        //$attachment->type = $request->fileNames[$i];
+        $attachment->type = "pdf";
+        $attachment->size = $request->fileSizes[$i];
+        $attachment->deposit_date = $request->addedFileDates[$i];
+        $attachment->supplier()->associate($supplier);
+        $attachment->save();
       }
     }
 
