@@ -1,7 +1,8 @@
 const inputFile = document.getElementById("formFile");
-const divFileName = document.getElementById("fileName");
-const divFileSize = document.getElementById("fileSize");
-const divAddedFileDate = document.getElementById("addedFileDate");
+const fileName = document.getElementById("fileName");
+const fileSize = document.getElementById("fileSize");
+const addedFileDate = document.getElementById("addedFileDate");
+const inputValue = document.getElementById("valueInput");
 //Error messages DIV
 const attachmentFileRequired = document.getElementById("attachmentFileRequired");
 const attachmentFileNameLength = document.getElementById("attachmentFileNameLength");
@@ -28,20 +29,22 @@ document.getElementById("formFile").addEventListener("change", () => {
     const file = inputFile.files[0];
     const fileSizeInMo = (file.size / (1024 * 1024)).toFixed(2);
     fileSizeMo = fileSizeInMo;
-    divFileName.textContent = fileNameWithoutExtension;
-    divFileSize.textContent = fileSizeInMo;
-    divAddedFileDate.textContent = new Date().toLocaleDateString("fr-CA");
+    fileName.textContent = fileNameWithoutExtension;
+    fileSize.textContent = fileSizeInMo;
+    addedFileDate.textContent = new Date().toLocaleDateString("fr-CA");
+    inputValue.textContent = inputFile.value;
   }
 });
+
 document.getElementById("add-file").addEventListener("click", () => {
   validateFileRequired();
   validateFile();
   validateSameFileName();
   validateTotalSize(inputFile.files[0].size/(1024 * 1024).toFixed(2));
   if(validateFileBeforeClick()){
-    const fileName = document.getElementById("fileName").textContent;
-    const fileSize = document.getElementById("fileSize").textContent;
-    const addedFileDate = document.getElementById("addedFileDate").textContent;
+    // const fileName = document.getElementById("fileName").textContent;
+    // const fileSize = document.getElementById("fileSize").textContent;
+    // const addedFileDate = document.getElementById("addedFileDate").textContent;
     
     const fileItem = document.createElement("div");
     fileItem.classList.add("row", "mb-2", "align-items-center", "justify-content-between");
@@ -49,31 +52,32 @@ document.getElementById("add-file").addEventListener("click", () => {
     const fileForm = document.createElement("input");
     fileForm.type = "file"
     fileForm.classList.add("d-none");
-    fileForm.files = inputFile.files;
+    //fileForm.files = inputFile.files;
+    //fileForm.value = inputValue.textContent;
     fileForm.setAttribute("name", "files[]");
     // fileForm.setAttribute("id", "files");
     //DIV FILE NAME
     const fileNameDiv = document.createElement("div");
     fileNameDiv.classList.add("col-6", "fs-6", "text-wrap", "fileName");
-    fileNameDiv.textContent = fileName;
+    fileNameDiv.textContent = fileName.textContent;
     const inputFileNameHidden = document.createElement("input");
-    inputFileNameHidden.value = fileName;
+    inputFileNameHidden.value = fileName.textContent;
     inputFileNameHidden.classList.add("d-none");
     inputFileNameHidden.setAttribute("name", "fileNames[]");
     //DIV FILE SIZE
     const fileSizeDiv = document.createElement("div");
     fileSizeDiv.classList.add("col-2", "fs-6", "text-center", "fileSize");
-    fileSizeDiv.textContent = fileSize;
+    fileSizeDiv.textContent = fileSize.textContent;
     const inputFileSizeHidden = document.createElement("input");
-    inputFileSizeHidden.value = fileSize;
+    inputFileSizeHidden.value = fileSize.textContent;
     inputFileSizeHidden.classList.add("d-none");
     inputFileSizeHidden.setAttribute("name", "fileSizes[]");
     //DIV FILE ADDED DATE
     const fileDateDiv = document.createElement("div");
     fileDateDiv.classList.add("col-2", "fs-6", "text-center", "addedFileDate");
-    fileDateDiv.textContent = addedFileDate;
+    fileDateDiv.textContent = addedFileDate.textContent;
     const inputAddedFileDateHidden = document.createElement("input");
-    inputAddedFileDateHidden.value = addedFileDate;
+    inputAddedFileDateHidden.value = addedFileDate.textContent;
     inputAddedFileDateHidden.classList.add("d-none");
     inputAddedFileDateHidden.setAttribute("name", "addedFileDates[]");
     //TYPES
