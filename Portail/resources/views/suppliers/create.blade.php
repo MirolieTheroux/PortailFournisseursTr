@@ -940,17 +940,14 @@
   -->
   <!--NICE_TO_HAVE::
     - Voir pour qu'au format mobile on voit bien la date. Pour l'instant on voit bien avec le résumé du fichier choisi.
+    - Les fichiers ne réapparaissent pas lorsque si la validation backend ne passe pas (les old ne sont pas gérés)
+      - A rajouter dans les nice to have?
   -->
   <!--REMARQUES::
     - Lorsque je mais tellement de fichier que je n'ai pu de place, un message d'erreur apparait. Ça c'est bon. Par contre, lorsque je supprime un des fichiers
       pour avoir assez d'espace de stockage je ne suis toujours pas capable d'ajouter mon fichier.
         - Se serait bien de ne pas avoir a rechoisir le fichier
-    - Le margin en bas, entre le stockage total et les boutons, est peut-être un peu intense
-    - Les fichiers ne réapparaissent pas lorsque si la validation backend ne passe pas (les old ne sont pas gérés)
-      - A rajouter dans les nice to have?
-  -->
-  <!--QUESTIONs::
-    - J'ai fait une liste des extensions les plus communs imprimables, est-ce que j'en rajoute ? Est-ce que faire une const [] est ok ?
+        - quand jenelve tout ne pas mettre de - devant
   -->
   <div class="container bg-white rounded my-2 width-sm w-60 form-section d-none" id="attachments-section">
     <div class="row d-none d-md-block">
@@ -961,7 +958,7 @@
         <h1>{{__('form.attachmentFilesTitle')}}</h1>
       </div>
     </div>
-    <div class="row px-3 mb-5">
+    <div class="row px-3 mb-3">
       <div class="col-12 d-flex flex-column justify-content-between mb-3">
         <h2 class="text-center section-subtitle">{{__('form.attachmentFilesSection')}}</h2>
       </div>
@@ -998,6 +995,9 @@
               <td class="fw-bold">{{__('form.attachmentAddedFileDate')}}</td>
               <td class="text-center" id="addedFileDate"></td>
             </tr>
+            <tr class="d-none">
+              <td class="text-center" id="valueInput"></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -1019,7 +1019,7 @@
         </div>
       </div>
       <div class="text-end inline-block">
-        <p id="totalSize">/75Mo</p>
+        <p class="mb-0" id="totalSize">/75Mo</p>
       </div>
       @if(!is_null(old('fileNames')))
         @foreach(old('fileNames') as $fileName)
