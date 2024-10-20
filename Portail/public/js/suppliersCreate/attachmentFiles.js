@@ -46,10 +46,11 @@ document.getElementById("add-file").addEventListener("click", () => {
     const fileItem = document.createElement("div");
     fileItem.classList.add("row", "mb-2", "align-items-center", "justify-content-between");
     //INPUT FILEFORM
-    const fileForm = document.createElement("input");
-    fileForm.type = "file"
+    const fileForm = inputFile.cloneNode(true);
     fileForm.classList.add("d-none");
-    fileForm.files = inputFile.files;
+    fileForm.removeAttribute("id");
+    console.log(fileForm.files);
+    
     fileForm.setAttribute("name", "files[]");
     //DIV FILE NAME
     const fileNameDiv = document.createElement("div");
@@ -253,26 +254,6 @@ document.addEventListener("DOMContentLoaded", function () {
   addCitiesAndDAInSelect();
   validateSelectCity();
 });
-
-// let filesArray = [];
-
-// document.getElementById("add-file").addEventListener("click", () => {
-//     filesArray.push(inputFile.files[0]);
-// });
-
-// function uploadFiles(event){
-//     event.preventDefault();
-//     if(filesArray.length > 0){
-//         const formData = new FormData();
-//         filesArray.forEach((file, index) => {
-//             formData.append(`files[${index}]`, file);
-//         });
-       
-//         console.log([...formData]); 
-//     }
-// }
-
-// document.getElementById("submit-button").addEventListener("click", uploadFiles);
 
 window.addEventListener("beforeunload", () => {
   inputFile.value = ""; 
