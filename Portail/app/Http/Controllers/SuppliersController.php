@@ -21,6 +21,15 @@ use Illuminate\Support\facades\Session;
 
 class SuppliersController extends Controller
 {
+  public function home(){
+    if(Auth::user()){
+      $supplier = Auth::user();
+      return View('suppliers.show', compact('supplier'));
+    }
+    else
+      return redirect()->route('suppliers.showLogin');
+  }
+
   public function showLogin()
   {
     return View('suppliers.login');
