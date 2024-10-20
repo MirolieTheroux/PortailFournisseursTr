@@ -56,11 +56,6 @@ div{
 }
 .button-darkblue:hover{
     background-color: var(--blue);
-    color: black;
-}
-.button-darkblue:active{
-    background-color: var(--yellow);
-    color: black;
 }
 
 input:focus, select:focus{

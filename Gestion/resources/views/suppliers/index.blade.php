@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
- <!--Remarque:: Je diminuerai peut-être la grosseur des h3-->
   <div class="container-fluid h-100">
     <div class="row h-100">
       <div class="col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-between">
@@ -56,6 +55,7 @@
             <div class="row supplier-table mx-0 py-1">
               <!--TODO::Programmer l'affichage selon l'état dans la BD-->
               <!--TODO::Mettre le text en fonction de se qui a dans la BD-->
+              <!--REMARQUES::Mettre le statut des demandes dans le fichier de langue-->
               <div class="col-1 d-flex px-1">
                 {{-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#02542d" class="bi bi-check2-circle" viewBox="0 0 16 16">
                   <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
@@ -71,7 +71,7 @@
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
                   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
                 </svg>
-                <div class="text-center supplier-list-table-text text-refused ps-1">Refuser</div>
+                <div class="text-center supplier-list-table-text text-refused ps-1">Refusée</div>
                 {{-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#bf6a02" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
                   <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
