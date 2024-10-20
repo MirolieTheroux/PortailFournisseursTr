@@ -65,6 +65,7 @@ class SupplierRequest extends FormRequest
             'fileSizes.*' => 'nullable',
             'fileTypes.*' => 'nullable|mimetypes:application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/jpeg,image/png,image/bmp,image/tiff,text/plain,application/rtf,application/vnd.oasis.opendocument.text,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation',
             'addedFileDates.*' => 'nullable|date_format:Y-m-d',
+            'files.*' => 'nullable',
         ];
     }
 
