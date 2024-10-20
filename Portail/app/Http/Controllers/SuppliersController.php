@@ -233,15 +233,17 @@ class SuppliersController extends Controller
         }
       }
 
-      for($i = 0 ; $i < Count($request->fileNames) ; $i++){
-        $attachment = new Attachment();
-        $attachment->name = $request->fileNames[$i];;
-        //$attachment->type = $request->fileNames[$i]; - TODO::aller chercher la bonne extention
-        $attachment->type = "pdf";
-        $attachment->size = $request->fileSizes[$i];
-        $attachment->deposit_date = $request->addedFileDates[$i];
-        $attachment->supplier()->associate($supplier);
-        $attachment->save();
+      if(!is_null($request->fileNames)){
+        for($i = 0 ; $i < Count($request->fileNames) ; $i++){
+          $attachment = new Attachment();
+          $attachment->name = $request->fileNames[$i];;
+          //$attachment->type = $request->fileNames[$i]; - TODO::aller chercher la bonne extention
+          $attachment->type = "pdf";
+          $attachment->size = $request->fileSizes[$i];
+          $attachment->deposit_date = $request->addedFileDates[$i];
+          $attachment->supplier()->associate($supplier);
+          $attachment->save();
+        }
       }
 
       $reussi=Auth::attempt(['email' => $request->email,'password' => $request->password]);
