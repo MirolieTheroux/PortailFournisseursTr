@@ -235,9 +235,9 @@ function updateTotalSize(){
 }
 
 function clearInfos(){
-  divFileName.textContent = "";
-  divFileSize.textContent = "";
-  divAddedFileDate.textContent = "";
+  fileName.textContent = "";
+  fileSize.textContent = "";
+  addedFileDate.textContent = "";
   inputFile.classList.remove("is-valid");
 }
 
