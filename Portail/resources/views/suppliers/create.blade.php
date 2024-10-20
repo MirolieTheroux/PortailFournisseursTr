@@ -943,12 +943,6 @@
     - Les fichiers ne réapparaissent pas lorsque si la validation backend ne passe pas (les old ne sont pas gérés)
       - A rajouter dans les nice to have?
   -->
-  <!--REMARQUES::
-    - Lorsque je mais tellement de fichier que je n'ai pu de place, un message d'erreur apparait. Ça c'est bon. Par contre, lorsque je supprime un des fichiers
-      pour avoir assez d'espace de stockage je ne suis toujours pas capable d'ajouter mon fichier.
-        - Se serait bien de ne pas avoir a rechoisir le fichier
-        - quand jenelve tout ne pas mettre de - devant
-  -->
   <div class="container bg-white rounded my-2 width-sm w-60 form-section d-none" id="attachments-section">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-attachment"></div> <!--TODO::Trouver une autre image de fond-->

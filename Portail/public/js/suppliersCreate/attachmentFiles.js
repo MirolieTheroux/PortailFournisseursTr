@@ -41,21 +41,16 @@ document.getElementById("add-file").addEventListener("click", () => {
   validateFile();
   validateSameFileName();
   validateTotalSize(inputFile.files[0].size/(1024 * 1024).toFixed(2));
+
   if(validateFileBeforeClick()){
-    // const fileName = document.getElementById("fileName").textContent;
-    // const fileSize = document.getElementById("fileSize").textContent;
-    // const addedFileDate = document.getElementById("addedFileDate").textContent;
-    
     const fileItem = document.createElement("div");
     fileItem.classList.add("row", "mb-2", "align-items-center", "justify-content-between");
     //INPUT FILEFORM
     const fileForm = document.createElement("input");
     fileForm.type = "file"
     fileForm.classList.add("d-none");
-    //fileForm.files = inputFile.files;
-    //fileForm.value = inputValue.textContent;
+    fileForm.files = inputFile.files;
     fileForm.setAttribute("name", "files[]");
-    // fileForm.setAttribute("id", "files");
     //DIV FILE NAME
     const fileNameDiv = document.createElement("div");
     fileNameDiv.classList.add("col-6", "fs-6", "text-wrap", "fileName");
@@ -106,10 +101,11 @@ document.getElementById("add-file").addEventListener("click", () => {
       pTotalSize.textContent = totalSizeMo.toFixed(2) + " Mo" + "/75 Mo";
       inputFile.classList.remove("is-valid");
       inputFile.classList.remove("is-invalid");
-      if(inputFile.files.length > 0)
+      if(inputFile.files.length > 0){
         validateSameFileName();
+        validateTotalSize(inputFile.files[0].size/(1024 * 1024).toFixed(2));
+      }
     };
-
     removeDiv.appendChild(removeFile);
 
     fileItem.appendChild(fileNameDiv);
@@ -122,6 +118,7 @@ document.getElementById("add-file").addEventListener("click", () => {
     fileItem.appendChild(inputAddedFileDateHidden);
 
     attachmentFilesList.appendChild(fileItem);
+    
     clearInfos()
     inputFile.value = ""; 
     updateTotalSize();
@@ -211,11 +208,15 @@ function validateSameFileName(){
 
 function validateTotalSize(size){
   let addedSize = parseFloat(size) + totalSizeMo;
-  attachmentFileRequired.style.display = "none";
   if(addedSize > 75){
     inputFile.classList.remove("is-valid");
     inputFile.classList.add("is-invalid");
     attachmentFilesExceedSize.style.display = "block";
+  }
+  else{
+    attachmentFilesExceedSize.style.display = "none";
+    inputFile.classList.add("is-valid");
+    inputFile.classList.remove("is-invalid");
   }
 }
 
