@@ -243,6 +243,11 @@ class SuppliersController extends Controller
         $attachment->supplier()->associate($supplier);
         $attachment->save();
       }
+
+      $reussi=Auth::attempt(['email' => $request->email,'password' => $request->password]);
+      if($reussi){
+        return redirect()->route('suppliers.show')->with('message',"Demande d'inscription envoyée");
+      }
     }
 
     /**
