@@ -236,7 +236,7 @@ class SuppliersController extends Controller
       for($i = 0 ; $i < Count($request->fileNames) ; $i++){
         $attachment = new Attachment();
         $attachment->name = $request->fileNames[$i];;
-        //$attachment->type = $request->fileNames[$i];
+        //$attachment->type = $request->fileNames[$i]; - TODO::aller chercher la bonne extention
         $attachment->type = "pdf";
         $attachment->size = $request->fileSizes[$i];
         $attachment->deposit_date = $request->addedFileDates[$i];
