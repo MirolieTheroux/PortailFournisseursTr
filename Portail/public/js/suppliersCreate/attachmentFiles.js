@@ -50,9 +50,7 @@ document.getElementById("add-file").addEventListener("click", () => {
     fileForm.type = "file"
     fileForm.classList.add("d-none");
     fileForm.files = inputFile.files;
-    //fileForm.value = inputValue.textContent;
     fileForm.setAttribute("name", "files[]");
-    // fileForm.setAttribute("id", "files");
     //DIV FILE NAME
     const fileNameDiv = document.createElement("div");
     fileNameDiv.classList.add("col-6", "fs-6", "text-wrap", "fileName");
