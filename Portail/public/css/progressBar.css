@@ -81,6 +81,26 @@
   }
 }
 
+@media (min-width: 1300px) {
+	.section-invalid:not(.current){
+		background-color: var(--red) !important;  
+	  }
+	  
+	.section-valid:not(.current){
+	background-color: var(--green) !important;
+	color: black;
+	}
+	
+	.section-invalid:not(.current):after{
+	border-left:  17px solid var(--red) !important;
+	}
+	
+	.section-valid:not(.current):after{
+	border-left:  17px solid var(--green) !important;
+	color: black;
+	}
+}
+
 @media (min-width: 1300px) and (max-width : 1399px) {
 	.arrow-steps .step {
 		margin: 0 3px; 
@@ -146,6 +166,15 @@
 	.arrow-steps .step.current .number {
 	  background-color: var(--dark_blue); 
 	}
+	
+	.section-invalid:not(.current) .number{
+		background-color: var(--red) !important;  
+	}
+	  
+	.section-valid:not(.current) .number{
+		background-color: var(--green) !important;
+		color: black;
+	}
 }
 
 @media (max-width: 700px){
@@ -193,23 +222,6 @@
 
 }
 
-.section-invalid:not(.current){
-  background-color: var(--red) !important;  
-}
-
-.section-valid:not(.current){
-  background-color: var(--green) !important;
-  color: black;
-}
-
-.section-invalid:not(.current):after{
-  border-left:  17px solid var(--red) !important;
-}
-
-.section-valid:not(.current):after{
-  border-left:  17px solid var(--green) !important;
-  color: black;
-}
 
 
 
