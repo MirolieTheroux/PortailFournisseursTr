@@ -25,7 +25,7 @@ function validateIdentificationNeq() {
     neqInput.classList.add('is-invalid');
     invalidStart.style.display = 'block';
   }
-  else if (!neqInput.value.match(/^..(4|5|6|7|8|9)/)) {
+  else if (!neqInput.value.match(/^..(3|4|5|6|7|8|9)/)) {
     neqInput.classList.remove('is-valid');
     neqInput.classList.add('is-invalid');
     invalidThird.style.display = 'block';
