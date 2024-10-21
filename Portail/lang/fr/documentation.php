@@ -16,10 +16,10 @@ return [
     'particular' => 'Particulier',
 
     'signUpForm' => 'Formulaire d\'inscription',
-    'idSection' => 'Section identification',
-    'contactDetailSection' => 'Section coordonnées',
-    'contactsSection' => 'Section contacts',
-    'productServiceSection' => 'Section produit et services',
+    'signUpAccess' => 'Accès au formulaire',
+    'signUpNavigation' => 'Naviguer dans les sections',
+    'signUpComplexSection' => 'Démarche pour remplir différentes sections',
+    'signUpSubmit' => 'Soumettre le formulaire',
     'rbqSection' => 'Section licence RBQ',
     'attachementSection' => 'Section pièces jointes',
 
