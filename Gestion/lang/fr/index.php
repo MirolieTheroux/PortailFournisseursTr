@@ -11,4 +11,8 @@ return [
     'city' => 'Ville',
     'productsServices' => 'Produits et services',
     'workCategories' => 'Catégories de travaux',
+    'accepted' => 'Acceptée',
+    'denied' => 'Refusée',
+    'waiting' => 'En attente',
+    'toCheck' => 'À réviser',
 ];
