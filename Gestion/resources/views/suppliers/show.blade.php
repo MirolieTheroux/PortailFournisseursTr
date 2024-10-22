@@ -7,40 +7,31 @@
 @section('title', 'Gestion - ' . $supplier->name)
 
 @section('content')
+<!--TODO::
+ - Ajouter les boutons pour accepter/refuser (vue selon les rôles)
+ - Voir pour remettre le code avec les erreurs pour les premières sections
+ - Hauteur fixe ? La hauteur change selon la section du form
+ - Quand une section est séléctionnée, mettre la section courante en bg vert.
+ - Ajouter un hover pour montrer que les sections sont cliquables
+-->
 <div class="container-fluid h-100">
   <div class="row h-100">
     <div class="shadow-sm col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-between">
       <h5 class="text-center py-2 fw-bold">{{$supplier->name}}</h5>
-      <a>
-        <h6 class="text-center py-2">{{__('show.requestStatus')}}</h6>
-      </a>
-      <a>
-        <h6 class="text-center py-2">{{__('show.identification')}}</h6>
-      </a>
-      <a>
-        <h6 class="text-center py-2">{{__('show.contactDetails')}}</h6>
-      </a>
-      <a>
-        <h6 class="text-center py-2">{{__('show.contacts')}}</h6>
-      </a>
-      <a>
-        <h6 class="text-center py-2">{{__('show.productsAndServices')}}</h6>
-      </a>
-      <a>
-        <h6 class="text-center py-2">{{__('show.rqbLicence')}}</h6>
-      </a>
-      <a>
-        <h6 class="text-center py-2">{{__('show.attachmentFiles')}}</h6>
-      </a>
-      <a>
-        <h6 class="text-center py-2">{{__('show.finance')}}</h6>
-      </a>
+      <div id="requestStatus-nav-button" class="text-center py-2">{{__('show.requestStatus')}}</div>
+      <div id="identification-nav-button" class="text-center py-2">{{__('show.identification')}}</div>
+      <div id="contactDetails-nav-button" class="text-center py-2">{{__('show.contactDetails')}}</div>
+      <div id="contacts-nav-button" class="text-center py-2">{{__('show.contacts')}}</div>
+      <div id="productsServices-nav-button" class="text-center py-2">{{__('show.productsAndServices')}}</div>
+      <div id="licence-nav-button" class="text-center py-2">{{__('show.rqbLicence')}}</div>
+      <div id="attachments-nav-button" class="text-center py-2">{{__('show.attachmentFiles')}}</div>
+      <div id="finances-nav-button" class="text-center py-2">{{__('show.finance')}}</div>
     </div>
 
     <div class="col-10 h-100 px-4">
       <!--ETAT DEMANDE-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center">
-        <div class="bg-white rounded my-2 form-section w-65" id="finances-section">
+      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section" id="requestStatus-section">
+        <div class="bg-white rounded my-2 form-section w-65">
           <div class="row py-2">
             <div class="col-10 text-center">
               <h1>{{__('form.requestStatusTitle')}}</h1>
@@ -94,8 +85,8 @@
         </div>
       </div><!--FIN ETAT DEMANDE-->
       <!--IDENTIFICATION-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center d-none">
-        <div class=" bg-white rounded my-2 form-section px-3 h-55 w-85" id="identification-section">
+      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="identification-section">
+        <div class=" bg-white rounded my-2 form-section px-3 h-55 w-85">
           <div class="row">
             <div class="col-12 text-center">
               <h1>{{__('form.identificationTitle')}}</h1>
@@ -138,8 +129,8 @@
         </div>
       </div><!--FIN IDENTIFICATION-->
       <!--COORDONNÉES-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center d-none ">
-        <div class="bg-white rounded my-2 form-section px-3 " id="contactDetails-section">
+      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
+        <div class="bg-white rounded my-2 form-section px-3">
           <div class="row d-none d-md-block">
             <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
           </div>
@@ -269,8 +260,8 @@
         </div>
       </div><!--FIN COORDONÉES-->
       <!--CONTACT-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center d-none">
-        <div class=" bg-white rounded my-2 form-section " id="contacts-section">
+      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contacts-section">
+        <div class=" bg-white rounded my-2 form-section w-100">
           <div class="row">
             <div class="col-8 col-md-10 offset-2 offset-md-1 text-center">
               <h1 class="section-title">{{__('form.contactsTitle')}}</h1>
@@ -523,8 +514,8 @@
         </div>
       </div> <!--FIN CONTACT-->
       <!--PRODUITS ET SERVICES-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center d-none">
-        <div class=" bg-white rounded my-2 form-section" id="productsServices-section">
+      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="productsServices-section">
+        <div class=" bg-white rounded my-2 w-100 form-section">
           <div class="row">
             <div class="col-12 text-center">
               <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
@@ -585,8 +576,8 @@
         </div>
       </div><!--FIN PRODUITS ET SERVICES-->
       <!--LICENCE RBQ-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center d-none">
-        <div class=" bg-white rounded my-2 form-section" id="licence-section">
+      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="licence-section">
+        <div class=" bg-white rounded my-2 form-section">
           <div class="row">
             <div class="col-12 text-center">
               <h1>{{__('form.rbqTitle')}}</h1>
@@ -705,8 +696,8 @@
         </div>
       </div><!--FIN LICENCE RBQ-->
       <!--PIÈCES JOINTES-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center d-none">
-        <div class=" bg-white rounded my-2 form-section" id="attachments-section">
+      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
+        <div class=" bg-white rounded my-2 form-section">
           <div class="row">
             <div class="col-12 text-center">
               <h1>{{__('form.attachmentFilesTitle')}}</h1>
@@ -808,8 +799,8 @@
         </div>
       </div><!--FIN PIÈCES JOINTES-->
       <!--FINANCES-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center d-none">
-        <div class="bg-white rounded my-2 form-section w-65" id="finances-section">
+      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="finances-section">
+        <div class="bg-white rounded my-2 form-section w-65">
           <div class="row">
             <div class="col-12 text-center">
               <h1>{{__('show.finance')}}</h1>
@@ -879,4 +870,5 @@
 @endsection
 
 @section('scripts')
+<script src=" {{ asset('js/showSupplier.js') }} "></script>
 @endsection

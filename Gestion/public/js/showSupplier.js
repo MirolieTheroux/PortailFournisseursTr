@@ -1,19 +1,26 @@
-const requestStatus = document.getElementById("requestStatus-section");
-const identificationSection = document.getElementById("identification-section");
-const contactDetailsSection = document.getElementById("contactDetails-section");
-const contactsSection = document.getElementById("contacts-section");
-const productsServicesSection = document.getElementById("productsServices-section");
-const licenceSection = document.getElementById("licence-section");
-const attachmentsSection = document.getElementById("attachments-section");
-const financesSection = document.getElementById("finances-section");
+let sections;
+let navSectionsDivs;
 
-const allSections = [
-  requestStatus,
-  identificationSection, 
-  contactDetailsSection,
-  contactsSection, 
-  productsServicesSection, 
-  licenceSection, 
-  attachmentsSection, 
-  financesSection
-];
+document.addEventListener("DOMContentLoaded", async function () {
+    getSectionsInfo();
+});
+
+function getSectionsInfo() {
+  sections = document.getElementsByClassName("show-section");
+  navSectionsDivs = Array.from(document.querySelectorAll(".shadow-sm > div")).slice(1);
+  navSectionsDivs.forEach((div) => {
+    div.style.cursor = 'pointer'; 
+    div.addEventListener("click", function () {
+      showSectionDoc(div.id.replace('-nav-button', '-section'));
+    });
+  });
+}
+
+function showSectionDoc(id) {
+  for (let i = 0; i < sections.length; i++) {
+    sections[i].classList.add("d-none");
+  }
+
+  const displayedSection = document.getElementById(id);
+  displayedSection.classList.remove("d-none");
+}
