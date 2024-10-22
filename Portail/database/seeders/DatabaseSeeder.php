@@ -21,5 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ProvincesSeeder::class);
         $this->call(SuppliersSeeder::class);
         $this->call(AdressesSeeder::class);
+        $this->call(ContactsSeeder::class);
+        $this->call(PhoneNumbersSeeder::class);
+        $this->call(AttachmentsSeeder::class);
     }
 }

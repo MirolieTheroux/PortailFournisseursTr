@@ -13,16 +13,10 @@
  - Hauteur fixe ? La hauteur change selon la section du form
  - Quand une section est séléctionnée, mettre la section courante en bg vert.
  - Ajouter un hover pour montrer que les sections sont cliquables
--->
-<!--
-  - Faire que, lorsqu'on hover dans le panneau à gauche, se soit plus clair. Background gris pale?
-  - Est-ce qu'on peut cacher les chants qui on juste rapport à la modif?
-      - Le numéro de tel au dessus de la liste
-      - Le input pour ajoute des fichiers
-      - etc.
-  - Pour l'état de la demande, centré le titre
-  - Pour la section identification, réduire la hauteur
-  - Les numéro de téléphone de la section identification ne sont pas là
+ - Est-ce qu'on peut cacher les chants qui on juste rapport à la modif?
+    - Le numéro de tel au dessus de la liste
+    - Le input pour ajoute des fichiers
+    - etc.
 -->
 <div class="container-fluid h-100">
   <div class="row h-100">
@@ -43,7 +37,7 @@
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section" id="requestStatus-section">
         <div class="bg-white rounded my-2 form-section w-65">
           <div class="row py-2">
-            <div class="col-10 text-center">
+            <div class="col-10 text-end">
               <h1>{{__('form.requestStatusTitle')}}</h1>
             </div>
             <div class="col-2 d-flex align-items-center justify-content-center">
@@ -96,7 +90,7 @@
       </div><!--FIN ETAT DEMANDE-->
       <!--IDENTIFICATION-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="identification-section">
-        <div class=" bg-white rounded my-2 form-section px-3 h-55 w-85">
+        <div class=" bg-white rounded my-2 form-section px-3 w-85">
           <div class="row">
             <div class="col-12 text-center">
               <h1>{{__('form.identificationTitle')}}</h1>
