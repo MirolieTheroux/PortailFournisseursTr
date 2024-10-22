@@ -151,10 +151,6 @@
   <!--PRODUIT ET SERVICE-->
   <!--
     REMARQUES::
-      - Lorsque tu créer tes service dans la liste à offrir, tu n'as pas mis d'input caché. Je pense que ça va t'en prendre au moins un avec le code UNSPSC
-        pour qu'on puisse les récupérer en backend et les linker au fournisseur.
-          - Le input pourrait avoir comme "name" : "produitsServices[]" et comme value le code UNSPSC (Surment que tu as trouvé de quoi mais t'en qu'a y avoir pensé je met ça là)
-        
       - Personnellement, je ne pense pas que le X pour supprimer est un nice to have, je pense que c'est un must.
           - Même si c'est marque de cliquez pour supprimer, je pense que plusieurs personne ne le liront pas et comme ce n'est pas intuitif, je pense
             que ça pourrait créer de la confusion chez certains utilisateurs
