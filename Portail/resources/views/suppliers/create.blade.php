@@ -212,7 +212,7 @@
         <h2 class="text-center section-subtitle"><br></h2>
         <div class="text-center">
           <div class="form-floating">
-            <textarea class="form-control" name="products-details" placeholder="details" id="products-details" style="height: 308px; resize: none;" maxlength="500"></textarea>
+            <textarea class="form-control" name="product_service_detail" placeholder="details" id="products-details" style="height: 308px; resize: none;" maxlength="500"></textarea>
             <label for="products-details" class="labelbackground">{{__('form.productsAndServiceCategoriesDetails')}}</label>
             <div class="note"><br></div>
           </div>
