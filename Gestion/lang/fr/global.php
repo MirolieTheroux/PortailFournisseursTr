@@ -9,4 +9,5 @@ return [
     'save' => 'Enregistrer',
     'submit' => 'Soumettre',
     'login' => 'Connexion',
+    'edit' => 'Modifier',
 ];

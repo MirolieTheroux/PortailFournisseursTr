@@ -661,8 +661,8 @@
     </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-3">
-        <button type="button" class="m-2 py-1 px-3 rounded  previous-button">{{__('global.previous')}}</button><!--TODO::Mettre un nom significatif au Id-->
-        <button id="contactDetails-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue next-button">Suivant</button>
+        <button type="button" class="m-2 py-1 px-3 rounded  previous-button">{{__('global.previous')}}</button>
+        <button id="contactDetails-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue next-button">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN COORDONÉES-->
@@ -929,6 +929,7 @@
   <!--PIÈCES JOINTES-->
    <!--TODO::
     - Trouver comment envoyer le contenu du fichier pour stocker dans la BD.
+    - Bug validation même nom fichier (vidéo nico)
   -->
   <!--NICE_TO_HAVE::
     - Voir pour qu'au format mobile on voit bien la date. Pour l'instant on voit bien avec le résumé du fichier choisi.
