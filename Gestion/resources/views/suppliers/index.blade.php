@@ -16,8 +16,20 @@
         @endrole
         <div>Produits et services</div>
         <div>Catégories de travaux</div>
-        <div>Régions administrative</div>
-        <div>Villes</div>
+        <div>            
+          <div class="pb-3">
+            <label for="daListInput" class="form-label">{{__('form.districtArea')}}</label>
+            <input class="form-control" list="daDatalist" id="daListInput" placeholder="Rechercher">
+            <datalist id="daDatalist" class="daList">
+            </datalist>
+          </div>
+        </div>
+        <div class="pb-3">
+          <label for="cityListInput" class="form-label">{{__('form.city')}}</label>
+          <input class="form-control" list="cityDatalist" id="cityListInput" placeholder="Rechercher">
+          <datalist id="cityDatalist" class="cityList">
+          </datalist>
+        </div>
       </div>
       <div class="col-10 h-100 px-5">
         <div class="sticky-under-navbar bg-lightgrey">
@@ -108,4 +120,5 @@
 @endsection
 
 @section('scripts')
+<script src="{{ asset('js/indexSupplier.js') }} "></script>
 @endsection
