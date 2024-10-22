@@ -154,4 +154,21 @@ return [
     'attachmentFileFormat' => 'Le fichier sélectionné doit être dans un format imprimable. (doc, docx, pdf, jpg, jpeg, png, bmp, tiff, txt, rtf, odt, xls, xlsx, ppt, pptx)',
     'attachmentSameFileName' => 'Il y a déjà un fichier avec le même nom dans la liste.',
     'attachmentFilesExceedSize' => 'Le fichier ne peut pas être ajouté, car la somme des tailles va dépasser 75 Mo.',
+
+    'requestStatusTitle' => 'État de la demande',
+    'status' => 'Statut',
+    'requestResponseDate' => 'Date',
+    'requestCreatedDate' => 'Création',
+    'requestLastModifiedDate' => 'Dernière modification',
+    'history' => 'Historique',
+    
+    'tpsNumber' => 'Numéro de TPS',
+    'tvqNumber' => 'Numéro de TVQ',
+    'paymentConditions' => 'Conditions de paiement',
+    'currency' => 'Devise',
+    'canadianCurrency' => 'CAD - Dollar Canadien',
+    'usCurrency' => 'USD - Dollar des États-Unis',
+    'communication' => 'Mode de communication',
+    'email' => 'Courriel',
+    'mail' => 'Courrier régulier',
 ];

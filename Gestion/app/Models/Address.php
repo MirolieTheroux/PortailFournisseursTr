@@ -22,7 +22,7 @@ class Address extends Model
       return $this->belongsTo(Supplier::class);
     }
 
-    /*public function province(){
+    public function province(){
       return $this->belongsTo(Province::class);
-    }*/
+    }
 }
