@@ -14,6 +14,16 @@
  - Quand une section est séléctionnée, mettre la section courante en bg vert.
  - Ajouter un hover pour montrer que les sections sont cliquables
 -->
+<!--
+  - Faire que, lorsqu'on hover dans le panneau à gauche, se soit plus clair. Background gris pale?
+  - Est-ce qu'on peut cacher les chants qui on juste rapport à la modif?
+      - Le numéro de tel au dessus de la liste
+      - Le input pour ajoute des fichiers
+      - etc.
+  - Pour l'état de la demande, centré le titre
+  - Pour la section identification, réduire la hauteur
+  - Les numéro de téléphone de la section identification ne sont pas là
+-->
 <div class="container-fluid h-100">
   <div class="row h-100">
     <div class="shadow-sm col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-between">
