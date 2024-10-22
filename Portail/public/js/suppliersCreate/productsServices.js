@@ -63,7 +63,7 @@ function fetchServices() {
                         selectedService.dataset.code = service.code;
 
                         selectedService.innerHTML = `
-                            <input type="text" name="produits_services" value="${originalCode}" class="d-none">
+                            <input type="text" name="products_services[]" value="${originalCode}" class="d-none">
                             <div class="col-4 col-md-12 col-xl-4 d-flex flex-column justify-content-start">
                                 ${originalCode}
                             </div>
