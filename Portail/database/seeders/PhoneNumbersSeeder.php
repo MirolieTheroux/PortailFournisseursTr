@@ -18,12 +18,14 @@ class PhoneNumbersSeeder extends Seeder
                 'id' => 1,
                 'number' => "8195556666",
                 'type' => "Bureau",
+                'contact_id' => 1,
                 'supplier_id' => 1,
             ],
             [
                 'id' => 2,
                 'number' => "8192223333",
                 'type' => "Cellulaire",
+                'contact_id' => 2,
                 'supplier_id' => 1,
             ],
         ]);
