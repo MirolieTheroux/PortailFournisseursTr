@@ -17,7 +17,7 @@
     - Le numéro de tel au dessus de la liste
     - Le input pour ajoute des fichiers
     - etc.
-  - Si pas de contacts, voir pour afficher le form vide.
+  - Si pas de contacts, voir pour afficher le form vide. (Lors de la demande, pas le choix de mettre un contact.)
 -->
 <div class="container-fluid h-100">
   <div class="row h-100">
@@ -136,9 +136,6 @@
       <!--COORDONNÉES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
         <div class="bg-white rounded my-2 form-section px-3">
-          <div class="row d-none d-md-block">
-            <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
-          </div>
           <div class="row">
             <div class="col-12 text-center">
               <h1 class="section-title">{{__('form.contactDetailsTitle')}}</h1>
@@ -201,7 +198,7 @@
             </div>
             <div class="col-12 col-md-6 d-flex flex-column">
               <h2 class="text-center section-subtitle">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
-              <div class="text-center d-flex flex-row pb-3">
+              <div class="text-center d-flex flex-row pb-3 d-none">
                 <div class="form-floating col-3">
                   <select name="contactDetailsPhoneType" id="contactDetailsPhoneType" class="form-select" aria-label="" disabled>
                     <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
@@ -263,7 +260,7 @@
             </div>
           </div>
         </div>
-      </div><!--FIN COORDONÉES-->
+      </div><!--FIN COORDONNÉES-->
       <!--CONTACT-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contacts-section">
         <div class=" bg-white rounded my-2 form-section w-100">
@@ -281,7 +278,8 @@
           </div>
 
           <div id="contactsRow" class="row justify-content-center px-3">
-          @if(empty($supplier->contact))
+            @if(!is_null(old('contactFirstNames')))
+            @foreach(old('contactFirstNames') as $contactFirstName)
             <div id="referenceContact" class="col-12 col-lg-6 d-flex flex-column justify-content-between mb-2">
               <div class="rounded px-3 border">
                 <div class="row">
@@ -360,16 +358,16 @@
                       <label id="contactTelExtensionLabelB1" for="contactTelExtensionB1">{{__('form.phoneExtension')}}</label>
                     </div>
                   </div>
-            
                 </div>
               </div>
             </div>
+            @endforeach
           @else
-            <div id="referenceContact" class="d-flex flex-row justify-content-between mb-2">
+            <div id="referenceContact" class="d-flex flex-row justify-content-between mb-2 pe-3">
               <!-- <div class="row">
               </div> -->
               @foreach ($supplier->contacts as $contact)
-              <div class="rounded pt-1 px-3 border me-2">
+              <div class="rounded pt-1 px-3 border ms-2">
                 <div class="row">
                   <h2 id="contactSubtitle1" class="col-11 text-start section-subtitle">{{__('form.contactsSubtitle')}}</h2>
                   <button type="button" class="col-1 text-end delete-contact p-0 d-none" >
@@ -483,47 +481,45 @@
               <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
             </div>
           </div>
-          <div class="row px-3">
-            <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-              <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategories')}}</h2>
+          <div class="flex-row d-flex justify-content-center px-3">
+            <div class="col-12 col-md-4 d-flex flex-column justify-content-between d-none">
+              <h2 class="text-center section-subtitle">{{__('form.productsAndServiceServices')}}</h2>
               <div class="text-center">
                 <div class="form-floating mb-3">
-                  <input type="text" name="service-search" id="service-search" class="form-control" placeholder="" disabled>
+                  <input type="text" id="service-search" class="form-control" placeholder="">
                   <label for="service-search">{{__('form.productsAndServiceCategoriesSearch')}}</label>
                 </div>
               </div>
-              <div class="text-center">
-                <div class="form-floating">
-                  <textarea class="form-control" placeholder="details" id="products-details" style="height: 232px; resize: none;" maxlength="500" disabled></textarea>
-                  <label for="products-details" class="labelbackground">{{__('form.productsAndServiceCategoriesDetails')}}</label>
-                  <div class="note"><br></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-              <h2 class="text-center section-subtitle">{{__('form.productsAndServiceServices')}}</h2>
               <div>
                 <div class="form-floating">
-                  <div class="form-control" placeholder="details" id="products-categories" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+                  <div class="form-control" placeholder="details" id="products-categories" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
                     <div class="mt-lg-0 mt-md-4" id="service-list">
                     </div>
-                    <input type="button" id="load-more-button" class="d-none" value="Show more" disabled></input>
                   </div>
                   <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
                   <div class="note" id="results-count"><br></div>
                 </div>
               </div>
             </div>
-            <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+            <div class="col-6 me-2">
               <h2 class="text-center section-subtitle">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
               <div>
                 <div class="form-floating">
                   <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
                     <div class="mt-lg-0 mt-md-4" id="service-selected">
-                      <!-- foreach pour la liste des services -->
                     </div>
                   </div>
-                  <label for="products-selected" class="labelbackground" hidden>{{__('form.productsAndServiceServicesCategorySelected')}}</label>
+                  <!-- <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label> -->
+                  <div class="note"><br></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategoriesDetails')}}</h2>
+              <div class="text-center">
+                <div class="form-floating">
+                  <textarea class="form-control" name="product_service_detail" placeholder="details" id="products-details" style="height: 308px; resize: none;" maxlength="500"></textarea>
+                  <!-- <label for="products-details" class="labelbackground"></label> -->
                   <div class="note"><br></div>
                 </div>
               </div>
