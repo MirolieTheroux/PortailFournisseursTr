@@ -156,6 +156,8 @@ class SuppliersController extends Controller
 
       $supplier = Supplier::where('email', $request->email)->firstOrFail();
 
+      
+
       if(!is_null($request->licenceRbq)){
         $licence = new RbqLicence();
         $licence->number = $request->licenceRbq;

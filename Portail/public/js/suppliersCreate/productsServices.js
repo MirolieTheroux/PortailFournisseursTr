@@ -28,7 +28,7 @@ function fetchServices() {
 
                 data.services.forEach(service => {
                     const serviceItem = document.createElement('div');
-                    serviceItem.classList.add('row', 'align-items-start', 'mt-2', 'hover-options', 'user-select-none');
+                    serviceItem.classList.add('row', 'align-items-start', 'py-2', 'hover-options', 'user-select-none');
 
                     // Original values for non-highlighted cloning
                     const originalCode = service.code;
@@ -39,10 +39,10 @@ function fetchServices() {
                     const highlightedDescription = highlightText(originalDescription, searchTerm);
 
                     serviceItem.innerHTML = `
-                        <div class="col-4 col-md-4 d-flex flex-column justify-content-start">
+                        <div class="col-4 col-md-12 col-xl-4 d-flex flex-column justify-content-start">
                             <label class="form-check-label" id="category${service.code}">${highlightedCode}</label>
                         </div>
-                        <div class="col-8 col-md-8 d-flex flex-column justify-content-start">
+                        <div class="col-8 col-md-11 offset-md-1 offset-xl-0 col-xl-8 d-flex flex-column justify-content-start">
                             <label class="form-check-label" id="category${service.code}">${highlightedDescription}</label>
                         </div>
                     `;
@@ -59,15 +59,15 @@ function fetchServices() {
 
                         // Clone the service without the highlight
                         const selectedService = document.createElement('div');
-                        selectedService.classList.add('row', 'align-items-start', 'mt-2', 'hover-options', 'user-select-none');
+                        selectedService.classList.add('row', 'align-items-start', 'py-2', 'hover-options', 'user-select-none');
                         selectedService.dataset.code = service.code;
 
                         selectedService.innerHTML = `
-                            <div class="col-4 col-md-4 d-flex flex-column justify-content-start">
-                                <label class="form-check-label">${originalCode}</label>
+                            <div class="col-4 col-md-12 col-xl-4 d-flex flex-column justify-content-start">
+                                ${originalCode}
                             </div>
-                            <div class="col-8 col-md-8 d-flex flex-column justify-content-start">
-                                <label class="form-check-label">${originalDescription}</label>
+                            <div class="col-8 col-md-11 offset-md-1 offset-xl-0 col-xl-8 d-flex flex-column justify-content-start">
+                                ${originalDescription}
                             </div>
                         `;
 

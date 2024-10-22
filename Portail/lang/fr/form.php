@@ -44,7 +44,7 @@ return [
     'identificationValidationMDPSpecial' => 'Le mot de passe doit contenir un caractère spécial.',
     'identificationValidationMDPConfirm' => 'Le mot de passe n\'est pas identique.',
 
-    'productsAndServiceTitle' => 'Produits et Services à Offrir',
+    'productsAndServiceTitle' => 'Produits et Services',
     'productsAndServiceCategories' => 'Catégorie',
     'productsAndServiceCategoriesList' => 'Liste des catégories',
     'productsAndServiceCategoriesSearch' => 'Recherche d\'un service',

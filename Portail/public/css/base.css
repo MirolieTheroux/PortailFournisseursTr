@@ -22,8 +22,7 @@
 }
 
 .disabled-options{
-    background-color: rgb(175, 175, 175);
-    color: black;
+    color: gray;
     pointer-events: none;
 }
 
