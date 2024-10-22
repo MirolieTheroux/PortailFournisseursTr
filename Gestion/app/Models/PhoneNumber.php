@@ -17,9 +17,9 @@ class PhoneNumber extends Model
         'supplier_id',
     ];
 
-    // public function contact(){
-    //   return $this->belongsTo(Contact::class, 'contact_id');
-    // }
+    public function contact(){
+      return $this->belongsTo(Contact::class, 'contact_id');
+    }
 
     public function supplier(){
       return $this->belongsTo(Supplier::class, 'supplier_id');

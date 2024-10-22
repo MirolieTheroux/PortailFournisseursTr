@@ -5,17 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RbqLicence extends Model
+class Contact extends Model
 {
-    protected $table = 'rbq_licences';
+    use HasFactory;
 
     protected $fillable = [
-      'number',
-      'status',
-      'type',
+        'email',
+        'first_name',
+        'last_name',
+        'job',
     ];
 
     public function supplier(){
       return $this->belongsTo(Supplier::class);
+    }
+
+    public function phoneNumbers(){
+      return $this->hasMany(PhoneNumber::class);
     }
 }

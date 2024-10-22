@@ -37,9 +37,9 @@ class Supplier extends Model
       'password',
     ];
 
-    // public function contacts(){
-    //   return $this->hasMany(Contact::class);
-    // }
+    public function contacts(){
+      return $this->hasMany(Contact::class);
+    }
 
     public function phoneNumbers(){
       return $this->hasMany(PhoneNumber::class);
