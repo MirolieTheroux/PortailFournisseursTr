@@ -9,14 +9,15 @@
     <div class="row h-100">
       <div class="col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-between">
         <!--TODO::Faire la section des filtres-->
-        <h1>Section des filtres</h1>
+        <div>Lister les fourniseurs sélectionnés</div>
+        <div>Recherche</div>
         @role(['responsable', 'admin'])
-          <h2>Section des filtres responsable only</h2>
-          @role(['admin'])
-            <h2>Section des filtres admin only</h2>
-          @endrole
+          <div>État de la demande</div>
         @endrole
-        <h1>Bas de la section</h1>
+        <div>Produits et services</div>
+        <div>Catégories de travaux</div>
+        <div>Régions administrative</div>
+        <div>Villes</div>
       </div>
       <div class="col-10 h-100 px-5">
         <div class="sticky-under-navbar bg-lightgrey">

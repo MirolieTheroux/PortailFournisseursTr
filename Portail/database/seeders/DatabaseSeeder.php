@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ContactsSeeder::class);
         $this->call(PhoneNumbersSeeder::class);
         $this->call(AttachmentsSeeder::class);
+        $this->call(RbqLicenceSeeder::class);
+        $this->call(SupplierWorkSubcategorySeeder::class);
     }
 }
