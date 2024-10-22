@@ -939,6 +939,7 @@
   <!--PIÈCES JOINTES-->
    <!--TODO::
     - Trouver comment envoyer le contenu du fichier pour stocker dans la BD.
+    - Bug validation même nom fichier (vidéo nico)
   -->
   <!--NICE_TO_HAVE::
     - Voir pour qu'au format mobile on voit bien la date. Pour l'instant on voit bien avec le résumé du fichier choisi.
