@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('css')
-  <link rel="stylesheet" href="{{ asset('css/suppliers/index.css') }}">
+<link rel="stylesheet" href="{{ asset('css/MultiSelect.css') }}">
+<link rel="stylesheet" href="{{ asset('css/suppliers/index.css') }}">
 @endsection
 
 @section('content')
@@ -18,19 +19,18 @@
         <div>Catégories de travaux</div>
         <div>            
           <div class="pb-3">
-            <label for="daListInput" class="form-label">{{__('form.districtArea')}}</label>
-            <input class="form-control" list="daDatalist" id="daListInput" placeholder="Rechercher">
-            <datalist id="daDatalist" class="daList">
-            </datalist>
+          <label for="districtAreas">{{__('form.districtArea')}}</label>
+          <select id="districtAreas" name="districtAreas" data-placeholder="{{__('index.pickDA')}}" multiple data-multi-select>
+          </select>
           </div>
         </div>
         <div class="pb-3">
-          <label for="cityListInput" class="form-label">{{__('form.city')}}</label>
-          <input class="form-control" list="cityDatalist" id="cityListInput" placeholder="Rechercher">
-          <datalist id="cityDatalist" class="cityList">
-          </datalist>
+          <label for="cities">{{__('form.city')}}</label>
+          <select id="cities" name="cities" data-placeholder="{{__('index.pickCity')}}" multiple data-multi-select>
+          </select>
         </div>
       </div>
+
       <div class="col-10 h-100 px-5">
         <div class="sticky-under-navbar bg-lightgrey">
           <div class="row border-bottom border-dark">
@@ -121,4 +121,5 @@
 
 @section('scripts')
 <script src="{{ asset('js/indexSupplier.js') }} "></script>
+<script src="{{ asset('js/MultiSelect.js') }} "></script>
 @endsection

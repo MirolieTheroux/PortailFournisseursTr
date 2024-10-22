@@ -1,3 +1,5 @@
+let selectedDistrictArea = [];
+
 async function getCitiesAndDistrickAreas() {
   try {
     const response = await fetch(
@@ -20,8 +22,8 @@ async function getCitiesAndDistrickAreas() {
 
 async function addCitiesAndDAInSelect() {
   const citiesAndDA = await getCitiesAndDistrickAreas();
-  const datalistCity = document.getElementById("cityDatalist");
-  const datalistDA = document.getElementById("daDatalist");
+  const citiesList = document.getElementById("cities");
+  const DAList = document.getElementById("districtAreas");
 
   const districtAreas = citiesAndDA.map((da) =>
     da.regadm.replace(/--/g, "-")
@@ -32,11 +34,16 @@ async function addCitiesAndDAInSelect() {
 
   addQuebecCities();
   addDistrictsAreas();
+
+  return true;
+
   function addQuebecCities() {
+    citiesList.innerHTML = "";
     uniqueCity.forEach((city) => {
         let optionCity = document.createElement("option");
         optionCity.value = city;
-        datalistCity.appendChild(optionCity);
+        optionCity.text = city;
+        citiesList.appendChild(optionCity);
     });
   }
 
@@ -45,11 +52,34 @@ async function addCitiesAndDAInSelect() {
       let optionDA = document.createElement("option");
       optionDA.text = DA;
       optionDA.value = DA;
-      datalistDA.appendChild(optionDA);
+      DAList.appendChild(optionDA);
     });
   }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  addCitiesAndDAInSelect();
+function addListenerDistrictAreaOptions(){
+  const DAList = document.getElementById("districtAreas");
+  const DAOptions = DAList.querySelectorAll(".multi-select-option");
+
+  for(let i=0 ; i < DAOptions.length ; i++){
+    DAOptions[i].addEventListener('click', ()=>{
+      updateCityList();
+    })
+  }
+}
+
+function updateCityList(){
+  const DAList = document.getElementById("districtAreas");
+  const DASelectedOptions = DAList.querySelectorAll(".multi-select-selected");
+  selectedDistrictArea = []
+  for(let i=0 ; i < DASelectedOptions.length ; i++){
+    selectedDistrictArea.push(DASelectedOptions[i].children[1].innerHTML);
+  }
+  console.log(selectedDistrictArea);
+}
+
+document.addEventListener("DOMContentLoaded", async function () {
+  let response = await addCitiesAndDAInSelect();
+  document.querySelectorAll('[data-multi-select]').forEach(select => new MultiSelect(select));
+  addListenerDistrictAreaOptions();
 });
