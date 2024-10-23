@@ -15,4 +15,9 @@ return [
     'denied' => 'Refusée',
     'waiting' => 'En attente',
     'toCheck' => 'À réviser',
+
+    'pickDA' => 'Choisir une région',
+    'pickCity' => 'Choisir une ville',
+
+    'noResults' => 'Aucun résultat ne correspond à la sélection'
 ];
