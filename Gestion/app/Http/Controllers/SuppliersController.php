@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use Illuminate\Support\Facades\Log;
 
 class SuppliersController extends Controller
 {
@@ -13,7 +14,11 @@ class SuppliersController extends Controller
     public function index()
     {
         $suppliers = Supplier::all();
-        return View('suppliers.index', compact('suppliers'));
+        $categories = Supplier::with('productsServices.categories')->get();
+        Log::info('Catégories:', $categories->toArray());
+       
+
+        return View('suppliers.index', compact('suppliers', 'categories'));
     }
 
     /**

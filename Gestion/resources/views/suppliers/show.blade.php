@@ -38,7 +38,7 @@
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section" id="requestStatus-section">
         <div class="bg-white rounded my-2 form-section w-65">
           <div class="row py-2">
-            <div class="col-10 text-end">
+            <div class="offset-2 col-8 text-center">
               <h1>{{__('form.requestStatusTitle')}}</h1>
             </div>
             <div class="col-2 d-flex align-items-center justify-content-center">
@@ -507,6 +507,10 @@
                 <div class="form-floating">
                   <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
                     <div class="mt-lg-0 mt-md-4" id="service-selected">
+                      <div>
+                        Catégorie
+                      </div>
+                    
                     </div>
                   </div>
                   <!-- <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label> -->
@@ -518,7 +522,7 @@
               <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategoriesDetails')}}</h2>
               <div class="text-center">
                 <div class="form-floating">
-                  <textarea class="form-control" name="product_service_detail" placeholder="details" id="products-details" style="height: 308px; resize: none;" maxlength="500"></textarea>
+                  <textarea class="form-control" name="product_service_detail" placeholder="details" id="products-details" style="height: 308px; resize: none;" maxlength="500" disabled>{{ $supplier->product_service_detail }}</textarea>
                   <!-- <label for="products-details" class="labelbackground"></label> -->
                   <div class="note"><br></div>
                 </div>
