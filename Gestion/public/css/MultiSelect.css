@@ -100,8 +100,8 @@
   line-height: 20px;
 }
 .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-radio, .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-radio {
-  border-color: #40c979;
-  background-color: #40c979;
+  border-color: #68B545;
+  background-color: #68B545;
 }
 .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-radio::after, .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-radio::after {
   content: "";

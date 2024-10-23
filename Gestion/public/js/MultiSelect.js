@@ -11,7 +11,7 @@ class MultiSelect {
           placeholder: 'Select item(s)',
           max: null,
           search: true,
-          selectAll: true,
+          selectAll: false,
           listAll: true,
           closeListOnItemSelect: false,
           name: '',

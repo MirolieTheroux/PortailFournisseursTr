@@ -1,4 +1,10 @@
 let selectedDistrictArea = [];
+let citiesAndDA;
+let citiesList;
+let DAList;
+let districtAreas;
+let uniqueDA;
+let uniqueCity;
 
 async function getCitiesAndDistrickAreas() {
   try {
@@ -21,15 +27,15 @@ async function getCitiesAndDistrickAreas() {
 }
 
 async function addCitiesAndDAInSelect() {
-  const citiesAndDA = await getCitiesAndDistrickAreas();
-  const citiesList = document.getElementById("cities");
-  const DAList = document.getElementById("districtAreas");
+  citiesAndDA = await getCitiesAndDistrickAreas();
+  citiesList = document.getElementById("cities");
+  DAList = document.getElementById("districtAreas");
 
-  const districtAreas = citiesAndDA.map((da) =>
+  districtAreas = citiesAndDA.map((da) =>
     da.regadm.replace(/--/g, "-")
   );
-  const uniqueDA = Array.from(new Set(districtAreas)).sort();
-  const uniqueCity = Array.from(new Set(citiesAndDA.map((city)=>city.munnom)))
+  uniqueDA = Array.from(new Set(districtAreas)).sort();
+  uniqueCity = Array.from(new Set(citiesAndDA.map((city)=>city.munnom)))
   uniqueCity.splice(uniqueCity.indexOf("Toponyme à venir"),1);
 
   addQuebecCities();
@@ -37,33 +43,43 @@ async function addCitiesAndDAInSelect() {
 
   return true;
 
-  function addQuebecCities() {
-    citiesList.innerHTML = "";
-    uniqueCity.forEach((city) => {
-        let optionCity = document.createElement("option");
-        optionCity.value = city;
-        optionCity.text = city;
-        citiesList.appendChild(optionCity);
-    });
-  }
 
-  function addDistrictsAreas(){
-    uniqueDA.forEach((DA) => {
-      let optionDA = document.createElement("option");
-      optionDA.text = DA;
-      optionDA.value = DA;
-      DAList.appendChild(optionDA);
-    });
-  }
+}
+function addQuebecCities() {
+  citiesList.innerHTML = "";
+  uniqueCity.forEach((city) => {
+      let optionCity = document.createElement("option");
+      optionCity.value = city;
+      optionCity.text = city;
+      citiesList.appendChild(optionCity);
+  });
+}
+function addDistrictsAreas(){
+  uniqueDA.forEach((DA) => {
+    let optionDA = document.createElement("option");
+    optionDA.text = DA;
+    optionDA.value = DA;
+    DAList.appendChild(optionDA);
+  });
 }
 
-function addListenerDistrictAreaOptions(){
+function addListeners(){
   const DAList = document.getElementById("districtAreas");
   const DAOptions = DAList.querySelectorAll(".multi-select-option");
 
   for(let i=0 ; i < DAOptions.length ; i++){
     DAOptions[i].addEventListener('click', ()=>{
       updateCityList();
+      invokeSelectChange(DAOptions[i]);
+    })
+  }
+
+  const cityList = document.getElementById("cities");
+  const cityOptions = cityList.querySelectorAll(".multi-select-option");
+
+  for(let i=0 ; i < cityOptions.length ; i++){
+    cityOptions[i].addEventListener('click', ()=>{
+      invokeSelectChange(cityOptions[i]);
     })
   }
 }
@@ -78,8 +94,18 @@ function updateCityList(){
   console.log(selectedDistrictArea);
 }
 
+function invokeSelectChange(option){
+  const optionParent = option.parentElement;
+  const select = optionParent.parentElement;
+  select.dispatchEvent(new Event('change'));
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
   let response = await addCitiesAndDAInSelect();
   document.querySelectorAll('[data-multi-select]').forEach(select => new MultiSelect(select));
-  addListenerDistrictAreaOptions();
+  addListeners();
+
+  //Is in the index.blade.php file
+  addjQueryListeners();
+  
 });
