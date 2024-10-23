@@ -67,12 +67,20 @@ class SuppliersController extends Controller
 
     public function filter(Request $request)
     {
+        Log::debug($request);
         $query = Supplier::query();
 
         if ($request->filled('cities') && is_array($request->input('cities'))) {
             $query->whereHas('address', function($q) use($request){
                 $cities = $request->cities; 
                 $q->whereIn('city', $cities);
+            });
+        }
+
+        if ($request->filled('districtAreas') && is_array($request->input('districtAreas'))) {
+            $query->whereHas('address', function($q) use($request){
+                $districtAreas = $request->districtAreas; 
+                $q->whereIn('region', $districtAreas);
             });
         }
 

@@ -84,6 +84,9 @@ function addjQueryListeners(){
   $('#cities').change(function () {
     sendFilterForm();
   });
+  $('#districtAreas').change(function () {
+    sendFilterForm();
+  });
 }
 
 function sendFilterForm(){

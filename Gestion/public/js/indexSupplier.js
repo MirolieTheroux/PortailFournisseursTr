@@ -137,5 +137,4 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   //Is in the index.blade.php file
   addjQueryListeners();
-  
 });
