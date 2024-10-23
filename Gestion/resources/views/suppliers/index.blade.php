@@ -8,24 +8,23 @@
 @section('content')
   <div class="container-fluid h-100">
     <div class="row h-100">
-      <div class="col-2 bg-white h-100 full-viewport sticky-under-navbar">
+      <div class="col-3 bg-white h-100 full-viewport sticky-under-navbar">
         <form id="filterForm" class="h-100 d-flex flex-column justify-content-between">
           <!--TODO::Faire la section des filtres-->
           <div>Lister les fourniseurs sélectionnés</div>
           <div>Recherche</div>
+          <div>Nombre de fournisseur en attente</div>
           @role(['responsable', 'admin'])
             <div>État de la demande</div>
           @endrole
           <div>Produits et services</div>
-          <div>Catégories de travaux</div>
-          <div>            
-            <div class="pb-3">
+          <div>Catégories de travaux</div>       
+          <div class="pb-3">
             <label for="districtAreas">{{__('form.districtArea')}}</label>
             <select id="districtAreas" name="districtAreas" data-placeholder="{{__('index.pickDA')}}" multiple data-multi-select>
             </select>
-            </div>
           </div>
-          <div class="pb-3">
+          <div id="citiesContainer" class="pb-3">
             <label for="cities">{{__('form.city')}}</label>
             <select id="cities" name="cities" data-placeholder="{{__('index.pickCity')}}" multiple data-multi-select>
             </select>
@@ -33,7 +32,7 @@
         </form>
       </div>
 
-      <div class="col-10 h-100 px-5">
+      <div class="col-9 h-100 px-5">
         <div class="sticky-under-navbar bg-lightgrey">
           <div class="row border-bottom border-dark">
             <div class="col-6 d-flex align-items-end">
