@@ -516,11 +516,10 @@
                           <h6 class="fst-italic"> {{ $categoryCode }} - {{ $categoryData['category_name'] }}</h6>
                           @foreach ($categoryData['products'] as $product)
                           <div class="col-4">
-                             {{ $product->code }} 
-                         
+                            {{ $product->code }}
                           </div>
                           <div class="col-8">
-                          {{ $product->description }}
+                            {{ $product->description }}
                           </div>
                           @endforeach
                         </div>
@@ -567,14 +566,16 @@
               <div class="d-flex flex-column justify-content-between h-100">
                 <div class="text-center">
                   <div class="form-floating mb-3">
-                    <input type="text" name="licenceRbq" id="licenceRbq" value="" class="form-control" placeholder="" maxlength="10" disabled>
+                    <input type="text" name="licenceRbq" id="licenceRbq" value="{{ $supplier->rbqLicence->number }}" class="form-control" placeholder="" maxlength="10" disabled>
                     <label for="licenceRbq">{{__('form.numberLabel')}}</label>
                   </div>
                 </div>
                 <div class="text-center">
                   <div class="form-floating mb-3">
                     <select name="statusRbq" id="statusRbq" class="form-select" aria-label="" disabled>
-                      <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
+                    <option value="valid" {{ "valid" == $supplier->rbqLicence->status ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
+                      <option value="restrictedValid" {{ "restrictedValid" == $supplier->rbqLicence->status  ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
+                      <option value="invalid" {{ "invalid" == $supplier->rbqLicence->status  ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
                     </select>
                     <label for="statusRbq">{{__('form.statusLabel')}}</label>
                   </div>
@@ -582,7 +583,9 @@
                 <div class="text-center">
                   <div class="form-floating mb-3">
                     <select name="typeRbq" id="typeRbq" class="form-select" aria-label="" disabled>
-                      <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                    <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                      <option value="entrepreneur" {{ "entrepreneur" == $supplier->rbqLicence->type ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
+                      <option value="ownerBuilder" {{ "ownerBuilder" == $supplier->rbqLicence->type ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
                     </select>
                     <label for="typeRbq">{{__('form.typeLabel')}}</label>
                   </div>
