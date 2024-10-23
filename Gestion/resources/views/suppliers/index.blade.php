@@ -47,7 +47,7 @@
             </div>
             <div class="col-6 d-flex flex-column justify-content-end">
               <h4 class="text-end">{{__('index.productsServicesCount')}} : 2</h4><!--TODO::Calculer la quantité-->
-              <h4 class="text-end">{{__('index.workCategoriesCount')}} : 3</h4><!--TODO::Calculer la quantité-->
+              <h4 class="text-end">{{__('index.workCategoriesCount')}} : <span id="workSubCategoryCount">0</span></h4><!--TODO::Calculer la quantité-->
             </div>
           </div>
           <div class="container-fluid border-bottom border-dark mb-0">
@@ -82,6 +82,9 @@
 @endsection
 
 @section('scripts')
+<script>
+  var suppliers = @json($suppliers);
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ asset('js/indexSupplier.js') }} "></script>
 <script src="{{ asset('js/MultiSelect.js') }} "></script>
@@ -91,6 +94,9 @@ function addjQueryListeners(){
     sendFilterForm();
   });
   $('#districtAreas').change(function () {
+    sendFilterForm();
+  });
+  $('#workCategories').change(function () {
     sendFilterForm();
   });
 }

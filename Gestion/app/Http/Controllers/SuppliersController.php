@@ -86,6 +86,13 @@ class SuppliersController extends Controller
             });
         }
 
+        if ($request->filled('workCategories') && is_array($request->input('workCategories'))) {
+            $query->whereHas('workSubcategories', function($q) use($request){
+                $workCategories = $request->workCategories; 
+                $q->whereIn('code', $workCategories);
+            });
+        }
+
         $suppliers = $query->with('address')->get();
         
         return response()->json([

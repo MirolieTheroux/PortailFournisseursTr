@@ -89,6 +89,16 @@ function addListeners(){
       invokeSelectChange(cityOptions[i]);
     })
   }
+
+  const workCategoriesList = document.getElementById("workCategories");
+  const workCategoriesOptions = workCategoriesList.querySelectorAll(".multi-select-option");
+
+  for(let i=0 ; i < workCategoriesOptions.length ; i++){
+    workCategoriesOptions[i].addEventListener('click', ()=>{
+      invokeSelectChange(workCategoriesOptions[i]);
+      updateWorkSubcategoryCounters();
+    })
+  }
 }
 
 function updateCityList(){
@@ -122,6 +132,15 @@ function refreshListeners(){
   addListeners();
   //Is in the index.blade.php file
   addjQueryListeners();
+}
+
+function updateWorkSubcategoryCounters(){
+  const workCategoriesList = document.getElementById("workCategories");
+  const workCategoriesInputs = workCategoriesList.querySelectorAll('input');
+  const workCategoriesCountSpan = document.getElementById("workSubCategoryCount");
+  workCategoriesCountSpan.innerHTML = workCategoriesInputs.length-1;
+  
+  console.log(suppliers);
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
