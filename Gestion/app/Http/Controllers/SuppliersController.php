@@ -68,22 +68,4 @@ class SuppliersController extends Controller
     {
         //
     }
-
-    public function filter(Request $request)
-    {
-        $query = Supplier::query();
-
-        if ($request->filled('cities') && is_array($request->input('cities'))) {
-            $query->whereHas('address', function($q) use($request){
-                $cities = $request->cities; 
-                $q->whereIn('city', $cities);
-            });
-        }
-
-        $suppliers = $query->with('address')->get();
-        
-        return response()->json([
-            'html' => view('suppliers.components.supplierList', compact('suppliers'))->render(),
-        ]);
-    }
 }
