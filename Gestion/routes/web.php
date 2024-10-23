@@ -16,4 +16,3 @@ Route::post('/logout', [UsersController::class, 'logout'])->name('users.logout')
 Route::get('/suppliers', [SuppliersController::class, 'index'])->name('suppliers.index')->middleware('auth');
 
 Route::get('/suppliers/{supplier}', [SuppliersController::class, 'show'])->name('suppliers.show');
-Route::get('/suppliers/{supplierId}/products', [SuppliersController::class, 'productsByCategory'])->name('suppliers.productsByCategory');

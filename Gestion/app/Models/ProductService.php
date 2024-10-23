@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductService extends Model
 {
-    use HasFactory;
-
     protected $table = 'products_services';
 
     public function suppliers(){
@@ -16,6 +14,6 @@ class ProductService extends Model
     }
 
     public function categories(){
-        return $this->belongsTo(ProductServiceCategory::class);
+        return $this->belongsTo(ProductServiceCategory::class, 'category_code', 'code');
     }
 }

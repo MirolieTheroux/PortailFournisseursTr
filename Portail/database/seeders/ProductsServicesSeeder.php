@@ -17,12 +17,12 @@ class ProductsServicesSeeder extends Seeder
             [
                 'code' => "10000000",
                 'description' => "TEST",
-                'category_code' => "G1",
+                'category_code' => "S19",
             ],
             [
                 'code' => "10100000",
                 'description' => "TEST",
-                'category_code' => "G1",
+                'category_code' => "C01",
             ],
             [
                'code' => "10101500",
@@ -32,7 +32,7 @@ class ProductsServicesSeeder extends Seeder
             [
                 'code' => "10101501",
                 'description' => "TEST",
-                'category_code' => "G1",
+                'category_code' => "C01",
             ],
             [
                 'code' => "10101502",
