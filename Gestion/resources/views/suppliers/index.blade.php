@@ -18,7 +18,14 @@
             <div>État de la demande</div>
           @endrole
           <div>Produits et services</div>
-          <div>Catégories de travaux</div>       
+          <div class="pb-3">
+            <label for="workCategories">{{__('index.workCategories')}}</label>
+            <select id="workCategories" name="workCategories" data-placeholder="{{__('index.pickCategory')}}" multiple data-multi-select>
+              @foreach ($workSubcategories as $workSubcategory)
+                <option value="{{$workSubcategory->code}}">{{$workSubcategory->code}} {{$workSubcategory->name}}</option>
+              @endforeach
+            </select>
+          </div>     
           <div class="pb-3">
             <label for="districtAreas">{{__('form.districtArea')}}</label>
             <select id="districtAreas" name="districtAreas" data-placeholder="{{__('index.pickDA')}}" multiple data-multi-select>
