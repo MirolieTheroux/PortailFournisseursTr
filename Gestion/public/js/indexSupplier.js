@@ -5,6 +5,8 @@ let DAList;
 let districtAreas;
 let uniqueDA;
 let uniqueCity;
+let searchClone;
+let optionTemplate;
 
 async function getCitiesAndDistrickAreas() {
   try {
@@ -38,22 +40,28 @@ async function addCitiesAndDAInSelect() {
   uniqueCity = Array.from(new Set(citiesAndDA.map((city)=>city.munnom)))
   uniqueCity.splice(uniqueCity.indexOf("Toponyme à venir"),1);
 
-  addQuebecCities();
+  addCities();
   addDistrictsAreas();
 
   return true;
-
-
 }
-function addQuebecCities() {
+
+function addCities() {
   citiesList.innerHTML = "";
   uniqueCity.forEach((city) => {
       let optionCity = document.createElement("option");
       optionCity.value = city;
       optionCity.text = city;
-      citiesList.appendChild(optionCity);
+      if(selectedDistrictArea.length === 0){
+        citiesList.appendChild(optionCity);
+      }
+      else{
+        if(selectedDistrictArea.includes(citiesAndDA.find(x => x.munnom === city).regadm.replace(/--/g, "-")))
+          citiesList.appendChild(optionCity);
+      }
   });
 }
+
 function addDistrictsAreas(){
   uniqueDA.forEach((DA) => {
     let optionDA = document.createElement("option");
@@ -85,13 +93,26 @@ function addListeners(){
 }
 
 function updateCityList(){
-  const DAList = document.getElementById("districtAreas");
+  DAList = document.getElementById("districtAreas");
   const DASelectedOptions = DAList.querySelectorAll(".multi-select-selected");
   selectedDistrictArea = []
   for(let i=0 ; i < DASelectedOptions.length ; i++){
     selectedDistrictArea.push(DASelectedOptions[i].children[1].innerHTML);
   }
-  console.log(selectedDistrictArea);
+  
+  citiesList = document.getElementById("cities");
+  citiesListOptions = citiesList.querySelector('.multi-select-options');
+  citiesListOptions.innerHTML = "";
+  citiesListOptions.appendChild(searchClone);
+
+  uniqueCity.forEach((city) => {
+    if(selectedDistrictArea.length === 0 || selectedDistrictArea.includes(citiesAndDA.find(x => x.munnom === city).regadm.replace(/--/g, "-"))){
+      let optionCity = optionTemplate.cloneNode();
+      optionCity.setAttribute("data-value", city);
+      optionCity.innerHTML = "<span class=\"multi-select-option-radio\"></span><span class=\"multi-select-option-text\">"+city+"</span>"
+      citiesListOptions.appendChild(optionCity);
+    }
+  });
 }
 
 function invokeSelectChange(option){
@@ -100,9 +121,18 @@ function invokeSelectChange(option){
   select.dispatchEvent(new Event('change'));
 }
 
+function makeOptionListTemplate(){
+  citiesList = document.getElementById("cities");
+  citiesListOptions = citiesList.querySelector('.multi-select-options');
+  searchClone = citiesListOptions.querySelector('.multi-select-search').cloneNode();
+  optionTemplate = citiesListOptions.querySelector('.multi-select-option').cloneNode();
+  optionTemplateInnerHTML = citiesListOptions.querySelector('.multi-select-option').innerHTML;
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
   let response = await addCitiesAndDAInSelect();
   document.querySelectorAll('[data-multi-select]').forEach(select => new MultiSelect(select));
+  makeOptionListTemplate();
   addListeners();
 
   //Is in the index.blade.php file
