@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(ProductsservicescategoriesTableSeeder::class);
         // User::factory(10)->create();
-
+        $this->call(ProductsServicesSeeder::class);
         $this->call(WorkSubcategoriesSeeder::class);
         $this->call(ProvincesSeeder::class);
         $this->call(SuppliersSeeder::class);
@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AttachmentsSeeder::class);
         $this->call(RbqLicenceSeeder::class);
         $this->call(SupplierWorkSubcategorySeeder::class);
+        $this->call(SupplierProductsServicesSeeder::class);
     }
 }

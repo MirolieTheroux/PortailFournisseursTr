@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/MultiSelect.css') }}">
-<link rel="stylesheet" href="{{ asset('css/suppliers/index.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/MultiSelect.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/suppliers/index.css') }}">
 @endsection
 
 @section('content')

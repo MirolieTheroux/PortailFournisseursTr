@@ -21,45 +21,60 @@ class SuppliersController extends Controller
         return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+  /**
+   * Show the form for creating a new resource.
+   */
+  public function create()
+  {
+    //
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(Request $request)
+  {
+    //
+  }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Supplier $supplier)
-    {
-        return View('suppliers.show', compact('supplier'));
-    }
+  /**
+   * Display the specified resource.
+   */
+  public function show(Supplier $supplier)
+  {
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+    $supplierWithProductsCategories = $supplier->load('productsServices.categories');
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    $suppliersGroupedByNatureAndCategory = $supplierWithProductsCategories->productsServices->groupBy(function ($product) {
+      return $product->categories->nature;
+    })->map(function ($groupedByNature) {
+      return $groupedByNature->groupBy(function ($product) {
+        return $product->categories->code;
+      })->map(function ($groupedByCategory) {
+        return [
+          'category_name' => $groupedByCategory->first()->categories->name,
+          'products' => $groupedByCategory
+        ];
+      });
+    });
+    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory'));
+  }
+  
+  /**
+   * Show the form for editing the specified resource.
+   */
+  public function edit(string $id)
+  {
+    //
+  }
+
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(Request $request, string $id)
+  {
+    //
+  }
 
     /**
      * Remove the specified resource from storage.

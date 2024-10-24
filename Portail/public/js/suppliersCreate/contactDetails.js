@@ -264,10 +264,6 @@ function validatePostalCodeOnInput() {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
     invalidRequiredPostalCode.style.display = "block";
-  } else if (pcValue.length > 6) {
-    input.classList.remove("is-valid");
-    input.classList.add("is-invalid");
-    invalidPostalCodeLength.style.display = "block";
   } else if (pcValue.length === 1 && !/^[A-Za-z]$/.test(pcValue)) {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
@@ -292,6 +288,10 @@ function validatePostalCodeOnInput() {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
     invalidPostalCodeFormat.style.display = "block";
+  } else if (pcValue.length !== 6) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    invalidPostalCodeLength.style.display = "block";
   } else {
     input.classList.remove("is-invalid");
     input.classList.add("is-valid");
