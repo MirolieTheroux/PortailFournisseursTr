@@ -37,21 +37,21 @@ class Supplier extends Model
       'password',
     ];
 
-    // public function contacts(){
-    //   return $this->hasMany(Contact::class);
-    // }
+    public function contacts(){
+      return $this->hasMany(Contact::class);
+    }
 
     public function phoneNumbers(){
       return $this->hasMany(PhoneNumber::class);
     }
 
-    // public function rbqLicence(){
-    //   return $this->hasOne(RbqLicence::class);
-    // }
+    public function rbqLicence(){
+      return $this->hasOne(RbqLicence::class);
+    }
 
-    // public function workSubcategories(){
-    //   return $this->belongsToMany(WorkSubcategory::class, 'supplier_work_subcategory');
-    // }
+    public function workSubcategories(){
+      return $this->belongsToMany(WorkSubcategory::class, 'supplier_work_subcategory');
+    }
 
     public function address(){
       return $this->hasOne(Address::class);

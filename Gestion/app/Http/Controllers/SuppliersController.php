@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use App\Models\WorkSubcategory;
+use Illuminate\Support\Facades\Log;
 
 class SuppliersController extends Controller
 {
@@ -13,7 +15,8 @@ class SuppliersController extends Controller
     public function index()
     {
         $suppliers = Supplier::all();
-        return View('suppliers.index', compact('suppliers'));
+        $workSubcategories = WorkSubcategory::all();
+        return View('suppliers.index', compact('suppliers', 'workSubcategories'));
     }
 
     /**
@@ -62,5 +65,42 @@ class SuppliersController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function filter(Request $request)
+    {
+        Log::debug($request);
+        $suppliersQuery = Supplier::query();
+        $workCategoriesQuery = WorkSubcategory::query();
+
+        if ($request->filled('cities') && is_array($request->input('cities'))) {
+            $suppliersQuery->whereHas('address', function($q) use($request){
+                $cities = $request->cities; 
+                $q->whereIn('city', $cities);
+            });
+        }
+
+        if ($request->filled('districtAreas') && is_array($request->input('districtAreas'))) {
+            $suppliersQuery->whereHas('address', function($q) use($request){
+                $districtAreas = $request->districtAreas; 
+                $q->whereIn('region', $districtAreas);
+            });
+        }
+
+        if ($request->filled('workCategories') && is_array($request->input('workCategories'))) {
+            $suppliersQuery->whereHas('workSubcategories', function($q) use($request){
+                $workCategories = $request->workCategories; 
+                $q->whereIn('code', $workCategories);
+            });
+            $workCategoriesQuery->whereIn('code',$request->workCategories);
+        }
+
+        $suppliers = $suppliersQuery->with('address')->get();
+
+        $workSubcategories = $workCategoriesQuery->get();
+        
+        return response()->json([
+            'html' => view('suppliers.components.supplierList', compact('suppliers', 'workSubcategories'))->render(),
+        ]);
     }
 }
