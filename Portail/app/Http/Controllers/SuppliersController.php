@@ -222,7 +222,7 @@ class SuppliersController extends Controller
         $contact = Contact::where('email', $request->contactEmails[$i])->firstOrFail();
 
         $phoneNumberA = new PhoneNumber();
-        $phoneNumberA->number = $request->contactTelNumbersA[$i];
+        $phoneNumberA->number = str_replace('-', '', $request->contactTelNumbersA[$i]);
         $phoneNumberA->type = $request->contactTelTypesA[$i];
         $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
         $phoneNumberA->supplier()->associate(null);
@@ -231,7 +231,7 @@ class SuppliersController extends Controller
 
         if(!is_null($request->contactTelNumbersB[$i])){
           $phoneNumberB = new PhoneNumber();
-          $phoneNumberB->number = $request->contactTelNumbersB[$i];
+          $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
           $phoneNumberB->type = $request->contactTelTypesB[$i];
           $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
           $phoneNumberB->supplier()->associate(null);
