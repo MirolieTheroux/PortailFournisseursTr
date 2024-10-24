@@ -330,6 +330,14 @@ function validateWebsite() {
 
 //Validation section Téléphones
 document.getElementById("contactDetailsPhoneNumber").addEventListener("input", validatePhoneNumber);
+document.getElementById("contactDetailsPhoneNumber").addEventListener("paste", (event) => {
+  // Get the pasted data from the clipboard
+  const pasteData = (event.clipboardData || window.clipboardData).getData('text');
+  
+  if (/\D/.test(pasteData)) {
+    event.preventDefault();
+  }
+});
 function validatePhoneNumber() {
   const input = document.getElementById("contactDetailsPhoneNumber");
   const phoneExtension = document.getElementById("contactDetailsPhoneExtension");
@@ -342,20 +350,12 @@ function validatePhoneNumber() {
   invalidRequiredPhoneNumber.style.display = "none";
   invalidPhoneNumberNumeric.style.display = "none";
   invalidPhoneNumberFormat.style.display = "none";
-  
-  input.addEventListener('paste', (event) => {
-    // Get the pasted data from the clipboard
-    const pasteData = (event.clipboardData || window.clipboardData).getData('text');
-    
-    if (/\D/.test(pasteData)) {
-      event.preventDefault();
-    }
-  });
 
   //Basic validation logic
-  if (/\D/.test(input.value[input.value.length - 1])) {
-    input.value = input.value.slice(0, -1);
+  if (/\D/.test(input.value)) {
+    input.value = input.value.replace(/\D/g, '');
   }
+
   const phoneValue = input.value.replace(/-/g, '');
 
   if (phoneValue.length > 6) {

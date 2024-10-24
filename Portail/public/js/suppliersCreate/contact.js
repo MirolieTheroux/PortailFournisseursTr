@@ -194,7 +194,15 @@ function addCustomListener(){
   primaryPhoneInputs.forEach(input => {
     input.addEventListener('input', (event)=>{
       validateContactsPrimaryPhone(input.id);
-    })
+    });
+    input.addEventListener('paste', (event)=>{
+      // Get the pasted data from the clipboard
+      const pasteData = (event.clipboardData || window.clipboardData).getData('text');
+      
+      if (/\D/.test(pasteData)) {
+        event.preventDefault();
+      }
+    });
   });
 
   const secondaryPhoneInputs = document.querySelectorAll('.contact-secondary-phone-input');
@@ -308,18 +316,30 @@ function validateContactsPrimaryPhone(id) {
   invalidNumberMessage.style.display = 'none';
   invalidSizeMessage.style.display = 'none';
 
+  if (/\D/.test(input.value)) {
+    input.value = input.value.replace(/\D/g, '');
+  }
+  
+  const phoneValue = input.value.replace(/-/g, '');
+
+  if (phoneValue.length > 6) {
+    input.value = `${phoneValue.slice(0, 3)}-${phoneValue.slice(3, 6)}-${phoneValue.slice(6)}`;
+  } else if (phoneValue.length > 3) {
+    input.value = `${phoneValue.slice(0, 3)}-${phoneValue.slice(3)}`;
+  }
+
   // Basic validation logic
-  if (!input.value) {
+  if (!phoneValue) {
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
     invalidRequiredMessage.style.display = 'block';
   }
-  else if(isNaN(input.value)){
+  else if(isNaN(phoneValue)){
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
     invalidNumberMessage.style.display = 'block';
   }
-  else if(input.value.length !== 10){
+  else if(phoneValue.length !== 10){
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
     invalidSizeMessage.style.display = 'block';

@@ -873,7 +873,7 @@
                                     <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                                    <input type="text" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control contact-input contact-primary-phone-input" placeholder="" maxlength="10">
+                                    <input type="text" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control contact-input contact-primary-phone-input" placeholder="" maxlength="12">
                                     <label id="contactTelNumberLabelA1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberA1">{{__('form.numberLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-3">
@@ -899,7 +899,7 @@
                                     <label id="contactTelTypeLabelB1" for="contactTelTypeB1">{{__('form.typeLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                                    <input type="text" name="contactTelNumbersB[]" id="contactTelNumberB1" class="form-control contact-input contact-secondary-phone-input" placeholder="" maxlength="10">
+                                    <input type="text" name="contactTelNumbersB[]" id="contactTelNumberB1" class="form-control contact-input contact-secondary-phone-input" placeholder="" maxlength="12">
                                     <label id="contactTelNumberLabelB1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberB1">{{__('form.numberLabel')}}</label>
                                 </div>
                                 <div class="form-floating col-12 col-md-3">
