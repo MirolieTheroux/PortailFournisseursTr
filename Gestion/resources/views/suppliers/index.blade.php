@@ -106,6 +106,9 @@
 @endsection
 
 @section('scripts')
+<script>
+  var searchText = "{{__('index.searchText')}}";
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ asset('js/suppliers/indexSupplier.js') }} "></script>
 <script src="{{ asset('js/suppliers/productsServices.js') }} "></script>

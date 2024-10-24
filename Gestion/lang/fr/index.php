@@ -19,6 +19,7 @@ return [
     'pickDA' => 'Choisir une région',
     'pickCity' => 'Choisir une ville',
     'pickCategory' => 'Choisir une catégorie',
+    'searchText' => 'Rechercher...',
 
     'noResults' => 'Aucun résultat ne correspond à la sélection'
 ];
