@@ -57,7 +57,15 @@ class Supplier extends Model
       return $this->belongsToMany(WorkSubcategory::class, 'supplier_work_subcategory');
     }
 
+    public function productsServices(){
+      return $this->belongsToMany(ProductService::class, 'supplier_products_services', 'supplier_id', 'products_services_code', 'id', 'code');
+    }
+
     public function address(){
       return $this->hasOne(Address::class);
+    }
+
+    public function attachments(){
+      return $this->hasMany(Attachment::class);
     }
 }

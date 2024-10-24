@@ -139,8 +139,6 @@ function updateWorkSubcategoryCounters(){
   const workCategoriesInputs = workCategoriesList.querySelectorAll('input');
   const workCategoriesCountSpan = document.getElementById("workSubCategoryCount");
   workCategoriesCountSpan.innerHTML = workCategoriesInputs.length-1;
-  
-  console.log(suppliers);
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
