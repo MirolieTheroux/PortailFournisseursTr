@@ -5,15 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RbqLicence extends Model
+class Attachment extends Model
 {
-    protected $table = 'rbq_licences';
-
-    protected $fillable = [
-      'number',
-      'status',
-      'type',
-    ];
+    use HasFactory;
 
     public function supplier(){
       return $this->belongsTo(Supplier::class);

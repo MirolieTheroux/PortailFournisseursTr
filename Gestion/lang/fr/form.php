@@ -120,7 +120,7 @@ return [
     'rbqTypeValidationRequired' => 'Le champ type est requis lorsqu\'il y a une licence.',
     'rbqTypeValidationRequiredNot' => 'Le champ type ne doit pas être rempli lorsqu\'il n\'y a pas de licence.',
     'rbqCategoriesSection' => 'Catégories et sous-catégories autorisées',
-    'rbqCategoriesUnselectedType' => 'Veuillez selectionner un type de licence pour voir la liste des sous-catégories',
+    'rbqCategoriesUnselectedType' => 'Veuillez sélectionner un type de licence pour voir la liste des sous-catégories',
     'rbqCategoriesGeneralEntrepreneur' => 'Catégories entrepreneur général',
     'rbqCategoriesSpecialisedEntrepreneur' => 'Catégories entrepreneur spécialisé',
     'rbqCategoriesGeneralOwnerBuilder' => 'Catégories constructeur-propriétaire général',
@@ -128,6 +128,7 @@ return [
     'rbqCategoriesValidation' => 'Au moins une catégorie doit être sélectionnée lorsque Numéro est présent.',
     'rbqSubcategorieValidationRequired' => 'Au moins une catégorie doit être choisie lorsqu\'il y a une licence.',
     'rbqSubcategorieValidationRequiredNot' => 'Aucune catégorie ne doit être choisie lorsqu\'il n\'y a pas de licence.',
+    'rbqNoLicence' => 'Aucune licence RBQ.',
 
     'contactsTitle' => 'Contacts',
     'contactsSubtitle' => 'Contact',

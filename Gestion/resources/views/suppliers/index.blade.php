@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/MultiSelect.css') }}">
-<link rel="stylesheet" href="{{ asset('css/suppliers/index.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/MultiSelect.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/suppliers/index.css') }}">
 @endsection
 
 @section('content')
@@ -17,7 +17,31 @@
           @role(['responsable', 'admin'])
             <div>État de la demande</div>
           @endrole
-          <div>Produits et services</div>
+          <div>
+            <div>Produits et services</div>
+            <div class="text-center">
+              <div class="form-floating mb-3">
+                <input type="text" id="service-search" class="form-control" placeholder="">
+                <label for="service-search">{{__('form.productsAndServiceCategoriesSearch')}}</label>
+              </div>
+            </div>
+            <div class="form-floating">
+              <div class="form-control" placeholder="details" id="products-categories" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
+                <div class="mt-lg-0 mt-md-4" id="service-list">
+                </div>
+              </div>
+              <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
+              <div class="note" id="results-count"><br></div>
+            </div>
+            <div class="form-floating d-none">
+              <div class="form-control" placeholder="selected" id="products-selected" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
+                <div class="mt-lg-0 mt-md-4" id="service-selected">
+                </div>
+              </div>
+              <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label>
+              <div class="note"><br></div>
+            </div>
+          </div>
           <div class="pb-3">
             <label for="workCategories">{{__('index.workCategories')}}</label>
             <select id="workCategories" name="workCategories" data-placeholder="{{__('index.pickCategory')}}" multiple data-multi-select>
@@ -46,7 +70,7 @@
               <h1>{{__('index.suppliersListTitle')}}</h1>
             </div>
             <div class="col-6 d-flex flex-column justify-content-end">
-              <h4 class="text-end">{{__('index.productsServicesCount')}} : 2</h4><!--TODO::Calculer la quantité-->
+              <h4 class="text-end">{{__('index.productsServicesCount')}} : <span id="productsServicesCount">0</span></h4><!--TODO::Calculer la quantité-->
               <h4 class="text-end">{{__('index.workCategoriesCount')}} : <span id="workSubCategoryCount">0</span></h4>
             </div>
           </div>
@@ -84,6 +108,7 @@
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ asset('js/suppliers/indexSupplier.js') }} "></script>
+<script src="{{ asset('js/suppliers/productsServices.js') }} "></script>
 <script src="{{ asset('js/MultiSelect.js') }} "></script>
 <script>
 function addjQueryListeners(){
