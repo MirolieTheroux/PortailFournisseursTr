@@ -67,4 +67,4 @@
   var suppliers = @json($suppliers);
   var workSubcategories = @json($workSubcategories);
 </script>
-<script src="{{ asset('js/suppliers/supplierListCount.js') }}"></script>  -->
+<script src="{{ asset('js/suppliers/supplierListCount.js') }}"></script> -->
