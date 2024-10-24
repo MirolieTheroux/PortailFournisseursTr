@@ -45,10 +45,6 @@ class Supplier extends Model
       return $this->hasMany(PhoneNumber::class);
     }
 
-    public function productsServices(){
-      return $this->belongsToMany(ProductService::class, 'supplier_products_services', 'supplier_id', 'products_services_code', 'id', 'code');
-    }
-
     public function rbqLicence(){
       return $this->hasOne(RbqLicence::class);
     }
