@@ -208,14 +208,27 @@ function addCustomListener(){
   const secondaryPhoneInputs = document.querySelectorAll('.contact-secondary-phone-input');
   secondaryPhoneInputs.forEach(input => {
     input.addEventListener('input', (event)=>{
-      validateContactsSecondaryPhone(input.id);
-    })
+      let index = input.id.replace("contactTelNumberB", '');
+      validateContactsSecondaryPhone(index);
+    });
+    input.addEventListener('paste', (event)=>{
+      // Get the pasted data from the clipboard
+      const pasteData = (event.clipboardData || window.clipboardData).getData('text');
+      
+      if (/\D/.test(pasteData)) {
+        event.preventDefault();
+      }
+    });
   });
 
   const extensionInputs = document.querySelectorAll('.contact-extension-input');
   extensionInputs.forEach(input => {
     input.addEventListener('input', (event)=>{
       validateContactsExtension(input.id);
+      if (input.id.startsWith("contactTelExtensionB")){
+        let index = input.id.replace("contactTelExtensionB", '');
+        validateContactsSecondaryPhone(index);
+      }
     })
   });
 }
@@ -353,26 +366,49 @@ function validateContactsPrimaryPhone(id) {
 };
 
 function validateContactsSecondaryPhone(id) {
-  const input = document.getElementById(id);
+  const input = document.getElementById("contactTelNumberB"+id);
+  const phoneExtension = document.getElementById("contactTelExtensionB"+id);
   const parentDiv = input.closest(".phone-container");
   const invalidNumberMessage = parentDiv.querySelector('.phoneInvalidNumber');
   const invalidSizeMessage = parentDiv.querySelector('.phoneInvalidSize');
-
+  const invalidRequiredMessage = parentDiv.querySelector('.phoneInvalidRequired');
   // Reset all error messages
   invalidNumberMessage.style.display = 'none';
   invalidSizeMessage.style.display = 'none';
+  invalidRequiredMessage.style.display = 'none';
+
+  if (/\D/.test(input.value)) {
+    input.value = input.value.replace(/\D/g, '');
+  }
+
+  const phoneValue = input.value.replace(/-/g, '');
+
+  if (phoneValue.length > 6) {
+    input.value = `${phoneValue.slice(0, 3)}-${phoneValue.slice(3, 6)}-${phoneValue.slice(6)}`;
+  } else if (phoneValue.length > 3) {
+    input.value = `${phoneValue.slice(0, 3)}-${phoneValue.slice(3)}`;
+  }
 
   // Basic validation logic
-  if (!input.value) {
+  if (!phoneValue && phoneExtension.value) {
+    input.classList.remove('is-valid');
+    input.classList.add('is-invalid');
+    invalidRequiredMessage.style.display = 'block';
+  }
+  else if (!phoneValue) {
     input.classList.remove('is-valid');
     input.classList.remove('is-invalid');
   }
-  else if(isNaN(input.value)){
+  else if(isNaN(phoneValue)){
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
     invalidNumberMessage.style.display = 'block';
   }
-  else if(input.value.length !== 10){
+  else if (phoneValue.length === 0) {
+    input.classList.remove('is-invalid');
+    input.classList.remove('is-valid');
+  }
+  else if(phoneValue.length !== 10){
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
     invalidSizeMessage.style.display = 'block';
@@ -389,7 +425,6 @@ function validateContactsExtension(id) {
     const input = document.getElementById(id);
     const parentDiv = input.closest(".phone-container");
     const invalidNumberMessage = parentDiv.querySelector('.phoneInvalidExtension');
-
     // Reset all error messages
     invalidNumberMessage.style.display = 'none';
 

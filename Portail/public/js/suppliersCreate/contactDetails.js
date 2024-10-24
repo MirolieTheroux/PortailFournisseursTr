@@ -368,7 +368,7 @@ function validatePhoneNumber() {
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
     invalidRequiredPhoneNumber.style.display = 'block';
-  } else if (phoneValue.length === 0) {
+  } else if (!phoneValue) {
     input.classList.remove('is-invalid');
     input.classList.remove('is-valid');
   } else if (phoneValue.length === 10) {
