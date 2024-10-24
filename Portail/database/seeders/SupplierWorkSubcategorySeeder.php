@@ -24,11 +24,11 @@ class SupplierWorkSubcategorySeeder extends Seeder
             ],
             [
                 'supplier_id' => 1,
-                'work_subcategory_id' => 3,
+                'work_subcategory_id' => 21,
             ],
             [
                 'supplier_id' => 1,
-                'work_subcategory_id' => 4,
+                'work_subcategory_id' => 16,
             ],
             [
                 'supplier_id' => 2,

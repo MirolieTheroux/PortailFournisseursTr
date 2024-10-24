@@ -611,71 +611,89 @@
                     <div id="no-categories" class="d-block">
                       {{__('form.rbqNoLicence')}}
                     </div>
-                  @elseif ($supplier->rbqLicence->type == 'entrepreneur')    
-                    <div id="entrepreneur-categories" class="d-none">
-                      <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
-                      <div class="form-check pb-2">
-                        <!-- <input
-                          class="form-check-input mt-0 rbq-subcategories-check"
-                          type="checkbox"
-                          name="rbqSubcategories[]"
-                          value="">
-                        <div class="d-flex">
-                          <label class="form-check-label text-start rbq-category-label-number" for="">
-                          </label>
-                          <label class="form-check-label text-start ps-2" for="">
-                          </label>
-                        </div> -->
-                          allô
-                      </div>
-
-                      <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
-                      <div class="form-check pb-2">
-                        <input
-                          class="form-check-input mt-0 rbq-subcategories-check"
-                          type="checkbox"
-                          name="rbqSubcategories[]"
-                          value="">
-                        <div class="d-flex">
-                          <label class="form-check-label text-start rbq-category-label-number" for="">
-                          </label>
-                          <label class="form-check-label text-start ps-2" for="">
-                          </label>
-                        </div>
-                      </div>
-                    </div>
                   @else
-                    <div id="ownerBuilder-categories" class="d-none">
-                      <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
-                      <div class="form-check pb-2">
-                        <input
-                          class="form-check-input mt-0 rbq-subcategories-check"
-                          type="checkbox"
-                          name="rbqSubcategories[]"
-                          value="">
-                        <div class="d-flex">
-                          <label class="form-check-label text-start rbq-category-label-number" for="">
-                          </label>
-                          <label class="form-check-label text-start ps-2" for="">
-                          </label>
+                    @if ($supplier->rbqLicence->type = "entrepreneur")  
+                      @foreach ($supplier->workSubcategories as $cat)
+                      @if ($supplier->workSubcategories->is_specialised = false)  
+                      <div id="entrepreneur-categories" >
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
+                        <div class="form-check pb-2">
+                          <!-- <input
+                            class="form-check-input mt-0 rbq-subcategories-check"
+                            type="checkbox"
+                            name="rbqSubcategories[]"
+                            value=""> -->
+                          <div class="d-flex py-1">
+                            <label class="form-check-label text-start rbq-category-label-number" for="">
+                              {{ $cat->code }}
+                            </label>
+                            <label class="form-check-label text-start ps-2" for="">
+                            {{ $cat->name }}
+                            </label>
+                          </div>
+                        </div>
+                      @else
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
+                          <div class="form-check pb-2">
+                            <!-- <input
+                              class="form-check-input mt-0 rbq-subcategories-check"
+                              type="checkbox"
+                              name="rbqSubcategories[]"
+                              value=""> -->
+                            <div class="d-flex">
+                              <label class="form-check-label text-start rbq-category-label-number" for="">
+                              {{ $cat->code }}
+                              </label>
+                              <label class="form-check-label text-start ps-2" for="">
+                              {{ $cat->name }}
+                              </label>
+                            </div>
+                          </div>
                         </div>
                       </div>
-
-                      <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
-                      <div class="form-check pb-2">
-                        <input
-                          class="form-check-input mt-0 rbq-subcategories-check"
-                          type="checkbox"
-                          name="rbqSubcategories[]"
-                          value="">
-                        <div class="d-flex">
-                          <label class="form-check-label text-start rbq-category-label-number" for="">
-                          </label>
-                          <label class="form-check-label text-start ps-2" for="">
-                          </label>
+                      @endif
+                      @endforeach
+                    @else
+                      @foreach ($supplier->workSubcategories as $cat)
+                      @if ($supplier->workSubcategories->is_specialised = false)  
+                        <div id="ownerBuilder-categories" >
+                          <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
+                          <div class="form-check pb-2">
+                            <!-- <input
+                              class="form-check-input mt-0 rbq-subcategories-check"
+                              type="checkbox"
+                              name="rbqSubcategories[]"
+                              value=""> -->
+                            <div class="d-flex">
+                              <label class="form-check-label text-start rbq-category-label-number" for="">
+                              {{ $cat->code }}
+                              </label>
+                              <label class="form-check-label text-start ps-2" for="">
+                              {{ $cat->name }}
+                              </label>
+                            </div>
+                          </div>
+                      @else
+                          <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
+                          <div class="form-check pb-2">
+                            <input
+                              class="form-check-input mt-0 rbq-subcategories-check"
+                              type="checkbox"
+                              name="rbqSubcategories[]"
+                              value="">
+                            <div class="d-flex">
+                              <label class="form-check-label text-start rbq-category-label-number" for="">
+                              {{ $cat->code }}
+                              </label>
+                              <label class="form-check-label text-start ps-2" for="">
+                              {{ $cat->name }}
+                              </label>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
+                      @endif
+                      @endforeach
+                    @endif
                   @endif
                   </div>
                 </div>
