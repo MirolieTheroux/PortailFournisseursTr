@@ -161,6 +161,7 @@
   <!--NICE_TO_HAVE::Drag and drop pour les catégories-->
   <!--NICE_TO_HAVE::Synonymes pour la fonction de recherche-->
   <!--NICE_TO_HAVE::Indicateur lorsque les données charge-->
+  <!--NICE_TO_HAVE::Ignorer les - lors de la recherche-->
   <div class="container bg-white rounded my-2 form-section d-none" id="productsServices-section">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
