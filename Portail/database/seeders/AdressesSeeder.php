@@ -19,7 +19,7 @@ class AdressesSeeder extends Seeder
                 'civic_no' => "2707",
                 'street' => "CAZENEUVE",
                 'postal_code' => "H4R1Z7",
-                'city' => "SAINT-LAURENT",
+                'city' => "Saint-Laurent-de-l'Île-d'Orléans",
                 'region' => "Bas-Saint-Laurent (01)",
                 'province_id' => 9,
                 'supplier_id' => 1,

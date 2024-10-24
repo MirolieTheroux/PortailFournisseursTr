@@ -10,9 +10,9 @@ class RbqLicence extends Model
     protected $table = 'rbq_licences';
 
     protected $fillable = [
-      'number',
-      'status',
-      'type',
+        'number',
+        'status',
+        'type',
     ];
 
     public function supplier(){
