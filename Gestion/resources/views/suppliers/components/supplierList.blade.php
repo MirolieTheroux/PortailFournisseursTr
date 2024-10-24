@@ -35,7 +35,18 @@
         <div class="text-centert">1</div><!--TODO::Calculer la quantité de correspondant au filtres-->
       </div>
       <div class="col-2 text-center supplier-list-table-text">
-        <div class="text-center">3</div><!--TODO::Calculer la quantité de correspondant au filtres-->
+        <div class="text-center">
+          @php
+            $selectedWorkSubcategories = $workSubcategories->pluck('code')->toArray();
+            
+            $workSubcategoriesCount = 0;
+            foreach ($supplier->workSubcategories as $workSubcategory) {
+              if(in_array($workSubcategory->code, $selectedWorkSubcategories))
+                $workSubcategoriesCount++;
+            }
+          @endphp
+          {{$workSubcategoriesCount}}
+        </div>
       </div>
       <div class="col-1 d-flex justify-content-around">
         <a href="{{ route('suppliers.show', [$supplier]) }}">
@@ -51,3 +62,9 @@
 @else
   <div class="text-center">{{__('index.noResults')}}</div>
 @endif
+
+{{-- <script>
+  var suppliers = @json($suppliers);
+  var workSubcategories = @json($workSubcategories);
+</script>
+<script src="{{ asset('js/suppliers/supplierListCount.js') }}"></script> --}}

@@ -62,7 +62,7 @@
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-height: 450px;
+  max-height: 300px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -80,7 +80,7 @@
 }
 .multi-select .multi-select-options .multi-select-option, .multi-select .multi-select-options .multi-select-all {
   padding: 4px 12px;
-  height: 42px;
+  min-height: 42px;
 }
 .multi-select .multi-select-options .multi-select-option .multi-select-option-radio, .multi-select .multi-select-options .multi-select-all .multi-select-option-radio {
   margin-right: 14px;
@@ -97,6 +97,7 @@
   white-space: nowrap;
   color: inherit;
   font-size: 16px;
+  text-wrap: wrap;
   line-height: 20px;
 }
 .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-radio, .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-radio {
