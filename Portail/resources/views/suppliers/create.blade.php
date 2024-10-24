@@ -917,7 +917,7 @@
         </div>
         <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
-                <button type="button" class="m-2 py-1 px-3 rounded button-darkblue previous-button">{{__('global.previous')}}</button><!--TODO::Mettre un nom significatif au Id-->
+                <button type="button" class="m-2 py-1 px-3 rounded previous-button">{{__('global.previous')}}</button><!--TODO::Mettre un nom significatif au Id-->
                 <button id="contacts-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue next-button">{{__('global.next')}}</button><!--TODO::Mettre un nom significatif au Id-->
             </div>
         </div>

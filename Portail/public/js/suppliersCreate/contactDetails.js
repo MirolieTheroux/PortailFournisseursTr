@@ -332,6 +332,7 @@ function validateWebsite() {
 document.getElementById("contactDetailsPhoneNumber").addEventListener("input", validatePhoneNumber);
 function validatePhoneNumber() {
   const input = document.getElementById("contactDetailsPhoneNumber");
+  const phoneExtension = document.getElementById("contactDetailsPhoneExtension");
   const invalidRequiredPhoneNumber = document.getElementById("invalidRequiredPhoneNumber");
   const invalidPhoneNumberNumeric = document.getElementById("invalidPhoneNumberNumeric");
   const invalidPhoneNumberFormat = document.getElementById("invalidPhoneNumberFormat");
@@ -341,21 +342,36 @@ function validatePhoneNumber() {
   invalidRequiredPhoneNumber.style.display = "none";
   invalidPhoneNumberNumeric.style.display = "none";
   invalidPhoneNumberFormat.style.display = "none";
-
-  const phoneValue = input.value.replace(/\D/g, ''); 
-  //Basic validation logic
-  if (/\D/.test(input.value)) {
-    input.classList.remove('is-valid');
-    input.classList.add('is-invalid');
-    invalidPhoneNumberNumeric.style.display = 'block';
   
-  } else if (!phoneValue) {
+  input.addEventListener('paste', (event) => {
+    // Get the pasted data from the clipboard
+    const pasteData = (event.clipboardData || window.clipboardData).getData('text');
+    
+    if (/\D/.test(pasteData)) {
+      event.preventDefault();
+    }
+  });
+
+  //Basic validation logic
+  if (/\D/.test(input.value[input.value.length - 1])) {
+    input.value = input.value.slice(0, -1);
+  }
+  const phoneValue = input.value.replace(/-/g, '');
+
+  if (phoneValue.length > 6) {
+    input.value = `${phoneValue.slice(0, 3)}-${phoneValue.slice(3, 6)}-${phoneValue.slice(6)}`;
+  } else if (phoneValue.length > 3) {
+    input.value = `${phoneValue.slice(0, 3)}-${phoneValue.slice(3)}`;
+  }
+
+  if (!phoneValue && phoneExtension.value) {
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
     invalidRequiredPhoneNumber.style.display = 'block';
+  } else if (phoneValue.length === 0) {
+    input.classList.remove('is-invalid');
+    input.classList.remove('is-valid');
   } else if (phoneValue.length === 10) {
-    const formattedNumber = `${phoneValue.slice(0, 3)}-${phoneValue.slice(3, 6)}-${phoneValue.slice(6)}`;
-    input.value = formattedNumber;
     input.classList.remove('is-invalid');
     input.classList.add('is-valid');
   } else {
@@ -393,6 +409,7 @@ function validatePhoneExtension() {
     input.classList.add("is-valid");
   }
   input.classList.add("was-validated");
+  validatePhoneNumber();
 }
 
 document.getElementById("add-icon").addEventListener("click", function () {

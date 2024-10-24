@@ -27,7 +27,7 @@ return [
     'identificationCompanySection' => 'Entreprise',
     'identificationAuthentificationSection' => 'Authentification',
     'identificationNeqExistValidation' => 'Le NEQ est déjà enregistrer pour un autre compte.',
-    'identificationValidationNEQ3rd' => 'Le troisième caractère doit être 4, 5, 6, 7, 8 ou 9.',
+    'identificationValidationNEQ3rd' => 'Le troisième caractère doit être 3, 4, 5, 6, 7, 8 ou 9.',
     'identificationValidationNEQOnlyDigits' => 'Le NEQ doit être composé uniquement de chiffres.',
     'identificationValidationNEQAmount' => 'Le NEQ doit être de 10 caractères.',
     'identificationValidationEmailStartWithArobase' => 'L\'Adresse courriel ne doit pas commencer par @.',

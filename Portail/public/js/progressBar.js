@@ -47,7 +47,7 @@ function isSectionValid(index) {
   let isValid = true;
   
   currentSectionErrors.forEach(errorMessage => {
-    if (errorMessage.style.display == "block") {
+    if (errorMessage.style.display == "block" && !(errorMessage.id == "invalidRequiredPhoneNumber" || errorMessage.id == "invalidPhoneNumberNumeric" || errorMessage.id == "invalidPhoneNumberFormat" || errorMessage.id == "invalidPhoneExtension" || errorMessage.id == "invalidPhoneExtensionLength" || errorMessage.id == "invalidAddPhoneNumber")) {
       isValid = false;
     }
   });
