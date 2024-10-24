@@ -12,9 +12,17 @@
         <form id="filterForm" class="h-100 d-flex flex-column justify-content-between">
           <!--TODO::Faire la section des filtres-->
           <div>Lister les fourniseurs sélectionnés</div>
-          <div>Recherche</div>
-          <div>Nombre de fournisseur en attente</div>
+          <div>
+            <div>{{__('index.supplierSearch')}}</div>
+            <div class="text-center">
+              <div class="form-floating mb-3">
+                <input type="text" id="supplierSearch" name="name" class="form-control" placeholder="">
+                <label for="supplierSearch">{{__('index.enterName')}}</label>
+              </div>
+            </div>
+          </div>
           @role(['responsable', 'admin'])
+            <div>Nombre de fournisseur en attente</div>
             <div>État de la demande</div>
           @endrole
           <div>
@@ -122,6 +130,9 @@ function addjQueryListeners(){
     sendFilterForm();
   });
   $('#workCategories').change(function () {
+    sendFilterForm();
+  });
+  $('#supplierSearch').on('keyup', function() {
     sendFilterForm();
   });
 }
