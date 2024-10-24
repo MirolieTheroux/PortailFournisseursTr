@@ -24,6 +24,7 @@ class SupplierRequest extends FormRequest
     {
         return [
             'neq' => [
+                'nullable',
                 'unique:suppliers',
                 'size:10',
                 'regex:/^(11|22|33|88)[4-9].{7}$/',
