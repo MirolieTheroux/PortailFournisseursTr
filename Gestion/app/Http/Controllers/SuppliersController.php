@@ -70,33 +70,37 @@ class SuppliersController extends Controller
     public function filter(Request $request)
     {
         Log::debug($request);
-        $query = Supplier::query();
+        $suppliersQuery = Supplier::query();
+        $workCategoriesQuery = WorkSubcategory::query();
 
         if ($request->filled('cities') && is_array($request->input('cities'))) {
-            $query->whereHas('address', function($q) use($request){
+            $suppliersQuery->whereHas('address', function($q) use($request){
                 $cities = $request->cities; 
                 $q->whereIn('city', $cities);
             });
         }
 
         if ($request->filled('districtAreas') && is_array($request->input('districtAreas'))) {
-            $query->whereHas('address', function($q) use($request){
+            $suppliersQuery->whereHas('address', function($q) use($request){
                 $districtAreas = $request->districtAreas; 
                 $q->whereIn('region', $districtAreas);
             });
         }
 
         if ($request->filled('workCategories') && is_array($request->input('workCategories'))) {
-            $query->whereHas('workSubcategories', function($q) use($request){
+            $suppliersQuery->whereHas('workSubcategories', function($q) use($request){
                 $workCategories = $request->workCategories; 
                 $q->whereIn('code', $workCategories);
             });
+            $workCategoriesQuery->whereIn('code',$request->workCategories);
         }
 
-        $suppliers = $query->with('address')->get();
+        $suppliers = $suppliersQuery->with('address')->get();
+
+        $workSubcategories = $workCategoriesQuery->get();
         
         return response()->json([
-            'html' => view('suppliers.components.supplierList', compact('suppliers'))->render(),
+            'html' => view('suppliers.components.supplierList', compact('suppliers', 'workSubcategories'))->render(),
         ]);
     }
 }

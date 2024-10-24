@@ -47,7 +47,7 @@
             </div>
             <div class="col-6 d-flex flex-column justify-content-end">
               <h4 class="text-end">{{__('index.productsServicesCount')}} : 2</h4><!--TODO::Calculer la quantité-->
-              <h4 class="text-end">{{__('index.workCategoriesCount')}} : <span id="workSubCategoryCount">0</span></h4><!--TODO::Calculer la quantité-->
+              <h4 class="text-end">{{__('index.workCategoriesCount')}} : <span id="workSubCategoryCount">0</span></h4>
             </div>
           </div>
           <div class="container-fluid border-bottom border-dark mb-0">
@@ -73,7 +73,7 @@
         </div>
         <div class="container-fluid border border-top-0 border-dark rounded-bottom p-0 mb-3">
           <div id="supplierList">
-            @include('suppliers.components.supplierList', ['suppliers' => $suppliers])
+            @include('suppliers.components.supplierList', ['suppliers' => $suppliers, 'workSubcategories' => $workSubcategories])
           </div>
         </div>
       </div>
@@ -82,11 +82,8 @@
 @endsection
 
 @section('scripts')
-<script>
-  var suppliers = @json($suppliers);
-</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{{ asset('js/indexSupplier.js') }} "></script>
+<script src="{{ asset('js/suppliers/indexSupplier.js') }} "></script>
 <script src="{{ asset('js/MultiSelect.js') }} "></script>
 <script>
 function addjQueryListeners(){
