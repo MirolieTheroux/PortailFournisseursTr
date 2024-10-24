@@ -63,8 +63,8 @@
   <div class="text-center">{{__('index.noResults')}}</div>
 @endif
 
-{{-- <script>
+ <!-- <script>
   var suppliers = @json($suppliers);
   var workSubcategories = @json($workSubcategories);
 </script>
-<script src="{{ asset('js/suppliers/supplierListCount.js') }}"></script> --}}
+<script src="{{ asset('js/suppliers/supplierListCount.js') }}"></script>  -->
