@@ -5,6 +5,7 @@ body{
 
 .full-viewport{
     height: calc(100vh - var(--header_logo_height)) !important;
+    z-index: -1;
 }
 
 .sticky-under-navbar{
