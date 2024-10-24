@@ -63,7 +63,7 @@ function fetchServices() {
                         selectedService.dataset.code = service.code;
 
                         selectedService.innerHTML = `
-                            <input type="text" name="produits_services" value="${originalCode}" class="d-none">
+                            <input type="text" name="produits_services[]" value="${originalCode}" class="d-none">
                             <div class="col-4 col-md-12 col-xl-4 d-flex flex-column justify-content-start">
                                 ${originalCode}
                             </div>
@@ -80,11 +80,13 @@ function fetchServices() {
                             if (originalService) {
                                 originalService.closest('.row').classList.remove('disabled-options'); // Show the original service
                             }
+                            updateProductServiceCount();
                         });
 
                         // Insert the cloned service into the selected services list
                         const selectedContainer = document.getElementById('service-selected');
                         selectedContainer.appendChild(selectedService);
+                        updateProductServiceCount();
                     });
 
                     serviceList.appendChild(serviceItem);
@@ -153,4 +155,21 @@ function highlightText(text, searchTerm) {
 
     // Return the original text if no match is found
     return text;
+}
+
+function updateProductServiceCount(){
+    const selectedServiceContainer = document.getElementById('service-selected');
+    const selectedServiceList = selectedServiceContainer.children;
+    
+    const productsSevicesCountContainer = document.getElementById('productsServicesCount');
+    productsSevicesCountContainer.innerHTML = selectedServiceList.length;
+
+    if(selectedServiceList.length === 0){
+        selectedServiceContainer.closest('.form-floating').classList.add('d-none')
+    }
+    else{
+        selectedServiceContainer.closest('.form-floating').classList.remove('d-none')
+    }
+
+    sendFilterForm();
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
 use App\Models\WorkSubcategory;
+use App\Models\ProductService;
 use Illuminate\Support\Facades\Log;
 
 class SuppliersController extends Controller
@@ -16,7 +17,8 @@ class SuppliersController extends Controller
     {
         $suppliers = Supplier::all();
         $workSubcategories = WorkSubcategory::all();
-        return View('suppliers.index', compact('suppliers', 'workSubcategories'));
+        $productsServices = ProductService::all();
+        return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
     }
 
     /**
@@ -72,6 +74,7 @@ class SuppliersController extends Controller
         Log::debug($request);
         $suppliersQuery = Supplier::query();
         $workCategoriesQuery = WorkSubcategory::query();
+        $productsServicesQuery = ProductService::query();
 
         if ($request->filled('cities') && is_array($request->input('cities'))) {
             $suppliersQuery->whereHas('address', function($q) use($request){
@@ -95,12 +98,21 @@ class SuppliersController extends Controller
             $workCategoriesQuery->whereIn('code',$request->workCategories);
         }
 
+        if ($request->filled('produits_services') && is_array($request->input('produits_services'))) {
+            $suppliersQuery->whereHas('productsServices', function($q) use($request){
+                $produits_services = $request->produits_services; 
+                $q->whereIn('code', $produits_services);
+            });
+            $productsServicesQuery->whereIn('code',$request->produits_services);
+        }
+
         $suppliers = $suppliersQuery->with('address')->get();
 
         $workSubcategories = $workCategoriesQuery->get();
+        $productsServices = $productsServicesQuery->get();
         
         return response()->json([
-            'html' => view('suppliers.components.supplierList', compact('suppliers', 'workSubcategories'))->render(),
+            'html' => view('suppliers.components.supplierList', compact('suppliers', 'workSubcategories', 'productsServices'))->render(),
         ]);
     }
 

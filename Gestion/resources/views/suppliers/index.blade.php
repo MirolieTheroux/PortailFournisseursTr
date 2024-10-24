@@ -25,15 +25,21 @@
                 <label for="service-search">{{__('form.productsAndServiceCategoriesSearch')}}</label>
               </div>
             </div>
-            <div>
-              <div class="form-floating">
-                <div class="form-control" placeholder="details" id="products-categories" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
-                  <div class="mt-lg-0 mt-md-4" id="service-list">
-                  </div>
+            <div class="form-floating">
+              <div class="form-control" placeholder="details" id="products-categories" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
+                <div class="mt-lg-0 mt-md-4" id="service-list">
                 </div>
-                <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
-                <div class="note" id="results-count"><br></div>
               </div>
+              <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
+              <div class="note" id="results-count"><br></div>
+            </div>
+            <div class="form-floating d-none">
+              <div class="form-control" placeholder="selected" id="products-selected" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
+                <div class="mt-lg-0 mt-md-4" id="service-selected">
+                </div>
+              </div>
+              <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label>
+              <div class="note"><br></div>
             </div>
           </div>
           <div class="pb-3">
@@ -64,7 +70,7 @@
               <h1>{{__('index.suppliersListTitle')}}</h1>
             </div>
             <div class="col-6 d-flex flex-column justify-content-end">
-              <h4 class="text-end">{{__('index.productsServicesCount')}} : 2</h4><!--TODO::Calculer la quantité-->
+              <h4 class="text-end">{{__('index.productsServicesCount')}} : <span id="productsServicesCount">0</span></h4><!--TODO::Calculer la quantité-->
               <h4 class="text-end">{{__('index.workCategoriesCount')}} : <span id="workSubCategoryCount">0</span></h4>
             </div>
           </div>
