@@ -554,7 +554,7 @@
       </div><!--FIN PRODUITS ET SERVICES-->
       <!--LICENCE RBQ-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="licence-section">
-        <div class=" bg-white rounded my-2 form-section">
+        <div class=" bg-white rounded my-2 w-100 form-section">
           <div class="row">
             <div class="col-12 text-center">
               <h1>{{__('form.rbqTitle')}}</h1>
@@ -566,16 +566,26 @@
               <div class="d-flex flex-column justify-content-between h-100">
                 <div class="text-center">
                   <div class="form-floating mb-3">
-                    <input type="text" name="licenceRbq" id="licenceRbq" value="{{ $supplier->rbqLicence->number }}" class="form-control" placeholder="" maxlength="10" disabled>
+                    <input 
+                    type="text" 
+                    name="licenceRbq" 
+                    id="licenceRbq" 
+                    value="{{$supplier->rbqLicence && $supplier->rbqLicence->number ? $supplier->rbqLicence->number : '' }}"  
+                    class="form-control" 
+                    placeholder="" 
+                    maxlength="10" 
+                    disabled
+                    >
                     <label for="licenceRbq">{{__('form.numberLabel')}}</label>
                   </div>
                 </div>
                 <div class="text-center">
                   <div class="form-floating mb-3">
                     <select name="statusRbq" id="statusRbq" class="form-select" aria-label="" disabled>
-                    <option value="valid" {{ "valid" == $supplier->rbqLicence->status ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
-                      <option value="restrictedValid" {{ "restrictedValid" == $supplier->rbqLicence->status  ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
-                      <option value="invalid" {{ "invalid" == $supplier->rbqLicence->status  ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
+                      <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                      <option value="valid" {{ $supplier->rbqLicence && $supplier->rbqLicence->status == 'valid' ? 'selected' : null }}>{{ __('form.choiceValid') }}</option>
+                      <option value="restrictedValid" {{ $supplier->rbqLicence && $supplier->rbqLicence->status == 'restrictedValid'  ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
+                      <option value="invalid" {{  $supplier->rbqLicence && $supplier->rbqLicence->status == "invalid"  ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
                     </select>
                     <label for="statusRbq">{{__('form.statusLabel')}}</label>
                   </div>
@@ -584,8 +594,8 @@
                   <div class="form-floating mb-3">
                     <select name="typeRbq" id="typeRbq" class="form-select" aria-label="" disabled>
                     <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
-                      <option value="entrepreneur" {{ "entrepreneur" == $supplier->rbqLicence->type ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
-                      <option value="ownerBuilder" {{ "ownerBuilder" == $supplier->rbqLicence->type ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
+                    <option value="entrepreneur" {{ $supplier->rbqLicence && $supplier->rbqLicence->type == 'entrepreneur' ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
+                    <option value="ownerBuilder" {{ $supplier->rbqLicence && $supplier->rbqLicence->type == 'ownerBuilder' ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
                     </select>
                     <label for="typeRbq">{{__('form.typeLabel')}}</label>
                   </div>
@@ -597,13 +607,15 @@
               <div class="text-center">
                 <div class="form-floating mb-3">
                   <div id="subcategories-container" class="form-control pt-2" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+                  @if ( $supplier->workSubcategories->isEmpty() )
                     <div id="no-categories" class="d-block">
-                      {{__('form.rbqCategoriesUnselectedType')}}
+                      {{__('form.rbqNoLicence')}}
                     </div>
+                  @elseif ($supplier->rbqLicence->type == 'entrepreneur')    
                     <div id="entrepreneur-categories" class="d-none">
                       <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
                       <div class="form-check pb-2">
-                        <input
+                        <!-- <input
                           class="form-check-input mt-0 rbq-subcategories-check"
                           type="checkbox"
                           name="rbqSubcategories[]"
@@ -613,7 +625,8 @@
                           </label>
                           <label class="form-check-label text-start ps-2" for="">
                           </label>
-                        </div>
+                        </div> -->
+                          allô
                       </div>
 
                       <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
@@ -631,7 +644,7 @@
                         </div>
                       </div>
                     </div>
-
+                  @else
                     <div id="ownerBuilder-categories" class="d-none">
                       <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
                       <div class="form-check pb-2">
@@ -663,6 +676,7 @@
                         </div>
                       </div>
                     </div>
+                  @endif
                   </div>
                 </div>
               </div>

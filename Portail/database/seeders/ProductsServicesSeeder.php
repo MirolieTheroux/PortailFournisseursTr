@@ -16,48 +16,48 @@ class ProductsServicesSeeder extends Seeder
         DB::table('products_services')->insert([
             [
                 'code' => "10000000",
-                'description' => "TEST",
-                'category_code' => "S19",
+                'description' => "Plantes et animaux vivants, accessoires et fournitures",
+                'category_code' => "G22",
             ],
             [
                 'code' => "10100000",
-                'description' => "TEST",
-                'category_code' => "C01",
+                'description' => "Animaux vivants",
+                'category_code' => "G22",
             ],
             [
                'code' => "10101500",
-                'description' => "TEST",
-                'category_code' => "G1",
+                'description' => "Animaux d'élevage",
+                'category_code' => "G22",
             ],
             [
                 'code' => "10101501",
-                'description' => "TEST",
-                'category_code' => "C01",
+                'description' => "Chat",
+                'category_code' => "G22",
             ],
             [
                 'code' => "10101502",
-                'description' => "TEST",
-                'category_code' => "G1",
+                'description' => "Chien",
+                'category_code' => "G22",
             ],
             [
                 'code' => "10101504",
-                'description' => "TEST",
-                'category_code' => "G1",
+                'description' => "Vison",
+                'category_code' => "G22",
             ],
             [
                 'code' => "10101600",
-                'description' => "TEST",
-                'category_code' => "G1",
+                'description' => "Oiseaux et volailles",
+                'category_code' => "G22",
             ],
             [
                 'code' => "10101601",
-                'description' => "TEST",
-                'category_code' => "G2",
+                'description' => "Poulets vivants",
+                'category_code' => "G22",
             ],
             [
                 'code' => "10151803",
-                'description' => "TEST",
-                'category_code' => "G2",
+                'description' => "Graines ou semis de cannelle",
+                'category_code' => "G22",
             ],
         ]);
     }

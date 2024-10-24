@@ -43,20 +43,17 @@ class SuppliersController extends Controller
     $supplierWithProductsCategories = $supplier->load('productsServices.categories');
 
     $suppliersGroupedByNatureAndCategory = $supplierWithProductsCategories->productsServices->groupBy(function ($product) {
-      return $product->categories->nature ?? 'Aucune nature';
+      return $product->categories->nature;
     })->map(function ($groupedByNature) {
       return $groupedByNature->groupBy(function ($product) {
         return $product->categories->code;
       })->map(function ($groupedByCategory) {
         return [
-          'category_name' => $groupedByCategory->first()->categories->name ?? 'Nom inconnu',
+          'category_name' => $groupedByCategory->first()->categories->name,
           'products' => $groupedByCategory
         ];
       });
     });
-  
-    // Log::info( $suppliersGroupedByNatureAndCategory->toArray());
-  
     return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory'));
   }
   

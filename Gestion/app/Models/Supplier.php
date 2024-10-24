@@ -53,9 +53,9 @@ class Supplier extends Model
       return $this->hasOne(RbqLicence::class);
     }
 
-    // public function workSubcategories(){
-    //   return $this->belongsToMany(WorkSubcategory::class, 'supplier_work_subcategory');
-    // }
+    public function workSubcategories(){
+      return $this->belongsToMany(WorkSubcategory::class, 'supplier_work_subcategory');
+    }
 
     public function address(){
       return $this->hasOne(Address::class);
