@@ -66,10 +66,10 @@ class StatusHistoriesSeeder extends Seeder
             ],
             [
                 'id' => 7,
-                'status' => "En attente",
-                'updated_by' => "test4@gmail.com",
+                'status' => "Modifiée",
+                'updated_by' => "test3@gmail.com",
                 'refusal_reason' => null,
-                'supplier_id' => 4,
+                'supplier_id' => 3,
                 'created_at' => '2024-06-01 21:35:24'
             ],
             [

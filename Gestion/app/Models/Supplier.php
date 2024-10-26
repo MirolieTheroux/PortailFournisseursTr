@@ -68,4 +68,12 @@ class Supplier extends Model
     public function statusHistories(){
       return $this->hasMany(StatusHistory::class);
     }
+
+    public function latestNonModifiedStatus()
+    {
+        return $this->statusHistories()
+            ->where('status', '!=', __('global.mofidied'))
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
 }
