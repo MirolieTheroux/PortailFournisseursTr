@@ -70,4 +70,8 @@ class Supplier extends Authenticatable
     public function attachments(){
       return $this->hasMany(Attachment::class);
     }
+
+    public function statusHistories(){
+      return $this->hasMany(StatusHistory::class);
+    }
 }
