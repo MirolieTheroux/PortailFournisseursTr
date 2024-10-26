@@ -18,7 +18,8 @@
     - Le input pour ajoute des fichiers
     - etc.
   - Si pas de contacts, voir pour afficher le form vide. (Lors de la demande, pas le choix de mettre un contact.)
--->
+  - Faire les boutons comme ceux du Form portail.
+  -->
 <div class="container-fluid h-100">
   <div class="row h-100">
     <div class="shadow-sm col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-between">
@@ -276,7 +277,6 @@
               </button>
             </div>
           </div>
-
           <div id="contactsRow" class="row justify-content-center px-3">
             @if(!is_null(old('contactFirstNames')))
             @foreach(old('contactFirstNames') as $contactFirstName)
@@ -507,7 +507,6 @@
                 <div class="form-floating">
                   <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
                     <div class="mt-lg-0 mt-md-4" id="service-selected">
-
                       @foreach ($suppliersGroupedByNatureAndCategory as $nature => $categories)
                       <div class="row pb-3">
                         <h6 class="mb-3 fw-bold">{{ $nature }}</h6>
@@ -612,261 +611,317 @@
                     </div>
                     @else
                     @if ($supplier->rbqLicence->type == "entrepreneur")
-                    @if ($supplier->workSubcategories->is_specialised = false)
                     <div id="entrepreneur-categories">
+                    @if ($supplier->workSubcategories->is_specialised = false)
                       <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
-                      @foreach ($supplier->workSubcategories as $cat)
+                      @foreach($supplier->workSubcategories as $cat)
                       <div class="form-check pb-2">
-                        <input class="form-check-input mt-0 rbq-subcategories-check" type="checkbox" name="rbqSubcategories[]" value="" checked disabled>
+                        <input
+                          class="form-check-input mt-0 rbq-subcategories-check"
+                          type="checkbox"
+                          name="rbqSubcategories[]"
+                          value=""
+                          checked disabled
+                        >
                         <div class="d-flex py-1">
                           <label class="form-check-label text-start rbq-category-label-number" for="">
-                            {{ $cat->code }}
+                            {{$cat->code}}
                           </label>
                           <label class="form-check-label text-start ps-2" for="">
-                            {{ $cat->name }}
+                            {{$cat->name}}
+                          </label>
+                        </div>
+                      </div>
+                      @endforeach
+                      @else
+                      <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
+                      @foreach($supplier->workSubcategories as $cat)
+                      <div class="form-check pb-2">
+                        <input
+                          class="form-check-input mt-0 rbq-subcategories-check"
+                          type="checkbox"
+                          name="rbqSubcategories[]"
+                          value=""
+                          checked 
+                          disabled
+                        >
+                        <div class="d-flex">
+                          <label class="form-check-label text-start rbq-category-label-number" for="">
+                            {{$cat->code}}
+                          </label>
+                          <label class="form-check-label text-start ps-2" for="">
+                            {{$cat->name}}
                           </label>
                         </div>
                       </div>
                       @endforeach
                     </div>
+                      @endif
                     @else
-                    <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
-                    @foreach ($supplier->workSubcategories as $cat)
-                    <div class="form-check pb-2">
-                      <input class="form-check-input mt-0 rbq-subcategories-check" type="checkbox" name="rbqSubcategories[]" value="" checked disabled>
-                      <div class="d-flex">
-                        <label class="form-check-label text-start rbq-category-label-number" for="">
-                          {{ $cat->code }}
-                        </label>
-                        <label class="form-check-label text-start ps-2" for="">
-                          {{ $cat->name }}
-                        </label>
+                    <div id="ownerBuilder-categories">
+                      @if ($supplier->workSubcategories->is_specialised = false)
+                      <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
+                      @foreach($supplier->workSubcategories as $cat)
+                      <div class="form-check pb-2">
+                        <input
+                          class="form-check-input mt-0 rbq-subcategories-check"
+                          type="checkbox"
+                          name="rbqSubcategories[]"
+                          value=""
+                          checked 
+                          disabled
+                        >
+                        <div class="d-flex">
+                          <label class="form-check-label text-start rbq-category-label-number" for="">
+                            {{$cat->code}}
+                          </label>
+                          <label class="form-check-label text-start ps-2" for="">
+                            {{$cat->name}}
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                    @endforeach
-                  </div>
-                  @endif
-                  @else
-                  @if ($supplier->workSubcategories->is_specialised = false)
-                  <div id="ownerBuilder-categories">
-                    <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
-                    @foreach ($supplier->workSubcategories as $cat)
-                    <div class="form-check pb-2">
-                      <input class="form-check-input mt-0 rbq-subcategories-check" type="checkbox" name="rbqSubcategories[]" value="" checked disabled>
-                      <div class="d-flex">
-                        <label class="form-check-label text-start rbq-category-label-number" for="">
-                          {{ $cat->code }}
-                        </label>
-                        <label class="form-check-label text-start ps-2" for="">
-                          {{ $cat->name }}
-                        </label>
+                      @endforeach
+                      @else
+                      <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
+                      @foreach($supplier->workSubcategories as $cat)
+                      <div class="form-check pb-2">
+                        <input
+                          class="form-check-input mt-0 rbq-subcategories-check"
+                          type="checkbox"
+                          name="rbqSubcategories[]"
+                          value=""
+                          checked 
+                          disabled
+                        >
+                        <div class="d-flex">
+                          <label class="form-check-label text-start rbq-category-label-number" for="">
+                            {{$cat->code}}
+                          </label>
+                          <label class="form-check-label text-start ps-2" for="">
+                            {{$cat->name}}
+                          </label>
+                        </div>
                       </div>
+                      @endforeach
+                      @endif
                     </div>
-                    @endforeach
+                    @endif
+                    @endif
                   </div>
-                  @else
-                  <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
-                  @foreach ($supplier->workSubcategories as $cat)
-                  <div class="form-check pb-2">
-                    <input class="form-check-input mt-0 rbq-subcategories-check" type="checkbox" name="rbqSubcategories[]" value="" checked disabled>
-                    <div class="d-flex">
-                      <label class="form-check-label text-start rbq-category-label-number" for="">
-                        {{ $cat->code }}
-                      </label>
-                      <label class="form-check-label text-start ps-2" for="">
-                        {{ $cat->name }}
-                      </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 d-flex justify-content-center mb-2">
+              <button id="btnEditRbq" type="button" class="m-2 py-1 px-3 rounded  button-darkblue">{{__('global.edit')}}</button>
+              <!-- <button id="btnSaveRbq" type="button" class="m-2 py-1 px-3 rounded button-darkblue ">{{__('global.save')}}</button> -->
+            </div>
+          </div>
+        </div>
+      </div><!--FIN LICENCE RBQ-->
+      <!--PIÈCES JOINTES-->
+      <!--NICE_TO_HAVE::
+      - Rendre les pièces jointes ouvrables.
+      -->
+      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
+        <div class=" bg-white rounded my-2 form-section">
+          <div class="row">
+            <div class="col-12 text-center">
+              <h1>{{__('form.attachmentFilesTitle')}}</h1>
+            </div>
+          </div>
+          <div class="row px-3 mb-3">
+            <div class="col-12 d-flex flex-column justify-content-between mb-3">
+              <h2 class="text-center section-subtitle">{{__('form.attachmentFilesSection')}}</h2>
+            </div>
+            <div class=" col-12 d-flex flex-column justify-content-between">
+              <div class="row flex-row justify-content-between d-none">
+                <div class="col-10">
+                  <div>
+                    <input class="form-control" type="file" id="formFile" disabled>
+                  </div>
+                  <div class="text-start invalid-feedback attachment" id="attachmentFileRequired" style="display: none;">{{__('form.attachmentFileRequired')}}</div>
+                  <div class="text-start invalid-feedback attachment" id="attachmentFileNameLength" style="display: none;">{{__('form.attachmentFileNameLength')}}</div>
+                  <div class="text-start invalid-feedback attachment" id="attachmentFileNameAlphaNum" style="display: none;">{{__('form.attachmentFileNameAlphaNum')}}</div>
+                  <div class="text-start invalid-feedback attachment" id="attachmentFileFormat" style="display: none;">{{__('form.attachmentFileFormat')}}</div>
+                  <div class="text-start invalid-feedback attachment" id="attachmentSameFileName" style="display: none;">{{__('form.attachmentSameFileName')}}</div>
+                  <div class="text-start invalid-feedback attachment" id="attachmentFilesExceedSize" style="display: none;">{{__('form.attachmentFilesExceedSize')}}</div>
+                </div>
+                <div class="col-2 text-center pt-1">
+                  <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                  </svg>
+                </div>
+              </div>
+              <table class="table d-none">
+                <tbody>
+                  <tr>
+                    <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
+                    <td class="text-center" id="fileName"></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">{{__('form.attachmentFileSize')}}</td>
+                    <td class="text-center" id="fileSize"></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">{{__('form.attachmentAddedFileDate')}}</td>
+                    <td class="text-center" id="addedFileDate"></td>
+                  </tr>
+                  <tr class="d-none">
+                    <td class="text-center" id="valueInput"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-12">
+              <div class="form-floating h-100" id="div-attachmentFilesList">
+                <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
+                  <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
+                  <div class="row px-3">
+                    @if($supplier->attachments->isEmpty())
+                    <div>{{__('form.noAttachmentFiles')}}</div>
+                    @else
+                    <div class="d-flex justify-content-between mt-2">
+                      <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
+                      <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
+                      <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
+                      <div class="col-2 "></div>
                     </div>
+                    <div class="d-flex flex-column justify-content-between" id="attachmentFilesList">
+                      @foreach ($supplier->attachments as $file)
+                      <div class="row mb-2 ">
+                        <div class="col-6 fs-6 fileName">
+                            {{ $file->name }}
+                        </div>
+                        <div class="col-2 fs-6 text-center fileSize">
+                        {{$file->size}}
+                        </div>
+                        <div class="col-2 fs-6 text-center addedFileDate">
+                        {{$file->deposit_date}}
+                        </div>
+                      </div>
+                      @endforeach
+                    </div>
+                    @endif
                   </div>
-                  @endforeach
-                </div>
-                @endif
-                @endif
-                @endif
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 d-flex justify-content-center mb-2">
-          <button id="btnEditRbq" type="button" class="m-2 py-1 px-3 rounded  button-darkblue">{{__('global.edit')}}</button>
-          <!-- <button id="btnSaveRbq" type="button" class="m-2 py-1 px-3 rounded button-darkblue ">{{__('global.save')}}</button> -->
-        </div>
-      </div>
-    </div>
-  </div><!--FIN LICENCE RBQ-->
-  <!--PIÈCES JOINTES-->
-  <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
-    <div class=" bg-white rounded my-2 form-section">
-      <div class="row">
-        <div class="col-12 text-center">
-          <h1>{{__('form.attachmentFilesTitle')}}</h1>
-        </div>
-      </div>
-      <div class="row px-3 mb-3">
-        <div class="col-12 d-flex flex-column justify-content-between mb-3">
-          <h2 class="text-center section-subtitle">{{__('form.attachmentFilesSection')}}</h2>
-        </div>
-        <div class=" col-12 d-flex flex-column justify-content-between">
-          <div class="row flex-row justify-content-between d-none">
-            <div class="col-10">
-              <div>
-                <input class="form-control" type="file" id="formFile" disabled>
-              </div>
-              <div class="text-start invalid-feedback attachment" id="attachmentFileRequired" style="display: none;">{{__('form.attachmentFileRequired')}}</div>
-              <div class="text-start invalid-feedback attachment" id="attachmentFileNameLength" style="display: none;">{{__('form.attachmentFileNameLength')}}</div>
-              <div class="text-start invalid-feedback attachment" id="attachmentFileNameAlphaNum" style="display: none;">{{__('form.attachmentFileNameAlphaNum')}}</div>
-              <div class="text-start invalid-feedback attachment" id="attachmentFileFormat" style="display: none;">{{__('form.attachmentFileFormat')}}</div>
-              <div class="text-start invalid-feedback attachment" id="attachmentSameFileName" style="display: none;">{{__('form.attachmentSameFileName')}}</div>
-              <div class="text-start invalid-feedback attachment" id="attachmentFilesExceedSize" style="display: none;">{{__('form.attachmentFilesExceedSize')}}</div>
-            </div>
-            <div class="col-2 text-center pt-1">
-              <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
-                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-              </svg>
-            </div>
-          </div>
-          <table class="table d-none">
-            <tbody>
-              <tr>
-                <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
-                <td class="text-center" id="fileName"></td>
-              </tr>
-              <tr>
-                <td class="fw-bold">{{__('form.attachmentFileSize')}}</td>
-                <td class="text-center" id="fileSize"></td>
-              </tr>
-              <tr>
-                <td class="fw-bold">{{__('form.attachmentAddedFileDate')}}</td>
-                <td class="text-center" id="addedFileDate"></td>
-              </tr>
-              <tr class="d-none">
-                <td class="text-center" id="valueInput"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="col-12 ">
-          <div class="form-floating h-100" id="div-attachmentFilesList">
-            <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
-              <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
-              <div class="row px-3">
-                <div class="d-flex justify-content-between mt-2">
-                  <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
-                  <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
-                  <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
-                  <div class="col-2 "></div>
-                </div>
-                <div class="d-flex flex-column justify-content-between" id="attachmentFilesList">
-                  <!-- foreach pour les fichiers cliquable pour voir la pièce jointe -->
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="text-end inline-block">
-          <p class="mb-0" id="totalSize">/75Mo</p>
-        </div>
-        @if(!is_null(old('fileNames')))
-        @foreach(old('fileNames') as $fileName)
-        <div hidden>
-          {{$fileNameIndex = "phoneTypes." . "$loop->index"}}
-          {{$fileSizeIndex = "fileSizes." . "$loop->index"}}
-          {{$fileTypeIndex = "fileTypes." . "$loop->index"}}
-          {{$addedFileDateIndex = "addedFileDates." . "$loop->index"}}
-        </div>
-        @if($errors->has($fileNameIndex))
-        <p class="m-0">{{ $errors->first($fileNameIndex) }}</p>
-        @endif
-        @if($errors->has($fileSizeIndex))
-        <p class="m-0">{{ $errors->first($fileSizeIndex) }}</p>
-        @endif
-        @if($errors->has($fileTypeIndex))
-        <p class="m-0">{{ $errors->first($fileTypeIndex) }}</p>
-        @endif
-        @if($errors->has($addedFileDateIndex))
-        <p class="m-0">{{ $errors->first($addedFileDateIndex) }}</p>
-        @endif
-        @endforeach
-        @endif
-      </div>
-      <div class="row">
-        <div class="col-12 d-flex justify-content-center mb-2">
-          <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-          <!-- <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
-        </div>
-      </div>
-    </div>
-  </div><!--FIN PIÈCES JOINTES-->
-  <!--FINANCES-->
-  <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="finances-section">
-    <div class="bg-white rounded my-2 form-section w-65">
-      <div class="row">
-        <div class="col-12 text-center">
-          <h1>{{__('show.finance')}}</h1>
-        </div>
-      </div>
-      <div class="row px-3 mb-3">
-        <div class="col-12 text-center pb-3">
-          <div class="form-floating pe-2">
-            <input type="text" name="financesTps" id="financesTps" class="form-control" value="" placeholder="" maxlength="8" disabled>
-            <label for="financesTps" id="">{{__('form.tpsNumber')}}</label>
-          </div>
-        </div>
-        <div class="col-12 text-center pb-3">
-          <div class="form-floating pe-2">
-            <input type="text" name="financesTvq" id="financesTvq" class="form-control" value="" placeholder="" maxlength="8" disabled>
-            <label for="financesTvq" id="">{{__('form.tvqNumber')}}</label>
-          </div>
-        </div>
-        <div class="col-12 text-center pb-3">
-          <div class="form-floating pe-2">
-            <select name="financesPaymentConditions" id="financesPaymentConditions" class="form-select" aria-label="" disabled>
-              <option>{{__('form.paymentConditions')}}</option>
-            </select>
-            <label for="financesPaymentConditions" id="">{{__('form.paymentConditions')}}</label>
-          </div>
-        </div>
-        <div class="row pb-3">
-          <div class="col-6">
-            <div class="w-100">
-              <h5 class="text-decoration-underline">{{__('form.currency')}}</h5>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioCAD" id="flexRadioCAD" checked disabled>
-                <label class="form-check-label" for="flexRadioCAD">{{__('form.canadianCurrency')}}</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioUS" id="flexRadioUS" disabled>
-                <label class="form-check-label" for="flexRadioUS">{{__('form.usCurrency')}}</label>
-              </div>
+            <div class="text-end inline-block d-none">
+              <p class="mb-0" id="totalSize">/75Mo</p>
             </div>
+            @if(!is_null(old('fileNames')))
+            @foreach(old('fileNames') as $fileName)
+            <div hidden>
+              {{$fileNameIndex = "phoneTypes." . "$loop->index"}}
+              {{$fileSizeIndex = "fileSizes." . "$loop->index"}}
+              {{$fileTypeIndex = "fileTypes." . "$loop->index"}}
+              {{$addedFileDateIndex = "addedFileDates." . "$loop->index"}}
+            </div>
+            @if($errors->has($fileNameIndex))
+            <p class="m-0">{{ $errors->first($fileNameIndex) }}</p>
+            @endif
+            @if($errors->has($fileSizeIndex))
+            <p class="m-0">{{ $errors->first($fileSizeIndex) }}</p>
+            @endif
+            @if($errors->has($fileTypeIndex))
+            <p class="m-0">{{ $errors->first($fileTypeIndex) }}</p>
+            @endif
+            @if($errors->has($addedFileDateIndex))
+            <p class="m-0">{{ $errors->first($addedFileDateIndex) }}</p>
+            @endif
+            @endforeach
+            @endif
           </div>
-          <div class="col-6">
-            <div class="w-100">
-              <h5 class="text-decoration-underline">{{__('form.communication')}}</h5>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioEmail" id="flexRadioEmail" checked disabled>
-                <label class="form-check-label" for="flexRadioEmail">{{__('form.email')}}</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioMail" id="flexRadioMail" disabled>
-                <label class="form-check-label" for="flexRadioMail">{{__('form.mail')}}</label>
-              </div>
+          <div class="row">
+            <div class="col-12 d-flex justify-content-center mb-2">
+              <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
+              <!-- <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-12 d-flex justify-content-center mb-2">
-            <button id="btnEditFinances" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-            <!-- <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
+      </div><!--FIN PIÈCES JOINTES-->
+      <!--FINANCES-->
+      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="finances-section">
+        <div class="bg-white rounded my-2 form-section w-65">
+          <div class="row">
+            <div class="col-12 text-center">
+              <h1>{{__('form.financesTitle')}}</h1>
+            </div>
+          </div>
+          <div class="row px-3 mb-3">
+            <div class="col-12 text-center pb-3">
+              <div class="form-floating pe-2">
+                <input type="text" name="financesTps" id="financesTps" class="form-control" value="{{$supplier->tps_number ?? 'Aucun numéro de tps au dossier.'}}" placeholder="" maxlength="8" disabled>
+                <label for="financesTps" id="">{{__('form.tpsNumber')}}</label>
+              </div>
+            </div>
+            <div class="col-12 text-center pb-3">
+              <div class="form-floating pe-2">
+                <input type="text" name="financesTvq" id="financesTvq" class="form-control" value="{{$supplier->tvq ?? 'Aucun numéro de tvq au dossier.'}}" placeholder="" maxlength="8" disabled>
+                <label for="financesTvq" id="">{{__('form.tvqNumber')}}</label>
+              </div>
+            </div>
+            <div class="col-12 text-center pb-3">
+              <div class="form-floating pe-2">
+                <!-- J'ai transcrit tel quel les choix dans le devis 
+                    Si autre idée pour le nom des variables..
+                 -->
+                <select name="financesPaymentConditions" id="financesPaymentConditions" class="form-select" aria-label="" disabled>
+                  <option selected>{{__('form.paymentConditionsDefault')}}</option>
+                  <option value="nowPaymentNoDeduction" {{$supplier->payment_condition == 'nowPaymentNoDeduction' ? 'selected' : null  }} >{{__('form.nowPaymentNoDeduction')}}</option>
+                  <option value="nowPaymentNoDeduction15th" {{$supplier->payment_condition == 'nowPaymentNoDeduction15th' ? 'selected' : null  }} >{{__('form.nowPaymentNoDeduction15th')}}</option>
+                  <option value="15days2" {{$supplier->payment_condition == '15days2' ? 'selected' : null  }}>{{__('form.15days2')}}</option>
+                  <option value="until15th" {{$supplier->payment_condition == 'until15th' ? 'selected' : null  }}>{{__('form.until15th')}}</option>
+                  <option value="10days2" {{$supplier->payment_condition == '10days2' ? 'selected' : null  }}>{{__('form.10days2')}}</option>
+                  <option value="15daysNoDeduction" {{$supplier->payment_condition == '15daysNoDeduction' ? 'selected' : null  }}>{{__('form.15daysNoDeduction')}}</option>
+                  <option value="30daysNoDeduction" {{$supplier->payment_condition == '30daysNoDeduction' ? 'selected' : null  }}>{{__('form.30daysNoDeduction')}}</option>
+                  <option value="45daysNoDeduction" {{$supplier->payment_condition == '45daysNoDeduction' ? 'selected' : null  }}>{{__('form.45daysNoDeduction')}}</option>
+                  <option value="60daysNoDeduction" {{$supplier->payment_condition == '60daysNoDeduction' ? 'selected' : null  }}>{{__('form.60daysNoDeduction')}}</option>
+                </select>
+                <label for="financesPaymentConditions" id="">{{__('form.paymentConditions')}}</label>
+              </div>
+            </div>
+            <div class="row pb-3">
+              <div class="col-6">
+                <div class="w-100">
+                  <h5 class="text-decoration-underline">{{__('form.currency')}}</h5>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioCAD" id="flexRadioCAD" checked disabled>
+                    <label class="form-check-label" for="flexRadioCAD">{{__('form.canadianCurrency')}}</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioUS" id="flexRadioUS" disabled>
+                    <label class="form-check-label" for="flexRadioUS">{{__('form.usCurrency')}}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="w-100">
+                  <h5 class="text-decoration-underline">{{__('form.communication')}}</h5>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioEmail" id="flexRadioEmail" checked disabled>
+                    <label class="form-check-label" for="flexRadioEmail">{{__('form.email')}}</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioMail" id="flexRadioMail" disabled>
+                    <label class="form-check-label" for="flexRadioMail">{{__('form.mail')}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center mb-2">
+                <button id="btnEditFinances" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
+                <!-- <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </div><!--FIN FINANCES-->
     </div>
-  </div><!--FIN FINANCES-->
-</div>
-</div>
+  </div>
 </div>
 @endsection
 
