@@ -19,6 +19,9 @@ return [
     'pickDA' => 'Choisir une région',
     'pickCity' => 'Choisir une ville',
     'pickCategory' => 'Choisir une catégorie',
+    'searchText' => 'Rechercher...',
+    'supplierSearch' => 'Rechercher un fournisseur',
+    'enterName' => 'Entrer le nom',
 
     'noResults' => 'Aucun résultat ne correspond à la sélection'
 ];

@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -10,12 +11,14 @@ use Illuminate\Support\Facades\Log;
 
 class SuppliersController extends Controller
 {
+    const SUPPLIER_FETCH_LIMIT = 100;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::limit(self::SUPPLIER_FETCH_LIMIT)->get();
         $workSubcategories = WorkSubcategory::all();
         $productsServices = ProductService::all();
         return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
@@ -91,6 +94,10 @@ class SuppliersController extends Controller
         $workCategoriesQuery = WorkSubcategory::query();
         $productsServicesQuery = ProductService::query();
 
+        if($request->filled('name')){
+            $suppliersQuery->where('name', 'like',  '%' . $request->name .'%');
+        }
+
         if ($request->filled('cities') && is_array($request->input('cities'))) {
             $suppliersQuery->whereHas('address', function($q) use($request){
                 $cities = $request->cities; 
@@ -121,7 +128,7 @@ class SuppliersController extends Controller
             $productsServicesQuery->whereIn('code',$request->produits_services);
         }
 
-        $suppliers = $suppliersQuery->with('address')->get();
+        $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get();
 
         $workSubcategories = $workCategoriesQuery->get();
         $productsServices = $productsServicesQuery->get();

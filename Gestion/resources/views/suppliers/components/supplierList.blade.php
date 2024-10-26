@@ -32,7 +32,18 @@
         <div class="text-center supplier-list-table-text">{{$supplier->address->city}}</div>
       </div>
       <div class="col-2 text-center supplier-list-table-text">
-        <div class="text-centert">1</div><!--TODO::Calculer la quantité de correspondant au filtres-->
+        <div class="text-centert">
+          @php
+            $selectedProductsServices = $productsServices->pluck('code')->toArray();
+            
+            $productsServicesCount = 0;
+            foreach ($supplier->productsServices as $productService) {
+              if(in_array($productService->code, $selectedProductsServices))
+                $productsServicesCount++;
+            }
+          @endphp
+          {{$productsServicesCount}}
+        </div><!--TODO::Calculer la quantité de correspondant au filtres-->
       </div>
       <div class="col-2 text-center supplier-list-table-text">
         <div class="text-center">
