@@ -145,6 +145,21 @@ class SuppliersController extends Controller
         ]);
     }
 
+    public function waitingSuppliers(){
+        Log::debug("test");
+
+        $suppliers = Supplier::with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier) {
+            return $supplier->latestNonModifiedStatus()->status === "waiting";
+        });
+        
+        $workSubcategories = WorkSubcategory::all();
+        $productsServices = ProductService::all();
+
+        return response()->json([
+            'html' => view('suppliers.components.supplierList', compact('suppliers', 'workSubcategories', 'productsServices'))->render(),
+        ]);
+    }
+
     public function search(Request $request)
     {
         $searchTerm = $request->input('search');

@@ -12,6 +12,9 @@ return [
     'productsServices' => 'Produits et services',
     'workCategories' => 'Catégories de travaux',
 
+    'listSelectedSuppliers' => 'Lister les fourniseurs sélectionnés',
+    'waitingSuppliers' => 'fournisseurs en attente',
+    'waitingSupplierSingle' => 'fournisseur en attente',
     'pickStatus' => 'Choisir un statut de demande',
     'pickDA' => 'Choisir une région',
     'pickCity' => 'Choisir une ville',

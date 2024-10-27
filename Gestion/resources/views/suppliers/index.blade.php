@@ -11,9 +11,20 @@
       <div class="col-3 bg-white h-100 full-viewport sticky-under-navbar">
         <form id="filterForm" class="h-100 d-flex flex-column justify-content-between">
           <!--TODO::Faire la section des filtres-->
-          <div>Lister les fourniseurs sélectionnés</div>
+          <button id="btnListSelectedSupplier" type="button" class="my-2 py-1 px-3 rounded button-darkblue">{{__('index.listSelectedSuppliers')}}</button>
           @role(['responsable', 'admin'])
-            <div>Nombre de fournisseur en attente</div>
+            @php
+              $waitingSuppliersCount = $suppliers->filter(function ($supplier){
+                if(!is_null($supplier->latestNonModifiedStatus()))
+                return $supplier->latestNonModifiedStatus()->status === 'waiting';
+              })->count();
+            @endphp
+            @if ($waitingSuppliersCount == 1)
+              <button id="btnWaitingSupplier" type="button" class="my-2 py-1 px-3 rounded button-darkblue">{{$waitingSuppliersCount}} {{__('index.waitingSupplierSingle')}}</button>
+            @else
+              <button id="btnWaitingSupplier" type="button" class="my-2 py-1 px-3 rounded button-darkblue">{{$waitingSuppliersCount}} {{__('index.waitingSuppliers')}}</button>
+            @endif
+            
           @endrole
           <div>
             <div>{{__('index.supplierSearch')}}</div>
@@ -44,7 +55,7 @@
               </div>
             </div>
             <div class="form-floating">
-              <div class="form-control" placeholder="details" id="products-categories" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
+              <div class="form-control" placeholder="details" id="products-categories" style="height: 150px; overflow-x: hidden; overflow-y: auto;">
                 <div class="mt-lg-0 mt-md-4" id="service-list">
                 </div>
               </div>
@@ -52,7 +63,7 @@
               <div class="note" id="results-count"><br></div>
             </div>
             <div class="form-floating d-none">
-              <div class="form-control" placeholder="selected" id="products-selected" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
+              <div class="form-control" placeholder="selected" id="products-selected" style="height: 150px; overflow-x: hidden; overflow-y: auto;">
                 <div class="mt-lg-0 mt-md-4" id="service-selected">
                 </div>
               </div>
@@ -148,6 +159,9 @@ function addjQueryListeners(){
   $('#supplierSearch').on('keyup', function() {
     sendFilterForm();
   });
+  $('#btnWaitingSupplier').click(function() {
+    loadWaitingSuppliers();
+  });
 }
 
 function sendFilterForm(){
@@ -159,7 +173,20 @@ function sendFilterForm(){
         $('#supplierList').html(response.html);
       },
       error: function () {
-        alert('Erreur lors du filtrage des articles.');
+        alert('Erreur lors du filtrage des fournisseurs.');
+      }
+    });
+}
+
+function loadWaitingSuppliers(){
+  $.ajax({
+      url: "{{ route('suppliers.waitingSuppliers') }}",
+      method: 'GET',
+      success: function (response) {
+        $('#supplierList').html(response.html);
+      },
+      error: function () {
+        alert('Erreur lors du filtrage des fournisseurs.');
       }
     });
 }

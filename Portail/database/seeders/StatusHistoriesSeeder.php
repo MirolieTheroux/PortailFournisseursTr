@@ -70,7 +70,7 @@ class StatusHistoriesSeeder extends Seeder
                 'updated_by' => "test3@gmail.com",
                 'refusal_reason' => null,
                 'supplier_id' => 3,
-                'created_at' => '2024-06-01 21:35:24'
+                'created_at' => '2024-06-04 21:35:24'
             ],
             [
                 'id' => 8,
