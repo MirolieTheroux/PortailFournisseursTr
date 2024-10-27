@@ -120,7 +120,7 @@
               <div class="col-2 p-0 d-flex justify-content-center align-items-end">
                 <div class="text-center">{{__('index.workCategories')}}</div>
               </div>
-              <div class="col-1"></div>
+              <div class="col-1 d-flex justify-content-end align-items-end px-0"><input id="selectAllCheck" title="{{__('index.selectAll')}}" class="mb-1 ms-2" type="checkbox" name="suppliers[]" id=""></div>
             </div>
           </div>
         </div>
@@ -142,6 +142,7 @@
 <script src="{{ asset('js/suppliers/indexSupplier.js') }} "></script>
 <script src="{{ asset('js/suppliers/productsServices.js') }} "></script>
 <script src="{{ asset('js/MultiSelect.js') }} "></script>
+<script src="{{ asset('js/suppliers/listSelectedSuppliers.js') }} "></script>
 <script>
 function addjQueryListeners(){
   $('#cities').change(function () {
@@ -166,16 +167,16 @@ function addjQueryListeners(){
 
 function sendFilterForm(){
   $.ajax({
-      url: "{{ route('suppliers.filter') }}",
-      method: 'GET',
-      data: $('#filterForm').serialize(),
-      success: function (response) {
-        $('#supplierList').html(response.html);
-      },
-      error: function () {
-        alert('Erreur lors du filtrage des fournisseurs.');
-      }
-    });
+    url: "{{ route('suppliers.filter') }}",
+    method: 'GET',
+    data: $('#filterForm').serialize(),
+    success: function (response) {
+      $('#supplierList').html(response.html);
+    },
+    error: function () {
+      alert('Erreur lors du filtrage des fournisseurs.');
+    }
+  });
 }
 
 function loadWaitingSuppliers(){

@@ -11,6 +11,7 @@ return [
     'city' => 'Ville',
     'productsServices' => 'Produits et services',
     'workCategories' => 'Catégories de travaux',
+    'selectAll' => 'Sélectionner tous les fournisseurs',
 
     'listSelectedSuppliers' => 'Lister les fourniseurs sélectionnés',
     'waitingSuppliers' => 'fournisseurs en attente',
@@ -23,5 +24,6 @@ return [
     'supplierSearch' => 'Rechercher un fournisseur',
     'enterName' => 'Entrer le nom',
 
-    'noResults' => 'Aucun résultat ne correspond à la sélection'
+    'noResults' => 'Aucun résultat ne correspond à la sélection',
+    'noSelection' => 'Aucun fournisseur sélectionné'
 ];
