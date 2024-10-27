@@ -27,5 +27,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RbqLicenceSeeder::class);
         $this->call(SupplierWorkSubcategorySeeder::class);
         $this->call(SupplierProductsServicesSeeder::class);
+        $this->call(StatusHistoriesSeeder::class);
     }
 }

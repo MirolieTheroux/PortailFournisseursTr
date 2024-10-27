@@ -128,11 +128,33 @@ class SuppliersController extends Controller
             $productsServicesQuery->whereIn('code',$request->produits_services);
         }
 
-        $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get();
+        if($request->filled('status') && is_array($request->input('status'))){
+            $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier) use ($request){
+                return in_array($supplier->latestNonModifiedStatus()->status, $request->status);
+            });
+        }
+        else{
+            $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get();
+        }
 
         $workSubcategories = $workCategoriesQuery->get();
         $productsServices = $productsServicesQuery->get();
         
+        return response()->json([
+            'html' => view('suppliers.components.supplierList', compact('suppliers', 'workSubcategories', 'productsServices'))->render(),
+        ]);
+    }
+
+    public function waitingSuppliers(){
+        Log::debug("test");
+
+        $suppliers = Supplier::with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier) {
+            return $supplier->latestNonModifiedStatus()->status === "waiting";
+        });
+        
+        $workSubcategories = WorkSubcategory::all();
+        $productsServices = ProductService::all();
+
         return response()->json([
             'html' => view('suppliers.components.supplierList', compact('suppliers', 'workSubcategories', 'productsServices'))->render(),
         ]);
