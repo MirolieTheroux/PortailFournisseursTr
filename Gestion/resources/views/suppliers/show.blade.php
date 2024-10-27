@@ -36,8 +36,19 @@
 
     <div class="col-10 h-100 px-4">
       <!--ETAT DEMANDE-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section" id="requestStatus-section">
-        <div class="bg-white rounded my-2 form-section w-65">
+       <!--NICE_TO_HAVE::
+        - Centrer le form
+        - Quand commis et pas de boutons voir pour centrer mieux le form.
+      -->
+      <div class="container h-100 w-100 d-flex justify-content-center show-section row" id="requestStatus-section">    
+        <div class="flex-row d-flex justify-content-end mb-2 h-10 mt-1">
+          @role(['responsable', 'admin']) 
+          <button id="btnAccept" type="" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.acceptRequest')}}</button>
+          <button id="btnDeny" type="" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.denyRequest')}}</button>
+          <button id="btnExport" type="" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
+          @endrole
+        </div>
+        <div class="bg-white rounded form-section w-65 h-55">
           <div class="row py-2">
             <div class="offset-2 col-8 text-center">
               <h1>{{__('form.requestStatusTitle')}}</h1>
@@ -612,7 +623,7 @@
                     @else
                     @if ($supplier->rbqLicence->type == "entrepreneur")
                     <div id="entrepreneur-categories">
-                    @if ($supplier->workSubcategories->is_specialised = false)
+                      @if ($supplier->workSubcategories->is_specialised = false)
                       <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
                       @foreach($supplier->workSubcategories as $cat)
                       <div class="form-check pb-2">
@@ -621,8 +632,7 @@
                           type="checkbox"
                           name="rbqSubcategories[]"
                           value=""
-                          checked disabled
-                        >
+                          checked disabled>
                         <div class="d-flex py-1">
                           <label class="form-check-label text-start rbq-category-label-number" for="">
                             {{$cat->code}}
@@ -642,9 +652,8 @@
                           type="checkbox"
                           name="rbqSubcategories[]"
                           value=""
-                          checked 
-                          disabled
-                        >
+                          checked
+                          disabled>
                         <div class="d-flex">
                           <label class="form-check-label text-start rbq-category-label-number" for="">
                             {{$cat->code}}
@@ -656,7 +665,7 @@
                       </div>
                       @endforeach
                     </div>
-                      @endif
+                    @endif
                     @else
                     <div id="ownerBuilder-categories">
                       @if ($supplier->workSubcategories->is_specialised = false)
@@ -668,9 +677,8 @@
                           type="checkbox"
                           name="rbqSubcategories[]"
                           value=""
-                          checked 
-                          disabled
-                        >
+                          checked
+                          disabled>
                         <div class="d-flex">
                           <label class="form-check-label text-start rbq-category-label-number" for="">
                             {{$cat->code}}
@@ -690,9 +698,8 @@
                           type="checkbox"
                           name="rbqSubcategories[]"
                           value=""
-                          checked 
-                          disabled
-                        >
+                          checked
+                          disabled>
                         <div class="d-flex">
                           <label class="form-check-label text-start rbq-category-label-number" for="">
                             {{$cat->code}}
@@ -792,13 +799,13 @@
                       @foreach ($supplier->attachments as $file)
                       <div class="row mb-2 ">
                         <div class="col-6 fs-6 fileName">
-                            {{ $file->name }}
+                          {{ $file->name }}
                         </div>
                         <div class="col-2 fs-6 text-center fileSize">
-                        {{$file->size}}
+                          {{$file->size}}
                         </div>
                         <div class="col-2 fs-6 text-center addedFileDate">
-                        {{$file->deposit_date}}
+                          {{$file->deposit_date}}
                         </div>
                       </div>
                       @endforeach
@@ -870,8 +877,8 @@
                  -->
                 <select name="financesPaymentConditions" id="financesPaymentConditions" class="form-select" aria-label="" disabled>
                   <option selected>{{__('form.paymentConditionsDefault')}}</option>
-                  <option value="nowPaymentNoDeduction" {{$supplier->payment_condition == 'nowPaymentNoDeduction' ? 'selected' : null  }} >{{__('form.nowPaymentNoDeduction')}}</option>
-                  <option value="nowPaymentNoDeduction15th" {{$supplier->payment_condition == 'nowPaymentNoDeduction15th' ? 'selected' : null  }} >{{__('form.nowPaymentNoDeduction15th')}}</option>
+                  <option value="nowPaymentNoDeduction" {{$supplier->payment_condition == 'nowPaymentNoDeduction' ? 'selected' : null  }}>{{__('form.nowPaymentNoDeduction')}}</option>
+                  <option value="nowPaymentNoDeduction15th" {{$supplier->payment_condition == 'nowPaymentNoDeduction15th' ? 'selected' : null  }}>{{__('form.nowPaymentNoDeduction15th')}}</option>
                   <option value="15days2" {{$supplier->payment_condition == '15days2' ? 'selected' : null  }}>{{__('form.15days2')}}</option>
                   <option value="until15th" {{$supplier->payment_condition == 'until15th' ? 'selected' : null  }}>{{__('form.until15th')}}</option>
                   <option value="10days2" {{$supplier->payment_condition == '10days2' ? 'selected' : null  }}>{{__('form.10days2')}}</option>
