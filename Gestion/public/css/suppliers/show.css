@@ -1,24 +1,32 @@
-.w-85{
-    width: 85%;
+.w-85 {
+  width: 85%;
 }
 
-.w-65{
-    width: 65%;
+.w-65 {
+  width: 65%;
 }
 
 .h-55{
-    height: 45%;
+  height: 55%;
 }
 
-.title-border{
-    border-bottom: solid var(--dark_blue) 1px;
+.h-10 {
+  height: 10%;
 }
 
-.add-contact, .delete-contact{
-    border: none;
-    background-color: transparent;
-    width: 30px;
+mh-
+
+.title-border {
+  border-bottom: solid var(--dark_blue) 1px;
 }
-.add-contact svg{
-    cursor: pointer;
+
+.add-contact,
+.delete-contact {
+  border: none;
+  background-color: transparent;
+  width: 30px;
+}
+
+.add-contact svg {
+  cursor: pointer;
 }

@@ -8,17 +8,12 @@
 
 @section('content')
 <!--TODO::
- - Ajouter les boutons pour accepter/refuser (vue selon les rôles)
  - Voir pour remettre le code avec les erreurs pour les premières sections
  - Hauteur fixe ? La hauteur change selon la section du form
  - Quand une section est séléctionnée, mettre la section courante en bg vert.
  - Ajouter un hover pour montrer que les sections sont cliquables
- - Est-ce qu'on peut cacher les chants qui on juste rapport à la modif?
-    - Le numéro de tel au dessus de la liste
-    - Le input pour ajoute des fichiers
-    - etc.
-  - Si pas de contacts, voir pour afficher le form vide. (Lors de la demande, pas le choix de mettre un contact.)
--->
+ - Faire les boutons comme ceux du Form portail.
+  -->
 <div class="container-fluid h-100">
   <div class="row h-100">
     <div class="shadow-sm col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-between">
@@ -35,8 +30,19 @@
 
     <div class="col-10 h-100 px-4">
       <!--ETAT DEMANDE-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section" id="requestStatus-section">
-        <div class="bg-white rounded my-2 form-section w-65">
+       <!--NICE_TO_HAVE::
+        - Centrer le form
+        - Quand commis et pas de boutons voir pour centrer mieux le form.
+      -->
+      <div class="container h-100 w-100 d-flex justify-content-center show-section row" id="requestStatus-section">    
+        <div class="flex-row d-flex justify-content-end mb-2 h-10 mt-1">
+          @role(['responsable', 'admin']) 
+          <button id="btnAccept" type="" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.acceptRequest')}}</button>
+          <button id="btnDeny" type="" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.denyRequest')}}</button>
+          <button id="btnExport" type="" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
+          @endrole
+        </div>
+        <div class="bg-white rounded form-section w-65 h-55">
           <div class="row py-2">
             <div class="offset-2 col-8 text-center">
               <h1>{{__('form.requestStatusTitle')}}</h1>
@@ -83,7 +89,7 @@
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-2">
                 <button id="btnEditRequestStatus" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-                <button id="btnSaveRequestStatus" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button>
+                <!-- <button id="btnSaveRequestStatus" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
               </div>
             </div>
           </div>
@@ -128,7 +134,7 @@
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
               <button id="btnModifyId" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-              <button id="btnSaveId" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button>
+              <!-- <button id="btnSaveId" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
             </div>
           </div>
         </div>
@@ -256,7 +262,7 @@
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
               <button id="btnEditContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-              <button id="btnSaveContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button>
+              <!-- <button id="btnSaveContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
             </div>
           </div>
         </div>
@@ -276,7 +282,6 @@
               </button>
             </div>
           </div>
-
           <div id="contactsRow" class="row justify-content-center px-3">
             @if(!is_null(old('contactFirstNames')))
             @foreach(old('contactFirstNames') as $contactFirstName)
@@ -468,7 +473,7 @@
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
               <button id="btnEditContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue button-darkblue">{{__('global.edit')}}</button>
-              <button id="btnSaveContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button>
+              <!-- <button id="btnSaveContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
             </div>
           </div>
         </div>
@@ -507,7 +512,6 @@
                 <div class="form-floating">
                   <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
                     <div class="mt-lg-0 mt-md-4" id="service-selected">
-
                       @foreach ($suppliersGroupedByNatureAndCategory as $nature => $categories)
                       <div class="row pb-3">
                         <h6 class="mb-3 fw-bold">{{ $nature }}</h6>
@@ -547,7 +551,7 @@
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
               <button id="btnEditProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-              <button id="btnSaveProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button>
+              <!-- <button id="btnSaveProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
             </div>
           </div>
         </div>
@@ -566,16 +570,15 @@
               <div class="d-flex flex-column justify-content-between h-100">
                 <div class="text-center">
                   <div class="form-floating mb-3">
-                    <input 
-                    type="text" 
-                    name="licenceRbq" 
-                    id="licenceRbq" 
-                    value="{{$supplier->rbqLicence && $supplier->rbqLicence->number ? $supplier->rbqLicence->number : '' }}"  
-                    class="form-control" 
-                    placeholder="" 
-                    maxlength="10" 
-                    disabled
-                    >
+                    <input
+                      type="text"
+                      name="licenceRbq"
+                      id="licenceRbq"
+                      value="{{$supplier->rbqLicence && $supplier->rbqLicence->number ? $supplier->rbqLicence->number : '' }}"
+                      class="form-control"
+                      placeholder=""
+                      maxlength="10"
+                      disabled>
                     <label for="licenceRbq">{{__('form.numberLabel')}}</label>
                   </div>
                 </div>
@@ -593,9 +596,9 @@
                 <div class="text-center">
                   <div class="form-floating mb-3">
                     <select name="typeRbq" id="typeRbq" class="form-select" aria-label="" disabled>
-                    <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
-                    <option value="entrepreneur" {{ $supplier->rbqLicence && $supplier->rbqLicence->type == 'entrepreneur' ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
-                    <option value="ownerBuilder" {{ $supplier->rbqLicence && $supplier->rbqLicence->type == 'ownerBuilder' ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
+                      <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                      <option value="entrepreneur" {{ $supplier->rbqLicence && $supplier->rbqLicence->type == 'entrepreneur' ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
+                      <option value="ownerBuilder" {{ $supplier->rbqLicence && $supplier->rbqLicence->type == 'ownerBuilder' ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
                     </select>
                     <label for="typeRbq">{{__('form.typeLabel')}}</label>
                   </div>
@@ -607,76 +610,104 @@
               <div class="text-center">
                 <div class="form-floating mb-3">
                   <div id="subcategories-container" class="form-control pt-2" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-                  @if ( $supplier->workSubcategories->isEmpty() )
+                    @if ( $supplier->workSubcategories->isEmpty() )
                     <div id="no-categories" class="d-block">
                       {{__('form.rbqNoLicence')}}
                     </div>
-                  @elseif ($supplier->rbqLicence->type == 'entrepreneur')    
-                    <div id="entrepreneur-categories" class="d-none">
+                    @else
+                    @if ($supplier->rbqLicence->type == "entrepreneur")
+                    <div id="entrepreneur-categories">
+                      @if ($supplier->workSubcategories->is_specialised = false)
                       <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
+                      @foreach($supplier->workSubcategories as $cat)
                       <div class="form-check pb-2">
-                        <!-- <input
+                        <input
                           class="form-check-input mt-0 rbq-subcategories-check"
                           type="checkbox"
                           name="rbqSubcategories[]"
-                          value="">
-                        <div class="d-flex">
+                          value=""
+                          checked disabled>
+                        <div class="d-flex py-1">
                           <label class="form-check-label text-start rbq-category-label-number" for="">
+                            {{$cat->code}}
                           </label>
                           <label class="form-check-label text-start ps-2" for="">
+                            {{$cat->name}}
                           </label>
-                        </div> -->
-                          allô
+                        </div>
                       </div>
-
+                      @endforeach
+                      @else
                       <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
+                      @foreach($supplier->workSubcategories as $cat)
                       <div class="form-check pb-2">
                         <input
                           class="form-check-input mt-0 rbq-subcategories-check"
                           type="checkbox"
                           name="rbqSubcategories[]"
-                          value="">
+                          value=""
+                          checked
+                          disabled>
                         <div class="d-flex">
                           <label class="form-check-label text-start rbq-category-label-number" for="">
+                            {{$cat->code}}
                           </label>
                           <label class="form-check-label text-start ps-2" for="">
+                            {{$cat->name}}
                           </label>
                         </div>
                       </div>
+                      @endforeach
                     </div>
-                  @else
-                    <div id="ownerBuilder-categories" class="d-none">
+                    @endif
+                    @else
+                    <div id="ownerBuilder-categories">
+                      @if ($supplier->workSubcategories->is_specialised = false)
                       <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
+                      @foreach($supplier->workSubcategories as $cat)
                       <div class="form-check pb-2">
                         <input
                           class="form-check-input mt-0 rbq-subcategories-check"
                           type="checkbox"
                           name="rbqSubcategories[]"
-                          value="">
+                          value=""
+                          checked
+                          disabled>
                         <div class="d-flex">
                           <label class="form-check-label text-start rbq-category-label-number" for="">
+                            {{$cat->code}}
                           </label>
                           <label class="form-check-label text-start ps-2" for="">
+                            {{$cat->name}}
                           </label>
                         </div>
                       </div>
-
+                      @endforeach
+                      @else
                       <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
+                      @foreach($supplier->workSubcategories as $cat)
                       <div class="form-check pb-2">
                         <input
                           class="form-check-input mt-0 rbq-subcategories-check"
                           type="checkbox"
                           name="rbqSubcategories[]"
-                          value="">
+                          value=""
+                          checked
+                          disabled>
                         <div class="d-flex">
                           <label class="form-check-label text-start rbq-category-label-number" for="">
+                            {{$cat->code}}
                           </label>
                           <label class="form-check-label text-start ps-2" for="">
+                            {{$cat->name}}
                           </label>
                         </div>
                       </div>
+                      @endforeach
+                      @endif
                     </div>
-                  @endif
+                    @endif
+                    @endif
                   </div>
                 </div>
               </div>
@@ -685,12 +716,15 @@
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
               <button id="btnEditRbq" type="button" class="m-2 py-1 px-3 rounded  button-darkblue">{{__('global.edit')}}</button>
-              <button id="btnSaveRbq" type="button" class="m-2 py-1 px-3 rounded button-darkblue ">{{__('global.save')}}</button>
+              <!-- <button id="btnSaveRbq" type="button" class="m-2 py-1 px-3 rounded button-darkblue ">{{__('global.save')}}</button> -->
             </div>
           </div>
         </div>
       </div><!--FIN LICENCE RBQ-->
       <!--PIÈCES JOINTES-->
+      <!--NICE_TO_HAVE::
+      - Rendre les pièces jointes ouvrables.
+      -->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
         <div class=" bg-white rounded my-2 form-section">
           <div class="row">
@@ -703,7 +737,7 @@
               <h2 class="text-center section-subtitle">{{__('form.attachmentFilesSection')}}</h2>
             </div>
             <div class=" col-12 d-flex flex-column justify-content-between">
-              <div class="row flex-row justify-content-between">
+              <div class="row flex-row justify-content-between d-none">
                 <div class="col-10">
                   <div>
                     <input class="form-control" type="file" id="formFile" disabled>
@@ -721,7 +755,7 @@
                   </svg>
                 </div>
               </div>
-              <table class="table">
+              <table class="table d-none">
                 <tbody>
                   <tr>
                     <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
@@ -741,11 +775,14 @@
                 </tbody>
               </table>
             </div>
-            <div class="col-12 ">
+            <div class="col-12">
               <div class="form-floating h-100" id="div-attachmentFilesList">
                 <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
                   <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
                   <div class="row px-3">
+                    @if($supplier->attachments->isEmpty())
+                    <div>{{__('form.noAttachmentFiles')}}</div>
+                    @else
                     <div class="d-flex justify-content-between mt-2">
                       <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
                       <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
@@ -753,13 +790,26 @@
                       <div class="col-2 "></div>
                     </div>
                     <div class="d-flex flex-column justify-content-between" id="attachmentFilesList">
-                      <!-- foreach pour les fichiers cliquable pour voir la pièce jointe -->
+                      @foreach ($supplier->attachments as $file)
+                      <div class="row mb-2 ">
+                        <div class="col-6 fs-6 fileName">
+                          {{ $file->name }}
+                        </div>
+                        <div class="col-2 fs-6 text-center fileSize">
+                          {{$file->size}}
+                        </div>
+                        <div class="col-2 fs-6 text-center addedFileDate">
+                          {{$file->deposit_date}}
+                        </div>
+                      </div>
+                      @endforeach
                     </div>
+                    @endif
                   </div>
                 </div>
               </div>
             </div>
-            <div class="text-end inline-block">
+            <div class="text-end inline-block d-none">
               <p class="mb-0" id="totalSize">/75Mo</p>
             </div>
             @if(!is_null(old('fileNames')))
@@ -788,7 +838,7 @@
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
               <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-              <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button>
+              <!-- <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
             </div>
           </div>
         </div>
@@ -798,26 +848,38 @@
         <div class="bg-white rounded my-2 form-section w-65">
           <div class="row">
             <div class="col-12 text-center">
-              <h1>{{__('show.finance')}}</h1>
+              <h1>{{__('form.financesTitle')}}</h1>
             </div>
           </div>
           <div class="row px-3 mb-3">
             <div class="col-12 text-center pb-3">
               <div class="form-floating pe-2">
-                <input type="text" name="financesTps" id="financesTps" class="form-control" value="" placeholder="" maxlength="8" disabled>
+                <input type="text" name="financesTps" id="financesTps" class="form-control" value="{{$supplier->tps_number ?? 'Aucun numéro de tps au dossier.'}}" placeholder="" maxlength="8" disabled>
                 <label for="financesTps" id="">{{__('form.tpsNumber')}}</label>
               </div>
             </div>
             <div class="col-12 text-center pb-3">
               <div class="form-floating pe-2">
-                <input type="text" name="financesTvq" id="financesTvq" class="form-control" value="" placeholder="" maxlength="8" disabled>
+                <input type="text" name="financesTvq" id="financesTvq" class="form-control" value="{{$supplier->tvq ?? 'Aucun numéro de tvq au dossier.'}}" placeholder="" maxlength="8" disabled>
                 <label for="financesTvq" id="">{{__('form.tvqNumber')}}</label>
               </div>
             </div>
             <div class="col-12 text-center pb-3">
               <div class="form-floating pe-2">
+                <!-- J'ai transcrit tel quel les choix dans le devis 
+                    Si autre idée pour le nom des variables..
+                 -->
                 <select name="financesPaymentConditions" id="financesPaymentConditions" class="form-select" aria-label="" disabled>
-                  <option>{{__('form.paymentConditions')}}</option>
+                  <option selected>{{__('form.paymentConditionsDefault')}}</option>
+                  <option value="nowPaymentNoDeduction" {{$supplier->payment_condition == 'nowPaymentNoDeduction' ? 'selected' : null  }}>{{__('form.nowPaymentNoDeduction')}}</option>
+                  <option value="nowPaymentNoDeduction15th" {{$supplier->payment_condition == 'nowPaymentNoDeduction15th' ? 'selected' : null  }}>{{__('form.nowPaymentNoDeduction15th')}}</option>
+                  <option value="15days2" {{$supplier->payment_condition == '15days2' ? 'selected' : null  }}>{{__('form.15days2')}}</option>
+                  <option value="until15th" {{$supplier->payment_condition == 'until15th' ? 'selected' : null  }}>{{__('form.until15th')}}</option>
+                  <option value="10days2" {{$supplier->payment_condition == '10days2' ? 'selected' : null  }}>{{__('form.10days2')}}</option>
+                  <option value="15daysNoDeduction" {{$supplier->payment_condition == '15daysNoDeduction' ? 'selected' : null  }}>{{__('form.15daysNoDeduction')}}</option>
+                  <option value="30daysNoDeduction" {{$supplier->payment_condition == '30daysNoDeduction' ? 'selected' : null  }}>{{__('form.30daysNoDeduction')}}</option>
+                  <option value="45daysNoDeduction" {{$supplier->payment_condition == '45daysNoDeduction' ? 'selected' : null  }}>{{__('form.45daysNoDeduction')}}</option>
+                  <option value="60daysNoDeduction" {{$supplier->payment_condition == '60daysNoDeduction' ? 'selected' : null  }}>{{__('form.60daysNoDeduction')}}</option>
                 </select>
                 <label for="financesPaymentConditions" id="">{{__('form.paymentConditions')}}</label>
               </div>
@@ -825,7 +887,7 @@
             <div class="row pb-3">
               <div class="col-6">
                 <div class="w-100">
-                  <h5 class="text-center text-decoration-underline">{{__('form.currency')}}</h5>
+                  <h5 class="text-decoration-underline">{{__('form.currency')}}</h5>
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="flexRadioCAD" id="flexRadioCAD" checked disabled>
                     <label class="form-check-label" for="flexRadioCAD">{{__('form.canadianCurrency')}}</label>
@@ -838,7 +900,7 @@
               </div>
               <div class="col-6">
                 <div class="w-100">
-                  <h5 class="text-center text-decoration-underline">{{__('form.communication')}}</h5>
+                  <h5 class="text-decoration-underline">{{__('form.communication')}}</h5>
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="flexRadioEmail" id="flexRadioEmail" checked disabled>
                     <label class="form-check-label" for="flexRadioEmail">{{__('form.email')}}</label>
@@ -853,7 +915,7 @@
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-2">
                 <button id="btnEditFinances" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-                <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button>
+                <!-- <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
               </div>
             </div>
           </div>

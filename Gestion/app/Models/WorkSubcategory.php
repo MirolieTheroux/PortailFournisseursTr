@@ -12,4 +12,8 @@ class WorkSubcategory extends Model
     public function suppliers(){
       return $this->belongsToMany(Supplier::class, 'supplier_work_subcategory');
     }
+
+  //   public function categories(){
+  //     return $this->belongsTo(WorkSubcategory::class);
+  // }
 }
