@@ -8,17 +8,11 @@
 
 @section('content')
 <!--TODO::
- - Ajouter les boutons pour accepter/refuser (vue selon les rôles)
  - Voir pour remettre le code avec les erreurs pour les premières sections
  - Hauteur fixe ? La hauteur change selon la section du form
  - Quand une section est séléctionnée, mettre la section courante en bg vert.
  - Ajouter un hover pour montrer que les sections sont cliquables
- - Est-ce qu'on peut cacher les chants qui on juste rapport à la modif?
-    - Le numéro de tel au dessus de la liste
-    - Le input pour ajoute des fichiers
-    - etc.
-  - Si pas de contacts, voir pour afficher le form vide. (Lors de la demande, pas le choix de mettre un contact.)
-  - Faire les boutons comme ceux du Form portail.
+ - Faire les boutons comme ceux du Form portail.
   -->
 <div class="container-fluid h-100">
   <div class="row h-100">
