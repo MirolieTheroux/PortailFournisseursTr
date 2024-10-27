@@ -18,7 +18,7 @@ class StatusHistoriesSeeder extends Seeder
         DB::table('status_histories')->insert([
             [
                 'id' => 1,
-                'status' => "En attente",
+                'status' => "waiting",
                 'updated_by' => "test1@gmail.com",
                 'refusal_reason' => null,
                 'supplier_id' => 1,
@@ -26,7 +26,7 @@ class StatusHistoriesSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'status' => "Acceptée",
+                'status' => "accepted",
                 'updated_by' => "nic@vtr.com",
                 'refusal_reason' => null,
                 'supplier_id' => 1,
@@ -34,7 +34,7 @@ class StatusHistoriesSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'status' => "En attente",
+                'status' => "waiting",
                 'updated_by' => "test2@gmail.com",
                 'refusal_reason' => null,
                 'supplier_id' => 2,
@@ -42,7 +42,7 @@ class StatusHistoriesSeeder extends Seeder
             ],
             [
                 'id' => 4,
-                'status' => "Modifiée",
+                'status' => "modified",
                 'updated_by' => "test2@gmail.com",
                 'refusal_reason' => null,
                 'supplier_id' => 2,
@@ -50,7 +50,7 @@ class StatusHistoriesSeeder extends Seeder
             ],
             [
                 'id' => 5,
-                'status' => "Refusée",
+                'status' => "denied",
                 'updated_by' => "nic@vtr.com",
                 'refusal_reason' => Crypt::encrypt("Dossier criminel"),
                 'supplier_id' => 2,
@@ -58,7 +58,7 @@ class StatusHistoriesSeeder extends Seeder
             ],
             [
                 'id' => 6,
-                'status' => "En attente",
+                'status' => "waiting",
                 'updated_by' => "test3@gmail.com",
                 'refusal_reason' => null,
                 'supplier_id' => 3,
@@ -66,7 +66,7 @@ class StatusHistoriesSeeder extends Seeder
             ],
             [
                 'id' => 7,
-                'status' => "Modifiée",
+                'status' => "modified",
                 'updated_by' => "test3@gmail.com",
                 'refusal_reason' => null,
                 'supplier_id' => 3,
@@ -74,7 +74,7 @@ class StatusHistoriesSeeder extends Seeder
             ],
             [
                 'id' => 8,
-                'status' => "Refusée",
+                'status' => "denied",
                 'updated_by' => "nic@vtr.com",
                 'refusal_reason' => Crypt::encrypt("Ne correspond pas au discussion au téléphone."),
                 'supplier_id' => 4,
@@ -82,7 +82,7 @@ class StatusHistoriesSeeder extends Seeder
             ],
             [
                 'id' => 9,
-                'status' => "Modifiée",
+                'status' => "modified",
                 'updated_by' => "test4@gmail.com",
                 'refusal_reason' => null,
                 'supplier_id' => 4,
@@ -90,7 +90,7 @@ class StatusHistoriesSeeder extends Seeder
             ],
             [
                 'id' => 10,
-                'status' => "À réviser",
+                'status' => "toCheck",
                 'updated_by' => "système",
                 'refusal_reason' => null,
                 'supplier_id' => 4,

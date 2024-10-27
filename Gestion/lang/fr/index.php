@@ -12,6 +12,7 @@ return [
     'productsServices' => 'Produits et services',
     'workCategories' => 'Catégories de travaux',
 
+    'pickStatus' => 'Choisir un statut de demande',
     'pickDA' => 'Choisir une région',
     'pickCity' => 'Choisir une ville',
     'pickCategory' => 'Choisir une catégorie',

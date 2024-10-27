@@ -72,7 +72,7 @@ class Supplier extends Model
     public function latestNonModifiedStatus()
     {
         return $this->statusHistories()
-            ->where('status', '!=', __('global.mofidied'))
+            ->where('status', '!=', 'modified')
             ->orderBy('created_at', 'desc')
             ->first();
     }

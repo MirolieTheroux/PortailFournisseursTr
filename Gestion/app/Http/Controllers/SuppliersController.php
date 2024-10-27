@@ -128,7 +128,14 @@ class SuppliersController extends Controller
             $productsServicesQuery->whereIn('code',$request->produits_services);
         }
 
-        $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get();
+        if($request->filled('status') && is_array($request->input('status'))){
+            $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier) use ($request){
+                return in_array($supplier->latestNonModifiedStatus()->status, $request->status);
+            });
+        }
+        else{
+            $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get();
+        }
 
         $workSubcategories = $workCategoriesQuery->get();
         $productsServices = $productsServicesQuery->get();

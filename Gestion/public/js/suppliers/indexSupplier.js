@@ -73,7 +73,6 @@ function addDistrictsAreas(){
 function addListeners(){
   const DAList = document.getElementById("districtAreas");
   const DAOptions = DAList.querySelectorAll(".multi-select-option");
-
   for(let i=0 ; i < DAOptions.length ; i++){
     DAOptions[i].addEventListener('click', ()=>{
       updateCityList();
@@ -83,7 +82,6 @@ function addListeners(){
 
   const cityList = document.getElementById("cities");
   const cityOptions = cityList.querySelectorAll(".multi-select-option");
-
   for(let i=0 ; i < cityOptions.length ; i++){
     cityOptions[i].addEventListener('click', ()=>{
       invokeSelectChange(cityOptions[i]);
@@ -92,11 +90,18 @@ function addListeners(){
 
   const workCategoriesList = document.getElementById("workCategories");
   const workCategoriesOptions = workCategoriesList.querySelectorAll(".multi-select-option");
-
   for(let i=0 ; i < workCategoriesOptions.length ; i++){
     workCategoriesOptions[i].addEventListener('click', ()=>{
       invokeSelectChange(workCategoriesOptions[i]);
       updateWorkSubcategoryCounters();
+    })
+  }
+
+  const statusList = document.getElementById("status");
+  const statusOptions = statusList.querySelectorAll(".multi-select-option");
+  for(let i=0 ; i < statusOptions.length ; i++){
+    statusOptions[i].addEventListener('click', ()=>{
+      invokeSelectChange(statusOptions[i]);
     })
   }
 }
