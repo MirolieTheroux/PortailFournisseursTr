@@ -73,6 +73,9 @@ div{
     background-color: gray;
     color: black;
 }
+.button-disabled:hover{
+    cursor: default;
+}
 
 input:focus, select:focus{
     border: var(--blue) solid 1px !important;
