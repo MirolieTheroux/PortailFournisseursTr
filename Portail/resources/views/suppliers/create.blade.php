@@ -12,7 +12,12 @@
   <!--PROGRESS BAR-->
   <!--REMARQUES::Est-ce qu'on veut pouvoir cliquer sur les sections suivantes(dans la barre de progression) même s'il y a des erreurs dans les pages précédentes?-->
   <!--REMARQUES::Est-ce qu'on veut ajouter un signe "!" à coté du nom de la section dans la flèche lorsqu'elle est rouge et un crochet lorsqu'elle est verte?-->
-  <!--NICE_TO_HAVE::Changer la couleur aussi quand on change avec la progress bar-->
+  
+  <!--NICE_TO_HAVE ::
+    - Changer la couleur aussi quand on change avec la progress bar (erreur/ok)
+    - Empêcher l'utilisateur de naviguer dans la barre de progression s'il y a des erreurs
+    - Ajouter un signe quand la section est ok et incorrecte.
+  -->
   <div class="container-fluid d-flex justify-content-center">
     <div id="progressBar" class="arrow-steps mt-3">
       <div class="step current clickFleche">

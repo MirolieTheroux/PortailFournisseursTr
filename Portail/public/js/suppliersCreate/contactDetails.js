@@ -1,3 +1,4 @@
+let arrayDistrictAreas = [];
 async function getCitiesAndDistrickAreas() {
   try {
     const response = await fetch(
@@ -89,6 +90,7 @@ async function addCitiesAndDAInSelect() {
       optionDA.value = DA;
       districtArea.add(optionDA);
       optionsDA.push(optionDA);
+      arrayDistrictAreas.push(DA);
     });
     if(oldDistrictArea !== undefined){
       optionsDA.forEach((da) => {

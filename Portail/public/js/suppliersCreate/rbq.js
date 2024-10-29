@@ -17,6 +17,7 @@ let address = "";
 let city = "";
 let districtArea = "";
 let licenceRestriction = false;
+let neqNumber = "";
 
 function getElements(){
   entrepreneurContainer = document.getElementById('entrepreneur-categories');
@@ -39,7 +40,7 @@ function getElements(){
 }
 
 async function fetchRBQ() {
-  const neqNumber = document.getElementById("neq").value;
+  neqNumber = document.getElementById("neq").value;
   subcategories = [];
   typeLicence = "";
   licenceNumber = "";
@@ -48,9 +49,8 @@ async function fetchRBQ() {
     checkboxesReset(true);
   }
 
-  const response = await fetch("https://donneesquebec.ca/recherche/api/action/datastore_search_sql?sql=SELECT\"Numero de licence\",\"Statut de la licence\",\"Restriction\",\"Type de licence\",\"Categorie\",\"Sous-categories\"FROM\"32f6ec46-85fd-45e9-945b-965d9235840a\"WHERE\"NEQ\"='"+ neqNumber +"'AND\"Categorie\"<>'null'");
+  const response = await fetch("https://donneesquebec.ca/recherche/api/action/datastore_search_sql?sql=SELECT\"Numero de licence\",\"Statut de la licence\",\"Restriction\",\"Type de licence\",\"Categorie\",\"Sous-categories\",\"Numero de telephone\",\"Adresse\",\"Municipalite\",\"Region administrative\"FROM\"32f6ec46-85fd-45e9-945b-965d9235840a\"WHERE\"NEQ\"='"+ neqNumber +"'AND\"Categorie\"<>'null'");
   const data = await response.json();
-
   data.result.records.forEach(record => {
     console.log(record);
     if(record["Statut de la licence"] === "Active"){
@@ -77,6 +77,7 @@ async function fetchRBQ() {
     if(districtArea === ""){
       districtArea = record["Region administrative"];
     }
+    getAddressAndFillForm();
   });
 
   if(licenceNumber !== "")
@@ -162,7 +163,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   getElements();
   await fetchRBQ();
 });
-
 /*** Validation ***/
 const inputLicenceRbq = document.getElementById("licenceRbq");
 inputLicenceRbq.addEventListener('input', validateRbqLicence);
@@ -376,7 +376,10 @@ function getAddressAndFillForm(){
     document.querySelectorAll("[name='contactDetailsStreetName']").forEach(input => {input.value = streetName; });
     document.getElementById("contactDetailsCitySelect").value = city;
     document.getElementById("contactDetailsPostalCode").value = postalCodeNoSpace;
-    document.getElementById("contactDetailsDistrictArea").value = districtArea;
+    arrayDistrictAreas.forEach(da => {
+      if(da.includes(districtArea))
+        document.getElementById("contactDetailsDistrictArea").value = da;
+    });
     document.getElementById("contactDetailsPhoneNumber").value = phoneNumber;
   }
 }
