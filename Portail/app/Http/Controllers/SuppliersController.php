@@ -240,6 +240,7 @@ class SuppliersController extends Controller
         }
       }
 
+      //TODO::Mettre booléen Filestream
       if(!is_null($request->fileNames)){
         $uploadedFiles = $request->file('files');
 

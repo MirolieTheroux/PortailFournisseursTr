@@ -37,7 +37,8 @@ function changeContact(event){
     console.log('up');
   }
   else{
-    console.log('down');
+    //contactsList[index].classList.add('d-none')
+    console.log(contactsList);
   }
 }
 

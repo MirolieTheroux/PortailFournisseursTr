@@ -5,6 +5,8 @@
 @endsection
 
 @section('content')
+<!--//TODO::Mettre s'incrire plus visible-->
+
 <div class="row h-100 bg-image-login">
   <div class="col-6 d-none d-md-flex align-items-center justify-content-center h-100 bg-grey-transparent">
     <h1 class="text-white fw-bold">{{__('login.platform')}}<br>{{__('login.suppliers')}}</h1>

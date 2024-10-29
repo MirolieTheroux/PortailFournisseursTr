@@ -1,3 +1,7 @@
+<!--//TODO::Liste fournisseur, alignée les noms et villes à gauche-->
+
+<!--//? NICE_TO_HAVE::Bouton en attente liste fournisseur en rouge et masquer si 0-->
+<!--//? NICE_TO_HAVE::Liste des fournisseurs - Faire les tri selon le nombre de critères rempli et status-->
 @extends('layouts.app')
 
 @section('css')
@@ -10,7 +14,7 @@
     <div class="row h-100">
       <div class="col-3 bg-white h-100 full-viewport sticky-under-navbar">
         <form id="filterForm" class="h-100 d-flex flex-column justify-content-between">
-          <!--TODO::Faire la section des filtres-->
+          <!--Remarques::Masquer bouton envoi quand rien sélectionné-->
           <button id="btnListSelectedSupplier" type="button" class="my-2 py-1 px-3 rounded button-darkblue">{{__('index.listSelectedSuppliers')}}</button>
           @role(['responsable', 'admin'])
             @php
