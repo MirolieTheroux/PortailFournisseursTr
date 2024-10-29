@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class WorkSubcategory extends Model
 {
-    protected $table = 'work_subcategories';
+  protected $table = 'work_subcategories';
 
-    public function suppliers(){
-      return $this->belongsToMany(Supplier::class, 'supplier_work_subcategory');
-    }
+  public function suppliers(){
+    return $this->belongsToMany(Supplier::class, 'supplier_work_subcategory');
+  }
 }

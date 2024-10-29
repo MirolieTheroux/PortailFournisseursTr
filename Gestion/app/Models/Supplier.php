@@ -64,4 +64,16 @@ class Supplier extends Model
     public function attachments(){
       return $this->hasMany(Attachment::class);
     }
+
+    public function statusHistories(){
+      return $this->hasMany(StatusHistory::class);
+    }
+
+    public function latestNonModifiedStatus()
+    {
+        return $this->statusHistories()
+            ->where('status', '!=', 'modified')
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
 }

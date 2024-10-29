@@ -11,4 +11,7 @@ return [
     'rqbLicence' => 'Licence RBQ',
     'attachmentFiles' => 'Pièces jointes',
     'finance' => 'Finances',
+    'acceptRequest' => 'Accepter la demande',
+    'denyRequest' => 'Refuser la demande',
+    'exportSupplierToFinance' => 'Exporter vers les finances',
 ];

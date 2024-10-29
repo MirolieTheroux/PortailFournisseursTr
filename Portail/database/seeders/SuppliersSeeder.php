@@ -25,7 +25,7 @@ class SuppliersSeeder extends Seeder
                 'product_service_detail' => "Vente d'uniformes pour femmes.",
                 'tps_number' => "875567987",
                 'tvq_number' => "764987364816576",
-                'payment_condition' => "Dans les 30 jours sans déduction",
+                'payment_condition' => "15daysNoDeduction",
                 'currency' => 1,
                 'communication_mode' => 1,
             ],

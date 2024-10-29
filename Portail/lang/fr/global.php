@@ -9,4 +9,9 @@ return [
     'save' => 'Enregistrer',
     'submit' => 'Soumettre',
     'login' => 'Connexion',
+    'accepted' => 'Acceptée',
+    'denied' => 'Refusée',
+    'waiting' => 'En attente',
+    'modified' => 'Modifiée',
+    'toCheck' => 'À réviser',
 ];

@@ -10,4 +10,10 @@ return [
     'submit' => 'Soumettre',
     'login' => 'Connexion',
     'edit' => 'Modifier',
+    'accepted' => 'Acceptée',
+    'denied' => 'Refusée',
+    'waiting' => 'En attente',
+    'toCheck' => 'À réviser',
+    'mofidied' => 'Modifiée',
+    'error' => 'Erreur',
 ];
