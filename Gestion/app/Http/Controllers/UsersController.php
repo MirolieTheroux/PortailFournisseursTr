@@ -20,7 +20,7 @@ class UsersController extends Controller
   {
     $reussi = Auth::attempt(['email' => $request->email,'password' => $request->password]);
     if($reussi){
-      return redirect()->route('suppliers.index')->with('message',"Connexion réussie");
+      return redirect()->route('suppliers.index')->with('message',__('login.successfulLogin'));
     }
     else{
       return redirect()->route('login')->with('errorMessage',__('login.wrongCredentials'));
@@ -35,7 +35,7 @@ class UsersController extends Controller
 
     $request->session()->regenerateToken();
 
-    return redirect()->route('login')->with('message',"Déconnexion réussie");
+    return redirect()->route('login')->with('message',__('login.successfulLogout'));
   }  
 
   /**

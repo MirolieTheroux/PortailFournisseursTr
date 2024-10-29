@@ -1,3 +1,12 @@
+<!--//TODO::Indiquer qu'on peux passer la section RBQ-->
+<!--//TODO::Enlever le 3e caractere de la validation NEQ-->
+<!--//TODO::Enlever la validation unique du RBQ-->
+<!--//TODO::Faire que suivant attend la validation unique du email/neq entreprise-->
+<!--//? NICE_TO_HAVE::Enlever la validation unique du email entreprise-->
+<!--//? NICE_TO_HAVE::Changer les plus pour des "ajouter"-->
+<!--//? NICE_TO_HAVE::Mettre ajouter un contact plus visible-->
+<!--//? NICE_TO_HAVE::Mettre contact sur une ligne-->
+
 @extends('layouts.app')
 
 @section('css')

@@ -68,6 +68,14 @@ div{
 .button-darkblue:hover{
     background-color: var(--blue);
 }
+.button-disabled{
+    border: none;
+    background-color: gray;
+    color: black;
+}
+.button-disabled:hover{
+    cursor: default;
+}
 
 input:focus, select:focus{
     border: var(--blue) solid 1px !important;

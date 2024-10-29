@@ -11,18 +11,28 @@ use Illuminate\Support\Facades\Log;
 
 class SuppliersController extends Controller
 {
-    const SUPPLIER_FETCH_LIMIT = 100;
+  const SUPPLIER_FETCH_LIMIT = 100;
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $suppliers = Supplier::limit(self::SUPPLIER_FETCH_LIMIT)->get();
-        $workSubcategories = WorkSubcategory::all();
-        $productsServices = ProductService::all();
-        return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
+  /**
+   * Display a listing of the resource.
+   */
+  public function index()
+  {
+    $suppliers = Supplier::limit(self::SUPPLIER_FETCH_LIMIT)->get();
+    $workSubcategories = WorkSubcategory::all();
+    $productsServices = ProductService::all();
+    return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
+  }
+
+  public function selectedList(Request $request){
+    if($request->filled('suppliers') && is_array($request->suppliers)){
+      $suppliers = Supplier::whereIn('id', $request->suppliers)->get();
+      return View('suppliers.selectedList', compact('suppliers'));
     }
+    else{
+      return redirect()->route('suppliers.index')->with('errorMessage',__('index.noSelection'));
+    }
+  }
 
   /**
    * Show the form for creating a new resource.

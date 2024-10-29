@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class SupplierProductsServicesSeeder extends Seeder
 {
+
     /**
      * Run the database seeds.
      */

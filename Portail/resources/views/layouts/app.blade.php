@@ -1,3 +1,4 @@
+<!--//? NICE_TO_HAVE::Mettre le liens vers le site de la ville au footer-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
