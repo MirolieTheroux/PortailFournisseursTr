@@ -880,9 +880,9 @@
                             <div class="text-center d-flex flex-column flex-md-row flew-mb-wrap">
                                 <div class="form-floating col-12 col-md-3">
                                     <select name="contactTelTypesA[]" id="contactTelTypeA1" class="form-select" aria-label="">
-                                        <option value="desktop">{{__('form.officeNumber')}}</option>
-                                        <option value="fax">{{__('form.fax')}}</option>
-                                        <option value="cellphone">{{__('form.cellphone')}}</option>
+                                      <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
+                                      <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
+                                      <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
                                     </select>
                                     <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}}</label>
                                 </div>
@@ -906,9 +906,9 @@
                             <div class="text-center d-flex flex-column flex-md-row">
                                 <div class="form-floating col-12 col-md-3">
                                     <select name="contactTelTypesB[]" id="contactTelTypeB1" class="form-select" aria-label="">
-                                        <option value="desktop">{{__('form.officeNumber')}}</option>
-                                        <option value="fax">{{__('form.fax')}}</option>
-                                        <option value="cellphone">{{__('form.cellphone')}}</option>
+                                      <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
+                                      <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
+                                      <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
                                     </select>
                                     <label id="contactTelTypeLabelB1" for="contactTelTypeB1">{{__('form.typeLabel')}}</label>
                                 </div>

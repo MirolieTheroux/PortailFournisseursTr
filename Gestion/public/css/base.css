@@ -94,6 +94,9 @@ input:focus, select:focus{
 .bg-lightgrey{
     background-color: var(--light_grey);
 }
+.bg-green{
+    background-color: var(--green);
+}
 
 .rounded-custom{
   border-radius: 1.25em;

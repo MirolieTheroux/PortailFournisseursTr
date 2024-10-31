@@ -27,18 +27,39 @@ function addUpDownListeners(){
 }
 
 function changeContact(event){
-  const buttonContainer = event.target.parentElement;
+  let button;
+  if(event.target instanceof SVGElement){
+    button = event.target.parentElement;
+  }
+  else{
+    button = event.target;
+  }
+  const buttonContainer = button.parentElement;
   const parentContainer = buttonContainer.parentElement;
   const contactsList = parentContainer.getElementsByClassName('contactContainer');
   const contactsArray = Array.from(contactsList);
   const index = contactsArray.findIndex(x => (!x.classList.contains('d-none')));
 
-  if(event.target.classList.contains('contactUpButtom')){
-    console.log('up');
+  contactsList[index].classList.add('d-none');
+  if(button.classList.contains('contactUpButtom')){
+    contactsList[index - 1].classList.remove('d-none');
+    if(index === contactsList.length-1){
+      const buttonDown = buttonContainer.querySelector('.contactDownButtom');
+      enableButton(buttonDown)
+    }
+    if(index-1 === 0){
+      disableButton(button);
+    }
   }
   else{
-    //contactsList[index].classList.add('d-none')
-    console.log(contactsList);
+    contactsList[index + 1].classList.remove('d-none');
+    if(index === 0){
+      const buttonUp = buttonContainer.querySelector('.contactUpButtom');
+      enableButton(buttonUp)
+    }
+    if(index+1 === contactsList.length-1){
+      disableButton(button);
+    }
   }
 }
 
