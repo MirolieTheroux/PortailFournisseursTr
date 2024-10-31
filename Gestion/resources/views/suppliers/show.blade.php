@@ -7,12 +7,8 @@
 <!--//! Remarques::Dans la section pièce jointe, on pourrait ajouter un bouton visualiser et on pourrait mettre une tâche dans le azure pour le coder-->
 <!--//! Remarques::(Nice to have?) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
 <!--//! Remarques::Dans la section finances, est-ce qu'on pourrait mettre en noir l'option sélectionnée plutôt qu'en gris?-->
-<!--//! Remarques::Dans la liste d'item a gauche, il faudrait mettre un hover plus visible-->
 <!--//! Remarques::(Nice to have?) Dans la liste d'item a gauche, Il faudrait mettre les boutons en haut au lieu d'espacé-->
-
 <!--//! Remarques::Y'a des blocs de code en commentaire, est-ce qu'on peut les flusher ou mettre un TODO?-->
-<!--//! Remarques::S'il vous plait, la prochaine fois, fait tes TODO avant d'envoyer au test. Mets en nice to have ce qui est pas fonctionnel-->
-
 @extends('layouts.app')
 
 @section('css')
