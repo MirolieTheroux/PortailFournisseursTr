@@ -269,6 +269,7 @@
             <div class="form-floating mb-3">
               <select name="statusRbq" id="statusRbq" class="form-select" aria-label="">
                 <option disabled selected value>{{__('form.choiceDefaultStatus')}}</option>
+                <option value>{{__('global.none')}}</option>
                 <option value="valid" {{ "valid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceValid')}}</option>
                 <option value="restrictedValid" {{ "restrictedValid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
                 <option value="invalid" {{ "invalid" == old('statusRbq') ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
@@ -285,6 +286,7 @@
             <div class="form-floating mb-3">
               <select name="typeRbq" id="typeRbq" class="form-select" aria-label="">
                 <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                <option value>{{__('global.none')}}</option>
                 <option value="entrepreneur" {{ "entrepreneur" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
                 <option value="ownerBuilder" {{ "ownerBuilder" == old('typeRbq') ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
               </select>

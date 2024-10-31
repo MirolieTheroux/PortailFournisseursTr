@@ -14,4 +14,5 @@ return [
     'waiting' => 'En attente',
     'modified' => 'Modifiée',
     'toCheck' => 'À réviser',
+    'none' => 'Aucun',
 ];
