@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('rbq_licences', function (Blueprint $table) {
             $table->id();
-            $table->string('number', 10)->unique();
+            $table->string('number', 10);
             $table->string('status', 32);
             $table->string('type', 32);
             $table->foreignId('supplier_id')->constrained('suppliers');

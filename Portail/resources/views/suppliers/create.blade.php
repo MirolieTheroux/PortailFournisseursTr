@@ -254,7 +254,6 @@
               <label for="licenceRbq">{{__('form.numberLabel')}}</label>
               <div class="text-start invalid-feedback licenceInvalidNumber" style="display: none;">{{__('form.rbqLicenceValidation')}}</div>
               <div class="text-start invalid-feedback licenceInvalidSize" style="display: none;">{{__('form.rbqLicenceValidationSize')}}</div>
-              <div id="rbqInvalidExist" class="text-start invalid-feedback licenceInvalidSize" style="display: none;">{{__('form.rbqLicenceExistValidation')}}</div>
             </div>
             @if($errors->has('licenceRbq'))
             <p>{{ $errors->first('licenceRbq') }}</p>

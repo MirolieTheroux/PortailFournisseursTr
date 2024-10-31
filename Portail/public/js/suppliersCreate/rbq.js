@@ -350,19 +350,6 @@ async function validateRbqAll(){
   }
 }
 
-async function checkRbqUnique(number){
-  const response = await fetch('/suppliers/checkRbq', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
-    },
-    body: JSON.stringify({ number: number })
-  })
-  const data = await response.json();
-  return data.exists;
-}
-
 /*** Section Coordonnées ***/
 function getAddressAndFillForm(){
   if(neqNumber != ""){
