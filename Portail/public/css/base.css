@@ -31,18 +31,6 @@
     color: gray;
 }
 
-.section-title{
-    font-size: 24pt;
-}
-
-.section-subtitle{
-    font-size: 16pt;
-}
-
-.form-label{
-    font-size: 10pt;
-}
-
 @font-face {
     font-family: poppins;
     src: url(/font/Poppins-Light.otf);
@@ -53,6 +41,18 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+/*.section-title{
+    font-size: 24pt;
+}
+
+.section-subtitle{
+    font-size: 16pt;
+}
+
+.form-label{
+    font-size: 10pt;
+}*/
 
 body{
     background-color: #EEEEF0;

@@ -51,7 +51,7 @@ return [
     'productsAndServiceCategoriesDetails' => 'Détails et spécifications',
     'productsAndServiceServices' => 'Services',
     'productsAndServiceServicesCategorySelection' => 'Cliquez pour ajouter une catégorie',
-    'productsAndServiceSelectedServicesList' => 'Liste des services à offrir',
+    'productsAndServiceSelectedServicesList' => 'Services à offrir',
     'productsAndServiceServicesCategorySelected' => 'Cliquez pour suprimer une catégorie',
     'productsAndServiceValidationNEQ3rd' => 'Le troisième caractère doit être 4, 5, 6, 7, 8 ou 9.',
     'productsAndServiceValidationNEQOnlyDigits' => 'Le NEQ doit être composé uniquement de chiffres.',

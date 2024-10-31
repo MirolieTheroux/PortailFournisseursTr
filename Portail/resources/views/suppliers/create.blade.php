@@ -1,7 +1,3 @@
-<!--//TODO::Indiquer qu'on peux passer la section RBQ-->
-<!--//TODO::Enlever le 3e caractere de la validation NEQ-->
-<!--//TODO::Enlever la validation unique du RBQ-->
-<!--//TODO::Faire que suivant attend la validation unique du email/neq entreprise-->
 <!--//? NICE_TO_HAVE::Enlever la validation unique du email entreprise-->
 <!--//? NICE_TO_HAVE::Changer les plus pour des "ajouter"-->
 <!--//? NICE_TO_HAVE::Mettre ajouter un contact plus visible-->
@@ -68,7 +64,7 @@
     </div>
     <div class="row px-3">
       <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-        <h2 class="text-center section-subtitle">{{__('form.identificationCompanySection')}}</h2>
+        <h2 class="text-center h4">{{__('form.identificationCompanySection')}}</h2>
         <div class="d-flex flex-column justify-content-between h-100">
           <div class="text-start">
             <div class="form-floating mb-3">
@@ -99,7 +95,7 @@
         </div>
       </div>
       <div class="col-12 col-md-8 d-flex flex-column justify-content-between">
-        <h2 class="text-center section-subtitle">{{__('form.identificationAuthentificationSection')}}</h2>
+        <h2 class="text-center h4">{{__('form.identificationAuthentificationSection')}}</h2>
         <div class="d-flex flex-column justify-content-between h-100">
           <div class="text-start">
             <div class="form-floating mb-3">
@@ -182,12 +178,12 @@
     </div>
     <div class="row">
       <div class="col-12 text-center">
-        <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
+        <h1>{{__('form.productsAndServiceTitle')}}</h1>
       </div>
     </div>
     <div class="row px-3">
       <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-        <h2 class="text-center section-subtitle">{{__('form.productsAndServiceServices')}}</h2>
+        <h2 class="text-center h4">{{__('form.productsAndServiceServices')}}</h2>
         <div class="text-center">
           <div class="form-floating mb-3">
             <input type="text" id="service-search" class="form-control" placeholder="">
@@ -207,7 +203,7 @@
         
       </div>
       <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-        <h2 class="text-center section-subtitle">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
+        <h2 class="text-center h4">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
         <div>
           <div class="form-floating">
             <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
@@ -220,7 +216,7 @@
         </div>
       </div>
       <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
-        <h2 class="text-center section-subtitle"><br></h2>
+        <h2 class="text-center h4"><br></h2>
         <div class="text-center">
           <div class="form-floating">
             <textarea class="form-control" name="product_service_detail" placeholder="details" id="products-details" style="height: 308px; resize: none;" maxlength="500"></textarea>
@@ -251,7 +247,7 @@
     </div>
     <div class="row px-3">
       <div class="col-12 col-md-4 d-flex flex-column">
-        <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
+        <h2 class="text-center h4">{{__('form.rbqLicenceSection')}}</h2>
         <div class="d-flex flex-column justify-content-between h-100">
           <div class="text-center">
             <div class="form-floating mb-3">
@@ -301,7 +297,7 @@
         </div>
       </div>
       <div class="col-12 col-md-8 d-flex flex-column justify-content-start">
-        <h2 class="text-center">{{__('form.rbqCategoriesSection')}}</h2>
+        <h2 class="text-center h4">{{__('form.rbqCategoriesSection')}}</h2>
         <div class="text-center">
           <div class="form-floating mb-3">
             <div id="subcategories-container" class="form-control pt-2" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
@@ -470,12 +466,12 @@
     </div>
     <div class="row">
       <div class="col-12 text-center">
-        <h1 class="section-title">{{__('form.contactDetailsTitle')}}</h1>
+        <h1>{{__('form.contactDetailsTitle')}}</h1>
       </div>
     </div>
     <div class="row px-3">
       <div class="col-12 col-md-6 d-flex flex-column">
-        <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
+        <h2 class="text-center h4">{{__('form.contactDetailsAddressSection')}}</h2>
         <div class=" text-center d-flex flex-row">
           <div class="form-floating col-6 pe-2">
             <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ old('contactDetailsCivicNumber') }}" placeholder="" maxlength="8">
@@ -575,7 +571,7 @@
         </div>
       </div>
       <div class="col-12 col-md-6 d-flex flex-column">
-        <h2 class="text-center section-subtitle">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
+        <h2 class="text-center h4">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
         <div class="text-center d-flex flex-row">
           <div class="form-floating col-3">
             <select name="contactDetailsPhoneType" id="contactDetailsPhoneType" class="form-select" aria-label="">
@@ -690,7 +686,7 @@
         </div>
         <div class="row">
             <div class="col-8 col-md-10 offset-2 offset-md-1 text-center">
-                <h1 class="section-title">{{__('form.contactsTitle')}}</h1>
+                <h1>{{__('form.contactsTitle')}}</h1>
             </div>
             <div class="col-2 col-md-1 d-flex align-items-center justify-content-center">
                 <button type="button" class="add-contact p-0">
@@ -720,7 +716,7 @@
                     <div id="referenceContact" class="col-12 col-lg-6 d-flex flex-column justify-content-between mb-2">
                         <div class="rounded px-3 border">
                             <div class="row">
-                                <h2 id="contactSubtitle1" class="col-11 text-start section-subtitle">{{__('form.contactsSubtitle')}}</h2>
+                                <h2 id="contactSubtitle1" class="col-11 text-start h4">{{__('form.contactsSubtitle')}}</h2>
                                 <button type="button" class="col-1 text-end delete-contact p-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
@@ -765,7 +761,7 @@
                                     <p>{{ $errors->first($contactEmailIndex) }}</p>
                                 @endif
                             </div>
-                            <h2 class="text-center section-subtitle">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
+                            <h2 class="h4">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
                             <div class="mb-4">
                                 <div class="text-center d-flex flex-column flex-md-row mb-0">
                                     <div class="form-floating col-12 col-md-3">
@@ -795,7 +791,7 @@
                                     <p class="m-0">{{ $errors->first($contactTelExtension1Index) }}</p>
                                 @endif
                             </div>
-                            <h2 class="text-center section-subtitle d-md-none">{{__('form.phoneNumber')}}</h2>
+                            <h2 class="text-center d-md-none h4">{{__('form.phoneNumber')}}</h2>
                             <div class="mb-4">
                               <div class="text-center d-flex flex-column flex-md-row mb-0">
                                   <div class="form-floating col-12 col-md-3">
@@ -836,7 +832,7 @@
 
                     <div class="rounded pt-1 px-3 border">
                         <div class="row">
-                            <h2 id="contactSubtitle1" class="col-11 text-start section-subtitle">{{__('form.contactsSubtitle')}}</h2>
+                            <h2 id="contactSubtitle1" class="col-11 text-start h4">{{__('form.contactsSubtitle')}}</h2>
                             <button type="button" class="col-1 text-end delete-contact p-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
@@ -877,7 +873,7 @@
                                 <div class="text-start invalid-feedback emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
                             </div>
                         </div>
-                        <h2 class="text-center section-subtitle">{{__('form.phoneNumber')}}</h2>
+                        <h2 class="h4">{{__('form.phoneNumber')}}</h2>
                         <div class="d-flex flex-column mb-4 phone-container">
                             <div class="text-center d-flex flex-column flex-md-row flew-mb-wrap">
                                 <div class="form-floating col-12 col-md-3">
@@ -903,7 +899,7 @@
                             <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">{{__('form.contactsTelExtensionValidation')}}</div>
                         </div>
 
-                        <h2 class="text-center section-subtitle d-md-none">{{__('form.phoneNumber')}}</h2>
+                        <h2 class="text-center d-md-none h4">{{__('form.phoneNumber')}}</h2>
                         <div class="d-flex flex-column mb-4 phone-container">
                             <div class="text-center d-flex flex-column flex-md-row">
                                 <div class="form-floating col-12 col-md-3">
@@ -961,7 +957,7 @@
     </div>
     <div class="row px-3 mb-3">
       <div class="col-12 d-flex flex-column justify-content-between mb-3">
-        <h2 class="text-center section-subtitle">{{__('form.attachmentFilesSection')}}</h2>
+        <h2 class="text-center h4">{{__('form.attachmentFilesSection')}}</h2>
       </div>
       <div class=" col-12 d-flex flex-column justify-content-between">
         <div class="row flex-row justify-content-between">
