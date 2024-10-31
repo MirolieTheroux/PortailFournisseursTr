@@ -85,7 +85,14 @@
               </div>
               <div class="col-6 text-center">
                 <div class="form-floating">
-                  <input type="date" name="requestLastModifiedDate" id="requestLastModifiedDate" class="form-control" value="" placeholder="" disabled>
+                  <input 
+                  type="date" 
+                  name="requestLastModifiedDate" 
+                  id="requestLastModifiedDate" 
+                  class="form-control" 
+                  value="{{is_null($supplier->latestModifiedDate()) ? date_format($supplier->created_at, 'Y-m-d') : date_format($supplier->latestModifiedDate()->created_at, 'Y-m-d')}}" 
+                  placeholder="" 
+                  disabled>
                   <label for="requestLastModifiedDate" id="">{{__('form.requestLastModifiedDate')}}</label>
                 </div>
               </div>
