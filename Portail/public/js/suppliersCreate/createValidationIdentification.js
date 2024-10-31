@@ -3,14 +3,12 @@ neqInput.addEventListener('input', validateIdentificationNeq);
 
 function validateIdentificationNeq() {
   const invalidStart = document.getElementById('neqInvalidStart');
-  const invalidThird = document.getElementById('neqInvalidThird');
   const invalidCharacters = document.getElementById('neqInvalidCharacters');
   const invalidAmount = document.getElementById('neqInvalidAmount');
   const invalidExist = document.getElementById('neqInvalidExist');
 
   // Reset all error messages
   invalidStart.style.display = 'none';
-  invalidThird.style.display = 'none';
   invalidCharacters.style.display = 'none';
   invalidAmount.style.display = 'none';
   invalidExist.style.display = 'none';
@@ -24,11 +22,6 @@ function validateIdentificationNeq() {
     neqInput.classList.remove('is-valid');
     neqInput.classList.add('is-invalid');
     invalidStart.style.display = 'block';
-  }
-  else if (!neqInput.value.match(/^..(3|4|5|6|7|8|9)/)) {
-    neqInput.classList.remove('is-valid');
-    neqInput.classList.add('is-invalid');
-    invalidThird.style.display = 'block';
   }
   else if (neqInput.value.match(/\D/)) {
     neqInput.classList.remove('is-valid');

@@ -27,7 +27,7 @@ class SupplierRequest extends FormRequest
                 'nullable',
                 'unique:suppliers',
                 'size:10',
-                'regex:/^(11|22|33|88)[4-9].{7}$/',
+                'regex:/^(11|22|33|88).{8}$/',
             ],
             'name' => 'required',
             'email' => 'required|email',
