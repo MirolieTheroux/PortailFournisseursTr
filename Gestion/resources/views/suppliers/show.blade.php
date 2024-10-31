@@ -12,7 +12,7 @@
  - Hauteur fixe ? La hauteur change selon la section du form
  - Quand une section est séléctionnée, mettre la section courante en bg vert.
  - Ajouter un hover pour montrer que les sections sont cliquables
- - Faire les boutons comme ceux du Form portail.
+ - Mettre "Exporter vers les finances sur le côté.
   -->
 <div class="container-fluid h-100">
   <div class="row h-100">
@@ -31,10 +31,9 @@
     <div class="col-10 h-100 px-4">
       <!--ETAT DEMANDE-->
        <!--NICE_TO_HAVE::
-        - Centrer le form
         - Quand commis et pas de boutons voir pour centrer mieux le form.
       -->
-      <div class="container h-100 w-100 d-flex justify-content-center show-section row" id="requestStatus-section">    
+      <div class=" h-100 w-100 d-flex justify-content-center show-section row" id="requestStatus-section">    
         <div class="flex-row d-flex justify-content-end mb-2 h-10 mt-1">
           @role(['responsable', 'admin']) 
           <button id="btnAccept" type="" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.acceptRequest')}}</button>
@@ -42,11 +41,12 @@
           <button id="btnExport" type="" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
           @endrole
         </div>
-        <div class="bg-white rounded form-section w-65 h-55">
+        <div class="bg-white rounded form-section w-65 h-45">
           <div class="row py-2">
             <div class="offset-2 col-8 text-center">
               <h1>{{__('form.requestStatusTitle')}}</h1>
             </div>
+            @role(['responsable', 'admin']) 
             <div class="col-2 d-flex align-items-center justify-content-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
                 <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z" />
@@ -54,20 +54,23 @@
                 <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5" />
               </svg>
             </div>
+            @endrole
           </div>
           <div class="px-3">
             <div class="row pb-3">
               <div class="col-6 text-center ">
                 <div class="form-floating ">
                   <select name="requestStatus" id="requestStatus" class="form-select" aria-label="" disabled>
-                    <option>{{__('form.status')}}</option>
+                    <option value="waiting" selected>{{__('form.waiting')}}</option>
+                    <option value="accepted" {{ $supplier->latestNonModifiedStatus()->status =='accepted' ? 'selected' : null}}>{{__('form.accepted')}}</option>
+                    <option value="denied" {{ $supplier->latestNonModifiedStatus()->status =='denied' ? 'selected' : null}}>{{__('form.denied')}}</option>
                   </select>
                   <label for="requestStatus" id="">{{__('form.status')}}</label>
                 </div>
               </div>
               <div class="col-6 text-center ">
                 <div class="form-floating">
-                  <input type="date" name="requestStatusCreatedDate" id="requestStatusCreatedDate" class="form-control" value="" placeholder="" disabled>
+                  <input type="date" name="requestStatusCreatedDate" id="requestStatusCreatedDate" class="form-control" value="{{date_format($supplier->latestNonModifiedStatus()->created_at, 'Y-m-d')}}" placeholder="" disabled>
                   <label for="requestStatus" id="">{{__('form.requestResponseDate')}}</label>
                 </div>
               </div>
@@ -75,9 +78,10 @@
             <div class="row pb-3">
               <div class=" col-6 text-center">
                 <div class="form-floating">
-                  <input type="date" name="requestStatusCreatedDate" id="requestStatusCreatedDate" class="form-control" value="" placeholder="" disabled>
+                  <input type="date" name="requestStatusCreatedDate" id="requestStatusCreatedDate" class="form-control" value="{{date_format($supplier->created_at, 'Y-m-d')}}" placeholder="" disabled>
                   <label for="requestStatusCreatedDate" id="">{{__('form.requestCreatedDate')}}</label>
                 </div>
+                <div></div>
               </div>
               <div class="col-6 text-center">
                 <div class="form-floating">
@@ -88,8 +92,8 @@
             </div>
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-2">
-                <button id="btnEditRequestStatus" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-                <!-- <button id="btnSaveRequestStatus" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
+                <button id="btnEditRequestStatus" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveRequestStatus" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
           </div>
@@ -133,8 +137,8 @@
           </div>
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
-              <button id="btnModifyId" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-              <!-- <button id="btnSaveId" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
+              <button id="btnModifyId" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+              <button id="btnSaveId" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
         </div>
@@ -261,8 +265,8 @@
           </div>
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
-              <button id="btnEditContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-              <!-- <button id="btnSaveContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
+              <button id="btnEditContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+              <button id="btnSaveContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
         </div>
@@ -472,8 +476,8 @@
           </div>
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
-              <button id="btnEditContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue button-darkblue">{{__('global.edit')}}</button>
-              <!-- <button id="btnSaveContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
+              <button id="btnEditContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue button-darkblue edit">{{__('global.edit')}}</button>
+              <button id="btnSaveContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
         </div>
@@ -550,8 +554,8 @@
           </div>
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
-              <button id="btnEditProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-              <!-- <button id="btnSaveProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
+              <button id="btnEditProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+              <button id="btnSaveProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
         </div>
@@ -715,8 +719,8 @@
           </div>
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
-              <button id="btnEditRbq" type="button" class="m-2 py-1 px-3 rounded  button-darkblue">{{__('global.edit')}}</button>
-              <!-- <button id="btnSaveRbq" type="button" class="m-2 py-1 px-3 rounded button-darkblue ">{{__('global.save')}}</button> -->
+              <button id="btnEditRbq" type="button" class="m-2 py-1 px-3 rounded  button-darkblue edit">{{__('global.edit')}}</button>
+              <button id="btnSaveRbq" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
         </div>
@@ -837,8 +841,8 @@
           </div>
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
-              <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-              <!-- <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
+              <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+              <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
         </div>
@@ -914,8 +918,8 @@
             </div>
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-2">
-                <button id="btnEditFinances" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.edit')}}</button>
-                <!-- <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button> -->
+                <button id="btnEditFinances" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
           </div>

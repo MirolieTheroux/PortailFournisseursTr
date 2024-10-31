@@ -1,6 +1,7 @@
 let sections;
 let navSectionsDivs;
 
+// NAVIGATE SECTIONS FORM
 document.addEventListener("DOMContentLoaded", async function () {
     getSectionsInfo();
 });
@@ -24,3 +25,6 @@ function showSectionDoc(id) {
   const displayedSection = document.getElementById(id);
   displayedSection.classList.remove("d-none");
 }
+
+// MODIFY SECTIONS FORM
+const modifyBtn = document.querySelectorAll
