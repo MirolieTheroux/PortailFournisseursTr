@@ -28,6 +28,7 @@ class SuppliersSeeder extends Seeder
                 'payment_condition' => "15daysNoDeduction",
                 'currency' => 1,
                 'communication_mode' => 1,
+                'created_at' => '2024-06-01 21:35:24'
             ],
             [
                 'id' => 2,
@@ -42,6 +43,7 @@ class SuppliersSeeder extends Seeder
                 'payment_condition' => null,
                 'currency' => null,
                 'communication_mode' => null,
+                'created_at' => '2024-06-01 21:35:24'
             ],
             [
                 'id' => 3,
@@ -56,6 +58,7 @@ class SuppliersSeeder extends Seeder
                 'payment_condition' => null,
                 'currency' => null,
                 'communication_mode' => null,
+                'created_at' => '2024-06-01 21:35:24'
             ],
             [
                 'id' => 4,
@@ -70,6 +73,7 @@ class SuppliersSeeder extends Seeder
                 'payment_condition' => null,
                 'currency' => null,
                 'communication_mode' => null,
+                'created_at' => '2024-06-01 21:35:24'
             ],
         ]);
     }

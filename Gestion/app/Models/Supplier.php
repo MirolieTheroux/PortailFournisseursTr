@@ -76,4 +76,12 @@ class Supplier extends Model
             ->orderBy('created_at', 'desc')
             ->first();
     }
+
+    public function latestModifiedDate()
+    {
+        return $this->statusHistories()
+            ->where('status', '==', 'modified')
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
 }
