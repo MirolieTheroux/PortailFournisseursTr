@@ -56,7 +56,10 @@ function isSectionValid(index) {
 
 function nextSectionButton(){
   nextButtons.forEach((nextButton) => {
-    nextButton.addEventListener("click", () => {
+    nextButton.addEventListener("click", async () => {
+      if(nextButton.id == "identification-button"){
+        let response = await validateIdentificationAll();
+      }
       if (isSectionValid(currentStep) && (currentStep < steps.length - 1)) {
         steps[currentStep].classList.remove("current");
         progressBarSteps[currentStep].classList.remove("section-invalid");

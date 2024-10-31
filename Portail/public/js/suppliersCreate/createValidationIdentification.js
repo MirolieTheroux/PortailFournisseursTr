@@ -44,8 +44,6 @@ function validateIdentificationNeq() {
     neqInput.classList.remove('is-invalid');
     neqInput.classList.add('is-valid');
   }
-  
-  //TODO::Le NEQ est déjà enregistrer pour un autre compte!
 
   neqInput.classList.add('was-validated');
 };
