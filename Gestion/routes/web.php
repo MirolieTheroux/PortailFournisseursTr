@@ -20,3 +20,4 @@ Route::get('/suppliers/waitingSuppliers', [SuppliersController::class, 'waitingS
 Route::get('/services', [SuppliersController::class, 'search']);
 
 Route::get('/suppliers/{supplier}', [SuppliersController::class, 'show'])->name('suppliers.show');
+Route::patch('/suppliers/{supplier}',[SuppliersController::class, 'update'])->name('suppliers.update')->middleware('auth');

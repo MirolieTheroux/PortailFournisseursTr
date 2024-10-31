@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SupplierEditRequest;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
 use App\Models\WorkSubcategory;
@@ -78,15 +79,17 @@ class SuppliersController extends Controller
    */
   public function edit(string $id)
   {
-    //
+    
   }
 
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, string $id)
+  public function update(SupplierEditRequest $request, Supplier $supplier)
   {
-    //
+    //--ETAT DEMANDE--//
+    $supplier->latestNonModifiedStatus()->status = $request->status;
+    $supplier->save();
   }
 
     /**

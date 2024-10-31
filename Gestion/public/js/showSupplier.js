@@ -27,4 +27,25 @@ function showSectionDoc(id) {
 }
 
 // MODIFY SECTIONS FORM
-const modifyBtn = document.querySelectorAll
+const requestStatusSection = document.getElementById("requestStatus-section");
+const identificationSection = document.getElementById("identification-section");
+const contactDetailsSection = document.getElementById("contactDetails-section");
+const contactsSection = document.getElementById("contacts-section");
+const licenceSection = document.getElementById("licence-section");
+const attachmentsSection = document.getElementById("attachments-section");
+const financesSection = document.getElementById("finances-section");
+
+//--ETAT DEMANDE--//
+const requestStatusEditBtn = document.getElementById("btnEditRequestStatus");
+const requestStatusSaveBtn = document.getElementById("btnSaveRequestStatus");
+const requestStatus= document.getElementById("requestStatus");
+
+requestStatusEditBtn.addEventListener("click", ()=>{
+  requestStatusSaveBtn.classList.remove("d-none");
+  requestStatus.removeAttribute("disabled");
+});
+
+requestStatusSaveBtn.addEventListener("click", () => {
+  requestStatusSaveBtn.classList.add("d-none");
+  requestStatus.setAttribute("disabled");
+});
