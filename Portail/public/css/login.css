@@ -19,3 +19,17 @@
   color: #dc3545;
   font-size: 0.875em;
 }
+
+.login-selected{
+  background-color: var(--dark_blue);
+  color: white;
+}
+.login-unselected{
+  background-color: gray;
+  color: black;
+}
+.login-unselected:hover{
+  background-color: var(--blue);
+  color: white;
+  cursor: pointer;
+}

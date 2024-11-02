@@ -38,9 +38,15 @@ class SuppliersController extends Controller
 
   public function login(LoginRequest $request)
   {
-    $reussiNEQ=Auth::attempt(['neq' => $request->id,'password' => $request->password]);
-    $reussiEmail=Auth::attempt(['email' => $request->id,'password' => $request->password]);
-    if($reussiNEQ || $reussiEmail){
+    $reussi = false;
+    if(is_null($request->neq)){
+      $reussi = Auth::attempt(['neq' => null, 'email' => $request->email,'password' => $request->password]);
+    }
+    else{
+      $reussi = Auth::attempt(['neq' => $request->neq,'password' => $request->password]);
+    }
+
+    if($reussi){
       $supplier = Auth::user();
       return redirect()->route('suppliers.show')->with('message',"Connexion réussie");
     }
@@ -156,10 +162,12 @@ class SuppliersController extends Controller
 
       $supplier = Supplier::where('email', $request->email)->firstOrFail();
 
-      if(count($request->products_services) > 0){
-        foreach($request->products_services as $product_service){
-          $productService = ProductService::where('code', $product_service)->firstOrFail();
-          $productService->suppliers()->attach($supplier->id);
+      if($request->filled('products_services')){
+        if(count($request->products_services) > 0){
+          foreach($request->products_services as $product_service){
+            $productService = ProductService::where('code', $product_service)->firstOrFail();
+            $productService->suppliers()->attach($supplier->id);
+          }
         }
       }
       
@@ -334,34 +342,18 @@ class SuppliersController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function checkEmail(Request $request)
-    {
-      $email = $request->email;
-      $exists = Supplier::where('email', $email)->exists();
-      return response()->json(['exists' => $exists]);
-    }
+  public function checkEmail(Request $request)
+  {
+    $email = $request->email;
+    $neq = $request->neq;
+    $exists = Supplier::where('neq', $neq)->where('email', $email)->exists();
+    return response()->json(['exists' => $exists]);
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function checkNeq(Request $request)
-    {
-      $neq = $request->neq;
-      $exists = Supplier::where('neq', $neq)->exists();
-      return response()->json(['exists' => $exists]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function checkRbq(Request $request)
-    {
-      $number = $request->number;
-      $exists = RbqLicence::where('number', $number)->exists();
-      return response()->json(['exists' => $exists]);
-    }
-
+  public function checkNeq(Request $request)
+  {
+    $neq = $request->neq;
+    $exists = Supplier::where('neq', $neq)->exists();
+    return response()->json(['exists' => $exists]);
+  }
 }

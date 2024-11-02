@@ -75,6 +75,21 @@ class SuppliersSeeder extends Seeder
                 'communication_mode' => null,
                 'created_at' => '2024-06-01 21:35:24'
             ],
+            [
+                'id' => 5,
+                'neq' => null,
+                'name' => "Test connection",
+                'password' => Hash::make('Secret1234!'),
+                'email' => "test5@gmail.com",
+                'site' => null,
+                'product_service_detail' => null,
+                'tps_number' => null,
+                'tvq_number' => null,
+                'payment_condition' => null,
+                'currency' => null,
+                'communication_mode' => null,
+                'created_at' => '2024-06-01 21:35:24'
+            ],
         ]);
     }
 }
