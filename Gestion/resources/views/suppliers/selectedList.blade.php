@@ -6,6 +6,13 @@
 @endsection
 
 @section('content')
+<div class="container px-0 pt-3">
+  <div class="d-flex w-100 justify-content-end">
+    <button id="exportButton" type="button" class="py-1 px-2 rounded button-darkblue">
+      <div>{{__('selectedSuppliersList.exportList')}}</div>
+    </button>
+  </div>
+</div>
   @foreach ($suppliers as $supplier)
     <div class="container bg-white rounded my-3 p-3">
       <div class="row border-bottom border-dark mx-0 px-0">
@@ -113,8 +120,8 @@
         </div>
         <div class="col-2 d-flex justify-content-center align-items-center">
           <button type="button" class="my-2 py-1 px-2 rounded button-darkblue contactedButton">
-            <div>Contacté</div>
-          </div>
+            <div>{{__('selectedSuppliersList.contacted')}}</div>
+          </button>
         </div>
       </div>
     </div>
