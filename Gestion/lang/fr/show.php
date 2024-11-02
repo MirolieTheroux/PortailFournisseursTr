@@ -14,4 +14,5 @@ return [
     'acceptRequest' => 'Accepter la demande',
     'denyRequest' => 'Refuser la demande',
     'exportSupplierToFinance' => 'Exporter vers les finances',
+    'history' => 'Historique',
 ];

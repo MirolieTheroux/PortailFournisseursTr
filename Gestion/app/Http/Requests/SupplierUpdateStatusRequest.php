@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SupplierEditRequest extends FormRequest
+class SupplierUpdateStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,6 +23,7 @@ class SupplierEditRequest extends FormRequest
     {
         return [
             'requestStatus' => 'required',
+            'deniedReason' => 'nullable'
         ];
     }
 }

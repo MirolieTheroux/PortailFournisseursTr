@@ -36,16 +36,50 @@ const attachmentsSection = document.getElementById("attachments-section");
 const financesSection = document.getElementById("finances-section");
 
 //--ETAT DEMANDE--//
+const requestStatusCancelBtn = document.getElementById("btnCancelRequestStatus");
 const requestStatusEditBtn = document.getElementById("btnEditRequestStatus");
 const requestStatusSaveBtn = document.getElementById("btnSaveRequestStatus");
-const requestStatus= document.getElementById("requestStatus");
-
-requestStatusEditBtn.addEventListener("click", ()=>{
-  requestStatusSaveBtn.classList.remove("d-none");
-  requestStatus.removeAttribute("disabled");
-});
-
-requestStatusSaveBtn.addEventListener("click", () => {
+const requestStatus = document.getElementById("requestStatus");
+const deniedReason = document.querySelector(".deniedReason");
+const pendingOption = requestStatus.options[0];
+//Btn annuler
+requestStatusCancelBtn.addEventListener("click" , ()=>{
+  requestStatusEditBtn.classList.remove("d-none");
+  requestStatusCancelBtn.classList.add("d-none");
   requestStatusSaveBtn.classList.add("d-none");
-  requestStatus.setAttribute("disabled");
+  requestStatus.setAttribute("disabled", "");
+  requestStatus.insertBefore(pendingOption, requestStatus.options[0]);
+})
+//Btn Modifier
+requestStatusEditBtn.addEventListener("click", ()=>{
+  requestStatusEditBtn.classList.add("d-none");
+  requestStatusSaveBtn.classList.remove("d-none");
+  requestStatusCancelBtn.classList.remove("d-none");
+  requestStatus.removeAttribute("disabled");
+  //enlever l'option en attente.
+  requestStatus.options.remove(0);
 });
+//Btn Enregistrer
+requestStatusSaveBtn.addEventListener("click", () => {
+  requestStatusEditBtn.classList.remove("d-none");
+  requestStatusSaveBtn.classList.add("d-none");
+  requestStatusCancelBtn.classList.add("d-none");
+  requestStatus.insertBefore(pendingOption, requestStatus.options[0]);
+  //mettre le statut disabled après que le patch soit fait
+});
+//Statut Refuser
+requestStatus.addEventListener("change", () => {
+  showDeniedReason();
+});
+
+function showDeniedReason(){
+  if(requestStatus.value === "denied")
+    deniedReason.classList.remove("d-none");
+  else
+    deniedReason.classList.add("d-none");
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  showDeniedReason();
+});
+

@@ -3,12 +3,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SupplierEditRequest;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
 use App\Models\WorkSubcategory;
 use App\Models\ProductService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\SupplierUpdateStatusRequest;
+use Illuminate\Support\facades\Crypt;
 
 class SuppliersController extends Controller
 {
@@ -71,7 +73,16 @@ class SuppliersController extends Controller
         ];
       });
     });
-    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory'));
+
+    if (!is_null($supplier->latestNonModifiedStatus()->refusal_reason)) {
+      $decryptedReason = Crypt::decryptString($supplier->latestNonModifiedStatus()->refusal_reason);
+      $refusalReason = trim(unserialize($decryptedReason));
+      Log::debug($refusalReason);
+    }
+    else
+      $refusalReason = '';
+
+    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'refusalReason'));
   }
   
   /**
@@ -83,13 +94,25 @@ class SuppliersController extends Controller
   }
 
   /**
-   * Update the specified resource in storage.
+   * Update status of supplier.
    */
-  public function update(SupplierEditRequest $request, Supplier $supplier)
+  public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier)
   {
     //--ETAT DEMANDE--//
-    $supplier->latestNonModifiedStatus()->status = $request->status;
-    $supplier->save();
+    $user = Auth::user()->email;
+    Log::debug($user);
+    Log::debug($supplier);
+    Log::debug($request);
+    $supplier->statusHistories->status = $request->requestStatus;
+    $supplier->statusHistories->updated_by = $user;
+    if($request->deniedReason){
+      $supplier->statusHistories->refusal_reason = Crypt::encrypt($request->deniedReason);
+    }
+    $supplier->statusHistories->supplier_id = $supplier->id;
+    $supplier->statusHistories->created_at = $supplier->id;
+    // $supplier->save();
+    //ramener à la bonne section
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
     /**
