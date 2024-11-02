@@ -82,7 +82,7 @@ div{
     color :var(--blue);
 }
 
-input:focus, select:focus{
+input:focus, select:focus, textarea:focus{
     border: var(--blue) solid 1px !important;
     box-shadow: none !important;
 }
