@@ -38,9 +38,16 @@ class SuppliersController extends Controller
 
   public function login(LoginRequest $request)
   {
-    $reussiNEQ=Auth::attempt(['neq' => $request->id,'password' => $request->password]);
-    $reussiEmail=Auth::attempt(['email' => $request->id,'password' => $request->password]);
-    if($reussiNEQ || $reussiEmail){
+    Log::debug($request);
+    $reussi = false;
+    if(is_null($request->neq)){
+      $reussi = Auth::attempt(['neq' => null, 'email' => $request->email,'password' => $request->password]);
+    }
+    else{
+      $reussi = Auth::attempt(['neq' => $request->neq,'password' => $request->password]);
+    }
+
+    if($reussi){
       $supplier = Auth::user();
       return redirect()->route('suppliers.show')->with('message',"Connexion réussie");
     }
