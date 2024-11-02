@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rule;
 
 class SupplierRequest extends FormRequest
 {
@@ -30,7 +31,13 @@ class SupplierRequest extends FormRequest
                 'regex:/^(11|22|33|88).{8}$/',
             ],
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('suppliers')->where(function ($query) {
+                    return $query->where('neq', $this->neq);
+                })
+            ],
             'password' => [
                 'required',
                 Password::min(7)->max(12)->mixedCase()->numbers()->symbols(),

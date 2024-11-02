@@ -250,7 +250,7 @@ async function validateIdentificationAll(){
   validateIdentificationPasswordConfirmation(true);
 
   if(emailInput.classList.contains("is-valid")){
-    let emailExist = await checkEmailUnique(emailInput.value);
+    let emailExist = await checkEmailUnique(emailInput.value, neqInput.value);
     if(emailExist){
       const emailInvalidUnique = document.getElementById('emailInvalidUnique');
       emailInput.classList.remove('is-valid');
@@ -268,17 +268,16 @@ async function validateIdentificationAll(){
       neqInvalidExist.style.display = 'block';
     }
   }
-  
 }
 
-async function checkEmailUnique(email){
+async function checkEmailUnique(email, neq){
   const response = await fetch('/suppliers/checkEmail', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
     },        
-    body: JSON.stringify({ email: email })
+    body: JSON.stringify({ email: email, neq: neq })
   })
   const data = await response.json();
   return data.exists;
