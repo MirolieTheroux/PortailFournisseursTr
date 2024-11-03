@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SupplierUpdateStatusRequest;
 use Illuminate\Support\facades\Crypt;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Facades\Response;
+use Carbon\Carbon;
 
 class SuppliersController extends Controller
 {
@@ -248,4 +252,55 @@ class SuppliersController extends Controller
             'total_count' => $total_count
         ]);
     }
+
+  public function export(Request $request)
+  {
+    $suppliersIds = $request->input('supplierIds', []);
+    $suppliers = Supplier::whereIn('id', $suppliersIds)->get();
+
+    $selectedSupplierIds = $request->input('selectedSupplierIds', []);
+    $selectedSupplierContactNames = $request->input('selectedSupplierContactNames', []);
+
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    $sheet->mergeCells('A1:C1');
+    $sheet->setCellValue('A1', __('selectedSuppliersList.exportDate') . Carbon::now()->format('d-m-Y'));
+
+    $sheet->setCellValue('A2', __('form.neqLabelShort'));
+    $sheet->setCellValue('B2', __('form.lastNameLabel'));
+    $sheet->setCellValue('C2', __('form.emailLabel'));
+    $sheet->setCellValue('D2', __('form.contactsSubtitle'));
+    $sheet->setCellValue('E2', __('selectedSuppliersList.joined'));
+    
+    $suppliers = Supplier::all();  // Remplace par les données souhaitées
+    $row = 3;
+    foreach ($suppliers as $supplier) {
+      $sheet->setCellValue('A' . $row, $supplier->name);
+      $sheet->setCellValue('B' . $row, $supplier->email);
+      $sheet->setCellValue('C' . $row, $supplier->neq);
+
+      foreach ($selectedSupplierIds as $key=>$selectedSupplierId) {
+        if($supplier->id == $selectedSupplierId){
+          $sheet->setCellValue('D' . $row, $selectedSupplierContactNames[$key]);
+        }
+      }
+      
+      $contacted = in_array($supplier->id, $selectedSupplierIds) ? __('global.yes') : __('global.no');
+      $sheet->setCellValue('E' . $row, $contacted);
+
+      $row++;
+    }
+
+    foreach (range('A', 'E') as $columnID) {
+      $sheet->getColumnDimension($columnID)->setAutoSize(true);
+    }
+
+    $fileName = 'fournisseurs_' . Carbon::now()->format('Y-m-d_H-i-s') . '.xlsx';
+    $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+    $writer = new Xlsx($spreadsheet);
+    $writer->save($temp_file);
+
+    return response()->download($temp_file, $fileName)->deleteFileAfterSend(true);
+  }
 }

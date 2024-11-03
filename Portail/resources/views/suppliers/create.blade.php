@@ -1,3 +1,5 @@
+<!--//! Remarque::Faire que les bouton avec des + aies le même background et hover que le bouton suivant (Coordonnés, contacts et pièces jointe)-->
+
 <!--//? NICE_TO_HAVE::Enlever la validation unique du email entreprise-->
 <!--//? NICE_TO_HAVE::Changer les plus pour des "ajouter"-->
 <!--//? NICE_TO_HAVE::Mettre ajouter un contact plus visible-->
@@ -228,7 +230,7 @@
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
         <button type="button" class="m-2 py-1 px-3 rounded  previous-button">{{__('global.previous')}}</button>
-        <button id="productsServices-button" onclick="fetchRBQ()" type="button" class="m-2 py-1 px-3 rounded button-darkblue next-button">{{__('global.next')}}</button>
+        <button id="productsServices-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue next-button">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN PRODUIT ET SERVICE-->

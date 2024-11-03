@@ -62,7 +62,7 @@ class SuppliersSeeder extends Seeder
             ],
             [
                 'id' => 4,
-                'neq' => "1140000606",
+                'neq' => null,
                 'name' => "LINGERIE ULYSSE",
                 'password' => Hash::make('Secret1234!'),
                 'email' => "test4@gmail.com",
@@ -74,7 +74,7 @@ class SuppliersSeeder extends Seeder
                 'currency' => null,
                 'communication_mode' => null,
                 'created_at' => '2024-06-01 21:35:24'
-            ],
+            ]
         ]);
     }
 }
