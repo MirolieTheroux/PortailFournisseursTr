@@ -1,10 +1,4 @@
-<!--//? Remarques::Dans la section coordonnées, il faudrait mettre les tirets pour respecter ###-###-####-->
-<!--//? Remarques::Dans la section contact, il faudrait mettre les tirets pour respecter ###-###-####-->
-<!--//? Remarques::(Nice to have?) Pour les postes de numéro de téléphone, est-ce qu'on pourrait enlever le label quand il est vide?-->
-<!--//? Remarques::Dans la section produit et service, est-ce qu'on réduire l'espace entre le code et la description?-->
-<!--//? Remarques::Dans la section pièce jointe, on pourrait ajouter un bouton visualiser et on pourrait mettre une tâche dans le azure pour le coder-->
-<!--//? Remarques::(Nice to have?) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
-<!--//? Remarques::Dans la section finances, est-ce qu'on pourrait mettre en noir l'option sélectionnée plutôt qu'en gris?-->
+<!--//? Remarques::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
 @extends('layouts.app')
 
 @section('css')
@@ -16,7 +10,6 @@
 @section('content')
 <!--//TODO::
  - Voir pour remettre le code avec les erreurs pour les premières sections
- - Hauteur fixe ? La hauteur change selon la section du form
  - Quand une section est séléctionnée, mettre la section courante en bg vert.
  - Ajouter un hover pour montrer que les sections sont cliquables
   -->
@@ -274,31 +267,27 @@
               <div class="form-floating h-100 pb-4" id="div-phoneNumberList">
                 <div class="form-control pt-2 h-100  mb-4" id="contactDetailsPhoneNumberList" style="overflow-x: hidden; overflow-y: auto;">
                   <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}}</div>
-                  <div class="row px-3">
-                    <div class="d-flex justify-content-between mt-2">
+                    <div class="d-flex flex-row mt-2">
                       <div class="col-2 fs-6">{{__('form.typeLabel')}}</div>
                       <div class="col-6 fs-6 text-center" id="phoneNumber">{{__('form.phoneNumber')}}</div>
                       <div class="col-2 fs-6 text-center">{{__('form.phoneExtension')}}</div>
                       <div class="col-2 "></div>
                     </div>
-                    <div class="d-flex flex-column justify-content-between pt-3" id="phoneNumberList">
-                      @foreach($supplier->phoneNumbers as $phoneNumber)
-                      <div class="row mb-2 align-items-center justify-content-between divPhone">
+                    <div class=" pt-3" id="phoneNumberList">
+                      @foreach($formattedPhoneNumbersContactDetails as $phoneNumber)
+                      <div class="d-flex flex-row align-items-center divPhone">
                         <div class="col-2 text-start phoneType">{{ $phoneNumber->type }}</div>
                         <input class="d-none" name="phoneTypes[]" value="{{ $phoneNumber->type }}" />
                         <div class="col-6 text-center phoneNumber">{{ $phoneNumber->number }}</div>
                         <input class="d-none" name="phoneNumbers[]" value="{{ $phoneNumber->number }}" />
-                        <div class="col-2 text-center phoneExtension">{{ $phoneNumber->extension }}</div>
+                        <div class="col-2 text-center phoneExtension">{{ $phoneNumber->extension ? : 'N/A' }}</div>
                         <input class="d-none" name="phoneExtensions[]" value="{{ $phoneNumber->number }}" />
-                        <div class="col-2 d-flex justify-content-center d-none">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-x removePhone" viewBox="0 0 16 16" style="cursor:pointer;">
-                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
-                          </svg>
-                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removePhone" viewBox="0 0 16 16" style="cursor:pointer;">
+                          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                        </svg>
                       </div>
                       @endforeach
                     </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -463,7 +452,7 @@
                 </div>
 
                 <h2 class="text-center section-subtitle">{{__('form.phoneNumber')}}</h2>
-                @foreach ($contact->phoneNumbers as $contactPhoneNumber)
+                @foreach ($contact->formattedPhoneNumbers as $contactPhoneNumber)
                 <div class="d-flex flex-column mb-4 phone-container">
                   <div class="text-center d-flex flex-column flex-md-row flew-mb-wrap">
                     <div class="form-floating col-12 col-md-3">
@@ -477,7 +466,7 @@
                       <label id="contactTelNumberLabelA1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberA1">{{__('form.numberLabel')}}</label>
                     </div>
                     <div class="form-floating col-12 col-md-3">
-                      <input type="text" name="contactTelExtensionsA[]" id="contactTelExtensionA1" class="form-control contact-input contact-extension-input" placeholder="" maxlength="6" value="{{ $contactPhoneNumber->extension }}" disabled>
+                      <input type="text" name="contactTelExtensionsA[]" id="contactTelExtensionA1" class="form-control contact-input contact-extension-input" placeholder="" maxlength="6" value="{{ $contactPhoneNumber->extension ? : 'N/A' }}" disabled>
                       <label id="contactTelExtensionLabelA1" for="contactTelExtensionA1">{{__('form.phoneExtension')}}</label>
                     </div>
                   </div>
@@ -567,10 +556,10 @@
                         <div class="row">
                           <h6 class="fst-italic"> {{ $categoryCode }} - {{ $categoryData['category_name'] }}</h6>
                           @foreach ($categoryData['products'] as $product)
-                          <div class="col-4">
+                          <div class="col-3 pb-1">
                             {{ $product->code }}
                           </div>
-                          <div class="col-8">
+                          <div class="col-9 pb-1">
                             {{ $product->description }}
                           </div>
                           @endforeach
@@ -908,13 +897,13 @@
           <div class="row px-3 mb-3">
             <div class="col-12 text-center pb-3">
               <div class="form-floating pe-2">
-                <input type="text" name="financesTps" id="financesTps" class="form-control" value="{{$supplier->tps_number ?? 'Aucun numéro de tps au dossier.'}}" placeholder="" maxlength="8" disabled>
+                <input type="text" name="financesTps" id="financesTps" class="form-control" value="{{$supplier->tps_number ?? __('form.noTpsNumber') }}" placeholder="" maxlength="8" disabled>
                 <label for="financesTps" id="">{{__('form.tpsNumber')}}</label>
               </div>
             </div>
             <div class="col-12 text-center pb-3">
               <div class="form-floating pe-2">
-                <input type="text" name="financesTvq" id="financesTvq" class="form-control" value="{{$supplier->tvq ?? 'Aucun numéro de tvq au dossier.'}}" placeholder="" maxlength="8" disabled>
+                <input type="text" name="financesTvq" id="financesTvq" class="form-control" value="{{$supplier->tvq_number ?? __('form.noTvqNumber') }}" placeholder="" maxlength="8" disabled>
                 <label for="financesTvq" id="">{{__('form.tvqNumber')}}</label>
               </div>
             </div>
@@ -943,11 +932,11 @@
                 <div class="w-100">
                   <h5 class="text-decoration-underline">{{__('form.currency')}}</h5>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioCAD" id="flexRadioCAD" checked disabled>
+                    <input class="form-check-input" type="radio" value="1" {{$supplier->currency == '1' ? 'checked' : null}} name="flexRadioCAD" id="flexRadioCAD" disabled>
                     <label class="form-check-label" for="flexRadioCAD">{{__('form.canadianCurrency')}}</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioUS" id="flexRadioUS" disabled>
+                    <input class="form-check-input" type="radio" value="2" {{$supplier->currency == '2' ? 'checked' : null}} name="flexRadioUS" id="flexRadioUS" disabled>
                     <label class="form-check-label" for="flexRadioUS">{{__('form.usCurrency')}}</label>
                   </div>
                 </div>
@@ -956,11 +945,11 @@
                 <div class="w-100">
                   <h5 class="text-decoration-underline">{{__('form.communication')}}</h5>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioEmail" id="flexRadioEmail" checked disabled>
+                    <input class="form-check-input" type="radio" value="1" {{$supplier->communication_mode == '1' ? 'checked' : null}} name="flexRadioEmail" id="flexRadioEmail" disabled>
                     <label class="form-check-label" for="flexRadioEmail">{{__('form.email')}}</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioMail" id="flexRadioMail" disabled>
+                    <input class="form-check-input" type="radio" value="2" {{$supplier->communication_mode == '2' ? 'checked' : null}} name="flexRadioMail" id="flexRadioMail" disabled>
                     <label class="form-check-label" for="flexRadioMail">{{__('form.mail')}}</label>
                   </div>
                 </div>

@@ -26,8 +26,8 @@ class SuppliersSeeder extends Seeder
                 'tps_number' => "875567987",
                 'tvq_number' => "764987364816576",
                 'payment_condition' => "15daysNoDeduction",
-                'currency' => 1,
-                'communication_mode' => 1,
+                'currency' => 2,
+                'communication_mode' => 2,
                 'created_at' => '2024-06-01 21:35:24'
             ],
             [

@@ -167,8 +167,10 @@ return [
     
     'financesTitle' => 'Finances',
     'tpsNumber' => 'Numéro de TPS',
+    'noTpsNumber' => 'Aucun numéro de tps au dossier',
     'paymentConditions' => 'Conditions de paiement',
     'tvqNumber' => 'Numéro de TVQ',
+    'noTvqNumber' => 'Aucun numéro de tvq au dossier',
     'paymentConditionsDefault' => 'À choisir',
     'nowPaymentNoDeduction' => 'Payable immédiatement sans déduction',
     'nowPaymentNoDeduction15th' => 'Payable immédiatement sans déduction, Date de base au 15 du mois suivant',
