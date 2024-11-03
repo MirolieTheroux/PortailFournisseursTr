@@ -40,7 +40,9 @@ const requestStatusCancelBtn = document.getElementById("btnCancelRequestStatus")
 const requestStatusEditBtn = document.getElementById("btnEditRequestStatus");
 const requestStatusSaveBtn = document.getElementById("btnSaveRequestStatus");
 const requestStatus = document.getElementById("requestStatus");
-const deniedReason = document.querySelector(".deniedReason");
+const btnRequest = document.querySelector(".btnRequest");
+const deniedDivReason = document.querySelector(".deniedDivReason");
+const deniedReason = document.getElementById("deniedReason");
 const pendingOption = requestStatus.options[0];
 //Btn annuler
 requestStatusCancelBtn.addEventListener("click" , ()=>{
@@ -48,6 +50,7 @@ requestStatusCancelBtn.addEventListener("click" , ()=>{
   requestStatusCancelBtn.classList.add("d-none");
   requestStatusSaveBtn.classList.add("d-none");
   requestStatus.setAttribute("disabled", "");
+  deniedReason.setAttribute("disabled", "");
   requestStatus.insertBefore(pendingOption, requestStatus.options[0]);
 })
 //Btn Modifier
@@ -56,6 +59,7 @@ requestStatusEditBtn.addEventListener("click", ()=>{
   requestStatusSaveBtn.classList.remove("d-none");
   requestStatusCancelBtn.classList.remove("d-none");
   requestStatus.removeAttribute("disabled");
+  deniedReason.removeAttribute("disabled");
   //enlever l'option en attente.
   requestStatus.options.remove(0);
 });
@@ -73,13 +77,20 @@ requestStatus.addEventListener("change", () => {
 });
 
 function showDeniedReason(){
-  if(requestStatus.value === "denied")
-    deniedReason.classList.remove("d-none");
+  if(requestStatus.value === "denied"){
+    deniedDivReason.classList.remove("d-none");
+    deniedReason.removeAttribute("disabled");
+  }
   else
-    deniedReason.classList.add("d-none");
+    deniedDivReason.classList.add("d-none");
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  showDeniedReason();
+  if(requestStatus.value === "accepted" || requestStatus.value === "denied")
+    btnRequest.classList.add("d-none")
+  if(requestStatus.value === "denied")
+    deniedDivReason.classList.remove("d-none");
+  else
+    deniedDivReason.classList.add("d-none");
 });
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use App\Models\StatusHistory;
 use App\Models\WorkSubcategory;
 use App\Models\ProductService;
 use Illuminate\Support\Facades\Log;
@@ -96,31 +97,31 @@ class SuppliersController extends Controller
   /**
    * Update status of supplier.
    */
-  public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier)
+  public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier, StatusHistory $statusHistory)
   {
-    //--ETAT DEMANDE--//
     $user = Auth::user()->email;
-    Log::debug($user);
-    Log::debug($supplier);
-    Log::debug($request);
-    $supplier->statusHistories->status = $request->requestStatus;
-    $supplier->statusHistories->updated_by = $user;
+    $statusHistory->status = $request->requestStatus;
+    $statusHistory->updated_by = $user;
     if($request->deniedReason){
-      $supplier->statusHistories->refusal_reason = Crypt::encrypt($request->deniedReason);
+      $statusHistory->refusal_reason = Crypt::encrypt($request->deniedReason);
     }
-    $supplier->statusHistories->supplier_id = $supplier->id;
-    $supplier->statusHistories->created_at = $supplier->id;
-    // $supplier->save();
-    //ramener à la bonne section
+    $statusHistory->supplier_id = $supplier->id;
+    $statusHistory->created_at = date("Y-m-d");
+    $statusHistory->save();
+    //DELETE ATTACHMENTS REQUEST DENIED
+    if($request->requestStatus == "denied"){
+      $supplier->attachments()->delete();
+    }
+
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroyAttachmentsWhenDenied($id)
     {
-        //
+      
     }
 
     public function filter(Request $request)

@@ -1,10 +1,10 @@
-<!--//! Remarques::Dans la section coordonnées, il faudrait mettre les tirets pour respecter ###-###-####-->
-<!--//! Remarques::Dans la section contact, il faudrait mettre les tirets pour respecter ###-###-####-->
-<!--//! Remarques::(Nice to have?) Pour les postes de numéro de téléphone, est-ce qu'on pourrait enlever le label quand il est vide?-->
-<!--//! Remarques::Dans la section produit et service, est-ce qu'on réduire l'espace entre le code et la description?-->
-<!--//! Remarques::Dans la section pièce jointe, on pourrait ajouter un bouton visualiser et on pourrait mettre une tâche dans le azure pour le coder-->
-<!--//! Remarques::(Nice to have?) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
-<!--//! Remarques::Dans la section finances, est-ce qu'on pourrait mettre en noir l'option sélectionnée plutôt qu'en gris?-->
+<!--//? Remarques::Dans la section coordonnées, il faudrait mettre les tirets pour respecter ###-###-####-->
+<!--//? Remarques::Dans la section contact, il faudrait mettre les tirets pour respecter ###-###-####-->
+<!--//? Remarques::(Nice to have?) Pour les postes de numéro de téléphone, est-ce qu'on pourrait enlever le label quand il est vide?-->
+<!--//? Remarques::Dans la section produit et service, est-ce qu'on réduire l'espace entre le code et la description?-->
+<!--//? Remarques::Dans la section pièce jointe, on pourrait ajouter un bouton visualiser et on pourrait mettre une tâche dans le azure pour le coder-->
+<!--//? Remarques::(Nice to have?) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
+<!--//? Remarques::Dans la section finances, est-ce qu'on pourrait mettre en noir l'option sélectionnée plutôt qu'en gris?-->
 @extends('layouts.app')
 
 @section('css')
@@ -14,7 +14,7 @@
 @section('title', 'Gestion - ' . $supplier->name)
 
 @section('content')
-<!--TODO::
+<!--//TODO::
  - Voir pour remettre le code avec les erreurs pour les premières sections
  - Hauteur fixe ? La hauteur change selon la section du form
  - Quand une section est séléctionnée, mettre la section courante en bg vert.
@@ -40,13 +40,16 @@
     <div class="col-10 h-100 px-4 py-0">
       <!--ETAT DEMANDE-->
       <!--//TODO::
-        - Enlever les boutons quand statut = Accepté
+        - Supprimer les pièces jointes
       -->
-       <!--NICE_TO_HAVE::
-        - Quand commis et pas de boutons voir pour centrer mieux le form.
+      <!--//? REMARQUES::
+        - 
+      -->
+       <!--//* NICE_TO_HAVE::
+        - Mettre texte et curseur du textarea pour la raison du refus au début.
       -->
       <div class="container d-flex flex-column h-100 show-section" id="requestStatus-section">    
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end btnRequest">
           @role(['responsable', 'admin']) 
           <button id="btnAccept" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.acceptRequest')}}</button>
           <button id="btnDeny" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.denyRequest')}}</button>
@@ -71,9 +74,9 @@
                   <div class="form-floating ">
                     <select name="requestStatus" id="requestStatus" class="form-select" aria-label="" disabled>
                       <option value="waiting" selected>{{__('global.waiting')}}</option>
-                      <option value="toCheck" {{ $supplier->latestNonModifiedStatus()->status =='toCheck' ? 'selected' : null}}>{{__('global.toCheck')}}</option>
-                      <option value="accepted" {{ $supplier->latestNonModifiedStatus()->status =='accepted' ? 'selected' : null}}>{{__('global.accepted')}}</option>
-                      <option value="denied" {{ $supplier->latestNonModifiedStatus()->status =='denied' ? 'selected' : null}}>{{__('global.denied')}}</option>
+                      <option value="toCheck" {{ $supplier->latestNonModifiedStatus()->status == 'toCheck' ? 'selected' : null}}>{{__('global.toCheck')}}</option>
+                      <option value="accepted" {{ $supplier->latestNonModifiedStatus()->status == 'accepted' ? 'selected' : null}}>{{__('global.accepted')}}</option>
+                      <option value="denied" {{ $supplier->latestNonModifiedStatus()->status == 'denied' ? 'selected' : null}}>{{__('global.denied')}}</option>
                     </select>
                     <label for="requestStatus" id="">{{__('form.status')}}</label>
                   </div>
@@ -107,13 +110,16 @@
                 </div>
               </div>
               @role(['responsable', 'admin']) 
-              <div class="pb-3 d-none deniedReason">
+              <div class="pb-3 d-none deniedDivReason">
                 <div class="form-floating">
-                  <textarea class="form-control" 
+                  <textarea 
+                  class="form-control" 
                   name="deniedReason" 
                   placeholder="" id="deniedReason" 
                   style="height: 175px; resize: none;"
-                  maxlength="1500">
+                  maxlength="1500"
+                  disabled
+                  >
                   {{$refusalReason}}
                   </textarea>
                   <label for="deniedReason" class="labelbackground">{{__('form.deniedReason')}}</label>
@@ -768,7 +774,7 @@
         </div>
       </div><!--FIN LICENCE RBQ-->
       <!--PIÈCES JOINTES-->
-      <!--NICE_TO_HAVE::
+      <!--//*NICE_TO_HAVE::
       - Rendre les pièces jointes ouvrables.
       -->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
