@@ -27,4 +27,70 @@ function showSectionDoc(id) {
 }
 
 // MODIFY SECTIONS FORM
-const modifyBtn = document.querySelectorAll
+const requestStatusSection = document.getElementById("requestStatus-section");
+const identificationSection = document.getElementById("identification-section");
+const contactDetailsSection = document.getElementById("contactDetails-section");
+const contactsSection = document.getElementById("contacts-section");
+const licenceSection = document.getElementById("licence-section");
+const attachmentsSection = document.getElementById("attachments-section");
+const financesSection = document.getElementById("finances-section");
+
+//--ETAT DEMANDE--//
+const requestStatusCancelBtn = document.getElementById("btnCancelRequestStatus");
+const requestStatusEditBtn = document.getElementById("btnEditRequestStatus");
+const requestStatusSaveBtn = document.getElementById("btnSaveRequestStatus");
+const requestStatus = document.getElementById("requestStatus");
+const btnRequest = document.querySelector(".btnRequest");
+const deniedDivReason = document.querySelector(".deniedDivReason");
+const deniedReason = document.getElementById("deniedReason");
+const pendingOption = requestStatus.options[0];
+//Btn annuler
+requestStatusCancelBtn.addEventListener("click" , ()=>{
+  requestStatusEditBtn.classList.remove("d-none");
+  requestStatusCancelBtn.classList.add("d-none");
+  requestStatusSaveBtn.classList.add("d-none");
+  requestStatus.setAttribute("disabled", "");
+  deniedReason.setAttribute("disabled", "");
+  requestStatus.insertBefore(pendingOption, requestStatus.options[0]);
+})
+//Btn Modifier
+requestStatusEditBtn.addEventListener("click", ()=>{
+  requestStatusEditBtn.classList.add("d-none");
+  requestStatusSaveBtn.classList.remove("d-none");
+  requestStatusCancelBtn.classList.remove("d-none");
+  requestStatus.removeAttribute("disabled");
+  deniedReason.removeAttribute("disabled");
+  //enlever l'option en attente.
+  requestStatus.options.remove(0);
+});
+//Btn Enregistrer
+requestStatusSaveBtn.addEventListener("click", () => {
+  requestStatusEditBtn.classList.remove("d-none");
+  requestStatusSaveBtn.classList.add("d-none");
+  requestStatusCancelBtn.classList.add("d-none");
+  requestStatus.insertBefore(pendingOption, requestStatus.options[0]);
+  //mettre le statut disabled après que le patch soit fait
+});
+//Statut Refuser
+requestStatus.addEventListener("change", () => {
+  showDeniedReason();
+});
+
+function showDeniedReason(){
+  if(requestStatus.value === "denied"){
+    deniedDivReason.classList.remove("d-none");
+    deniedReason.removeAttribute("disabled");
+  }
+  else
+    deniedDivReason.classList.add("d-none");
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  if(requestStatus.value === "accepted" || requestStatus.value === "denied")
+    btnRequest.classList.add("d-none")
+  if(requestStatus.value === "denied")
+    deniedDivReason.classList.remove("d-none");
+  else
+    deniedDivReason.classList.add("d-none");
+});
+

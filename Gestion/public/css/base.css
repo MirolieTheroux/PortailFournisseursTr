@@ -77,6 +77,17 @@ div{
     cursor: default;
 }
 
+.previous-button{
+    color : var(--dark_blue);
+    background-color: white;
+    border: none;
+}
+
+.previous-button:hover{
+    border : var(--blue);
+    color :var(--blue);
+}
+
 input:focus, select:focus{
     border: var(--blue) solid 1px !important;
     box-shadow: none !important;

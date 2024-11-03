@@ -1,14 +1,10 @@
-<!--//! Remarques::La boite état de la demande à un gros vide sous le bouton modifier-->
-<!--//! Remarques::Attention à la gestion des hauteurs, flexbox, etc-->
-<!--//! Remarques::Dans la section coordonnées, il faudrait mettre les tirets pour respecter ###-###-####-->
-<!--//! Remarques::Dans la section contact, il faudrait mettre les tirets pour respecter ###-###-####-->
-<!--//! Remarques::(Nice to have?) Pour les postes de numéro de téléphone, est-ce qu'on pourrait enlever le label quand il est vide?-->
-<!--//! Remarques::Dans la section produit et service, est-ce qu'on réduire l'espace entre le code et la description?-->
-<!--//! Remarques::Dans la section pièce jointe, on pourrait ajouter un bouton visualiser et on pourrait mettre une tâche dans le azure pour le coder-->
-<!--//! Remarques::(Nice to have?) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
-<!--//! Remarques::Dans la section finances, est-ce qu'on pourrait mettre en noir l'option sélectionnée plutôt qu'en gris?-->
-<!--//! Remarques::(Nice to have?) Dans la liste d'item a gauche, Il faudrait mettre les boutons en haut au lieu d'espacé-->
-<!--//! Remarques::Y'a des blocs de code en commentaire, est-ce qu'on peut les flusher ou mettre un TODO?-->
+<!--//? Remarques::Dans la section coordonnées, il faudrait mettre les tirets pour respecter ###-###-####-->
+<!--//? Remarques::Dans la section contact, il faudrait mettre les tirets pour respecter ###-###-####-->
+<!--//? Remarques::(Nice to have?) Pour les postes de numéro de téléphone, est-ce qu'on pourrait enlever le label quand il est vide?-->
+<!--//? Remarques::Dans la section produit et service, est-ce qu'on réduire l'espace entre le code et la description?-->
+<!--//? Remarques::Dans la section pièce jointe, on pourrait ajouter un bouton visualiser et on pourrait mettre une tâche dans le azure pour le coder-->
+<!--//? Remarques::(Nice to have?) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
+<!--//? Remarques::Dans la section finances, est-ce qu'on pourrait mettre en noir l'option sélectionnée plutôt qu'en gris?-->
 @extends('layouts.app')
 
 @section('css')
@@ -18,17 +14,19 @@
 @section('title', 'Gestion - ' . $supplier->name)
 
 @section('content')
-<!--TODO::
+<!--//TODO::
  - Voir pour remettre le code avec les erreurs pour les premières sections
  - Hauteur fixe ? La hauteur change selon la section du form
  - Quand une section est séléctionnée, mettre la section courante en bg vert.
  - Ajouter un hover pour montrer que les sections sont cliquables
- - Mettre "Exporter vers les finances sur le côté.
   -->
 <div class="container-fluid h-100">
   <div class="row h-100">
-    <div class="shadow-sm col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-between">
+    <div class="shadow-sm col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column">
       <h5 class="text-center py-2 fw-bold">{{$supplier->name}}</h5>
+      @role(['responsable', 'admin']) 
+      <button id="btnExport" type="" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
+      @endrole
       <div id="requestStatus-nav-button" class="text-center py-2">{{__('show.requestStatus')}}</div>
       <div id="identification-nav-button" class="text-center py-2">{{__('show.identification')}}</div>
       <div id="contactDetails-nav-button" class="text-center py-2">{{__('show.contactDetails')}}</div>
@@ -39,76 +37,105 @@
       <div id="finances-nav-button" class="text-center py-2">{{__('show.finance')}}</div>
     </div>
 
-    <div class="col-10 h-100 px-4">
+    <div class="col-10 h-100 px-4 py-0">
       <!--ETAT DEMANDE-->
-       <!--NICE_TO_HAVE::
-        - Quand commis et pas de boutons voir pour centrer mieux le form.
+      <!--//TODO::
+        - Supprimer les pièces jointes
       -->
-      <div class=" h-100 w-100 d-flex justify-content-center show-section row" id="requestStatus-section">    
-        <div class="flex-row d-flex justify-content-end mb-2 h-10 mt-1">
+      <!--//? REMARQUES::
+        - 
+      -->
+       <!--//* NICE_TO_HAVE::
+        - Mettre texte et curseur du textarea pour la raison du refus au début.
+      -->
+      <div class="container d-flex flex-column h-100 show-section" id="requestStatus-section">    
+        <div class="d-flex justify-content-end btnRequest">
           @role(['responsable', 'admin']) 
-          <button id="btnAccept" type="" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.acceptRequest')}}</button>
-          <button id="btnDeny" type="" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.denyRequest')}}</button>
-          <button id="btnExport" type="" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
+          <button id="btnAccept" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.acceptRequest')}}</button>
+          <button id="btnDeny" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.denyRequest')}}</button>
           @endrole
         </div>
-        <div class="bg-white rounded form-section w-65 h-45">
-          <div class="row py-2">
-            <div class="offset-2 col-8 text-center">
-              <h1>{{__('form.requestStatusTitle')}}</h1>
+        <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateStatus', [$supplier])}}" enctype="multipart/form-data">
+        @csrf
+        <div class="bg-white my-2 rounded form-section w-100">
+            <div class="row py-2">
+              <div class="offset-2 col-8 text-center">
+                <h1>{{__('form.requestStatusTitle')}}</h1>
+              </div>
+              @role(['responsable', 'admin']) 
+              <div class="col-2">
+              <button id="btnAccept" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.history')}}</button>
+              </div>
+              @endrole
             </div>
-            @role(['responsable', 'admin']) 
-            <div class="col-2 d-flex align-items-center justify-content-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
-                <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z" />
-                <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z" />
-                <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5" />
-              </svg>
+            <div class="px-3">
+              <div class="row pb-3">
+                <div class="col-6">
+                  <div class="form-floating ">
+                    <select name="requestStatus" id="requestStatus" class="form-select" aria-label="" disabled>
+                      <option value="waiting" selected>{{__('global.waiting')}}</option>
+                      <option value="toCheck" {{ $supplier->latestNonModifiedStatus()->status == 'toCheck' ? 'selected' : null}}>{{__('global.toCheck')}}</option>
+                      <option value="accepted" {{ $supplier->latestNonModifiedStatus()->status == 'accepted' ? 'selected' : null}}>{{__('global.accepted')}}</option>
+                      <option value="denied" {{ $supplier->latestNonModifiedStatus()->status == 'denied' ? 'selected' : null}}>{{__('global.denied')}}</option>
+                    </select>
+                    <label for="requestStatus" id="">{{__('form.status')}}</label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-floating">
+                    <input type="date" name="requestStatusCreatedDate" id="requestStatusCreatedDate" class="form-control" value="{{date_format($supplier->latestNonModifiedStatus()->created_at, 'Y-m-d')}}" placeholder="" disabled>
+                    <label for="requestStatus" id="">{{__('form.requestResponseDate')}}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row pb-3">
+                <div class=" col-6">
+                  <div class="form-floating">
+                    <input type="date" name="requestStatusCreatedDate" id="requestStatusCreatedDate" class="form-control" value="{{date_format($supplier->created_at, 'Y-m-d')}}" placeholder="" disabled>
+                    <label for="requestStatusCreatedDate" id="">{{__('form.requestCreatedDate')}}</label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-floating">
+                    <input 
+                    type="date" 
+                    name="requestLastModifiedDate" 
+                    id="requestLastModifiedDate" 
+                    class="form-control" 
+                    value="{{is_null($supplier->latestModifiedDate()) ? date_format($supplier->created_at, 'Y-m-d') : date_format($supplier->latestModifiedDate()->created_at, 'Y-m-d')}}" 
+                    placeholder="" 
+                    disabled>
+                    <label for="requestLastModifiedDate" id="">{{__('form.requestLastModifiedDate')}}</label>
+                  </div>
+                </div>
+              </div>
+              @role(['responsable', 'admin']) 
+              <div class="pb-3 d-none deniedDivReason">
+                <div class="form-floating">
+                  <textarea 
+                  class="form-control" 
+                  name="deniedReason" 
+                  placeholder="" id="deniedReason" 
+                  style="height: 175px; resize: none;"
+                  maxlength="1500"
+                  disabled
+                  >
+                  {{$refusalReason}}
+                  </textarea>
+                  <label for="deniedReason" class="labelbackground">{{__('form.deniedReason')}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 mb-2 d-flex justify-content-center">
+                  <button id="btnCancelRequestStatus" type="button" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</button>
+                  <button id="btnEditRequestStatus" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                  <button id="btnSaveRequestStatus" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+                </div>
+              </div>
+              @endrole
             </div>
-            @endrole
           </div>
-          <div class="px-3">
-            <div class="row pb-3">
-              <div class="col-6 text-center ">
-                <div class="form-floating ">
-                  <select name="requestStatus" id="requestStatus" class="form-select" aria-label="" disabled>
-                    <option value="waiting" selected>{{__('form.waiting')}}</option>
-                    <option value="accepted" {{ $supplier->latestNonModifiedStatus()->status =='accepted' ? 'selected' : null}}>{{__('form.accepted')}}</option>
-                    <option value="denied" {{ $supplier->latestNonModifiedStatus()->status =='denied' ? 'selected' : null}}>{{__('form.denied')}}</option>
-                  </select>
-                  <label for="requestStatus" id="">{{__('form.status')}}</label>
-                </div>
-              </div>
-              <div class="col-6 text-center ">
-                <div class="form-floating">
-                  <input type="date" name="requestStatusCreatedDate" id="requestStatusCreatedDate" class="form-control" value="{{date_format($supplier->latestNonModifiedStatus()->created_at, 'Y-m-d')}}" placeholder="" disabled>
-                  <label for="requestStatus" id="">{{__('form.requestResponseDate')}}</label>
-                </div>
-              </div>
-            </div>
-            <div class="row pb-3">
-              <div class=" col-6 text-center">
-                <div class="form-floating">
-                  <input type="date" name="requestStatusCreatedDate" id="requestStatusCreatedDate" class="form-control" value="{{date_format($supplier->created_at, 'Y-m-d')}}" placeholder="" disabled>
-                  <label for="requestStatusCreatedDate" id="">{{__('form.requestCreatedDate')}}</label>
-                </div>
-                <div></div>
-              </div>
-              <div class="col-6 text-center">
-                <div class="form-floating">
-                  <input type="date" name="requestLastModifiedDate" id="requestLastModifiedDate" class="form-control" value="" placeholder="" disabled>
-                  <label for="requestLastModifiedDate" id="">{{__('form.requestLastModifiedDate')}}</label>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12 d-flex justify-content-center mb-2">
-                <button id="btnEditRequestStatus" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-                <button id="btnSaveRequestStatus" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        </form>
       </div><!--FIN ETAT DEMANDE-->
       <!--IDENTIFICATION-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="identification-section">
@@ -146,12 +173,14 @@
               </div>
             </div>
           </div>
+          @role(['responsable', 'admin']) 
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
               <button id="btnModifyId" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
               <button id="btnSaveId" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
+          @endrole
         </div>
       </div><!--FIN IDENTIFICATION-->
       <!--COORDONNÉES-->
@@ -274,12 +303,14 @@
               </div>
             </div>
           </div>
+          @role(['responsable', 'admin']) 
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
               <button id="btnEditContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
               <button id="btnSaveContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
+          @endrole
         </div>
       </div><!--FIN COORDONNÉES-->
       <!--CONTACT-->
@@ -485,12 +516,14 @@
             </div>
             @endif
           </div>
+          @role(['responsable', 'admin']) 
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-3">
               <button id="btnEditContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue button-darkblue edit">{{__('global.edit')}}</button>
               <button id="btnSaveContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
+          @endrole
         </div>
       </div> <!--FIN CONTACT-->
       <!--PRODUITS ET SERVICES-->
@@ -563,12 +596,14 @@
               </div>
             </div>
           </div>
+          @role(['responsable', 'admin']) 
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
               <button id="btnEditProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
               <button id="btnSaveProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
+          @endrole
         </div>
       </div><!--FIN PRODUITS ET SERVICES-->
       <!--LICENCE RBQ-->
@@ -728,16 +763,18 @@
               </div>
             </div>
           </div>
+          @role(['responsable', 'admin']) 
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
               <button id="btnEditRbq" type="button" class="m-2 py-1 px-3 rounded  button-darkblue edit">{{__('global.edit')}}</button>
               <button id="btnSaveRbq" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
+          @endrole
         </div>
       </div><!--FIN LICENCE RBQ-->
       <!--PIÈCES JOINTES-->
-      <!--NICE_TO_HAVE::
+      <!--//*NICE_TO_HAVE::
       - Rendre les pièces jointes ouvrables.
       -->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
@@ -850,12 +887,14 @@
             @endforeach
             @endif
           </div>
+          @role(['responsable', 'admin']) 
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
               <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
               <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
+          @endrole
         </div>
       </div><!--FIN PIÈCES JOINTES-->
       <!--FINANCES-->
@@ -927,12 +966,14 @@
                 </div>
               </div>
             </div>
+            @role(['responsable', 'admin']) 
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-2">
                 <button id="btnEditFinances" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
                 <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
+            @endrole
           </div>
         </div>
       </div><!--FIN FINANCES-->

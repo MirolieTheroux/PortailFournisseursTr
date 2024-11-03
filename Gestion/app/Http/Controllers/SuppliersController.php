@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use App\Models\StatusHistory;
 use App\Models\WorkSubcategory;
 use App\Models\ProductService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\SupplierUpdateStatusRequest;
+use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Response;
@@ -74,7 +78,16 @@ class SuppliersController extends Controller
         ];
       });
     });
-    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory'));
+
+    if (!is_null($supplier->latestNonModifiedStatus()->refusal_reason)) {
+      $decryptedReason = Crypt::decryptString($supplier->latestNonModifiedStatus()->refusal_reason);
+      $refusalReason = trim(unserialize($decryptedReason));
+      Log::debug($refusalReason);
+    }
+    else
+      $refusalReason = '';
+
+    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'refusalReason'));
   }
   
   /**
@@ -82,23 +95,37 @@ class SuppliersController extends Controller
    */
   public function edit(string $id)
   {
-    //
+    
   }
 
   /**
-   * Update the specified resource in storage.
+   * Update status of supplier.
    */
-  public function update(Request $request, string $id)
+  public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier, StatusHistory $statusHistory)
   {
-    //
+    $user = Auth::user()->email;
+    $statusHistory->status = $request->requestStatus;
+    $statusHistory->updated_by = $user;
+    if($request->deniedReason){
+      $statusHistory->refusal_reason = Crypt::encrypt($request->deniedReason);
+    }
+    $statusHistory->supplier_id = $supplier->id;
+    $statusHistory->created_at = date("Y-m-d");
+    $statusHistory->save();
+    //DELETE ATTACHMENTS REQUEST DENIED
+    if($request->requestStatus == "denied"){
+      $supplier->attachments()->delete();
+    }
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroyAttachmentsWhenDenied($id)
     {
-        //
+      
     }
 
     public function filter(Request $request)

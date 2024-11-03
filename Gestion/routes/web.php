@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\UsersController;
+use App\Http\Middleware\LoggerMiddleware;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -21,3 +22,5 @@ Route::get('/suppliers/waitingSuppliers', [SuppliersController::class, 'waitingS
 Route::get('/services', [SuppliersController::class, 'search']);
 
 Route::get('/suppliers/{supplier}', [SuppliersController::class, 'show'])->name('suppliers.show');
+// MODIFICATION FICHE FOURNISSEUR
+Route::post('/suppliers/{supplier}',[SuppliersController::class, 'updateStatus'])->name('suppliers.updateStatus')->middleware(LoggerMiddleware::class);

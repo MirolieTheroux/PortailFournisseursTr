@@ -159,9 +159,7 @@ return [
 
     'requestStatusTitle' => 'État de la demande',
     'status' => 'Statut',
-    'waiting' => 'En attente',
-    'denied' => 'Refusée',
-    'accepted' => 'Acceptée',
+    'deniedReason' => 'Raison du refus',
     'requestResponseDate' => 'Date',
     'requestCreatedDate' => 'Création',
     'requestLastModifiedDate' => 'Dernière modification',
