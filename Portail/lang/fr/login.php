@@ -12,7 +12,7 @@ return [
   'possessNoNeq' => 'Je n\'ai pas de NEQ',
 
   'notConnected' => 'Vous devez être connecté pour accéder à cette page.',
-  'wrongCredentials' => 'Les informations de connexion sont invalide.',
+  'wrongCredentials' => 'Les informations de connexion sont invalides.',
   'missingCredentials' => 'Vous devez fournir votre identifiant.',
   'neqOrEmailRequired' => 'Le champ NEQ ou Adresse Courriel est requis.',
 ];
