@@ -14,8 +14,23 @@
   height: 10%;
 }
 
-mh-
+.bg-gray{
+  background-color: lightgray;
+}
+.bg-gray:hover {
+  background-color: darkgray !important;
+}
 
+.left-nav > div:hover {
+background-color: lightgray;
+}
+
+.left-nav div svg {
+ width: 17px;
+ height: 17px;
+ margin-bottom: 5px;
+}
+  
 .title-border {
   border-bottom: solid var(--dark_blue) 1px;
 }
