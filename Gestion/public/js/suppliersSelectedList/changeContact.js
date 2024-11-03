@@ -61,6 +61,9 @@ function changeContact(event){
       disableButton(button);
     }
   }
+
+  //Fonction dans le fichier markSelected.js
+  changeContactSavedName(event);
 }
 
 function disableButton(button){

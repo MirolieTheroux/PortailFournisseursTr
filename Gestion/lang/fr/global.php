@@ -16,4 +16,6 @@ return [
     'toCheck' => 'À réviser',
     'mofidied' => 'Modifiée',
     'error' => 'Erreur',
+    'yes' => 'Oui',
+    'no' => 'Non'
 ];
