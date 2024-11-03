@@ -8,6 +8,7 @@ use App\Models\Supplier;
 use App\Models\StatusHistory;
 use App\Models\WorkSubcategory;
 use App\Models\ProductService;
+use App\Models\Contact;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SupplierUpdateStatusRequest;
@@ -65,7 +66,6 @@ class SuppliersController extends Controller
   {
 
     $supplierWithProductsCategories = $supplier->load('productsServices.categories');
-
     $suppliersGroupedByNatureAndCategory = $supplierWithProductsCategories->productsServices->groupBy(function ($product) {
       return $product->categories->nature;
     })->map(function ($groupedByNature) {
@@ -78,16 +78,32 @@ class SuppliersController extends Controller
         ];
       });
     });
+  
+    $formattedPhoneNumbersContactDetails = $supplier->phoneNumbers->map(function ($phoneNumber) {
+      return (object) [
+        'type' => $phoneNumber->type,
+        'number' => preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number),
+        'extension' => $phoneNumber->extension
+      ];
+    });
+    $formattedPhoneNumbersContacts = $supplier->contacts->map(function ($contact) {
+      $contact->formattedPhoneNumbers = $contact->phoneNumbers->map(function ($phoneNumber) {
+          return (object) [
+              'type' => $phoneNumber->type,
+              'number' => preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number),
+              'extension' => $phoneNumber->extension
+          ];
+      });
+      return $contact;
+  });
 
     if (!is_null($supplier->latestNonModifiedStatus()->refusal_reason)) {
       $decryptedReason = Crypt::decryptString($supplier->latestNonModifiedStatus()->refusal_reason);
       $refusalReason = trim(unserialize($decryptedReason));
-      Log::debug($refusalReason);
-    }
-    else
+    } else
       $refusalReason = '';
 
-    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'refusalReason'));
+    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'refusalReason'));
   }
   
   /**

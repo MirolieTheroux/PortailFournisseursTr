@@ -227,9 +227,6 @@ function validateCity() {
   inputCity.classList.add("was-validated");
 }
 
-
-
-
 function validateSelectCity(){
   const inputCity = document.getElementById("contactDetailsInputCity");
   const province = document.getElementById("contactDetailsProvince");

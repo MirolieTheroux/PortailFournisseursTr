@@ -1,30 +1,50 @@
 let sections;
 let navSectionsDivs;
+let lastClickedDiv = null; 
 
 // NAVIGATE SECTIONS FORM
-document.addEventListener("DOMContentLoaded", async function () {
-    getSectionsInfo();
-});
-
 function getSectionsInfo() {
-  sections = document.getElementsByClassName("show-section");
-  navSectionsDivs = Array.from(document.querySelectorAll(".shadow-sm > div")).slice(1);
+  const navSectionsDivs = Array.from(document.querySelectorAll(".shadow-sm > div")).slice(1);
+  
   navSectionsDivs.forEach((div) => {
-    div.style.cursor = 'pointer'; 
     div.addEventListener("click", function () {
-      showSectionDoc(div.id.replace('-nav-button', '-section'));
+      if (lastClickedDiv) {
+        lastClickedDiv.classList.remove("bg-gray");
+      }
+      lastClickedDiv = div;
+      div.classList.add("bg-gray");
+      div.style.cursor = "pointer"; 
+      showSectionDoc(div.id.replace("-nav-button", "-section"));
     });
   });
 }
 
 function showSectionDoc(id) {
+  const sections = document.getElementsByClassName("show-section");
   for (let i = 0; i < sections.length; i++) {
     sections[i].classList.add("d-none");
   }
-
   const displayedSection = document.getElementById(id);
   displayedSection.classList.remove("d-none");
 }
+
+document.querySelectorAll(".py-1.rounded").forEach(button => {
+  button.querySelectorAll("svg").forEach(svg => {
+    svg.style.fill = "#0B2341";
+  });
+  button.addEventListener("click", function () {
+    document.querySelectorAll(".section-clicked").forEach(icon => icon.classList.add("d-none"));
+
+    document.querySelectorAll(".py-1.rounded svg").forEach(icon => icon.classList.add("d-none"));
+    document.querySelectorAll(".py-1.rounded svg:not(.section-clicked)").forEach(icon => icon.classList.remove("d-none"));
+    const clickedIcon = this.querySelector(".section-clicked");
+    const defaultIcon = this.querySelector("svg:not(.section-clicked)");
+    if (clickedIcon && defaultIcon) {
+      clickedIcon.classList.toggle("d-none");
+      defaultIcon.classList.toggle("d-none");
+    }
+  });
+});
 
 // MODIFY SECTIONS FORM
 const requestStatusSection = document.getElementById("requestStatus-section");
@@ -60,7 +80,7 @@ requestStatusEditBtn.addEventListener("click", ()=>{
   requestStatusCancelBtn.classList.remove("d-none");
   requestStatus.removeAttribute("disabled");
   deniedReason.removeAttribute("disabled");
-  //enlever l'option en attente.
+  //enlever l"option en attente.
   requestStatus.options.remove(0);
 });
 //Btn Enregistrer
@@ -86,6 +106,7 @@ function showDeniedReason(){
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  getSectionsInfo();
   if(requestStatus.value === "accepted" || requestStatus.value === "denied")
     btnRequest.classList.add("d-none")
   if(requestStatus.value === "denied")
