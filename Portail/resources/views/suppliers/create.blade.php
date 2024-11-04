@@ -12,7 +12,7 @@
 @endsection
 
 @section('content')
-<form id="form" method="post" action="{{ route('suppliers.store') }}" class="need-validation" enctype="multipart/form-data">
+<form id="form" method="post" action="{{ route('suppliers.store') }}" class="need-validation" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
   @csrf
   <!--PROGRESS BAR-->
   <!--REMARQUES::Est-ce qu'on veut pouvoir cliquer sur les sections suivantes(dans la barre de progression) même s'il y a des erreurs dans les pages précédentes?-->
