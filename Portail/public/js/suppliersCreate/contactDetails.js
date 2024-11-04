@@ -300,7 +300,7 @@ function validatePostalCodeOnInput() {
 
 document.getElementById("contactDetailsWebsite").addEventListener("blur", validateWebsite);
 function validateWebsite() {
-  const urlRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9.-]+)(\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
+  const urlRegex = /^(https?:\/\/)(www\.)?([a-zA-Z0-9.-]+)(\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
   const input = document.getElementById("contactDetailsWebsite");
   const invalidWebsite = document.getElementById("invalidWebsite");
   const invalidWebsiteLength = document.getElementById("invalidWebsiteLength");
