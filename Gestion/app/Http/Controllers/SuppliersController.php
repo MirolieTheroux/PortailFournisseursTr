@@ -5,9 +5,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use App\Models\StatusHistory;
 use App\Models\WorkSubcategory;
 use App\Models\ProductService;
+use App\Models\Contact;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\SupplierUpdateStatusRequest;
+use Illuminate\Support\facades\Crypt;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Facades\Response;
+use Carbon\Carbon;
 
 class SuppliersController extends Controller
 {
@@ -57,7 +66,6 @@ class SuppliersController extends Controller
   {
 
     $supplierWithProductsCategories = $supplier->load('productsServices.categories');
-
     $suppliersGroupedByNatureAndCategory = $supplierWithProductsCategories->productsServices->groupBy(function ($product) {
       return $product->categories->nature;
     })->map(function ($groupedByNature) {
@@ -70,7 +78,32 @@ class SuppliersController extends Controller
         ];
       });
     });
-    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory'));
+  
+    $formattedPhoneNumbersContactDetails = $supplier->phoneNumbers->map(function ($phoneNumber) {
+      return (object) [
+        'type' => $phoneNumber->type,
+        'number' => preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number),
+        'extension' => $phoneNumber->extension
+      ];
+    });
+    $formattedPhoneNumbersContacts = $supplier->contacts->map(function ($contact) {
+      $contact->formattedPhoneNumbers = $contact->phoneNumbers->map(function ($phoneNumber) {
+          return (object) [
+              'type' => $phoneNumber->type,
+              'number' => preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number),
+              'extension' => $phoneNumber->extension
+          ];
+      });
+      return $contact;
+  });
+
+    if (!is_null($supplier->latestNonModifiedStatus()->refusal_reason)) {
+      $decryptedReason = Crypt::decryptString($supplier->latestNonModifiedStatus()->refusal_reason);
+      $refusalReason = trim(unserialize($decryptedReason));
+    } else
+      $refusalReason = '';
+
+    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'refusalReason'));
   }
   
   /**
@@ -78,23 +111,37 @@ class SuppliersController extends Controller
    */
   public function edit(string $id)
   {
-    //
+    
   }
 
   /**
-   * Update the specified resource in storage.
+   * Update status of supplier.
    */
-  public function update(Request $request, string $id)
+  public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier, StatusHistory $statusHistory)
   {
-    //
+    $user = Auth::user()->email;
+    $statusHistory->status = $request->requestStatus;
+    $statusHistory->updated_by = $user;
+    if($request->deniedReason){
+      $statusHistory->refusal_reason = Crypt::encrypt($request->deniedReason);
+    }
+    $statusHistory->supplier_id = $supplier->id;
+    $statusHistory->created_at = date("Y-m-d");
+    $statusHistory->save();
+    //DELETE ATTACHMENTS REQUEST DENIED
+    if($request->requestStatus == "denied"){
+      $supplier->attachments()->delete();
+    }
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroyAttachmentsWhenDenied($id)
     {
-        //
+      
     }
 
     public function filter(Request $request)
@@ -221,4 +268,55 @@ class SuppliersController extends Controller
             'total_count' => $total_count
         ]);
     }
+
+  public function export(Request $request)
+  {
+    $suppliersIds = $request->input('supplierIds', []);
+    $suppliers = Supplier::whereIn('id', $suppliersIds)->get();
+
+    $selectedSupplierIds = $request->input('selectedSupplierIds', []);
+    $selectedSupplierContactNames = $request->input('selectedSupplierContactNames', []);
+
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    $sheet->mergeCells('A1:C1');
+    $sheet->setCellValue('A1', __('selectedSuppliersList.exportDate') . Carbon::now()->format('d-m-Y'));
+
+    $sheet->setCellValue('A2', __('form.neqLabelShort'));
+    $sheet->setCellValue('B2', __('form.lastNameLabel'));
+    $sheet->setCellValue('C2', __('form.emailLabel'));
+    $sheet->setCellValue('D2', __('form.contactsSubtitle'));
+    $sheet->setCellValue('E2', __('selectedSuppliersList.joined'));
+    
+    $suppliers = Supplier::all();  // Remplace par les données souhaitées
+    $row = 3;
+    foreach ($suppliers as $supplier) {
+      $sheet->setCellValue('A' . $row, $supplier->name);
+      $sheet->setCellValue('B' . $row, $supplier->email);
+      $sheet->setCellValue('C' . $row, $supplier->neq);
+
+      foreach ($selectedSupplierIds as $key=>$selectedSupplierId) {
+        if($supplier->id == $selectedSupplierId){
+          $sheet->setCellValue('D' . $row, $selectedSupplierContactNames[$key]);
+        }
+      }
+      
+      $contacted = in_array($supplier->id, $selectedSupplierIds) ? __('global.yes') : __('global.no');
+      $sheet->setCellValue('E' . $row, $contacted);
+
+      $row++;
+    }
+
+    foreach (range('A', 'E') as $columnID) {
+      $sheet->getColumnDimension($columnID)->setAutoSize(true);
+    }
+
+    $fileName = 'fournisseurs_' . Carbon::now()->format('Y-m-d_H-i-s') . '.xlsx';
+    $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+    $writer = new Xlsx($spreadsheet);
+    $writer->save($temp_file);
+
+    return response()->download($temp_file, $fileName)->deleteFileAfterSend(true);
+  }
 }

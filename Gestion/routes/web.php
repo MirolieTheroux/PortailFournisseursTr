@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\UsersController;
+use App\Http\Middleware\LoggerMiddleware;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -15,8 +16,11 @@ Route::post('/logout', [UsersController::class, 'logout'])->name('users.logout')
 //TODO::Ajouter le middleware d'authentification
 Route::get('/suppliers', [SuppliersController::class, 'index'])->name('suppliers.index')->middleware('auth');
 Route::post('/suppliers/selectedList', [SuppliersController::class, 'selectedList'])->name('suppliers.selectedList')->middleware('auth');
+Route::post('/suppliers/selectedList/export', [SuppliersController::class, 'export'])->name('suppliers.selectedList.export')->middleware('auth');
 Route::get('/suppliers/filter', [SuppliersController::class, 'filter'])->name('suppliers.filter');
 Route::get('/suppliers/waitingSuppliers', [SuppliersController::class, 'waitingSuppliers'])->name('suppliers.waitingSuppliers');
 Route::get('/services', [SuppliersController::class, 'search']);
 
 Route::get('/suppliers/{supplier}', [SuppliersController::class, 'show'])->name('suppliers.show');
+// MODIFICATION FICHE FOURNISSEUR
+Route::post('/suppliers/{supplier}',[SuppliersController::class, 'updateStatus'])->name('suppliers.updateStatus')->middleware(LoggerMiddleware::class);

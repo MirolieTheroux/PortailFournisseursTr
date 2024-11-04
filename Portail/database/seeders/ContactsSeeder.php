@@ -30,6 +30,38 @@ class ContactsSeeder extends Seeder
                 'job' => 'Directrice des ventes',
                 'supplier_id' => 1,
             ],
+            [
+                'id' => 3,
+                'email' => 'nfleurent@gmail.com',
+                'first_name' => 'Nicolas',
+                'last_name' => 'Fleurent',
+                'job' => 'Developpeur',
+                'supplier_id' => 2,
+            ],
+            [
+                'id' => 4,
+                'email' => 'mtheroux@gmail.com',
+                'first_name' => 'Mirolie',
+                'last_name' => 'Theroux',
+                'job' => 'Designeuse',
+                'supplier_id' => 2,
+            ],
+            [
+                'id' => 5,
+                'email' => 'jfaucher@gmail.com',
+                'first_name' => 'Jérémy',
+                'last_name' => 'Faucher',
+                'job' => 'Developpeur',
+                'supplier_id' => 3,
+            ],
+            [
+                'id' => 6,
+                'email' => 'jdoe@gmail.com',
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'job' => 'Testeur',
+                'supplier_id' => 4,
+            ],
         ]);
     }
 }

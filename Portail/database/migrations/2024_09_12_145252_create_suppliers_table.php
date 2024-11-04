@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('neq', 10)->unique()->nullable();
             $table->string('name', 64);
             $table->string('password', 128);
-            $table->string('email', 64)->unique();
+            $table->string('email', 64);
             $table->string('site', 64)->nullable();
             $table->string('product_service_detail', 500)->nullable();
             $table->string('tps_number', 64)->nullable();
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('communication_mode')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->unique(['neq','email']);
         });
     }
 

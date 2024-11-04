@@ -80,7 +80,7 @@ class Supplier extends Model
     public function latestModifiedDate()
     {
         return $this->statusHistories()
-            ->where('status', '==', 'modified')
+            ->where('status', '=', 'modified')
             ->orderBy('created_at', 'desc')
             ->first();
     }
