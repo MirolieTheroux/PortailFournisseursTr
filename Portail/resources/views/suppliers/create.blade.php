@@ -1,5 +1,3 @@
-<!--//! Remarque::Faire que les bouton avec des + aies le même background et hover que le bouton suivant (Coordonnés, contacts et pièces jointe)-->
-
 <!--//? NICE_TO_HAVE::Enlever la validation unique du email entreprise-->
 <!--//? NICE_TO_HAVE::Changer les plus pour des "ajouter"-->
 <!--//? NICE_TO_HAVE::Mettre ajouter un contact plus visible-->
@@ -590,7 +588,7 @@
             <label for="contactDetailsPhoneExtension">{{__('form.phoneExtension')}}</label>
           </div>
           <div class="col-1 d-flex align-items-center ">
-            <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; padding-left:10px">
+            <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill button-add-darkblue" viewBox="0 0 16 16" style="cursor: pointer; padding-left:10px">
               <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
             </svg>
           </div>
@@ -690,7 +688,7 @@
             </div>
             <div class="col-2 col-md-1 d-flex align-items-center justify-content-center">
                 <button type="button" class="add-contact p-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill button-add-darkblue" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                     </svg>
                 </button>
@@ -973,7 +971,7 @@
             <div class="text-start invalid-feedback attachment" id="attachmentFilesExceedSize" style="display: none;">{{__('form.attachmentFilesExceedSize')}}</div>
           </div>
           <div class="col-2 text-center pt-1">
-            <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
+            <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill button-add-darkblue" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
               <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
             </svg>
           </div>
