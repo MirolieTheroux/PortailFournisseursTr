@@ -15,6 +15,8 @@
 <!--//* REMARQUES::(Nice_to_have?) Validation A012 non-conforme-->
 <!--//* REMARQUES::(Nice_to_have?) Validation D503 non-conforme : Permettre l'espace?-->
 
+<!--//* REMARQUES::Bouton Pièce jointe toujours en rouge-->
+
 <!--//? NICE_TO_HAVE::Enlever la validation unique du email entreprise-->
 <!--//? NICE_TO_HAVE::Changer les plus pour des "ajouter"-->
 <!--//? NICE_TO_HAVE::Mettre ajouter un contact plus visible-->
