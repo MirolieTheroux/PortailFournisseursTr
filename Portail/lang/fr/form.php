@@ -111,6 +111,7 @@ return [
     'contactDetailsPhoneNumbersList' => 'Il doit y avoir un numéro dans la liste.',
 
     'rbqTitle' => 'Licence RBQ',
+    'rbqNotNecessary' => '*Si vous n\'avez pas de license RBQ, cliquez sur suivant.',
     'rbqLicenceSection' => 'Licence',
     'rbqLicenceValidation' => 'Le champ licence ne doit contenir que des chiffres.',
     'rbqLicenceValidationSize' => 'Le champ licence doit contenir 10 chiffres.',
