@@ -431,7 +431,7 @@
     @if(!is_null(old('rbqSubcategories')))
     <div id="form-fail-rbq" hidden></div>
     @endif
-
+    <div class="row px-3 text-danger">*Si vous n'avez pas de license RBQ, cliquez sur suivant.</div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
         <button type="button" class="m-2 py-1 px-3 rounded previous-button">{{__('global.previous')}}</button>
