@@ -1,3 +1,20 @@
+<!--//* REMARQUES::Validation A106 non-conforme : Il faudrait qu'on enlever les espaces avant et après avant d'envoyer dans la BD-->
+<!--//* REMARQUES::Validation A210 non-conforme-->
+<!--//* REMARQUES::Validation A211 non-conforme-->
+<!--//* REMARQUES::Validation A212 non-conforme-->
+<!--//* REMARQUES::Validation A213 non-conforme-->
+<!--//* REMARQUES::Validation A214 non-conforme-->
+<!--//* REMARQUES::Validation A215 non-conforme-->
+<!--//* REMARQUES::Validation A216 non-conforme-->
+<!--//* REMARQUES::Validation A217 non-conforme-->
+<!--//* REMARQUES::Validation D101 non-conforme : Il faudrait permettre les tirets-->
+<!--//* REMARQUES::Validation D301 non-conforme : Il faudrait permettre les tirets-->
+<!--//* REMARQUES::Validation D601 non-conforme : Ajouter automatiquement le https://-->
+<!--//* REMARQUES::Validation E006 non-conforme-->
+<!--//* REMARQUES::(Nice_to_have?) Validation C102 non-conforme : Faire comme le numéro de téléphone? (Ne pas oublier d'enlever les tirets en back-end si on fait ça)-->
+<!--//* REMARQUES::(Nice_to_have?) Validation A012 non-conforme-->
+<!--//* REMARQUES::(Nice_to_have?) Validation D503 non-conforme : Permettre l'espace?-->
+
 <!--//? NICE_TO_HAVE::Enlever la validation unique du email entreprise-->
 <!--//? NICE_TO_HAVE::Changer les plus pour des "ajouter"-->
 <!--//? NICE_TO_HAVE::Mettre ajouter un contact plus visible-->
