@@ -17,5 +17,6 @@ return [
     'mofidied' => 'Modifiée',
     'error' => 'Erreur',
     'yes' => 'Oui',
-    'no' => 'Non'
+    'no' => 'Non',
+    'close' => 'Fermer',
 ];

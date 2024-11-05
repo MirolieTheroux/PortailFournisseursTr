@@ -110,6 +110,13 @@ function showDeniedReason(){
     deniedDivReason.classList.add("d-none");
 }
 
+// HISTORIQUE
+const modalHistory = new bootstrap.Modal(document.getElementById('modalHistory'))
+const btnHistory = document.getElementById("btnHistory");
+btnHistory.addEventListener("click", () =>{
+  modalHistory.show();
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   getSectionsInfo();
   if(requestStatus.value === "accepted" || requestStatus.value === "denied")
@@ -119,4 +126,5 @@ document.addEventListener("DOMContentLoaded", function () {
   else
     deniedDivReason.classList.add("d-none");
 });
+
 

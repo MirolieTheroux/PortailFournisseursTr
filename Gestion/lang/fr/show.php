@@ -3,7 +3,7 @@
 // lang/en/messages.php
 
 return [
-    'requestStatus' => 'État demande',
+    'requestStatus' => 'État de la demande',
     'identification' => 'Identification',
     'contactDetails' => 'Coordonnées',
     'contacts' => 'Contacts',
@@ -15,4 +15,6 @@ return [
     'denyRequest' => 'Refuser la demande',
     'exportSupplierToFinance' => 'Exporter vers les finances',
     'history' => 'Historique',
+    'dateAndTime' => 'Date et heure',
+    'modifiedBy' => 'Modifié par',
 ];
