@@ -9,7 +9,7 @@
 
 @section('content')
 <!--//TODO::
-  -->
+-->
 <div class="container-fluid h-100">
   <div class="row h-100">
     <div class="left-nav shadow-sm col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-start">
@@ -94,7 +94,7 @@
     <div class="col-10 h-100 px-4 py-0">
       <!--ETAT DEMANDE-->
       <!--//TODO::
-        - Supprimer les pièces jointes
+        
       -->
       <!--//? REMARQUES::
         - 
@@ -204,7 +204,7 @@
               <div class="d-flex flex-column justify-content-between h-100">
                 <div class="text-start">
                   <div class="form-floating mb-3">
-                    <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ $supplier->neq }}" maxlength="10" disabled>
+                    <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ $supplier->neq ? : 'N/A' }}" maxlength="10" disabled>
                     <label for="neq">{{__('form.neqLabel')}}</label>
                   </div>
                 </div>
@@ -254,7 +254,7 @@
                   <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>
                 </div>
                 <div class="form-floating col-6">
-                  <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control" value="{{ $supplier->address->office }}" placeholder="" maxlength="8" disabled>
+                  <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control" value="{{ $supplier->address->office ? : 'N/A' }}" placeholder="" maxlength="8" disabled>
                   <label for="contactDetailsOfficeNumber" id="officeNumber">{{__('form.officeNumber')}}</label>
                 </div>
               </div>
@@ -294,7 +294,7 @@
                 </div>
                 <div class="text-center mb-4">
                   <div class="form-floating">
-                    <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control" value="{{ $supplier->site }}" placeholder="" maxlength="64" disabled>
+                    <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control" value="{{ $supplier->site ? : 'N/A' }}" placeholder="" maxlength="64" disabled>
                     <label for="contactDetailsWebsite">{{__('form.website')}}</label>
                   </div>
                 </div>
@@ -319,7 +319,7 @@
                   <input type="text" name="contactDetailsPhoneExtension" id="contactDetailsPhoneExtension" class="form-control" placeholder="" maxlength="6" disabled>
                   <label for="contactDetailsPhoneExtension">{{__('form.phoneExtension')}}</label>
                 </div>
-                <div class="col-1 d-flex align-items-center ">
+                <div class="col-1 d-flex align-items-center">
                   <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; padding-left:10px">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                   </svg>
@@ -343,7 +343,7 @@
                         <input class="d-none" name="phoneNumbers[]" value="{{ $phoneNumber->number }}" />
                         <div class="col-2 text-center phoneExtension">{{ $phoneNumber->extension ? : 'N/A' }}</div>
                         <input class="d-none" name="phoneExtensions[]" value="{{ $phoneNumber->number }}" />
-                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removePhone" viewBox="0 0 16 16" style="cursor:pointer;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removePhone d-none" viewBox="0 0 16 16" style="cursor:pointer;">
                           <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                         </svg>
                       </div>

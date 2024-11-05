@@ -23,6 +23,7 @@
 
 .left-nav > div:hover {
 background-color: lightgray;
+cursor: pointer;
 }
 
 .left-nav div svg {
