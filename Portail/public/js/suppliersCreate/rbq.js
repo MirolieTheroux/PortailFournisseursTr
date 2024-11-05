@@ -35,8 +35,8 @@ function getElements(){
 
   checkboxes = document.querySelectorAll('input.form-check-input');
 
-  idButton = document.getElementById('identification-button');
-  idButton.addEventListener('click', fetchRBQ);
+  idNeqInput = document.getElementById('neq');
+  idNeqInput.addEventListener('blur', fetchRBQ);
 }
 
 async function fetchRBQ() {
