@@ -64,6 +64,7 @@ const btnRequest = document.querySelector(".btnRequest");
 const deniedDivReason = document.querySelector(".deniedDivReason");
 const deniedReason = document.getElementById("deniedReason");
 const pendingOption = requestStatus.options[0];
+const oldValueRequest = requestStatus.value;
 //Btn annuler
 requestStatusCancelBtn.addEventListener("click" , ()=>{
   requestStatusEditBtn.classList.remove("d-none");
@@ -72,6 +73,11 @@ requestStatusCancelBtn.addEventListener("click" , ()=>{
   requestStatus.setAttribute("disabled", "");
   deniedReason.setAttribute("disabled", "");
   requestStatus.insertBefore(pendingOption, requestStatus.options[0]);
+  requestStatus.value = oldValueRequest;
+  if(oldValueRequest === "accepted" || oldValueRequest === "waiting" || oldValueRequest === "toCheck" )
+    deniedDivReason.classList.add("d-none");
+  else if (oldValueRequest === "denied")
+    deniedDivReason.classList.remove("d-none");
 })
 //Btn Modifier
 requestStatusEditBtn.addEventListener("click", ()=>{
@@ -89,7 +95,6 @@ requestStatusSaveBtn.addEventListener("click", () => {
   requestStatusSaveBtn.classList.add("d-none");
   requestStatusCancelBtn.classList.add("d-none");
   requestStatus.insertBefore(pendingOption, requestStatus.options[0]);
-  //mettre le statut disabled après que le patch soit fait
 });
 //Statut Refuser
 requestStatus.addEventListener("change", () => {
