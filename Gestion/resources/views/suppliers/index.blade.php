@@ -1,3 +1,9 @@
+<!--//* REMARQUE::Lors de la selection d'une région administrative, la recherche flash parfois-->
+<!--//* REMARQUE::Les icones des état de la demande change de taille différemment lorsque l'écran change de taille-->
+<!--//* REMARQUE::nice_to_have: Faire en sorte que lorsqu'on recherche dans un filtre et qu'on coche une option, la recherche ne se réénitialise pas-->
+<!--//* REMARQUE::nice_to_have: Faire en sorte qu'on puisse déselectionner le bouton fournisseur en attente-->
+<!--//* REMARQUE::nice_to_have: Cacher le bouton "Lister les fournisseurs sélectionnés" lorsqu'aucun fournisseurs n'est sélectionnés-->
+
 <!--//TODO::Alignée les noms et villes à gauche-->
 <!--//TODO::Masquer bouton envoi quand rien sélectionné-->
 
@@ -51,7 +57,7 @@
             </div>  
           @endrole
           <div>
-            <div>Produits et services</div>
+            <div>{{__('form.productsAndService')}}</div>
             <div class="text-center">
               <div class="form-floating mb-3">
                 <input type="text" id="service-search" class="form-control" placeholder="">

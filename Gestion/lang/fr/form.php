@@ -45,6 +45,7 @@ return [
     'identificationValidationMDPConfirm' => 'Le mot de passe n\'est pas identique.',
 
     'productsAndServiceTitle' => 'Produits et Services à Offrir',
+    'productsAndService' => 'Produits et services',
     'productsAndServiceCategories' => 'Catégorie',
     'productsAndServiceCategoriesList' => 'Liste des catégories',
     'productsAndServiceCategoriesSearch' => 'Recherche d\'un service',
