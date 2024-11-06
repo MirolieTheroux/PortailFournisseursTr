@@ -1,11 +1,8 @@
-
-<!--//* REMARQUE::nice_to_have: Cacher le bouton "Lister les fournisseurs sélectionnés" lorsqu'aucun fournisseurs n'est sélectionnés-->
-
-<!--//TODO::Masquer bouton envoi quand rien sélectionné-->
-
-<!--//? NICE_TO_HAVE::Bouton en attente liste fournisseur en rouge et masquer si 0-->
 <!--//? NICE_TO_HAVE::Liste des fournisseurs - Faire les tri selon le nombre de critères rempli et status-->
-<!--//? NICE_TO_HAVE: Faire en sorte que lorsqu'on recherche dans un filtre et qu'on coche une option, la recherche ne se réénitialise pas-->
+<!--//? NICE_TO_HAVE: 
+    //?   Faire en sorte que lorsqu'on recherche dans un filtre et qu'on coche une option, la recherche ne se réénitialise pas
+    //?    - Voir à faire qu'on peut enlever les items avec un X à la place.
+-->
 <!--//? NICE_TO_HAVE: Faire en sorte qu'on puisse déselectionner le bouton fournisseur en attente-->
 @extends('layouts.app')
 
@@ -19,7 +16,7 @@
     <div class="row h-100">
       <div class="col-3 bg-white h-100 full-viewport sticky-under-navbar">
         <form id="filterForm" class="h-100 d-flex flex-column justify-content-between">
-          <button id="btnListSelectedSupplier" type="button" class="my-2 py-1 px-3 rounded button-darkblue">{{__('index.listSelectedSuppliers')}}</button>
+          <button id="btnListSelectedSupplier" type="button" class="d-none my-2 py-1 px-3 rounded button-darkblue">{{__('index.listSelectedSuppliers')}}</button>
           @role(['responsable', 'admin'])
             @php
               $waitingSuppliersCount = $suppliers->filter(function ($supplier){
@@ -186,6 +183,7 @@ function sendFilterForm(){
     data: $('#filterForm').serialize(),
     success: function (response) {
       $('#supplierList').html(response.html);
+      getSuppliersListElements(); //In the file "listSelectedSuppliers.js"
     },
     error: function () {
       alert('Erreur lors du filtrage des fournisseurs.');

@@ -107,9 +107,7 @@ function updateCityList(){
 
 function invokeSelectChange(event){
   const option = event.target;
-  console.log(option);
   const select = option.closest('.multi-select');
-  console.log(select);
   
   if(select.id == 'districtAreas'){
     updateCityList();
