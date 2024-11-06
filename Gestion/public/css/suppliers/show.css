@@ -31,6 +31,12 @@ cursor: pointer;
  height: 17px;
  margin-bottom: 5px;
 }
+
+.popover-link {
+  text-decoration: underline;
+  color: #007bff; 
+  cursor: pointer;
+}
   
 .title-border {
   border-bottom: solid var(--dark_blue) 1px;

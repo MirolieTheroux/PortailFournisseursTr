@@ -14,8 +14,9 @@ return [
     'denied' => 'Refusée',
     'waiting' => 'En attente',
     'toCheck' => 'À réviser',
-    'mofidied' => 'Modifiée',
+    'modified' => 'Modifiée',
     'error' => 'Erreur',
     'yes' => 'Oui',
-    'no' => 'Non'
+    'no' => 'Non',
+    'close' => 'Fermer',
 ];

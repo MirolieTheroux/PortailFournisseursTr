@@ -110,13 +110,54 @@ function showDeniedReason(){
     deniedDivReason.classList.add("d-none");
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  getSectionsInfo();
+function showBtnAcceptedDenied(){
   if(requestStatus.value === "accepted" || requestStatus.value === "denied")
     btnRequest.classList.add("d-none")
   if(requestStatus.value === "denied")
     deniedDivReason.classList.remove("d-none");
   else
     deniedDivReason.classList.add("d-none");
+}
+
+// HISTORIQUE
+const modalHistory = new bootstrap.Modal(document.getElementById('modalHistory'))
+const btnHistory = document.getElementById("btnHistory");
+btnHistory.addEventListener("click", () =>{
+  modalHistory.show();
 });
+
+function initializePopovers() {
+    let currentPopover = null;
+    const popoverLinks = document.querySelectorAll(".popover-link");
+
+    popoverLinks.forEach((popoverLink) => {
+      const popover = new bootstrap.Popover(popoverLink);
+      popoverLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (currentPopover && currentPopover !== popover) {
+          currentPopover.hide();
+        }
+        if (currentPopover === popover) {
+          popover.hide();
+          currentPopover = null;
+        } else {
+          popover.show();
+          currentPopover = popover;
+        }
+      });
+    });
+
+    document.addEventListener("click", function (event) {
+      if (currentPopover && !event.target.closest(".popover-link")) {
+        currentPopover.hide();
+        currentPopover = null;
+      }
+    });
+}
+document.addEventListener("DOMContentLoaded", function () {
+  getSectionsInfo();
+  showBtnAcceptedDenied();
+  initializePopovers();
+});
+
 
