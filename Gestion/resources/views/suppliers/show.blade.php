@@ -12,6 +12,7 @@
 -->
 <div class="container-fluid h-100">
   <div class="row h-100">
+    <!--NAVIGATION CÔTÉ-->
     <div class="left-nav shadow-sm col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-start">
       <h4 class="py-2 fw-bold">{{$supplier->name}}</h4>
       @role(['responsable', 'admin'])
@@ -90,7 +91,7 @@
         </svg>
         {{__('show.finance')}}
       </div>
-    </div>
+    </div> <!-- FIN NAVIGATION CÔTÉ-->
 
     <div class="col-10 h-100 px-4 py-0">
       <!--ETAT DEMANDE-->
@@ -98,32 +99,73 @@
         
       -->
       <!--//? REMARQUES::
-        - 
+        - Voir pourquoi le dernier history est décalé ?
+        - Est-ce qu'il peut y avoir plus d'un refus ?
       -->
       <!--//* NICE_TO_HAVE::
         - Mettre texte et curseur du textarea pour la raison du refus au début.
       -->
-      <!-- Modal for Historic -->
+      <!-- Modal for History -->
       <div class="modal fade" id="modalHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="statusHistory" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="staticBackdropLabel">{{__('show.history')}}</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div class="d-flex flex-row justify-content-around">
-                <div>{{__('show.dateAndTime')}}</div>
-                <div>{{__('show.requestStatus')}}</div>
-                <div>{{__('show.modifiedBy')}}</div>
+              <div class="d-flex flex-row justify-content-between">
+                <div class="px-3 fw-bold">{{__('show.dateAndTime')}}</div>
+                <div class="px-3 fw-bold">{{__('show.requestStatus')}}</div>
+                <div class="px-3 fw-bold">{{__('show.modifiedBy')}}</div>
               </div>
               @foreach ($supplier->statusHistories as $history)
-              <div class="d-flex flex-row justify-content-around">
-                <div>{{$history->created_at}}</div>
-                <div>{{$history->status}}</div>
-                <div>{{$history->updated_by}}</div>
+              <div class="d-flex flex-row justify-content-between">
+                <div class="px-3">{{ $history->created_at }}</div>
+
+                <div class="px-3 status">
+                  @switch($history->status)
+                  @case('denied')
+                  <a href="#" tabindex="0"
+                    class="popover-link"
+                    data-bs-toggle="popover"
+                    data-bs-trigger="click"
+                    data-bs-content="{{$refusalReason}}">
+                    {{ __('global.denied') }}
+                  </a>
+                  @break
+
+                  @case('modified')
+                  <a href="#" tabindex="0"
+                    class="popover-link"
+                    data-bs-toggle="popover"
+                    data-bs-trigger="click"
+                    data-bs-content="Afficher les modifications.">
+                    {{ __('global.modified') }}
+                  </a>
+                  @break
+
+                  @case('accepted')
+                  {{ __('global.accepted') }}
+                  @break
+
+                  @case('waiting')
+                  {{ __('global.waiting') }}
+                  @break
+
+                  @case('toCheck')
+                  {{ __('global.toCheck') }}
+                  @break
+
+                  @default
+                  {{ $history->status }}
+                  @endswitch
+                </div>
+
+                <div class="px-3">{{ $history->updated_by }}</div>
               </div>
               @endforeach
+
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{__('global.close')}}</button>
