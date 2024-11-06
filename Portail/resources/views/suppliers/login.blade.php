@@ -1,7 +1,5 @@
-<!--//* REMARQUE::En mode cellulaire, le lien "je n'ai pas de NEQ" n'est pas configurer-->
-<!--//* REMARQUE::nice_to_have:pour les boutons "j'ai un NEQ" et "je n'ai pas de NEQ", mettre le bouton sélectionné en blanc et le bouton non sélectionné en blanc avec des ombres (reculer)-->
-
-<!--//NICE_TO_HAVE::Mettre s'incrire plus visible-->
+<!--//? NICE_TO_HAVE::Mettre s'incrire plus visible-->
+<!--//? NICE_TO_HAVE:pour les boutons "j'ai un NEQ" et "je n'ai pas de NEQ", mettre le bouton sélectionné en blanc et le bouton non sélectionné en blanc avec des ombres (reculer)-->
 
 @extends('layouts.app')
 
