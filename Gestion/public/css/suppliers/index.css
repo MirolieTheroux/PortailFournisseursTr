@@ -24,6 +24,9 @@ body{
 .supplier-table:nth-child(odd){
     background-color: white;
 }
+.supplier-table svg{
+    min-width: 20px;
+}
 
 .text-accepted{
     color: #02542d;
