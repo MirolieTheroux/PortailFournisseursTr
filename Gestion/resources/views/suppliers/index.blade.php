@@ -155,21 +155,27 @@
 <script src="{{ asset('js/suppliers/listSelectedSuppliers.js') }} "></script>
 <script>
 function addjQueryListeners(){
+  $("#cities").off();
   $('#cities').change(function () {
     sendFilterForm();
   });
+  $("#districtAreas").off();
   $('#districtAreas').change(function () {
     sendFilterForm();
   });
+  $("#workCategories").off();
   $('#workCategories').change(function () {
     sendFilterForm();
   });
+  $("#status").off();
   $('#status').change(function () {
     sendFilterForm();
   });
+  $("#supplierSearch").off();
   $('#supplierSearch').on('keyup', function() {
     sendFilterForm();
   });
+  $("#btnWaitingSupplier").off();
   $('#btnWaitingSupplier').click(function() {
     loadWaitingSuppliers();
   });

@@ -6,6 +6,7 @@ let districtAreas;
 let uniqueDA;
 let uniqueCity;
 let citiesListTemplate;
+let pageLoaded = false;
 
 async function getCitiesAndDistrickAreas() {
   try {
@@ -71,38 +72,19 @@ function addDistrictsAreas(){
 }
 
 function addListeners(){
-  const DAList = document.getElementById("districtAreas");
-  const DAOptions = DAList.querySelectorAll(".multi-select-option");
-  for(let i=0 ; i < DAOptions.length ; i++){
-    DAOptions[i].addEventListener('click', ()=>{
-      updateCityList();
-      invokeSelectChange(DAOptions[i]);
-    })
+  if(pageLoaded){
+    removeListeners()
   }
-
-  const cityList = document.getElementById("cities");
-  const cityOptions = cityList.querySelectorAll(".multi-select-option");
-  for(let i=0 ; i < cityOptions.length ; i++){
-    cityOptions[i].addEventListener('click', ()=>{
-      invokeSelectChange(cityOptions[i]);
-    })
+  const options = document.querySelectorAll(".multi-select-option");
+  for(let i=0 ; i < options.length ; i++){
+    options[i].addEventListener('click', invokeSelectChange);
   }
+}
 
-  const workCategoriesList = document.getElementById("workCategories");
-  const workCategoriesOptions = workCategoriesList.querySelectorAll(".multi-select-option");
-  for(let i=0 ; i < workCategoriesOptions.length ; i++){
-    workCategoriesOptions[i].addEventListener('click', ()=>{
-      invokeSelectChange(workCategoriesOptions[i]);
-      updateWorkSubcategoryCounters();
-    })
-  }
-
-  const statusList = document.getElementById("status");
-  const statusOptions = statusList.querySelectorAll(".multi-select-option");
-  for(let i=0 ; i < statusOptions.length ; i++){
-    statusOptions[i].addEventListener('click', ()=>{
-      invokeSelectChange(statusOptions[i]);
-    })
+function removeListeners(){
+  const options = document.querySelectorAll(".multi-select-option");
+  for(let i=0 ; i < options.length ; i++){
+    options[i].removeEventListener('click', invokeSelectChange);
   }
 }
 
@@ -123,9 +105,16 @@ function updateCityList(){
   refreshListeners();
 }
 
-function invokeSelectChange(option){
-  const optionParent = option.parentElement;
-  const select = optionParent.parentElement;
+function invokeSelectChange(event){
+  const option = event.target;
+  console.log(option);
+  const select = option.closest('.multi-select');
+  console.log(select);
+  
+  if(select.id == 'districtAreas'){
+    updateCityList();
+  }
+
   select.dispatchEvent(new Event('change'));
 }
 
@@ -151,4 +140,5 @@ document.addEventListener("DOMContentLoaded", async function () {
   makeOptionListTemplate();
   document.querySelectorAll('[data-multi-select]').forEach(select => new MultiSelect(select));
   refreshListeners();
+  pageLoaded = true;
 });
