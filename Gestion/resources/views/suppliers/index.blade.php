@@ -1,13 +1,12 @@
-<!--//* REMARQUE::Les icones des état de la demande change de taille différemment lorsque l'écran change de taille-->
-<!--//* REMARQUE::nice_to_have: Faire en sorte que lorsqu'on recherche dans un filtre et qu'on coche une option, la recherche ne se réénitialise pas-->
-<!--//* REMARQUE::nice_to_have: Faire en sorte qu'on puisse déselectionner le bouton fournisseur en attente-->
+
 <!--//* REMARQUE::nice_to_have: Cacher le bouton "Lister les fournisseurs sélectionnés" lorsqu'aucun fournisseurs n'est sélectionnés-->
 
-<!--//TODO::Alignée les noms et villes à gauche-->
 <!--//TODO::Masquer bouton envoi quand rien sélectionné-->
 
 <!--//? NICE_TO_HAVE::Bouton en attente liste fournisseur en rouge et masquer si 0-->
 <!--//? NICE_TO_HAVE::Liste des fournisseurs - Faire les tri selon le nombre de critères rempli et status-->
+<!--//? NICE_TO_HAVE: Faire en sorte que lorsqu'on recherche dans un filtre et qu'on coche une option, la recherche ne se réénitialise pas-->
+<!--//? NICE_TO_HAVE: Faire en sorte qu'on puisse déselectionner le bouton fournisseur en attente-->
 @extends('layouts.app')
 
 @section('css')
@@ -29,9 +28,9 @@
               })->count();
             @endphp
             @if ($waitingSuppliersCount == 1)
-              <button id="btnWaitingSupplier" type="button" class="my-2 py-1 px-3 rounded button-darkblue">{{$waitingSuppliersCount}} {{__('index.waitingSupplierSingle')}}</button>
-            @else
-              <button id="btnWaitingSupplier" type="button" class="my-2 py-1 px-3 rounded button-darkblue">{{$waitingSuppliersCount}} {{__('index.waitingSuppliers')}}</button>
+              <button id="btnWaitingSupplier" type="button" class="my-2 py-1 px-3 rounded button-red">{{$waitingSuppliersCount}} {{__('index.waitingSupplierSingle')}}</button>
+            @elseif ($waitingSuppliersCount > 1)
+              <button id="btnWaitingSupplier" type="button" class="my-2 py-1 px-3 rounded button-red">{{$waitingSuppliersCount}} {{__('index.waitingSuppliers')}}</button>
             @endif
             
           @endrole
@@ -117,11 +116,11 @@
               <div class="col-1 p-0 d-flex justify-content-center align-items-end">
                 <div class="text-start supplier-list-header-text">{{__('index.requestStatus')}}</div>
               </div>
-              <div class="col-3 p-0 d-flex justify-content-center align-items-end">
-                <div class="text-center">{{__('index.name')}}</div>
+              <div class="col-3 p-0 d-flex justify-content-start align-items-end">
+                <div class="text-start">{{__('index.name')}}</div>
               </div>
-              <div class="col-3 p-0 d-flex justify-content-center align-items-end">
-                <div class="text-center">{{__('index.city')}}</div>
+              <div class="col-3 p-0 d-flex justify-content-start align-items-end">
+                <div class="text-start">{{__('index.city')}}</div>
               </div>
               <div class="col-2 p-0 d-flex justify-content-center align-items-end">
                 <div class="text-centert">{{__('index.productsServices')}}</div>

@@ -42,11 +42,11 @@
               
           @endswitch
         </div>
-        <div class="col-3 text-center">
-          <div class="text-center supplier-list-table-text">{{$supplier->name}}</div>
+        <div class="col-3 text-center ps-2">
+          <div class="text-start supplier-list-table-text">{{$supplier->name}}</div>
         </div>
-        <div class="col-3 text-center">
-          <div class="text-center supplier-list-table-text">{{$supplier->address->city}}</div>
+        <div class="col-3 text-center ps-1">
+          <div class="text-start supplier-list-table-text">{{$supplier->address->city}}</div>
         </div>
         <div class="col-2 text-center supplier-list-table-text">
           <div class="text-centert">

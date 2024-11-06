@@ -66,8 +66,18 @@ div{
     color: white;
 }
 .button-darkblue:hover{
-    background-color: var(--blue);
+    background-color: #10315a;
 }
+
+.button-red{
+    border: 0;
+    background-color: var(--red);
+    color: white;
+}
+.button-red:hover{
+    background-color: #aa0039;
+}
+
 .button-disabled{
     border: none;
     background-color: gray;
