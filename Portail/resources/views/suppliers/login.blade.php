@@ -1,5 +1,6 @@
-<!--//* REMARQUE::En mode cellulaire, le lien "je n'ai pas de NEQ" n'est pas configurer-->
-<!--//* REMARQUE::nice_to_have:pour les boutons "j'ai un NEQ" et "je n'ai pas de NEQ", mettre le bouton sélectionné en blanc et le bouton non sélectionné en blanc avec des ombres (reculer)-->
+<!--//? NICE_TO_HAVE::Mettre s'incrire plus visible-->
+<!--//? NICE_TO_HAVE:pour les boutons "j'ai un NEQ" et "je n'ai pas de NEQ", mettre le bouton sélectionné en blanc et le bouton non sélectionné en blanc avec des ombres (reculer)-->
+
 @extends('layouts.app')
 
 @section('css')
@@ -7,7 +8,7 @@
 @endsection
 
 @section('content')
-<!--//TODO::Mettre s'incrire plus visible-->
+
 
 <div class="row h-100 bg-image-login">
   <div class="col-6 d-none d-md-flex align-items-center justify-content-center h-100 bg-grey-transparent">
@@ -16,7 +17,6 @@
   <div class="col-12 col-md-6 d-flex align-items-center justify-content-center h-100 bg-grey-transparent-gradient py-3">
     <div class="row w-100">
       <div class="offset-md-1 offset-lg-2 offset-xl-3 col-12 col-md-10 col-lg-8 col-xl-6 bg-white rounded-custom">
-        <!--TODO::Programer le changement de formulaire selon les réponses des employés de la ville-->
         <div class="row d-none d-md-flex">
           <div id="possessNeq-button" class="col-6 text-center fs-6 py-3 rounded-top-left loginChange-button login-selected">{{__('login.possessNeq')}}</div>
           <div id="possessNoNeq-button" class="col-6 text-center fs-6 py-3 rounded-top-right loginChange-button login-unselected">{{__('login.possessNoNeq')}}</div>
@@ -68,10 +68,9 @@
             </div>
           </div>
           <div class="row d-md-none">
-            <!--TODO::Programer le changement de formulaire selon les réponses des employés de la ville-->
             <div class="col-12 d-flex justify-content-center text-center mb-3">
-              <a id="possessNeq-link" class="singin-link" href="">{{__('login.possessNeq')}}</a>
-              <a id="possessNoNeq-link" class="singin-link d-none" href="">{{__('login.possessNoNeq')}}</a>
+              <a id="possessNeq-link" class="singin-link loginChange-button login-selected">{{__('login.possessNeq')}}</a>
+              <a id="possessNoNeq-link" class="singin-link loginChange-button login-unselected">{{__('login.possessNoNeq')}}</a>
             </div>
           </div>
         </form>

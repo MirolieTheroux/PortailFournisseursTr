@@ -20,16 +20,19 @@
   font-size: 0.875em;
 }
 
-.login-selected{
+div.login-selected{
   background-color: var(--dark_blue);
   color: white;
 }
-.login-unselected{
+div.login-unselected{
   background-color: gray;
   color: black;
 }
-.login-unselected:hover{
+div.login-unselected:hover{
   background-color: var(--blue);
   color: white;
   cursor: pointer;
+}
+a.login-selected{
+  display: none;
 }
