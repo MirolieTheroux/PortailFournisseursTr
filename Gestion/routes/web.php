@@ -29,6 +29,6 @@ Route::post('/suppliers/{supplier}',[SuppliersController::class, 'updateStatus']
 Route::get('/suppliers/remove/{supplier}', [SuppliersController::class, 'removeFromList'])->name('suppliers.removeFromList');
 Route::get('/suppliers/reactivate/{supplier}', [SuppliersController::class, 'reactivate'])->name('suppliers.reactivate');
 Route::get('/suppliers/approve/{supplier}', [SuppliersController::class, 'approveRequest'])->name('suppliers.approveRequest');
-Route::get('/suppliers/deny/{supplier}', [SuppliersController::class, 'denyRequest'])->name('suppliers.denyRequest');
+Route::post('/suppliers/deny/{supplier}', [SuppliersController::class, 'denyRequest'])->name('suppliers.denyRequest');
 
 Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class, 'show'])->name('attachments.show');
