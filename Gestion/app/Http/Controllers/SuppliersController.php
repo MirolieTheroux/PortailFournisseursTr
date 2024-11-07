@@ -16,6 +16,7 @@ use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\File;
 
 class SuppliersController extends Controller
 {
@@ -153,8 +154,9 @@ class SuppliersController extends Controller
     $status->supplier()->associate($supplier);
     $status->save();
 
+    $this->destroyAttachments($supplier);
+
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.removeFromListSuccess'));
-    //$this->destroyAttachments($supplier);
   }
 
   /**
@@ -162,9 +164,17 @@ class SuppliersController extends Controller
    */
   public function destroyAttachments($supplier)
   {
-    $supplier->attachments()->delete();
+    if(!(self::USING_FILESTREAM)){
+      $directory = $supplier->name;
+      $path = env('FILE_STORAGE_PATH'). "\\". $directory;
 
-    //TODO::Ajouter le code pour supprimer les fichiers du serveur
+      Log::debug($path);
+      if (file_exists($path)) {
+        File::deleteDirectory($path);
+      }
+    }
+
+    $supplier->attachments()->delete();
   }
 
     public function filter(Request $request)
