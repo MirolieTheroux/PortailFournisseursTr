@@ -151,8 +151,6 @@ class SuppliersController extends Controller
      */
     public function store(SupplierRequest $request)
     {
-      Log::debug($request);
-
       $supplier = new Supplier();
       $supplier->neq = $request->neq;
       $supplier->name = $request->name;
@@ -252,7 +250,6 @@ class SuppliersController extends Controller
 
       if(!is_null($request->fileNames)){
         if(!(self::USING_FILESTREAM)){
-          Log::debug("Test booleen");
           $uploadedFiles = $request->file('files');
 
           for($i = 0 ; $i < Count($request->fileNames) ; $i++){
