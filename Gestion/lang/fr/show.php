@@ -12,6 +12,8 @@ return [
     'attachmentFiles' => 'Pièces jointes',
     'finance' => 'Finances',
     'acceptRequest' => 'Accepter la demande',
+    'confirmation' => 'Confirmation',
+    'acceptConfirmation' => 'Veuillez confirmer l\'approbation de la demande.',
     'denyRequest' => 'Refuser la demande',
     'exportSupplierToFinance' => 'Exporter vers les finances',
     'history' => 'Historique',
@@ -21,4 +23,6 @@ return [
     'removeFromListSuccess' => 'Le fournisseur a été retirer de la liste avec succès',
     'reactivate' => 'Remettre dans la liste',
     'reactivationSuccess' => 'Le fournisseur a été remis dans la liste avec succès',
+    'approvalSuccess' => 'Le fournisseur a été accepté avec succès',
+    'denialSuccess' => 'Le fournisseur a été refusé avec succès',
 ];

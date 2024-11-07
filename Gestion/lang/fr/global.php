@@ -20,4 +20,5 @@ return [
     'yes' => 'Oui',
     'no' => 'Non',
     'close' => 'Fermer',
+    'confirm' => 'Confirmer',
 ];

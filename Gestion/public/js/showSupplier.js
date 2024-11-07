@@ -110,15 +110,6 @@ function showDeniedReason(){
     deniedDivReason.classList.add("d-none");
 }
 
-function showBtnAcceptedDenied(){
-  if(requestStatus.value === "accepted" || requestStatus.value === "denied")
-    btnRequest.classList.add("d-none")
-  if(requestStatus.value === "denied")
-    deniedDivReason.classList.remove("d-none");
-  else
-    deniedDivReason.classList.add("d-none");
-}
-
 // HISTORIQUE
 const modalHistory = new bootstrap.Modal(document.getElementById('modalHistory'))
 const btnHistory = document.getElementById("btnHistory");
@@ -156,7 +147,6 @@ function initializePopovers() {
 }
 document.addEventListener("DOMContentLoaded", function () {
   getSectionsInfo();
-  showBtnAcceptedDenied();
   initializePopovers();
 });
 

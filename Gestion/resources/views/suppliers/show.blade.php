@@ -177,14 +177,34 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="container d-flex flex-column h-100 show-section" id="requestStatus-section"><!-- END Modal -->
-        <div class="d-flex justify-content-end btnRequest">
-          @role(['responsable', 'admin'])
-          <button id="btnAccept" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.acceptRequest')}}</button>
-          <button id="btnDeny" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.denyRequest')}}</button>
-          @endrole
+      </div> <!-- END Modal for History-->
+
+      <!--Approval Modal-->
+      <div class="modal fade" id="approvalModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">{{__('show.confirmation')}}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">{{__('show.acceptConfirmation')}}</div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('global.cancel')}}</button>
+              <a type="button" href="{{route('suppliers.approveRequest', ['supplier' => $supplier->id])}}" class="m-2 py-2 px-3 rounded button-darkblue">{{__('global.confirm')}}</a>
+            </div>
+          </div>
         </div>
+      </div><!-- END Approval Modal-->
+
+      <div class="container d-flex flex-column h-100 show-section" id="requestStatus-section">
+        @role(['responsable', 'admin'])
+          @if($supplier->latestNonModifiedStatus()->status == 'waiting' || $supplier->latestNonModifiedStatus()->status == 'toCheck')
+            <div class="d-flex justify-content-end btnRequest">
+              <button id="btnAccept" type="button" class="m-2 py-1 px-3 rounded button-darkblue" data-bs-toggle="modal" data-bs-target="#approvalModal">{{__('show.acceptRequest')}}</button>
+              <button id="btnDeny" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.denyRequest')}}</button>
+            </div>
+          @endif
+        @endrole
         <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateStatus', [$supplier])}}" enctype="multipart/form-data">
           @csrf
           <div class="bg-white my-2 rounded form-section w-100">

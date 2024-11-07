@@ -31,7 +31,7 @@ class SuppliersController extends Controller
     $suppliersQuery = Supplier::query();
 
     $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
-      return $supplier->latestNonModifiedStatus()->status != 'removed';
+      return $supplier->latestNonModifiedStatus()->status != 'deactivated';
     });
 
     $workSubcategories = WorkSubcategory::all();
@@ -142,14 +142,18 @@ class SuppliersController extends Controller
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
+  public function approveRequest($id)
+  {
+    $supplier = Supplier::findOrFail($id);
+    $this->changeStatus($supplier, "accepted");
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.approvalSuccess'));
+  }
+
   public function removeFromList($id)
   {
     $supplier = Supplier::findOrFail($id);
-    $status = new StatusHistory();
-    $status->status = 'removed';
-    $status->updated_by = auth()->user()->email;
-    $status->supplier()->associate($supplier);
-    $status->save();
+    $this->changeStatus($supplier, "deactivated");
 
     $this->destroyAttachments($supplier);
 
@@ -158,19 +162,20 @@ class SuppliersController extends Controller
 
   public function reactivate($id){
     $supplier = Supplier::findOrFail($id);
-    $status = new StatusHistory();
-    $status->status = $supplier->latestActivableStatus()->status;
-    $status->updated_by = auth()->user()->email;
-    $status->supplier()->associate($supplier);
-    $status->save();
+    $this->changeStatus($supplier, $supplier->latestActivableStatus()->status);
 
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.reactivationSuccess'));
   }
 
-  /**
-   * Remove the specified resource from storage.
-   */
-  public function destroyAttachments($supplier)
+  private function changeStatus($supplier, $newStatus){
+    $status = new StatusHistory();
+    $status->status = $newStatus;
+    $status->updated_by = auth()->user()->email;
+    $status->supplier()->associate($supplier);
+    $status->save();
+  }
+
+  private function destroyAttachments($supplier)
   {
     if(!(self::USING_FILESTREAM)){
       $directory = $supplier->name;
@@ -233,7 +238,7 @@ class SuppliersController extends Controller
         }
         else{
           $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
-            return $supplier->latestNonModifiedStatus()->status != 'removed';
+            return $supplier->latestNonModifiedStatus()->status != 'deactivated';
           });
         }
 
