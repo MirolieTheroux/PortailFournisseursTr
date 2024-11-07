@@ -15,6 +15,7 @@ return [
     'waiting' => 'En attente',
     'toCheck' => 'À réviser',
     'modified' => 'Modifiée',
+    'removed' => 'Retirée',
     'error' => 'Erreur',
     'yes' => 'Oui',
     'no' => 'Non',

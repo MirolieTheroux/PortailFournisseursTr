@@ -18,17 +18,24 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
 use Symfony\Component\ErrorHandler\Debug;
+use Illuminate\Support\Facades\File;
 
 class SuppliersController extends Controller
 {
   const SUPPLIER_FETCH_LIMIT = 100;
+  const USING_FILESTREAM = false;
 
   /**
    * Display a listing of the resource.
    */
   public function index()
-  {
-    $suppliers = Supplier::limit(self::SUPPLIER_FETCH_LIMIT)->get();
+  { 
+    $suppliersQuery = Supplier::query();
+
+    $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
+      return $supplier->latestNonModifiedStatus()->status != 'removed';
+    });
+
     $workSubcategories = WorkSubcategory::all();
     $productsServices = ProductService::all();
     return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
@@ -148,19 +155,54 @@ class SuppliersController extends Controller
     $statusHistory->save();
     //DELETE ATTACHMENTS REQUEST DENIED
     if($request->requestStatus == "denied"){
-      $supplier->attachments()->delete();
+      $this->destroyAttachments($supplier);
     }
 
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroyAttachmentsWhenDenied($id)
-    {
-      
+  public function removeFromList($id)
+  {
+    $supplier = Supplier::findOrFail($id);
+    $status = new StatusHistory();
+    $status->status = 'removed';
+    $status->updated_by = auth()->user()->email;
+    $status->supplier()->associate($supplier);
+    $status->save();
+
+    $this->destroyAttachments($supplier);
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.removeFromListSuccess'));
+  }
+
+  public function reactivate($id){
+    $supplier = Supplier::findOrFail($id);
+    $status = new StatusHistory();
+    $status->status = $supplier->latestActivableStatus()->status;
+    $status->updated_by = auth()->user()->email;
+    $status->supplier()->associate($supplier);
+    $status->save();
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.reactivationSuccess'));
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroyAttachments($supplier)
+  {
+    if(!(self::USING_FILESTREAM)){
+      $directory = $supplier->name;
+      $path = env('FILE_STORAGE_PATH'). "\\". $directory;
+
+      Log::debug($path);
+      if (file_exists($path)) {
+        File::deleteDirectory($path);
+      }
     }
+
+    $supplier->attachments()->delete();
+  }
 
     public function filter(Request $request)
     {
@@ -209,7 +251,9 @@ class SuppliersController extends Controller
             });
         }
         else{
-            $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get();
+          $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
+            return $supplier->latestNonModifiedStatus()->status != 'removed';
+          });
         }
 
         $workSubcategories = $workCategoriesQuery->get();

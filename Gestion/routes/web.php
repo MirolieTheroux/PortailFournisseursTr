@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\AttachmentsController;
 use App\Http\Middleware\LoggerMiddleware;
 
 // Route::get('/', function () {
@@ -24,3 +25,8 @@ Route::get('/services', [SuppliersController::class, 'search']);
 Route::get('/suppliers/{supplier}', [SuppliersController::class, 'show'])->name('suppliers.show');
 // MODIFICATION FICHE FOURNISSEUR
 Route::post('/suppliers/{supplier}',[SuppliersController::class, 'updateStatus'])->name('suppliers.updateStatus')->middleware(LoggerMiddleware::class);
+
+Route::get('/suppliers/remove/{supplier}', [SuppliersController::class, 'removeFromList'])->name('suppliers.removeFromList');
+Route::get('/suppliers/reactivate/{supplier}', [SuppliersController::class, 'reactivate'])->name('suppliers.reactivate');
+
+Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class, 'show'])->name('attachments.show');

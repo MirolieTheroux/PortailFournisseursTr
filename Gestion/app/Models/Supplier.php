@@ -84,4 +84,13 @@ class Supplier extends Model
         ->orderBy('created_at', 'desc')
         ->first();
     }
+
+    public function latestActivableStatus()
+    {
+        return $this->statusHistories()
+            ->where('status', '!=', 'modified')
+            ->where('status', '!=', 'removed')
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
 }
