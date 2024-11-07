@@ -58,6 +58,22 @@ class StatusHistoriesSeeder extends Seeder
             ],
             [
                 'id' => 6,
+                'status' => "modified",
+                'updated_by' => "nic@vtr.com",
+                'refusal_reason' => null,
+                'supplier_id' => 2,
+                'created_at' => '2024-12-10 10:10:10'
+            ],
+            [
+                'id' => 7,
+                'status' => "denied",
+                'updated_by' => "nic@vtr.com",
+                'refusal_reason' => Crypt::encrypt("Permis non valide"),
+                'supplier_id' => 2,
+                'created_at' => '2024-11-07 08:29:10'
+            ],
+            [
+                'id' => 8,
                 'status' => "waiting",
                 'updated_by' => "test3@gmail.com",
                 'refusal_reason' => null,
@@ -65,7 +81,7 @@ class StatusHistoriesSeeder extends Seeder
                 'created_at' => '2024-06-03 06:15:55'
             ],
             [
-                'id' => 7,
+                'id' => 9,
                 'status' => "modified",
                 'updated_by' => "test3@gmail.com",
                 'refusal_reason' => null,
@@ -73,7 +89,7 @@ class StatusHistoriesSeeder extends Seeder
                 'created_at' => '2024-06-04 21:35:24'
             ],
             [
-                'id' => 8,
+                'id' => 10,
                 'status' => "denied",
                 'updated_by' => "nic@vtr.com",
                 'refusal_reason' => Crypt::encrypt("Ne correspond pas au discussion au téléphone."),
@@ -81,7 +97,7 @@ class StatusHistoriesSeeder extends Seeder
                 'created_at' => '2024-06-15 09:50:25'
             ],
             [
-                'id' => 9,
+                'id' => 11,
                 'status' => "modified",
                 'updated_by' => "test4@gmail.com",
                 'refusal_reason' => null,
@@ -89,7 +105,7 @@ class StatusHistoriesSeeder extends Seeder
                 'created_at' => '2024-06-15 15:25:25'
             ],
             [
-                'id' => 10,
+                'id' => 12,
                 'status' => "toCheck",
                 'updated_by' => "système",
                 'refusal_reason' => null,

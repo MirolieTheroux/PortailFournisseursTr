@@ -16,6 +16,8 @@ use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Response;
+use Carbon\Carbon;
+use Symfony\Component\ErrorHandler\Debug;
 use Illuminate\Support\Facades\File;
 
 class SuppliersController extends Controller
@@ -101,15 +103,32 @@ class SuppliersController extends Controller
           ];
       });
       return $contact;
-  });
+    });
 
-    if (!is_null($supplier->latestNonModifiedStatus()->refusal_reason)) {
-      $decryptedReason = Crypt::decryptString($supplier->latestNonModifiedStatus()->refusal_reason);
-      $refusalReason = trim(unserialize($decryptedReason));
-    } else
-      $refusalReason = '';
-
-    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'refusalReason'));
+    $statusHistory = $supplier->statusHistories()->orderBy('created_at','asc')->get();
+    $decryptedReasons = $statusHistory->map(function ($history){
+      $deniedReason = "";
+      if(!is_null($history->refusal_reason))
+        $deniedReason = trim(unserialize(Crypt::decryptString($history->refusal_reason)));
+      else
+        $deniedReason = "";
+      return(object)[
+        'id' => $history->id,
+        'status' => $history->status,
+        'updated_by' => $history->updated_by,
+        'refusal_reason' => $deniedReason,
+        'supplier_id' => $history->supplier_id,
+        'created_at' => $history->created_at,
+        'updated_at' => null
+      ];
+    });
+    $deniedStatus = $decryptedReasons->filter(function ($history) {
+      return $history->status === 'denied';
+    });
+    
+    $latestDeniedReason = $deniedStatus->sortByDesc('created_at')->first();
+    
+    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason'));
   }
   
   /**
