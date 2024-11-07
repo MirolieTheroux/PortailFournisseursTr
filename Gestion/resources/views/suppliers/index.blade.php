@@ -48,7 +48,7 @@
                 <option value="denied">{{__('global.denied')}}</option>
                 <option value="waiting">{{__('global.waiting')}}</option>
                 <option value="toCheck">{{__('global.toCheck')}}</option>
-                <option value="removed">{{__('global.removed')}}</option>
+                <option value="deactivated">{{__('global.deactivated')}}</option>
               </select>
             </div>  
           @endrole
