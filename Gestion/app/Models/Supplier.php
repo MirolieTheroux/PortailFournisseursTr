@@ -71,17 +71,17 @@ class Supplier extends Model
 
     public function latestNonModifiedStatus()
     {
-        return $this->statusHistories()
-            ->where('status', '!=', 'modified')
-            ->orderBy('created_at', 'desc')
-            ->first();
+      return $this->statusHistories()
+        ->where('status', '!=', 'modified')
+        ->orderBy('created_at', 'desc')
+        ->first();
     }
 
     public function latestModifiedDate()
     {
-        return $this->statusHistories()
-            ->where('status', '=', 'modified')
-            ->orderBy('created_at', 'desc')
-            ->first();
+      return $this->statusHistories()
+        ->where('status', '=', 'modified')
+        ->orderBy('created_at', 'desc')
+        ->first();
     }
 }

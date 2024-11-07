@@ -8,8 +8,6 @@
 @section('title', 'Gestion - ' . $supplier->name)
 
 @section('content')
-<!--//TODO::
--->
 <div class="container-fluid h-100">
   <div class="row h-100">
     <!--NAVIGATION CÔTÉ-->
@@ -99,8 +97,7 @@
         - Afficher dans le popover les modifications quand la BD sera faite.
       -->
       <!--//? REMARQUES::
-        - Voir pourquoi le dernier history est décalé ?
-        - Est-ce qu'il peut y avoir plus d'un refus ?
+        - Mettre les statuts égaux 
       -->
       <!--//* NICE_TO_HAVE::
         - Mettre texte et curseur du textarea pour la raison du refus au début.
@@ -119,18 +116,18 @@
                 <div class="px-3 fw-bold">{{__('show.requestStatus')}}</div>
                 <div class="px-3 fw-bold">{{__('show.modifiedBy')}}</div>
               </div>
-              @foreach ($supplier->statusHistories as $history)
+              @foreach ($decryptedReasons as $reason)
               <div class="d-flex flex-row justify-content-between">
-                <div class="px-3">{{ $history->created_at }}</div>
-
+                <div class="px-3">{{ $reason->created_at }}</div>
+                
                 <div class="px-3 status">
-                  @switch($history->status)
+                  @switch($reason->status)
                   @case('denied')
                   <a href="#" tabindex="0"
                     class="popover-link"
                     data-bs-toggle="popover"
                     data-bs-trigger="click"
-                    data-bs-content="{{$refusalReason}}">
+                    data-bs-content="{{$reason->refusal_reason}}">
                     {{ __('global.denied') }}
                   </a>
                   @break
@@ -162,13 +159,12 @@
                   @endswitch
                 </div>
 
-                <div class="px-3">{{ $history->updated_by }}</div>
+                <div class="px-3">{{ $reason->updated_by }}</div>
               </div>
               @endforeach
-
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{__('global.close')}}</button>
+              <button type="button" class="m-2 py-1 px-3 rounded button-darkblue" data-bs-dismiss="modal">{{__('global.close')}}</button>
             </div>
           </div>
         </div>
@@ -244,7 +240,7 @@
                     style="height: 175px; resize: none;"
                     maxlength="1500"
                     disabled>
-                  {{$refusalReason}}
+                    {{is_null($latestDeniedReason) ? '' : $latestDeniedReason->refusal_reason }}
                   </textarea>
                   <label for="deniedReason" class="labelbackground">{{__('form.deniedReason')}}</label>
                 </div>
