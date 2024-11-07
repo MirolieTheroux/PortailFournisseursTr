@@ -142,21 +142,29 @@ class SuppliersController extends Controller
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
-  /**
-   * Remove the supplier from the suppliers list.
-   */
   public function removeFromList($id)
   {
     $supplier = Supplier::findOrFail($id);
     $status = new StatusHistory();
     $status->status = 'removed';
-    $status->updated_by = 'system';
+    $status->updated_by = auth()->user()->email;
     $status->supplier()->associate($supplier);
     $status->save();
 
     $this->destroyAttachments($supplier);
 
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.removeFromListSuccess'));
+  }
+
+  public function reactivate($id){
+    $supplier = Supplier::findOrFail($id);
+    $status = new StatusHistory();
+    $status->status = $supplier->latestActivableStatus()->status;
+    $status->updated_by = auth()->user()->email;
+    $status->supplier()->associate($supplier);
+    $status->save();
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.reactivationSuccess'));
   }
 
   /**

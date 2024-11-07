@@ -17,7 +17,11 @@
       <h4 class="py-2 fw-bold">{{$supplier->name}}</h4>
       @role(['responsable', 'admin'])
         <button id="btnExport" type="" class="my-2 py-1 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
+        @if($supplier->latestNonModifiedStatus()->status == 'removed')
+        <a id="btnDelete" href="{{route('suppliers.reactivate', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.reactivate')}}</a>
+        @else
         <a id="btnDelete" href="{{route('suppliers.removeFromList', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.removeFromList')}}</a>
+        @endif
       @endrole
       <div id="requestStatus-nav-button" class="py-1 rounded">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="m-2">
