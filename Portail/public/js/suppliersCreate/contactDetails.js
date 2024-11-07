@@ -109,7 +109,7 @@ async function addCitiesAndDAInSelect() {
 }
 
 //Validation section Adresse
-const regexAlphanum = /^[a-zA-Z0-9 ]+$/;
+const regexAlphanum = /^[-a-zA-Z0-9]+$/;
 
 document.getElementById("contactDetailsCivicNumber").addEventListener("input", validateCivicNumber);
 function validateCivicNumber() {
@@ -243,6 +243,12 @@ function validateSelectCity(){
 }
 
 document.getElementById("contactDetailsPostalCode").addEventListener("input", validatePostalCodeOnInput);
+document.getElementById("contactDetailsPostalCode").addEventListener("paste", (event) => {
+  // Get the pasted data from the clipboard
+  const pasteData = (event.clipboardData || window.clipboardData).getData('text');
+  
+    event.preventDefault();
+});
 function validatePostalCodeOnInput() {
   const regexFullCP = /^[A-Za-z]\d[A-Za-z]\d[A-Za-z]\d$/;
   const input = document.getElementById("contactDetailsPostalCode");
@@ -255,9 +261,17 @@ function validatePostalCodeOnInput() {
   invalidPostalCodeFormat.style.display = "none";
   invalidPostalCodeLength.style.display = "none";
 
-  const pcValue = input.value.toUpperCase();
-  input.value = pcValue;
 
+  if (/[^a-zA-Z0-9]/.test(input.value)) {
+    input.value = input.value.replace(/[^a-zA-Z0-9]/g, '');
+  }
+
+  input.value = input.value.toUpperCase();
+  const pcValue = input.value.replace(' ', '');
+
+  if (pcValue.length > 3) {
+    input.value = `${pcValue.slice(0, 3)} ${pcValue.slice(3)}`;
+  }
   // Basic validation logic
   if (!pcValue) {
     input.classList.remove("is-valid");
@@ -300,7 +314,7 @@ function validatePostalCodeOnInput() {
 
 document.getElementById("contactDetailsWebsite").addEventListener("blur", validateWebsite);
 function validateWebsite() {
-  const urlRegex = /^(https?:\/\/)(www\.)?([a-zA-Z0-9.-]+)(\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
+  const urlRegex = /^(www\.)?([a-zA-Z0-9.-]+)(\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
   const input = document.getElementById("contactDetailsWebsite");
   const invalidWebsite = document.getElementById("invalidWebsite");
   const invalidWebsiteLength = document.getElementById("invalidWebsiteLength");

@@ -54,7 +54,7 @@ class SupplierRequest extends FormRequest
             'contactDetailsCitySelect' => 'required_if:contactDetailsProvince,Québec',
             'contactDetailsInputCity' => 'required_unless:contactDetailsProvince,Québec|max:64',
             'contactDetailsPostalCode' => 'required|regex:/^[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9]$/i|max:6',
-            'contactDetailsWebsite' => 'nullable|url|max:64',
+            'contactDetailsWebsite' => 'nullable|regex:/^(www\.)?([a-zA-Z0-9.-]+)(\.[a-zA-Z]{2,})(\/[^\s]*)?$/|max:64',
             'phoneTypes.*' => 'required',
             'phoneNumbers.*' => 'required|regex:/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/',
             'phoneNumbers' => 'required',

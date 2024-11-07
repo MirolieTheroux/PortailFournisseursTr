@@ -74,59 +74,25 @@ emailInput.addEventListener('input', validateIdentificationEmail);
 
 function validateIdentificationEmail() {
   const invalidEmpty = document.getElementById('emailInvalidEmpty');
-  const invalidStart = document.getElementById('emailInvalidStart');
-  const invalidNoArobase = document.getElementById('emailInvalidNoArobase');
-  const invalidManyArobase = document.getElementById('emailInvalidManyArobase');
-  const invalidEmptyDomain = document.getElementById('emailInvalidEmptyDomain');
-  const invalidDomainFormat = document.getElementById('emailInvalidDomainFormat');
-  const invalidDomainDot = document.getElementById('emailInvalidDomainDot');
+  const invalidFormat = document.getElementById('emailInvalidFormat');
   const emailInvalidUnique = document.getElementById('emailInvalidUnique');
 
   // Reset all error messages
   invalidEmpty.style.display = 'none';
-  invalidStart.style.display = 'none';
-  invalidNoArobase.style.display = 'none';
-  invalidManyArobase.style.display = 'none';
-  invalidEmptyDomain.style.display = 'none';
-  invalidDomainFormat.style.display = 'none';
-  invalidDomainDot.style.display = 'none';
+  invalidFormat.style.display = 'none';
   emailInvalidUnique.style.display = 'none';
   
+  const regex = /^([-!#-'*+/-9=?A-Z^-~]+(\.[-!#-'*+/-9=?A-Z^-~]+)*|"([]!#-[^-~ \t]|(\\[\t -~]))+")@[0-9A-Za-z]([0-9A-Za-z-]{0,61}[0-9A-Za-z])?(\.[0-9A-Za-z]([0-9A-Za-z-]{0,61}[0-9A-Za-z])?)+$/g;
   // Basic validation logic
   if (!emailInput.value) {
     emailInput.classList.remove('is-valid');
     emailInput.classList.add('is-invalid');
     invalidEmpty.style.display = 'block';
   }
-  else if (emailInput.value.match(/^@/)) {
+  else if (!emailInput.value.match(regex)) {
     emailInput.classList.remove('is-valid');
     emailInput.classList.add('is-invalid');
-    invalidStart.style.display = 'block';
-  }
-  else if (!emailInput.value.match(/@/)) {
-    emailInput.classList.remove('is-valid');
-    emailInput.classList.add('is-invalid');
-    invalidNoArobase.style.display = 'block';
-  }
-  else if (emailInput.value.match(/@.*@/)) {
-    emailInput.classList.remove('is-valid');
-    emailInput.classList.add('is-invalid');
-    invalidManyArobase.style.display = 'block';
-  }
-  else if (emailInput.value.match(/@$/)) {
-    emailInput.classList.remove('is-valid');
-    emailInput.classList.add('is-invalid');
-    invalidEmptyDomain.style.display = 'block';
-  }
-  else if (!emailInput.value.match(/@.*\./)){
-    emailInput.classList.remove('is-valid');
-    emailInput.classList.add('is-invalid');
-    invalidDomainFormat.style.display = 'block';
-  }
-  else if (emailInput.value.match(/(@\.)|(\.$)/)){
-    emailInput.classList.remove('is-valid');
-    emailInput.classList.add('is-invalid');
-    invalidDomainDot.style.display = 'block';
+    invalidFormat.style.display = 'block';
   }
   else {
     emailInput.classList.remove('is-invalid');
@@ -249,8 +215,8 @@ async function validateIdentificationAll(){
   validateIdentificationPassword();
   validateIdentificationPasswordConfirmation(true);
 
-  if(emailInput.classList.contains("is-valid")){
-    let emailExist = await checkEmailUnique(emailInput.value, neqInput.value);
+  if(emailInput.classList.contains("is-valid") && !neqInput.value){
+    let emailExist = await checkEmailUnique(emailInput.value);
     if(emailExist){
       const emailInvalidUnique = document.getElementById('emailInvalidUnique');
       emailInput.classList.remove('is-valid');
@@ -259,7 +225,7 @@ async function validateIdentificationAll(){
     }
   }
 
-  if(neqInput.classList.contains("is-valid")){
+  if(neqInput.classList.contains("is-valid") && neqInput.value){
     let neqExist = await checkNeqUnique(neqInput.value);
     if(neqExist){
       const neqInvalidExist = document.getElementById('neqInvalidExist');
@@ -270,14 +236,14 @@ async function validateIdentificationAll(){
   }
 }
 
-async function checkEmailUnique(email, neq){
+async function checkEmailUnique(email){
   const response = await fetch('/suppliers/checkEmail', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
     },        
-    body: JSON.stringify({ email: email, neq: neq })
+    body: JSON.stringify({ email: email })
   })
   const data = await response.json();
   return data.exists;

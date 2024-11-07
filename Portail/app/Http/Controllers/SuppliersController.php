@@ -346,8 +346,7 @@ class SuppliersController extends Controller
   public function checkEmail(Request $request)
   {
     $email = $request->email;
-    $neq = $request->neq;
-    $exists = Supplier::where('neq', $neq)->where('email', $email)->exists();
+    $exists = Supplier::where('neq', null)->where('email', $email)->exists();
     return response()->json(['exists' => $exists]);
   }
 

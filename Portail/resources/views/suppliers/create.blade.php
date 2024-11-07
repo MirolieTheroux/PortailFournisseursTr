@@ -1,27 +1,45 @@
-<!--//* REMARQUES::Validation A106 non-conforme : Il faudrait qu'on enlever les espaces avant et après avant d'envoyer dans la BD-->
-<!--//* REMARQUES::Validation A210 non-conforme-->
-<!--//* REMARQUES::Validation A211 non-conforme-->
-<!--//* REMARQUES::Validation A212 non-conforme-->
-<!--//* REMARQUES::Validation A213 non-conforme-->
-<!--//* REMARQUES::Validation A214 non-conforme-->
-<!--//* REMARQUES::Validation A215 non-conforme-->
-<!--//* REMARQUES::Validation A216 non-conforme-->
-<!--//* REMARQUES::Validation A217 non-conforme-->
-<!--//* REMARQUES::Validation D101 non-conforme : Il faudrait permettre les tirets-->
-<!--//* REMARQUES::Validation D301 non-conforme : Il faudrait permettre les tirets-->
-<!--//* REMARQUES::Validation D601 non-conforme : Ajouter automatiquement le https://-->
 <!--//* REMARQUES::Validation E006 non-conforme-->
 <!--//* REMARQUES::(Nice_to_have?) Validation C102 non-conforme : Faire comme le numéro de téléphone? (Ne pas oublier d'enlever les tirets en back-end si on fait ça)-->
 <!--//* REMARQUES::(Nice_to_have?) Validation A012 non-conforme-->
-<!--//* REMARQUES::(Nice_to_have?) Validation D503 non-conforme : Permettre l'espace?-->
 
 <!--//* REMARQUES::Bouton Pièce jointe toujours en rouge-->
 
-<!--//? NICE_TO_HAVE::Enlever la validation unique du email entreprise-->
-<!--//? NICE_TO_HAVE::Changer les plus pour des "ajouter"-->
-<!--//? NICE_TO_HAVE::Mettre ajouter un contact plus visible-->
-<!--//? NICE_TO_HAVE::Mettre contact sur une ligne-->
+<!--//? NICE_TO_HAVE::PAGE PARAMÈTRES SUR ADMIN: Ajouter une option pour configurer les adresse mails valide-->
 
+<!--//? NICE_TO_HAVE::Changer les plus pour des "ajouter"-->
+
+<!--//? NICE_TO_HAVE::PROGRESS BAR:Empêcher l'utilisateur de naviguer dans la barre de progression s'il y a des erreurs-->
+<!--//? NICE_TO_HAVE::PROGRESS BAR:Est-ce qu'on veut ajouter un signe "!" à coté du nom de la section dans la flèche lorsqu'elle est rouge et un crochet lorsqu'elle est verte?-->
+
+<!--//? NICE_TO_HAVE::IDENTIFICATION:Enlever la validation unique du email entreprise-->
+
+<!--//? NICE_TO_HAVE::CONTACT:Mettre ajouter un contact plus visible-->
+<!--//? NICE_TO_HAVE::CONTACT:Mettre contact sur une ligne-->
+<!--//? NICE_TO_HAVE::CONTACT:Faire que l'on peut entrer le numéro de téléphone soit dans A ou dans B et que ça fonctionne-->
+<!--//? NICE_TO_HAVE::CONTACT:Est-ce qu'on permet de mettre des espaces pour le prénom/nom si la personne en a plusieurs?-->
+<!--//? NICE_TO_HAVE::CONTACT:Trouver une autre image de fond-->
+
+<!--//? NICE_TO_HAVE::PRODUITS:Ajouter un X pour supprimer les catégories-->
+<!--//? NICE_TO_HAVE::PRODUITS:Quand la recherche est vide, trier par ordre de numéro-->
+<!--//? NICE_TO_HAVE::PRODUITS:Drag and drop pour les catégories-->
+<!--//? NICE_TO_HAVE::PRODUITS:Synonymes pour la fonction de recherche-->
+<!--//? NICE_TO_HAVE::PRODUITS:Indicateur lorsque les données charge-->
+<!--//? NICE_TO_HAVE::PRODUITS:Ignorer les - lors de la recherche-->
+
+<!--//? NICE_TO_HAVE::RBQ:Formater automatiquement le numéro de licence RBQ-->
+
+<!--//? NICE_TO_HAVE::COORDONNÉES:Trouver une autre image de fond-->
+<!--//? NICE_TO_HAVE::COORDONNÉES:Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent-->
+<!--//? NICE_TO_HAVE::COORDONNÉES:Trier les Régions avec le code (1,2,3...)-->
+<!--//? NICE_TO_HAVE::COORDONNÉES:Vérifier si le site web est déjà présent dans la BD-->
+<!--//? NICE_TO_HAVE::COORDONNÉES:Vérifier si le # de tel est déjà dans la liste-->
+<!--//? NICE_TO_HAVE::COORDONNÉES:Lorsqu'il y a l'erreur du site suite au onblur, utiliser le oninput pour dire quand le site est bon (Comme les autres chants sont comme ça,je pense que ça peut créer de la confusion)-->
+<!--//? NICE_TO_HAVE::COORDONNÉES:Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse quand on a NEQ)-->
+<!--//? NICE_TO_HAVE::COORDONNÉES:Faire le responsive pour les téléphones comme la section Contacts-->
+
+<!--//? NICE_TO_HAVE::PIÈCES JOINTES:Voir pour qu'au format mobile on voit bien la date. Pour l'instant on voit bien avec le résumé du fichier choisi-->
+<!--//? NICE_TO_HAVE::PIÈCES JOINTES:Trouver comment envoyer le contenu du fichier pour stocker dans la BD-->
+<!--//? NICE_TO_HAVE::PIÈCES JOINTES:Trouver une autre image de fond-->
 @extends('layouts.app')
 
 @section('css')
@@ -34,14 +52,6 @@
 <form id="form" method="post" action="{{ route('suppliers.store') }}" class="need-validation" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
   @csrf
   <!--PROGRESS BAR-->
-  <!--REMARQUES::Est-ce qu'on veut pouvoir cliquer sur les sections suivantes(dans la barre de progression) même s'il y a des erreurs dans les pages précédentes?-->
-  <!--REMARQUES::Est-ce qu'on veut ajouter un signe "!" à coté du nom de la section dans la flèche lorsqu'elle est rouge et un crochet lorsqu'elle est verte?-->
-  
-  <!--NICE_TO_HAVE ::
-    - Changer la couleur aussi quand on change avec la progress bar (erreur/ok)
-    - Empêcher l'utilisateur de naviguer dans la barre de progression s'il y a des erreurs
-    - Ajouter un signe quand la section est ok et incorrecte.
-  -->
   <div class="container-fluid d-flex justify-content-center">
     <div id="progressBar" class="arrow-steps mt-3">
       <div class="step current clickFleche">
@@ -120,12 +130,7 @@
               <input type="email" name="email" id="email" class="form-control" placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64">
               <label for="email">{{__('form.emailLabel')}}</label>
               <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
-              <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('form.identificationValidationEmailStartWithArobase')}}</div>
-              <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('form.identificationValidationEmailArobaseRequired')}}</div>
-              <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">{{__('form.identificationValidationEmailOneArobaseOnly')}}</div>
-              <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">{{__('form.identificationValidationEmailDomain')}}</div>
-              <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">{{__('form.identificationValidationEmailDomainContainDot')}}</div>
-              <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">{{__('form.identificationValidationEmailDomainDotWrongPosition')}}</div>
+              <div class="invalid-feedback" id="emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
               <div class="invalid-feedback" id="emailInvalidUnique" style="display: none;">{{__('form.identificationValidationEmailUnique')}}</div>
             </div>
             @if($errors->has('email'))
@@ -170,26 +175,12 @@
     </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center mb-2">
-        <!-- <button type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.previous')}}</button> -->
         <button id="identification-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue next-button">{{__('global.next')}}</button>
       </div>
     </div>
   </div> <!--FIN IDENTIFICATION-->
 
   <!--PRODUIT ET SERVICE-->
-  <!--
-    REMARQUES::
-      - Personnellement, je ne pense pas que le X pour supprimer est un nice to have, je pense que c'est un must.
-          - Même si c'est marque de cliquez pour supprimer, je pense que plusieurs personne ne le liront pas et comme ce n'est pas intuitif, je pense
-            que ça pourrait créer de la confusion chez certains utilisateurs
-          - On peut attendre de voir avec le gars de UX/UI de la ville si tu aimes mieux par contre. (Car je pense que se sera pas trop long à changer)
-  -->
-  <!--NICE_TO_HAVE::Ajouter un X pour supprimer les catégories-->
-  <!--NICE_TO_HAVE::Quand la recherche est vide, trier par ordre de numéro-->
-  <!--NICE_TO_HAVE::Drag and drop pour les catégories-->
-  <!--NICE_TO_HAVE::Synonymes pour la fonction de recherche-->
-  <!--NICE_TO_HAVE::Indicateur lorsque les données charge-->
-  <!--NICE_TO_HAVE::Ignorer les - lors de la recherche-->
   <div class="container bg-white rounded my-2 form-section d-none" id="productsServices-section">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-products_services"></div>
@@ -253,7 +244,6 @@
   </div> <!--FIN PRODUIT ET SERVICE-->
 
   <!--LICENCE RBQ-->
-  <!--NICE_TO_HAVE::Formater automatiquement le numéro de licence RBQ-->
   <div class="container bg-white rounded my-2 form-section d-none" id="licence-section">
     <div class="row d-none d-md-block">
       <div class="col-12 rounded-top fond-image fond-rbq"></div>
@@ -460,26 +450,9 @@
   </div> <!--FIN LICENCE RBQ-->
 
   <!--COORDONNÉES-->
-  <!--NICE_TO_HAVE::
-    - Lorsqu'on ajoute plusieurs # de téléphone les inputs de la section adresse se séprarent
-    - Trier les Régions avec le code (1,2,3...)
-    - Vérifier si le site web est déjà présent dans la BD
-    - Vérifier si le # de tel est déjà dans la liste
-    - Pour validation pourquoi on utilise pas la classe bootstrap d-none au lieu de style="display: none;
-    -  Pour le site internet, est-ce qu'on veut que ca vérifie sur le oninput ou onblur quand l'utilisateur a fini d'entrer le site en ce moment syr onblur?
-    - Est-ce qu'on veut que les champs soit verts pour la validation(autocomplétion de l'adresse quand on a NEQ)
-    - Lorsqu'il y a l'erreur du site suite au onblur, utiliser le oninput pour dire quand le site est bon (Comme les autres chants sont comme ça,
-      je pense que ça peut créer de la confusion)
-    - Faire le responsive pour les téléphones comme la section Contacts
-  -->
-  <!--Questions::
-    - Pour l'accessibilité est-ce qu'on garde le aria-label ? Qu'est-ce que les gens de la ville avaient dit déjà?
-      - Nico : Ça va me prendre une explication de c'est quoi. Et on pourrait leur demander après la relâche.
-    - Voir pour les erreurs front-end back-end
-  -->
   <div class="container bg-white rounded my-2 form-section d-none" id="contactDetails-section">
     <div class="row d-none d-md-block">
-      <div class="col-12 rounded-top fond-image fond-coordonnees"></div> <!--TODO::Trouver une autre image de fond-->
+      <div class="col-12 rounded-top fond-image fond-coordonnees"></div>
     </div>
     <div class="row">
       <div class="col-12 text-center">
@@ -563,7 +536,7 @@
               <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
             </div>
             <div class="form-floating">
-              <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ old('contactDetailsPostalCode') }}" placeholder="" maxlength="6">
+              <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ old('contactDetailsPostalCode') }}" placeholder="" maxlength="7">
               <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
               @if($errors->has('contactDetailsPostalCode'))
               <p>{{ $errors->first('contactDetailsPostalCode') }}</p>
@@ -694,12 +667,9 @@
   </div> <!--FIN COORDONÉES-->
 
   <!--CONTACT-->
-    <!--Questions::Pourrait être dans les Nice to have ; est-ce qu'on permet de mettre des espaces pour le prénom/nom si la personne en a plusieurs ?-->
-    <!--NICE_TO_HAVE::Formater automatiquement le numéro de tel sous le format 000-000-0000-->
-    <!--NICE_TO_HAVE::Faire que l'on peut entrer le numéro de téléphone soit dans A ou dans B et que ça fonctionne-->
     <div class="container bg-white rounded my-2 form-section d-none" id="contacts-section">
         <div class="row d-none d-md-block">
-            <div class="col-12 rounded-top fond-image fond-contacts"></div> <!--TODO::Trouver une autre image de fond-->
+            <div class="col-12 rounded-top fond-image fond-contacts"></div>
         </div>
         <div class="row">
             <div class="col-8 col-md-10 offset-2 offset-md-1 text-center">
@@ -954,18 +924,9 @@
     </div> <!--FIN CONTACT-->
 
   <!--PIÈCES JOINTES-->
-   <!--TODO::
-    - Trouver comment envoyer le contenu du fichier pour stocker dans la BD.
-    - Bug validation même nom fichier (vidéo nico)
-  -->
-  <!--NICE_TO_HAVE::
-    - Voir pour qu'au format mobile on voit bien la date. Pour l'instant on voit bien avec le résumé du fichier choisi.
-    - Les fichiers ne réapparaissent pas lorsque si la validation backend ne passe pas (les old ne sont pas gérés)
-      - A rajouter dans les nice to have?
-  -->
   <div class="container bg-white rounded my-2 width-sm w-60 form-section d-none" id="attachments-section">
     <div class="row d-none d-md-block">
-      <div class="col-12 rounded-top fond-image fond-attachment"></div> <!--TODO::Trouver une autre image de fond-->
+      <div class="col-12 rounded-top fond-image fond-attachment"></div>
     </div>
     <div class="row">
       <div class="col-12 text-center">
