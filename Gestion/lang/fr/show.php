@@ -17,4 +17,6 @@ return [
     'history' => 'Historique',
     'dateAndTime' => 'Date et heure',
     'modifiedBy' => 'Modifié par',
+    'removeFromList' => 'Retirer de la liste',
+    'removeFromListSuccess' => 'Le fournisseur a été retirer de la liste avec succès',
 ];

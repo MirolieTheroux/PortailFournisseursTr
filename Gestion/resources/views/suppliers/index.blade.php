@@ -15,7 +15,7 @@
   <div class="container-fluid h-100">
     <div class="row h-100">
       <div class="col-3 bg-white h-100 full-viewport sticky-under-navbar">
-        <form id="filterForm" class="h-100 d-flex flex-column justify-content-between">
+        <form id="filterForm" class="h-100 d-flex flex-column justify-content-start">
           <button id="btnListSelectedSupplier" type="button" class="d-none my-2 py-1 px-3 rounded button-darkblue">{{__('index.listSelectedSuppliers')}}</button>
           @role(['responsable', 'admin'])
             @php

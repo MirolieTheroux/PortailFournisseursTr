@@ -16,11 +16,11 @@ use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Response;
-use Carbon\Carbon;
 
 class SuppliersController extends Controller
 {
   const SUPPLIER_FETCH_LIMIT = 100;
+  const USING_FILESTREAM = false;
 
   /**
    * Display a listing of the resource.
@@ -130,19 +130,37 @@ class SuppliersController extends Controller
     $statusHistory->save();
     //DELETE ATTACHMENTS REQUEST DENIED
     if($request->requestStatus == "denied"){
-      $supplier->attachments()->delete();
+      $this->destroyAttachments($supplier);
     }
 
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroyAttachmentsWhenDenied($id)
-    {
-      
-    }
+  /**
+   * Remove the supplier from the suppliers list.
+   */
+  public function removeFromList($id)
+  {
+    $supplier = Supplier::findOrFail($id);
+    $status = new StatusHistory();
+    $status->status = 'removed';
+    $status->updated_by = 'system';
+    $status->supplier()->associate($supplier);
+    $status->save();
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.removeFromListSuccess'));
+    //$this->destroyAttachments($supplier);
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroyAttachments($supplier)
+  {
+    $supplier->attachments()->delete();
+
+    //TODO::Ajouter le code pour supprimer les fichiers du serveur
+  }
 
     public function filter(Request $request)
     {

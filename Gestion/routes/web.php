@@ -26,4 +26,6 @@ Route::get('/suppliers/{supplier}', [SuppliersController::class, 'show'])->name(
 // MODIFICATION FICHE FOURNISSEUR
 Route::post('/suppliers/{supplier}',[SuppliersController::class, 'updateStatus'])->name('suppliers.updateStatus')->middleware(LoggerMiddleware::class);
 
+Route::get('/suppliers/remove/{supplier}', [SuppliersController::class, 'removeFromList'])->name('suppliers.removeFromList');
+
 Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class, 'show'])->name('attachments.show');

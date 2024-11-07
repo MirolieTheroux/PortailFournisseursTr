@@ -16,7 +16,8 @@
     <div class="left-nav shadow-sm col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-start">
       <h4 class="py-2 fw-bold">{{$supplier->name}}</h4>
       @role(['responsable', 'admin'])
-      <button id="btnExport" type="" class="my-2 py-1 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
+        <button id="btnExport" type="" class="my-2 py-1 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
+        <a id="btnDelete" href="{{route('suppliers.removeFromList', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.removeFromList')}}</a>
       @endrole
       <div id="requestStatus-nav-button" class="py-1 rounded">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="m-2">
@@ -202,6 +203,7 @@
                       <option value="toCheck" {{ $supplier->latestNonModifiedStatus()->status == 'toCheck' ? 'selected' : null}}>{{__('global.toCheck')}}</option>
                       <option value="accepted" {{ $supplier->latestNonModifiedStatus()->status == 'accepted' ? 'selected' : null}}>{{__('global.accepted')}}</option>
                       <option value="denied" {{ $supplier->latestNonModifiedStatus()->status == 'denied' ? 'selected' : null}}>{{__('global.denied')}}</option>
+                      <option value="removed" {{ $supplier->latestNonModifiedStatus()->status == 'removed' ? 'selected' : null}} disabled>{{__('global.removed')}}</option>
                     </select>
                     <label for="requestStatus" id="">{{__('form.status')}}</label>
                   </div>
