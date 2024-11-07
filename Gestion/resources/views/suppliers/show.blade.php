@@ -15,7 +15,7 @@
       <h4 class="py-2 fw-bold">{{$supplier->name}}</h4>
       @role(['responsable', 'admin'])
         <button id="btnExport" type="" class="my-2 py-1 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
-        @if($supplier->latestNonModifiedStatus()->status == 'removed')
+        @if($supplier->latestNonModifiedStatus()->status == 'deactivated')
         <a id="btnDelete" href="{{route('suppliers.reactivate', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.reactivate')}}</a>
         @else
         <a id="btnDelete" href="{{route('suppliers.removeFromList', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.removeFromList')}}</a>
@@ -203,7 +203,7 @@
                       <option value="toCheck" {{ $supplier->latestNonModifiedStatus()->status == 'toCheck' ? 'selected' : null}}>{{__('global.toCheck')}}</option>
                       <option value="accepted" {{ $supplier->latestNonModifiedStatus()->status == 'accepted' ? 'selected' : null}}>{{__('global.accepted')}}</option>
                       <option value="denied" {{ $supplier->latestNonModifiedStatus()->status == 'denied' ? 'selected' : null}}>{{__('global.denied')}}</option>
-                      <option value="removed" {{ $supplier->latestNonModifiedStatus()->status == 'removed' ? 'selected' : null}} disabled>{{__('global.removed')}}</option>
+                      <option value="deactivated" {{ $supplier->latestNonModifiedStatus()->status == 'deactivated' ? 'selected' : null}} disabled>{{__('global.deactivated')}}</option>
                     </select>
                     <label for="requestStatus" id="">{{__('form.status')}}</label>
                   </div>

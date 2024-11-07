@@ -89,7 +89,7 @@ class Supplier extends Model
     {
         return $this->statusHistories()
             ->where('status', '!=', 'modified')
-            ->where('status', '!=', 'removed')
+            ->where('status', '!=', 'deactivated')
             ->orderBy('created_at', 'desc')
             ->first();
     }
