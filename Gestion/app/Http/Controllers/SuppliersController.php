@@ -26,8 +26,13 @@ class SuppliersController extends Controller
    * Display a listing of the resource.
    */
   public function index()
-  {
-    $suppliers = Supplier::limit(self::SUPPLIER_FETCH_LIMIT)->get();
+  { 
+    $suppliersQuery = Supplier::query();
+
+    $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
+      return $supplier->latestNonModifiedStatus()->status != 'removed';
+    });
+
     $workSubcategories = WorkSubcategory::all();
     $productsServices = ProductService::all();
     return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
@@ -209,7 +214,9 @@ class SuppliersController extends Controller
             });
         }
         else{
-            $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get();
+          $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
+            return $supplier->latestNonModifiedStatus()->status != 'removed';
+          });
         }
 
         $workSubcategories = $workCategoriesQuery->get();
