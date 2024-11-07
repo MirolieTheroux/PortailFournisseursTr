@@ -12,6 +12,7 @@ use App\Models\Contact;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SupplierUpdateStatusRequest;
+use App\Http\Requests\SupplierDenialRequest;
 use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -161,6 +162,13 @@ class SuppliersController extends Controller
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
+  public function denyRequest(SupplierDenialRequest $request, Supplier $supplier)
+  {
+    $this->changeSupplierStatusWithReason($supplier, "denied", $request->deniedReason);
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.denialSuccess'));
+  }
+
   public function approveRequest($id)
   {
     $supplier = Supplier::findOrFail($id);
@@ -190,6 +198,14 @@ class SuppliersController extends Controller
     $status = new StatusHistory();
     $status->status = $newStatus;
     $status->updated_by = auth()->user()->email;
+    $status->supplier()->associate($supplier);
+    $status->save();
+  }
+  private function changeSupplierStatusWithReason($supplier, $newStatus, $reason){
+    $status = new StatusHistory();
+    $status->status = $newStatus;
+    $status->updated_by = auth()->user()->email;
+    $status->refusal_reason = Crypt::encrypt($reason);
     $status->supplier()->associate($supplier);
     $status->save();
   }

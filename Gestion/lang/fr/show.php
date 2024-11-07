@@ -15,6 +15,8 @@ return [
     'confirmation' => 'Confirmation',
     'acceptConfirmation' => 'Veuillez confirmer l\'approbation de la demande.',
     'denyRequest' => 'Refuser la demande',
+    'denyConfirmation' => 'Veuillez confirmer le refus de la demande.',
+    'deniedReason' => 'Raison du refus',
     'exportSupplierToFinance' => 'Exporter vers les finances',
     'history' => 'Historique',
     'dateAndTime' => 'Date et heure',
@@ -25,4 +27,5 @@ return [
     'reactivationSuccess' => 'Le fournisseur a été remis dans la liste avec succès',
     'approvalSuccess' => 'Le fournisseur a été accepté avec succès',
     'denialSuccess' => 'Le fournisseur a été refusé avec succès',
+    'denialReasonRequiredError' => 'La raison du refus est requise.',
 ];

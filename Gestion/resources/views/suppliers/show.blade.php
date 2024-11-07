@@ -192,12 +192,42 @@
         </div>
       </div><!-- END Approval Modal-->
 
+      <!--Denial Modal-->
+      <div class="modal fade" id="denialModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="denialModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <form id="denialForm" class="modal-content" method="POST" action="{{route('suppliers.denyRequest', [$supplier])}}" enctype="multipart/form-data">
+            @csrf
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">{{__('show.confirmation')}}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div>
+                {{__('show.denyConfirmation')}}
+              </div>
+              
+              <div class="text-start">
+                <div class="form-floating mb-3">
+                  <textarea type="textarea" name="deniedReason" id="deniedReason" class="form-control " placeholder=""></textarea>
+                  <label for="deniedReason">{{__('show.deniedReason')}}</label>
+                  <div class="invalid-feedback" id="denialReasonRequiredError" style="display: none;">{{__('show.denialReasonRequiredError')}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('global.cancel')}}</button>
+              <button id="denialConfirmButton" type="submit" class="m-2 py-2 px-3 rounded button-darkblue">{{__('global.confirm')}}</a>
+            </div>
+          </form>
+        </div>
+      </div><!-- END Denial Modal-->
+
       <div class="container d-flex flex-column h-100 show-section" id="requestStatus-section">
         @role(['responsable', 'admin'])
           @if($supplier->latestNonModifiedStatus()->status == 'waiting' || $supplier->latestNonModifiedStatus()->status == 'toCheck')
             <div class="d-flex justify-content-end btnRequest">
               <button id="btnAccept" type="button" class="m-2 py-1 px-3 rounded button-darkblue" data-bs-toggle="modal" data-bs-target="#approvalModal">{{__('show.acceptRequest')}}</button>
-              <button id="btnDeny" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.denyRequest')}}</button>
+              <button id="btnDeny" type="button" class="m-2 py-1 px-3 rounded button-darkblue" data-bs-toggle="modal" data-bs-target="#denialModal">{{__('show.denyRequest')}}</button>
             </div>
           @endif
         @endrole
@@ -924,9 +954,6 @@
         </div>
       </div><!--FIN LICENCE RBQ-->
       <!--PIÈCES JOINTES-->
-      <!--//*NICE_TO_HAVE::
-      - Rendre les pièces jointes ouvrables.
-      -->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
         <div class=" bg-white rounded my-2 form-section">
           <div class="row">
@@ -1134,4 +1161,5 @@
 
 @section('scripts')
 <script src=" {{ asset('js/showSupplier.js') }} "></script>
+<script src=" {{ asset('js/suppliers/validateDenialForm.js') }} "></script>
 @endsection
