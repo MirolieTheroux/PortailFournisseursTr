@@ -10,7 +10,7 @@ use App\Models\Attachment;
 class AttachmentsController extends Controller
 {
   const USING_FILESTREAM = false;
-  
+
   public function show($supplier_id, $attachment_id){
     $supplier = Supplier::findOrFail($supplier_id);
     $attachment = Attachment::findOrFail($attachment_id);
@@ -27,7 +27,7 @@ class AttachmentsController extends Controller
 
       return response()->file($path, [
         'Content-Type' => mime_content_type($path),
-        'Content-Disposition' => 'inline',
+        'Content-Disposition' => 'inline; filename="' . $filename  . '"',
       ]);
     }
   }
