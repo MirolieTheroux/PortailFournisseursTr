@@ -96,7 +96,7 @@
     <div class="col-10 h-100 px-4 py-0">
       <!--ETAT DEMANDE-->
       <!--//TODO::
-        
+        - Afficher dans le popover les modifications quand la BD sera faite.
       -->
       <!--//? REMARQUES::
         - Voir pourquoi le dernier history est décalé ?
@@ -261,6 +261,13 @@
           </div>
         </form>
       </div><!--FIN ETAT DEMANDE-->
+       <!--//TODO::
+        
+      -->
+      <!--//? REMARQUES::
+      -->
+      <!--//* NICE_TO_HAVE::
+      -->
       <!--IDENTIFICATION-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="identification-section">
         <div class=" bg-white rounded my-2 form-section px-3 w-85">
@@ -300,8 +307,9 @@
           @role(['responsable', 'admin'])
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
+              <button id="btnCancelId" type="button" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</button>
               <button id="btnModifyId" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-              <button id="btnSaveId" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+              <button id="btnSaveId" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
           </div>
           @endrole

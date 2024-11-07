@@ -86,7 +86,6 @@ requestStatusEditBtn.addEventListener("click", ()=>{
   requestStatusCancelBtn.classList.remove("d-none");
   requestStatus.removeAttribute("disabled");
   deniedReason.removeAttribute("disabled");
-  //enlever l"option en attente.
   requestStatus.options.remove(0);
 });
 //Btn Enregistrer
@@ -154,6 +153,43 @@ function initializePopovers() {
       }
     });
 }
+//-- FIN ETAT DEMANDE--//
+
+//--IDENTIFICATION--//
+const idBtnCancel = document.getElementById("btnCancelId");
+const idBtnModify = document.getElementById("btnModifyId"); 
+const idBtnSave = document.getElementById("btnSaveId"); 
+const neq = document.getElementById("neq");
+const companyName = document.getElementById("name");
+const email = document.getElementById("email");
+
+//Btn annuler
+idBtnCancel.addEventListener("click" , ()=>{
+  idBtnModify.classList.remove("d-none");
+  idBtnCancel.classList.add("d-none");
+  idBtnSave.classList.add("d-none");
+  neq.setAttribute("disabled","");
+  companyName.setAttribute("disabled","");
+  email.setAttribute("disabled","");
+})
+//Btn Modifier
+idBtnModify.addEventListener("click", ()=>{
+  idBtnCancel.classList.remove("d-none");
+  idBtnSave.classList.remove("d-none");
+  idBtnModify.classList.add("d-none");
+  neq.removeAttribute("disabled");
+  companyName.removeAttribute("disabled");
+  email.removeAttribute("disabled");
+});
+//Btn Enregistrer
+idBtnSave.addEventListener("click", () => {
+  idBtnCancel.classList.add("d-none");
+  idBtnSave.classList.add("d-none");
+  idBtnModify.classList.add("d-none");
+});
+
+//--FIN IDENTIFICATION--//
+
 document.addEventListener("DOMContentLoaded", function () {
   getSectionsInfo();
   showBtnAcceptedDenied();
