@@ -68,6 +68,13 @@ div{
 .button-darkblue:hover{
     background-color: #10315a;
 }
+a.button-darkblue{
+    text-decoration-line: none;
+}
+a.button-darkblue:hover{
+    color: white;
+    cursor: pointer;
+}
 
 .button-red{
     border: 0;

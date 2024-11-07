@@ -40,6 +40,9 @@ body{
 .text-to-review{
     color: #bf6a02;
 }
+.text-removed{
+    color: #999999;
+}
 
 
 /* PRODUIT ET SERVICE */
