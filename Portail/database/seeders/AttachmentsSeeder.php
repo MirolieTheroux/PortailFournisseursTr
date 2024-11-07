@@ -31,6 +31,22 @@ class AttachmentsSeeder extends Seeder
                 'deposit_date' => Carbon::create('2000', '09', '10'),
                 'supplier_id' => 1,
             ],
+            [
+                'id' => 3,
+                'name' => 'PortailFournisseur',
+                'type' => 'pdf',
+                'size' => '5',
+                'deposit_date' => Carbon::create('2000', '09', '10'),
+                'supplier_id' => 4,
+            ],
+            [
+                'id' => 4,
+                'name' => 'anphiteatre',
+                'type' => 'jpg',
+                'size' => '81',
+                'deposit_date' => Carbon::create('2000', '09', '10'),
+                'supplier_id' => 4,
+            ],
         ]);
     }
 }
