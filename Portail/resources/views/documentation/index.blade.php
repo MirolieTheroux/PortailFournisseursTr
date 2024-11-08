@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', __('documentation.title'))
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/documentation.css') }}">
 @endsection
@@ -21,11 +23,11 @@
   <div class="row h-100">
     <!--NICE_TO_HAVE::Box-Shadow pour le menu du côté.-->
     <div class="d-none d-md-block col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-start">
-      <div id="login-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.login')}}</div>
-      <div id="signup-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.signUp')}}</div>
-      <div id="home-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.homePage')}}</div>
-      <div id="update-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.updateAccount')}}</div>
-      <div id="delete-nav-button" class="text-center rounded py-1 mt-2 doc-nav-button">{{__('documentation.deleteAccount')}}</div>
+      <div id="login-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.login')}}</div>
+      <div id="signup-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.signUp')}}</div>
+      <div id="home-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.homePage')}}</div>
+      <div id="update-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.updateAccount')}}</div>
+      <div id="delete-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.deleteAccount')}}</div>
     </div>
 
     <div class="col-10 h-100 px-5">

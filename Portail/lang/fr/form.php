@@ -3,6 +3,7 @@
 // lang/en/messages.php
 
 return [
+    'signupTitle' => 'Soumettre une demande',
     'neqLabel' => 'Numéro d\'entreprise du Québec (NEQ)',
     'neqLabelShort' => 'NEQ',
     'companyNameLabel' => 'Nom de l\'entreprise',

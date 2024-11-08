@@ -24,6 +24,8 @@
 
 @extends('layouts.app')
 
+@section('title', __('form.signupTitle'))
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/supplier.css') }}">
 <link rel="stylesheet" href="{{ asset('css/progressBar.css') }}">
