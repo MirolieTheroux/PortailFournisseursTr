@@ -21,6 +21,9 @@ use Carbon\Carbon;
 use Symfony\Component\ErrorHandler\Debug;
 use Illuminate\Support\Facades\File;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ApprovalMail;
+
 class SuppliersController extends Controller
 {
   const SUPPLIER_FETCH_LIMIT = 100;
@@ -172,7 +175,8 @@ class SuppliersController extends Controller
   public function approveRequest($id)
   {
     $supplier = Supplier::findOrFail($id);
-    $this->changeStatus($supplier, "accepted");
+    //$this->changeStatus($supplier, "accepted");
+    $this->sendApprovalMail($supplier->email);
 
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.approvalSuccess'));
   }
@@ -401,5 +405,15 @@ class SuppliersController extends Controller
     $writer->save($temp_file);
 
     return response()->download($temp_file, $fileName)->deleteFileAfterSend(true);
+  }
+
+  public function sendApprovalMail($supplierEmail){
+    Log::debug($supplierEmail);
+    $details = [
+      'title' => 'Mail from Laravel',
+      'body' => 'This is a test email.'
+    ];
+    Mail::to('fleurent.nicolas@hotmail.com')->send(new ApprovalMail($details));
+    return "Email Sent!";
   }
 }
