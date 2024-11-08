@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
-@section('css')
-@endsection
+@section('title', __('selectedSuppliersList.selectedListTitle'))
 
 @section('content')
 <form action="{{ route('suppliers.selectedList.export') }}" method="POST">

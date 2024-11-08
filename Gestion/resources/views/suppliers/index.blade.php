@@ -6,6 +6,8 @@
 <!--//? NICE_TO_HAVE: Faire en sorte qu'on puisse déselectionner le bouton fournisseur en attente-->
 @extends('layouts.app')
 
+@section('title', __('index.suppliersListTitle'))
+
 @section('css')
   <link rel="stylesheet" href="{{ asset('css/MultiSelect.css') }}">
   <link rel="stylesheet" href="{{ asset('css/suppliers/index.css') }}">
