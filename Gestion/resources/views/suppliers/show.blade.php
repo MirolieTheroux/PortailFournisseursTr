@@ -159,8 +159,12 @@
                   {{ __('global.toCheck') }}
                   @break
 
+                  @case('deactivated')
+                  {{ __('global.deactivated') }}
+                  @break
+
                   @default
-                  {{ $history->status }}
+                  {{ $reason->status }}
                   @endswitch
                 </div>
 
