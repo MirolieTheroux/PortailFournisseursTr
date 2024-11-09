@@ -6,7 +6,9 @@
 @endsection
 
 @section('title', 'Gestion - ' . $supplier->name)
-
+<!--//* NICE_TO_HAVE
+  - Quand on arrive sur la fiche fournisseur mettre le statut demande sélectionné sur le côté.
+-->
 @section('content')
 <div class="container-fluid h-100">
   <div class="row h-100">
@@ -101,11 +103,9 @@
       <!--//TODO::
         - Afficher dans le popover les modifications quand la BD sera faite.
       -->
-      <!--//? REMARQUES::
-        - Mettre les statuts égaux 
-      -->
       <!--//* NICE_TO_HAVE::
         - Mettre texte et curseur du textarea pour la raison du refus au début.
+        - Mettre les statuts égaux 
       -->
       <!-- Modal for History -->
       <div class="modal fade" id="modalHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="statusHistory" aria-hidden="true">
@@ -322,50 +322,58 @@
       -->
       <!--IDENTIFICATION-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="identification-section">
-        <div class=" bg-white rounded my-2 form-section px-3 w-85">
-          <div class="row">
-            <div class="col-12 text-center">
-              <h1>{{__('form.identificationTitle')}}</h1>
+        <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
+        @csrf
+        @method('PATCH')
+          <div class=" bg-white rounded my-2 form-section px-3 w-85">
+            <div class="row">
+              <div class="col-12 text-center">
+                <h1>{{__('form.identificationTitle')}}</h1>
+              </div>
             </div>
-          </div>
-          <div class="row py-3">
-            <div class="col-6 d-flex flex-column justify-content-between">
-              <div class="d-flex flex-column justify-content-between h-100">
+            <div class="row py-3">
+              <div class="col-6 d-flex flex-column justify-content-between">
+                <div class="d-flex flex-column justify-content-between h-100">
+                  <div class="text-start">
+                    <div class="form-floating mb-3">
+                      <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ $supplier->neq ? : 'N/A' }}" maxlength="10" disabled>
+                      <label for="neq">{{__('form.neqLabel')}}</label>
+                      <div class="invalid-feedback d-none" id="neqInvalidStart">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
+                      <div class="invalid-feedback d-none" id="neqInvalidCharacters">{{__('form.identificationValidationNEQOnlyDigits')}}</div>
+                      <div class="invalid-feedback d-none" id="neqInvalidAmount">{{__('form.identificationValidationNEQAmount')}}</div>
+                      <div class="invalid-feedback d-none" id="neqInvalidExist">{{__('form.identificationNeqExistValidation')}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
                 <div class="text-start">
                   <div class="form-floating mb-3">
-                    <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ $supplier->neq ? : 'N/A' }}" maxlength="10" disabled>
-                    <label for="neq">{{__('form.neqLabel')}}</label>
+                    <input type="text" name="name" id="name" class="form-control" placeholder="" value="{{ $supplier->name }}" maxlength="64" disabled>
+                    <label for="name">{{__('form.companyNameLabel')}}</label>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-6">
+            <div class="row text-center">
               <div class="text-start">
                 <div class="form-floating mb-3">
-                  <input type="text" name="name" id="name" class="form-control" placeholder="" value="{{ $supplier->name }}" maxlength="64" disabled>
-                  <label for="name">{{__('form.companyNameLabel')}}</label>
+                  <input type="email" name="email" id="email" class="form-control" placeholder="example@gmail.com" value="{{ $supplier->email }}" maxlength="64" disabled>
+                  <label for="email">{{__('form.emailLabel')}}</label>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row text-center">
-            <div class="text-start">
-              <div class="form-floating mb-3">
-                <input type="email" name="email" id="email" class="form-control" placeholder="example@gmail.com" value="{{ $supplier->email }}" maxlength="64" disabled>
-                <label for="email">{{__('form.emailLabel')}}</label>
+            @role(['responsable', 'admin'])
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center mb-2">
+                <button id="btnCancelId" type="button" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</button>
+                <button id="btnModifyId" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveId" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
+            @endrole
           </div>
-          @role(['responsable', 'admin'])
-          <div class="row">
-            <div class="col-12 d-flex justify-content-center mb-2">
-              <button id="btnCancelId" type="button" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</button>
-              <button id="btnModifyId" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-              <button id="btnSaveId" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
-            </div>
-          </div>
-          @endrole
-        </div>
+        </from>  
       </div><!--FIN IDENTIFICATION-->
       <!--COORDONNÉES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
@@ -1022,7 +1030,7 @@
                       @foreach ($supplier->attachments as $file)
                       <div class="row mb-2 ">
                         <div class="col-6 fs-6 fileName">
-                          <a href="{{ route('attachments.show', ['supplier' => $supplier->id, 'attachment' => $file->id]) }}" target="_blank">{{ $file->name }}</a>
+                         
                         </div>
                         <div class="col-2 fs-6 text-center fileSize">
                           {{$file->size}}
@@ -1162,4 +1170,5 @@
 @section('scripts')
 <script src=" {{ asset('js/showSupplier.js') }} "></script>
 <script src=" {{ asset('js/suppliers/validateDenialForm.js') }} "></script>
+<script src=" {{ asset('js/suppliers/validationsSupplier/createValidationIdentification.js') }} "></script>
 @endsection

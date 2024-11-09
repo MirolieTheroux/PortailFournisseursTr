@@ -165,6 +165,15 @@ class SuppliersController extends Controller
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
+    /**
+   * Update identification of supplier.
+   */
+  public function updateIdentification(Supplier $supplier)
+  {
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
+  }
+
   public function denyRequest(SupplierDenialRequest $request, Supplier $supplier)
   {
     $this->changeSupplierStatusWithReason($supplier, "denied", $request->deniedReason);

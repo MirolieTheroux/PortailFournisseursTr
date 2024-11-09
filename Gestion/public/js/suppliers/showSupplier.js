@@ -2,6 +2,12 @@ let sections;
 let navSectionsDivs;
 let lastClickedDiv = null; 
 
+document.addEventListener("DOMContentLoaded", function () {
+  getSectionsInfo();
+  initializePopovers();
+  showDeniedReason();
+});
+
 // NAVIGATE SECTIONS FORM
 function getSectionsInfo() {
   const navSectionsDivs = Array.from(document.querySelectorAll(".shadow-sm > div")).slice(1);
@@ -181,9 +187,6 @@ idBtnSave.addEventListener("click", () => {
 
 //--FIN IDENTIFICATION--//
 
-document.addEventListener("DOMContentLoaded", function () {
-  getSectionsInfo();
-  initializePopovers();
-});
+
 
 
