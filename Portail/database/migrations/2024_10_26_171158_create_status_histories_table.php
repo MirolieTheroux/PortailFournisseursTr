@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('status_histories', function (Blueprint $table) {
             $table->id();
-            $table->string('status', 10);
+            $table->string('status', 11);
             $table->string('updated_by', 64);
             $table->longText('refusal_reason')->nullable();
             $table->foreignId('supplier_id')->constrained('suppliers');
