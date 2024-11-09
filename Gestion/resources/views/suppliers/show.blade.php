@@ -210,7 +210,7 @@
                 <div class="form-floating mb-3">
                   <textarea type="textarea" name="deniedReason" id="deniedReason" class="form-control " placeholder=""></textarea>
                   <label for="deniedReason">{{__('show.deniedReason')}}</label>
-                  <div class="invalid-feedback" id="denialReasonRequiredError" style="display: none;">{{__('show.denialReasonRequiredError')}}</div>
+                  <div class="invalid-feedback d-none" id="denialReasonRequiredError">{{__('show.denialReasonRequiredError')}}</div>
                 </div>
               </div>
             </div>
@@ -247,13 +247,13 @@
             <div class="px-3">
               <div class="row pb-3">
                 <div class="col-6">
-                  <div class="form-floating ">
+                  <div class="form-floating">
                     <select name="requestStatus" id="requestStatus" class="form-select" aria-label="" disabled>
                       <option value="waiting" selected>{{__('global.waiting')}}</option>
-                      <option value="toCheck" {{ $supplier->latestNonModifiedStatus()->status == 'toCheck' ? 'selected' : null}}>{{__('global.toCheck')}}</option>
-                      <option value="accepted" {{ $supplier->latestNonModifiedStatus()->status == 'accepted' ? 'selected' : null}}>{{__('global.accepted')}}</option>
-                      <option value="denied" {{ $supplier->latestNonModifiedStatus()->status == 'denied' ? 'selected' : null}}>{{__('global.denied')}}</option>
-                      <option value="deactivated" {{ $supplier->latestNonModifiedStatus()->status == 'deactivated' ? 'selected' : null}} disabled>{{__('global.deactivated')}}</option>
+                      <option value="toCheck" {{ $supplier->latestNonModifiedStatus()->status === 'toCheck' ? 'selected' : null}}>{{__('global.toCheck')}}</option>
+                      <option value="accepted" {{ $supplier->latestNonModifiedStatus()->status === 'accepted' ? 'selected' : null}}>{{__('global.accepted')}}</option>
+                      <option value="denied" {{ $supplier->latestNonModifiedStatus()->status === 'denied' ? 'selected' : null}}>{{__('global.denied')}}</option>
+                      <option value="deactivated" {{ $supplier->latestNonModifiedStatus()->status === 'deactivated' ? 'selected' : null}} disabled>{{__('global.deactivated')}}</option>
                     </select>
                     <label for="requestStatus" id="">{{__('form.status')}}</label>
                   </div>
@@ -266,7 +266,7 @@
                 </div>
               </div>
               <div class="row pb-3">
-                <div class=" col-6">
+                <div class="col-6">
                   <div class="form-floating">
                     <input type="date" name="requestStatusCreatedDate" id="requestStatusCreatedDate" class="form-control" value="{{date_format($supplier->created_at, 'Y-m-d')}}" placeholder="" disabled>
                     <label for="requestStatusCreatedDate" id="">{{__('form.requestCreatedDate')}}</label>
@@ -291,14 +291,14 @@
                 <div class="form-floating">
                   <textarea
                     class="form-control"
-                    name="deniedReason"
-                    placeholder="" id="deniedReason"
+                    name="deniedReasonText"
+                    placeholder="" id="deniedReasonText"
                     style="height: 175px; resize: none;"
                     maxlength="1500"
                     disabled>
                     {{is_null($latestDeniedReason) ? '' : $latestDeniedReason->refusal_reason }}
                   </textarea>
-                  <label for="deniedReason" class="labelbackground">{{__('form.deniedReason')}}</label>
+                  <label for="deniedReasonText" class="labelbackground">{{__('form.deniedReason')}}</label>
                 </div>
               </div>
               <div class="row">
@@ -313,65 +313,79 @@
           </div>
         </form>
       </div><!--FIN ETAT DEMANDE-->
-       <!--//TODO::
-        
-      -->
       <!--//? REMARQUES::
-      -->
-      <!--//* NICE_TO_HAVE::
-      -->
+       -  Voir pourquoi quand on enregistre les boutons disparaissent.
+       - Est ce qu'on met un message quand il l'utilisateur enregistre, mais qu'il n'y a pas de modification de détectée ?
+       - Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
+       -->
       <!--IDENTIFICATION-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="identification-section">
+      <div class="container d-flex flex-column h-100 show-section" id="identification-section">
         <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
-          <div class=" bg-white rounded my-2 form-section px-3 w-85">
+          <div class="bg-white my-2 rounded form-section w-100">
             <div class="row">
               <div class="col-12 text-center">
                 <h1>{{__('form.identificationTitle')}}</h1>
               </div>
             </div>
-            <div class="row py-3">
-              <div class="col-6 d-flex flex-column justify-content-between">
-                <div class="d-flex flex-column justify-content-between h-100">
-                  <div class="text-start">
-                    <div class="form-floating mb-3">
-                      <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ $supplier->neq ? : 'N/A' }}" maxlength="10" disabled>
-                      <label for="neq">{{__('form.neqLabel')}}</label>
-                      <div class="invalid-feedback d-none" id="neqInvalidStart">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
-                      <div class="invalid-feedback d-none" id="neqInvalidCharacters">{{__('form.identificationValidationNEQOnlyDigits')}}</div>
-                      <div class="invalid-feedback d-none" id="neqInvalidAmount">{{__('form.identificationValidationNEQAmount')}}</div>
-                      <div class="invalid-feedback d-none" id="neqInvalidExist">{{__('form.identificationNeqExistValidation')}}</div>
-                    </div>
+            <div class="px-3">
+              <div class="row pb-3">
+                <div class="col-6">
+                  <div class="form-floating">
+                    <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ $supplier->neq ? : 'N/A' }}" maxlength="10" disabled>
+                    <label for="neq">{{__('form.neqLabel')}}</label>
+                    <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
+                    <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('form.identificationValidationNEQOnlyDigits')}}</div>
+                    <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('form.identificationValidationNEQAmount')}}</div>
+                    <div class="invalid-feedback" id="neqInvalidExist" style="display: none;">{{__('form.identificationNeqExistValidation')}}</div>
                   </div>
+                  @if($errors->has('neq'))
+                  <p>{{ $errors->first('neq') }}</p>
+                  @endif
                 </div>
-              </div>
-              <div class="col-6">
-                <div class="text-start">
-                  <div class="form-floating mb-3">
+                <div class="col-6">
+                  <div class="form-floating">
                     <input type="text" name="name" id="name" class="form-control" placeholder="" value="{{ $supplier->name }}" maxlength="64" disabled>
                     <label for="name">{{__('form.companyNameLabel')}}</label>
+                    <div id="nameStart"></br></div>
+                    <div class="valid-feedback" id="nameValid" style="display: none;"></br></div>
+                    <div class="invalid-feedback" id="nameInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Nom d\'entreprise'])}}</div>
+                  </div>
+                  @if($errors->has('name'))
+                  <p>{{ $errors->first('name') }}</p>
+                  @endif
+                </div>
+              </div>
+              <div class="row pb-3">
+                <div class="col-12">
+                  <div class="form-floating">
+                    <input type="email" name="email" id="email" class="form-control" placeholder="" value="{{ $supplier->email }}" maxlength="64" disabled>
+                    <label for="email">{{__('form.emailLabel')}}</label>
+                    <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
+                    <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('form.identificationValidationEmailStartWithArobase')}}</div>
+                    <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('form.identificationValidationEmailArobaseRequired')}}</div>
+                    <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">{{__('form.identificationValidationEmailOneArobaseOnly')}}</div>
+                    <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">{{__('form.identificationValidationEmailDomain')}}</div>
+                    <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">{{__('form.identificationValidationEmailDomainContainDot')}}</div>
+                    <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">{{__('form.identificationValidationEmailDomainDotWrongPosition')}}</div>
+                    <div class="invalid-feedback" id="emailInvalidUnique" style="display: none;">{{__('form.identificationValidationEmailUnique')}}</div>
                   </div>
                 </div>
+                @if($errors->has('email'))
+                <p>{{ $errors->first('email') }}</p>
+                @endif
               </div>
-            </div>
-            <div class="row text-center">
-              <div class="text-start">
-                <div class="form-floating mb-3">
-                  <input type="email" name="email" id="email" class="form-control" placeholder="example@gmail.com" value="{{ $supplier->email }}" maxlength="64" disabled>
-                  <label for="email">{{__('form.emailLabel')}}</label>
+              @role(['responsable', 'admin'])
+              <div class="row">
+                <div class="col-12 d-flex justify-content-center mb-2">
+                  <button id="btnCancelId" type="button" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</button>
+                  <button id="btnModifyId" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                  <button id="btnSaveId" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
                 </div>
               </div>
+              @endrole
             </div>
-            @role(['responsable', 'admin'])
-            <div class="row">
-              <div class="col-12 d-flex justify-content-center mb-2">
-                <button id="btnCancelId" type="button" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</button>
-                <button id="btnModifyId" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-                <button id="btnSaveId" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
-              </div>
-            </div>
-            @endrole
           </div>
         </from>  
       </div><!--FIN IDENTIFICATION-->
@@ -1168,7 +1182,10 @@
 @endsection
 
 @section('scripts')
-<script src=" {{ asset('js/showSupplier.js') }} "></script>
+<script src=" {{ asset('js/suppliers/update/status.js') }} "></script>
+<script src=" {{ asset('js/suppliers/update/identification.js') }} "></script>
+<script src=" {{ asset('js/suppliers/update/contactDetails.js') }} "></script>
+<script src=" {{ asset('js/suppliers/showSupplier.js') }} "></script>
 <script src=" {{ asset('js/suppliers/validateDenialForm.js') }} "></script>
-<script src=" {{ asset('js/suppliers/validationsSupplier/createValidationIdentification.js') }} "></script>
+
 @endsection

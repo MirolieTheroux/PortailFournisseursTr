@@ -28,4 +28,10 @@ return [
     'approvalSuccess' => 'Le fournisseur a été accepté avec succès',
     'denialSuccess' => 'Le fournisseur a été refusé avec succès',
     'denialReasonRequiredError' => 'La raison du refus est requise.',
+
+    'failToUpdate' => 'La mise à jour n\'a pas fonctionné',
+    'successUpdateStatus' => 'L\'état de la demande a été mis à jour.',
+    'successUpdateIdentification' => 'L\'identification a été mise à jour.',
+    'noChangesDetected' => 'Aucune modification détectée.', 
+
 ];

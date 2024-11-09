@@ -27,6 +27,9 @@ Route::get('/suppliers/{supplier}', [SuppliersController::class, 'show'])->name(
 Route::post('/suppliers/{supplier}',[SuppliersController::class, 'updateStatus'])->name('suppliers.updateStatus')->middleware(LoggerMiddleware::class);
 Route::patch('/suppliers/{supplier}',[SuppliersController::class, 'updateIdentification'])->name('suppliers.updateIdentification')->middleware(LoggerMiddleware::class);
 
+Route::post('/suppliers/checkEmail', [SuppliersController::class, 'checkEmail'])->name('suppliers.checkEmail');
+Route::post('/suppliers/checkNeq', [SuppliersController::class, 'checkNeq'])->name('suppliers.checkNeq');
+
 Route::get('/suppliers/remove/{supplier}', [SuppliersController::class, 'removeFromList'])->name('suppliers.removeFromList');
 Route::get('/suppliers/reactivate/{supplier}', [SuppliersController::class, 'reactivate'])->name('suppliers.reactivate');
 Route::get('/suppliers/approve/{supplier}', [SuppliersController::class, 'approveRequest'])->name('suppliers.approveRequest');
