@@ -532,7 +532,7 @@
 
       <!--CONTACT-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contacts-section">
-        <form action="{{ route('suppliers.updateContacts', ['supplier'=>$supplier]) }}" method="post" class="need-validation" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+        <form action="{{ route('suppliers.updateContacts', ['supplier'=>$supplier]) }}" method="post" class="need-validation w-100" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
           @csrf
           <div class=" bg-white rounded my-2 form-section w-100">
             <div class="row">
