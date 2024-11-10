@@ -267,19 +267,14 @@ function validateContactsName(id) {
 function validateContactsJob(id) {
   const input = document.getElementById(id);
   const parentDiv = input.parentElement;
-  const invalidRequiredMessage = parentDiv.querySelector('.jobInvalidRequired');
 
   // Reset all error messages
-  invalidRequiredMessage.style.display = 'none';
 
   // Basic validation logic
   if (!input.value) {
     input.classList.remove('is-valid');
-    input.classList.add('is-invalid');
-    invalidRequiredMessage.style.display = 'block';
   }
   else {
-    input.classList.remove('is-invalid');
     input.classList.add('is-valid');
   }
 

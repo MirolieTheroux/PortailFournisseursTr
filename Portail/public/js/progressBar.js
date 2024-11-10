@@ -60,8 +60,7 @@ function nextSectionButton(){
       if(nextButton.id == "identification-button"){
         let response = await validateIdentificationAll();
       }
-      if (isSectionValid(currentStep) && (currentStep < steps.length - 1)) {
-        steps[currentStep].classList.remove("current");
+      if (isSectionValid(currentStep) && (currentStep < steps.length)) {
         progressBarSteps[currentStep].classList.remove("section-invalid");
         progressBarSteps[currentStep].classList.add("section-valid");
         currentStep++;  

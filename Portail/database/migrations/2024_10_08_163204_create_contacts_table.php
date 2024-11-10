@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('email', 64);
             $table->string('first_name', 32);
             $table->string('last_name', 32);
-            $table->string('job', 32);
+            $table->string('job', 32)->nullable();
             $table->foreignId('supplier_id')->constrained('suppliers');
             $table->timestamps();
         });

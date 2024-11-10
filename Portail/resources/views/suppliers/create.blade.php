@@ -1,8 +1,5 @@
-<!--//* REMARQUES::Validation E006 non-conforme-->
-<!--//* REMARQUES::(Nice_to_have?) Validation C102 non-conforme : Faire comme le numéro de téléphone? (Ne pas oublier d'enlever les tirets en back-end si on fait ça)-->
-<!--//* REMARQUES::(Nice_to_have?) Validation A012 non-conforme-->
-
-<!--//* REMARQUES::Bouton Pièce jointe toujours en rouge-->
+<!--//? NICE_TO_HAVE::Formatter la license RBQ (0000-0000-00)-->
+<!--//? NICE_TO_HAVE::Formatter le NEQ-->
 
 <!--//? NICE_TO_HAVE::PAGE PARAMÈTRES SUR ADMIN: Ajouter une option pour configurer les adresse mails valide-->
 
@@ -851,7 +848,6 @@
                                 <input type="text" name="contactJobs[]" id="contactJob1" class="form-control contact-input contact-job-input" placeholder="" maxlength="32">
                                 <label id="contactJobLabel1" for="contactJob1">{{__('form.jobLabel')}}</label>
                                 <div class="text-start valid-feedback jobValid" style="display: none;"></br></div>
-                                <div class="text-start invalid-feedback jobInvalidRequired" style="display: none;">{{__('form.contactsJobsValidationRequired')}}</div>
                             </div>
                         </div>
                         <div class="text-center mb-4">
