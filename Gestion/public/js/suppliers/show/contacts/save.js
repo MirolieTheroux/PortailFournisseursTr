@@ -8,9 +8,16 @@ function addContactsSaveListeners(){
   btnSaveContacts.addEventListener('click', saveContacts);
 }
 
-function saveContacts(){
+function saveContacts(event){
   validateContactsAll();
 
-  //in /supplier/show/contacts/cancel
-  //disableContactSectionEdit();
+  const currentSectionErrors = contactsContainer.querySelectorAll(".invalid-feedback");
+  
+  currentSectionErrors.forEach(errorMessage => {
+    console.log("Test invalid input");
+    if (errorMessage.style.display == "block") {
+      console.log("Test invalid input visible");
+      event.preventDefault();
+    }
+  });
 }

@@ -280,11 +280,6 @@ function validateContactsExtension(id) {
   input.classList.add('was-validated');
 }
 
-/*const contactsSectionNext = document.getElementById("contacts-button");
-contactsSectionNext.addEventListener("click", (event)=>{
-  validateContactsAll();
-});*/
-
 function validateContactsAll(){
   addContactsValidationListeners();
   const inputs = document.querySelectorAll(".contact-input");

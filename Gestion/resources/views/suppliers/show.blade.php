@@ -500,7 +500,7 @@
 
       <!--CONTACT-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contacts-section">
-        <form action="{{ route('suppliers.updateContacts') }}" method="post" class="need-validation" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+        <form action="{{ route('suppliers.updateContacts', ['supplier'=>$supplier]) }}" method="post" class="need-validation" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
           @csrf
           <div class=" bg-white rounded my-2 form-section w-100">
             <div class="row">
@@ -577,7 +577,7 @@
                           <label id="{{"contactTelTypeLabelA" . ($loop->index+1)}}" for="{{"contactTelTypeA" . ($loop->index+1)}}">{{__('form.typeLabel')}}</label>
                         </div>
                         <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                          <input type="text" name="contactTelNumbersA[]" id="{{"contactTelNumberA" . ($loop->index+1)}}" class="form-control contact-input contact-primary-phone-input" placeholder="" maxlength="10" value="{{ $contact->formattedPhoneNumbers[0]->number }}" disabled>
+                          <input type="text" name="contactTelNumbersA[]" id="{{"contactTelNumberA" . ($loop->index+1)}}" class="form-control contact-input contact-primary-phone-input" placeholder="" maxlength="12" value="{{ $contact->formattedPhoneNumbers[0]->number }}" disabled>
                           <label id="{{"contactTelNumberLabelA" . ($loop->index+1)}}" class="my-4 my-md-0 ms-md-2" for="{{"contactTelNumberA" . ($loop->index+1)}}">{{__('form.numberLabel')}}</label>
                         </div>
                         <div class="form-floating col-12 col-md-3">
@@ -604,7 +604,7 @@
                             <label id="{{"contactTelTypeLabelB" . ($loop->index+1)}}" for="{{"contactTelTypeB" . ($loop->index+1)}}">{{__('form.typeLabel')}}</label>
                           </div>
                           <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                            <input type="text" name="contactTelNumbersB[]" id="{{"contactTelNumberB" . ($loop->index+1)}}" class="form-control contact-input contact-secondary-phone-input" placeholder="" maxlength="10" value="{{ $contact->formattedPhoneNumbers[1]->number ? : 'N/A' }}" disabled>
+                            <input type="text" name="contactTelNumbersB[]" id="{{"contactTelNumberB" . ($loop->index+1)}}" class="form-control contact-input contact-secondary-phone-input" placeholder="" maxlength="12" value="{{ $contact->formattedPhoneNumbers[1]->number ? : 'N/A' }}" disabled>
                             <label id="{{"contactTelNumberLabelB" . ($loop->index+1)}}" class="my-4 my-md-0 ms-md-2" for="{{"contactTelNumberB" . ($loop->index+1)}}">{{__('form.numberLabel')}}</label>
                           </div>
                           <div class="form-floating col-12 col-md-3">
@@ -631,7 +631,7 @@
                             <label id="{{"contactTelTypeLabelB" . ($loop->index+1)}}" for="{{"contactTelTypeB" . ($loop->index+1)}}">{{__('form.typeLabel')}}</label>
                           </div>
                           <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                            <input type="text" name="contactTelNumbersB[]" id="{{"contactTelNumberB" . ($loop->index+1)}}" class="form-control contact-input contact-secondary-phone-input" placeholder="" maxlength="10" value="N/A" disabled>
+                            <input type="text" name="contactTelNumbersB[]" id="{{"contactTelNumberB" . ($loop->index+1)}}" class="form-control contact-input contact-secondary-phone-input" placeholder="" maxlength="12" value="N/A" disabled>
                             <label id="{{"contactTelNumberLabelB" . ($loop->index+1)}}" class="my-4 my-md-0 ms-md-2" for="{{"contactTelNumberB" . ($loop->index+1)}}">{{__('form.numberLabel')}}</label>
                           </div>
                           <div class="form-floating col-12 col-md-3">
@@ -1115,6 +1115,9 @@
 @endsection
 
 @section('scripts')
+<script>
+  const desktopString = "@lang('form.officeNumber')";
+</script>
 <script src=" {{ asset('js/showSupplier.js') }} "></script>
 <script src=" {{ asset('js/suppliers/validateDenialForm.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/edit.js') }} "></script>

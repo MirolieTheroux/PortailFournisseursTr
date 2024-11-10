@@ -22,5 +22,6 @@ return [
     'close' => 'Fermer',
     'confirm' => 'Confirmer',
 
+    'updateSuccess' => 'La modification a fonctionné',
     'updateFailed' => 'La modification n\'a pas fonctionné',
 ];
