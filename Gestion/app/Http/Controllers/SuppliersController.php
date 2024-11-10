@@ -8,11 +8,14 @@ use App\Models\Supplier;
 use App\Models\StatusHistory;
 use App\Models\WorkSubcategory;
 use App\Models\ProductService;
+use App\Models\Contact;
+use App\Models\PhoneNumber;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SupplierUpdateStatusRequest;
 use App\Http\Requests\SupplierDenialRequest;
-use App\Http\Requests\SupplierUpdateIdentificationRequest;
+use App\Http\Requests\SupplierUpdateContactsRequest;
+
 use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -261,6 +264,70 @@ class SuppliersController extends Controller
     }
 
     $supplier->attachments()->delete();
+  }
+
+  public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
+  {
+    Log::debug($request);
+    try {
+      for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
+        if($request->contactIds[$i] != -1){
+          $contact = Contact::findOrFail($request->contactIds[$i]);
+        }
+        else{
+          $contact = new Contact();
+        }
+        
+        $contact->email = $request->contactEmails[$i];
+        $contact->first_name = $request->contactFirstNames[$i];
+        $contact->last_name = $request->contactLastNames[$i];
+        $contact->job = $request->contactJobs[$i];
+        $contact->supplier()->associate($supplier);
+        $contact->save();
+
+        if($request->contactTelIdsA[$i] != -1){
+          $phoneNumberA = PhoneNumber::findOrFail($request->contactTelIdsA[$i]);
+        }
+        else{
+          $phoneNumberA = new PhoneNumber();
+        }
+        $phoneNumberA->number = str_replace('-', '', $request->contactTelNumbersA[$i]);
+        $phoneNumberA->type = $request->contactTelTypesA[$i];
+        $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
+
+        Log::debug($phoneNumberA);
+        Log::debug($request->contactTelIdsA[$i]);
+        if($request->contactTelIdsA[$i] == -1){
+          Log::debug("Dans le if?");
+          $phoneNumberA->supplier()->associate(null);
+          $phoneNumberA->contact()->associate($contact);
+        }
+        $phoneNumberA->save();
+
+        if(!is_null($request->contactTelNumbersB[$i])){
+          if($request->contactTelIdsB[$i] != -1){
+            $phoneNumberB = PhoneNumber::findOrFail($request->contactTelIdsB[$i]);
+          }
+          else{
+            $phoneNumberB = new PhoneNumber();
+          }
+          $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
+          $phoneNumberB->type = $request->contactTelTypesB[$i];
+          $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
+          if($request->contactTelIdsB[$i] == -1){
+            $phoneNumberB->supplier()->associate(null);
+            $phoneNumberB->contact()->associate($contact);
+          }
+          $phoneNumberB->save();
+        }
+      }
+      $this->changeStatus($supplier, "modified");
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('global.updateSuccess'));
+      
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
   }
 
     public function filter(Request $request)

@@ -159,8 +159,12 @@
                   {{ __('global.toCheck') }}
                   @break
 
+                  @case('deactivated')
+                  {{ __('global.deactivated') }}
+                  @break
+
                   @default
-                  {{ $history->status }}
+                  {{ $reason->status }}
                   @endswitch
                 </div>
 
@@ -515,218 +519,169 @@
           @endrole
         </div>
       </div><!--FIN COORDONNÉES-->
+
       <!--CONTACT-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contacts-section">
-        <div class=" bg-white rounded my-2 form-section w-100">
-          <div class="row">
-            <div class="col-8 col-md-10 offset-2 offset-md-1 text-center">
-              <h1 class="section-title">{{__('form.contactsTitle')}}</h1>
-            </div>
-            <div class="col-2 col-md-1 d-flex align-items-center justify-content-center d-none">
-              <button type="button" class="add-contact p-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div id="contactsRow" class="row justify-content-center px-3">
-            @if(!is_null(old('contactFirstNames')))
-            @foreach(old('contactFirstNames') as $contactFirstName)
-            <div id="referenceContact" class="col-12 col-lg-6 d-flex flex-column justify-content-between mb-2">
-              <div class="rounded px-3 border">
-                <div class="row">
-                  <h2 id="contactSubtitle1" class="col-11 text-start section-subtitle">{{__('form.contactsSubtitle')}}</h2>
-                  <button type="button" class="col-1 text-end delete-contact p-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
-                    </svg>
-                  </button>
-                </div>
-                <div class="row">
-                  <div class="col-12 col-lg-6 text-center mb-4">
-                    <div class="form-floating">
-                      <input type="text" name="contactFirstNames[]" id="contactFirstName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="">
-                      <label id="contactFirstNameLabel1" for="contactFirstName1">{{__('form.firstNameLabel')}}</label>
-                    </div>
-                  </div>
-                  <div class="col-12 col-lg-6 text-center mb-4">
-                    <div class="form-floating">
-                      <input type="text" name="contactLastNames[]" id="contactLastName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="">
-                      <label id="contactLastNameLabel1" for="contactLastName1">{{__('form.lastNameLabel')}}</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-center mb-4">
-                  <div class="form-floating">
-                    <input type="text" name="contactJobs[]" id="contactJob1" class="form-control contact-input contact-job-input" placeholder="" maxlength="32" value="">
-                    <label id="contactJobLabel1" for="contactJob1">{{__('form.jobLabel')}}</label>
-                  </div>
-                </div>
-                <div class="text-center mb-4">
-                  <div class="form-floating">
-                    <input type="text" name="contactEmails[]" id="contactEmail1" class="form-control contact-input contact-email-input" placeholder="" maxlength="64" value="">
-                    <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}}</label>
-                  </div>
-                </div>
-                <h2 class="text-center section-subtitle">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
-                <div class="mb-4">
-                  <div class="text-center d-flex flex-column flex-md-row mb-0">
-                    <div class="form-floating col-12 col-md-3">
-                      <select name="contactTelTypesA[]" id="contactTelTypeA1" class="form-select" aria-label="" value="">
-                        <option value="desktop">{{__('form.officeNumber')}}</option>
-                        <option value="fax">{{__('form.fax')}}</option>
-                        <option value="cellphone">{{__('form.cellphone')}}</option>
-                      </select>
-                      <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}}</label>
-                    </div>
-                    <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                      <input type="text" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control" placeholder="" maxlength="10" value="">
-                      <label id="contactTelNumberLabelA1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberA1">{{__('form.numberLabel')}}</label>
-                    </div>
-                    <div class="form-floating col-12 col-md-3">
-                      <input type="text" name="contactTelExtensionsA[]" id="contactTelExtensionA1" class="form-control" placeholder="" maxlength="6" value="">
-                      <label id="contactTelExtensionLabelA1" for="contactTelExtensionA1">{{__('form.phoneExtension')}}</label>
-                    </div>
-                  </div>
-
-                </div>
-                <h2 class="text-center section-subtitle d-md-none">{{__('form.phoneNumber')}}</h2>
-                <div class="mb-4">
-                  <div class="text-center d-flex flex-column flex-md-row mb-0">
-                    <div class="form-floating col-12 col-md-3">
-                      <select name="contactTelTypesB[]" id="contactTelTypeB1" class="form-select" aria-label="" value="">
-                        <option value="desktop">{{__('form.officeNumber')}}</option>
-                        <option value="fax">{{__('form.fax')}}</option>
-                        <option value="cellphone">{{__('form.cellphone')}}</option>
-                      </select>
-                      <label id="contactTelTypeLabelB1" for="contactTelTypeB1">{{__('form.typeLabel')}}</label>
-                    </div>
-                    <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                      <input type="text" name="contactTelNumbersB[]" id="contactTelNumberB1" class="form-control" placeholder="" maxlength="10" value="">
-                      <label id="contactTelNumberLabelB1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberB1">{{__('form.numberLabel')}}</label>
-                    </div>
-                    <div class="form-floating col-12 col-md-3">
-                      <input type="text" name="contactTelExtensionsB[]" id="contactTelExtensionB1" class="form-control" placeholder="" maxlength="6" value="">
-                      <label id="contactTelExtensionLabelB1" for="contactTelExtensionB1">{{__('form.phoneExtension')}}</label>
-                    </div>
-                  </div>
-                </div>
+        <form action="{{ route('suppliers.updateContacts', ['supplier'=>$supplier]) }}" method="post" class="need-validation" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+          @csrf
+          <div class=" bg-white rounded my-2 form-section w-100">
+            <div class="row">
+              <div class="col-8 col-md-10 offset-2 offset-md-1 text-center">
+                <h1 class="section-title">{{__('form.contactsTitle')}}</h1>
+              </div>
+              <div class="col-2 col-md-1 d-flex align-items-center justify-content-center d-none">
+                <button type="button" class="add-contact p-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                  </svg>
+                </button>
               </div>
             </div>
-            @endforeach
-            @else
-            <div id="referenceContact" class="d-flex flex-row justify-content-between mb-2 pe-3">
-              <!-- <div class="row">
-              </div> -->
-              @foreach ($supplier->contacts as $contact)
-              <div class="rounded pt-1 px-3 border ms-2">
-                <div class="row">
-                  <h2 id="contactSubtitle1" class="col-11 text-start section-subtitle">{{__('form.contactsSubtitle')}}</h2>
-                  <button type="button" class="col-1 text-end delete-contact p-0 d-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
-                    </svg>
-                  </button>
-                </div>
-                <div class="row">
-                  <div class="col-12 col-lg-6 text-center mb-4">
-                    <div class="form-floating">
-                      <input type="text" name="contactFirstNames[]" id="contactFirstName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="{{ $contact->first_name}}" disabled>
-                      <label id="contactFirstNameLabel1" for="contactFirstName1">{{__('form.firstNameLabel')}}</label>
-                      <div class="text-start invalid-feedback nameInvalidRequired" style="display: none;">{{__('form.contactsFirstNamesValidationRequired')}}</div>
-                      <div class="text-start invalid-feedback nameInvalidSymbols" style="display: none;">{{__('form.contactsNamesValidationSymbols')}}</div>
+            <div id="contactsRow" class="row justify-content-center px-3">
+                @foreach ($supplier->contacts as $contact)
+                <div class="col-12 col-lg-6 d-flex flex-column justify-content-between mb-2 contactCard">
+                  <div class="rounded px-3 pt-2 border">
+                    <div class="row">
+                      <h2 class="col-11 text-start section-subtitle">{{__('form.contactsSubtitle')}}</h2>
+                      <button type="button" class="col-1 text-end delete-contact p-0 d-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                        </svg>
+                      </button>
                     </div>
-                  </div>
-                  <div class="col-12 col-lg-6 text-center mb-4">
-                    <div class="form-floating">
-                      <input type="text" name="contactLastNames[]" id="contactLastName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="{{ $contact->last_name }}" disabled>
-                      <label id="contactLastNameLabel1" for="contactLastName1">{{__('form.lastNameLabel')}}</label>
-                      <div class="text-start invalid-feedback nameInvalidRequired" style="display: none;">{{__('form.contactsLastNamesValidationRequired')}}</div>
-                      <div class="text-start invalid-feedback nameInvalidSymbols" style="display: none;">{{__('form.contactsNamesValidationSymbols')}}</div>
+                    <div class="row">
+                      <div class="col-12 col-lg-6 text-center mb-4">
+                        <div class="form-floating">
+                          <input type="number" name="contactIds[]" id="{{"contactId" . ($loop->index+1)}}" value="{{ $contact->id}}" hidden>
+                          <input type="text" name="contactFirstNames[]" id="{{"contactFirstName" . ($loop->index+1)}}" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="{{ $contact->first_name}}" disabled>
+                          <label id="{{"contactFirstNameLabel" . ($loop->index+1)}}" for="{{"contactFirstName" . ($loop->index+1)}}">{{__('form.firstNameLabel')}}</label>
+                          <div class="text-start invalid-feedback nameInvalidRequired" style="display: none;">{{__('form.contactsFirstNamesValidationRequired')}}</div>
+                          <div class="text-start invalid-feedback nameInvalidSymbols" style="display: none;">{{__('form.contactsNamesValidationSymbols')}}</div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-lg-6 text-center mb-4">
+                        <div class="form-floating">
+                          <input type="text" name="contactLastNames[]" id="{{"contactLastName" . ($loop->index+1)}}" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="{{ $contact->last_name }}" disabled>
+                          <label id="{{"contactLastNameLabel" . ($loop->index+1)}}" for="{{"contactLastName" . ($loop->index+1)}}">{{__('form.lastNameLabel')}}</label>
+                          <div class="text-start invalid-feedback nameInvalidRequired" style="display: none;">{{__('form.contactsLastNamesValidationRequired')}}</div>
+                          <div class="text-start invalid-feedback nameInvalidSymbols" style="display: none;">{{__('form.contactsNamesValidationSymbols')}}</div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="text-center mb-4">
-                  <div class="form-floating">
-                    <input type="text" name="contactJobs[]" id="contactJob1" class="form-control contact-input contact-job-input" placeholder="" maxlength="32" value="{{ $contact->job }}" disabled>
-                    <label id="contactJobLabel1" for="contactJob1">{{__('form.jobLabel')}}</label>
-                    <div class="text-start valid-feedback jobValid" style="display: none;"></br></div>
-                    <div class="text-start invalid-feedback jobInvalidRequired" style="display: none;">{{__('form.contactsJobsValidationRequired')}}</div>
-                  </div>
-                </div>
-                <div class="text-center mb-4">
-                  <div class="form-floating">
-                    <input type="text" name="contactEmails[]" id="contactEmail1" class="form-control contact-input contact-email-input" placeholder="" maxlength="64" value="{{ $contact->email }}" disabled>
-                    <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}}</label>
-                    <div class="text-start invalid-feedback emailInvalidRequired" style="display: none;">{{__('form.contactsEmailsValidationRequired')}}</div>
-                    <div class="text-start invalid-feedback emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
-                  </div>
-                </div>
+                    <div class="text-center mb-4">
+                      <div class="form-floating">
+                        <input type="text" name="contactJobs[]" id="{{"contactJob" . ($loop->index+1)}}" class="form-control contact-input contact-job-input" placeholder="" maxlength="32" value="{{ $contact->job }}" disabled>
+                        <label id="{{"contactJobLabel" . ($loop->index+1)}}" for="{{"contactJob" . ($loop->index+1)}}">{{__('form.jobLabel')}}</label>
+                        <div class="text-start valid-feedback jobValid" style="display: none;"></br></div>
+                        <div class="text-start invalid-feedback jobInvalidRequired" style="display: none;">{{__('form.contactsJobsValidationRequired')}}</div>
+                      </div>
+                    </div>
+                    <div class="text-center mb-4">
+                      <div class="form-floating">
+                        <input type="text" name="contactEmails[]" id="{{"contactEmail" . ($loop->index+1)}}" class="form-control contact-input contact-email-input" placeholder="" maxlength="64" value="{{ $contact->email }}" disabled>
+                        <label id="{{"contactEmailLabel" . ($loop->index+1)}}" for="{{"contactEmail" . ($loop->index+1)}}">{{__('form.emailLabel')}}</label>
+                        <div class="text-start invalid-feedback emailInvalidRequired" style="display: none;">{{__('form.contactsEmailsValidationRequired')}}</div>
+                        <div class="text-start invalid-feedback emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
+                      </div>
+                    </div>
 
-                <h2 class="text-center section-subtitle">{{__('form.phoneNumber')}}</h2>
-                @foreach ($contact->formattedPhoneNumbers as $contactPhoneNumber)
-                <div class="d-flex flex-column mb-4 phone-container">
-                  <div class="text-center d-flex flex-column flex-md-row flew-mb-wrap">
-                    <div class="form-floating col-12 col-md-3">
-                      <select name="contactTelTypesA[]" id="contactTelTypeA1" class="form-select" aria-label="" disabled>
-                        <option value="desktop">{{ $contactPhoneNumber->type }}</option>
-                      </select>
-                      <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}}</label>
+                    <h2 class="text-center section-subtitle">{{__('form.phoneNumber')}}</h2>
+                    
+                    <div class="d-flex flex-column mb-4 phone-container">
+                      <div class="text-center d-flex flex-column flex-md-row flew-mb-wrap">
+                        <div class="form-floating col-12 col-md-3">
+                          <input type="number" name="contactTelIdsA[]" id="{{"contactTelIdA" . ($loop->index+1)}}" value="{{ $contact->phoneNumbers[0]->id}}" hidden>
+                          <select name="contactTelTypesA[]" id="{{"contactTelTypeA" . ($loop->index+1)}}" class="form-select" aria-label="" disabled>
+                            <option value="{{__('form.officeNumber')}}" {{ __('form.officeNumber') == $contact->formattedPhoneNumbers[0]->type ? 'selected' : null }}>{{__('form.officeNumber')}}</option>
+                            <option value="{{__('form.fax')}}" {{ __('form.fax') == $contact->formattedPhoneNumbers[0]->type ? 'selected' : null }}>{{__('form.fax')}}</option>
+                            <option value="{{__('form.cellphone')}}" {{ __('form.cellphone') == $contact->formattedPhoneNumbers[0]->type ? 'selected' : null }}>{{__('form.cellphone')}}</option>
+                          </select>
+                          <label id="{{"contactTelTypeLabelA" . ($loop->index+1)}}" for="{{"contactTelTypeA" . ($loop->index+1)}}">{{__('form.typeLabel')}}</label>
+                        </div>
+                        <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
+                          <input type="text" name="contactTelNumbersA[]" id="{{"contactTelNumberA" . ($loop->index+1)}}" class="form-control contact-input contact-primary-phone-input" placeholder="" maxlength="12" value="{{ $contact->formattedPhoneNumbers[0]->number }}" disabled>
+                          <label id="{{"contactTelNumberLabelA" . ($loop->index+1)}}" class="my-4 my-md-0 ms-md-2" for="{{"contactTelNumberA" . ($loop->index+1)}}">{{__('form.numberLabel')}}</label>
+                        </div>
+                        <div class="form-floating col-12 col-md-3">
+                          <input type="text" name="contactTelExtensionsA[]" id="{{"contactTelExtensionA" . ($loop->index+1)}}" class="form-control contact-input contact-extension-input" placeholder="" maxlength="6" value="{{ $contact->formattedPhoneNumbers[0]->extension ? : 'N/A' }}" disabled>
+                          <label id="{{"contactTelExtensionLabelA" . ($loop->index+1)}}" for="{{"contactTelExtensionA" . ($loop->index+1)}}">{{__('form.phoneExtension')}}</label>
+                        </div>
+                      </div>
+                      <div class="text-start invalid-feedback phoneInvalidRequired" style="display: none;">{{__('form.contactsTelNumberValidationRequired')}}</div>
+                      <div class="text-start invalid-feedback phoneInvalidNumber" style="display: none;">{{__('form.contactsTelNumberValidation')}}</div>
+                      <div class="text-start invalid-feedback phoneInvalidSize" style="display: none;">{{__('form.contactsTelNumberValidationSize')}}</div>
+                      <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">{{__('form.contactsTelExtensionValidation')}}</div>
                     </div>
-                    <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                      <input type="text" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control contact-input contact-primary-phone-input" placeholder="" maxlength="10" value="{{ $contactPhoneNumber->number }}" disabled>
-                      <label id="contactTelNumberLabelA1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberA1">{{__('form.numberLabel')}}</label>
-                    </div>
-                    <div class="form-floating col-12 col-md-3">
-                      <input type="text" name="contactTelExtensionsA[]" id="contactTelExtensionA1" class="form-control contact-input contact-extension-input" placeholder="" maxlength="6" value="{{ $contactPhoneNumber->extension ? : 'N/A' }}" disabled>
-                      <label id="contactTelExtensionLabelA1" for="contactTelExtensionA1">{{__('form.phoneExtension')}}</label>
-                    </div>
+                    @if(Count($contact->formattedPhoneNumbers) == 2)
+                      <h2 class="text-center section-subtitle d-md-none">{{__('form.phoneNumber')}}</h2>
+                      <div class="d-flex flex-column mb-4 phone-container">
+                        <div class="text-center d-flex flex-column flex-md-row">
+                          <div class="form-floating col-12 col-md-3">
+                            <input type="number" name="contactTelIdsB[]" id="{{"contactTelIdB" . ($loop->index+1)}}" value="{{ $contact->phoneNumbers[1]->id}}" hidden>
+                            <select name="contactTelTypesB[]" id="{{"contactTelTypeB" . ($loop->index+1)}}" class="form-select" aria-label="" disabled>
+                              <option value="{{__('form.officeNumber')}}" {{ __('form.officeNumber') == $contact->formattedPhoneNumbers[1]->type ? 'selected' : null }}>{{__('form.officeNumber')}}</option>
+                              <option value="{{__('form.fax')}}" {{ __('form.fax') == $contact->formattedPhoneNumbers[1]->type ? 'selected' : null }}>{{__('form.fax')}}</option>
+                              <option value="{{__('form.cellphone')}}" {{ __('form.cellphone') == $contact->formattedPhoneNumbers[1]->type ? 'selected' : null }}>{{__('form.cellphone')}}</option>
+                            </select>
+                            <label id="{{"contactTelTypeLabelB" . ($loop->index+1)}}" for="{{"contactTelTypeB" . ($loop->index+1)}}">{{__('form.typeLabel')}}</label>
+                          </div>
+                          <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
+                            <input type="text" name="contactTelNumbersB[]" id="{{"contactTelNumberB" . ($loop->index+1)}}" class="form-control contact-input contact-secondary-phone-input" placeholder="" maxlength="12" value="{{ $contact->formattedPhoneNumbers[1]->number ? : 'N/A' }}" disabled>
+                            <label id="{{"contactTelNumberLabelB" . ($loop->index+1)}}" class="my-4 my-md-0 ms-md-2" for="{{"contactTelNumberB" . ($loop->index+1)}}">{{__('form.numberLabel')}}</label>
+                          </div>
+                          <div class="form-floating col-12 col-md-3">
+                            <input type="text" name="contactTelExtensionsB[]" id="{{"contactTelExtensionB" . ($loop->index+1)}}" class="form-control contact-input contact-extension-input" placeholder="" maxlength="6" value="{{ $contact->formattedPhoneNumbers[1]->extension ? : 'N/A' }}" disabled>
+                            <label id="{{"contactTelExtensionLabelB" . ($loop->index+1)}}" for="{{"contactTelExtensionB" . ($loop->index+1)}}">{{__('form.phoneExtension')}}</label>
+                          </div>
+                        </div>
+                        <div class="text-start invalid-feedback phoneInvalidRequired" style="display: none;">{{__('form.contactsTelNumberValidationRequired')}}</div>
+                        <div class="text-start invalid-feedback phoneInvalidNumber" style="display: none;">{{__('form.contactsTelNumberValidation')}}</div>
+                        <div class="text-start invalid-feedback phoneInvalidSize" style="display: none;">{{__('form.contactsTelNumberValidationSize')}}</div>
+                        <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">{{__('form.contactsTelExtensionValidation')}}</div>
+                      </div>
+                    @else
+                      <h2 class="text-center section-subtitle d-md-none">{{__('form.phoneNumber')}}</h2>
+                      <div class="d-flex flex-column mb-4 phone-container">
+                        <div class="text-center d-flex flex-column flex-md-row">
+                          <div class="form-floating col-12 col-md-3">
+                            <input type="number" name="contactTelIdsB[]" id="{{"contactTelIdB" . ($loop->index+1)}}" value="-1" hidden>
+                            <select name="contactTelTypesB[]" id="{{"contactTelTypeB" . ($loop->index+1)}}" class="form-select" aria-label="" disabled>
+                              <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
+                              <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
+                              <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
+                            </select>
+                            <label id="{{"contactTelTypeLabelB" . ($loop->index+1)}}" for="{{"contactTelTypeB" . ($loop->index+1)}}">{{__('form.typeLabel')}}</label>
+                          </div>
+                          <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
+                            <input type="text" name="contactTelNumbersB[]" id="{{"contactTelNumberB" . ($loop->index+1)}}" class="form-control contact-input contact-secondary-phone-input" placeholder="" maxlength="12" value="N/A" disabled>
+                            <label id="{{"contactTelNumberLabelB" . ($loop->index+1)}}" class="my-4 my-md-0 ms-md-2" for="{{"contactTelNumberB" . ($loop->index+1)}}">{{__('form.numberLabel')}}</label>
+                          </div>
+                          <div class="form-floating col-12 col-md-3">
+                            <input type="text" name="contactTelExtensionsB[]" id="{{"contactTelExtensionB" . ($loop->index+1)}}" class="form-control contact-input contact-extension-input" placeholder="" maxlength="6" value="N/A" disabled>
+                            <label id="{{"contactTelExtensionLabelB" . ($loop->index+1)}}" for="{{"contactTelExtensionB" . ($loop->index+1)}}">{{__('form.phoneExtension')}}</label>
+                          </div>
+                        </div>
+                        <div class="text-start invalid-feedback phoneInvalidRequired" style="display: none;">{{__('form.contactsTelNumberValidationRequired')}}</div>
+                        <div class="text-start invalid-feedback phoneInvalidNumber" style="display: none;">{{__('form.contactsTelNumberValidation')}}</div>
+                        <div class="text-start invalid-feedback phoneInvalidSize" style="display: none;">{{__('form.contactsTelNumberValidationSize')}}</div>
+                        <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">{{__('form.contactsTelExtensionValidation')}}</div>
+                      </div>
+                    @endif
                   </div>
-                  <div class="text-start invalid-feedback phoneInvalidRequired" style="display: none;">{{__('form.contactsTelNumberValidationRequired')}}</div>
-                  <div class="text-start invalid-feedback phoneInvalidNumber" style="display: none;">{{__('form.contactsTelNumberValidation')}}</div>
-                  <div class="text-start invalid-feedback phoneInvalidSize" style="display: none;">{{__('form.contactsTelNumberValidationSize')}}</div>
-                  <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">{{__('form.contactsTelExtensionValidation')}}</div>
                 </div>
                 @endforeach
-                <!-- <h2 class="text-center section-subtitle d-md-none">{{__('form.phoneNumber')}}</h2>
-                <div class="d-flex flex-column mb-4 phone-container">
-                  <div class="text-center d-flex flex-column flex-md-row">
-                    <div class="form-floating col-12 col-md-3">
-                      <select name="contactTelTypesB[]" id="contactTelTypeB1" class="form-select" aria-label="">
-                        <option value="desktop">{{__('form.officeNumber')}}</option>
-                        <option value="fax">{{__('form.fax')}}</option>
-                        <option value="cellphone">{{__('form.cellphone')}}</option>
-                      </select>
-                      <label id="contactTelTypeLabelB1" for="contactTelTypeB1">{{__('form.typeLabel')}}</label>
-                    </div>
-                    <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
-                      <input type="text" name="contactTelNumbersB[]" id="contactTelNumberB1" class="form-control contact-input contact-secondary-phone-input" placeholder="" maxlength="10">
-                      <label id="contactTelNumberLabelB1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberB1">{{__('form.numberLabel')}}</label>
-                    </div>
-                    <div class="form-floating col-12 col-md-3">
-                      <input type="text" name="contactTelExtensionsB[]" id="contactTelExtensionB1" class="form-control contact-input contact-extension-input" placeholder="" maxlength="6">
-                      <label id="contactTelExtensionLabelB1" for="contactTelExtensionB1">{{__('form.phoneExtension')}}</label>
-                    </div>
-                  </div>
-                  <div class="text-start invalid-feedback phoneInvalidNumber" style="display: none;">{{__('form.contactsTelNumberValidation')}}</div>
-                  <div class="text-start invalid-feedback phoneInvalidSize" style="display: none;">{{__('form.contactsTelNumberValidationSize')}}</div>
-                  <div class="text-start invalid-feedback phoneInvalidExtension" style="display: none;">{{__('form.contactsTelExtensionValidation')}}</div>
-                </div> -->
+            </div>
+            @role(['responsable', 'admin'])
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center mb-3">
+                <a id="btnCancelContacts" href="{{ route('suppliers.show', [$supplier]) }}" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                <button id="btnEditContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveContacts" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
-              @endforeach
             </div>
-            @endif
+            @endrole
           </div>
-          @role(['responsable', 'admin'])
-          <div class="row">
-            <div class="col-12 d-flex justify-content-center mb-3">
-              <button id="btnEditContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue button-darkblue edit">{{__('global.edit')}}</button>
-              <button id="btnSaveContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
-            </div>
-          </div>
-          @endrole
-        </div>
+        </form>
       </div> <!--FIN CONTACT-->
       <!--PRODUITS ET SERVICES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="productsServices-section">
@@ -1182,10 +1137,16 @@
 @endsection
 
 @section('scripts')
+<script>
+  const desktopString = "@lang('form.officeNumber')";
+</script>
+<script src=" {{ asset('js/suppliers/showSupplier.js') }} "></script>
+<script src=" {{ asset('js/suppliers/validateDenialForm.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contacts/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contacts/save.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contacts/cancel.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contacts/validation.js') }} "></script>
 <script src=" {{ asset('js/suppliers/update/status.js') }} "></script>
 <script src=" {{ asset('js/suppliers/update/identification.js') }} "></script>
 <script src=" {{ asset('js/suppliers/update/contactDetails.js') }} "></script>
-<script src=" {{ asset('js/suppliers/showSupplier.js') }} "></script>
-<script src=" {{ asset('js/suppliers/validateDenialForm.js') }} "></script>
-
 @endsection

@@ -62,6 +62,38 @@ class PhoneNumbersSeeder extends Seeder
                 'contact_id' => 2,
                 'supplier_id' => null,
             ],
+            [
+                'id' => 7,
+                'number' => "8191119999",
+                'type' => "Bureau",
+                'extension' => null,
+                'contact_id' => 3,
+                'supplier_id' => null,
+            ],
+            [
+                'id' => 8,
+                'number' => "8191119999",
+                'type' => "Bureau",
+                'extension' => null,
+                'contact_id' => 4,
+                'supplier_id' => null,
+            ],
+            [
+                'id' => 9,
+                'number' => "8191119999",
+                'type' => "Bureau",
+                'extension' => null,
+                'contact_id' => 5,
+                'supplier_id' => null,
+            ],
+            [
+                'id' => 10,
+                'number' => "8191119999",
+                'type' => "Bureau",
+                'extension' => null,
+                'contact_id' => 6,
+                'supplier_id' => null,
+            ],
         ]);
     }
 }

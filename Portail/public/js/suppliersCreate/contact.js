@@ -262,7 +262,7 @@ function validateContactsName(id) {
   }
 
   input.classList.add('was-validated');
-};
+}
 
 function validateContactsJob(id) {
   const input = document.getElementById(id);
@@ -284,7 +284,7 @@ function validateContactsJob(id) {
   }
 
   input.classList.add('was-validated');
-};
+}
 
 function validateContactsEmail(id) {
   const input = document.getElementById(id);
@@ -315,7 +315,7 @@ function validateContactsEmail(id) {
   }
 
   input.classList.add('was-validated');
-};
+}
 
 function validateContactsPrimaryPhone(id) {
   const input = document.getElementById(id);
@@ -363,7 +363,7 @@ function validateContactsPrimaryPhone(id) {
   }
 
   input.classList.add('was-validated');
-};
+}
 
 function validateContactsSecondaryPhone(id) {
   const input = document.getElementById("contactTelNumberB"+id);
@@ -419,32 +419,32 @@ function validateContactsSecondaryPhone(id) {
   }
 
   input.classList.add('was-validated');
-};
+}
 
 function validateContactsExtension(id) {
-    const input = document.getElementById(id);
-    const parentDiv = input.closest(".phone-container");
-    const invalidNumberMessage = parentDiv.querySelector('.phoneInvalidExtension');
-    // Reset all error messages
-    invalidNumberMessage.style.display = 'none';
+  const input = document.getElementById(id);
+  const parentDiv = input.closest(".phone-container");
+  const invalidNumberMessage = parentDiv.querySelector('.phoneInvalidExtension');
+  // Reset all error messages
+  invalidNumberMessage.style.display = 'none';
 
-    // Basic validation logic
-    if (isNaN(input.value)) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      invalidNumberMessage.style.display = 'block';
-    }
-    else if(!input.value){
-      input.classList.remove('is-invalid');
-      input.classList.remove('is-valid');
-    }
-    else {
-      input.classList.remove('is-invalid');
-      input.classList.add('is-valid');
-    }
+  // Basic validation logic
+  if (isNaN(input.value)) {
+    input.classList.remove('is-valid');
+    input.classList.add('is-invalid');
+    invalidNumberMessage.style.display = 'block';
+  }
+  else if(!input.value){
+    input.classList.remove('is-invalid');
+    input.classList.remove('is-valid');
+  }
+  else {
+    input.classList.remove('is-invalid');
+    input.classList.add('is-valid');
+  }
 
-    input.classList.add('was-validated');
-  };
+  input.classList.add('was-validated');
+}
 
 const contactsSectionNext = document.getElementById("contacts-button");
 contactsSectionNext.addEventListener("click", (event)=>{
