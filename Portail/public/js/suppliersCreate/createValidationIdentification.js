@@ -258,6 +258,7 @@ async function checkNeqUnique(neq){
     },        
     body: JSON.stringify({ neq: neq })
   })
+  console.log(response);
   const data = await response.json();
   return data.exists;
 }

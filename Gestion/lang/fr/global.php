@@ -15,8 +15,13 @@ return [
     'waiting' => 'En attente',
     'toCheck' => 'À réviser',
     'modified' => 'Modifiée',
+    'deactivated' => 'Désactivée',
     'error' => 'Erreur',
     'yes' => 'Oui',
     'no' => 'Non',
     'close' => 'Fermer',
+    'confirm' => 'Confirmer',
+
+    'updateSuccess' => 'La modification a fonctionné',
+    'updateFailed' => 'La modification n\'a pas fonctionné',
 ];

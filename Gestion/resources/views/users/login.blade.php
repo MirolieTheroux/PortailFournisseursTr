@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', __('global.login'))
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 @endsection
@@ -44,7 +46,4 @@
     </div>
   </div>
 </div>
-@endsection
-
-@section('scripts')
 @endsection

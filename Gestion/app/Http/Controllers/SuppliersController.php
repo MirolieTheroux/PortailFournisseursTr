@@ -9,25 +9,40 @@ use App\Models\StatusHistory;
 use App\Models\WorkSubcategory;
 use App\Models\ProductService;
 use App\Models\Contact;
+use App\Models\PhoneNumber;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SupplierUpdateStatusRequest;
+use App\Http\Requests\SupplierDenialRequest;
+use App\Http\Requests\SupplierUpdateContactsRequest;
+
 use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
+use Symfony\Component\ErrorHandler\Debug;
+use Illuminate\Support\Facades\File;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ApprovalMail;
 
 class SuppliersController extends Controller
 {
   const SUPPLIER_FETCH_LIMIT = 100;
+  const USING_FILESTREAM = false;
 
   /**
    * Display a listing of the resource.
    */
   public function index()
-  {
-    $suppliers = Supplier::limit(self::SUPPLIER_FETCH_LIMIT)->get();
+  { 
+    $suppliersQuery = Supplier::query();
+
+    $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
+      return $supplier->latestNonModifiedStatus()->status != 'deactivated';
+    });
+
     $workSubcategories = WorkSubcategory::all();
     $productsServices = ProductService::all();
     return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
@@ -95,15 +110,32 @@ class SuppliersController extends Controller
           ];
       });
       return $contact;
-  });
+    });
 
-    if (!is_null($supplier->latestNonModifiedStatus()->refusal_reason)) {
-      $decryptedReason = Crypt::decryptString($supplier->latestNonModifiedStatus()->refusal_reason);
-      $refusalReason = trim(unserialize($decryptedReason));
-    } else
-      $refusalReason = '';
-
-    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'refusalReason'));
+    $statusHistory = $supplier->statusHistories()->orderBy('created_at','asc')->get();
+    $decryptedReasons = $statusHistory->map(function ($history){
+      $deniedReason = "";
+      if(!is_null($history->refusal_reason))
+        $deniedReason = trim(unserialize(Crypt::decryptString($history->refusal_reason)));
+      else
+        $deniedReason = "";
+      return(object)[
+        'id' => $history->id,
+        'status' => $history->status,
+        'updated_by' => $history->updated_by,
+        'refusal_reason' => $deniedReason,
+        'supplier_id' => $history->supplier_id,
+        'created_at' => $history->created_at,
+        'updated_at' => null
+      ];
+    });
+    $deniedStatus = $decryptedReasons->filter(function ($history) {
+      return $history->status === 'denied';
+    });
+    
+    $latestDeniedReason = $deniedStatus->sortByDesc('created_at')->first();
+    
+    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason'));
   }
   
   /**
@@ -119,30 +151,184 @@ class SuppliersController extends Controller
    */
   public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier, StatusHistory $statusHistory)
   {
-    $user = Auth::user()->email;
-    $statusHistory->status = $request->requestStatus;
-    $statusHistory->updated_by = $user;
-    if($request->deniedReason){
-      $statusHistory->refusal_reason = Crypt::encrypt($request->deniedReason);
-    }
-    $statusHistory->supplier_id = $supplier->id;
-    $statusHistory->created_at = date("Y-m-d");
-    $statusHistory->save();
-    //DELETE ATTACHMENTS REQUEST DENIED
-    if($request->requestStatus == "denied"){
-      $supplier->attachments()->delete();
-    }
+    try {
+      $user = Auth::user()->email;
+      $statusHistory->status = $request->requestStatus;
+      $statusHistory->updated_by = $user;
+      if (!empty($request->deniedReasonText)) {
+        Log::debug("DENIED");
+        $statusHistory->refusal_reason = Crypt::encrypt($request->deniedReasonText);
+      }
 
+      $statusHistory->supplier_id = $supplier->id;
+      $statusHistory->created_at = Carbon::now('America/Toronto')->format('Y-m-d H:i:s');
+      $statusHistory->save();
+
+      if ($request->requestStatus == "denied") {
+        $this->destroyAttachments($supplier);
+      }
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateStatus'));
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+        ->withErrors('message',__('show.failToUpdate'));
+    }
+  }
+  
+
+  /**
+   * Update identification of supplier.
+   */
+  public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
+  {
+    try{
+      $supplier->neq = $request->neq;
+      $supplier->name = $request->name;
+      $supplier->email = $request->email;
+      $supplier->save();
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateIdentification'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#identification-section');
+    }
+    catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+        ->withErrors('message',__('show.failToUpdate'));
+    }
+    
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroyAttachmentsWhenDenied($id)
-    {
-      
+  public function denyRequest(SupplierDenialRequest $request, Supplier $supplier)
+  {
+    $this->changeSupplierStatusWithReason($supplier, "denied", $request->deniedReason);
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.denialSuccess'));
+  }
+
+  public function approveRequest($id)
+  {
+    $supplier = Supplier::findOrFail($id);
+    //$this->changeStatus($supplier, "accepted");
+    $this->sendApprovalMail($supplier->email);
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.approvalSuccess'));
+  }
+
+  public function removeFromList($id)
+  {
+    $supplier = Supplier::findOrFail($id);
+    $this->changeStatus($supplier, "deactivated");
+
+    $this->destroyAttachments($supplier);
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.removeFromListSuccess'));
+  }
+
+  public function reactivate($id){
+    $supplier = Supplier::findOrFail($id);
+    $this->changeStatus($supplier, $supplier->latestActivableStatus()->status);
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.reactivationSuccess'));
+  }
+
+  private function changeStatus($supplier, $newStatus){
+    $status = new StatusHistory();
+    $status->status = $newStatus;
+    $status->updated_by = auth()->user()->email;
+    $status->supplier()->associate($supplier);
+    $status->save();
+  }
+  private function changeSupplierStatusWithReason($supplier, $newStatus, $reason){
+    $status = new StatusHistory();
+    $status->status = $newStatus;
+    $status->updated_by = auth()->user()->email;
+    $status->refusal_reason = Crypt::encrypt($reason);
+    $status->supplier()->associate($supplier);
+    $status->save();
+  }
+
+  private function destroyAttachments($supplier)
+  {
+    if(!(self::USING_FILESTREAM)){
+      $directory = $supplier->name;
+      $path = env('FILE_STORAGE_PATH'). "\\". $directory;
+
+      Log::debug($path);
+      if (file_exists($path)) {
+        File::deleteDirectory($path);
+      }
     }
+
+    $supplier->attachments()->delete();
+  }
+
+  public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
+  {
+    Log::debug($request);
+    try {
+      for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
+        if($request->contactIds[$i] != -1){
+          $contact = Contact::findOrFail($request->contactIds[$i]);
+        }
+        else{
+          $contact = new Contact();
+        }
+        
+        $contact->email = $request->contactEmails[$i];
+        $contact->first_name = $request->contactFirstNames[$i];
+        $contact->last_name = $request->contactLastNames[$i];
+        $contact->job = $request->contactJobs[$i];
+        $contact->supplier()->associate($supplier);
+        $contact->save();
+
+        if($request->contactTelIdsA[$i] != -1){
+          $phoneNumberA = PhoneNumber::findOrFail($request->contactTelIdsA[$i]);
+        }
+        else{
+          $phoneNumberA = new PhoneNumber();
+        }
+        $phoneNumberA->number = str_replace('-', '', $request->contactTelNumbersA[$i]);
+        $phoneNumberA->type = $request->contactTelTypesA[$i];
+        $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
+
+        Log::debug($phoneNumberA);
+        Log::debug($request->contactTelIdsA[$i]);
+        if($request->contactTelIdsA[$i] == -1){
+          Log::debug("Dans le if?");
+          $phoneNumberA->supplier()->associate(null);
+          $phoneNumberA->contact()->associate($contact);
+        }
+        $phoneNumberA->save();
+
+        if(!is_null($request->contactTelNumbersB[$i])){
+          if($request->contactTelIdsB[$i] != -1){
+            $phoneNumberB = PhoneNumber::findOrFail($request->contactTelIdsB[$i]);
+          }
+          else{
+            $phoneNumberB = new PhoneNumber();
+          }
+          $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
+          $phoneNumberB->type = $request->contactTelTypesB[$i];
+          $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
+          if($request->contactTelIdsB[$i] == -1){
+            $phoneNumberB->supplier()->associate(null);
+            $phoneNumberB->contact()->associate($contact);
+          }
+          $phoneNumberB->save();
+        }
+      }
+      $this->changeStatus($supplier, "modified");
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('global.updateSuccess'));
+      
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
+  }
 
     public function filter(Request $request)
     {
@@ -191,7 +377,9 @@ class SuppliersController extends Controller
             });
         }
         else{
-            $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get();
+          $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
+            return $supplier->latestNonModifiedStatus()->status != 'deactivated';
+          });
         }
 
         $workSubcategories = $workCategoriesQuery->get();
@@ -318,5 +506,32 @@ class SuppliersController extends Controller
     $writer->save($temp_file);
 
     return response()->download($temp_file, $fileName)->deleteFileAfterSend(true);
+  }
+
+  public function sendApprovalMail($supplierEmail){
+    Log::debug($supplierEmail);
+    $details = [
+      'title' => 'Mail from Laravel',
+      'body' => 'This is a test email.'
+    ];
+    Mail::to('fleurent.nicolas@hotmail.com')->send(new ApprovalMail($details));
+    return "Email Sent!";
+  }
+
+  public function checkEmail(Request $request)
+  {
+    Log::debug("allo");
+    $email = $request->email;
+    $neq = $request->neq;
+    $exists = Supplier::where('neq', $neq)->where('email', $email)->exists();
+    return response()->json(['exists' => $exists]);
+  }
+
+  public function checkNeq(Request $request)
+  {
+    Log::debug($request);
+    $neq = $request->neq;
+    $exists = Supplier::where('neq', $neq)->exists();
+    return response()->json(['exists' => $exists]);
   }
 }

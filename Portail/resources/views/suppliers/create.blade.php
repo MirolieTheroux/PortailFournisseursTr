@@ -42,6 +42,8 @@
 <!--//? NICE_TO_HAVE::PIÈCES JOINTES:Trouver une autre image de fond-->
 @extends('layouts.app')
 
+@section('title', __('form.signupTitle'))
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/supplier.css') }}">
 <link rel="stylesheet" href="{{ asset('css/progressBar.css') }}">
@@ -753,9 +755,9 @@
                                 <div class="text-center d-flex flex-column flex-md-row mb-0">
                                     <div class="form-floating col-12 col-md-3">
                                         <select name="contactTelTypesA[]" id="contactTelTypeA1" class="form-select" aria-label="" value="{{old('contactTelTypesA')[$loop->index]}}">
-                                            <option value="desktop">{{__('form.officeNumber')}}</option>
-                                            <option value="fax">{{__('form.fax')}}</option>
-                                            <option value="cellphone">{{__('form.cellphone')}}</option>
+                                            <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
+                                            <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
+                                            <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
                                         </select>
                                         <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}}</label>
                                     </div>

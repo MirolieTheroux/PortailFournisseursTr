@@ -3,6 +3,7 @@
 // lang/en/messages.php
  
 return [
+  'selectedListTitle' => 'Fournisseurs sélectionnés',
   'contacted' => 'Contacté',
   'exportList' => 'Exporter la liste',
   'joined' => 'Rejoin',
