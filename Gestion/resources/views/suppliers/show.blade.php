@@ -833,102 +833,154 @@
                   <div class="form-floating mb-3">
                     <div id="subcategories-container" class="form-control pt-2" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
                       @if ( $supplier->workSubcategories->isEmpty() )
-                      <div id="no-categories" class="d-block">
-                        {{__('form.rbqNoLicence')}}
-                      </div>
+                        <div id="no-categories" class="d-block">
+                          {{__('form.rbqNoLicence')}}
+                        </div>
                       @else
-                      @if ($supplier->rbqLicence->type == "entrepreneur")
-                      <div id="entrepreneur-categories">
-                        @if ($supplier->workSubcategories->is_specialised = false)
-                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
-                        @foreach($supplier->workSubcategories as $cat)
-                        <div class="form-check pb-2">
-                          <input
-                            class="form-check-input mt-0 rbq-subcategories-check"
-                            type="checkbox"
-                            name="rbqSubcategories[]"
-                            value=""
-                            checked disabled>
-                          <div class="d-flex py-1">
-                            <label class="form-check-label text-start rbq-category-label-number" for="">
-                              {{$cat->code}}
-                            </label>
-                            <label class="form-check-label text-start ps-2" for="">
-                              {{$cat->name}}
-                            </label>
-                          </div>
+                        @php
+                          if(!is_null($supplier->workSubcategories)){
+                            $supplierWorkSubcategories = $supplier->workSubcategories->pluck('code')->toArray();
+                          }
+
+                          $entrepreneurLicence = false;
+                          if($supplier->rbqLicence->type == "entrepreneur")
+                            $entrepreneurLicence = true;
+
+                          $generalWork = false;
+                          $specialisedWork = false;
+                          foreach ($supplier->workSubcategories as $workSubcategory) {
+                            if($workSubcategory->is_specialised)
+                              $specialisedWork = true;
+                            else
+                              $generalWork = true;
+                          }
+                        @endphp
+                        <div id="entrepreneur-categories" class="{{$entrepreneurLicence ?  : 'd-none' }}">
+                          <div class="fs-5 text-start fw-bold mb-2 title-border {{$generalWork ?  : 'd-none'}}">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
+                          @foreach($workSubcategories as $workSubcategory)
+                            @if($workSubcategory->is_specialised == false)
+                              @php
+                                $checked = false;
+                                if(!is_null($supplier->workSubcategories))
+                                  if(in_array($workSubcategory->code, $supplierWorkSubcategories))
+                                    $checked = true;
+                              @endphp
+                              <div class="form-check pb-2 {{$checked ? '' : 'd-none'}}">
+                                <input
+                                  class="form-check-input mt-0 rbq-subcategories-check"
+                                  type="checkbox"
+                                  name="rbqSubcategories[]"
+                                  value="{{$workSubcategory->code}}"
+                                  id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                  {{$checked ? 'checked' : ''}}
+                                  disabled
+                                >
+                                <div class="d-flex">
+                                  <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                    {{$workSubcategory->code}}
+                                  </label>
+                                  <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                    {{$workSubcategory->name}}
+                                  </label>
+                                </div>
+                              </div>
+                            @endif                          
+                          @endforeach
+                          
+                          <div class="fs-5 text-start fw-bold mb-2 title-border {{$specialisedWork ?  : 'd-none'}}">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
+                          @foreach($workSubcategories as $workSubcategory)
+                            @if($workSubcategory->is_specialised == true)
+                              @php
+                                $checked = false;
+                                if(!is_null($supplier->workSubcategories))
+                                  if(in_array($workSubcategory->code, $supplierWorkSubcategories))
+                                    $checked = true;
+                              @endphp
+                              <div class="form-check pb-2 {{$checked ? '' : 'd-none'}}">
+                                <input
+                                  class="form-check-input mt-0 rbq-subcategories-check"
+                                  type="checkbox"
+                                  name="rbqSubcategories[]"
+                                  value="{{$workSubcategory->code}}"
+                                  id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                  {{$checked ? 'checked' : ''}}
+                                  disabled
+                                >
+                                <div class="d-flex">
+                                  <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                    {{$workSubcategory->code}}
+                                  </label>
+                                  <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                    {{$workSubcategory->name}}
+                                  </label>
+                                </div>
+                              </div>
+                            @endif
+                          @endforeach
                         </div>
-                        @endforeach
-                        @else
-                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
-                        @foreach($supplier->workSubcategories as $cat)
-                        <div class="form-check pb-2">
-                          <input
-                            class="form-check-input mt-0 rbq-subcategories-check"
-                            type="checkbox"
-                            name="rbqSubcategories[]"
-                            value=""
-                            checked
-                            disabled>
-                          <div class="d-flex">
-                            <label class="form-check-label text-start rbq-category-label-number" for="">
-                              {{$cat->code}}
-                            </label>
-                            <label class="form-check-label text-start ps-2" for="">
-                              {{$cat->name}}
-                            </label>
-                          </div>
+                        <div id="entrepreneur-categories" class="{{$entrepreneurLicence ? 'd-none' : '' }}">
+                          <div class="fs-5 text-start fw-bold mb-2 title-border {{$generalWork ?  : 'd-none'}}">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
+                          @foreach($workSubcategories as $workSubcategory)
+                            @if($workSubcategory->is_specialised == false)
+                              @php
+                                $checked = false;
+                                if(!is_null($supplier->workSubcategories))
+                                  if(in_array($workSubcategory->code, $supplierWorkSubcategories))
+                                    $checked = true;
+                              @endphp
+                              <div class="form-check pb-2 {{$checked ? '' : 'd-none'}}">
+                                <input
+                                  class="form-check-input mt-0 rbq-subcategories-check"
+                                  type="checkbox"
+                                  name="rbqSubcategories[]"
+                                  value="{{$workSubcategory->code}}"
+                                  id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                  {{$checked ? 'checked' : ''}}
+                                  disabled
+                                >
+                                <div class="d-flex">
+                                  <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                    {{$workSubcategory->code}}
+                                  </label>
+                                  <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                    {{$workSubcategory->name}}
+                                  </label>
+                                </div>
+                              </div>
+                            @endif                          
+                          @endforeach
+                          
+                          <div class="fs-5 text-start fw-bold mb-2 title-border {{$specialisedWork ?  : 'd-none'}}">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
+                          @foreach($workSubcategories as $workSubcategory)
+                            @if($workSubcategory->is_specialised == true)
+                              @php
+                                $checked = false;
+                                if(!is_null($supplier->workSubcategories))
+                                  if(in_array($workSubcategory->code, $supplierWorkSubcategories))
+                                    $checked = true;
+                              @endphp
+                              <div class="form-check pb-2 {{$checked ? '' : 'd-none'}}">
+                                <input
+                                  class="form-check-input mt-0 rbq-subcategories-check"
+                                  type="checkbox"
+                                  name="rbqSubcategories[]"
+                                  value="{{$workSubcategory->code}}"
+                                  id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                  {{$checked ? 'checked' : ''}}
+                                  disabled
+                                >
+                                <div class="d-flex">
+                                  <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                    {{$workSubcategory->code}}
+                                  </label>
+                                  <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                    {{$workSubcategory->name}}
+                                  </label>
+                                </div>
+                              </div>
+                            @endif
+                          @endforeach
                         </div>
-                        @endforeach
-                      </div>
-                      @endif
-                      @else
-                      <div id="ownerBuilder-categories">
-                        @if ($supplier->workSubcategories->is_specialised = false)
-                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
-                        @foreach($supplier->workSubcategories as $cat)
-                        <div class="form-check pb-2">
-                          <input
-                            class="form-check-input mt-0 rbq-subcategories-check"
-                            type="checkbox"
-                            name="rbqSubcategories[]"
-                            value=""
-                            checked
-                            disabled>
-                          <div class="d-flex">
-                            <label class="form-check-label text-start rbq-category-label-number" for="">
-                              {{$cat->code}}
-                            </label>
-                            <label class="form-check-label text-start ps-2" for="">
-                              {{$cat->name}}
-                            </label>
-                          </div>
-                        </div>
-                        @endforeach
-                        @else
-                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
-                        @foreach($supplier->workSubcategories as $cat)
-                        <div class="form-check pb-2">
-                          <input
-                            class="form-check-input mt-0 rbq-subcategories-check"
-                            type="checkbox"
-                            name="rbqSubcategories[]"
-                            value=""
-                            checked
-                            disabled>
-                          <div class="d-flex">
-                            <label class="form-check-label text-start rbq-category-label-number" for="">
-                              {{$cat->code}}
-                            </label>
-                            <label class="form-check-label text-start ps-2" for="">
-                              {{$cat->name}}
-                            </label>
-                          </div>
-                        </div>
-                        @endforeach
-                        @endif
-                      </div>
-                      @endif
                       @endif
                     </div>
                   </div>

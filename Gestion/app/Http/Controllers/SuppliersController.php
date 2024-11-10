@@ -47,7 +47,7 @@ class SuppliersController extends Controller
     });
 
     $workSubcategories = WorkSubcategory::all();
-    $productsServices = ProductService::all()->limit(self::SUPPLIER_FETCH_LIMIT);
+    $productsServices = ProductService::limit(self::SUPPLIER_FETCH_LIMIT)->get();
     return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
   }
 
@@ -139,7 +139,7 @@ class SuppliersController extends Controller
     
     $latestDeniedReason = $deniedStatus->sortByDesc('created_at')->first();
     
-    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason'));
+    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories'));
   }
   
   /**
