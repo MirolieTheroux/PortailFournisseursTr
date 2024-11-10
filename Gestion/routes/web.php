@@ -31,4 +31,6 @@ Route::get('/suppliers/reactivate/{supplier}', [SuppliersController::class, 'rea
 Route::get('/suppliers/approve/{supplier}', [SuppliersController::class, 'approveRequest'])->name('suppliers.approveRequest');
 Route::post('/suppliers/deny/{supplier}', [SuppliersController::class, 'denyRequest'])->name('suppliers.denyRequest');
 
+Route::post('/suppliers/update/contacts',[SuppliersController::class, 'updateContacts'])->name('suppliers.updateContacts')->middleware(LoggerMiddleware::class);
+
 Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class, 'show'])->name('attachments.show');

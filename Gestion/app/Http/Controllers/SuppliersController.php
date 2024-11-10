@@ -9,10 +9,14 @@ use App\Models\StatusHistory;
 use App\Models\WorkSubcategory;
 use App\Models\ProductService;
 use App\Models\Contact;
+
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+
 use App\Http\Requests\SupplierUpdateStatusRequest;
 use App\Http\Requests\SupplierDenialRequest;
+use App\Http\Requests\SupplierUpdateContactsRequest;
+
 use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -227,6 +231,61 @@ class SuppliersController extends Controller
     }
 
     $supplier->attachments()->delete();
+  }
+
+  public function updateContacts(SupplierUpdateContactsRequest $request, Contact $contact)
+  {
+    Log::debug($request);
+    Log::debug($contact);
+    /*try {
+      for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
+        $contact = Contact::findOrFail();
+        $contact->email = $request->contactEmails[$i];
+        $contact->first_name = $request->contactFirstNames[$i];
+        $contact->last_name = $request->contactLastNames[$i];
+        $contact->job = $request->contactJobs[$i];
+        $contact->supplier()->associate($supplier);
+        $contact->save();
+
+        $contact = Contact::where('email', $request->contactEmails[$i])->firstOrFail();
+
+        $phoneNumberA = new PhoneNumber();
+        $phoneNumberA->number = str_replace('-', '', $request->contactTelNumbersA[$i]);
+        $phoneNumberA->type = $request->contactTelTypesA[$i];
+        $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
+        $phoneNumberA->supplier()->associate(null);
+        $phoneNumberA->contact()->associate($contact);
+        $phoneNumberA->save();
+
+        if(!is_null($request->contactTelNumbersB[$i])){
+          $phoneNumberB = new PhoneNumber();
+          $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
+          $phoneNumberB->type = $request->contactTelTypesB[$i];
+          $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
+          $phoneNumberB->supplier()->associate(null);
+          $phoneNumberB->contact()->associate($contact);
+          $phoneNumberB->save();
+        }
+      }
+      
+    } catch (\Throwable $th) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }*/
+
+    // $user = Auth::user()->email;
+    // $statusHistory->status = $request->requestStatus;
+    // $statusHistory->updated_by = $user;
+    // if($request->deniedReason){
+    //   $statusHistory->refusal_reason = Crypt::encrypt($request->deniedReason);
+    // }
+    // $statusHistory->supplier_id = $supplier->id;
+    // $statusHistory->created_at = date("Y-m-d");
+    // $statusHistory->save();
+    // //DELETE ATTACHMENTS REQUEST DENIED
+    // if($request->requestStatus == "denied"){
+    //   $this->destroyAttachments($supplier);
+    // }
   }
 
     public function filter(Request $request)

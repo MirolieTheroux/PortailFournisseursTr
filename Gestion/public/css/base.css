@@ -99,6 +99,9 @@ a.button-darkblue:hover{
     background-color: white;
     border: none;
 }
+a.previous-button{
+    text-decoration-line: none;
+}
 
 .previous-button:hover{
     border : var(--blue);

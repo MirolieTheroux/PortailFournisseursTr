@@ -13,6 +13,7 @@ let delContactButtons;
 
 let contactNumber;
 
+let idInput;
 let firstnameInput;
 let firstnameLabel;
 let lastnameInput;
@@ -53,6 +54,7 @@ function getContactSectionElements(){
   addContactButton = document.querySelector('.add-contact');
 
   referenceContainer = document.querySelector('.contactCard');
+  idInput = contactsRow.querySelector('#contactId1');
   firstnameInput = contactsRow.querySelector('#contactFirstName1');
   firstnameLabel = contactsRow.querySelector('#contactFirstNameLabel1');
   lastnameInput = contactsRow.querySelector('#contactLastName1');
@@ -60,6 +62,8 @@ function getContactSectionElements(){
   jobInput = contactsRow.querySelector('#contactJob1');
   jobLabel = contactsRow.querySelector('#contactJobLabel1');
   emailInput = contactsRow.querySelector('#contactEmail1');
+  telIdInputA = contactsRow.querySelector('#contactTelIdA1');
+  telIdInputB = contactsRow.querySelector('#contactTelIdB1');
   emailLabel = contactsRow.querySelector('#contactEmailLabel1');
   telTypeInputA = contactsRow.querySelector('#contactTelTypeA1');
   telTypeLabelA = contactsRow.querySelector('#contactTelTypeLabelA1');
@@ -147,6 +151,12 @@ function cloneContact(){
     maskButton();
   });
 
+  const newIdInput = newContact.querySelector('#'+idInput.getAttribute("id"));
+  newIdInput.setAttribute("id", idInput.getAttribute("id").slice(0, -1) + contactNumber);
+  newIdInput.value = -1;
+  newIdInput.classList.remove('is-valid');
+  newIdInput.classList.remove('is-invalid');
+
   const newFirstnameInput = newContact.querySelector('#'+firstnameInput.getAttribute("id"));
   newFirstnameInput.setAttribute("id", firstnameInput.getAttribute("id").slice(0, -1) + contactNumber);
   newFirstnameInput.value = "";
@@ -182,6 +192,18 @@ function cloneContact(){
   const newEmailLabel = newContact.querySelector('#'+emailLabel.getAttribute("id"));
   newEmailLabel.setAttribute("id", newEmailLabel.getAttribute("id").slice(0, -1) + contactNumber);
   newEmailLabel.setAttribute("for", newEmailInput.getAttribute("id"));
+
+  const newTelIdInputA = newContact.querySelector('#'+telIdInputA.getAttribute("id"));
+  newTelIdInputA.setAttribute("id", telIdInputA.getAttribute("id").slice(0, -1) + contactNumber);
+  newTelIdInputA.value = -1;
+  newTelIdInputA.classList.remove('is-valid');
+  newTelIdInputA.classList.remove('is-invalid');
+
+  const newTelIdInputB = newContact.querySelector('#'+telIdInputB.getAttribute("id"));
+  newTelIdInputB.setAttribute("id", telIdInputB.getAttribute("id").slice(0, -1) + contactNumber);
+  newTelIdInputB.value = -1;
+  newTelIdInputB.classList.remove('is-valid');
+  newTelIdInputB.classList.remove('is-invalid');
 
   const newtelTypeInputA = newContact.querySelector('#'+telTypeInputA.getAttribute("id"));
   newtelTypeInputA.setAttribute("id", newtelTypeInputA.getAttribute("id").slice(0, -1) + contactNumber);
