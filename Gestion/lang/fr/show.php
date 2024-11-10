@@ -32,6 +32,7 @@ return [
     'failToUpdate' => 'La mise à jour n\'a pas fonctionné',
     'successUpdateStatus' => 'L\'état de la demande a été mis à jour.',
     'successUpdateIdentification' => 'L\'identification a été mise à jour.',
+    'successUpdateContact' => 'Les contacts ont étés mise à jour.',
     'noChangesDetected' => 'Aucune modification détectée.', 
 
 ];

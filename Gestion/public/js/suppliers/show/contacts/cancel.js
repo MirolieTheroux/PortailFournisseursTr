@@ -1,6 +1,5 @@
 //Get elements in /suppliers/show/contacts/edit
 
-let inputs;
 let invalidFeedbacks;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -35,7 +34,7 @@ function disableContactSectionEdit(){
 }
 
 function removeValidations(){
-  inputs = contactsContainer.querySelectorAll(".form-control");
+  const inputs = contactsContainer.querySelectorAll(".form-control");
   inputs.forEach(input => {
     input.classList.remove("is-valid", "is-invalid", "was-validated");
   });
@@ -47,7 +46,7 @@ function removeValidations(){
 }
 
 function fillEmptyinputs(){
-  inputs = contactsContainer.querySelectorAll(".form-control");
+  const inputs = contactsContainer.querySelectorAll(".form-control");
   inputs.forEach(input => {
     if(input.value === ""){
       input.value = "N/A";

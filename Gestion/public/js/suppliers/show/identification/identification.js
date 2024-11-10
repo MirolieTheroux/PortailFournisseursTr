@@ -282,7 +282,6 @@ emailInput.addEventListener("blur", async () => {
 });
 
 async function checkEmailUnique(email, neq){
-  
   const response = await fetch('/suppliers/checkEmail', {
     method: 'POST',
     headers: {

@@ -319,8 +319,11 @@
       </div><!--FIN ETAT DEMANDE-->
       <!--//? REMARQUES::
        -  Voir pourquoi quand on enregistre les boutons disparaissent.
+          - Nice_to_have (nico)
        - Est ce qu'on met un message quand il l'utilisateur enregistre, mais qu'il n'y a pas de modification de détectée ?
+          - Nice_to_have (nico)
        - Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
+          - Nice_to_have (nico)
        -->
       <!--IDENTIFICATION-->
       <div class="container d-flex flex-column h-100 show-section" id="identification-section">
@@ -383,7 +386,10 @@
               @role(['responsable', 'admin'])
               <div class="row">
                 <div class="col-12 d-flex justify-content-center mb-2">
-                  <button id="btnCancelId" type="button" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</button>
+                  @php
+                    $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+                  @endphp
+                  <a id="btnCancelId" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#identification-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
                   <button id="btnModifyId" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
                   <button id="btnSaveId" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
                 </div>
@@ -391,7 +397,7 @@
               @endrole
             </div>
           </div>
-        </from>  
+        </form>  
       </div><!--FIN IDENTIFICATION-->
       <!--COORDONNÉES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
@@ -674,7 +680,10 @@
             @role(['responsable', 'admin'])
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-3">
-                <a id="btnCancelContacts" href="{{ route('suppliers.show', [$supplier]) }}" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                @php
+                  $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+                @endphp
+                <a id="btnCancelContacts" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#contacts-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
                 <button id="btnEditContacts" type="button" class="m-2 py-1 px-3 rounded button-darkblue button-darkblue edit">{{__('global.edit')}}</button>
                 <button id="btnSaveContacts" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
@@ -1140,13 +1149,15 @@
 <script>
   const desktopString = "@lang('form.officeNumber')";
 </script>
-<script src=" {{ asset('js/suppliers/showSupplier.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/showSupplier.js') }} "></script>
 <script src=" {{ asset('js/suppliers/validateDenialForm.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/status/status.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/identification/identification.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/save.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/cancel.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/validation.js') }} "></script>
-<script src=" {{ asset('js/suppliers/update/contactDetails.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contactDetails/contactDetails.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/identification/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/identification/save.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/identification/validation.js') }} "></script>
 @endsection
