@@ -10,11 +10,14 @@ use App\Models\WorkSubcategory;
 use App\Models\ProductService;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
+
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+
 use App\Http\Requests\SupplierUpdateStatusRequest;
 use App\Http\Requests\SupplierDenialRequest;
 use App\Http\Requests\SupplierUpdateContactsRequest;
+use App\Http\Requests\SupplierUpdateIdentificationRequest;
 
 use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -184,6 +187,8 @@ class SuppliersController extends Controller
   public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
   {
     try{
+      Log::debug($supplier->neq);
+      Log::debug($request->neq);
       $supplier->neq = $request->neq;
       $supplier->name = $request->name;
       $supplier->email = $request->email;
@@ -322,7 +327,11 @@ class SuppliersController extends Controller
         }
       }
       $this->changeStatus($supplier, "modified");
-      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('global.updateSuccess'));
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateContact'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contacts-section');
+      //return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('global.updateSuccess'));
       
     } catch (\Throwable $e) {
       Log::debug($e);
@@ -520,7 +529,6 @@ class SuppliersController extends Controller
 
   public function checkEmail(Request $request)
   {
-    Log::debug("allo");
     $email = $request->email;
     $neq = $request->neq;
     $exists = Supplier::where('neq', $neq)->where('email', $email)->exists();
