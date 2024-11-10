@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SupplierRequest;
 use App\Http\Requests\LoginRequest;
 use App\Models\Supplier;
+use App\Models\StatusHistory;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
 use App\Models\RbqLicence;
@@ -159,6 +160,13 @@ class SuppliersController extends Controller
       $supplier->product_service_detail = $request->product_service_detail;
       $supplier->password = Hash::make($request->password);
       $supplier->save();
+
+      $status_histories = new StatusHistory();
+      $status_histories->status = 'waiting';
+      $status_histories->updated_by = $request->email;
+      $status_histories->supplier_id = $supplier->id;
+      $status_histories->supplier()->associate($supplier);
+      $status_histories->save();
 
       if($request->filled('products_services')){
         if(count($request->products_services) > 0){
