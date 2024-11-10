@@ -778,170 +778,177 @@
       </div><!--FIN PRODUITS ET SERVICES-->
       <!--LICENCE RBQ-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="licence-section">
-        <div class=" bg-white rounded my-2 w-100 form-section">
-          <div class="row">
-            <div class="col-12 text-center">
-              <h1>{{__('form.rbqTitle')}}</h1>
+        <form action="{{ route('suppliers.updateRbq', ['supplier'=>$supplier]) }}" method="post" class="need-validation" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+          @csrf
+          <div class=" bg-white rounded my-2 w-100 form-section">
+            <div class="row">
+              <div class="col-12 text-center">
+                <h1>{{__('form.rbqTitle')}}</h1>
+              </div>
             </div>
-          </div>
-          <div class="row px-3">
-            <div class="col-12 col-md-4 d-flex flex-column">
-              <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
-              <div class="d-flex flex-column justify-content-between h-100">
-                <div class="text-center">
-                  <div class="form-floating mb-3">
-                    <input
-                      type="text"
-                      name="licenceRbq"
-                      id="licenceRbq"
-                      value="{{$supplier->rbqLicence && $supplier->rbqLicence->number ? $supplier->rbqLicence->number : '' }}"
-                      class="form-control"
-                      placeholder=""
-                      maxlength="10"
-                      disabled>
-                    <label for="licenceRbq">{{__('form.numberLabel')}}</label>
+            <div class="row px-3">
+              <div class="col-12 col-md-4 d-flex flex-column">
+                <h2 class="text-center">{{__('form.rbqLicenceSection')}}</h2>
+                <div class="d-flex flex-column justify-content-between h-100">
+                  <div class="text-center">
+                    <div class="form-floating mb-3">
+                      <input
+                        type="text"
+                        name="licenceRbq"
+                        id="licenceRbq"
+                        value="{{$supplier->rbqLicence && $supplier->rbqLicence->number ? $supplier->rbqLicence->number : '' }}"
+                        class="form-control"
+                        placeholder=""
+                        maxlength="10"
+                        disabled>
+                      <label for="licenceRbq">{{__('form.numberLabel')}}</label>
+                    </div>
                   </div>
-                </div>
-                <div class="text-center">
-                  <div class="form-floating mb-3">
-                    <select name="statusRbq" id="statusRbq" class="form-select" aria-label="" disabled>
-                      <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
-                      <option value="valid" {{ $supplier->rbqLicence && $supplier->rbqLicence->status == 'valid' ? 'selected' : null }}>{{ __('form.choiceValid') }}</option>
-                      <option value="restrictedValid" {{ $supplier->rbqLicence && $supplier->rbqLicence->status == 'restrictedValid'  ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
-                      <option value="invalid" {{  $supplier->rbqLicence && $supplier->rbqLicence->status == "invalid"  ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
-                    </select>
-                    <label for="statusRbq">{{__('form.statusLabel')}}</label>
+                  <div class="text-center">
+                    <div class="form-floating mb-3">
+                      <select name="statusRbq" id="statusRbq" class="form-select" aria-label="" disabled>
+                        <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                        <option value="valid" {{ $supplier->rbqLicence && $supplier->rbqLicence->status == 'valid' ? 'selected' : null }}>{{ __('form.choiceValid') }}</option>
+                        <option value="restrictedValid" {{ $supplier->rbqLicence && $supplier->rbqLicence->status == 'restrictedValid'  ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
+                        <option value="invalid" {{  $supplier->rbqLicence && $supplier->rbqLicence->status == "invalid"  ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
+                      </select>
+                      <label for="statusRbq">{{__('form.statusLabel')}}</label>
+                    </div>
                   </div>
-                </div>
-                <div class="text-center">
-                  <div class="form-floating mb-3">
-                    <select name="typeRbq" id="typeRbq" class="form-select" aria-label="" disabled>
-                      <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
-                      <option value="entrepreneur" {{ $supplier->rbqLicence && $supplier->rbqLicence->type == 'entrepreneur' ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
-                      <option value="ownerBuilder" {{ $supplier->rbqLicence && $supplier->rbqLicence->type == 'ownerBuilder' ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
-                    </select>
-                    <label for="typeRbq">{{__('form.typeLabel')}}</label>
+                  <div class="text-center">
+                    <div class="form-floating mb-3">
+                      <select name="typeRbq" id="typeRbq" class="form-select" aria-label="" disabled>
+                        <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                        <option value="entrepreneur" {{ $supplier->rbqLicence && $supplier->rbqLicence->type == 'entrepreneur' ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
+                        <option value="ownerBuilder" {{ $supplier->rbqLicence && $supplier->rbqLicence->type == 'ownerBuilder' ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
+                      </select>
+                      <label for="typeRbq">{{__('form.typeLabel')}}</label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-12 col-md-8 d-flex flex-column justify-content-start">
-              <h2 class="text-center">{{__('form.rbqCategoriesSection')}}</h2>
-              <div class="text-center">
-                <div class="form-floating mb-3">
-                  <div id="subcategories-container" class="form-control pt-2" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-                    @if ( $supplier->workSubcategories->isEmpty() )
-                    <div id="no-categories" class="d-block">
-                      {{__('form.rbqNoLicence')}}
-                    </div>
-                    @else
-                    @if ($supplier->rbqLicence->type == "entrepreneur")
-                    <div id="entrepreneur-categories">
-                      @if ($supplier->workSubcategories->is_specialised = false)
-                      <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
-                      @foreach($supplier->workSubcategories as $cat)
-                      <div class="form-check pb-2">
-                        <input
-                          class="form-check-input mt-0 rbq-subcategories-check"
-                          type="checkbox"
-                          name="rbqSubcategories[]"
-                          value=""
-                          checked disabled>
-                        <div class="d-flex py-1">
-                          <label class="form-check-label text-start rbq-category-label-number" for="">
-                            {{$cat->code}}
-                          </label>
-                          <label class="form-check-label text-start ps-2" for="">
-                            {{$cat->name}}
-                          </label>
-                        </div>
+              <div class="col-12 col-md-8 d-flex flex-column justify-content-start">
+                <h2 class="text-center">{{__('form.rbqCategoriesSection')}}</h2>
+                <div class="text-center">
+                  <div class="form-floating mb-3">
+                    <div id="subcategories-container" class="form-control pt-2" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+                      @if ( $supplier->workSubcategories->isEmpty() )
+                      <div id="no-categories" class="d-block">
+                        {{__('form.rbqNoLicence')}}
                       </div>
-                      @endforeach
                       @else
-                      <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
-                      @foreach($supplier->workSubcategories as $cat)
-                      <div class="form-check pb-2">
-                        <input
-                          class="form-check-input mt-0 rbq-subcategories-check"
-                          type="checkbox"
-                          name="rbqSubcategories[]"
-                          value=""
-                          checked
-                          disabled>
-                        <div class="d-flex">
-                          <label class="form-check-label text-start rbq-category-label-number" for="">
-                            {{$cat->code}}
-                          </label>
-                          <label class="form-check-label text-start ps-2" for="">
-                            {{$cat->name}}
-                          </label>
+                      @if ($supplier->rbqLicence->type == "entrepreneur")
+                      <div id="entrepreneur-categories">
+                        @if ($supplier->workSubcategories->is_specialised = false)
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
+                        @foreach($supplier->workSubcategories as $cat)
+                        <div class="form-check pb-2">
+                          <input
+                            class="form-check-input mt-0 rbq-subcategories-check"
+                            type="checkbox"
+                            name="rbqSubcategories[]"
+                            value=""
+                            checked disabled>
+                          <div class="d-flex py-1">
+                            <label class="form-check-label text-start rbq-category-label-number" for="">
+                              {{$cat->code}}
+                            </label>
+                            <label class="form-check-label text-start ps-2" for="">
+                              {{$cat->name}}
+                            </label>
+                          </div>
                         </div>
-                      </div>
-                      @endforeach
-                    </div>
-                    @endif
-                    @else
-                    <div id="ownerBuilder-categories">
-                      @if ($supplier->workSubcategories->is_specialised = false)
-                      <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
-                      @foreach($supplier->workSubcategories as $cat)
-                      <div class="form-check pb-2">
-                        <input
-                          class="form-check-input mt-0 rbq-subcategories-check"
-                          type="checkbox"
-                          name="rbqSubcategories[]"
-                          value=""
-                          checked
-                          disabled>
-                        <div class="d-flex">
-                          <label class="form-check-label text-start rbq-category-label-number" for="">
-                            {{$cat->code}}
-                          </label>
-                          <label class="form-check-label text-start ps-2" for="">
-                            {{$cat->name}}
-                          </label>
+                        @endforeach
+                        @else
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedEntrepreneur')}}</div>
+                        @foreach($supplier->workSubcategories as $cat)
+                        <div class="form-check pb-2">
+                          <input
+                            class="form-check-input mt-0 rbq-subcategories-check"
+                            type="checkbox"
+                            name="rbqSubcategories[]"
+                            value=""
+                            checked
+                            disabled>
+                          <div class="d-flex">
+                            <label class="form-check-label text-start rbq-category-label-number" for="">
+                              {{$cat->code}}
+                            </label>
+                            <label class="form-check-label text-start ps-2" for="">
+                              {{$cat->name}}
+                            </label>
+                          </div>
                         </div>
+                        @endforeach
                       </div>
-                      @endforeach
+                      @endif
                       @else
-                      <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
-                      @foreach($supplier->workSubcategories as $cat)
-                      <div class="form-check pb-2">
-                        <input
-                          class="form-check-input mt-0 rbq-subcategories-check"
-                          type="checkbox"
-                          name="rbqSubcategories[]"
-                          value=""
-                          checked
-                          disabled>
-                        <div class="d-flex">
-                          <label class="form-check-label text-start rbq-category-label-number" for="">
-                            {{$cat->code}}
-                          </label>
-                          <label class="form-check-label text-start ps-2" for="">
-                            {{$cat->name}}
-                          </label>
+                      <div id="ownerBuilder-categories">
+                        @if ($supplier->workSubcategories->is_specialised = false)
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
+                        @foreach($supplier->workSubcategories as $cat)
+                        <div class="form-check pb-2">
+                          <input
+                            class="form-check-input mt-0 rbq-subcategories-check"
+                            type="checkbox"
+                            name="rbqSubcategories[]"
+                            value=""
+                            checked
+                            disabled>
+                          <div class="d-flex">
+                            <label class="form-check-label text-start rbq-category-label-number" for="">
+                              {{$cat->code}}
+                            </label>
+                            <label class="form-check-label text-start ps-2" for="">
+                              {{$cat->name}}
+                            </label>
+                          </div>
                         </div>
+                        @endforeach
+                        @else
+                        <div class="fs-5 text-start fw-bold mb-2 title-border">{{__('form.rbqCategoriesSpecialisedOwnerBuilder')}}</div>
+                        @foreach($supplier->workSubcategories as $cat)
+                        <div class="form-check pb-2">
+                          <input
+                            class="form-check-input mt-0 rbq-subcategories-check"
+                            type="checkbox"
+                            name="rbqSubcategories[]"
+                            value=""
+                            checked
+                            disabled>
+                          <div class="d-flex">
+                            <label class="form-check-label text-start rbq-category-label-number" for="">
+                              {{$cat->code}}
+                            </label>
+                            <label class="form-check-label text-start ps-2" for="">
+                              {{$cat->name}}
+                            </label>
+                          </div>
+                        </div>
+                        @endforeach
+                        @endif
                       </div>
-                      @endforeach
+                      @endif
                       @endif
                     </div>
-                    @endif
-                    @endif
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          @role(['responsable', 'admin'])
-          <div class="row">
-            <div class="col-12 d-flex justify-content-center mb-2">
-              <button id="btnEditRbq" type="button" class="m-2 py-1 px-3 rounded  button-darkblue edit">{{__('global.edit')}}</button>
-              <button id="btnSaveRbq" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+            @role(['responsable', 'admin'])
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center mb-2">
+                @php
+                  $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+                @endphp
+                <a id="btnCancelRbq" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#licence-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                <button id="btnEditRbq" type="button" class="m-2 py-1 px-3 rounded  button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveRbq" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+              </div>
             </div>
+            @endrole
           </div>
-          @endrole
-        </div>
+        </form>
       </div><!--FIN LICENCE RBQ-->
       <!--PIÈCES JOINTES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
@@ -1164,4 +1171,7 @@
 <script src=" {{ asset('js/suppliers/show/identification/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/identification/save.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/identification/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/rbq/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/rbq/save.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/rbq/validation.js') }} "></script>
 @endsection

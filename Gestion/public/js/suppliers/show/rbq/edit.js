@@ -1,41 +1,34 @@
-let idContainer;
-let btnCancelId;
-let btnModifyId; 
-let btnSaveId; 
-let idInputs; 
+let rbqContainer;
+let btnCancelRbq;
+let btnEditRbq; 
+let btnSaveRbq; 
+let rbqInput; 
+let rbqSelects; 
 
 document.addEventListener("DOMContentLoaded", function () {
-  getIdSectionElements();
-  addIdSectionListeners();
+  getRbqSectionElements();
+  addRbqSectionListeners();
 });
 
-function getIdSectionElements(){
-  idContainer = document.getElementById('identification-section');
-  btnCancelId = document.getElementById("btnCancelId");
-  btnSaveId = document.getElementById("btnSaveId");
-  btnModifyId = document.getElementById("btnModifyId");
-  idInputs = idContainer.getElementsByClassName("form-control");
+function getRbqSectionElements(){
+  rbqContainer = document.getElementById('licence-section');
+  btnCancelRbq = document.getElementById("btnCancelRbq");
+  btnSaveRbq = document.getElementById("btnSaveRbq");
+  btnEditRbq = document.getElementById("btnEditRbq");
+  rbqInput = rbqContainer.querySelector(".form-control");
+  rbqSelects = rbqContainer.getElementsByClassName("form-select");
 }
-function addIdSectionListeners(){
-  btnModifyId.addEventListener('click', enableIdSectionEdit);
+function addRbqSectionListeners(){
+  btnEditRbq.addEventListener('click', enableRbqSectionEdit);
 }
 
-function enableIdSectionEdit(){
-  btnCancelId.classList.remove("d-none");
-  btnSaveId.classList.remove("d-none");
-  btnModifyId.classList.add("d-none");
-  for (let index = 0; index < idInputs.length; index++) {
-    idInputs[index].removeAttribute("disabled");
+function enableRbqSectionEdit(){
+  console.log('test')
+  btnCancelRbq.classList.remove("d-none");
+  btnSaveRbq.classList.remove("d-none");
+  btnEditRbq.classList.add("d-none");
+  rbqInput.removeAttribute("disabled");
+  for (let index = 0; index < rbqSelects.length; index++) {
+    rbqSelects[index].removeAttribute("disabled");
   }
-
-  emptyNAinputsId();
-}
-
-function emptyNAinputsId(){
-  const inputs = idContainer.querySelectorAll(".form-control");
-  inputs.forEach(input => {
-    if(input.value === "N/A"){
-      input.value = "";
-    }
-  });
 }
