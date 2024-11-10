@@ -21,6 +21,5 @@ Route::get('suppliers/home', [SuppliersController::class, 'home'])->name('suppli
 
 Route::post('/suppliers/checkEmail', [SuppliersController::class, 'checkEmail'])->name('suppliers.checkEmail');
 Route::post('/suppliers/checkNeq', [SuppliersController::class, 'checkNeq'])->name('suppliers.checkNeq');
-Route::post('/suppliers/checkRbq', [SuppliersController::class, 'checkRbq'])->name('suppliers.checkRbq');
 
 Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');
