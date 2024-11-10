@@ -47,7 +47,7 @@ class SuppliersController extends Controller
     });
 
     $workSubcategories = WorkSubcategory::all();
-    $productsServices = ProductService::all();
+    $productsServices = ProductService::all()->limit(self::SUPPLIER_FETCH_LIMIT);
     return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
   }
 
@@ -82,6 +82,7 @@ class SuppliersController extends Controller
    */
   public function show(Supplier $supplier)
   {
+    $workSubcategories = WorkSubcategory::all();
 
     $supplierWithProductsCategories = $supplier->load('productsServices.categories');
     $suppliersGroupedByNatureAndCategory = $supplierWithProductsCategories->productsServices->groupBy(function ($product) {
