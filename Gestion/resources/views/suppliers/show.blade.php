@@ -1142,11 +1142,11 @@
 </script>
 <script src=" {{ asset('js/suppliers/showSupplier.js') }} "></script>
 <script src=" {{ asset('js/suppliers/validateDenialForm.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/status/status.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/identification/identification.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/save.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/cancel.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/validation.js') }} "></script>
-<script src=" {{ asset('js/suppliers/update/status.js') }} "></script>
-<script src=" {{ asset('js/suppliers/update/identification.js') }} "></script>
 <script src=" {{ asset('js/suppliers/update/contactDetails.js') }} "></script>
 @endsection
