@@ -183,7 +183,7 @@ idBtnSave.addEventListener("click", () => {
 
 document.addEventListener("DOMContentLoaded", function () {
   getSectionsInfo();
-  initializePopovers();
+  //initializePopovers();
 });
 
 

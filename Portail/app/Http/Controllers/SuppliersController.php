@@ -160,8 +160,6 @@ class SuppliersController extends Controller
       $supplier->password = Hash::make($request->password);
       $supplier->save();
 
-      $supplier = Supplier::where('email', $request->email)->firstOrFail();
-
       if($request->filled('products_services')){
         if(count($request->products_services) > 0){
           foreach($request->products_services as $product_service){
@@ -226,8 +224,6 @@ class SuppliersController extends Controller
         $contact->job = $request->contactJobs[$i];
         $contact->supplier()->associate($supplier);
         $contact->save();
-
-        $contact = Contact::where('email', $request->contactEmails[$i])->firstOrFail();
 
         $phoneNumberA = new PhoneNumber();
         $phoneNumberA->number = str_replace('-', '', $request->contactTelNumbersA[$i]);
