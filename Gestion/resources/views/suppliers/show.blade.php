@@ -291,7 +291,7 @@
                 </div>
               </div>
               @role(['responsable', 'admin'])
-              <div class="pb-3 d-none deniedDivReason">
+              <div class="d-none deniedDivReason">
                 <div class="form-floating">
                   <textarea
                     class="form-control"
@@ -305,6 +305,10 @@
                   <label for="deniedReasonText" class="labelbackground">{{__('form.deniedReason')}}</label>
                 </div>
               </div>
+              <div class="invalid-feedback pb-3" id="deniedReasonRequired" style="display: none;">{{__('show.denialReasonRequiredError')}}</div>
+              @if($errors->has('deniedReason'))
+                 <p>{{ $errors->first('deniedReason') }}</p>
+              @endif
               <div class="row">
                 <div class="col-12 mb-2 d-flex justify-content-center">
                   <button id="btnCancelRequestStatus" type="button" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</button>

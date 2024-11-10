@@ -1,6 +1,9 @@
 let navSectionsDivs;
 let lastClickedDiv = null; 
 
+document.addEventListener("DOMContentLoaded", function () {
+  getSectionsInfo();
+});
 // NAVIGATE SECTIONS FORM
 function getSectionsInfo() {
   const navSectionsDivs = Array.from(document.querySelectorAll(".shadow-sm > div")).slice(1);
