@@ -25,6 +25,10 @@ Route::get('/services', [SuppliersController::class, 'search']);
 Route::get('/suppliers/{supplier}', [SuppliersController::class, 'show'])->name('suppliers.show');
 // MODIFICATION FICHE FOURNISSEUR
 Route::post('/suppliers/{supplier}',[SuppliersController::class, 'updateStatus'])->name('suppliers.updateStatus')->middleware(LoggerMiddleware::class);
+Route::patch('/suppliers/{supplier}',[SuppliersController::class, 'updateIdentification'])->name('suppliers.updateIdentification')->middleware(LoggerMiddleware::class);
+
+Route::post('/suppliers/checkEmail', [SuppliersController::class, 'checkEmail'])->name('suppliers.checkEmail');
+Route::post('/suppliers/checkNeq', [SuppliersController::class, 'checkNeq'])->name('suppliers.checkNeq');
 
 Route::get('/suppliers/remove/{supplier}', [SuppliersController::class, 'removeFromList'])->name('suppliers.removeFromList');
 Route::get('/suppliers/reactivate/{supplier}', [SuppliersController::class, 'reactivate'])->name('suppliers.reactivate');

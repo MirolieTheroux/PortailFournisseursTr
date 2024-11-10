@@ -10,10 +10,8 @@ use App\Models\WorkSubcategory;
 use App\Models\ProductService;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
-
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-
 use App\Http\Requests\SupplierUpdateStatusRequest;
 use App\Http\Requests\SupplierDenialRequest;
 use App\Http\Requests\SupplierUpdateContactsRequest;
@@ -153,20 +151,54 @@ class SuppliersController extends Controller
    */
   public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier, StatusHistory $statusHistory)
   {
-    $user = Auth::user()->email;
-    $statusHistory->status = $request->requestStatus;
-    $statusHistory->updated_by = $user;
-    if($request->deniedReason){
-      $statusHistory->refusal_reason = Crypt::encrypt($request->deniedReason);
-    }
-    $statusHistory->supplier_id = $supplier->id;
-    $statusHistory->created_at = date("Y-m-d");
-    $statusHistory->save();
-    //DELETE ATTACHMENTS REQUEST DENIED
-    if($request->requestStatus == "denied"){
-      $this->destroyAttachments($supplier);
-    }
+    try {
+      $user = Auth::user()->email;
+      $statusHistory->status = $request->requestStatus;
+      $statusHistory->updated_by = $user;
+      if (!empty($request->deniedReasonText)) {
+        Log::debug("DENIED");
+        $statusHistory->refusal_reason = Crypt::encrypt($request->deniedReasonText);
+      }
 
+      $statusHistory->supplier_id = $supplier->id;
+      $statusHistory->created_at = Carbon::now('America/Toronto')->format('Y-m-d H:i:s');
+      $statusHistory->save();
+
+      if ($request->requestStatus == "denied") {
+        $this->destroyAttachments($supplier);
+      }
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateStatus'));
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+        ->withErrors('message',__('show.failToUpdate'));
+    }
+  }
+  
+
+  /**
+   * Update identification of supplier.
+   */
+  public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
+  {
+    try{
+      $supplier->neq = $request->neq;
+      $supplier->name = $request->name;
+      $supplier->email = $request->email;
+      $supplier->save();
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateIdentification'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#identification-section');
+    }
+    catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+        ->withErrors('message',__('show.failToUpdate'));
+    }
+    
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
@@ -484,5 +516,22 @@ class SuppliersController extends Controller
     ];
     Mail::to('fleurent.nicolas@hotmail.com')->send(new ApprovalMail($details));
     return "Email Sent!";
+  }
+
+  public function checkEmail(Request $request)
+  {
+    Log::debug("allo");
+    $email = $request->email;
+    $neq = $request->neq;
+    $exists = Supplier::where('neq', $neq)->where('email', $email)->exists();
+    return response()->json(['exists' => $exists]);
+  }
+
+  public function checkNeq(Request $request)
+  {
+    Log::debug($request);
+    $neq = $request->neq;
+    $exists = Supplier::where('neq', $neq)->exists();
+    return response()->json(['exists' => $exists]);
   }
 }

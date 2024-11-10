@@ -349,6 +349,7 @@ class SuppliersController extends Controller
 
   public function checkNeq(Request $request)
   {
+    Log::debug($request);
     $neq = $request->neq;
     $exists = Supplier::where('neq', $neq)->exists();
     return response()->json(['exists' => $exists]);
