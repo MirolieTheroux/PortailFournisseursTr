@@ -281,6 +281,15 @@ class SuppliersController extends Controller
   {
     Log::debug($request);
     try {
+      foreach ($supplier->contacts as $contact) {
+        if(!in_array($contact->id, $request->contactIds)){
+          foreach ($contact->phoneNumbers as $phoneNumber) {
+            $phoneNumber->delete();
+          }
+          $contact->delete();
+        }
+      }
+
       for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
         if($request->contactIds[$i] != -1){
           $contact = Contact::findOrFail($request->contactIds[$i]);
@@ -362,19 +371,14 @@ class SuppliersController extends Controller
         $licence->type = $request->typeRbq;
         $licence->supplier()->associate($supplier);
         $licence->save();
-  
-        $supplierExistingCategories = $supplier->workSubcategories->pluck('code')->toArray();
-        Log::debug($supplierExistingCategories);
 
         foreach ($supplier->workSubcategories as $rbqSubCategory) {
-          Log::debug($rbqSubCategory->code);
-          Log::debug($request->rbqSubcategories);
           if(!in_array($rbqSubCategory->code, $request->rbqSubcategories)){
-            Log::debug($rbqSubCategory->code);
             $supplier->workSubcategories()->detach($rbqSubCategory->id);
           }
         }
 
+        $supplierExistingCategories = $supplier->workSubcategories->pluck('code')->toArray();
         foreach ($request->rbqSubcategories as $rbqSubCategory) {
           if(!in_array($rbqSubCategory, $supplierExistingCategories)){
             $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
