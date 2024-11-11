@@ -220,8 +220,8 @@ class SuppliersController extends Controller
   public function approveRequest($id)
   {
     $supplier = Supplier::findOrFail($id);
-    //$this->changeStatus($supplier, "accepted");
-    $this->sendApprovalMail($supplier->email);
+    $this->changeStatus($supplier, "accepted");
+    //$this->sendApprovalMail($supplier->email);
 
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.approvalSuccess'));
   }
