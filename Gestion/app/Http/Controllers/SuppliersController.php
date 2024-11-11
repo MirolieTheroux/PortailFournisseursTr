@@ -607,14 +607,26 @@ class SuppliersController extends Controller
   {
     $email = $request->email;
     $neq = $request->neq;
-    $exists = Supplier::where('neq', $neq)->where('email', $email)->exists();
+    $supplierId = $request->supplierId;
+    $exists = Supplier::where('neq', $neq)
+                        ->where('email', $email)
+                        ->when($supplierId, function ($query, $supplierId) {
+                          return $query->where('id', '!=', $supplierId);
+                        })
+                        ->exists();
     return response()->json(['exists' => $exists]);
   }
 
   public function checkNeq(Request $request)
   {
+    Log::debug($request);
     $neq = $request->neq;
-    $exists = Supplier::where('neq', $neq)->exists();
+    $supplierId = $request->supplierId;
+    $exists = Supplier::where('neq', $neq)
+                        ->when($supplierId, function ($query, $supplierId) {
+                          return $query->where('id', '!=', $supplierId);
+                        })
+                      ->exists();
     return response()->json(['exists' => $exists]);
   }
 }

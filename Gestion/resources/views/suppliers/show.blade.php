@@ -344,6 +344,7 @@
               <div class="row pb-3">
                 <div class="col-6">
                   <div class="form-floating">
+                    <input type="text" id="supplierId" value="{{ $supplier->id ? : '' }}" hidden>
                     <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ $supplier->neq ? : 'N/A' }}" maxlength="10" disabled>
                     <label for="neq">{{__('form.neqLabel')}}</label>
                     <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
