@@ -802,27 +802,35 @@
                         maxlength="10"
                         disabled>
                       <label for="licenceRbq">{{__('form.numberLabel')}}</label>
+                      <div class="text-start invalid-feedback licenceInvalidNumber" style="display: none;">{{__('form.rbqLicenceValidation')}}</div>
+                      <div class="text-start invalid-feedback licenceInvalidSize" style="display: none;">{{__('form.rbqLicenceValidationSize')}}</div>
                     </div>
                   </div>
                   <div class="text-center">
                     <div class="form-floating mb-3">
                       <select name="statusRbq" id="statusRbq" class="form-select" aria-label="" disabled>
                         <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                        <option value>{{__('global.none')}}</option>
                         <option value="valid" {{ $supplier->rbqLicence && $supplier->rbqLicence->status == 'valid' ? 'selected' : null }}>{{ __('form.choiceValid') }}</option>
                         <option value="restrictedValid" {{ $supplier->rbqLicence && $supplier->rbqLicence->status == 'restrictedValid'  ? 'selected' : null }}>{{__('form.choiceRestrictedValid')}}</option>
                         <option value="invalid" {{  $supplier->rbqLicence && $supplier->rbqLicence->status == "invalid"  ? 'selected' : null }}>{{__('form.choiceInvalid')}}</option>
                       </select>
                       <label for="statusRbq">{{__('form.statusLabel')}}</label>
+                      <div class="text-start invalid-feedback statusInvalidRequired" style="display: none;">{{__('form.rbqStatusValidationRequired')}}</div>
+                      <div class="text-start invalid-feedback statusInvalidRequiredNot" style="display: none;">{{__('form.rbqStatusValidationRequiredNot')}}</div>
                     </div>
                   </div>
                   <div class="text-center">
                     <div class="form-floating mb-3">
                       <select name="typeRbq" id="typeRbq" class="form-select" aria-label="" disabled>
                         <option disabled selected value>{{__('form.choiceDefaultType')}}</option>
+                        <option value>{{__('global.none')}}</option>
                         <option value="entrepreneur" {{ $supplier->rbqLicence && $supplier->rbqLicence->type == 'entrepreneur' ? 'selected' : null }}>{{__('form.choiceEntrepreneur')}}</option>
                         <option value="ownerBuilder" {{ $supplier->rbqLicence && $supplier->rbqLicence->type == 'ownerBuilder' ? 'selected' : null }}>{{__('form.choiceOwnerBuilder')}}</option>
                       </select>
                       <label for="typeRbq">{{__('form.typeLabel')}}</label>
+                      <div class="text-start invalid-feedback typeInvalidRequired" style="display: none;">{{__('form.rbqTypeValidationRequired')}}</div>
+                      <div class="text-start invalid-feedback typeInvalidRequiredNot" style="display: none;">{{__('form.rbqTypeValidationRequiredNot')}}</div>
                     </div>
                   </div>
                 </div>
@@ -855,6 +863,9 @@
                               $generalWork = true;
                           }
                         @endphp
+                        <div id="no-categories" class="d-none">
+                          {{__('form.rbqCategoriesUnselectedType')}}
+                        </div>
                         <div id="entrepreneur-categories" class="{{$entrepreneurLicence ?  : 'd-none' }}">
                           <div class="fs-5 text-start fw-bold mb-2 title-border {{$generalWork ?  : 'd-none'}}">{{__('form.rbqCategoriesGeneralEntrepreneur')}}</div>
                           @foreach($workSubcategories as $workSubcategory)
@@ -918,7 +929,7 @@
                             @endif
                           @endforeach
                         </div>
-                        <div id="entrepreneur-categories" class="{{$entrepreneurLicence ? 'd-none' : '' }}">
+                        <div id="ownerBuilder-categories" class="{{$entrepreneurLicence ? 'd-none' : '' }}">
                           <div class="fs-5 text-start fw-bold mb-2 title-border {{$generalWork ?  : 'd-none'}}">{{__('form.rbqCategoriesGeneralOwnerBuilder')}}</div>
                           @foreach($workSubcategories as $workSubcategory)
                             @if($workSubcategory->is_specialised == false)
@@ -983,6 +994,8 @@
                         </div>
                       @endif
                     </div>
+                    <div class="text-start invalid-feedback subcategorieInvalidRequired" style="display: none;">{{__('form.rbqSubcategorieValidationRequired')}}</div>
+                    <div class="text-start invalid-feedback subcategorieInvalidRequiredNot" style="display: none;">{{__('form.rbqSubcategorieValidationRequiredNot')}}</div>
                   </div>
                 </div>
               </div>
@@ -995,7 +1008,7 @@
                 @endphp
                 <a id="btnCancelRbq" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#licence-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
                 <button id="btnEditRbq" type="button" class="m-2 py-1 px-3 rounded  button-darkblue edit">{{__('global.edit')}}</button>
-                <button id="btnSaveRbq" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+                <button id="btnSaveRbq" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
             @endrole
@@ -1226,4 +1239,5 @@
 <script src=" {{ asset('js/suppliers/show/rbq/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/save.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/rbq/changeType.js') }} "></script>
 @endsection

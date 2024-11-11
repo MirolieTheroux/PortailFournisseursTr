@@ -1,26 +1,27 @@
-// //Get elements in /suppliers/show/contacts/edit
+//Get elements in /suppliers/show/rbq/edit
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   addIdSaveListeners();
-// });
+document.addEventListener("DOMContentLoaded", function () {
+  addRbqSaveListeners();
+});
 
-// function addIdSaveListeners(){
-//   formIdentification = document.querySelector("#identification-section form");
-//   formIdentification.addEventListener("submit", async (event)=>{
-//     event.preventDefault();
-//     let response = await validateIdentificationAll();
+function addRbqSaveListeners(){
+  formRbq = document.querySelector("#licence-section form");
+  formRbq.addEventListener("submit", async (event)=>{
+    event.preventDefault();
 
-//     const currentSectionErrors = idContainer.querySelectorAll(".invalid-feedback");
+    validateRbqAll();
+
+    const currentSectionErrors = rbqContainer.querySelectorAll(".invalid-feedback");
     
-//     let errors = false;
-//     currentSectionErrors.forEach(errorMessage => {
-//       if (errorMessage.style.display == "block") {
-//         errors = true;
-//       }
-//     });
+    let errors = false;
+    currentSectionErrors.forEach(errorMessage => {
+      if (errorMessage.style.display == "block") {
+        errors = true;
+      }
+    });
 
-//     if(!errors){
-//       event.target.submit();
-//     }
-//   ;});
-// }
+    if(!errors){
+      event.target.submit();
+    }
+  ;});
+}

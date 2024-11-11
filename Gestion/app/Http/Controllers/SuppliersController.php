@@ -18,6 +18,7 @@ use App\Http\Requests\SupplierUpdateStatusRequest;
 use App\Http\Requests\SupplierDenialRequest;
 use App\Http\Requests\SupplierUpdateContactsRequest;
 use App\Http\Requests\SupplierUpdateIdentificationRequest;
+use App\Http\Requests\SupplierUpdateRbqRequest;
 
 use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;

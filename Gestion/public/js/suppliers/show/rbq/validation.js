@@ -1,201 +1,181 @@
-// let idNeqInput;
-// let idNameInput;
-// let idEmailInput;
-// let formIdentification;
+let inputLicenceRbq;
+let selectStatusRbq;
+let selectTypeRbq;
+let subcategorieContainerRbq;
+let subcategoriesCheckBoxesRbq;
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   addIdValidationListeners();
-// });
+document.addEventListener("DOMContentLoaded", function () {
+  addRbqValidationListeners();
+});
 
-// function addIdValidationListeners(){
-//   idNeqInput = document.getElementById('neq');
-//   idNeqInput.addEventListener('blur', validateIdentificationNeq);
-  
-//   idNameInput = document.getElementById('name');
-//   idNameInput.addEventListener('blur', validateIdentificationName);
+function addRbqValidationListeners(){
+  inputLicenceRbq = document.getElementById("licenceRbq");
+  inputLicenceRbq.addEventListener('input', validateRbqLicence);
 
-//   idEmailInput = document.getElementById('email');
-//   idEmailInput.addEventListener('blur', validateIdentificationEmail);
-// }
+  selectStatusRbq = document.getElementById("statusRbq");
+  selectStatusRbq.addEventListener('change', validateRbqStatus);
 
-// function validateIdentificationNeq() {
-//   const invalidStart = document.getElementById('neqInvalidStart');
-//   const invalidCharacters = document.getElementById('neqInvalidCharacters');
-//   const invalidAmount = document.getElementById('neqInvalidAmount');
-//   const invalidExist = document.getElementById('neqInvalidExist');
+  selectTypeRbq = document.getElementById("typeRbq");
+  selectTypeRbq.addEventListener('change', validateRbqType);
 
-//   // Reset all error messages
-//   invalidStart.style.display = 'none';
-//   invalidCharacters.style.display = 'none';
-//   invalidAmount.style.display = 'none';
-//   invalidExist.style.display = 'none';
-  
-//   // Basic validation logic
-//   if (!idNeqInput.value) {
-//     idNeqInput.classList.remove('is-invalid');
-//     idNeqInput.classList.remove('is-valid');
-//   }
-//   else if (!idNeqInput.value.match(/^11|22|33|88/)) {
-//     idNeqInput.classList.remove('is-valid');
-//     idNeqInput.classList.add('is-invalid');
-//     invalidStart.style.display = 'block';
-//   }
-//   else if (idNeqInput.value.match(/\D/)) {
-//     idNeqInput.classList.remove('is-valid');
-//     idNeqInput.classList.add('is-invalid');
-//     invalidCharacters.style.display = 'block';
-//   }
-//   else if (idNeqInput.value.length !== 10) {
-//     idNeqInput.classList.remove('is-valid');
-//     idNeqInput.classList.add('is-invalid');
-//     invalidAmount.style.display = 'block';
-//   }
-//   else {
-//     idNeqInput.classList.remove('is-invalid');
-//     idNeqInput.classList.add('is-valid');
-//   }
+  subcategorieContainerRbq = document.getElementById("subcategories-container");
+  subcategoriesCheckBoxesRbq = subcategorieContainerRbq.getElementsByClassName("rbq-subcategories-check");
+  selectTypeRbq.addEventListener('change', validateRbqType);
+  for(let checkbox of subcategoriesCheckBoxesRbq){
+    checkbox.addEventListener('click', validateRbqCategories);
+  }
+}
 
-//   idNeqInput.classList.add('was-validated');
-// };
+function validateRbqLicence() {
+  const parentDiv = inputLicenceRbq.parentElement;
+  const invalidNumberMessage = parentDiv.querySelector('.licenceInvalidNumber');
+  const invalidSizeMessage = parentDiv.querySelector('.licenceInvalidSize');
 
-// function validateIdentificationName() {
-//   const start = document.getElementById('nameStart');
-//   const valid = document.getElementById('nameValid');
-//   const invalidEmpty = document.getElementById('nameInvalidEmpty');
+  // Reset all error messages
+  invalidNumberMessage.style.display = 'none';
+  invalidSizeMessage.style.display = 'none';
 
-//   // Reset all error messages
-//   start.style.display = 'none';
-//   valid.style.display = 'none';
-//   invalidEmpty.style.display = 'none';
-  
-//   // Basic validation logic
-//   if (!idNameInput.value) {
-//     idNameInput.classList.remove('is-valid');
-//     idNameInput.classList.add('is-invalid');
-//     invalidEmpty.style.display = 'block';
-//   }
-//   else {
-//     idNameInput.classList.remove('is-invalid');
-//     idNameInput.classList.add('is-valid');
-//     valid.style.display = 'block';
-//   }
-  
-//   idNameInput.classList.add('was-validated');
-// };
+  // Basic validation logic
+  if (isNaN(inputLicenceRbq.value)) {
+    inputLicenceRbq.classList.remove('is-valid');
+    inputLicenceRbq.classList.add('is-invalid');
+    invalidNumberMessage.style.display = 'block';
+  }
+  else if(!inputLicenceRbq.value){
+    inputLicenceRbq.classList.remove('is-invalid');
+    inputLicenceRbq.classList.remove('is-valid');
+  }
+  else if(inputLicenceRbq.value.length !== 10){
+    inputLicenceRbq.classList.remove('is-valid');
+    inputLicenceRbq.classList.add('is-invalid');
+    invalidSizeMessage.style.display = 'block';
+  }
+  else {
+    inputLicenceRbq.classList.remove('is-invalid');
+    inputLicenceRbq.classList.add('is-valid');
+  }
 
-// function validateIdentificationEmail() {
-//   const invalidEmpty = document.getElementById('emailInvalidEmpty');
-//   const invalidStart = document.getElementById('emailInvalidStart');
-//   const invalidNoArobase = document.getElementById('emailInvalidNoArobase');
-//   const invalidManyArobase = document.getElementById('emailInvalidManyArobase');
-//   const invalidEmptyDomain = document.getElementById('emailInvalidEmptyDomain');
-//   const invalidDomainFormat = document.getElementById('emailInvalidDomainFormat');
-//   const invalidDomainDot = document.getElementById('emailInvalidDomainDot');
-//   const emailInvalidUnique = document.getElementById('emailInvalidUnique');
+  inputLicenceRbq.classList.add('was-validated');
+  validateRbqStatus();
+  validateRbqType();
+  validateRbqCategories();
+}
 
-//   // Reset all error messages
-//   invalidEmpty.style.display = 'none';
-//   invalidStart.style.display = 'none';
-//   invalidNoArobase.style.display = 'none';
-//   invalidManyArobase.style.display = 'none';
-//   invalidEmptyDomain.style.display = 'none';
-//   invalidDomainFormat.style.display = 'none';
-//   invalidDomainDot.style.display = 'none';
-//   emailInvalidUnique.style.display = 'none';
-  
-//   // Basic validation logic
-//   if (!idEmailInput.value) {
-//     idEmailInput.classList.remove('is-valid');
-//     idEmailInput.classList.add('is-invalid');
-//     invalidEmpty.style.display = 'block';
-//   }
-//   else if (idEmailInput.value.match(/^@/)) {
-//     idEmailInput.classList.remove('is-valid');
-//     idEmailInput.classList.add('is-invalid');
-//     invalidStart.style.display = 'block';
-//   }
-//   else if (!idEmailInput.value.match(/@/)) {
-//     idEmailInput.classList.remove('is-valid');
-//     idEmailInput.classList.add('is-invalid');
-//     invalidNoArobase.style.display = 'block';
-//   }
-//   else if (idEmailInput.value.match(/@.*@/)) {
-//     idEmailInput.classList.remove('is-valid');
-//     idEmailInput.classList.add('is-invalid');
-//     invalidManyArobase.style.display = 'block';
-//   }
-//   else if (idEmailInput.value.match(/@$/)) {
-//     idEmailInput.classList.remove('is-valid');
-//     idEmailInput.classList.add('is-invalid');
-//     invalidEmptyDomain.style.display = 'block';
-//   }
-//   else if (!idEmailInput.value.match(/@.*\./)){
-//     idEmailInput.classList.remove('is-valid');
-//     idEmailInput.classList.add('is-invalid');
-//     invalidDomainFormat.style.display = 'block';
-//   }
-//   else if (idEmailInput.value.match(/(@\.)|(\.$)/)){
-//     idEmailInput.classList.remove('is-valid');
-//     idEmailInput.classList.add('is-invalid');
-//     invalidDomainDot.style.display = 'block';
-//   }
-//   else {
-//     idEmailInput.classList.remove('is-invalid');
-//     idEmailInput.classList.add('is-valid');
-//   }
-  
-//   idEmailInput.classList.add('was-validated');
-// };
+function validateRbqStatus() {
+  const parentDiv = selectStatusRbq.parentElement;
+  const invalidStatusRequired = parentDiv.querySelector('.statusInvalidRequired');
+  const invalidStatusRequiredNot = parentDiv.querySelector('.statusInvalidRequiredNot');
 
-// async function validateIdentificationAll(){
-//   validateIdentificationNeq();
-//   validateIdentificationName();
-//   validateIdentificationEmail();
+  // Reset all error messages
+  invalidStatusRequired.style.display = 'none';
+  invalidStatusRequiredNot.style.display = 'none';
 
-//   if(idEmailInput.classList.contains("is-valid")){
-//     let emailExist = await checkEmailUnique(idEmailInput.value, idNeqInput.value);
-//     if(emailExist){
-//       const emailInvalidUnique = document.getElementById('emailInvalidUnique');
-//       idEmailInput.classList.remove('is-valid');
-//       idEmailInput.classList.add('is-invalid');
-//       emailInvalidUnique.style.display = 'block';
-//     }
-//   }
+  // Basic validation logic
+  if(inputLicenceRbq.value){
+    if(!selectStatusRbq.value){
+      selectStatusRbq.classList.remove('is-valid');
+      selectStatusRbq.classList.add('is-invalid');
+      invalidStatusRequired.style.display = 'block';
+    }
+    else{
+      selectStatusRbq.classList.remove('is-invalid');
+      selectStatusRbq.classList.add('is-valid');
+    }
+  }
+  else{
+    if(selectStatusRbq.value){
+      selectStatusRbq.classList.remove('is-valid');
+      selectStatusRbq.classList.add('is-invalid');
+      invalidStatusRequiredNot.style.display = 'block';
+    }
+    else{
+      selectStatusRbq.classList.remove('is-invalid');
+      selectStatusRbq.classList.add('is-valid');
+    }
+  }
 
-//   if(idNeqInput.classList.contains("is-valid")){
-//     let neqExist = await checkNeqUnique(idNeqInput.value);
-//     if(neqExist){
-//       const neqInvalidExist = document.getElementById('neqInvalidExist');
-//       idNeqInput.classList.remove('is-valid');
-//       idNeqInput.classList.add('is-invalid');
-//       neqInvalidExist.style.display = 'block';
-//     }
-//   }
-// }
+  selectStatusRbq.classList.add('was-validated');
+}
 
-// async function checkEmailUnique(email, neq){
-//   const response = await fetch('/suppliers/checkEmail', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
-//     },        
-//     body: JSON.stringify({ email: email, neq: neq })
-//   })
-//   const data = await response.json();
-//   return data.exists;
-// }
+function validateRbqType() {
+  const parentDiv = selectTypeRbq.parentElement;
+  const invalidTypeRequired = parentDiv.querySelector('.typeInvalidRequired');
+  const invalidTypeRequiredNot = parentDiv.querySelector('.typeInvalidRequiredNot');
 
-// async function checkNeqUnique(neq){
-//   const response = await fetch('/suppliers/checkNeq', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
-//     },        
-//     body: JSON.stringify({ neq: neq })
-//   })
-//   console.log(response);
-//   const data = await response.json();
-//   return data.exists;
-// }
+  // Reset all error messages
+  invalidTypeRequired.style.display = 'none';
+  invalidTypeRequiredNot.style.display = 'none';
+
+  // Basic validation logic
+  if(inputLicenceRbq.value){
+    if(!selectTypeRbq.value){
+      selectTypeRbq.classList.remove('is-valid');
+      selectTypeRbq.classList.add('is-invalid');
+      invalidTypeRequired.style.display = 'block';
+    }
+    else{
+      selectTypeRbq.classList.remove('is-invalid');
+      selectTypeRbq.classList.add('is-valid');
+    }
+  }
+  else{
+    if(selectTypeRbq.value){
+      selectTypeRbq.classList.remove('is-valid');
+      selectTypeRbq.classList.add('is-invalid');
+      invalidTypeRequiredNot.style.display = 'block';
+    }
+    else{
+      selectTypeRbq.classList.remove('is-invalid');
+      selectTypeRbq.classList.add('is-valid');
+    }
+  }
+
+  selectTypeRbq.classList.add('was-validated');
+}
+
+function validateRbqCategories(){
+  const parentDiv = subcategorieContainerRbq.parentElement;
+  const invalidSubcategorieRequired = parentDiv.querySelector('.subcategorieInvalidRequired');
+  const invalidSubcategorieRequiredNot = parentDiv.querySelector('.subcategorieInvalidRequiredNot');
+
+  // Reset all error messages
+  invalidSubcategorieRequired.style.display = 'none';
+  invalidSubcategorieRequiredNot.style.display = 'none';
+
+  let subcategorieFound = false;
+
+  for(let checkbox of subcategoriesCheckBoxesRbq){
+    if(checkbox.checked){
+      subcategorieFound = true;
+    }
+  }
+  if(inputLicenceRbq.value){
+    if(subcategorieFound){
+      subcategorieContainerRbq.classList.remove('is-invalid');
+      subcategorieContainerRbq.classList.add('is-valid');
+    }
+    else{
+      subcategorieContainerRbq.classList.remove('is-valid');
+      subcategorieContainerRbq.classList.add('is-invalid');
+      invalidSubcategorieRequired.style.display = 'block';
+    }
+  }
+  else{
+    if(subcategorieFound){
+      subcategorieContainerRbq.classList.remove('is-valid');
+      subcategorieContainerRbq.classList.add('is-invalid');
+      invalidSubcategorieRequiredNot.style.display = 'block';
+    }
+    else{
+      subcategorieContainerRbq.classList.remove('is-invalid');
+      subcategorieContainerRbq.classList.add('is-valid');
+    }
+  }
+}
+
+function validateRbqAll(){
+  validateRbqLicence();
+  validateRbqStatus();
+  validateRbqType();
+  validateRbqCategories();
+}
