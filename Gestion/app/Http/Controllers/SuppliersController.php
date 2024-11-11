@@ -166,7 +166,7 @@ class SuppliersController extends Controller
       }
 
       $statusHistory->supplier_id = $supplier->id;
-      $statusHistory->created_at = Carbon::now('America/Toronto')->format('Y-m-d H:i:s');
+      $statusHistory->created_at = Carbon::now('America/Montreal')->format('Y-m-d H:i:s T');
       $statusHistory->save();
 
       if ($request->requestStatus == "denied") {
