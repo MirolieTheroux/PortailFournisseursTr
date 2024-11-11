@@ -246,6 +246,7 @@ class SuppliersController extends Controller
     $status = new StatusHistory();
     $status->status = $newStatus;
     $status->updated_by = auth()->user()->email;
+    $status->created_at = Carbon::now('America/Toronto');
     $status->supplier()->associate($supplier);
     $status->save();
   }
@@ -253,6 +254,7 @@ class SuppliersController extends Controller
     $status = new StatusHistory();
     $status->status = $newStatus;
     $status->updated_by = auth()->user()->email;
+    $status->created_at = Carbon::now('America/Toronto');
     $status->refusal_reason = Crypt::encrypt($reason);
     $status->supplier()->associate($supplier);
     $status->save();
