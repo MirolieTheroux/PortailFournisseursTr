@@ -325,7 +325,7 @@
         </form>
       </div><!--FIN ETAT DEMANDE-->
       <!--//* NICE_TO_HAVE::
-       -  Voir pourquoi quand on enregistre les boutons disparaissent.
+       - Voir pourquoi quand on enregistre les boutons disparaissent.
        - Est ce qu'on met un message quand il l'utilisateur enregistre, mais qu'il n'y a pas de modification de détectée ?
        - Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
        -->
