@@ -267,8 +267,8 @@
                 </div>
                 <div class="col-6">
                   <div class="form-floating">
-                    <input type="date" name="requestStatusCreatedDate" id="requestStatusCreatedDate" class="form-control" value="{{date_format($supplier->latestNonModifiedStatus()->created_at, 'Y-m-d')}}" placeholder="" disabled>
-                    <label for="requestStatus" id="">{{__('form.requestResponseDate')}}</label>
+                    <input type="date" name="requestStatusDate" id="requestStatusDate" class="form-control" value="{{date_format($supplier->latestNonModifiedStatus()->created_at, 'Y-m-d')}}" placeholder="" disabled>
+                    <label for="requestStatusDate" id="">{{__('form.requestResponseDate')}}</label>
                   </div>
                 </div>
               </div>

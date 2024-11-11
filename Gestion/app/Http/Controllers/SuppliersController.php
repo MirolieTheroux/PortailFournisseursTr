@@ -161,12 +161,12 @@ class SuppliersController extends Controller
       $user = Auth::user()->email;
       $statusHistory->status = $request->requestStatus;
       $statusHistory->updated_by = $user;
-      if ($request->requestStatut == "denied" && !empty($request->deniedReasonText)) {
+      if ($request->requestStatus === "denied" && !empty($request->deniedReasonText)) {
         $statusHistory->refusal_reason = Crypt::encrypt($request->deniedReasonText);
       }
-
+      
       $statusHistory->supplier_id = $supplier->id;
-      $statusHistory->created_at = Carbon::now('America/Montreal')->format('Y-m-d H:i:s T');
+      $statusHistory->created_at = Carbon::now('America/Montreal');
       $statusHistory->save();
 
       if ($request->requestStatus == "denied") {
