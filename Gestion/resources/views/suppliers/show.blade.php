@@ -1,4 +1,7 @@
 <!--//? Remarques::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
+<!--//? REMARQUES CONTACTS::
+- La suppression d'un contact ne fonctionne pas.
+-->
 @extends('layouts.app')
 
 @section('css')
@@ -321,13 +324,10 @@
           </div>
         </form>
       </div><!--FIN ETAT DEMANDE-->
-      <!--//? REMARQUES::
+      <!--//* NICE_TO_HAVE::
        -  Voir pourquoi quand on enregistre les boutons disparaissent.
-          - Nice_to_have (nico)
        - Est ce qu'on met un message quand il l'utilisateur enregistre, mais qu'il n'y a pas de modification de détectée ?
-          - Nice_to_have (nico)
        - Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
-          - Nice_to_have (nico)
        -->
       <!--IDENTIFICATION-->
       <div class="container d-flex flex-column h-100 show-section" id="identification-section">
@@ -530,7 +530,6 @@
           @endrole
         </div>
       </div><!--FIN COORDONNÉES-->
-
       <!--CONTACT-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contacts-section">
         <form action="{{ route('suppliers.updateContacts', ['supplier'=>$supplier]) }}" method="post" class="need-validation w-100" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
