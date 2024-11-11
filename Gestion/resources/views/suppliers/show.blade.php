@@ -1,7 +1,5 @@
 <!--//? Remarques::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
-<!--//? REMARQUES CONTACTS::
-- La suppression d'un contact ne fonctionne pas.
--->
+
 @extends('layouts.app')
 
 @section('css')

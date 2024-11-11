@@ -1,17 +1,3 @@
-<!--//* REMARQUE::-->
-<!--//* REMARQUE::-->
-
-<!--selectedList.php-->
-<!--//* REMARQUE::Changer la couleur des contacts sélectionné? (peut-être rgb(200,200,200), j'ai l'impression que vert c'est agressif)-->
-<!--//* REMARQUE::Lorsqu'un contact est sélectionné, changer le texte du bouton "contacté" pour "retirer"?-->
-<!--//* REMARQUE::lorsqu'il n'y a plus de choix de numéro, mettre les flèches en d-none au lieu de gris?-->
-<!--//* REMARQUE::Afficher le nombre de numéro total du contact (Ex: 3/90 numéros) un peu comme j'ai fait pour les produits services-->
-
-<!--//! IMPORTANT-->
-<!--//* REMARQUE::Quand je clique sur exporter la liste, ça exporte pas ceux sélectionné, mais la liste au complet-->
-<!--//* REMARQUE::Lors de l'exportation, les titres des colonnes du excel ne sont pas alligné aux bonnes données-->
-<!--//* REMARQUE::Lors de l'exportation, dans le excel, (la date au moment du test est 2024-11-10) la date afficher est 2024-11-11-->
-
 <!--//? NICE_TO_HAVE::Liste des fournisseurs - Faire les tri selon le nombre de critères rempli et status-->
 <!--//? NICE_TO_HAVE: 
     //?   Faire en sorte que lorsqu'on recherche dans un filtre et qu'on coche une option, la recherche ne se réénitialise pas

@@ -246,6 +246,7 @@ class SuppliersController extends Controller
     $status = new StatusHistory();
     $status->status = $newStatus;
     $status->updated_by = auth()->user()->email;
+    $status->created_at = Carbon::now('America/Toronto');
     $status->supplier()->associate($supplier);
     $status->save();
   }
@@ -253,6 +254,7 @@ class SuppliersController extends Controller
     $status = new StatusHistory();
     $status->status = $newStatus;
     $status->updated_by = auth()->user()->email;
+    $status->created_at = Carbon::now('America/Toronto');
     $status->refusal_reason = Crypt::encrypt($reason);
     $status->supplier()->associate($supplier);
     $status->save();
@@ -280,6 +282,15 @@ class SuppliersController extends Controller
   {
     Log::debug($request);
     try {
+      foreach ($supplier->contacts as $contact) {
+        if(!in_array($contact->id, $request->contactIds)){
+          foreach ($contact->phoneNumbers as $phoneNumber) {
+            $phoneNumber->delete();
+          }
+          $contact->delete();
+        }
+      }
+
       for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
         if($request->contactIds[$i] != -1){
           $contact = Contact::findOrFail($request->contactIds[$i]);
@@ -361,19 +372,14 @@ class SuppliersController extends Controller
         $licence->type = $request->typeRbq;
         $licence->supplier()->associate($supplier);
         $licence->save();
-  
-        $supplierExistingCategories = $supplier->workSubcategories->pluck('code')->toArray();
-        Log::debug($supplierExistingCategories);
 
         foreach ($supplier->workSubcategories as $rbqSubCategory) {
-          Log::debug($rbqSubCategory->code);
-          Log::debug($request->rbqSubcategories);
           if(!in_array($rbqSubCategory->code, $request->rbqSubcategories)){
-            Log::debug($rbqSubCategory->code);
             $supplier->workSubcategories()->detach($rbqSubCategory->id);
           }
         }
 
+        $supplierExistingCategories = $supplier->workSubcategories->pluck('code')->toArray();
         foreach ($request->rbqSubcategories as $rbqSubCategory) {
           if(!in_array($rbqSubCategory, $supplierExistingCategories)){
             $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
@@ -552,15 +558,14 @@ class SuppliersController extends Controller
     $sheet = $spreadsheet->getActiveSheet();
 
     $sheet->mergeCells('A1:C1');
-    $sheet->setCellValue('A1', __('selectedSuppliersList.exportDate') . Carbon::now()->format('d-m-Y'));
+    $sheet->setCellValue('A1', __('selectedSuppliersList.exportDate') . Carbon::now('America/Toronto')->format('d-m-Y'));
 
-    $sheet->setCellValue('A2', __('form.neqLabelShort'));
-    $sheet->setCellValue('B2', __('form.lastNameLabel'));
-    $sheet->setCellValue('C2', __('form.emailLabel'));
+    $sheet->setCellValue('A2', __('form.lastNameLabel'));
+    $sheet->setCellValue('B2', __('form.emailLabel'));
+    $sheet->setCellValue('C2', __('form.neqLabelShort'));
     $sheet->setCellValue('D2', __('form.contactsSubtitle'));
     $sheet->setCellValue('E2', __('selectedSuppliersList.joined'));
     
-    $suppliers = Supplier::all();  // Remplace par les données souhaitées
     $row = 3;
     foreach ($suppliers as $supplier) {
       $sheet->setCellValue('A' . $row, $supplier->name);
@@ -583,7 +588,7 @@ class SuppliersController extends Controller
       $sheet->getColumnDimension($columnID)->setAutoSize(true);
     }
 
-    $fileName = 'fournisseurs_' . Carbon::now()->format('Y-m-d_H-i-s') . '.xlsx';
+    $fileName = 'fournisseurs_' . Carbon::now('America/Toronto')->format('Y-m-d_H-i-s') . '.xlsx';
     $temp_file = tempnam(sys_get_temp_dir(), $fileName);
     $writer = new Xlsx($spreadsheet);
     $writer->save($temp_file);
