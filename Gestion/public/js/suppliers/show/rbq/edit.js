@@ -38,7 +38,7 @@ function enableRbqSectionEdit(){
     rbqChecks[index].removeAttribute("disabled");
     rbqChecks[index].parentElement.classList.remove("d-none");
   }
-  for (let index = 0; index < rbqChecks.length; index++) {
+  for (let index = 0; index < rbqSubcategoryTitle.length; index++) {
     rbqSubcategoryTitle[index].classList.remove("d-none");
   }
 }

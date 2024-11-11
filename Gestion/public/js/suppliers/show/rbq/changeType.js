@@ -87,4 +87,5 @@ function checkboxesReset(statusReset){
     else if(licenceNumber === undefined || statusReset)
       checkbox.checked  = false;
   });
+  validateRbqCategories();
 }

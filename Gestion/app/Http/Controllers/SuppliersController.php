@@ -10,6 +10,7 @@ use App\Models\WorkSubcategory;
 use App\Models\ProductService;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
+use App\Models\RbqLicence;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -349,70 +350,59 @@ class SuppliersController extends Controller
   public function updateRbq(SupplierUpdateRbqRequest $request, Supplier $supplier)
   {
     Log::debug($request);
-    Log::debug(is_null($request->licenceRbq));
-    Log::debug(is_null($supplier->rbqLicence));
-    $supplierExistingCategories = $supplier->workSubcategories->pluck('code')->toArray();
-    Log::debug($supplierExistingCategories);
 
-    //Coder de regarder la licence
-
-    //Coder de regarder si une categorie est manquante
-
-    //Coder de regader si il y a une nouvelle catégorie
     try {
+      $supplierRbqExisting = !is_null($supplier->rbqLicence);
+      $requestRbqExisting = !is_null($request->licenceRbq);
+  
+      if($supplierRbqExisting && $requestRbqExisting){
+        $licence = RbqLicence::findOrFail($supplier->rbqLicence->id);
+        $licence->number = $request->licenceRbq;
+        $licence->status = $request->statusRbq;
+        $licence->type = $request->typeRbq;
+        $licence->supplier()->associate($supplier);
+        $licence->save();
+  
+        $supplierExistingCategories = $supplier->workSubcategories->pluck('code')->toArray();
+        Log::debug($supplierExistingCategories);
 
-      /*for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
-        if($request->contactIds[$i] != -1){
-          $contact = Contact::findOrFail($request->contactIds[$i]);
-        }
-        else{
-          $contact = new Contact();
-        }
-        
-        $contact->email = $request->contactEmails[$i];
-        $contact->first_name = $request->contactFirstNames[$i];
-        $contact->last_name = $request->contactLastNames[$i];
-        $contact->job = $request->contactJobs[$i];
-        $contact->supplier()->associate($supplier);
-        $contact->save();
-
-        if($request->contactTelIdsA[$i] != -1){
-          $phoneNumberA = PhoneNumber::findOrFail($request->contactTelIdsA[$i]);
-        }
-        else{
-          $phoneNumberA = new PhoneNumber();
-        }
-        $phoneNumberA->number = str_replace('-', '', $request->contactTelNumbersA[$i]);
-        $phoneNumberA->type = $request->contactTelTypesA[$i];
-        $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
-
-        Log::debug($phoneNumberA);
-        Log::debug($request->contactTelIdsA[$i]);
-        if($request->contactTelIdsA[$i] == -1){
-          Log::debug("Dans le if?");
-          $phoneNumberA->supplier()->associate(null);
-          $phoneNumberA->contact()->associate($contact);
-        }
-        $phoneNumberA->save();
-
-        if(!is_null($request->contactTelNumbersB[$i])){
-          if($request->contactTelIdsB[$i] != -1){
-            $phoneNumberB = PhoneNumber::findOrFail($request->contactTelIdsB[$i]);
+        foreach ($supplier->workSubcategories as $rbqSubCategory) {
+          Log::debug($rbqSubCategory->code);
+          Log::debug($request->rbqSubcategories);
+          if(!in_array($rbqSubCategory->code, $request->rbqSubcategories)){
+            Log::debug($rbqSubCategory->code);
+            $supplier->workSubcategories()->detach($rbqSubCategory->id);
           }
-          else{
-            $phoneNumberB = new PhoneNumber();
+        }
+
+        foreach ($request->rbqSubcategories as $rbqSubCategory) {
+          if(!in_array($rbqSubCategory, $supplierExistingCategories)){
+            $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
+            $supplier->workSubcategories()->attach($subCategory);
           }
-          $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
-          $phoneNumberB->type = $request->contactTelTypesB[$i];
-          $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
-          if($request->contactTelIdsB[$i] == -1){
-            $phoneNumberB->supplier()->associate(null);
-            $phoneNumberB->contact()->associate($contact);
-          }
-          $phoneNumberB->save();
         }
       }
-      $this->changeStatus($supplier, "modified");*/
+      else if(!$supplierRbqExisting && $requestRbqExisting){
+        $licence = new RbqLicence();
+        $licence->number = $request->licenceRbq;
+        $licence->status = $request->statusRbq;
+        $licence->type = $request->typeRbq;
+        $licence->supplier()->associate($supplier);
+        $licence->save();
+  
+        foreach($request->rbqSubcategories as $rbqSubCategory){
+          $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
+          $supplier->workSubcategories()->attach($subCategory);
+        }
+      }
+      else if($supplierRbqExisting && !$requestRbqExisting){
+        $licence = RbqLicence::findOrFail($supplier->rbqLicence->id);
+        $licence->delete();
+
+        $supplier->workSubcategories()->sync([]);
+      }
+
+      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateRbq'))

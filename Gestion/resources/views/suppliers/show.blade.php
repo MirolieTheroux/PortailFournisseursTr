@@ -879,7 +879,7 @@
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}"
                                 id="flexCheckGen{{$workSubcategory->id}}Ent"
-                                {{$checked ? 'checked' : ''}}
+                                {{$checked && $supplier->rbqLicence->type == "entrepreneur" ? 'checked' : ''}}
                                 disabled
                               >
                               <div class="d-flex">
@@ -910,7 +910,7 @@
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}"
                                 id="flexCheckGen{{$workSubcategory->id}}Ent"
-                                {{$checked ? 'checked' : ''}}
+                                {{$checked && $supplier->rbqLicence->type == "entrepreneur" ? 'checked' : ''}}
                                 disabled
                               >
                               <div class="d-flex">
@@ -942,7 +942,7 @@
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}"
                                 id="flexCheckGen{{$workSubcategory->id}}Ent"
-                                {{$checked ? 'checked' : ''}}
+                                {{$checked && $supplier->rbqLicence->type == "ownerBuilder" ? 'checked' : ''}}
                                 disabled
                               >
                               <div class="d-flex">
@@ -973,7 +973,7 @@
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}"
                                 id="flexCheckGen{{$workSubcategory->id}}Ent"
-                                {{$checked ? 'checked' : ''}}
+                                {{$checked && $supplier->rbqLicence->type == "ownerBuilder" ? 'checked' : ''}}
                                 disabled
                               >
                               <div class="d-flex">
