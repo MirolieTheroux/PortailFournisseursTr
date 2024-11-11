@@ -349,7 +349,9 @@ class SuppliersController extends Controller
   public function updateRbq(SupplierUpdateRbqRequest $request, Supplier $supplier)
   {
     Log::debug($request);
+    Log::debug($supplier->rbqLicence);
     try {
+
       /*for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
         if($request->contactIds[$i] != -1){
           $contact = Contact::findOrFail($request->contactIds[$i]);
@@ -401,11 +403,11 @@ class SuppliersController extends Controller
           $phoneNumberB->save();
         }
       }
-      $this->changeStatus($supplier, "modified");
+      $this->changeStatus($supplier, "modified");*/
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
-      ->with('message',__('show.successUpdateContact'))
-      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contacts-section');*/
+      ->with('message',__('show.successUpdateRbq'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#licence-section');
       
     } catch (\Throwable $e) {
       Log::debug($e);
@@ -611,7 +613,6 @@ class SuppliersController extends Controller
 
   public function checkNeq(Request $request)
   {
-    Log::debug($request);
     $neq = $request->neq;
     $exists = Supplier::where('neq', $neq)->exists();
     return response()->json(['exists' => $exists]);

@@ -22,7 +22,17 @@ class SupplierUpdateRbqRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'licenceRbq' => 'regex:/^[0-9]+$/i|size:10|nullable',
+            'statusRbq' => 'required_with:licenceRbq',
+            'typeRbq' => 'required_with:licenceRbq',
+            'rbqSubcategories' => 'required_with:licenceRbq',
+        ];
+    }
+
+    public function messages(){
+        return[
+            'licenceRbq.regex' => __('form.rbqLicenceValidation'),
+            'rbqSubcategories.required_with' => __('form.rbqCategoriesValidation'),
         ];
     }
 }
