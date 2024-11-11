@@ -1012,7 +1012,7 @@
                       @foreach ($supplier->attachments as $file)
                       <div class="row mb-2 ">
                         <div class="col-6 fs-6 fileName">
-                         
+                          <a href="{{ route('attachments.show', ['supplier' => $supplier->id, 'attachment' => $file->id]) }}" target="_blank">{{ $file->name }}</a>
                         </div>
                         <div class="col-2 fs-6 text-center fileSize">
                           {{$file->size}}
