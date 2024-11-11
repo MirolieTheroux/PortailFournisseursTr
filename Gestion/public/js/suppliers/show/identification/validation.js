@@ -1,6 +1,7 @@
 let idNeqInput;
 let idNameInput;
 let idEmailInput;
+let idSupplierIdInput;
 let formIdentification;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -16,6 +17,8 @@ function addIdValidationListeners(){
 
   idEmailInput = document.getElementById('email');
   idEmailInput.addEventListener('blur', validateIdentificationEmail);
+
+  idSupplierIdInput = document.getElementById('supplierId');
 }
 
 function validateIdentificationNeq() {
@@ -153,7 +156,7 @@ async function validateIdentificationAll(){
   validateIdentificationEmail();
 
   if(idEmailInput.classList.contains("is-valid")){
-    let emailExist = await checkEmailUnique(idEmailInput.value, idNeqInput.value);
+    let emailExist = await checkEmailUnique(idEmailInput.value, idNeqInput.value, idSupplierIdInput.value);
     if(emailExist){
       const emailInvalidUnique = document.getElementById('emailInvalidUnique');
       idEmailInput.classList.remove('is-valid');
@@ -163,7 +166,7 @@ async function validateIdentificationAll(){
   }
 
   if(idNeqInput.classList.contains("is-valid")){
-    let neqExist = await checkNeqUnique(idNeqInput.value);
+    let neqExist = await checkNeqUnique(idNeqInput.value, idSupplierIdInput.value);
     if(neqExist){
       const neqInvalidExist = document.getElementById('neqInvalidExist');
       idNeqInput.classList.remove('is-valid');
@@ -173,27 +176,27 @@ async function validateIdentificationAll(){
   }
 }
 
-async function checkEmailUnique(email, neq){
+async function checkEmailUnique(email, neq, supplierId){
   const response = await fetch('/suppliers/checkEmail', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
     },        
-    body: JSON.stringify({ email: email, neq: neq })
+    body: JSON.stringify({ email: email, neq: neq, supplierId: supplierId })
   })
   const data = await response.json();
   return data.exists;
 }
 
-async function checkNeqUnique(neq){
+async function checkNeqUnique(neq, supplierId){
   const response = await fetch('/suppliers/checkNeq', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
     },        
-    body: JSON.stringify({ neq: neq })
+    body: JSON.stringify({ neq: neq, supplierId: supplierId })
   })
   console.log(response);
   const data = await response.json();

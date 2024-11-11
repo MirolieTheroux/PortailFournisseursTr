@@ -10,6 +10,7 @@ use App\Models\WorkSubcategory;
 use App\Models\ProductService;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
+use App\Models\RbqLicence;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,7 @@ use App\Http\Requests\SupplierUpdateStatusRequest;
 use App\Http\Requests\SupplierDenialRequest;
 use App\Http\Requests\SupplierUpdateContactsRequest;
 use App\Http\Requests\SupplierUpdateIdentificationRequest;
+use App\Http\Requests\SupplierUpdateRbqRequest;
 
 use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -47,7 +49,7 @@ class SuppliersController extends Controller
     });
 
     $workSubcategories = WorkSubcategory::all();
-    $productsServices = ProductService::all();
+    $productsServices = ProductService::limit(self::SUPPLIER_FETCH_LIMIT)->get();
     return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
   }
 
@@ -82,6 +84,7 @@ class SuppliersController extends Controller
    */
   public function show(Supplier $supplier)
   {
+    $workSubcategories = WorkSubcategory::all();
 
     $supplierWithProductsCategories = $supplier->load('productsServices.categories');
     $suppliersGroupedByNatureAndCategory = $supplierWithProductsCategories->productsServices->groupBy(function ($product) {
@@ -138,7 +141,7 @@ class SuppliersController extends Controller
     
     $latestDeniedReason = $deniedStatus->sortByDesc('created_at')->first();
     
-    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason'));
+    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories'));
   }
   
   /**
@@ -271,6 +274,9 @@ class SuppliersController extends Controller
     $supplier->attachments()->delete();
   }
 
+  /**
+   * Update contacts of supplier.
+   */
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
   {
     Log::debug($request);
@@ -331,7 +337,76 @@ class SuppliersController extends Controller
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateContact'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contacts-section');
-      //return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('global.updateSuccess'));
+      
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
+  }
+
+  /**
+   * Update RBQ Licence of supplier.
+   */
+  public function updateRbq(SupplierUpdateRbqRequest $request, Supplier $supplier)
+  {
+    Log::debug($request);
+
+    try {
+      $supplierRbqExisting = !is_null($supplier->rbqLicence);
+      $requestRbqExisting = !is_null($request->licenceRbq);
+  
+      if($supplierRbqExisting && $requestRbqExisting){
+        $licence = RbqLicence::findOrFail($supplier->rbqLicence->id);
+        $licence->number = $request->licenceRbq;
+        $licence->status = $request->statusRbq;
+        $licence->type = $request->typeRbq;
+        $licence->supplier()->associate($supplier);
+        $licence->save();
+  
+        $supplierExistingCategories = $supplier->workSubcategories->pluck('code')->toArray();
+        Log::debug($supplierExistingCategories);
+
+        foreach ($supplier->workSubcategories as $rbqSubCategory) {
+          Log::debug($rbqSubCategory->code);
+          Log::debug($request->rbqSubcategories);
+          if(!in_array($rbqSubCategory->code, $request->rbqSubcategories)){
+            Log::debug($rbqSubCategory->code);
+            $supplier->workSubcategories()->detach($rbqSubCategory->id);
+          }
+        }
+
+        foreach ($request->rbqSubcategories as $rbqSubCategory) {
+          if(!in_array($rbqSubCategory, $supplierExistingCategories)){
+            $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
+            $supplier->workSubcategories()->attach($subCategory);
+          }
+        }
+      }
+      else if(!$supplierRbqExisting && $requestRbqExisting){
+        $licence = new RbqLicence();
+        $licence->number = $request->licenceRbq;
+        $licence->status = $request->statusRbq;
+        $licence->type = $request->typeRbq;
+        $licence->supplier()->associate($supplier);
+        $licence->save();
+  
+        foreach($request->rbqSubcategories as $rbqSubCategory){
+          $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
+          $supplier->workSubcategories()->attach($subCategory);
+        }
+      }
+      else if($supplierRbqExisting && !$requestRbqExisting){
+        $licence = RbqLicence::findOrFail($supplier->rbqLicence->id);
+        $licence->delete();
+
+        $supplier->workSubcategories()->sync([]);
+      }
+
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateRbq'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#licence-section');
       
     } catch (\Throwable $e) {
       Log::debug($e);
@@ -531,15 +606,25 @@ class SuppliersController extends Controller
   {
     $email = $request->email;
     $neq = $request->neq;
-    $exists = Supplier::where('neq', $neq)->where('email', $email)->exists();
+    $supplierId = $request->supplierId;
+    $exists = Supplier::where('neq', $neq)
+                        ->where('email', $email)
+                        ->when($supplierId, function ($query, $supplierId) {
+                          return $query->where('id', '!=', $supplierId);
+                        })
+                        ->exists();
     return response()->json(['exists' => $exists]);
   }
 
   public function checkNeq(Request $request)
   {
-    Log::debug($request);
     $neq = $request->neq;
-    $exists = Supplier::where('neq', $neq)->exists();
+    $supplierId = $request->supplierId;
+    $exists = Supplier::where('neq', $neq)
+                        ->when($supplierId, function ($query, $supplierId) {
+                          return $query->where('id', '!=', $supplierId);
+                        })
+                      ->exists();
     return response()->json(['exists' => $exists]);
   }
 }

@@ -21,6 +21,7 @@ return [
     'no' => 'Non',
     'close' => 'Fermer',
     'confirm' => 'Confirmer',
+    'none' => 'Aucun',
 
     'updateSuccess' => 'La modification a fonctionné',
     'updateFailed' => 'La modification n\'a pas fonctionné',

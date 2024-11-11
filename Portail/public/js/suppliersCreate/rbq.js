@@ -338,16 +338,6 @@ async function validateRbqAll(){
   validateRbqStatus();
   validateRbqType();
   validateRbqCategories();
-
-  if(inputLicenceRbq.classList.contains("is-valid")){
-    let rbqExist = await checkRbqUnique(inputLicenceRbq.value);
-    if(rbqExist){
-      const rbqInvalidExist = document.getElementById('rbqInvalidExist');
-      inputLicenceRbq.classList.remove('is-valid');
-      inputLicenceRbq.classList.add('is-invalid');
-      rbqInvalidExist.style.display = 'block';
-    }
-  }
 }
 
 /*** Section Coordonnées ***/
