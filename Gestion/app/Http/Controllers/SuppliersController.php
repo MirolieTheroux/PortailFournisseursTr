@@ -349,7 +349,16 @@ class SuppliersController extends Controller
   public function updateRbq(SupplierUpdateRbqRequest $request, Supplier $supplier)
   {
     Log::debug($request);
-    Log::debug($supplier->rbqLicence);
+    Log::debug(is_null($request->licenceRbq));
+    Log::debug(is_null($supplier->rbqLicence));
+    $supplierExistingCategories = $supplier->workSubcategories->pluck('code')->toArray();
+    Log::debug($supplierExistingCategories);
+
+    //Coder de regarder la licence
+
+    //Coder de regarder si une categorie est manquante
+
+    //Coder de regader si il y a une nouvelle catégorie
     try {
 
       /*for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
@@ -619,7 +628,6 @@ class SuppliersController extends Controller
 
   public function checkNeq(Request $request)
   {
-    Log::debug($request);
     $neq = $request->neq;
     $supplierId = $request->supplierId;
     $exists = Supplier::where('neq', $neq)

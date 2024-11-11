@@ -5,6 +5,7 @@ let btnSaveRbq;
 let rbqInput; 
 let rbqSelects; 
 let rbqChecks; 
+let rbqSubcategoryTitle; 
 
 document.addEventListener("DOMContentLoaded", function () {
   getRbqSectionElements();
@@ -19,6 +20,7 @@ function getRbqSectionElements(){
   rbqInput = rbqContainer.querySelector(".form-control");
   rbqSelects = rbqContainer.getElementsByClassName("form-select");
   rbqChecks = rbqContainer.getElementsByClassName("form-check-input");
+  rbqSubcategoryTitle = rbqContainer.getElementsByClassName("subcategory-title");
 }
 function addRbqSectionListeners(){
   btnEditRbq.addEventListener('click', enableRbqSectionEdit);
@@ -35,5 +37,8 @@ function enableRbqSectionEdit(){
   for (let index = 0; index < rbqChecks.length; index++) {
     rbqChecks[index].removeAttribute("disabled");
     rbqChecks[index].parentElement.classList.remove("d-none");
+  }
+  for (let index = 0; index < rbqChecks.length; index++) {
+    rbqSubcategoryTitle[index].classList.remove("d-none");
   }
 }
