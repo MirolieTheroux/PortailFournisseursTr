@@ -161,8 +161,7 @@ class SuppliersController extends Controller
       $user = Auth::user()->email;
       $statusHistory->status = $request->requestStatus;
       $statusHistory->updated_by = $user;
-      if (!empty($request->deniedReasonText)) {
-        Log::debug("DENIED");
+      if ($request->requestStatut == "denied" && !empty($request->deniedReasonText)) {
         $statusHistory->refusal_reason = Crypt::encrypt($request->deniedReasonText);
       }
 
