@@ -553,15 +553,14 @@ class SuppliersController extends Controller
     $sheet = $spreadsheet->getActiveSheet();
 
     $sheet->mergeCells('A1:C1');
-    $sheet->setCellValue('A1', __('selectedSuppliersList.exportDate') . Carbon::now()->format('d-m-Y'));
+    $sheet->setCellValue('A1', __('selectedSuppliersList.exportDate') . Carbon::now('America/Toronto')->format('d-m-Y'));
 
-    $sheet->setCellValue('A2', __('form.neqLabelShort'));
-    $sheet->setCellValue('B2', __('form.lastNameLabel'));
-    $sheet->setCellValue('C2', __('form.emailLabel'));
+    $sheet->setCellValue('A2', __('form.lastNameLabel'));
+    $sheet->setCellValue('B2', __('form.emailLabel'));
+    $sheet->setCellValue('C2', __('form.neqLabelShort'));
     $sheet->setCellValue('D2', __('form.contactsSubtitle'));
     $sheet->setCellValue('E2', __('selectedSuppliersList.joined'));
     
-    $suppliers = Supplier::all();  // Remplace par les données souhaitées
     $row = 3;
     foreach ($suppliers as $supplier) {
       $sheet->setCellValue('A' . $row, $supplier->name);
@@ -584,7 +583,7 @@ class SuppliersController extends Controller
       $sheet->getColumnDimension($columnID)->setAutoSize(true);
     }
 
-    $fileName = 'fournisseurs_' . Carbon::now()->format('Y-m-d_H-i-s') . '.xlsx';
+    $fileName = 'fournisseurs_' . Carbon::now('America/Toronto')->format('Y-m-d_H-i-s') . '.xlsx';
     $temp_file = tempnam(sys_get_temp_dir(), $fileName);
     $writer = new Xlsx($spreadsheet);
     $writer->save($temp_file);
