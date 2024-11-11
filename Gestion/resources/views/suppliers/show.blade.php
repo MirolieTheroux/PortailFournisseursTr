@@ -1,3 +1,10 @@
+<!--//* REMARQUE::(nice_to_have) lorsqu'on clique sur "modifier", ne pas afficher le bouton enregistrer si il n'y a pas de changement (sinon, je fais enregistrer et ça change la date sans modification)-->
+<!--//* REMARQUE::Lorsque je clique sur le bouton accepter en haut à gauche et que par la suite je clique sur modifier (dans état de la demande), quand j'enregistre, ça reste sur "acceptée"-->
+<!--//* REMARQUE::-->
+<!--//* REMARQUE::-->
+<!--//* REMARQUE::-->
+
+
 <!--//? Remarques::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
 
 @extends('layouts.app')
@@ -254,7 +261,8 @@
                 <div class="col-6">
                   <div class="form-floating">
                     <select name="requestStatus" id="requestStatus" class="form-select" aria-label="" disabled>
-                      <option value="waiting" selected>{{__('global.waiting')}}</option>
+                      <option value="">
+                      <option value="waiting" {{ $supplier->latestNonModifiedStatus()->status === 'waiting' ? 'selected' : null}}>{{__('global.waiting')}}</option>
                       <option value="toCheck" {{ $supplier->latestNonModifiedStatus()->status === 'toCheck' ? 'selected' : null}}>{{__('global.toCheck')}}</option>
                       <option value="accepted" {{ $supplier->latestNonModifiedStatus()->status === 'accepted' ? 'selected' : null}}>{{__('global.accepted')}}</option>
                       <option value="denied" {{ $supplier->latestNonModifiedStatus()->status === 'denied' ? 'selected' : null}}>{{__('global.denied')}}</option>
