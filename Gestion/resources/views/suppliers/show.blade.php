@@ -1,5 +1,4 @@
 <!--//* REMARQUE::(nice_to_have) lorsqu'on clique sur "modifier", ne pas afficher le bouton enregistrer si il n'y a pas de changement (sinon, je fais enregistrer et ça change la date sans modification)-->
-<!--//* REMARQUE::Lorsque je clique sur le bouton accepter en haut à gauche et que par la suite je clique sur modifier (dans état de la demande), quand j'enregistre, ça reste sur "acceptée"-->
 
 
 <!--//? Remarques::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
