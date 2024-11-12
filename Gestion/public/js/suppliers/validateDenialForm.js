@@ -23,6 +23,6 @@ function validateReason(event){
     
     txtAreaDeniedReason.classList.add('is-invalid');
     txtAreaDeniedReason.classList.add('was-validated');
-    denialReasonRequiredError.style.display = 'block';
+    denialReasonRequiredError.classList.remove('d-none');
   }
 }
