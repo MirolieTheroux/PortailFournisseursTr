@@ -700,7 +700,7 @@
               <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
             </div>
           </div>
-          <div class="flex-row d-flex justify-content-center px-3">
+          <div id="productServiceShowContainer" class="flex-row d-flex justify-content-center px-3">
             <div class="col-12 col-md-4 d-flex flex-column justify-content-between d-none">
               <h2 class="text-center section-subtitle">{{__('form.productsAndServiceServices')}}</h2>
               <div class="text-center">
@@ -762,9 +762,58 @@
               </div>
             </div>
           </div>
+          <div id="productServiceEditContainer" class="row mx-0 w-100 d-none">
+            <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+              <h2 class="text-center h4">{{__('form.productsAndServiceServices')}}</h2>
+              <div class="text-center">
+                <div class="form-floating mb-3">
+                  <input type="text" id="service-search" class="form-control" placeholder="">
+                  <label for="service-search">{{__('form.productsAndServiceCategoriesSearch')}}</label>
+                </div>
+              </div>
+              <div>
+                <div class="form-floating">
+                  <div class="form-control" placeholder="details" id="products-categories" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
+                    <div class="mt-lg-0 mt-md-4" id="service-list">
+                    </div>
+                  </div>
+                  <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
+                  <div class="note" id="results-count"><br></div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+              <h2 class="text-center h4">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
+              <div>
+                <div class="form-floating">
+                  <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+                    <div class="mt-lg-0 mt-md-4" id="service-selected">
+                    </div>
+                  </div>
+                  <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label>
+                  <div class="note"><br></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+              <h2 class="text-center h4"><br></h2>
+              <div class="text-center">
+                <div class="form-floating">
+                  <textarea class="form-control" name="product_service_detail" placeholder="details" id="products-details" style="height: 308px; resize: none;" maxlength="500"></textarea>
+                  <label for="products-details" class="labelbackground">{{__('form.productsAndServiceCategoriesDetails')}}</label>
+                  <div class="note"><br></div>
+                </div>
+              </div>
+            </div>
+          </div>
           @role(['responsable', 'admin'])
           <div class="row">
             <div class="col-12 d-flex justify-content-center mb-2">
+              @php
+                $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+              @endphp
+              <a id="btnCancelProductsServices" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#productsServices-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
               <button id="btnEditProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
               <button id="btnSaveProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
             </div>
@@ -1230,4 +1279,7 @@
 <script src=" {{ asset('js/suppliers/show/rbq/save.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/validation.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/changeType.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/productServices/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/productServices/save.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/productServices/validation.js') }} "></script>
 @endsection
