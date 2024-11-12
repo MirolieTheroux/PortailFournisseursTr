@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
 use App\Models\StatusHistory;
+use App\Models\Province;
 use App\Models\WorkSubcategory;
 use App\Models\ProductService;
 use App\Models\Contact;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\SupplierUpdateStatusRequest;
 use App\Http\Requests\SupplierDenialRequest;
+use App\Http\Requests\SupplierUpdateContactDetailsRequest;
 use App\Http\Requests\SupplierUpdateContactsRequest;
 use App\Http\Requests\SupplierUpdateIdentificationRequest;
 use App\Http\Requests\SupplierUpdateRbqRequest;
@@ -47,10 +49,9 @@ class SuppliersController extends Controller
     $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
       return $supplier->latestNonModifiedStatus()->status != 'deactivated';
     });
-
     $workSubcategories = WorkSubcategory::all();
     $productsServices = ProductService::limit(self::SUPPLIER_FETCH_LIMIT)->get();
-    return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
+    return View('suppliers.index', compact('suppliers','workSubcategories', 'productsServices'));
   }
 
   public function selectedList(Request $request){
@@ -85,7 +86,7 @@ class SuppliersController extends Controller
   public function show(Supplier $supplier)
   {
     $workSubcategories = WorkSubcategory::all();
-
+    $provinces = Province::all();
     $supplierWithProductsCategories = $supplier->load('productsServices.categories');
     $suppliersGroupedByNatureAndCategory = $supplierWithProductsCategories->productsServices->groupBy(function ($product) {
       return $product->categories->nature;
@@ -141,7 +142,7 @@ class SuppliersController extends Controller
     
     $latestDeniedReason = $deniedStatus->sortByDesc('created_at')->first();
     
-    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories'));
+    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories','provinces'));
   }
   
   /**
@@ -178,19 +179,16 @@ class SuppliersController extends Controller
     } catch (\Throwable $e) {
       Log::debug($e);
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
-        ->withErrors('message',__('show.failToUpdate'));
+        ->withErrors('message',__('global.updateFailed'));
     }
   }
   
-
   /**
    * Update identification of supplier.
    */
   public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
   {
     try{
-      Log::debug($supplier->neq);
-      Log::debug($request->neq);
       $supplier->neq = $request->neq;
       $supplier->name = $request->name;
       $supplier->email = $request->email;
@@ -203,7 +201,7 @@ class SuppliersController extends Controller
     catch (\Throwable $e) {
       Log::debug($e);
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
-        ->withErrors('message',__('show.failToUpdate'));
+        ->withErrors('message',__('global.updateFailed'));
     }
     
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
@@ -273,6 +271,27 @@ class SuppliersController extends Controller
     }
 
     $supplier->attachments()->delete();
+  }
+
+  /**
+   * Update contact details of supplier.
+   */
+  public function updateContactDetails(SupplierUpdateContactDetailsRequest $request, Supplier $supplier)
+  {
+    Log::debug($request);
+    try{
+      Log::debug($supplier->address);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateIdentification'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contactDetails-section');
+    }
+    catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->withErrors('message',__('global.updateFailed'));
+    }
+    
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
   /**
