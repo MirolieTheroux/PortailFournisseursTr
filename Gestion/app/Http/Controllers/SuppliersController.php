@@ -316,10 +316,7 @@ class SuppliersController extends Controller
         $phoneNumberA->type = $request->contactTelTypesA[$i];
         $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
 
-        Log::debug($phoneNumberA);
-        Log::debug($request->contactTelIdsA[$i]);
         if($request->contactTelIdsA[$i] == -1){
-          Log::debug("Dans le if?");
           $phoneNumberA->supplier()->associate(null);
           $phoneNumberA->contact()->associate($contact);
         }
@@ -332,6 +329,7 @@ class SuppliersController extends Controller
           else{
             $phoneNumberB = new PhoneNumber();
           }
+
           $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
           $phoneNumberB->type = $request->contactTelTypesB[$i];
           $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
@@ -340,6 +338,9 @@ class SuppliersController extends Controller
             $phoneNumberB->contact()->associate($contact);
           }
           $phoneNumberB->save();
+        }
+        else if(Count($contact->phoneNumbers) == 2){
+          $contact->phoneNumbers[1]->delete();
         }
       }
       $this->changeStatus($supplier, "modified");
@@ -417,6 +418,28 @@ class SuppliersController extends Controller
       Log::debug($e);
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
     }
+  }
+
+  /**
+   * Update products and services of supplier.
+   */
+  public function updateProductsServices(Request $request, Supplier $supplier)
+  {
+    Log::debug($request);
+
+    try {
+      $supplier->product_service_detail = $request->product_service_detail;
+      $supplier->save();
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdatePS'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#productsServices-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
+
   }
 
     public function filter(Request $request)

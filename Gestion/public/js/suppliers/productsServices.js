@@ -162,14 +162,17 @@ function updateProductServiceCount(){
     const selectedServiceList = selectedServiceContainer.children;
     
     const productsSevicesCountContainer = document.getElementById('productsServicesCount');
-    productsSevicesCountContainer.innerHTML = selectedServiceList.length;
+    
+    if(productsSevicesCountContainer){
+        productsSevicesCountContainer.innerHTML = selectedServiceList.length;
 
-    if(selectedServiceList.length === 0){
-        selectedServiceContainer.closest('.form-floating').classList.add('d-none')
+        if(selectedServiceList.length === 0){
+            selectedServiceContainer.closest('.form-floating').classList.add('d-none')
+        }
+        else{
+            selectedServiceContainer.closest('.form-floating').classList.remove('d-none')
+        }
+    
+        sendFilterForm();
     }
-    else{
-        selectedServiceContainer.closest('.form-floating').classList.remove('d-none')
-    }
-
-    sendFilterForm();
 }
