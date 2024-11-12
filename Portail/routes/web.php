@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\MailsController;
 use App\Http\Middleware\LoggerMiddleware;
 
 /*Route::get('/', function () {
@@ -23,3 +24,5 @@ Route::post('/suppliers/checkEmail', [SuppliersController::class, 'checkEmail'])
 Route::post('/suppliers/checkNeq', [SuppliersController::class, 'checkNeq'])->name('suppliers.checkNeq');
 
 Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');
+
+Route::get('/send-inscription-mail/{supplier}', [MailsController::class, 'sendInscriptionMail']);
