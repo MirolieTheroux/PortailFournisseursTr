@@ -692,86 +692,130 @@
           </div>
         </form>
       </div> <!--FIN CONTACT-->
+
       <!--PRODUITS ET SERVICES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="productsServices-section">
-        <div class=" bg-white rounded my-2 w-100 form-section">
-          <div class="row">
-            <div class="col-12 text-center">
-              <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
-            </div>
-          </div>
-          <div class="flex-row d-flex justify-content-center px-3">
-            <div class="col-12 col-md-4 d-flex flex-column justify-content-between d-none">
-              <h2 class="text-center section-subtitle">{{__('form.productsAndServiceServices')}}</h2>
-              <div class="text-center">
-                <div class="form-floating mb-3">
-                  <input type="text" id="service-search" class="form-control" placeholder="">
-                  <label for="service-search">{{__('form.productsAndServiceCategoriesSearch')}}</label>
-                </div>
-              </div>
-              <div>
-                <div class="form-floating">
-                  <div class="form-control" placeholder="details" id="products-categories" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
-                    <div class="mt-lg-0 mt-md-4" id="service-list">
-                    </div>
-                  </div>
-                  <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
-                  <div class="note" id="results-count"><br></div>
-                </div>
+        <form action="{{ route('suppliers.updateProductsServices', ['supplier'=>$supplier]) }}" method="post">
+          @csrf
+          <div class=" bg-white rounded my-2 w-100 form-section">
+            <div class="row">
+              <div class="col-12 text-center">
+                <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
               </div>
             </div>
-            <div class="col-6 me-2">
-              <h2 class="text-center section-subtitle">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
-              <div>
-                <div class="form-floating">
-                  <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-                    <div class="mt-lg-0 mt-md-4" id="service-selected">
-                      @foreach ($suppliersGroupedByNatureAndCategory as $nature => $categories)
-                      <div class="row pb-3">
-                        <h6 class="mb-3 fw-bold">{{ $nature }}</h6>
-                        @foreach ($categories as $categoryCode => $categoryData)
-                        <div class="row">
-                          <h6 class="fst-italic"> {{ $categoryCode }} - {{ $categoryData['category_name'] }}</h6>
-                          @foreach ($categoryData['products'] as $product)
-                          <div class="col-3 pb-1">
-                            {{ $product->code }}
-                          </div>
-                          <div class="col-9 pb-1">
-                            {{ $product->description }}
+            <div id="productServiceShowContainer" class="flex-row d-flex justify-content-center px-3">
+              <div class="col-6 me-2">
+                <h2 class="text-center section-subtitle">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
+                <div>
+                  <div class="form-floating">
+                    <div class="form-control" placeholder="selected" id="products-selected-show" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+                      <div class="mt-lg-0 mt-md-4" id="service-selected-show">
+                        @foreach ($suppliersGroupedByNatureAndCategory as $nature => $categories)
+                        <div class="row pb-3">
+                          <h6 class="mb-3 fw-bold">{{ $nature }}</h6>
+                          @foreach ($categories as $categoryCode => $categoryData)
+                          <div class="row">
+                            <h6 class="fst-italic"> {{ $categoryCode }} - {{ $categoryData['category_name'] }}</h6>
+                            @foreach ($categoryData['products'] as $product)
+                            <div class="col-3 pb-1">
+                              {{ $product->code }}
+                            </div>
+                            <div class="col-9 pb-1">
+                              {{ $product->description }}
+                            </div>
+                            @endforeach
                           </div>
                           @endforeach
                         </div>
                         @endforeach
                       </div>
-                      @endforeach
                     </div>
+                    <div class="note"><br></div>
                   </div>
-                  <!-- <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label> -->
-                  <div class="note"><br></div>
+                </div>
+              </div>
+              <div class="col-6">
+                <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategoriesDetails')}}</h2>
+                <div class="text-center">
+                  <div class="form-floating">
+                    <textarea class="form-control" placeholder="details" id="products-details" style="height: 308px; resize: none;" maxlength="500" disabled>{{ $supplier->product_service_detail }}</textarea>
+                    <div class="note"><br></div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-6">
-              <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategoriesDetails')}}</h2>
-              <div class="text-center">
-                <div class="form-floating">
-                  <textarea class="form-control" name="product_service_detail" placeholder="details" id="products-details" style="height: 308px; resize: none;" maxlength="500" disabled>{{ $supplier->product_service_detail }}</textarea>
-                  <!-- <label for="products-details" class="labelbackground"></label> -->
-                  <div class="note"><br></div>
+            <div id="productServiceEditContainer" class="row mx-0 w-100 d-none">
+              <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+                <h2 class="text-center h4">{{__('form.productsAndServiceServices')}}</h2>
+                <div class="text-center">
+                  <div class="form-floating mb-3">
+                    <input type="text" id="service-search" class="form-control" placeholder="">
+                    <label for="service-search">{{__('form.productsAndServiceCategoriesSearch')}}</label>
+                  </div>
+                </div>
+                <div>
+                  <div class="form-floating">
+                    <div class="form-control" placeholder="details" id="products-categories" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
+                      <div class="mt-lg-0 mt-md-4" id="service-list">
+                      </div>
+                    </div>
+                    <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
+                    <div class="note" id="results-count"><br></div>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+                <h2 class="text-center h4">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
+                <div>
+                  <div class="form-floating">
+                    <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+                      <div class="mt-lg-0 mt-md-4" id="service-selected">
+                        @foreach ($supplier->productsServices as $productService)
+                          <div class="row align-items-start py-2 hover-options user-select-none" data-code="{{$productService->code}}">
+                            <input type="text" name="produits_services[]" value="{{$productService->code}}" class="d-none">
+                            <div class="col-4 col-md-12 col-xl-4 d-flex flex-column justify-content-start">
+                              {{$productService->code}}
+                            </div>
+                            <div class="col-8 col-md-11 offset-md-1 offset-xl-0 col-xl-8 d-flex flex-column justify-content-start">
+                              {{$productService->description}}
+                            </div>
+                          </div>
+                        @endforeach
+                      </div>
+                    </div>
+                    <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label>
+                    <div class="note"><br></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+                <h2 class="text-center h4"><br></h2>
+                <div class="text-center">
+                  <div class="form-floating">
+                    <textarea class="form-control" name="product_service_detail" placeholder="details" id="products-details-edit" style="height: 308px; resize: none;" maxlength="500">{{ $supplier->product_service_detail }}</textarea>
+                    <label for="products-details-edit" class="labelbackground">{{__('form.productsAndServiceCategoriesDetails')}}</label>
+                    <div class="note"><br></div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          @role(['responsable', 'admin'])
-          <div class="row">
-            <div class="col-12 d-flex justify-content-center mb-2">
-              <button id="btnEditProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-              <button id="btnSaveProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+            @role(['responsable', 'admin'])
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center mb-2">
+                @php
+                  $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+                @endphp
+                <a id="btnCancelProductsServices" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#productsServices-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                <button id="btnEditProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveProductsServices" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+              </div>
             </div>
+            @endrole
           </div>
-          @endrole
-        </div>
+        </form>
       </div><!--FIN PRODUITS ET SERVICES-->
+
       <!--LICENCE RBQ-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="licence-section">
         <form action="{{ route('suppliers.updateRbq', ['supplier'=>$supplier]) }}" method="post" class="need-validation" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
@@ -1230,4 +1274,8 @@
 <script src=" {{ asset('js/suppliers/show/rbq/save.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/validation.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/changeType.js') }} "></script>
+<script src=" {{ asset('js/suppliers/productsServices.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/productServices/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/productServices/save.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/productServices/validation.js') }} "></script>
 @endsection
