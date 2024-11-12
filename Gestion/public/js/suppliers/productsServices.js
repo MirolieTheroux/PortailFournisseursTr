@@ -73,15 +73,7 @@ function fetchServices() {
                         `;
 
                         // Handle click event on the cloned service to remove it and show the original
-                        selectedService.addEventListener('click', function () {
-                            selectedContainer.removeChild(selectedService);
-
-                            const originalService = document.getElementById(`category${service.code}`);
-                            if (originalService) {
-                                originalService.closest('.row').classList.remove('disabled-options'); // Show the original service
-                            }
-                            updateProductServiceCount();
-                        });
+                        addSelectedServiceListener(selectedService);
 
                         // Insert the cloned service into the selected services list
                         const selectedContainer = document.getElementById('service-selected');
@@ -175,4 +167,30 @@ function updateProductServiceCount(){
     
         sendFilterForm();
     }
+}
+
+getSelectedServiceElements();
+function getSelectedServiceElements(){
+    const selectedServiceContainer = document.getElementById('service-selected');
+    const selectedServiceList = selectedServiceContainer.children;
+
+    for (let index = 0; index < selectedServiceList.length; index++) {
+        const selectedService = selectedServiceList[index];
+        addSelectedServiceListener(selectedService);
+    }
+}
+
+function addSelectedServiceListener(selectedService){
+    selectedService.addEventListener('click', function () {
+        const selectedServiceCode = selectedService.querySelector('input').value;
+
+        const originalService = document.getElementById(`category${selectedServiceCode}`);
+        if (originalService) {
+            originalService.closest('.row').classList.remove('disabled-options'); // Show the original service
+        }
+
+        const selectedContainer = document.getElementById('service-selected');
+        selectedContainer.removeChild(selectedService);
+        updateProductServiceCount();
+    });
 }
