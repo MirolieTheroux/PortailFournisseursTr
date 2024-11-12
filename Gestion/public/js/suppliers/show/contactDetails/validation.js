@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   addCitiesAndDAInSelect();
   validateSelectCity();
-  removePhoneNumberAlreadyThere()
+  addContactDetailsValidationListeners();
 });
 
 function addContactDetailsValidationListeners() {
@@ -56,7 +56,6 @@ function addContactDetailsValidationListeners() {
   contactDetailsPhoneExtensionInput = document.getElementById('contactDetailsPhoneExtension');
   contactDetailsPhoneExtensionInput.addEventListener('input', validatePhoneNumber);
 }
-
 
 function validateCivicNumber() {
   const input = document.getElementById("contactDetailsCivicNumber");
@@ -358,7 +357,11 @@ document.getElementById("add-icon").addEventListener("click", function () {
   
     const newphoneNumber = document.createElement("div");
     newphoneNumber.classList.add("d-flex","flex-row","align-items-center");
-
+    //INPUT HIDDEN ID
+    const inputId = document.createElement("input");
+    inputId.value = "-1";
+    inputId.classList.add("d-none");
+    inputId.setAttribute("name","phoneNumberIds[]");
     //DIV PHONE TYPE
     const colphoneType = document.createElement("div");
     colphoneType.classList.add("col-2", "text-start","phoneType");
@@ -478,5 +481,10 @@ function validateListPhoneNumber() {
 }
 
 function validateContactDetailsAll(){
-  addContactDetailsValidationListeners();
-}
+  validateCivicNumber();
+  validateStreetName();
+  validateOfficeNumber();
+  validateCity();
+  validatePostalCodeOnInput();
+  validateWebsite();
+ }

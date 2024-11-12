@@ -411,8 +411,8 @@
         - Supprimer les # de téléphones dans la BD
       -->
       <div class="container d-flex flex-column h-100 show-section d-none" id="contactDetails-section">
-      <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
-        @csrf
+        <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
+          @csrf
           <div class="bg-white rounded my-2 form-section px-3">
             <div class="row">
               <div class="col-12 text-center">
@@ -576,12 +576,13 @@
                     <div class=" pt-3" id="phoneNumberList">
                       @foreach($formattedPhoneNumbersContactDetails as $phoneNumber)
                       <div class="d-flex flex-row align-items-center ">
+                        <input class="d-none" name="phoneNumberIds[]" value="{{ $phoneNumber->id }}" />
                         <div class="col-2 text-start phoneType">{{ $phoneNumber->type }}</div>
                         <input class="d-none" name="phoneTypes[]" value="{{ $phoneNumber->type }}" />
                         <div class="col-6 text-center phoneNumber">{{ $phoneNumber->number }}</div>
                         <input class="d-none" name="phoneNumbers[]" value="{{ $phoneNumber->number }}" />
-                        <div class="col-2 text-center phoneExtension">{{ $phoneNumber->extension ? : 'N/A' }}</div>
-                        <input class="d-none" name="phoneExtensions[]" value="{{ $phoneNumber->number }}" />
+                        <div class="col-2 text-center phoneExtension">{{ $phoneNumber->extension }}</div>
+                        <input class="d-none" name="phoneExtensions[]" value="{{ $phoneNumber->extension  }}" />
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removePhone d-none" viewBox="0 0 16 16" style="cursor:pointer;">
                           <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                         </svg>
@@ -606,6 +607,13 @@
             </div>
             @endrole
           </div>
+          @if(isset($errors) && $errors->any())
+            <div class="alert alert-danger">
+              @foreach($errors->all() as $error)
+              <p>{{$error}}</p>
+              @endforeach
+            </div>
+          @endif
         </form>
       </div><!--FIN COORDONNÉES-->
       <!--CONTACT-->

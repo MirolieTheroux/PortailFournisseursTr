@@ -223,7 +223,7 @@ class SuppliersController extends Controller
         $phoneNumber->contact()->associate(null);
         $phoneNumber->save();
       }
-
+      Log::debug($request->phoneNumbers);
       for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
         $contact = new Contact();
         $contact->email = $request->contactEmails[$i];

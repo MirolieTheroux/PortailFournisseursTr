@@ -103,6 +103,7 @@ class SuppliersController extends Controller
   
     $formattedPhoneNumbersContactDetails = $supplier->phoneNumbers->map(function ($phoneNumber) {
       return (object) [
+        'id' => $phoneNumber->id,
         'type' => $phoneNumber->type,
         'number' => preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number),
         'extension' => $phoneNumber->extension
@@ -167,7 +168,7 @@ class SuppliersController extends Controller
       }
       
       $statusHistory->supplier_id = $supplier->id;
-      $statusHistory->created_at = Carbon::now('America/Montreal');
+      $statusHistory->created_at = Carbon::now('America/Toronto');
       $statusHistory->save();
 
       if ($request->requestStatus == "denied") {
@@ -278,9 +279,44 @@ class SuppliersController extends Controller
    */
   public function updateContactDetails(SupplierUpdateContactDetailsRequest $request, Supplier $supplier)
   {
-    Log::debug($request);
+    //Log::debug($request);
+    //Log::debug(($request));
     try{
-      Log::debug($supplier->address);
+      //Update Address
+      $supplier->address->civic_no = $request->contactDetailsCivicNumber;
+      $supplier->address->street = $request->contactDetailsStreetName;
+      $supplier->address->office = $request->contactDetailsOfficeNumber;
+      $postal_code = $request->contactDetailsPostalCode;
+      $postal_code = str_replace(' ', '', $postal_code);
+      $postal_code = strtoupper($postal_code);
+      $supplier->address->postal_code = $postal_code;
+      if($request->contactDetailsProvince == "Québec"){
+        $supplier->address->city = $request->contactDetailsCitySelect;
+        $supplier->address->region = $request->contactDetailsDistrictArea;
+      }
+      else{
+        $supplier->address->city = $request->contactDetailsInputCity;
+      }
+      $supplier->site = $request->contactDetailsWebsite;
+      $supplier->address->save();
+      
+      //Update Phone numbers
+      for($i = 0 ; $i < Count($request->phoneNumbers) ; $i++){
+        if($request->phoneNumberIds[$i] === -1){
+          $phoneNumber = new PhoneNumber();
+          $phoneNumber->number = str_replace('-', '', $request->phoneNumbers[$i]);
+          $phoneNumber->type = $request->phoneTypes[$i];
+          $phoneNumber->extension = $request->phoneExtensions[$i];
+          $phoneNumber->supplier()->associate($supplier);
+          $phoneNumber->contact()->associate(null);
+          $phoneNumber->save();
+        }
+        else{
+          if(!PhoneNumber::findOrFail($request->phoneNumberIds[$i])){
+            //detacher le phone number du supplier
+          }
+        }
+      }
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateIdentification'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contactDetails-section');
@@ -290,8 +326,6 @@ class SuppliersController extends Controller
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->withErrors('message',__('global.updateFailed'));
     }
-    
-    return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
   /**

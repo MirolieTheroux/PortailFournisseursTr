@@ -33,7 +33,6 @@ class SupplierUpdateContactDetailsRequest extends FormRequest
       'phoneNumbers.*' => 'required|regex:/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/',
       'phoneNumbers' => 'required',
       'phoneExtensions.*' => 'nullable|numeric|max_digits:6',
-      'phoneExtensions' => 'nullable|array',
     ];
   }
 
