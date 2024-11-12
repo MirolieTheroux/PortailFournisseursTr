@@ -88,23 +88,15 @@ function validateIdentificationName() {
 
 function validateIdentificationEmail() {
   const invalidEmpty = document.getElementById('emailInvalidEmpty');
-  const invalidStart = document.getElementById('emailInvalidStart');
-  const invalidNoArobase = document.getElementById('emailInvalidNoArobase');
-  const invalidManyArobase = document.getElementById('emailInvalidManyArobase');
-  const invalidEmptyDomain = document.getElementById('emailInvalidEmptyDomain');
-  const invalidDomainFormat = document.getElementById('emailInvalidDomainFormat');
-  const invalidDomainDot = document.getElementById('emailInvalidDomainDot');
+  const invalidFormat = document.getElementById('emailInvalidFormat');
   const emailInvalidUnique = document.getElementById('emailInvalidUnique');
 
   // Reset all error messages
   invalidEmpty.style.display = 'none';
-  invalidStart.style.display = 'none';
-  invalidNoArobase.style.display = 'none';
-  invalidManyArobase.style.display = 'none';
-  invalidEmptyDomain.style.display = 'none';
-  invalidDomainFormat.style.display = 'none';
-  invalidDomainDot.style.display = 'none';
+  invalidFormat.style.display = 'none';
   emailInvalidUnique.style.display = 'none';
+
+  const regex = /^([-!#-'*+/-9=?A-Z^-~]+(\.[-!#-'*+/-9=?A-Z^-~]+)*|"([]!#-[^-~ \t]|(\\[\t -~]))+")@[0-9A-Za-z]([0-9A-Za-z-]{0,61}[0-9A-Za-z])?(\.[0-9A-Za-z]([0-9A-Za-z-]{0,61}[0-9A-Za-z])?)+$/g;
   
   // Basic validation logic
   if (!idEmailInput.value) {
@@ -112,35 +104,10 @@ function validateIdentificationEmail() {
     idEmailInput.classList.add('is-invalid');
     invalidEmpty.style.display = 'block';
   }
-  else if (idEmailInput.value.match(/^@/)) {
+  else if (!idEmailInput.value.match(regex)) {
     idEmailInput.classList.remove('is-valid');
     idEmailInput.classList.add('is-invalid');
-    invalidStart.style.display = 'block';
-  }
-  else if (!idEmailInput.value.match(/@/)) {
-    idEmailInput.classList.remove('is-valid');
-    idEmailInput.classList.add('is-invalid');
-    invalidNoArobase.style.display = 'block';
-  }
-  else if (idEmailInput.value.match(/@.*@/)) {
-    idEmailInput.classList.remove('is-valid');
-    idEmailInput.classList.add('is-invalid');
-    invalidManyArobase.style.display = 'block';
-  }
-  else if (idEmailInput.value.match(/@$/)) {
-    idEmailInput.classList.remove('is-valid');
-    idEmailInput.classList.add('is-invalid');
-    invalidEmptyDomain.style.display = 'block';
-  }
-  else if (!idEmailInput.value.match(/@.*\./)){
-    idEmailInput.classList.remove('is-valid');
-    idEmailInput.classList.add('is-invalid');
-    invalidDomainFormat.style.display = 'block';
-  }
-  else if (idEmailInput.value.match(/(@\.)|(\.$)/)){
-    idEmailInput.classList.remove('is-valid');
-    idEmailInput.classList.add('is-invalid');
-    invalidDomainDot.style.display = 'block';
+    invalidFormat.style.display = 'block';
   }
   else {
     idEmailInput.classList.remove('is-invalid');

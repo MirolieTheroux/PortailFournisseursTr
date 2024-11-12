@@ -1,8 +1,5 @@
 <!--//* REMARQUE::(nice_to_have) lorsqu'on clique sur "modifier", ne pas afficher le bouton enregistrer si il n'y a pas de changement (sinon, je fais enregistrer et ça change la date sans modification)-->
 <!--//* REMARQUE::Lorsque je clique sur le bouton accepter en haut à gauche et que par la suite je clique sur modifier (dans état de la demande), quand j'enregistre, ça reste sur "acceptée"-->
-<!--//* REMARQUE::-->
-<!--//* REMARQUE::-->
-<!--//* REMARQUE::-->
 
 
 <!--//? Remarques::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
@@ -384,12 +381,7 @@
                     <input type="email" name="email" id="email" class="form-control" placeholder="" value="{{ $supplier->email }}" maxlength="64" disabled>
                     <label for="email">{{__('form.emailLabel')}}</label>
                     <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
-                    <div class="invalid-feedback" id="emailInvalidStart" style="display: none;">{{__('form.identificationValidationEmailStartWithArobase')}}</div>
-                    <div class="invalid-feedback" id="emailInvalidNoArobase" style="display: none;">{{__('form.identificationValidationEmailArobaseRequired')}}</div>
-                    <div class="invalid-feedback" id="emailInvalidManyArobase" style="display: none;">{{__('form.identificationValidationEmailOneArobaseOnly')}}</div>
-                    <div class="invalid-feedback" id="emailInvalidEmptyDomain" style="display: none;">{{__('form.identificationValidationEmailDomain')}}</div>
-                    <div class="invalid-feedback" id="emailInvalidDomainFormat" style="display: none;">{{__('form.identificationValidationEmailDomainContainDot')}}</div>
-                    <div class="invalid-feedback" id="emailInvalidDomainDot" style="display: none;">{{__('form.identificationValidationEmailDomainDotWrongPosition')}}</div>
+                    <div class="invalid-feedback" id="emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
                     <div class="invalid-feedback" id="emailInvalidUnique" style="display: none;">{{__('form.identificationValidationEmailUnique')}}</div>
                   </div>
                 </div>
