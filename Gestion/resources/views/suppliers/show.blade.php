@@ -401,130 +401,214 @@
         </form>  
       </div><!--FIN IDENTIFICATION-->
       <!--COORDONNÉES-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
-        <div class="bg-white rounded my-2 form-section px-3">
-          <div class="row">
-            <div class="col-12 text-center">
-              <h1 class="section-title">{{__('form.contactDetailsTitle')}}</h1>
+      <!--//TODO::
+        - Supprimer les # de téléphones dans la BD
+      -->
+      <div class="container d-flex flex-column h-100 show-section d-none" id="contactDetails-section">
+        <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
+          @csrf
+          <div class="bg-white rounded my-2 form-section px-3">
+            <div class="row">
+              <div class="col-12 text-center">
+                <h1 class="section-title">{{__('form.contactDetailsTitle')}}</h1>
+              </div>
             </div>
-          </div>
-          <div class="row px-3">
-            <div class="col-12 col-md-6 d-flex flex-column">
-              <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
-              <div class=" text-center d-flex flex-row pb-3">
-                <div class="form-floating col-6 pe-2">
-                  <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ $supplier->address->civic_no }}" placeholder="" maxlength="8" disabled>
-                  <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>
-                </div>
-                <div class="form-floating col-6">
-                  <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control" value="{{ $supplier->address->office ? : 'N/A' }}" placeholder="" maxlength="8" disabled>
-                  <label for="contactDetailsOfficeNumber" id="officeNumber">{{__('form.officeNumber')}}</label>
-                </div>
-              </div>
-              <div class="text-center mb-4">
-                <div class="form-floating">
-                  <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control" value="{{ $supplier->address->street }}" placeholder="" maxlength="64" disabled>
-                  <label for="contactDetailsStreetName">{{__('form.streetName')}}</label>
-                </div>
-              </div>
-              <div class="d-flex flex-column justify-content-between h-100">
-                <div class="text-center d-flex flex-row pb-3">
-                  <div class="form-floating col-6 pe-2" id="div-city">
-                    <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" aria-label="" disabled>
-                      <option>{{ $supplier->address->city }}</option>
-                    </select>
-                    <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none" value="{{ $supplier->address->city }}" placeholder="" maxlength="64" disabled>
-                    <label for="contactDetailsCitySelect">{{__('form.city')}}</label>
+            <div class="row px-3">
+              <div class="col-12 col-md-6 d-flex flex-column">
+                <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
+                <div class=" text-center d-flex flex-row ">
+                  <div class="form-floating col-6 pe-2">
+                    <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ $supplier->address->civic_no }}" placeholder="" maxlength="8" disabled>
+                    <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>
                   </div>
                   <div class="form-floating col-6">
-                    <select name="contactDetailsProvince" id="contactDetailsProvince" class="form-select" aria-label="" disabled>
-                      <option>{{ $supplier->address->province->name }}</option>
-                    </select>
-                    <label for="contactDetailsProvince">{{__('form.province')}}</label>
+                    <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control" value="{{ $supplier->address->office ? : 'N/A' }}" placeholder="" maxlength="8" disabled>
+                    <label for="contactDetailsOfficeNumber" id="officeNumber">{{__('form.officeNumber')}}</label>
                   </div>
                 </div>
-                <div class="text-center d-flex flex-row mb-4">
-                  <div class="form-floating col-8 pe-2">
-                    <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" aria-label="" disabled>
-                      <option>{{ $supplier->address->region }}</option>
-                    </select>
-                    <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
+                <div class="row mb-4">
+                  @if($errors->has('contactDetailsCivicNumber'))
+                  <p>{{ $errors->first('contactDetailsCivicNumber') }}</p>
+                  @endif
+                  @if($errors->has('contactDetailsOfficeNumber'))
+                  <p>{{ $errors->first('contactDetailsOfficeNumber') }}</p>
+                  @endif
+                  <div class="col-12">
+                    <div class="text-start invalid-feedback" id="invalidRequiredCivicNumber" style="display: none;">{{__('form.contactDetailsCNValidationRequired')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidCivicNumber" style="display: none;">{{__('form.contactDetailsCNValidationAlphanum')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidCivicNumberLength" style="display: none;">{{__('form.contactDetailsCNValidationLength')}}</div>
                   </div>
-                  <div class="form-floating">
-                    <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ $supplier->address->postal_code }}" placeholder="" maxlength="6" disabled>
-                    <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
+                  <div class="col-12">
+                    <div class="text-start invalid-feedback" id="invalidOfficeNumber" style="display: none;">{{__('form.contactDetailsONValidationAlphaNum')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidOfficeNumberLength" style="display: none;">{{__('form.contactDetailsONValidationLenght')}}</div>
                   </div>
                 </div>
                 <div class="text-center mb-4">
                   <div class="form-floating">
-                    <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control" value="{{ $supplier->site ? : 'N/A' }}" placeholder="" maxlength="64" disabled>
-                    <label for="contactDetailsWebsite">{{__('form.website')}}</label>
+                    <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control" value="{{ $supplier->address->street }}" placeholder="" maxlength="64" disabled>
+                    <label for="contactDetailsStreetName">{{__('form.streetName')}}</label>
+                    <div class="text-start invalid-feedback" id="invalidRequiredStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationRequired')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationAlphaNumSC')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidStreetNameLength" style="display: none;">{{__('form.contactDetailsStreetNameValidationLength')}}</div>
+                    @if($errors->has('contactDetailsStreetName'))
+                    <p>{{ $errors->first('contactDetailsStreetName') }}</p>
+                    @endif
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-6 d-flex flex-column">
-              <h2 class="text-center section-subtitle">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
-              <div class="text-center d-flex flex-row pb-3 d-none">
-                <div class="form-floating col-3">
-                  <select name="contactDetailsPhoneType" id="contactDetailsPhoneType" class="form-select" aria-label="" disabled>
-                    <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
-                    <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
-                    <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
-                  </select>
-                  <label for="contactDetailsPhoneType">{{__('form.typeLabel')}}</label>
-                </div>
-                <div class="form-floating col-5 px-2">
-                  <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" placeholder="" maxlength="12" disabled>
-                  <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.numberLabel')}}</label>
-                </div>
-                <div class="form-floating col-3">
-                  <input type="text" name="contactDetailsPhoneExtension" id="contactDetailsPhoneExtension" class="form-control" placeholder="" maxlength="6" disabled>
-                  <label for="contactDetailsPhoneExtension">{{__('form.phoneExtension')}}</label>
-                </div>
-                <div class="col-1 d-flex align-items-center">
-                  <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; padding-left:10px">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                  </svg>
-                </div>
-              </div>
-              <div class="form-floating h-100 pb-4" id="div-phoneNumberList">
-                <div class="form-control pt-2 h-100  mb-4" id="contactDetailsPhoneNumberList" style="overflow-x: hidden; overflow-y: auto;">
-                  <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}}</div>
-                  <div class="d-flex flex-row mt-2">
-                    <div class="col-2 fs-6">{{__('form.typeLabel')}}</div>
-                    <div class="col-6 fs-6 text-center" id="phoneNumber">{{__('form.phoneNumber')}}</div>
-                    <div class="col-2 fs-6 text-center">{{__('form.phoneExtension')}}</div>
-                    <div class="col-2 "></div>
-                  </div>
-                  <div class=" pt-3" id="phoneNumberList">
-                    @foreach($formattedPhoneNumbersContactDetails as $phoneNumber)
-                    <div class="d-flex flex-row align-items-center divPhone">
-                      <div class="col-2 text-start phoneType">{{ $phoneNumber->type }}</div>
-                      <input class="d-none" name="phoneTypes[]" value="{{ $phoneNumber->type }}" />
-                      <div class="col-6 text-center phoneNumber">{{ $phoneNumber->number }}</div>
-                      <input class="d-none" name="phoneNumbers[]" value="{{ $phoneNumber->number }}" />
-                      <div class="col-2 text-center phoneExtension">{{ $phoneNumber->extension ? : 'N/A' }}</div>
-                      <input class="d-none" name="phoneExtensions[]" value="{{ $phoneNumber->number }}" />
-                      <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removePhone d-none" viewBox="0 0 16 16" style="cursor:pointer;">
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
-                      </svg>
+                <div class="d-flex flex-column justify-content-between h-100">
+                  <div class="text-center d-flex flex-row">
+                    <div class="form-floating col-6 pe-2" id="div-city">
+                      <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" aria-label="" disabled>
+                        <option>{{ $supplier->address->city }}</option>
+                      </select>
+                      <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none" value="{{ $supplier->address->city }}" placeholder="" maxlength="64" disabled>
+                      <label for="contactDetailsCitySelect">{{__('form.city')}}</label>
                     </div>
-                    @endforeach
+                    <div class="form-floating col-6">
+                      <select name="contactDetailsProvince" id="contactDetailsProvince" class="form-select" aria-label="" disabled>
+                      @foreach($provinces as $province)
+                        <option value="{{ $province->name }}"
+                          {{ ($supplier->address->province->name ?? 'Québec') == $province->name ? 'selected' : '' }}>
+                          {{ $province->name }}
+                        </option>
+                      @endforeach
+                      </select>
+                      <label for="contactDetailsProvince">{{__('form.province')}}</label>
+                    </div>
+                  </div>
+                  <div class="row mb-4">
+                    @if($errors->has('contactDetailsInputCity'))
+                    <p>{{ $errors->first('contactDetailsInputCity') }}</p>
+                    @endif
+                    <div class="col-12">
+                      <div class="text-start invalid-feedback" id="invalidRequiredCity" style="display: none;">{{__('form.contactDetailsCityRequired')}}</div>
+                      <div class="text-start invalid-feedback" id="invalidCityLength" style="display: none;">{{__('form.contactDetailsCityLength')}}</div>
+                    </div>
+                  </div>
+                  <div class="text-center d-flex flex-row mb-4">
+                    <div class="form-floating col-8 pe-2">
+                      <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" aria-label="" disabled>
+                        <option>{{ $supplier->address->region }}</option>
+                      </select>
+                      <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
+                    </div>
+                    <div class="form-floating">
+                      <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ $formattedPostalCode}}" placeholder="" maxlength="7" disabled>
+                      <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
+                      @if($errors->has('contactDetailsPostalCode'))
+                      <p>{{ $errors->first('contactDetailsPostalCode') }}</p>
+                      @endif
+                      <div class="text-start invalid-feedback" id="invalidRequiredPostalCode" style="display: none;">{{__('form.contactDetailsPostalCodeRequired')}}</div>
+                      <div class="text-start invalid-feedback" id="invalidPostalCodeFormat" style="display: none;">{{__('form.contactDetailsPostalCodeFormat')}}</div>
+                      <div class="text-start invalid-feedback" id="invalidPostalCodeLength" style="display: none;">{{__('form.contactDetailsPostalCodeLength')}}</div>
+                    </div>
+                  </div>
+                  <div class="text-center mb-4">
+                    <div class="form-floating">
+                      <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control" value="{{ $supplier->site ? : 'N/A' }}" placeholder="" maxlength="64" disabled>
+                      <label for="contactDetailsWebsite">{{__('form.website')}}</label>
+                      @if($errors->has('contactDetailsWebsite'))
+                      <p>{{ $errors->first('contactDetailsWebsite') }}</p>
+                      @endif
+                      <div class="text-start invalid-feedback" id="invalidWebsite" style="display: none;">{{__('form.contactDetailsWebsite')}}</div>
+                      <div class="text-start invalid-feedback" id="invalidWebsiteLength" style="display: none;">{{__('form.contactDetailsWebsiteLength')}}</div>                    
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="col-12 col-md-6 d-flex flex-column">
+                <h2 class="text-center section-subtitle">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
+                <div id="addPhone" class="text-center d-flex flex-row d-none">
+                  <div class="form-floating col-3">
+                    <select name="contactDetailsPhoneType" id="contactDetailsPhoneType" class="form-select" aria-label="" disabled>
+                      <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
+                      <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
+                      <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
+                    </select>
+                    <label for="contactDetailsPhoneType">{{__('form.typeLabel')}}</label>
+                  </div>
+                  <div class="form-floating col-5 px-2">
+                    <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" placeholder="" maxlength="12" disabled>
+                    <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.numberLabel')}}</label>
+                  </div>
+                  <div class="form-floating col-3">
+                    <input type="text" name="contactDetailsPhoneExtension" id="contactDetailsPhoneExtension" class="form-control" placeholder="" maxlength="6" disabled>
+                    <label for="contactDetailsPhoneExtension">{{__('form.phoneExtension')}}</label>
+                  </div>
+                  <div class="col-1 d-flex align-items-center">
+                    <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; padding-left:10px">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                    </svg>
+                  </div>
+                 
+                </div>
+                <div class="mb-4">
+                  @if($errors->has('contactDetailsPhoneNumber'))
+                  <p>{{ $errors->first('contactDetailsPhoneNumber') }}</p>
+                  @endif
+                  @if($errors->has('contactDetailsPhoneExtension'))
+                  <p>{{ $errors->first('contactDetailsPhoneExtension') }}</p>
+                  @endif
+                  <div class="col-12 errorMessagesPhone">
+                    <div class="text-start invalid-feedback" id="invalidRequiredPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberRequired')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidPhoneNumberNumeric" style="display: none;">{{__('form.contactDetailsPhoneNumberNumeric')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidPhoneNumberFormat" style="display: none;">{{__('form.contactDetailsPhoneNumberFormat')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidPhoneExtension" style="display: none;">{{__('form.contactDetailsPhoneExtension')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidPhoneExtensionLength" style="display: none;">{{__('form.contactDetailsPhoneExtensionLength')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidAddPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberAdd')}}</div>
+                  </div>
+                </div>
+                <div class="form-floating h-100 pb-4" id="div-phoneNumberList">
+                  <div class="form-control pt-2 h-100  mb-4" id="contactDetailsPhoneNumberList" style="overflow-x: hidden; overflow-y: auto;">
+                    <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}}</div>
+                    <div class="d-flex flex-row mt-2">
+                      <div class="col-2 fs-6">{{__('form.typeLabel')}}</div>
+                      <div class="col-6 fs-6 text-center" id="phoneNumber">{{__('form.phoneNumber')}}</div>
+                      <div class="col-2 fs-6 text-center">{{__('form.phoneExtension')}}</div>
+                      <div class="col-2 "></div>
+                    </div>
+                    <div class=" pt-3" id="phoneNumberList">
+                      @foreach($formattedPhoneNumbersContactDetails as $phoneNumber)
+                      <div class="d-flex flex-row align-items-center mb-2">
+                        <input class="d-none" name="phoneNumberIds[]" value="{{ $phoneNumber->id }}" />
+                        <div class="col-2 text-start phoneType">{{ $phoneNumber->type }}</div>
+                        <input class="d-none" name="phoneTypes[]" value="{{ $phoneNumber->type }}" />
+                        <div class="col-6 text-center phoneNumber">{{ $phoneNumber->number }}</div>
+                        <input class="d-none" name="phoneNumbers[]" value="{{ $phoneNumber->number }}" />
+                        <div class="col-2 text-center phoneExtension">{{ $phoneNumber->extension }}</div>
+                        <input class="d-none" name="phoneExtensions[]" value="{{ $phoneNumber->extension  }}" />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removePhone d-none" viewBox="0 0 16 16" style="cursor:pointer;">
+                          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                        </svg>
+                      </div>
+                      @endforeach
+                    </div>
+                  </div>
+                </div>
+                <div class="text-start invalid-feedback" id="invalidListPhoneNumbers" style="display: none;">{{__('form.contactDetailsPhoneNumbersList')}}</div>
+              </div>
             </div>
-          </div>
-          @role(['responsable', 'admin'])
-          <div class="row">
-            <div class="col-12 d-flex justify-content-center mb-3">
-              <button id="btnEditContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-              <button id="btnSaveContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+            @role(['responsable', 'admin'])
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center mb-3">
+                @php
+                  $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+                @endphp
+                <a id="btnCancelContactDetails" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#contactDetails-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                <button id="btnModifyContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveContactDetails" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+              </div>
             </div>
+            @endrole
           </div>
-          @endrole
-        </div>
+          @if(isset($errors) && $errors->any())
+            <div class="alert alert-danger">
+              @foreach($errors->all() as $error)
+              <p>{{$error}}</p>
+              @endforeach
+            </div>
+          @endif
+        </form>
       </div><!--FIN COORDONNÉES-->
       <!--CONTACT-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contacts-section">
@@ -1262,14 +1346,17 @@
 <script src=" {{ asset('js/suppliers/show/showSupplier.js') }} "></script>
 <script src=" {{ asset('js/suppliers/validateDenialForm.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/status/status.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/identification/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/identification/save.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/identification/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contactDetails/addCitiesDistrictAreas.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contactDetails/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contactDetails/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contactDetails/save.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/save.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/cancel.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/validation.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/contactDetails/contactDetails.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/identification/edit.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/identification/save.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/identification/validation.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/save.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/validation.js') }} "></script>
