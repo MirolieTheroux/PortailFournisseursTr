@@ -403,8 +403,8 @@
         </form>  
       </div><!--FIN IDENTIFICATION-->
       <!--COORDONNÉES-->
-      <div class="container d-flex flex-column h-100 show-section d-none" id="contactDetails-section">
-        <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
+      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
+        <form method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
           @csrf
           <div class="bg-white rounded my-2 form-section px-3">
             <div class="row">
