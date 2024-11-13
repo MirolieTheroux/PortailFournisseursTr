@@ -1,27 +1,28 @@
-// //Get elements in /suppliers/show/rbq/edit
+//Get elements in /suppliers/show/rbq/edit
+let formFinance
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   addRbqSaveListeners();
-// });
+document.addEventListener("DOMContentLoaded", function () {
+  addFinanceSaveListeners();
+});
 
-// function addRbqSaveListeners(){
-//   formRbq = document.querySelector("#licence-section form");
-//   formRbq.addEventListener("submit", async (event)=>{
-//     event.preventDefault();
+function addFinanceSaveListeners(){
+  formFinance = document.querySelector("#finances-section form");
+  formFinance.addEventListener("submit", async (event)=>{
+    event.preventDefault();
 
-//     validateRbqAll();
+    validateFinanceAll();
 
-//     const currentSectionErrors = rbqContainer.querySelectorAll(".invalid-feedback");
+    const currentSectionErrors = financeContainer.querySelectorAll(".invalid-feedback");
     
-//     let errors = false;
-//     currentSectionErrors.forEach(errorMessage => {
-//       if (errorMessage.style.display == "block") {
-//         errors = true;
-//       }
-//     });
+    let errors = false;
+    currentSectionErrors.forEach(errorMessage => {
+      if (errorMessage.style.display == "block") {
+        errors = true;
+      }
+    });
 
-//     if(!errors){
-//       event.target.submit();
-//     }
-//   ;});
-// }
+    if(!errors){
+      event.target.submit();
+    }
+  ;});
+}

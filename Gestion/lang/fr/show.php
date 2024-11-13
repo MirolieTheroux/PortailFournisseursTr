@@ -35,6 +35,7 @@ return [
     'successUpdateContact' => 'Les contacts ont étés mise à jour.',
     'successUpdateRbq' => 'La licence RBQ a été mise à jour.',
     'successUpdatePS' => 'Les produits et services ont été mise à jour.',
+    'successUpdateFinance' => 'Les finances ont été mise à jour.',
     'noChangesDetected' => 'Aucune modification détectée.', 
 
 ];

@@ -1,181 +1,149 @@
-// let inputLicenceRbq;
-// let selectStatusRbq;
-// let selectTypeRbq;
-// let subcategorieContainerRbq;
-// let subcategoriesCheckBoxesRbq;
+let inputFinanceTps;
+let inputFinanceTvq;
+let selectFinancePaimentCondition;
+let checkFinanceCurrencyCAD;
+let checkFinanceCurrencyUSD;
+let checkFinanceCommunicationModeEmail;
+let checkFinanceCommunicationModeMail;
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   addRbqValidationListeners();
-// });
+document.addEventListener("DOMContentLoaded", function () {
+  addFinanceValidationListeners();
+});
 
-// function addRbqValidationListeners(){
-//   inputLicenceRbq = document.getElementById("licenceRbq");
-//   inputLicenceRbq.addEventListener('input', validateRbqLicence);
+function addFinanceValidationListeners(){
+  inputFinanceTps = document.getElementById("financesTps");
+  inputFinanceTps.addEventListener('blur', validateTps);
 
-//   selectStatusRbq = document.getElementById("statusRbq");
-//   selectStatusRbq.addEventListener('change', validateRbqStatus);
+  inputFinanceTvq = document.getElementById("financesTvq");
+  inputFinanceTvq.addEventListener('blur', validateTvq);
 
-//   selectTypeRbq = document.getElementById("typeRbq");
-//   selectTypeRbq.addEventListener('change', validateRbqType);
+  selectFinancePaimentCondition = document.getElementById("financesPaymentConditions");
+  selectFinancePaimentCondition.addEventListener('change', validateFinancePaymentCondition);
 
-//   subcategorieContainerRbq = document.getElementById("subcategories-container");
-//   subcategoriesCheckBoxesRbq = subcategorieContainerRbq.getElementsByClassName("rbq-subcategories-check");
-//   selectTypeRbq.addEventListener('change', validateRbqType);
-//   for(let checkbox of subcategoriesCheckBoxesRbq){
-//     checkbox.addEventListener('click', validateRbqCategories);
-//   }
-// }
+  checkFinanceCurrencyCAD = document.getElementById("flexRadioCAD");
+  checkFinanceCurrencyCAD.addEventListener('click', validateFinanceCurrency);
 
-// function validateRbqLicence() {
-//   const parentDiv = inputLicenceRbq.parentElement;
-//   const invalidNumberMessage = parentDiv.querySelector('.licenceInvalidNumber');
-//   const invalidSizeMessage = parentDiv.querySelector('.licenceInvalidSize');
+  checkFinanceCurrencyUSD = document.getElementById("flexRadioUS");
+  checkFinanceCurrencyUSD.addEventListener('click', validateFinanceCurrency);
 
-//   // Reset all error messages
-//   invalidNumberMessage.style.display = 'none';
-//   invalidSizeMessage.style.display = 'none';
+  checkFinanceCommunicationModeEmail = document.getElementById("flexRadioEmail");
+  checkFinanceCommunicationModeEmail.addEventListener('change', validateFinanceCommunationMode);
 
-//   // Basic validation logic
-//   if (isNaN(inputLicenceRbq.value)) {
-//     inputLicenceRbq.classList.remove('is-valid');
-//     inputLicenceRbq.classList.add('is-invalid');
-//     invalidNumberMessage.style.display = 'block';
-//   }
-//   else if(!inputLicenceRbq.value){
-//     inputLicenceRbq.classList.remove('is-invalid');
-//     inputLicenceRbq.classList.remove('is-valid');
-//   }
-//   else if(inputLicenceRbq.value.length !== 10){
-//     inputLicenceRbq.classList.remove('is-valid');
-//     inputLicenceRbq.classList.add('is-invalid');
-//     invalidSizeMessage.style.display = 'block';
-//   }
-//   else {
-//     inputLicenceRbq.classList.remove('is-invalid');
-//     inputLicenceRbq.classList.add('is-valid');
-//   }
+  checkFinanceCommunicationModeMail = document.getElementById("flexRadioMail");
+  checkFinanceCommunicationModeMail.addEventListener('change', validateFinanceCommunationMode);
+}
 
-//   inputLicenceRbq.classList.add('was-validated');
-//   validateRbqStatus();
-//   validateRbqType();
-//   validateRbqCategories();
-// }
+function validateTps() {
+  const parentDiv = inputFinanceTps.parentElement;
+  const invalidRequiredMessage = parentDiv.querySelector('.tpsInvalidRequired');
+  const invalidFormatMessage = parentDiv.querySelector('.tpsInvalidFormat');
 
-// function validateRbqStatus() {
-//   const parentDiv = selectStatusRbq.parentElement;
-//   const invalidStatusRequired = parentDiv.querySelector('.statusInvalidRequired');
-//   const invalidStatusRequiredNot = parentDiv.querySelector('.statusInvalidRequiredNot');
+  const regexTps = /^\d{9}RT\d{4}$/;
 
-//   // Reset all error messages
-//   invalidStatusRequired.style.display = 'none';
-//   invalidStatusRequiredNot.style.display = 'none';
+  // Reset all error messages
+  invalidRequiredMessage.style.display = 'none';
+  invalidFormatMessage.style.display = 'none';
 
-//   // Basic validation logic
-//   if(inputLicenceRbq.value){
-//     if(!selectStatusRbq.value){
-//       selectStatusRbq.classList.remove('is-valid');
-//       selectStatusRbq.classList.add('is-invalid');
-//       invalidStatusRequired.style.display = 'block';
-//     }
-//     else{
-//       selectStatusRbq.classList.remove('is-invalid');
-//       selectStatusRbq.classList.add('is-valid');
-//     }
-//   }
-//   else{
-//     if(selectStatusRbq.value){
-//       selectStatusRbq.classList.remove('is-valid');
-//       selectStatusRbq.classList.add('is-invalid');
-//       invalidStatusRequiredNot.style.display = 'block';
-//     }
-//     else{
-//       selectStatusRbq.classList.remove('is-invalid');
-//       selectStatusRbq.classList.add('is-valid');
-//     }
-//   }
+  // Basic validation logic
+  if(!inputFinanceTps.value){
+    inputFinanceTps.classList.remove('is-valid');
+    inputFinanceTps.classList.add('is-invalid');
+    invalidRequiredMessage.style.display = 'block';
+  }
+  else if(!inputFinanceTps.value.match(regexTps)){
+    inputFinanceTps.classList.remove('is-valid');
+    inputFinanceTps.classList.add('is-invalid');
+    invalidFormatMessage.style.display = 'block';
+  }
+  else {
+    inputFinanceTps.classList.remove('is-invalid');
+    inputFinanceTps.classList.add('is-valid');
+  }
 
-//   selectStatusRbq.classList.add('was-validated');
-// }
+  inputFinanceTps.classList.add('was-validated');
+}
 
-// function validateRbqType() {
-//   const parentDiv = selectTypeRbq.parentElement;
-//   const invalidTypeRequired = parentDiv.querySelector('.typeInvalidRequired');
-//   const invalidTypeRequiredNot = parentDiv.querySelector('.typeInvalidRequiredNot');
+function validateTvq() {
+  const parentDiv = inputFinanceTvq.parentElement;
+  const invalidRequiredMessage = parentDiv.querySelector('.tvqInvalidRequired');
+  const invalidFormatMessage = parentDiv.querySelector('.tvqInvalidFormat');
 
-//   // Reset all error messages
-//   invalidTypeRequired.style.display = 'none';
-//   invalidTypeRequiredNot.style.display = 'none';
+  const regexTvqNumber = /^\d{10}$/;
+  const regexTvqTQ = /^\d{10}TQ\d{4}$/;
+  const regexTvqNR = /^NR\d{8}$/;
 
-//   // Basic validation logic
-//   if(inputLicenceRbq.value){
-//     if(!selectTypeRbq.value){
-//       selectTypeRbq.classList.remove('is-valid');
-//       selectTypeRbq.classList.add('is-invalid');
-//       invalidTypeRequired.style.display = 'block';
-//     }
-//     else{
-//       selectTypeRbq.classList.remove('is-invalid');
-//       selectTypeRbq.classList.add('is-valid');
-//     }
-//   }
-//   else{
-//     if(selectTypeRbq.value){
-//       selectTypeRbq.classList.remove('is-valid');
-//       selectTypeRbq.classList.add('is-invalid');
-//       invalidTypeRequiredNot.style.display = 'block';
-//     }
-//     else{
-//       selectTypeRbq.classList.remove('is-invalid');
-//       selectTypeRbq.classList.add('is-valid');
-//     }
-//   }
+  // Reset all error messages
+  invalidRequiredMessage.style.display = 'none';
+  invalidFormatMessage.style.display = 'none';
 
-//   selectTypeRbq.classList.add('was-validated');
-// }
+  // Basic validation logic
+  if(!inputFinanceTvq.value){
+    inputFinanceTvq.classList.remove('is-valid');
+    inputFinanceTvq.classList.add('is-invalid');
+    invalidRequiredMessage.style.display = 'block';
+  }
+  else if(!(inputFinanceTvq.value.match(regexTvqNumber)||inputFinanceTvq.value.match(regexTvqTQ)||inputFinanceTvq.value.match(regexTvqNR))){
+    inputFinanceTvq.classList.remove('is-valid');
+    inputFinanceTvq.classList.add('is-invalid');
+    invalidFormatMessage.style.display = 'block';
+  }
+  else {
+    inputFinanceTvq.classList.remove('is-invalid');
+    inputFinanceTvq.classList.add('is-valid');
+  }
 
-// function validateRbqCategories(){
-//   const parentDiv = subcategorieContainerRbq.parentElement;
-//   const invalidSubcategorieRequired = parentDiv.querySelector('.subcategorieInvalidRequired');
-//   const invalidSubcategorieRequiredNot = parentDiv.querySelector('.subcategorieInvalidRequiredNot');
+  inputFinanceTvq.classList.add('was-validated');
+}
 
-//   // Reset all error messages
-//   invalidSubcategorieRequired.style.display = 'none';
-//   invalidSubcategorieRequiredNot.style.display = 'none';
+function validateFinancePaymentCondition() {
+  const parentDiv = selectFinancePaimentCondition.parentElement;
+  const invalidStatusRequired = parentDiv.querySelector('.paymentInvalidRequired');
 
-//   let subcategorieFound = false;
+  // Reset all error messages
+  invalidStatusRequired.style.display = 'none';
 
-//   for(let checkbox of subcategoriesCheckBoxesRbq){
-//     if(checkbox.checked){
-//       subcategorieFound = true;
-//     }
-//   }
-//   if(inputLicenceRbq.value){
-//     if(subcategorieFound){
-//       subcategorieContainerRbq.classList.remove('is-invalid');
-//       subcategorieContainerRbq.classList.add('is-valid');
-//     }
-//     else{
-//       subcategorieContainerRbq.classList.remove('is-valid');
-//       subcategorieContainerRbq.classList.add('is-invalid');
-//       invalidSubcategorieRequired.style.display = 'block';
-//     }
-//   }
-//   else{
-//     if(subcategorieFound){
-//       subcategorieContainerRbq.classList.remove('is-valid');
-//       subcategorieContainerRbq.classList.add('is-invalid');
-//       invalidSubcategorieRequiredNot.style.display = 'block';
-//     }
-//     else{
-//       subcategorieContainerRbq.classList.remove('is-invalid');
-//       subcategorieContainerRbq.classList.add('is-valid');
-//     }
-//   }
-// }
+  // Basic validation logic
+  if(!selectFinancePaimentCondition.value){
+    selectFinancePaimentCondition.classList.remove('is-valid');
+    selectFinancePaimentCondition.classList.add('is-invalid');
+    invalidStatusRequired.style.display = 'block';
+  }
+  else{
+    selectFinancePaimentCondition.classList.remove('is-invalid');
+    selectFinancePaimentCondition.classList.add('is-valid');
+  }
 
-// function validateRbqAll(){
-//   validateRbqLicence();
-//   validateRbqStatus();
-//   validateRbqType();
-//   validateRbqCategories();
-// }
+  selectFinancePaimentCondition.classList.add('was-validated');
+}
+
+function validateFinanceCurrency(){
+  const parentDiv = document.getElementById('currencyRadios');
+  const currencyInvalidRequired = parentDiv.querySelector('.currencyInvalidRequired');
+
+  // Reset all error messages
+  currencyInvalidRequired.style.display = 'none';
+
+  if(!(checkFinanceCurrencyCAD.checked || checkFinanceCurrencyUSD.checked)){
+    currencyInvalidRequired.style.display = 'block';
+  }
+}
+
+function validateFinanceCommunationMode(){
+  const parentDiv = document.getElementById('commnucationModeRadios');
+  const currencyInvalidRequired = parentDiv.querySelector('.communicationModeInvalidRequired');
+
+  // Reset all error messages
+  currencyInvalidRequired.style.display = 'none';
+
+  if(!(checkFinanceCommunicationModeEmail.checked || checkFinanceCommunicationModeMail.checked)){
+    currencyInvalidRequired.style.display = 'block';
+  }
+}
+
+function validateFinanceAll(){
+  validateTps();
+  validateTvq();
+  validateFinancePaymentCondition();
+  validateFinanceCurrency();
+  validateFinanceCommunationMode();
+}

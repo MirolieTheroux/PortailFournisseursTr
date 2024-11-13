@@ -16,9 +16,9 @@ function getFinanceSectionElements(){
   btnCancelFinances = document.getElementById("btnCancelFinances");
   btnSaveFinances = document.getElementById("btnSaveFinances");
   btnEditFinances = document.getElementById("btnEditFinances");
-  financeInputs = rbqContainer.getElementsByClassName("form-control");
-  financeSelect = rbqContainer.querySelector(".form-select");
-  financeChecks = rbqContainer.getElementsByClassName("form-check-input");
+  financeInputs = financeContainer.getElementsByClassName("form-control");
+  financeSelect = financeContainer.querySelector(".form-select");
+  financeChecks = financeContainer.getElementsByClassName("form-check-input");
 }
 function addFinanceSectionListeners(){
   btnEditFinances.addEventListener('click', enableFinanceSectionEdit);
@@ -31,8 +31,10 @@ function enableFinanceSectionEdit(){
   financeSelect.removeAttribute("disabled");
   for (let index = 0; index < financeInputs.length; index++) {
     financeInputs[index].removeAttribute("disabled");
+    if(financeInputs[index].value === "N/A")
+      financeInputs[index].value = ""
   }
-  for (let index = 0; index < rbqChecks.length; index++) {
-    rbqChecks[index].removeAttribute("disabled");
+  for (let index = 0; index < financeChecks.length; index++) {
+    financeChecks[index].removeAttribute("disabled");
   }
 }

@@ -188,4 +188,13 @@ return [
     'communication' => 'Mode de communication',
     'email' => 'Courriel',
     'mail' => 'Courrier régulier',
+    'financeTpsValidationRequired' => 'Le numéro de TPS est requis.',
+    'financeTpsValidationFormat' => 'Le format du numéro doit être neuf chiffres suivis des lettres RT et de quatre chiffres (#########RT####)',
+    'financeTvqValidationRequired' => 'Le numéro de TVQ est requis.',
+    'financeTvqValidationFormat' => 'Le numéro doit correspondre à l\'un des formats suivants :',
+    'financeTvqValidationFormat10Number' => 'dix chiffres (##########)',
+    'financeTvqValidationFormatTQ' => 'dix chiffres suivis des lettre TQ et de quatres chiffres (##########TQ####)',
+    'financeTvqValidationFormatNR' => 'les lettres NR suivies de huit chiffres (NR########)',
+    'financeCurrencyValidationRequired' => 'La devise est requise.',
+    'financeCommunicationModeValidationRequired' => 'Le mode de communication est requis.',
 ];
