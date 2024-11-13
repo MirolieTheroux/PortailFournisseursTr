@@ -9,7 +9,7 @@
     <table align="center" width="600" style="border: 1px solid #dddddd; border-radius: 5px; padding: 20px;">
         <tr>
             <td align="center">
-                <img src="https://www.v3r.net/wp-content/themes/v3r/Images/icons/logo-v3r-v2.svg" alt="Logo de la Ville de Trois-Rivières" width="100" style="margin-top:25px;">
+                <img src="https://www.v3r.net/wp-content/uploads/2022/06/vtr_noir.png" class="logo" alt="Laravel Logo" width="150">
                 <h1 style="color: #0056b3;">Bienvenue sur le Portail Fournisseur</h1>
                 <p style="font-size: 16px; color: #666666;">
                     Bonjour et bienvenue sur le portail fournisseur de la Ville de Trois-Rivières !
@@ -17,9 +17,13 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td align="center">
                 <p style="font-size: 16px;">
-                    Nous avons bien reçu votre demande d'inscription. Votre statut est actuellement <strong>en attente</strong>.
+                    Nous avons bien reçu votre demande d'inscription.
+                </p>
+                <p>
+                    <div>état de votre demande:</div>
+                    <strong style="color:orange; font-size: 30px;">en attente</strong>
                 </p>
                 <p style="font-size: 16px;">
                     Un membre de notre équipe procédera à la vérification de vos informations et vous informera par courriel une fois votre compte approuvé.
