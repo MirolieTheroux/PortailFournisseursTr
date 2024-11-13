@@ -1242,6 +1242,10 @@
             @role(['responsable', 'admin'])
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-2">
+                @php
+                  $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+                @endphp
+                <a id="btnCancelFinances" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#finances-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
                 <button id="btnEditFinances" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
                 <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
@@ -1276,6 +1280,7 @@
 <script src=" {{ asset('js/suppliers/show/rbq/changeType.js') }} "></script>
 <script src=" {{ asset('js/suppliers/productsServices.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/productServices/edit.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/productServices/save.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/productServices/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/finance/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/finance/save.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/finance/validation.js') }} "></script>
 @endsection
