@@ -407,7 +407,6 @@
       </div><!--FIN IDENTIFICATION-->
       <!--COORDONNÉES-->
       <!--//TODO::
-        - Faire les modifications dans la BD (controller)
         - Supprimer les # de téléphones dans la BD
       -->
       <div class="container d-flex flex-column h-100 show-section d-none" id="contactDetails-section">
@@ -499,7 +498,7 @@
                       <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
                     </div>
                     <div class="form-floating">
-                      <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ $supplier->address->postal_code }}" placeholder="" maxlength="6" disabled>
+                      <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ $formattedPostalCode}}" placeholder="" maxlength="7" disabled>
                       <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
                       @if($errors->has('contactDetailsPostalCode'))
                       <p>{{ $errors->first('contactDetailsPostalCode') }}</p>
@@ -575,7 +574,7 @@
                     </div>
                     <div class=" pt-3" id="phoneNumberList">
                       @foreach($formattedPhoneNumbersContactDetails as $phoneNumber)
-                      <div class="d-flex flex-row align-items-center ">
+                      <div class="d-flex flex-row align-items-center mb-2">
                         <input class="d-none" name="phoneNumberIds[]" value="{{ $phoneNumber->id }}" />
                         <div class="col-2 text-start phoneType">{{ $phoneNumber->type }}</div>
                         <input class="d-none" name="phoneTypes[]" value="{{ $phoneNumber->type }}" />

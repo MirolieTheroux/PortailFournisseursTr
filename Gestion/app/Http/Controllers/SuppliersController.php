@@ -140,10 +140,15 @@ class SuppliersController extends Controller
     $deniedStatus = $decryptedReasons->filter(function ($history) {
       return $history->status === 'denied';
     });
-    
     $latestDeniedReason = $deniedStatus->sortByDesc('created_at')->first();
+
+    $postalCode = $supplier->address->postal_code;
+    $formattedPostalCode = substr($postalCode, 0, 3) . ' ' . substr($postalCode, 3);
     
-    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories','provinces'));
+    return View('suppliers.show', 
+    compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails',
+    'formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories',
+    'provinces','formattedPostalCode'));
   }
   
   /**
@@ -280,7 +285,6 @@ class SuppliersController extends Controller
   public function updateContactDetails(SupplierUpdateContactDetailsRequest $request, Supplier $supplier)
   {
     //Log::debug($request);
-    //Log::debug(($request));
     try{
       //Update Address
       $supplier->address->civic_no = $request->contactDetailsCivicNumber;
@@ -300,23 +304,23 @@ class SuppliersController extends Controller
       $supplier->site = $request->contactDetailsWebsite;
       $supplier->address->save();
       
-      //Update Phone numbers
+      //Update Phone numbers    
+      $supplierExistingPhoneNumbers = $supplier->phoneNumbers->pluck('id')->toArray();
+      $idsToDelete = array_diff($supplierExistingPhoneNumbers, $request->phoneNumberIds);
+      PhoneNumber::whereIn('id', $idsToDelete)->delete();
+
       for($i = 0 ; $i < Count($request->phoneNumbers) ; $i++){
-        if($request->phoneNumberIds[$i] === -1){
+        if($request->phoneNumberIds[$i] == -1){
           $phoneNumber = new PhoneNumber();
           $phoneNumber->number = str_replace('-', '', $request->phoneNumbers[$i]);
           $phoneNumber->type = $request->phoneTypes[$i];
           $phoneNumber->extension = $request->phoneExtensions[$i];
-          $phoneNumber->supplier()->associate($supplier);
+          $phoneNumber->supplier()->associate($supplier->id);
           $phoneNumber->contact()->associate(null);
           $phoneNumber->save();
         }
-        else{
-          if(!PhoneNumber::findOrFail($request->phoneNumberIds[$i])){
-            //detacher le phone number du supplier
-          }
-        }
       }
+
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateIdentification'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contactDetails-section');

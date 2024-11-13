@@ -38,7 +38,7 @@ function addContactDetailsValidationListeners() {
   contactDetailsPostalCodeInput.addEventListener('input', validatePostalCodeOnInput);
   contactDetailsPostalCodeInput.addEventListener('paste', (event) => {
     const pasteData = (event.clipboardData || window.clipboardData).getData('text');
-    event.preventDefault();
+    event.preventDefault(); 
   });
 
   contactDetailsWebsiteInput = document.getElementById('contactDetailsWebsite');
@@ -362,6 +362,7 @@ document.getElementById("add-icon").addEventListener("click", function () {
     inputId.value = "-1";
     inputId.classList.add("d-none");
     inputId.setAttribute("name","phoneNumberIds[]");
+    newphoneNumber.appendChild(inputId);
     //DIV PHONE TYPE
     const colphoneType = document.createElement("div");
     colphoneType.classList.add("col-2", "text-start","phoneType");
