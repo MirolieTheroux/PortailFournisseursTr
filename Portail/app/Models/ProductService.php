@@ -12,6 +12,4 @@ class ProductService extends Model
     public function suppliers(){
         return $this->belongsToMany(Supplier::class, 'supplier_products_services', 'products_services_code', 'supplier_id', 'code', 'id');
     }
-
-    
 }
