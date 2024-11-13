@@ -201,7 +201,7 @@ class SuppliersController extends Controller
       $supplier->save();
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
-      ->with('message',__('show.successUpdateIdentification'))
+      ->with('message',__('show.successUpdateContactDetails'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#identification-section');
     }
     catch (\Throwable $e) {

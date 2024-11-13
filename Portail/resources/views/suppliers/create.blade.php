@@ -161,7 +161,7 @@
                   <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
                   <div id="password_confirmationStart"></br></div>
                   <div class="valid-feedback" id="password_confirmationValid" style="display: none;"></br></div>
-                  <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">{{__('form.productsAndServiceValidationMDPConfirm')}}</div>
+                  <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">{{__('form.identificationValidationMDPConfirm')}}</div>
                 </div>
                 @if($errors->has('password_confirmation'))
                 <p>{{ $errors->first('password_confirmation') }}</p>

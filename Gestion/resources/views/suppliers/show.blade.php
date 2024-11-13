@@ -1,7 +1,9 @@
 <!--//* NICE_TO_HAVE::(nice_to_have) lorsqu'on clique sur "modifier", ne pas afficher le bouton enregistrer si il n'y a pas de changement (sinon, je fais enregistrer et ça change la date sans modification)-->
 <!--//* NICE_TO_HAVE::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
-<!--//* NICE_TO_HAVE::Potentiel nice to have, est-ce qu'on veut laisser le invalid si la personne quitte le modal de refus et reviens après ?-->
-
+<!--//* NICE_TO_HAVE::Potentiel nice to have, est-ce qu'on veut laisser le invalid si la personne quitte le modal de refus et reviens après ? Même chose pour le reste de la fiche-->
+<!--//? REMARQUES P/S::Quand il n'y a aucune catégorie qui est sélectionnée et qu'on enregistre, est-ce qu'on veut que ca affiche que la modif n'a pas fonctionné (toast)? Si l'utilisateur doit mettre 
+    //? au moins 1 catégorie mettre un message d'erreur à la place peut-être.
+-->
 @extends('layouts.app')
 
 @section('css')
@@ -1363,6 +1365,4 @@
 <script src=" {{ asset('js/suppliers/show/rbq/changeType.js') }} "></script>
 <script src=" {{ asset('js/suppliers/productsServices.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/productServices/edit.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/productServices/save.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/productServices/validation.js') }} "></script>
 @endsection
