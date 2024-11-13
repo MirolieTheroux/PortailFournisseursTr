@@ -1136,7 +1136,7 @@
       </div><!--FIN LICENCE RBQ-->
       <!--PIÈCES JOINTES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
-        <form method="POST" action="{{route('suppliers.updateAttachments', [$supplier])}}" enctype="multipart/form-data">
+        <form class="w-100" method="POST" action="{{route('suppliers.updateAttachments', [$supplier])}}" enctype="multipart/form-data">
         @csrf
           <div class="bg-white rounded my-2 w-100 form-section">
             <h1 class="text-center">{{__('form.attachmentFilesTitle')}}</h1>
@@ -1154,29 +1154,31 @@
                     <div class="text-start invalid-feedback attachment" id="attachmentSameFileName" style="display: none;">{{__('form.attachmentSameFileName')}}</div>
                     <div class="text-start invalid-feedback attachment" id="attachmentFilesExceedSize" style="display: none;">{{__('form.attachmentFilesExceedSize')}}</div>
                   </div>
-                  <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill col-2 text-center pt-1" width="40" height="40" viewBox="0 0 16 16" style="cursor: pointer;">
+                  <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill col-2 text-center pt-1 removeFile" width="40" height="40" viewBox="0 0 16 16" style="cursor: pointer;">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                   </svg>
                 </div>
-                <table class="table d-none attachments">
-                  <tbody>
-                    <tr>
-                      <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
-                      <td class="text-center" id="fileName"></td>
-                    </tr>
-                    <tr>
-                      <td class="fw-bold">{{__('form.attachmentFileSize')}}</td>
-                      <td class="text-center" id="fileSize"></td>
-                    </tr>
-                    <tr>
-                      <td class="fw-bold">{{__('form.attachmentAddedFileDate')}}</td>
-                      <td class="text-center" id="addedFileDate"></td>
-                    </tr>
-                    <tr class="d-none">
-                      <td class="text-center" id="valueInput"></td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div>
+                  <table class="table d-none attachments">
+                    <tbody>
+                      <tr>
+                        <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
+                        <td class="text-center" id="fileName"></td>
+                      </tr>
+                      <tr>
+                        <td class="fw-bold">{{__('form.attachmentFileSize')}}</td>
+                        <td class="text-center" id="fileSize"></td>
+                      </tr>
+                      <tr>
+                        <td class="fw-bold">{{__('form.attachmentAddedFileDate')}}</td>
+                        <td class="text-center" id="addedFileDate"></td>
+                      </tr>
+                      <tr class="d-none">
+                        <td class="text-center" id="valueInput"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               <div class="col-12">
                 <div class="form-floating h-100" id="div-attachmentFilesList">
                   <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
@@ -1203,7 +1205,7 @@
                           <div class="col-2 fs-6 text-center addedFileDate">
                             {{$file->deposit_date}}
                           </div>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removeAttachment " viewBox="0 0 16 16" style="cursor:pointer;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removeAttachment d-none" viewBox="0 0 16 16" style="cursor:pointer;">
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                           </svg>
                         </div>
@@ -1362,4 +1364,6 @@
 <script src=" {{ asset('js/suppliers/productsServices.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/productServices/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/attachments/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/attachments/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/attachments/save.js') }} "></script>
 @endsection
