@@ -489,19 +489,27 @@ class SuppliersController extends Controller
       $supplier->product_service_detail = $request->product_service_detail;
       $supplier->save();
 
-      //Code pour supprimer une categorie
+      
       foreach ($supplier->productsServices as $productService) {
-        if(!in_array($productService->code, $request->produits_services)){
-          $supplier->productsServices()->detach($productService->code);
+        if($request->filled('produits_services')){
+          if(!in_array($productService->code, $request->produits_services)){
+            $supplier->productsServices()->detach($productService->code);
+          }
         }
+        else{
+          $supplier->productsServices()->detach();
+        }
+       
       }
 
-      //Code pour ajouter une categorie
+      
       $supplierExistingProductsServices = $supplier->productsServices->pluck('code')->toArray();
-      foreach ($request->produits_services as $productServiceCode) {
-        if(!in_array($productServiceCode, $supplierExistingProductsServices)){
-          $productService = ProductService::where('code', $productServiceCode)->firstOrFail();
-          $supplier->productsServices()->attach($productService);
+      if($request->filled('produits_services')){
+        foreach ($request->produits_services as $productServiceCode) {
+          if(!in_array($productServiceCode, $supplierExistingProductsServices)){
+            $productService = ProductService::where('code', $productServiceCode)->firstOrFail();
+            $supplier->productsServices()->attach($productService);
+          }
         }
       }
 

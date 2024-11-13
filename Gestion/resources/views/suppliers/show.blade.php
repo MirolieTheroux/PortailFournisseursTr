@@ -1,9 +1,7 @@
 <!--//* NICE_TO_HAVE::(nice_to_have) lorsqu'on clique sur "modifier", ne pas afficher le bouton enregistrer si il n'y a pas de changement (sinon, je fais enregistrer et ça change la date sans modification)-->
 <!--//* NICE_TO_HAVE::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
 <!--//* NICE_TO_HAVE::Potentiel nice to have, est-ce qu'on veut laisser le invalid si la personne quitte le modal de refus et reviens après ? Même chose pour le reste de la fiche-->
-<!--//? REMARQUES P/S::Quand il n'y a aucune catégorie qui est sélectionnée et qu'on enregistre, est-ce qu'on veut que ca affiche que la modif n'a pas fonctionné (toast)? Si l'utilisateur doit mettre 
-    //? au moins 1 catégorie mettre un message d'erreur à la place peut-être.
--->
+
 @extends('layouts.app')
 
 @section('css')
@@ -778,7 +776,7 @@
 
       <!--PRODUITS ET SERVICES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="productsServices-section">
-        <form action="{{ route('suppliers.updateProductsServices', ['supplier'=>$supplier]) }}" method="post" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+        <form class="w-100" action="{{ route('suppliers.updateProductsServices', ['supplier'=>$supplier]) }}" method="post" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
           @csrf
           <div class=" bg-white rounded my-2 w-100 form-section">
             <div class="row">
@@ -793,24 +791,28 @@
                   <div class="form-floating">
                     <div class="form-control" placeholder="selected" id="products-selected-show" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
                       <div class="mt-lg-0 mt-md-4" id="service-selected-show">
-                        @foreach ($suppliersGroupedByNatureAndCategory as $nature => $categories)
-                        <div class="row pb-3">
-                          <h6 class="mb-3 fw-bold">{{ $nature }}</h6>
-                          @foreach ($categories as $categoryCode => $categoryData)
-                          <div class="row">
-                            <h6 class="fst-italic"> {{ $categoryCode }} - {{ $categoryData['category_name'] }}</h6>
-                            @foreach ($categoryData['products'] as $product)
-                            <div class="col-3 pb-1">
-                              {{ $product->code }}
-                            </div>
-                            <div class="col-9 pb-1">
-                              {{ $product->description }}
+                        @if(Count($suppliersGroupedByNatureAndCategory) > 0)
+                          @foreach ($suppliersGroupedByNatureAndCategory as $nature => $categories)
+                          <div class="row pb-3">
+                            <h6 class="mb-3 fw-bold">{{ $nature }}</h6>
+                            @foreach ($categories as $categoryCode => $categoryData)
+                            <div class="row">
+                              <h6 class="fst-italic"> {{ $categoryCode }} - {{ $categoryData['category_name'] }}</h6>
+                              @foreach ($categoryData['products'] as $product)
+                              <div class="col-3 pb-1">
+                                {{ $product->code }}
+                              </div>
+                              <div class="col-9 pb-1">
+                                {{ $product->description }}
+                              </div>
+                              @endforeach
                             </div>
                             @endforeach
                           </div>
                           @endforeach
-                        </div>
-                        @endforeach
+                        @else
+                          <h6 class="col-12 mb-3 fw-bold text-center">{{__('show.noProductOrService')}}</h6>
+                        @endif
                       </div>
                     </div>
                     <div class="note"><br></div>
