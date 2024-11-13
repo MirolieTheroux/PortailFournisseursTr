@@ -22,6 +22,7 @@ use App\Http\Requests\SupplierUpdateContactDetailsRequest;
 use App\Http\Requests\SupplierUpdateContactsRequest;
 use App\Http\Requests\SupplierUpdateIdentificationRequest;
 use App\Http\Requests\SupplierUpdateRbqRequest;
+use App\Http\Requests\SupplierUpdateFinanceRequest;
 
 use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -504,6 +505,8 @@ class SuppliersController extends Controller
         }
       }
 
+      $this->changeStatus($supplier, "modified");
+
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePS'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#productsServices-section');
@@ -512,7 +515,32 @@ class SuppliersController extends Controller
       Log::debug($e);
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
     }
+  }
 
+  /**
+   * Update finance of supplier.
+   */
+  public function updateFinance(SupplierUpdateFinanceRequest $request, Supplier $supplier)
+  {
+    Log::debug($request);
+    try {
+      $supplier->tps_number = $request->financesTps;
+      $supplier->tvq_number = $request->financesTvq;
+      $supplier->payment_condition = $request->financesPaymentConditions;
+      $supplier->currency = $request->currency;
+      $supplier->communication_mode = $request->communication_mode;
+      $supplier->save();
+      
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateFinance'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#finances-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
   }
 
     public function filter(Request $request)

@@ -778,7 +778,7 @@
 
       <!--PRODUITS ET SERVICES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="productsServices-section">
-        <form action="{{ route('suppliers.updateProductsServices', ['supplier'=>$supplier]) }}" method="post">
+        <form action="{{ route('suppliers.updateProductsServices', ['supplier'=>$supplier]) }}" method="post" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
           @csrf
           <div class=" bg-white rounded my-2 w-100 form-section">
             <div class="row">
@@ -1255,83 +1255,116 @@
       </div><!--FIN PIÈCES JOINTES-->
       <!--FINANCES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="finances-section">
-        <div class="bg-white rounded my-2 form-section w-65">
-          <div class="row">
-            <div class="col-12 text-center">
-              <h1>{{__('form.financesTitle')}}</h1>
-            </div>
-          </div>
-          <div class="row px-3 mb-3">
-            <div class="col-12 text-center pb-3">
-              <div class="form-floating pe-2">
-                <input type="text" name="financesTps" id="financesTps" class="form-control" value="{{$supplier->tps_number ?? __('form.noTpsNumber') }}" placeholder="" maxlength="8" disabled>
-                <label for="financesTps" id="">{{__('form.tpsNumber')}}</label>
-              </div>
-            </div>
-            <div class="col-12 text-center pb-3">
-              <div class="form-floating pe-2">
-                <input type="text" name="financesTvq" id="financesTvq" class="form-control" value="{{$supplier->tvq_number ?? __('form.noTvqNumber') }}" placeholder="" maxlength="8" disabled>
-                <label for="financesTvq" id="">{{__('form.tvqNumber')}}</label>
-              </div>
-            </div>
-            <div class="col-12 text-center pb-3">
-              <div class="form-floating pe-2">
-                <!-- J'ai transcrit tel quel les choix dans le devis 
-                    Si autre idée pour le nom des variables..
-                 -->
-                <select name="financesPaymentConditions" id="financesPaymentConditions" class="form-select" aria-label="" disabled>
-                  <option selected>{{__('form.paymentConditionsDefault')}}</option>
-                  <option value="nowPaymentNoDeduction" {{$supplier->payment_condition == 'nowPaymentNoDeduction' ? 'selected' : null  }}>{{__('form.nowPaymentNoDeduction')}}</option>
-                  <option value="nowPaymentNoDeduction15th" {{$supplier->payment_condition == 'nowPaymentNoDeduction15th' ? 'selected' : null  }}>{{__('form.nowPaymentNoDeduction15th')}}</option>
-                  <option value="15days2" {{$supplier->payment_condition == '15days2' ? 'selected' : null  }}>{{__('form.15days2')}}</option>
-                  <option value="until15th" {{$supplier->payment_condition == 'until15th' ? 'selected' : null  }}>{{__('form.until15th')}}</option>
-                  <option value="10days2" {{$supplier->payment_condition == '10days2' ? 'selected' : null  }}>{{__('form.10days2')}}</option>
-                  <option value="15daysNoDeduction" {{$supplier->payment_condition == '15daysNoDeduction' ? 'selected' : null  }}>{{__('form.15daysNoDeduction')}}</option>
-                  <option value="30daysNoDeduction" {{$supplier->payment_condition == '30daysNoDeduction' ? 'selected' : null  }}>{{__('form.30daysNoDeduction')}}</option>
-                  <option value="45daysNoDeduction" {{$supplier->payment_condition == '45daysNoDeduction' ? 'selected' : null  }}>{{__('form.45daysNoDeduction')}}</option>
-                  <option value="60daysNoDeduction" {{$supplier->payment_condition == '60daysNoDeduction' ? 'selected' : null  }}>{{__('form.60daysNoDeduction')}}</option>
-                </select>
-                <label for="financesPaymentConditions" id="">{{__('form.paymentConditions')}}</label>
-              </div>
-            </div>
-            <div class="row pb-3">
-              <div class="col-6">
-                <div class="w-100">
-                  <h5 class="text-decoration-underline">{{__('form.currency')}}</h5>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" value="1" {{$supplier->currency == '1' ? 'checked' : null}} name="flexRadioCAD" id="flexRadioCAD" disabled>
-                    <label class="form-check-label" for="flexRadioCAD">{{__('form.canadianCurrency')}}</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" value="2" {{$supplier->currency == '2' ? 'checked' : null}} name="flexRadioUS" id="flexRadioUS" disabled>
-                    <label class="form-check-label" for="flexRadioUS">{{__('form.usCurrency')}}</label>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="w-100">
-                  <h5 class="text-decoration-underline">{{__('form.communication')}}</h5>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" value="1" {{$supplier->communication_mode == '1' ? 'checked' : null}} name="flexRadioEmail" id="flexRadioEmail" disabled>
-                    <label class="form-check-label" for="flexRadioEmail">{{__('form.email')}}</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" value="2" {{$supplier->communication_mode == '2' ? 'checked' : null}} name="flexRadioMail" id="flexRadioMail" disabled>
-                    <label class="form-check-label" for="flexRadioMail">{{__('form.mail')}}</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            @role(['responsable', 'admin'])
+        <form action="{{ route('suppliers.updateFinance', ['supplier'=>$supplier]) }}" method="post" class="need-validation w-65" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+        @csrf
+        @method('PATCH')
+          <div class="bg-white rounded my-2 form-section">
             <div class="row">
-              <div class="col-12 d-flex justify-content-center mb-2">
-                <button id="btnEditFinances" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-                <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+              <div class="col-12 text-center">
+                <h1>{{__('form.financesTitle')}}</h1>
               </div>
             </div>
-            @endrole
+            <div class="row px-3 mb-3">
+              <div class="col-12 text-center pb-3">
+                <div class="form-floating pe-2">
+                  <input type="text" name="financesTps" id="financesTps" class="form-control" value="{{$supplier->tps_number ?? 'N/A' }}" placeholder="" maxlength="15" disabled>
+                  <label for="financesTps" id="">{{__('form.tpsNumber')}}</label>
+                  <div class="text-start invalid-feedback tpsInvalidRequired" style="display: none;">{{__('form.financeTpsValidationRequired')}}</div>
+                  <div class="text-start invalid-feedback tpsInvalidFormat" style="display: none;">{{__('form.financeTpsValidationFormat')}}</div>
+                  @if($errors->has('financesTps'))
+                    <p>{{ $errors->first('financesTps') }}</p>
+                  @endif
+                </div>
+              </div>
+              <div class="col-12 text-center pb-3">
+                <div class="form-floating pe-2">
+                  <input type="text" name="financesTvq" id="financesTvq" class="form-control" value="{{$supplier->tvq_number ?? 'N/A' }}" placeholder="" maxlength="16" disabled>
+                  <label for="financesTvq" id="">{{__('form.tvqNumber')}}</label>
+                  <div class="text-start invalid-feedback tvqInvalidRequired" style="display: none;">{{__('form.financeTvqValidationRequired')}}</div>
+                  <div class="text-start invalid-feedback tvqInvalidFormat" style="display: none;">
+                    <div>{{__('form.financeTvqValidationFormat')}}</div>
+                    <div class="invalidTvqFormat">{{__('form.financeTvqValidationFormat10Number')}}</div>
+                    <div class="invalidTvqFormat">{{__('form.financeTvqValidationFormatTQ')}}</div>
+                    <div class="invalidTvqFormat">{{__('form.financeTvqValidationFormatNR')}}</div>
+                    
+                  </div>
+                  @if($errors->has('financesTvq'))
+                    <p>{{ $errors->first('financesTvq') }}</p>
+                  @endif
+                </div>
+              </div>
+              <div class="col-12 text-center pb-3">
+                <div class="form-floating pe-2">
+                  <select name="financesPaymentConditions" id="financesPaymentConditions" class="form-select" aria-label="" disabled>
+                    <option value="" selected>{{__('form.paymentConditionsDefault')}}</option>
+                    <option value="nowPaymentNoDeduction" {{$supplier->payment_condition == 'nowPaymentNoDeduction' ? 'selected' : null  }}>{{__('form.nowPaymentNoDeduction')}}</option>
+                    <option value="nowPaymentNoDeduction15th" {{$supplier->payment_condition == 'nowPaymentNoDeduction15th' ? 'selected' : null  }}>{{__('form.nowPaymentNoDeduction15th')}}</option>
+                    <option value="15days2" {{$supplier->payment_condition == '15days2' ? 'selected' : null  }}>{{__('form.15days2')}}</option>
+                    <option value="until15th" {{$supplier->payment_condition == 'until15th' ? 'selected' : null  }}>{{__('form.until15th')}}</option>
+                    <option value="10days2" {{$supplier->payment_condition == '10days2' ? 'selected' : null  }}>{{__('form.10days2')}}</option>
+                    <option value="15daysNoDeduction" {{$supplier->payment_condition == '15daysNoDeduction' ? 'selected' : null  }}>{{__('form.15daysNoDeduction')}}</option>
+                    <option value="30daysNoDeduction" {{$supplier->payment_condition == '30daysNoDeduction' ? 'selected' : null  }}>{{__('form.30daysNoDeduction')}}</option>
+                    <option value="45daysNoDeduction" {{$supplier->payment_condition == '45daysNoDeduction' ? 'selected' : null  }}>{{__('form.45daysNoDeduction')}}</option>
+                    <option value="60daysNoDeduction" {{$supplier->payment_condition == '60daysNoDeduction' ? 'selected' : null  }}>{{__('form.60daysNoDeduction')}}</option>
+                  </select>
+                  <label for="financesPaymentConditions" id="">{{__('form.paymentConditions')}}</label>
+                  <div class="text-start invalid-feedback paymentInvalidRequired" style="display: none;">{{__('form.financeTpsValidationRequired')}}</div>
+                  @if($errors->has('financesPaymentConditions'))
+                    <p>{{ $errors->first('financesPaymentConditions') }}</p>
+                  @endif
+                </div>
+              </div>
+              <div class="row pb-3">
+                <div class="col-6">
+                  <div id="currencyRadios" class="w-100">
+                    <h5 class="text-decoration-underline">{{__('form.currency')}}</h5>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" value="1" {{$supplier->currency == '1' ? 'checked' : null}} name="currency" id="flexRadioCAD" disabled>
+                      <label class="form-check-label" for="flexRadioCAD">{{__('form.canadianCurrency')}}</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" value="2" {{$supplier->currency == '2' ? 'checked' : null}} name="currency" id="flexRadioUS" disabled>
+                      <label class="form-check-label" for="flexRadioUS">{{__('form.usCurrency')}}</label>
+                    </div>
+                    <div class="text-start invalid-feedback currencyInvalidRequired" style="display: none;">{{__('form.financeCurrencyValidationRequired')}}</div>
+                    @if($errors->has('currency'))
+                      <p>{{ $errors->first('currency') }}</p>
+                    @endif
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div id="commnucationModeRadios" class="w-100">
+                    <h5 class="text-decoration-underline">{{__('form.communication')}}</h5>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" value="1" {{$supplier->communication_mode == '1' ? 'checked' : null}} name="communication_mode" id="flexRadioEmail" disabled>
+                      <label class="form-check-label" for="flexRadioEmail">{{__('form.email')}}</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" value="2" {{$supplier->communication_mode == '2' ? 'checked' : null}} name="communication_mode" id="flexRadioMail" disabled>
+                      <label class="form-check-label" for="flexRadioMail">{{__('form.mail')}}</label>
+                    </div>
+                    <div class="text-start invalid-feedback communicationModeInvalidRequired" style="display: none;">{{__('form.financeCommunicationModeValidationRequired')}}</div>
+                    @if($errors->has('communication_mode'))
+                      <p>{{ $errors->first('communication_mode') }}</p>
+                    @endif
+                  </div>
+                </div>
+              </div>
+              @role(['responsable', 'admin'])
+              <div class="row">
+                <div class="col-12 d-flex justify-content-center mb-2">
+                  @php
+                    $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+                  @endphp
+                  <a id="btnCancelFinances" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#finances-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                  <button id="btnEditFinances" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                  <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+                </div>
+              </div>
+              @endrole
+            </div>
           </div>
-        </div>
+        </form>
       </div><!--FIN FINANCES-->
     </div>
   </div>
@@ -1362,4 +1395,7 @@
 <script src=" {{ asset('js/suppliers/show/rbq/changeType.js') }} "></script>
 <script src=" {{ asset('js/suppliers/productsServices.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/productServices/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/finance/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/finance/save.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/finance/validation.js') }} "></script>
 @endsection

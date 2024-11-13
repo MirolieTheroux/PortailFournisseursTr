@@ -60,3 +60,7 @@ cursor: pointer;
 #deniedReason{
   min-height: 120px;
 }
+
+.invalidTvqFormat{
+  padding-left: 20px;
+}
