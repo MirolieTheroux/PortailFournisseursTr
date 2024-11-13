@@ -161,7 +161,7 @@
                   <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
                   <div id="password_confirmationStart"></br></div>
                   <div class="valid-feedback" id="password_confirmationValid" style="display: none;"></br></div>
-                  <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">{{__('form.productsAndServiceValidationMDPConfirm')}}</div>
+                  <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">{{__('form.identificationValidationMDPConfirm')}}</div>
                 </div>
                 @if($errors->has('password_confirmation'))
                 <p>{{ $errors->first('password_confirmation') }}</p>
@@ -471,7 +471,7 @@
             <label for="contactDetailsOfficeNumber" id="officeNumber">{{__('form.officeNumber')}}</label>
           </div>
         </div>
-        <div class="row mb-4">
+        <div class="row mb-3">
           @if($errors->has('contactDetailsCivicNumber'))
           <p>{{ $errors->first('contactDetailsCivicNumber') }}</p>
           @endif
@@ -519,7 +519,7 @@
               <label for="contactDetailsProvince">{{__('form.province')}}</label>
             </div>
           </div>
-          <div class="row mb-4">
+          <div class="row mb-3">
             @if($errors->has('contactDetailsInputCity'))
             <p>{{ $errors->first('contactDetailsInputCity') }}</p>
             @endif
@@ -546,7 +546,7 @@
             </div>
           </div>
 
-          <div class="text-center mb-4">
+          <div class="text-center mb-3">
             <div class="form-floating">
               <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control" value="{{ old('contactDetailsWebsite') }}" placeholder="" maxlength="64">
               <label for="contactDetailsWebsite">{{__('form.website')}}</label>
@@ -584,7 +584,7 @@
             </svg>
           </div>
         </div>
-        <div class="row mb-4">
+        <div class="row mb-3">
           @if($errors->has('contactDetailsPhoneNumber'))
           <p>{{ $errors->first('contactDetailsPhoneNumber') }}</p>
           @endif
