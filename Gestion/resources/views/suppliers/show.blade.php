@@ -403,9 +403,6 @@
         </form>  
       </div><!--FIN IDENTIFICATION-->
       <!--COORDONNÉES-->
-      <!--//TODO::
-        - Supprimer les # de téléphones dans la BD
-      -->
       <div class="container d-flex flex-column h-100 show-section d-none" id="contactDetails-section">
         <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
           @csrf
