@@ -56,5 +56,3 @@ function emptyNAinputsContactDetails() {
     }
   });
 }
-
-//add delete icon for each phonenumbers already there

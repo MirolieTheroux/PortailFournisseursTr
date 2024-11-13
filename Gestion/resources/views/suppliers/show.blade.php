@@ -4,6 +4,14 @@
 <!--//? REMARQUES P/S::Quand il n'y a aucune catégorie qui est sélectionnée et qu'on enregistre, est-ce qu'on veut que ca affiche que la modif n'a pas fonctionné (toast)? Si l'utilisateur doit mettre 
     //? au moins 1 catégorie mettre un message d'erreur à la place peut-être.
 -->
+<!--//* NICE_TO_HAVE::
+- Est ce qu'on met un message quand il l'utilisateur enregistre, mais qu'il n'y a pas de modification de détectée ?
+- Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
+-->
+<!--//* NICE_TO_HAVE::
+- Mettre texte et curseur du textarea pour la raison du refus au début.
+- Mettre les statuts égaux 
+-->
 @extends('layouts.app')
 
 @section('css')
@@ -107,10 +115,6 @@
       <!--ETAT DEMANDE-->
       <!--//TODO::
         - Afficher dans le popover les modifications quand la BD sera faite.
-      -->
-      <!--//* NICE_TO_HAVE::
-        - Mettre texte et curseur du textarea pour la raison du refus au début.
-        - Mettre les statuts égaux 
       -->
       <!-- Modal for History -->
       <div class="modal fade" id="modalHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="statusHistory" aria-hidden="true">
@@ -327,11 +331,6 @@
           </div>
         </form>
       </div><!--FIN ETAT DEMANDE-->
-      <!--//* NICE_TO_HAVE::
-       - Voir pourquoi quand on enregistre les boutons disparaissent.
-       - Est ce qu'on met un message quand il l'utilisateur enregistre, mais qu'il n'y a pas de modification de détectée ?
-       - Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
-       -->
       <!--IDENTIFICATION-->
       <div class="container d-flex flex-column h-100 show-section" id="identification-section">
         <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
@@ -1139,18 +1138,11 @@
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
         <form method="POST" action="{{route('suppliers.updateAttachments', [$supplier])}}" enctype="multipart/form-data">
         @csrf
-          <div class=" bg-white rounded my-2 form-section">
-            <div class="row">
-              <div class="col-12 text-center">
-                <h1>{{__('form.attachmentFilesTitle')}}</h1>
-              </div>
-            </div>
+          <div class="bg-white rounded my-2 w-100 form-section">
+            <h1 class="text-center">{{__('form.attachmentFilesTitle')}}</h1>
+            <h2 class="text-center section-subtitle mb-3">{{__('form.attachmentFilesSection')}}</h2>
             <div class="row px-3 mb-3">
-              <div class="col-12 d-flex flex-column justify-content-between mb-3">
-                <h2 class="text-center section-subtitle">{{__('form.attachmentFilesSection')}}</h2>
-              </div>
-              <div class=" col-12 d-flex flex-column justify-content-between">
-                <div class="row flex-row justify-content-between d-none">
+              <div class="row d-flex d-none align-items-center justify-content-center attachments">
                   <div class="col-10">
                     <div>
                       <input class="form-control" type="file" id="formFile" disabled>
@@ -1162,13 +1154,11 @@
                     <div class="text-start invalid-feedback attachment" id="attachmentSameFileName" style="display: none;">{{__('form.attachmentSameFileName')}}</div>
                     <div class="text-start invalid-feedback attachment" id="attachmentFilesExceedSize" style="display: none;">{{__('form.attachmentFilesExceedSize')}}</div>
                   </div>
-                  <div class="col-2 text-center pt-1">
-                    <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                    </svg>
-                  </div>
+                  <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill col-2 text-center pt-1" width="40" height="40" viewBox="0 0 16 16" style="cursor: pointer;">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                  </svg>
                 </div>
-                <table class="table d-none">
+                <table class="table d-none attachments">
                   <tbody>
                     <tr>
                       <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
@@ -1187,7 +1177,6 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
               <div class="col-12">
                 <div class="form-floating h-100" id="div-attachmentFilesList">
                   <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
@@ -1202,9 +1191,9 @@
                         <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
                         <div class="col-2 "></div>
                       </div>
-                      <div class="d-flex flex-column justify-content-between" id="attachmentFilesList">
+                      <div id="attachmentFilesList">
                         @foreach ($supplier->attachments as $file)
-                        <div class="row mb-2 ">
+                        <div class="d-flex flex-row align-items-center mb-2">
                           <div class="col-6 fs-6 fileName">
                             <a href="{{ route('attachments.show', ['supplier' => $supplier->id, 'attachment' => $file->id]) }}" target="_blank">{{ $file->name }}</a>
                           </div>
@@ -1214,6 +1203,9 @@
                           <div class="col-2 fs-6 text-center addedFileDate">
                             {{$file->deposit_date}}
                           </div>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removeAttachment " viewBox="0 0 16 16" style="cursor:pointer;">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                          </svg>
                         </div>
                         @endforeach
                       </div>
@@ -1251,6 +1243,7 @@
             @role(['responsable', 'admin'])
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-2">
+                <a id="btnCancelAttachmentFiles" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#attachments-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
                 <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
                 <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
@@ -1368,4 +1361,5 @@
 <script src=" {{ asset('js/suppliers/show/rbq/changeType.js') }} "></script>
 <script src=" {{ asset('js/suppliers/productsServices.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/productServices/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/attachments/edit.js') }} "></script>
 @endsection
