@@ -12,6 +12,5 @@ class MailsController extends Controller
     public function sendInscriptionMail(Supplier $supplier)
     {
         Mail::to($supplier->email)->send(new InscriptionMail($supplier));
-        return response()->json(['message' => 'Welcome email sent successfully']);
     }
 }

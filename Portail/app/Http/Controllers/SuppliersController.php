@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SupplierRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Controllers\MailsController;
 use App\Models\Supplier;
 use App\Models\StatusHistory;
 use App\Models\Contact;
@@ -305,6 +306,9 @@ class SuppliersController extends Controller
 
       $reussi=Auth::attempt(['email' => $request->email,'password' => $request->password]);
       if($reussi){
+        $user = Auth::user();
+        $mailsController = new MailsController();
+        $mailsController->sendInscriptionMail($user);
         return redirect()->route('suppliers.show')->with('message',"Demande d'inscription envoyée");
       }
     }
