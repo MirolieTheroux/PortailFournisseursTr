@@ -22,6 +22,7 @@ use App\Http\Requests\SupplierUpdateContactDetailsRequest;
 use App\Http\Requests\SupplierUpdateContactsRequest;
 use App\Http\Requests\SupplierUpdateIdentificationRequest;
 use App\Http\Requests\SupplierUpdateRbqRequest;
+use App\Http\Requests\SupplierUpdateFinanceRequest;
 
 use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -489,21 +490,31 @@ class SuppliersController extends Controller
       $supplier->product_service_detail = $request->product_service_detail;
       $supplier->save();
 
-      //Code pour supprimer une categorie
+      
       foreach ($supplier->productsServices as $productService) {
-        if(!in_array($productService->code, $request->produits_services)){
-          $supplier->productsServices()->detach($productService->code);
+        if($request->filled('produits_services')){
+          if(!in_array($productService->code, $request->produits_services)){
+            $supplier->productsServices()->detach($productService->code);
+          }
+        }
+        else{
+          $supplier->productsServices()->detach();
+        }
+       
+      }
+
+      
+      $supplierExistingProductsServices = $supplier->productsServices->pluck('code')->toArray();
+      if($request->filled('produits_services')){
+        foreach ($request->produits_services as $productServiceCode) {
+          if(!in_array($productServiceCode, $supplierExistingProductsServices)){
+            $productService = ProductService::where('code', $productServiceCode)->firstOrFail();
+            $supplier->productsServices()->attach($productService);
+          }
         }
       }
 
-      //Code pour ajouter une categorie
-      $supplierExistingProductsServices = $supplier->productsServices->pluck('code')->toArray();
-      foreach ($request->produits_services as $productServiceCode) {
-        if(!in_array($productServiceCode, $supplierExistingProductsServices)){
-          $productService = ProductService::where('code', $productServiceCode)->firstOrFail();
-          $supplier->productsServices()->attach($productService);
-        }
-      }
+      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePS'))
@@ -513,7 +524,32 @@ class SuppliersController extends Controller
       Log::debug($e);
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
     }
+  }
 
+  /**
+   * Update finance of supplier.
+   */
+  public function updateFinance(SupplierUpdateFinanceRequest $request, Supplier $supplier)
+  {
+    Log::debug($request);
+    try {
+      $supplier->tps_number = $request->financesTps;
+      $supplier->tvq_number = $request->financesTvq;
+      $supplier->payment_condition = $request->financesPaymentConditions;
+      $supplier->currency = $request->currency;
+      $supplier->communication_mode = $request->communication_mode;
+      $supplier->save();
+      
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateFinance'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#finances-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
   }
 
     /**

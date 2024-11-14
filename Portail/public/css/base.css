@@ -42,8 +42,20 @@ html, body {
   padding: 0;
 }
 
+.section-title{
+    font-size: 24pt;
+}
+
+.section-subtitle{
+    font-size: 16pt;
+}
+
+.form-label{
+    font-size: 10pt;
+}
+
 body{
-    background-color: #EEEEF0;
+    background-color: var(--light_grey);
 }
 
 div{
@@ -57,6 +69,22 @@ div{
 }
 .button-darkblue:hover{
     background-color: #10315a;
+}
+a.button-darkblue{
+    text-decoration-line: none;
+}
+a.button-darkblue:hover{
+    color: white;
+    cursor: pointer;
+}
+
+.button-red{
+    border: 0;
+    background-color: var(--red);
+    color: white;
+}
+.button-red:hover{
+    background-color: #aa0039;
 }
 
 .button-add-darkblue{
@@ -72,6 +100,9 @@ div{
     color : var(--dark_blue);
     background-color: white;
     border: none;
+}
+a.previous-button{
+    text-decoration-line: none;
 }
 
 .previous-button:hover{
@@ -93,6 +124,9 @@ input:focus, select:focus, textarea:focus{
 .bg-lightblue{
     background-color: var(--light_blue);
 }
+.bg-green{
+    background-color: var(--green);
+}
 
 .full-viewport{
     height: calc(100vh - var(--header_logo_height)) !important;
@@ -102,11 +136,6 @@ input:focus, select:focus, textarea:focus{
 .sticky-under-navbar{
     position: sticky;
     top: var(--header_logo_height);
-}
-
-.full-height{
-    min-height: 100% !important;
-    height: 100% !important;
 }
 
 .rounded-custom{
@@ -123,4 +152,18 @@ input:focus, select:focus, textarea:focus{
 }
 .rounded-bottom-right{
   border-bottom-right-radius: 1.25rem;
+}
+
+/* PRODUIT ET SERVICE */
+.highlight {
+    background-color: yellow; /* Change this to your desired highlight color */
+    font-weight: bold; /* Optional: make the highlighted text bold */
+}
+
+.form-floating>.form-control:not(:placeholder-shown)~label.labelbackground{
+    margin: calc(1rem - 3px) calc(0.75rem - 2px);
+    padding: 0rem 0rem;
+    height: auto;
+    background-color: white;
+    opacity: 0.95;
 }
