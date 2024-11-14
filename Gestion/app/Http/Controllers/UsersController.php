@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\facades\Auth;
@@ -63,11 +64,12 @@ class UsersController extends Controller
   }
 
   /**
-   * Display the specified resource.
+   * Display settings.
    */
-  public function show(string $id)
+  public function show()
   {
-      //
+    $users = User::all();
+    return View('users.settings',compact('users'));
   }
 
   /**

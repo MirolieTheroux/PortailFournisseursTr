@@ -42,4 +42,4 @@ Route::post('/suppliers/update/attachments/{supplier}',[SuppliersController::cla
 Route::patch('/suppliers/update/finance/{supplier}',[SuppliersController::class, 'updateFinance'])->name('suppliers.updateFinance');
 
 Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class, 'show'])->name('attachments.show');
-
+Route::get('/settings', [UsersController::class, 'show'])->name('users.settings');
