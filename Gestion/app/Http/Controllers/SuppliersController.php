@@ -528,7 +528,7 @@ class SuppliersController extends Controller
       Attachment::whereIn('id', $idsToDelete)->delete();
       
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
-      ->with('message',__('show.successUpdatePS'))
+      ->with('message',__('show.successUpdatePJ'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#attachments-section');
 
     } catch (\Throwable $e) {
