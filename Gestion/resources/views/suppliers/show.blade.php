@@ -1210,7 +1210,7 @@
                   </div>
                 </div>
               </div>
-              <div class="text-end inline-block d-none">
+              <div class="text-end inline-block d-none" id="filesSize">
                 <p class="mb-0" id="totalSize">/75Mo</p>
               </div>
               @if(!is_null(old('fileNames')))
