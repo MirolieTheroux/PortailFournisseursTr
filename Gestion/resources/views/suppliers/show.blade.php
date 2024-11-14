@@ -1135,43 +1135,6 @@
             <h1 class="text-center">{{__('form.attachmentFilesTitle')}}</h1>
             <h2 class="text-center section-subtitle mb-3">{{__('form.attachmentFilesSection')}}</h2>
             <div class="row px-3 mb-3">
-              <div class="row d-flex d-none align-items-center justify-content-center attachments">
-                  <div class="col-10">
-                    <div>
-                      <input class="form-control" type="file" id="formFile" disabled>
-                    </div>
-                    <div class="text-start invalid-feedback attachment" id="attachmentFileRequired" style="display: none;">{{__('form.attachmentFileRequired')}}</div>
-                    <div class="text-start invalid-feedback attachment" id="attachmentFileNameLength" style="display: none;">{{__('form.attachmentFileNameLength')}}</div>
-                    <div class="text-start invalid-feedback attachment" id="attachmentFileNameAlphaNum" style="display: none;">{{__('form.attachmentFileNameAlphaNum')}}</div>
-                    <div class="text-start invalid-feedback attachment" id="attachmentFileFormat" style="display: none;">{{__('form.attachmentFileFormat')}}</div>
-                    <div class="text-start invalid-feedback attachment" id="attachmentSameFileName" style="display: none;">{{__('form.attachmentSameFileName')}}</div>
-                    <div class="text-start invalid-feedback attachment" id="attachmentFilesExceedSize" style="display: none;">{{__('form.attachmentFilesExceedSize')}}</div>
-                  </div>
-                  <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill col-2 text-center pt-1 removeFile" width="40" height="40" viewBox="0 0 16 16" style="cursor: pointer;">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                  </svg>
-                </div>
-                <div>
-                  <table class="table d-none attachments">
-                    <tbody>
-                      <tr>
-                        <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
-                        <td class="text-center" id="fileName"></td>
-                      </tr>
-                      <tr>
-                        <td class="fw-bold">{{__('form.attachmentFileSize')}}</td>
-                        <td class="text-center" id="fileSize"></td>
-                      </tr>
-                      <tr>
-                        <td class="fw-bold">{{__('form.attachmentAddedFileDate')}}</td>
-                        <td class="text-center" id="addedFileDate"></td>
-                      </tr>
-                      <tr class="d-none">
-                        <td class="text-center" id="valueInput"></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
               <div class="col-12">
                 <div class="form-floating h-100" id="div-attachmentFilesList">
                   <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
@@ -1210,31 +1173,9 @@
                   </div>
                 </div>
               </div>
-              <div class="text-end inline-block d-none" id="filesSize">
+              <div class="text-end inline-block" id="filesSize">
                 <p class="mb-0" id="totalSize">/75Mo</p>
               </div>
-              @if(!is_null(old('fileNames')))
-              @foreach(old('fileNames') as $fileName)
-              <div hidden>
-                {{$fileNameIndex = "phoneTypes." . "$loop->index"}}
-                {{$fileSizeIndex = "fileSizes." . "$loop->index"}}
-                {{$fileTypeIndex = "fileTypes." . "$loop->index"}}
-                {{$addedFileDateIndex = "addedFileDates." . "$loop->index"}}
-              </div>
-              @if($errors->has($fileNameIndex))
-              <p class="m-0">{{ $errors->first($fileNameIndex) }}</p>
-              @endif
-              @if($errors->has($fileSizeIndex))
-              <p class="m-0">{{ $errors->first($fileSizeIndex) }}</p>
-              @endif
-              @if($errors->has($fileTypeIndex))
-              <p class="m-0">{{ $errors->first($fileTypeIndex) }}</p>
-              @endif
-              @if($errors->has($addedFileDateIndex))
-              <p class="m-0">{{ $errors->first($addedFileDateIndex) }}</p>
-              @endif
-              @endforeach
-              @endif
             </div>
             @role(['responsable', 'admin'])
             <div class="row">
@@ -1358,6 +1299,4 @@
 <script src=" {{ asset('js/suppliers/productsServices.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/productServices/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/attachments/edit.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/attachments/validation.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/attachments/save.js') }} "></script>
 @endsection

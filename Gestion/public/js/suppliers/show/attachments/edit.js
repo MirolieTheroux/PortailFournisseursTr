@@ -2,8 +2,6 @@ let attachmentsContainer;
 let btnCancelAttachments;
 let btnEditAttachments;
 let btnSaveAttachments;
-let attachmentForm;
-let attachmentInput;
 let removeAttachements;
 let filesSize;
 let totalSize;
@@ -13,6 +11,8 @@ let tempTotalSize = 0;
 document.addEventListener("DOMContentLoaded", function () {
   getAttachmentsSectionElements();
   addAttacmentsSectionListeners();
+  getTotalSizeFiles();
+  removeFiles();
 });
 
 function getAttachmentsSectionElements() {
@@ -20,8 +20,6 @@ function getAttachmentsSectionElements() {
   btnCancelAttachments = document.getElementById("btnCancelAttachmentFiles");
   btnEditAttachments = document.getElementById("btnEditAttachmentFiles");
   btnSaveAttachments = document.getElementById("btnSaveAttachmentFiles");
-  attachmentInput = document.getElementById("formFile");
-  attachmentForm = attachmentsContainer.getElementsByClassName("attachments");
   removeAttachements = attachmentsContainer.querySelectorAll(".removeAttachment");
   filesSize = document.getElementById("filesSize");
   totalSize = document.getElementById("totalSize")
@@ -36,15 +34,24 @@ function enableAttacmentsSectionEdit() {
   btnCancelAttachments.classList.remove("d-none");
   btnSaveAttachments.classList.remove("d-none");
   btnEditAttachments.classList.add("d-none");
-  filesSize.classList.remove("d-none")
-  attachmentInput.removeAttribute("disabled");
-  for (let index = 0; index < attachmentForm.length; index++) {
-    attachmentForm[index].classList.remove("d-none");
-  }
   removeAttachements.forEach(attachment =>{
     attachment.classList.remove("d-none")
   });
-  getTotalSizeFiles();
+}
+
+function removeFiles(){
+  removeAttachements.forEach(removeAttachment => {
+    removeAttachment.addEventListener("click", function (){
+      const divAttachment = removeAttachment.closest(".d-flex");
+      if(divAttachment){
+        const fileSizeDiv = divAttachment.querySelector(".fileSize");
+        const fileSize = parseFloat(fileSizeDiv.textContent);
+        divAttachment.remove();
+        tempTotalSize -= fileSize;
+        totalSize.textContent = tempTotalSize + "/75mo";
+      }
+    });
+  });
 }
 
 function getTotalSizeFiles(){

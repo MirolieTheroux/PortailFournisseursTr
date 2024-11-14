@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\File;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ApprovalMail;
+use App\Models\Attachment;
 
 class SuppliersController extends Controller
 {
@@ -516,35 +517,19 @@ class SuppliersController extends Controller
   }
 
     /**
-   * Update products and services of supplier.
+   * Update attachments of supplier.
    */
   public function updateAttachments(Request $request, Supplier $supplier)
   {
     Log::debug($request);
-
     try {
-      $supplier->product_service_detail = $request->product_service_detail;
-      $supplier->save();
-
-      //Code pour supprimer une categorie
-      foreach ($supplier->productsServices as $productService) {
-        if(!in_array($productService->code, $request->produits_services)){
-          $supplier->productsServices()->detach($productService->code);
-        }
-      }
-
-      //Code pour ajouter une categorie
-      $supplierExistingProductsServices = $supplier->productsServices->pluck('code')->toArray();
-      foreach ($request->produits_services as $productServiceCode) {
-        if(!in_array($productServiceCode, $supplierExistingProductsServices)){
-          $productService = ProductService::where('code', $productServiceCode)->firstOrFail();
-          $supplier->productsServices()->attach($productService);
-        }
-      }
-
+      $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
+      $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
+      Attachment::whereIn('id', $idsToDelete)->delete();
+      
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePS'))
-      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#productsServices-section');
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#attachments-section');
 
     } catch (\Throwable $e) {
       Log::debug($e);
