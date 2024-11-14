@@ -6,12 +6,35 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 // NAVIGATE SECTIONS FORM
 function getSectionsInfo() {
-  const navSectionsDivs = Array.from(document.querySelectorAll(".shadow-sm > div")).slice(1);
+  const navSectionsDivs = document.querySelectorAll(".nav-button");
+  const mobileNavButtons = document.querySelectorAll(".mobile-icon-svg");
   const sectionFromUrl = window.location.hash.substring(1);
+
   if (sectionFromUrl) {
     showSectionDoc(sectionFromUrl);  
+    console.log(sectionFromUrl);
+    const sectionNavto = sectionFromUrl.split('-')[0];
+    const sectionNavButton = document.getElementById(sectionNavto + '-nav-button');
+    const sectionMobileButton = document.getElementById(sectionNavto + '-nav-mobile');
+    
+    if( window.innerWidth >= 1200)
+      changeSVGFill(sectionNavButton);
+    else
+      changeSVGFill(sectionMobileButton);
+  }
+  else{
+    const sectionNavButton = document.getElementById('requestStatus-nav-button');
+    const sectionMobileButton = document.getElementById('requestStatus-nav-mobile');
+    
+    if( window.innerWidth >= 1200)
+      changeSVGFill(sectionNavButton);
+    else
+      changeSVGFill(sectionMobileButton);
   }
   navSectionsDivs.forEach((div) => {
+    div.querySelectorAll("svg").forEach(svg => {
+      svg.style.fill = "#0B2341";
+    });
     div.addEventListener("click", function () {
       if (lastClickedDiv) {
         lastClickedDiv.classList.remove("bg-gray");
@@ -20,6 +43,17 @@ function getSectionsInfo() {
       div.classList.add("bg-gray");
       div.style.cursor = "pointer"; 
       showSectionDoc(div.id.replace("-nav-button", "-section"));
+      changeSVGFill(div);
+    });
+  });
+  mobileNavButtons.forEach((div) => {
+    div.querySelectorAll("svg").forEach(svg => {
+      svg.style.fill = "#0B2341";
+    });
+    div.addEventListener("click", function () {
+      div.style.cursor = "pointer"; 
+      showSectionDoc(div.id.replace("-nav-mobile", "-section"));
+      changeSVGFill(div)
     });
   });
 }
@@ -34,22 +68,22 @@ function showSectionDoc(id) {
   displayedSection.scrollIntoView({ behavior: 'smooth' });
 }
 
-document.querySelectorAll(".py-1.rounded").forEach(button => {
-  button.querySelectorAll("svg").forEach(svg => {
-    svg.style.fill = "#0B2341";
-  });
-  button.addEventListener("click", function () {
-    document.querySelectorAll(".section-clicked").forEach(icon => icon.classList.add("d-none"));
+function changeSVGFill(div){
+  console.log(div);
+  document.querySelectorAll(".section-clicked").forEach(icon => icon.classList.add("d-none"));
 
-    document.querySelectorAll(".py-1.rounded svg").forEach(icon => icon.classList.add("d-none"));
-    document.querySelectorAll(".py-1.rounded svg:not(.section-clicked)").forEach(icon => icon.classList.remove("d-none"));
-    const clickedIcon = this.querySelector(".section-clicked");
-    const defaultIcon = this.querySelector("svg:not(.section-clicked)");
-    if (clickedIcon && defaultIcon) {
-      clickedIcon.classList.toggle("d-none");
-      defaultIcon.classList.toggle("d-none");
-    }
-  });
+  //document.querySelectorAll(".nav-button svg").forEach(icon => icon.classList.add("d-none"));
+  document.querySelectorAll(".nav-button svg:not(.section-clicked)").forEach(icon => icon.classList.remove("d-none"));
+  document.querySelectorAll(".mobile-icon-svg svg:not(.section-clicked)").forEach(icon => icon.classList.remove("d-none"));
+  const clickedIcon = div.querySelector(".section-clicked");
+  const defaultIcon = div.querySelector("svg:not(.section-clicked)");
+  if (clickedIcon && defaultIcon) {
+    clickedIcon.classList.toggle("d-none");
+    defaultIcon.classList.toggle("d-none");
+  }
+}
+document.querySelectorAll(".py-1.rounded").forEach(button => {
+  
 });
 
 

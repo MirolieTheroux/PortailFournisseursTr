@@ -64,3 +64,11 @@ cursor: pointer;
 .invalidTvqFormat{
   padding-left: 20px;
 }
+
+.mobile-icon-svg svg{
+  height: 30px;
+}
+
+.nav-mobile-container{
+  max-height: 50px;
+}

@@ -29,7 +29,7 @@ class SuppliersController extends Controller
   public function home(){
     if(Auth::user()){
       $supplier = Auth::user();
-      return View('suppliers.show', compact('supplier'));
+      return redirect()->route('suppliers.show');
     }
     else
       return redirect()->route('suppliers.showLogin');
