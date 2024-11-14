@@ -8,9 +8,9 @@ let addPhone;
 let svgRemovePhone;
 
 document.addEventListener("DOMContentLoaded", function () {
-    getContactDetailsSectionElements();
-    addContactDetailsSectionListeners();
-    removePhoneNumberAlreadyThere();
+  getContactDetailsSectionElements();
+  addContactDetailsSectionListeners();
+  removePhoneNumberAlreadyThere();
 });
 
 function getContactDetailsSectionElements() {

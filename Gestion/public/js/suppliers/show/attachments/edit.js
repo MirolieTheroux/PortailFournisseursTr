@@ -9,6 +9,7 @@ let removeAttachements;
 document.addEventListener("DOMContentLoaded", function () {
   getAttachmentsSectionElements();
   addAttacmentsSectionListeners();
+  removeFilesAlreadyThere();
 });
 
 function getAttachmentsSectionElements() {
@@ -18,7 +19,7 @@ function getAttachmentsSectionElements() {
   btnSaveAttachments = document.getElementById("btnSaveAttachmentFiles");
   attachmentInput = document.getElementById("formFile");
   attachmentForm = attachmentsContainer.getElementsByClassName("attachments");
-  removeAttachements = attachmentsContainer.getElementsByClassName("removeAttachment");
+  removeAttachements = attachmentsContainer.querySelectorAll(".removeAttachment");
 }
 
 function addAttacmentsSectionListeners() {
@@ -33,11 +34,19 @@ function enableAttacmentsSectionEdit() {
   for (let index = 0; index < attachmentForm.length; index++) {
     attachmentForm[index].classList.remove("d-none");
   }
-  for (let index = 0; index < removeAttachements.length; index++) {
-    removeAttachements[index].classList.remove("d-none");
-  }
+  console.log(removeAttachements);
+  removeAttachements.forEach(attachment =>{
+    attachment.classList.remove("d-none")
+  });
 }
 
 function removeFilesAlreadyThere(){
-
+  removeAttachements.forEach(removeAttachment => {
+    removeAttachment.addEventListener("click", function (){
+      const divAttachment = removeAttachment.closest(".d-flex");
+      if(divAttachment){
+        divAttachment.remove();
+      }
+    });
+  });
 }

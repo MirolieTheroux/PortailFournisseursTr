@@ -602,13 +602,6 @@
             </div>
             @endrole
           </div>
-          @if(isset($errors) && $errors->any())
-            <div class="alert alert-danger">
-              @foreach($errors->all() as $error)
-              <p>{{$error}}</p>
-              @endforeach
-            </div>
-          @endif
         </form>
       </div><!--FIN COORDONNÉES-->
       <!--CONTACT-->
@@ -1196,6 +1189,7 @@
                       <div id="attachmentFilesList">
                         @foreach ($supplier->attachments as $file)
                         <div class="d-flex flex-row align-items-center mb-2">
+                          <input class="d-none" name="attachmentFilesIds[]" value="{{ $file->id }}" />
                           <div class="col-6 fs-6 fileName">
                             <a href="{{ route('attachments.show', ['supplier' => $supplier->id, 'attachment' => $file->id]) }}" target="_blank">{{ $file->name }}</a>
                           </div>
