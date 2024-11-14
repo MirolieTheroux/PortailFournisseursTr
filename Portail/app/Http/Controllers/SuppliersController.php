@@ -316,7 +316,72 @@ class SuppliersController extends Controller
     {
       if(Auth::user()){
         $supplier = Auth::user();
-        return View('suppliers.show', compact('supplier'));
+
+        $workSubcategories = WorkSubcategory::all();
+        $provinces = Province::all();
+
+        $supplierWithProductsCategories = $supplier->load('productsServices.categories');
+        $suppliersGroupedByNatureAndCategory = $supplierWithProductsCategories->productsServices->groupBy(function ($product) {
+          return $product->categories->nature;
+        })->map(function ($groupedByNature) {
+          return $groupedByNature->groupBy(function ($product) {
+            return $product->categories->code;
+          })->map(function ($groupedByCategory) {
+            return [
+              'category_name' => $groupedByCategory->first()->categories->name,
+              'products' => $groupedByCategory
+            ];
+          });
+        });
+  
+        $formattedPhoneNumbersContactDetails = $supplier->phoneNumbers->map(function ($phoneNumber) {
+          return (object) [
+            'id' => $phoneNumber->id,
+            'type' => $phoneNumber->type,
+            'number' => preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number),
+            'extension' => $phoneNumber->extension
+          ];
+        });
+        $formattedPhoneNumbersContacts = $supplier->contacts->map(function ($contact) {
+          $contact->formattedPhoneNumbers = $contact->phoneNumbers->map(function ($phoneNumber) {
+              return (object) [
+                  'type' => $phoneNumber->type,
+                  'number' => preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number),
+                  'extension' => $phoneNumber->extension
+              ];
+          });
+          return $contact;
+        });
+
+        $statusHistory = $supplier->statusHistories()->orderBy('created_at','asc')->get();
+        $decryptedReasons = $statusHistory->map(function ($history){
+          $deniedReason = "";
+          if(!is_null($history->refusal_reason))
+            $deniedReason = trim(unserialize(Crypt::decryptString($history->refusal_reason)));
+          else
+            $deniedReason = "";
+          return(object)[
+            'id' => $history->id,
+            'status' => $history->status,
+            'updated_by' => $history->updated_by,
+            'refusal_reason' => $deniedReason,
+            'supplier_id' => $history->supplier_id,
+            'created_at' => $history->created_at,
+            'updated_at' => null
+          ];
+        });
+        $deniedStatus = $decryptedReasons->filter(function ($history) {
+          return $history->status === 'denied';
+        });
+        $latestDeniedReason = $deniedStatus->sortByDesc('created_at')->first();
+    
+        $postalCode = $supplier->address->postal_code;
+        $formattedPostalCode = substr($postalCode, 0, 3) . ' ' . substr($postalCode, 3);
+
+        return View('suppliers.show', 
+        compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails',
+        'formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories',
+        'provinces','formattedPostalCode'));
       }
       else
         return redirect()->route('suppliers.showLogin')->with('errorMessage',__('login.notConnected'));
@@ -337,6 +402,86 @@ class SuppliersController extends Controller
     {
         //
     }
+
+  /**
+   * Update status of supplier.
+   */
+  public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier, StatusHistory $statusHistory)
+  {
+    Log::debug("UpdateStatus");
+  }
+  
+  /**
+   * Update identification of supplier.
+   */
+  public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
+  {
+    Log::debug("UpdateId");
+  }
+
+  /**
+   * Remove supplier.
+   */
+  public function removeFromList($id)
+  {
+    Log::debug("RemoveSupplier");
+  }
+
+  /**
+   * Reactivate supplier.
+   */
+  public function reactivate($id)
+  {
+    Log::debug("ReactivateSupplier");
+  }
+
+  /**
+   * Reactivate supplier.
+   */
+  private function destroyAttachments($supplier)
+  {
+    Log::debug("destroyAttachments");
+  }
+
+  /**
+   * Update contact details of supplier.
+   */
+  public function updateContactDetails(SupplierUpdateContactDetailsRequest $request, Supplier $supplier)
+  {
+    Log::debug("updateContactDetails");
+  }
+
+  /**
+   * Update contacts of supplier.
+   */
+  public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
+  {
+    Log::debug("updateContacts");
+  }
+
+  /**
+   * Update RBQ Licence of supplier.
+   */
+  public function updateRbq(SupplierUpdateRbqRequest $request, Supplier $supplier)
+  {
+    Log::debug("updateRbq");
+  }
+
+  /**
+   * Update products and services of supplier.
+   */
+  public function updateProductsServices(Request $request, Supplier $supplier)
+  {
+    Log::debug("updateProductsServices");
+  }
+
+  /**
+   * Update finance of supplier.
+   */
+  public function updateFinance(SupplierUpdateFinanceRequest $request, Supplier $supplier)
+  {
+    Log::debug("updateFinance");
+  }
 
     /**
      * Remove the specified resource from storage.
