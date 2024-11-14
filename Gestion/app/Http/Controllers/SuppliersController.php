@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\File;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ApprovalMail;
+use App\Models\Attachment;
 
 class SuppliersController extends Controller
 {
@@ -549,6 +550,28 @@ class SuppliersController extends Controller
       Log::debug($e);
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
     }
+  }
+
+    /**
+   * Update attachments of supplier.
+   */
+  public function updateAttachments(Request $request, Supplier $supplier)
+  {
+    Log::debug($request);
+    try {
+      $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
+      $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
+      Attachment::whereIn('id', $idsToDelete)->delete();
+      
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdatePJ'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#attachments-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
+
   }
 
     public function filter(Request $request)
