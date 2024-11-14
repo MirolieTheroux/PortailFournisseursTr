@@ -117,20 +117,14 @@
                 <div class="px-3 fw-bold">{{__('show.requestStatus')}}</div>
                 <div class="px-3 fw-bold">{{__('show.modifiedBy')}}</div>
               </div>
-              @foreach ($decryptedReasons as $reason)
+              @foreach ($supplier->statusHistories as $statusHistory)
               <div class="d-flex flex-row justify-content-between">
-                <div class="px-3">{{ $reason->created_at }}</div>
+                <div class="px-3">{{ $statusHistory->created_at }}</div>
                 
                 <div class="px-3 status">
-                  @switch($reason->status)
+                  @switch($statusHistory->status)
                   @case('denied')
-                  <a href="#" tabindex="0"
-                    class="popover-link"
-                    data-bs-toggle="popover"
-                    data-bs-trigger="click"
-                    data-bs-content="{{$reason->refusal_reason}}">
                     {{ __('global.denied') }}
-                  </a>
                   @break
 
                   @case('modified')
@@ -160,11 +154,11 @@
                   @break
 
                   @default
-                  {{ $reason->status }}
+                  {{ $statusHistory->status }}
                   @endswitch
                 </div>
 
-                <div class="px-3">{{ $reason->updated_by }}</div>
+                <div class="px-3">{{ $statusHistory->updated_by }}</div>
               </div>
               @endforeach
             </div>
@@ -183,11 +177,9 @@
               <div class="offset-2 col-8 text-center">
                 <h1>{{__('form.requestStatusTitle')}}</h1>
               </div>
-              @role(['responsable', 'admin'])
               <div class="col-2">
                 <button id="btnHistory" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('show.history')}}</button>
               </div>
-              @endrole
             </div>
             <div class="px-3">
               <div class="row pb-3">
@@ -232,33 +224,6 @@
                   </div>
                 </div>
               </div>
-              @role(['responsable', 'admin'])
-              <div class="d-none deniedDivReason">
-                <div class="form-floating">
-                  <textarea
-                    class="form-control"
-                    name="deniedReasonText"
-                    placeholder="" id="deniedReasonText"
-                    style="height: 175px; resize: none;"
-                    maxlength="1500"
-                    disabled>
-                    {{is_null($latestDeniedReason) ? '' : $latestDeniedReason->refusal_reason }}
-                  </textarea>
-                  <label for="deniedReasonText" class="labelbackground">{{__('form.deniedReason')}}</label>
-                </div>
-              </div>
-              <div class="invalid-feedback pb-3" id="deniedReasonRequired" style="display: none;">{{__('show.denialReasonRequiredError')}}</div>
-              @if($errors->has('deniedReason'))
-                 <p>{{ $errors->first('deniedReason') }}</p>
-              @endif
-              <div class="row">
-                <div class="col-12 mb-2 d-flex justify-content-center">
-                  <button id="btnCancelRequestStatus" type="button" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</button>
-                  <button id="btnEditRequestStatus" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-                  <button id="btnSaveRequestStatus" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
-                </div>
-              </div>
-              @endrole
             </div>
           </div>
         </form>
@@ -1316,4 +1281,5 @@
   const desktopString = "@lang('form.officeNumber')";
 </script>
 <script src=" {{ asset('js/suppliersShow/showSupplier.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/status/status.js') }} "></script>
 @endsection

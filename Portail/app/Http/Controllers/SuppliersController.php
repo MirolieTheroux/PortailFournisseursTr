@@ -357,7 +357,7 @@ class SuppliersController extends Controller
         $decryptedReasons = $statusHistory->map(function ($history){
           $deniedReason = "";
           if(!is_null($history->refusal_reason))
-            $deniedReason = trim(unserialize(Crypt::decryptString($history->refusal_reason)));
+            $deniedReason = "";
           else
             $deniedReason = "";
           return(object)[
