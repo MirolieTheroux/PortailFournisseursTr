@@ -27,9 +27,9 @@ Route::get('/services', [SuppliersController::class, 'search']);
 
 Route::get('/suppliers/{supplier}', [SuppliersController::class, 'show'])->name('suppliers.show');
 // MODIFICATION FICHE FOURNISSEUR
-Route::post('/suppliers/{supplier}',[SuppliersController::class, 'updateStatus'])->name('suppliers.updateStatus')->middleware(LoggerMiddleware::class);
-Route::patch('/suppliers/{supplier}',[SuppliersController::class, 'updateIdentification'])->name('suppliers.updateIdentification')->middleware(LoggerMiddleware::class);
-
+Route::post('/suppliers/update/status/{supplier}',[SuppliersController::class, 'updateStatus'])->name('suppliers.updateStatus');
+Route::patch('/suppliers/update/identification/{supplier}',[SuppliersController::class, 'updateIdentification'])->name('suppliers.updateIdentification');
+Route::post('/suppliers/update/contactDetails/{supplier}',[SuppliersController::class, 'updateContactDetails'])->name('suppliers.updateContactDetails');
 Route::get('/suppliers/remove/{supplier}', [SuppliersController::class, 'removeFromList'])->name('suppliers.removeFromList');
 Route::get('/suppliers/reactivate/{supplier}', [SuppliersController::class, 'reactivate'])->name('suppliers.reactivate');
 Route::get('/suppliers/approve/{supplier}', [SuppliersController::class, 'approveRequest'])->name('suppliers.approveRequest');
@@ -37,7 +37,9 @@ Route::post('/suppliers/deny/{supplier}', [SuppliersController::class, 'denyRequ
 
 Route::post('/suppliers/update/contacts/{supplier}',[SuppliersController::class, 'updateContacts'])->name('suppliers.updateContacts');
 Route::post('/suppliers/update/rbq/{supplier}',[SuppliersController::class, 'updateRbq'])->name('suppliers.updateRbq');
-
+Route::post('/suppliers/update/productsServices/{supplier}',[SuppliersController::class, 'updateProductsServices'])->name('suppliers.updateProductsServices');
+Route::post('/suppliers/update/attachments/{supplier}',[SuppliersController::class, 'updateAttachments'])->name('suppliers.updateAttachments');
+Route::patch('/suppliers/update/finance/{supplier}',[SuppliersController::class, 'updateFinance'])->name('suppliers.updateFinance');
 
 Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class, 'show'])->name('attachments.show');
 

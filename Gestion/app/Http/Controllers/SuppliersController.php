@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
 use App\Models\StatusHistory;
+use App\Models\Province;
 use App\Models\WorkSubcategory;
 use App\Models\ProductService;
 use App\Models\Contact;
@@ -17,9 +18,11 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\SupplierUpdateStatusRequest;
 use App\Http\Requests\SupplierDenialRequest;
+use App\Http\Requests\SupplierUpdateContactDetailsRequest;
 use App\Http\Requests\SupplierUpdateContactsRequest;
 use App\Http\Requests\SupplierUpdateIdentificationRequest;
 use App\Http\Requests\SupplierUpdateRbqRequest;
+use App\Http\Requests\SupplierUpdateFinanceRequest;
 
 use Illuminate\Support\facades\Crypt;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -31,6 +34,7 @@ use Illuminate\Support\Facades\File;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ApprovalMail;
+use App\Models\Attachment;
 
 class SuppliersController extends Controller
 {
@@ -47,10 +51,9 @@ class SuppliersController extends Controller
     $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
       return $supplier->latestNonModifiedStatus()->status != 'deactivated';
     });
-
     $workSubcategories = WorkSubcategory::all();
     $productsServices = ProductService::limit(self::SUPPLIER_FETCH_LIMIT)->get();
-    return View('suppliers.index', compact('suppliers', 'workSubcategories', 'productsServices'));
+    return View('suppliers.index', compact('suppliers','workSubcategories', 'productsServices'));
   }
 
   public function selectedList(Request $request){
@@ -85,7 +88,7 @@ class SuppliersController extends Controller
   public function show(Supplier $supplier)
   {
     $workSubcategories = WorkSubcategory::all();
-
+    $provinces = Province::all();
     $supplierWithProductsCategories = $supplier->load('productsServices.categories');
     $suppliersGroupedByNatureAndCategory = $supplierWithProductsCategories->productsServices->groupBy(function ($product) {
       return $product->categories->nature;
@@ -102,6 +105,7 @@ class SuppliersController extends Controller
   
     $formattedPhoneNumbersContactDetails = $supplier->phoneNumbers->map(function ($phoneNumber) {
       return (object) [
+        'id' => $phoneNumber->id,
         'type' => $phoneNumber->type,
         'number' => preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number),
         'extension' => $phoneNumber->extension
@@ -138,10 +142,15 @@ class SuppliersController extends Controller
     $deniedStatus = $decryptedReasons->filter(function ($history) {
       return $history->status === 'denied';
     });
-    
     $latestDeniedReason = $deniedStatus->sortByDesc('created_at')->first();
+
+    $postalCode = $supplier->address->postal_code;
+    $formattedPostalCode = substr($postalCode, 0, 3) . ' ' . substr($postalCode, 3);
     
-    return View('suppliers.show', compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails','formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories'));
+    return View('suppliers.show', 
+    compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails',
+    'formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories',
+    'provinces','formattedPostalCode'));
   }
   
   /**
@@ -166,7 +175,7 @@ class SuppliersController extends Controller
       }
       
       $statusHistory->supplier_id = $supplier->id;
-      $statusHistory->created_at = Carbon::now('America/Montreal');
+      $statusHistory->created_at = Carbon::now('America/Toronto');
       $statusHistory->save();
 
       if ($request->requestStatus == "denied") {
@@ -178,32 +187,29 @@ class SuppliersController extends Controller
     } catch (\Throwable $e) {
       Log::debug($e);
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
-        ->withErrors('message',__('show.failToUpdate'));
+        ->withErrors('message',__('global.updateFailed'));
     }
   }
   
-
   /**
    * Update identification of supplier.
    */
   public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
   {
     try{
-      Log::debug($supplier->neq);
-      Log::debug($request->neq);
       $supplier->neq = $request->neq;
       $supplier->name = $request->name;
       $supplier->email = $request->email;
       $supplier->save();
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
-      ->with('message',__('show.successUpdateIdentification'))
+      ->with('message',__('show.successUpdateContactDetails'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#identification-section');
     }
     catch (\Throwable $e) {
       Log::debug($e);
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
-        ->withErrors('message',__('show.failToUpdate'));
+        ->withErrors('message',__('global.updateFailed'));
     }
     
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
@@ -276,6 +282,59 @@ class SuppliersController extends Controller
   }
 
   /**
+   * Update contact details of supplier.
+   */
+  public function updateContactDetails(SupplierUpdateContactDetailsRequest $request, Supplier $supplier)
+  {
+    //Log::debug($request);
+    try{
+      //Update Address
+      $supplier->address->civic_no = $request->contactDetailsCivicNumber;
+      $supplier->address->street = $request->contactDetailsStreetName;
+      $supplier->address->office = $request->contactDetailsOfficeNumber;
+      $postal_code = $request->contactDetailsPostalCode;
+      $postal_code = str_replace(' ', '', $postal_code);
+      $postal_code = strtoupper($postal_code);
+      $supplier->address->postal_code = $postal_code;
+      if($request->contactDetailsProvince == "Québec"){
+        $supplier->address->city = $request->contactDetailsCitySelect;
+        $supplier->address->region = $request->contactDetailsDistrictArea;
+      }
+      else{
+        $supplier->address->city = $request->contactDetailsInputCity;
+      }
+      $supplier->site = $request->contactDetailsWebsite;
+      $supplier->address->save();
+      
+      //Update Phone numbers    
+      $supplierExistingPhoneNumbers = $supplier->phoneNumbers->pluck('id')->toArray();
+      $idsToDelete = array_diff($supplierExistingPhoneNumbers, $request->phoneNumberIds);
+      PhoneNumber::whereIn('id', $idsToDelete)->delete();
+
+      for($i = 0 ; $i < Count($request->phoneNumbers) ; $i++){
+        if($request->phoneNumberIds[$i] == -1){
+          $phoneNumber = new PhoneNumber();
+          $phoneNumber->number = str_replace('-', '', $request->phoneNumbers[$i]);
+          $phoneNumber->type = $request->phoneTypes[$i];
+          $phoneNumber->extension = $request->phoneExtensions[$i];
+          $phoneNumber->supplier()->associate($supplier->id);
+          $phoneNumber->contact()->associate(null);
+          $phoneNumber->save();
+        }
+      }
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateIdentification'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contactDetails-section');
+    }
+    catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->withErrors('message',__('global.updateFailed'));
+    }
+  }
+
+  /**
    * Update contacts of supplier.
    */
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
@@ -316,10 +375,7 @@ class SuppliersController extends Controller
         $phoneNumberA->type = $request->contactTelTypesA[$i];
         $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
 
-        Log::debug($phoneNumberA);
-        Log::debug($request->contactTelIdsA[$i]);
         if($request->contactTelIdsA[$i] == -1){
-          Log::debug("Dans le if?");
           $phoneNumberA->supplier()->associate(null);
           $phoneNumberA->contact()->associate($contact);
         }
@@ -332,6 +388,7 @@ class SuppliersController extends Controller
           else{
             $phoneNumberB = new PhoneNumber();
           }
+
           $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
           $phoneNumberB->type = $request->contactTelTypesB[$i];
           $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
@@ -340,6 +397,9 @@ class SuppliersController extends Controller
             $phoneNumberB->contact()->associate($contact);
           }
           $phoneNumberB->save();
+        }
+        else if(Count($contact->phoneNumbers) == 2){
+          $contact->phoneNumbers[1]->delete();
         }
       }
       $this->changeStatus($supplier, "modified");
@@ -417,6 +477,101 @@ class SuppliersController extends Controller
       Log::debug($e);
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
     }
+  }
+
+  /**
+   * Update products and services of supplier.
+   */
+  public function updateProductsServices(Request $request, Supplier $supplier)
+  {
+    Log::debug($request);
+
+    try {
+      $supplier->product_service_detail = $request->product_service_detail;
+      $supplier->save();
+
+      
+      foreach ($supplier->productsServices as $productService) {
+        if($request->filled('produits_services')){
+          if(!in_array($productService->code, $request->produits_services)){
+            $supplier->productsServices()->detach($productService->code);
+          }
+        }
+        else{
+          $supplier->productsServices()->detach();
+        }
+       
+      }
+
+      
+      $supplierExistingProductsServices = $supplier->productsServices->pluck('code')->toArray();
+      if($request->filled('produits_services')){
+        foreach ($request->produits_services as $productServiceCode) {
+          if(!in_array($productServiceCode, $supplierExistingProductsServices)){
+            $productService = ProductService::where('code', $productServiceCode)->firstOrFail();
+            $supplier->productsServices()->attach($productService);
+          }
+        }
+      }
+
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdatePS'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#productsServices-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
+  }
+
+  /**
+   * Update finance of supplier.
+   */
+  public function updateFinance(SupplierUpdateFinanceRequest $request, Supplier $supplier)
+  {
+    Log::debug($request);
+    try {
+      $supplier->tps_number = $request->financesTps;
+      $supplier->tvq_number = $request->financesTvq;
+      $supplier->payment_condition = $request->financesPaymentConditions;
+      $supplier->currency = $request->currency;
+      $supplier->communication_mode = $request->communication_mode;
+      $supplier->save();
+      
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateFinance'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#finances-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
+  }
+
+    /**
+   * Update attachments of supplier.
+   */
+  public function updateAttachments(Request $request, Supplier $supplier)
+  {
+    Log::debug($request);
+    try {
+      $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
+      $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
+      Attachment::whereIn('id', $idsToDelete)->delete();
+      
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdatePJ'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#attachments-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
+
   }
 
     public function filter(Request $request)

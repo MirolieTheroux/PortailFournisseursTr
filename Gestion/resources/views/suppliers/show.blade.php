@@ -1,11 +1,14 @@
-<!--//* REMARQUE::(nice_to_have) lorsqu'on clique sur "modifier", ne pas afficher le bouton enregistrer si il n'y a pas de changement (sinon, je fais enregistrer et ça change la date sans modification)-->
-
-
-<!--//? Remarques::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
-<!--//? Remarques::
-- Le message d'erreur pour la raison du refus n'apparaît pas.
-- Potentiel nice to have, est-ce qu'on veut laisser le invalid si la personne quitte le modal de refus et reviens après ?
-"-->
+<!--//* NICE_TO_HAVE::(nice_to_have) lorsqu'on clique sur "modifier", ne pas afficher le bouton enregistrer si il n'y a pas de changement (sinon, je fais enregistrer et ça change la date sans modification)-->
+<!--//* NICE_TO_HAVE::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
+<!--//* NICE_TO_HAVE::Potentiel nice to have, est-ce qu'on veut laisser le invalid si la personne quitte le modal de refus et reviens après ? Même chose pour le reste de la fiche-->
+<!--//* NICE_TO_HAVE::
+- Est ce qu'on met un message quand il l'utilisateur enregistre, mais qu'il n'y a pas de modification de détectée ?
+- Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
+-->
+<!--//* NICE_TO_HAVE::
+- Mettre texte et curseur du textarea pour la raison du refus au début.
+- Mettre les statuts égaux 
+-->
 @extends('layouts.app')
 
 @section('css')
@@ -20,7 +23,7 @@
 <div class="container-fluid h-100">
   <div class="row h-100">
     <!--NAVIGATION CÔTÉ-->
-    <div class="left-nav shadow-sm col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-start">
+    <div class="left-nav shadow-sm col-2 bg-white h-100 d-flex flex-column justify-content-start">
       <h4 class="py-2 fw-bold">{{$supplier->name}}</h4>
       @role(['responsable', 'admin'])
         <button id="btnExport" type="" class="my-2 py-1 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
@@ -109,10 +112,6 @@
       <!--ETAT DEMANDE-->
       <!--//TODO::
         - Afficher dans le popover les modifications quand la BD sera faite.
-      -->
-      <!--//* NICE_TO_HAVE::
-        - Mettre texte et curseur du textarea pour la raison du refus au début.
-        - Mettre les statuts égaux 
       -->
       <!-- Modal for History -->
       <div class="modal fade" id="modalHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="statusHistory" aria-hidden="true">
@@ -329,13 +328,8 @@
           </div>
         </form>
       </div><!--FIN ETAT DEMANDE-->
-      <!--//* NICE_TO_HAVE::
-       - Voir pourquoi quand on enregistre les boutons disparaissent.
-       - Est ce qu'on met un message quand il l'utilisateur enregistre, mais qu'il n'y a pas de modification de détectée ?
-       - Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
-       -->
       <!--IDENTIFICATION-->
-      <div class="container d-flex flex-column h-100 show-section" id="identification-section">
+      <div class="container d-flex flex-column h-100 show-section d-none" id="identification-section">
         <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
@@ -395,7 +389,7 @@
                     $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
                   @endphp
                   <a id="btnCancelId" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#identification-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
-                  <button id="btnModifyId" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                  <button id="btnEditId" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
                   <button id="btnSaveId" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
                 </div>
               </div>
@@ -406,129 +400,203 @@
       </div><!--FIN IDENTIFICATION-->
       <!--COORDONNÉES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
-        <div class="bg-white rounded my-2 form-section px-3">
-          <div class="row">
-            <div class="col-12 text-center">
-              <h1 class="section-title">{{__('form.contactDetailsTitle')}}</h1>
+        <form method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
+          @csrf
+          <div class="bg-white rounded my-2 form-section px-3">
+            <div class="row">
+              <div class="col-12 text-center">
+                <h1 class="section-title">{{__('form.contactDetailsTitle')}}</h1>
+              </div>
             </div>
-          </div>
-          <div class="row px-3">
-            <div class="col-12 col-md-6 d-flex flex-column">
-              <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
-              <div class=" text-center d-flex flex-row pb-3">
-                <div class="form-floating col-6 pe-2">
-                  <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ $supplier->address->civic_no }}" placeholder="" maxlength="8" disabled>
-                  <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>
-                </div>
-                <div class="form-floating col-6">
-                  <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control" value="{{ $supplier->address->office ? : 'N/A' }}" placeholder="" maxlength="8" disabled>
-                  <label for="contactDetailsOfficeNumber" id="officeNumber">{{__('form.officeNumber')}}</label>
-                </div>
-              </div>
-              <div class="text-center mb-4">
-                <div class="form-floating">
-                  <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control" value="{{ $supplier->address->street }}" placeholder="" maxlength="64" disabled>
-                  <label for="contactDetailsStreetName">{{__('form.streetName')}}</label>
-                </div>
-              </div>
-              <div class="d-flex flex-column justify-content-between h-100">
-                <div class="text-center d-flex flex-row pb-3">
-                  <div class="form-floating col-6 pe-2" id="div-city">
-                    <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" aria-label="" disabled>
-                      <option>{{ $supplier->address->city }}</option>
-                    </select>
-                    <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none" value="{{ $supplier->address->city }}" placeholder="" maxlength="64" disabled>
-                    <label for="contactDetailsCitySelect">{{__('form.city')}}</label>
+            <div class="row px-3">
+              <div class="col-12 col-md-6 d-flex flex-column">
+                <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
+                <div class=" text-center d-flex flex-row ">
+                  <div class="form-floating col-6 pe-2">
+                    <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ $supplier->address->civic_no }}" placeholder="" maxlength="8" disabled>
+                    <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>
                   </div>
                   <div class="form-floating col-6">
-                    <select name="contactDetailsProvince" id="contactDetailsProvince" class="form-select" aria-label="" disabled>
-                      <option>{{ $supplier->address->province->name }}</option>
-                    </select>
-                    <label for="contactDetailsProvince">{{__('form.province')}}</label>
+                    <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control" value="{{ $supplier->address->office ? : 'N/A' }}" placeholder="" maxlength="8" disabled>
+                    <label for="contactDetailsOfficeNumber" id="officeNumber">{{__('form.officeNumber')}}</label>
                   </div>
                 </div>
-                <div class="text-center d-flex flex-row mb-4">
-                  <div class="form-floating col-8 pe-2">
-                    <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" aria-label="" disabled>
-                      <option>{{ $supplier->address->region }}</option>
-                    </select>
-                    <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
+                <div class="row mb-4">
+                  @if($errors->has('contactDetailsCivicNumber'))
+                  <p>{{ $errors->first('contactDetailsCivicNumber') }}</p>
+                  @endif
+                  @if($errors->has('contactDetailsOfficeNumber'))
+                  <p>{{ $errors->first('contactDetailsOfficeNumber') }}</p>
+                  @endif
+                  <div class="col-12">
+                    <div class="text-start invalid-feedback" id="invalidRequiredCivicNumber" style="display: none;">{{__('form.contactDetailsCNValidationRequired')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidCivicNumber" style="display: none;">{{__('form.contactDetailsCNValidationAlphanum')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidCivicNumberLength" style="display: none;">{{__('form.contactDetailsCNValidationLength')}}</div>
                   </div>
-                  <div class="form-floating">
-                    <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ $supplier->address->postal_code }}" placeholder="" maxlength="6" disabled>
-                    <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
+                  <div class="col-12">
+                    <div class="text-start invalid-feedback" id="invalidOfficeNumber" style="display: none;">{{__('form.contactDetailsONValidationAlphaNum')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidOfficeNumberLength" style="display: none;">{{__('form.contactDetailsONValidationLenght')}}</div>
                   </div>
                 </div>
                 <div class="text-center mb-4">
                   <div class="form-floating">
-                    <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control" value="{{ $supplier->site ? : 'N/A' }}" placeholder="" maxlength="64" disabled>
-                    <label for="contactDetailsWebsite">{{__('form.website')}}</label>
+                    <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control" value="{{ $supplier->address->street }}" placeholder="" maxlength="64" disabled>
+                    <label for="contactDetailsStreetName">{{__('form.streetName')}}</label>
+                    <div class="text-start invalid-feedback" id="invalidRequiredStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationRequired')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationAlphaNumSC')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidStreetNameLength" style="display: none;">{{__('form.contactDetailsStreetNameValidationLength')}}</div>
+                    @if($errors->has('contactDetailsStreetName'))
+                    <p>{{ $errors->first('contactDetailsStreetName') }}</p>
+                    @endif
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-6 d-flex flex-column">
-              <h2 class="text-center section-subtitle">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
-              <div class="text-center d-flex flex-row pb-3 d-none">
-                <div class="form-floating col-3">
-                  <select name="contactDetailsPhoneType" id="contactDetailsPhoneType" class="form-select" aria-label="" disabled>
-                    <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
-                    <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
-                    <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
-                  </select>
-                  <label for="contactDetailsPhoneType">{{__('form.typeLabel')}}</label>
-                </div>
-                <div class="form-floating col-5 px-2">
-                  <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" placeholder="" maxlength="12" disabled>
-                  <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.numberLabel')}}</label>
-                </div>
-                <div class="form-floating col-3">
-                  <input type="text" name="contactDetailsPhoneExtension" id="contactDetailsPhoneExtension" class="form-control" placeholder="" maxlength="6" disabled>
-                  <label for="contactDetailsPhoneExtension">{{__('form.phoneExtension')}}</label>
-                </div>
-                <div class="col-1 d-flex align-items-center">
-                  <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; padding-left:10px">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                  </svg>
-                </div>
-              </div>
-              <div class="form-floating h-100 pb-4" id="div-phoneNumberList">
-                <div class="form-control pt-2 h-100  mb-4" id="contactDetailsPhoneNumberList" style="overflow-x: hidden; overflow-y: auto;">
-                  <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}}</div>
-                  <div class="d-flex flex-row mt-2">
-                    <div class="col-2 fs-6">{{__('form.typeLabel')}}</div>
-                    <div class="col-6 fs-6 text-center" id="phoneNumber">{{__('form.phoneNumber')}}</div>
-                    <div class="col-2 fs-6 text-center">{{__('form.phoneExtension')}}</div>
-                    <div class="col-2 "></div>
-                  </div>
-                  <div class=" pt-3" id="phoneNumberList">
-                    @foreach($formattedPhoneNumbersContactDetails as $phoneNumber)
-                    <div class="d-flex flex-row align-items-center divPhone">
-                      <div class="col-2 text-start phoneType">{{ $phoneNumber->type }}</div>
-                      <input class="d-none" name="phoneTypes[]" value="{{ $phoneNumber->type }}" />
-                      <div class="col-6 text-center phoneNumber">{{ $phoneNumber->number }}</div>
-                      <input class="d-none" name="phoneNumbers[]" value="{{ $phoneNumber->number }}" />
-                      <div class="col-2 text-center phoneExtension">{{ $phoneNumber->extension ? : 'N/A' }}</div>
-                      <input class="d-none" name="phoneExtensions[]" value="{{ $phoneNumber->number }}" />
-                      <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removePhone d-none" viewBox="0 0 16 16" style="cursor:pointer;">
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
-                      </svg>
+                <div class="d-flex flex-column justify-content-between h-100">
+                  <div class="text-center d-flex flex-row">
+                    <div class="form-floating col-6 pe-2" id="div-city">
+                      <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" aria-label="" disabled>
+                        <option>{{ $supplier->address->city }}</option>
+                      </select>
+                      <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none" value="{{ $supplier->address->city }}" placeholder="" maxlength="64" disabled>
+                      <label for="contactDetailsCitySelect">{{__('form.city')}}</label>
                     </div>
-                    @endforeach
+                    <div class="form-floating col-6">
+                      <select name="contactDetailsProvince" id="contactDetailsProvince" class="form-select" aria-label="" disabled>
+                      @foreach($provinces as $province)
+                        <option value="{{ $province->name }}"
+                          {{ ($supplier->address->province->name ?? 'Québec') == $province->name ? 'selected' : '' }}>
+                          {{ $province->name }}
+                        </option>
+                      @endforeach
+                      </select>
+                      <label for="contactDetailsProvince">{{__('form.province')}}</label>
+                    </div>
+                  </div>
+                  <div class="row mb-4">
+                    @if($errors->has('contactDetailsInputCity'))
+                    <p>{{ $errors->first('contactDetailsInputCity') }}</p>
+                    @endif
+                    <div class="col-12">
+                      <div class="text-start invalid-feedback" id="invalidRequiredCity" style="display: none;">{{__('form.contactDetailsCityRequired')}}</div>
+                      <div class="text-start invalid-feedback" id="invalidCityLength" style="display: none;">{{__('form.contactDetailsCityLength')}}</div>
+                    </div>
+                  </div>
+                  <div class="text-center d-flex flex-row mb-4">
+                    <div class="form-floating col-8 pe-2">
+                      <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" aria-label="" disabled>
+                        <option>{{ $supplier->address->region }}</option>
+                      </select>
+                      <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
+                    </div>
+                    <div class="form-floating">
+                      <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ $formattedPostalCode}}" placeholder="" maxlength="7" disabled>
+                      <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
+                      @if($errors->has('contactDetailsPostalCode'))
+                      <p>{{ $errors->first('contactDetailsPostalCode') }}</p>
+                      @endif
+                      <div class="text-start invalid-feedback" id="invalidRequiredPostalCode" style="display: none;">{{__('form.contactDetailsPostalCodeRequired')}}</div>
+                      <div class="text-start invalid-feedback" id="invalidPostalCodeFormat" style="display: none;">{{__('form.contactDetailsPostalCodeFormat')}}</div>
+                      <div class="text-start invalid-feedback" id="invalidPostalCodeLength" style="display: none;">{{__('form.contactDetailsPostalCodeLength')}}</div>
+                    </div>
+                  </div>
+                  <div class="text-center mb-4">
+                    <div class="form-floating">
+                      <input type="text" name="contactDetailsWebsite" id="contactDetailsWebsite" class="form-control" value="{{ $supplier->site ? : 'N/A' }}" placeholder="" maxlength="64" disabled>
+                      <label for="contactDetailsWebsite">{{__('form.website')}}</label>
+                      @if($errors->has('contactDetailsWebsite'))
+                      <p>{{ $errors->first('contactDetailsWebsite') }}</p>
+                      @endif
+                      <div class="text-start invalid-feedback" id="invalidWebsite" style="display: none;">{{__('form.contactDetailsWebsite')}}</div>
+                      <div class="text-start invalid-feedback" id="invalidWebsiteLength" style="display: none;">{{__('form.contactDetailsWebsiteLength')}}</div>                    
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="col-12 col-md-6 d-flex flex-column">
+                <h2 class="text-center section-subtitle">{{__('form.contactDetailsPhoneNumbersSection')}}</h2>
+                <div id="addPhone" class="text-center d-flex flex-row d-none">
+                  <div class="form-floating col-3">
+                    <select name="contactDetailsPhoneType" id="contactDetailsPhoneType" class="form-select" aria-label="" disabled>
+                      <option value="{{__('form.officeNumber')}}">{{__('form.officeNumber')}}</option>
+                      <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
+                      <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
+                    </select>
+                    <label for="contactDetailsPhoneType">{{__('form.typeLabel')}}</label>
+                  </div>
+                  <div class="form-floating col-5 px-2">
+                    <input type="text" name="contactDetailsPhoneNumber" id="contactDetailsPhoneNumber" class="form-control" placeholder="" maxlength="12" disabled>
+                    <label class="ms-2" for="contactDetailsPhoneNumber">{{__('form.numberLabel')}}</label>
+                  </div>
+                  <div class="form-floating col-3">
+                    <input type="text" name="contactDetailsPhoneExtension" id="contactDetailsPhoneExtension" class="form-control" placeholder="" maxlength="6" disabled>
+                    <label for="contactDetailsPhoneExtension">{{__('form.phoneExtension')}}</label>
+                  </div>
+                  <div class="col-1 d-flex align-items-center">
+                    <svg id="add-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16" style="cursor: pointer; padding-left:10px">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                    </svg>
+                  </div>
+                 
+                </div>
+                <div class="mb-4">
+                  @if($errors->has('contactDetailsPhoneNumber'))
+                  <p>{{ $errors->first('contactDetailsPhoneNumber') }}</p>
+                  @endif
+                  @if($errors->has('contactDetailsPhoneExtension'))
+                  <p>{{ $errors->first('contactDetailsPhoneExtension') }}</p>
+                  @endif
+                  <div class="col-12 errorMessagesPhone">
+                    <div class="text-start invalid-feedback" id="invalidRequiredPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberRequired')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidPhoneNumberNumeric" style="display: none;">{{__('form.contactDetailsPhoneNumberNumeric')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidPhoneNumberFormat" style="display: none;">{{__('form.contactDetailsPhoneNumberFormat')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidPhoneExtension" style="display: none;">{{__('form.contactDetailsPhoneExtension')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidPhoneExtensionLength" style="display: none;">{{__('form.contactDetailsPhoneExtensionLength')}}</div>
+                    <div class="text-start invalid-feedback" id="invalidAddPhoneNumber" style="display: none;">{{__('form.contactDetailsPhoneNumberAdd')}}</div>
+                  </div>
+                </div>
+                <div class="form-floating h-100 pb-4" id="div-phoneNumberList">
+                  <div class="form-control pt-2 h-100  mb-4" id="contactDetailsPhoneNumberList" style="overflow-x: hidden; overflow-y: auto;">
+                    <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}}</div>
+                    <div class="d-flex flex-row mt-2">
+                      <div class="col-2 fs-6">{{__('form.typeLabel')}}</div>
+                      <div class="col-6 fs-6 text-center" id="phoneNumber">{{__('form.phoneNumber')}}</div>
+                      <div class="col-2 fs-6 text-center">{{__('form.phoneExtension')}}</div>
+                      <div class="col-2 "></div>
+                    </div>
+                    <div class=" pt-3" id="phoneNumberList">
+                      @foreach($formattedPhoneNumbersContactDetails as $phoneNumber)
+                      <div class="d-flex flex-row align-items-center mb-2">
+                        <input class="d-none" name="phoneNumberIds[]" value="{{ $phoneNumber->id }}" />
+                        <div class="col-2 text-start phoneType">{{ $phoneNumber->type }}</div>
+                        <input class="d-none" name="phoneTypes[]" value="{{ $phoneNumber->type }}" />
+                        <div class="col-6 text-center phoneNumber">{{ $phoneNumber->number }}</div>
+                        <input class="d-none" name="phoneNumbers[]" value="{{ $phoneNumber->number }}" />
+                        <div class="col-2 text-center phoneExtension">{{ $phoneNumber->extension }}</div>
+                        <input class="d-none" name="phoneExtensions[]" value="{{ $phoneNumber->extension  }}" />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removePhone d-none" viewBox="0 0 16 16" style="cursor:pointer;">
+                          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                        </svg>
+                      </div>
+                      @endforeach
+                    </div>
+                  </div>
+                </div>
+                <div class="text-start invalid-feedback" id="invalidListPhoneNumbers" style="display: none;">{{__('form.contactDetailsPhoneNumbersList')}}</div>
+              </div>
             </div>
-          </div>
-          @role(['responsable', 'admin'])
-          <div class="row">
-            <div class="col-12 d-flex justify-content-center mb-3">
-              <button id="btnEditContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-              <button id="btnSaveContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+            @role(['responsable', 'admin'])
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center mb-3">
+                @php
+                  $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+                @endphp
+                <a id="btnCancelContactDetails" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#contactDetails-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                <button id="btnEditContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveContactDetails" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+              </div>
             </div>
+            @endrole
           </div>
-          @endrole
-        </div>
+        </form>
       </div><!--FIN COORDONNÉES-->
       <!--CONTACT-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contacts-section">
@@ -696,86 +764,134 @@
           </div>
         </form>
       </div> <!--FIN CONTACT-->
+
       <!--PRODUITS ET SERVICES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="productsServices-section">
-        <div class=" bg-white rounded my-2 w-100 form-section">
-          <div class="row">
-            <div class="col-12 text-center">
-              <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
-            </div>
-          </div>
-          <div class="flex-row d-flex justify-content-center px-3">
-            <div class="col-12 col-md-4 d-flex flex-column justify-content-between d-none">
-              <h2 class="text-center section-subtitle">{{__('form.productsAndServiceServices')}}</h2>
-              <div class="text-center">
-                <div class="form-floating mb-3">
-                  <input type="text" id="service-search" class="form-control" placeholder="">
-                  <label for="service-search">{{__('form.productsAndServiceCategoriesSearch')}}</label>
-                </div>
-              </div>
-              <div>
-                <div class="form-floating">
-                  <div class="form-control" placeholder="details" id="products-categories" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
-                    <div class="mt-lg-0 mt-md-4" id="service-list">
-                    </div>
-                  </div>
-                  <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
-                  <div class="note" id="results-count"><br></div>
-                </div>
+        <form class="w-100" action="{{ route('suppliers.updateProductsServices', ['supplier'=>$supplier]) }}" method="post" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+          @csrf
+          <div class=" bg-white rounded my-2 w-100 form-section">
+            <div class="row">
+              <div class="col-12 text-center">
+                <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
               </div>
             </div>
-            <div class="col-6 me-2">
-              <h2 class="text-center section-subtitle">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
-              <div>
-                <div class="form-floating">
-                  <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-                    <div class="mt-lg-0 mt-md-4" id="service-selected">
-                      @foreach ($suppliersGroupedByNatureAndCategory as $nature => $categories)
-                      <div class="row pb-3">
-                        <h6 class="mb-3 fw-bold">{{ $nature }}</h6>
-                        @foreach ($categories as $categoryCode => $categoryData)
-                        <div class="row">
-                          <h6 class="fst-italic"> {{ $categoryCode }} - {{ $categoryData['category_name'] }}</h6>
-                          @foreach ($categoryData['products'] as $product)
-                          <div class="col-3 pb-1">
-                            {{ $product->code }}
-                          </div>
-                          <div class="col-9 pb-1">
-                            {{ $product->description }}
+            <div id="productServiceShowContainer" class="flex-row d-flex justify-content-center px-3">
+              <div class="col-6 me-2">
+                <h2 class="text-center section-subtitle">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
+                <div>
+                  <div class="form-floating">
+                    <div class="form-control" placeholder="selected" id="products-selected-show" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+                      <div class="mt-lg-0 mt-md-4" id="service-selected-show">
+                        @if(Count($suppliersGroupedByNatureAndCategory) > 0)
+                          @foreach ($suppliersGroupedByNatureAndCategory as $nature => $categories)
+                          <div class="row pb-3">
+                            <h6 class="mb-3 fw-bold">{{ $nature }}</h6>
+                            @foreach ($categories as $categoryCode => $categoryData)
+                            <div class="row">
+                              <h6 class="fst-italic"> {{ $categoryCode }} - {{ $categoryData['category_name'] }}</h6>
+                              @foreach ($categoryData['products'] as $product)
+                              <div class="col-3 pb-1">
+                                {{ $product->code }}
+                              </div>
+                              <div class="col-9 pb-1">
+                                {{ $product->description }}
+                              </div>
+                              @endforeach
+                            </div>
+                            @endforeach
                           </div>
                           @endforeach
-                        </div>
+                        @else
+                          <h6 class="col-12 mb-3 fw-bold text-center">{{__('show.noProductOrService')}}</h6>
+                        @endif
+                      </div>
+                    </div>
+                    <div class="note"><br></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategoriesDetails')}}</h2>
+                <div class="text-center">
+                  <div class="form-floating">
+                    <textarea class="form-control" placeholder="details" id="products-details" style="height: 308px; resize: none;" maxlength="500" disabled>{{ $supplier->product_service_detail }}</textarea>
+                    <div class="note"><br></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="productServiceEditContainer" class="row mx-0 w-100 d-none">
+              <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+                <h2 class="text-center h4">{{__('form.productsAndServiceServices')}}</h2>
+                <div class="text-center">
+                  <div class="form-floating mb-3">
+                    <input type="text" id="service-search" class="form-control" placeholder="">
+                    <label for="service-search">{{__('form.productsAndServiceCategoriesSearch')}}</label>
+                  </div>
+                </div>
+                <div>
+                  <div class="form-floating">
+                    <div class="form-control" placeholder="details" id="products-categories" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
+                      <div class="mt-lg-0 mt-md-4" id="service-list">
+                      </div>
+                    </div>
+                    <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
+                    <div class="note" id="results-count"><br></div>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+                <h2 class="text-center h4">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
+                <div>
+                  <div class="form-floating">
+                    <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
+                      <div class="mt-lg-0 mt-md-4" id="service-selected">
+                        @foreach ($supplier->productsServices as $productService)
+                          <div class="row align-items-start py-2 hover-options user-select-none" data-code="{{$productService->code}}">
+                            <input type="text" name="produits_services[]" value="{{$productService->code}}" class="d-none">
+                            <div class="col-4 col-md-12 col-xl-4 d-flex flex-column justify-content-start">
+                              {{$productService->code}}
+                            </div>
+                            <div class="col-8 col-md-11 offset-md-1 offset-xl-0 col-xl-8 d-flex flex-column justify-content-start">
+                              {{$productService->description}}
+                            </div>
+                          </div>
                         @endforeach
                       </div>
-                      @endforeach
                     </div>
+                    <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label>
+                    <div class="note"><br></div>
                   </div>
-                  <!-- <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label> -->
-                  <div class="note"><br></div>
+                </div>
+              </div>
+              <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
+                <h2 class="text-center h4"><br></h2>
+                <div class="text-center">
+                  <div class="form-floating">
+                    <textarea class="form-control" name="product_service_detail" placeholder="details" id="products-details-edit" style="height: 308px; resize: none;" maxlength="500">{{ $supplier->product_service_detail }}</textarea>
+                    <label for="products-details-edit" class="labelbackground">{{__('form.productsAndServiceCategoriesDetails')}}</label>
+                    <div class="note"><br></div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-6">
-              <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategoriesDetails')}}</h2>
-              <div class="text-center">
-                <div class="form-floating">
-                  <textarea class="form-control" name="product_service_detail" placeholder="details" id="products-details" style="height: 308px; resize: none;" maxlength="500" disabled>{{ $supplier->product_service_detail }}</textarea>
-                  <!-- <label for="products-details" class="labelbackground"></label> -->
-                  <div class="note"><br></div>
-                </div>
+            @role(['responsable', 'admin'])
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center mb-2">
+                @php
+                  $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+                @endphp
+                <a id="btnCancelProductsServices" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#productsServices-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                <button id="btnEditProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveProductsServices" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
+            @endrole
           </div>
-          @role(['responsable', 'admin'])
-          <div class="row">
-            <div class="col-12 d-flex justify-content-center mb-2">
-              <button id="btnEditProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-              <button id="btnSaveProductsServices" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
-            </div>
-          </div>
-          @endrole
-        </div>
+        </form>
       </div><!--FIN PRODUITS ET SERVICES-->
+
       <!--LICENCE RBQ-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="licence-section">
         <form action="{{ route('suppliers.updateRbq', ['supplier'=>$supplier]) }}" method="post" class="need-validation" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
@@ -1011,204 +1127,178 @@
       </div><!--FIN LICENCE RBQ-->
       <!--PIÈCES JOINTES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
-        <div class=" bg-white rounded my-2 form-section">
-          <div class="row">
-            <div class="col-12 text-center">
-              <h1>{{__('form.attachmentFilesTitle')}}</h1>
-            </div>
-          </div>
-          <div class="row px-3 mb-3">
-            <div class="col-12 d-flex flex-column justify-content-between mb-3">
-              <h2 class="text-center section-subtitle">{{__('form.attachmentFilesSection')}}</h2>
-            </div>
-            <div class=" col-12 d-flex flex-column justify-content-between">
-              <div class="row flex-row justify-content-between d-none">
-                <div class="col-10">
-                  <div>
-                    <input class="form-control" type="file" id="formFile" disabled>
-                  </div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFileRequired" style="display: none;">{{__('form.attachmentFileRequired')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFileNameLength" style="display: none;">{{__('form.attachmentFileNameLength')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFileNameAlphaNum" style="display: none;">{{__('form.attachmentFileNameAlphaNum')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFileFormat" style="display: none;">{{__('form.attachmentFileFormat')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentSameFileName" style="display: none;">{{__('form.attachmentSameFileName')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFilesExceedSize" style="display: none;">{{__('form.attachmentFilesExceedSize')}}</div>
-                </div>
-                <div class="col-2 text-center pt-1">
-                  <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                  </svg>
-                </div>
-              </div>
-              <table class="table d-none">
-                <tbody>
-                  <tr>
-                    <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
-                    <td class="text-center" id="fileName"></td>
-                  </tr>
-                  <tr>
-                    <td class="fw-bold">{{__('form.attachmentFileSize')}}</td>
-                    <td class="text-center" id="fileSize"></td>
-                  </tr>
-                  <tr>
-                    <td class="fw-bold">{{__('form.attachmentAddedFileDate')}}</td>
-                    <td class="text-center" id="addedFileDate"></td>
-                  </tr>
-                  <tr class="d-none">
-                    <td class="text-center" id="valueInput"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="col-12">
-              <div class="form-floating h-100" id="div-attachmentFilesList">
-                <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
-                  <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
-                  <div class="row px-3">
-                    @if($supplier->attachments->isEmpty())
-                    <div>{{__('form.noAttachmentFiles')}}</div>
-                    @else
-                    <div class="d-flex justify-content-between mt-2">
-                      <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
-                      <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
-                      <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
-                      <div class="col-2 "></div>
-                    </div>
-                    <div class="d-flex flex-column justify-content-between" id="attachmentFilesList">
-                      @foreach ($supplier->attachments as $file)
-                      <div class="row mb-2 ">
-                        <div class="col-6 fs-6 fileName">
-                          <a href="{{ route('attachments.show', ['supplier' => $supplier->id, 'attachment' => $file->id]) }}" target="_blank">{{ $file->name }}</a>
-                        </div>
-                        <div class="col-2 fs-6 text-center fileSize">
-                          {{$file->size}}
-                        </div>
-                        <div class="col-2 fs-6 text-center addedFileDate">
-                          {{$file->deposit_date}}
-                        </div>
+        <form class="w-100" method="POST" action="{{route('suppliers.updateAttachments', [$supplier])}}" enctype="multipart/form-data">
+        @csrf
+          <div class="bg-white rounded my-2 w-100 form-section">
+            <h1 class="text-center">{{__('form.attachmentFilesTitle')}}</h1>
+            <h2 class="text-center section-subtitle mb-3">{{__('form.attachmentFilesSection')}}</h2>
+            <div class="row px-3 mb-3">
+              <div class="col-12">
+                <div class="form-floating h-100" id="div-attachmentFilesList">
+                  <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
+                    <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
+                    <div class="row px-3">
+                      @if($supplier->attachments->isEmpty())
+                      <div>{{__('form.noAttachmentFiles')}}</div>
+                      @else
+                      <div class="d-flex justify-content-between mt-2">
+                        <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
+                        <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
+                        <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
+                        <div class="col-2 "></div>
                       </div>
-                      @endforeach
+                      <div id="attachmentFilesList">
+                        @foreach ($supplier->attachments as $file)
+                        <div class="d-flex flex-row align-items-center mb-2">
+                          <input class="d-none" name="attachmentFilesIds[]" value="{{ $file->id }}" />
+                          <div class="col-6 fs-6 fileName">
+                            <a href="{{ route('attachments.show', ['supplier' => $supplier->id, 'attachment' => $file->id]) }}" target="_blank">{{ $file->name }}</a>
+                          </div>
+                          <div class="col-2 fs-6 text-center fileSize">
+                            {{$file->size}}
+                          </div>
+                          <div class="col-2 fs-6 text-center addedFileDate">
+                            {{$file->deposit_date}}
+                          </div>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removeAttachment d-none" viewBox="0 0 16 16" style="cursor:pointer;">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                          </svg>
+                        </div>
+                        @endforeach
+                      </div>
+                      @endif
                     </div>
-                    @endif
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="text-end inline-block d-none">
-              <p class="mb-0" id="totalSize">/75Mo</p>
-            </div>
-            @if(!is_null(old('fileNames')))
-            @foreach(old('fileNames') as $fileName)
-            <div hidden>
-              {{$fileNameIndex = "phoneTypes." . "$loop->index"}}
-              {{$fileSizeIndex = "fileSizes." . "$loop->index"}}
-              {{$fileTypeIndex = "fileTypes." . "$loop->index"}}
-              {{$addedFileDateIndex = "addedFileDates." . "$loop->index"}}
-            </div>
-            @if($errors->has($fileNameIndex))
-            <p class="m-0">{{ $errors->first($fileNameIndex) }}</p>
-            @endif
-            @if($errors->has($fileSizeIndex))
-            <p class="m-0">{{ $errors->first($fileSizeIndex) }}</p>
-            @endif
-            @if($errors->has($fileTypeIndex))
-            <p class="m-0">{{ $errors->first($fileTypeIndex) }}</p>
-            @endif
-            @if($errors->has($addedFileDateIndex))
-            <p class="m-0">{{ $errors->first($addedFileDateIndex) }}</p>
-            @endif
-            @endforeach
-            @endif
-          </div>
-          @role(['responsable', 'admin'])
-          <div class="row">
-            <div class="col-12 d-flex justify-content-center mb-2">
-              <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-              <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
-            </div>
-          </div>
-          @endrole
-        </div>
-      </div><!--FIN PIÈCES JOINTES-->
-      <!--FINANCES-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="finances-section">
-        <div class="bg-white rounded my-2 form-section w-65">
-          <div class="row">
-            <div class="col-12 text-center">
-              <h1>{{__('form.financesTitle')}}</h1>
-            </div>
-          </div>
-          <div class="row px-3 mb-3">
-            <div class="col-12 text-center pb-3">
-              <div class="form-floating pe-2">
-                <input type="text" name="financesTps" id="financesTps" class="form-control" value="{{$supplier->tps_number ?? __('form.noTpsNumber') }}" placeholder="" maxlength="8" disabled>
-                <label for="financesTps" id="">{{__('form.tpsNumber')}}</label>
-              </div>
-            </div>
-            <div class="col-12 text-center pb-3">
-              <div class="form-floating pe-2">
-                <input type="text" name="financesTvq" id="financesTvq" class="form-control" value="{{$supplier->tvq_number ?? __('form.noTvqNumber') }}" placeholder="" maxlength="8" disabled>
-                <label for="financesTvq" id="">{{__('form.tvqNumber')}}</label>
-              </div>
-            </div>
-            <div class="col-12 text-center pb-3">
-              <div class="form-floating pe-2">
-                <!-- J'ai transcrit tel quel les choix dans le devis 
-                    Si autre idée pour le nom des variables..
-                 -->
-                <select name="financesPaymentConditions" id="financesPaymentConditions" class="form-select" aria-label="" disabled>
-                  <option selected>{{__('form.paymentConditionsDefault')}}</option>
-                  <option value="nowPaymentNoDeduction" {{$supplier->payment_condition == 'nowPaymentNoDeduction' ? 'selected' : null  }}>{{__('form.nowPaymentNoDeduction')}}</option>
-                  <option value="nowPaymentNoDeduction15th" {{$supplier->payment_condition == 'nowPaymentNoDeduction15th' ? 'selected' : null  }}>{{__('form.nowPaymentNoDeduction15th')}}</option>
-                  <option value="15days2" {{$supplier->payment_condition == '15days2' ? 'selected' : null  }}>{{__('form.15days2')}}</option>
-                  <option value="until15th" {{$supplier->payment_condition == 'until15th' ? 'selected' : null  }}>{{__('form.until15th')}}</option>
-                  <option value="10days2" {{$supplier->payment_condition == '10days2' ? 'selected' : null  }}>{{__('form.10days2')}}</option>
-                  <option value="15daysNoDeduction" {{$supplier->payment_condition == '15daysNoDeduction' ? 'selected' : null  }}>{{__('form.15daysNoDeduction')}}</option>
-                  <option value="30daysNoDeduction" {{$supplier->payment_condition == '30daysNoDeduction' ? 'selected' : null  }}>{{__('form.30daysNoDeduction')}}</option>
-                  <option value="45daysNoDeduction" {{$supplier->payment_condition == '45daysNoDeduction' ? 'selected' : null  }}>{{__('form.45daysNoDeduction')}}</option>
-                  <option value="60daysNoDeduction" {{$supplier->payment_condition == '60daysNoDeduction' ? 'selected' : null  }}>{{__('form.60daysNoDeduction')}}</option>
-                </select>
-                <label for="financesPaymentConditions" id="">{{__('form.paymentConditions')}}</label>
-              </div>
-            </div>
-            <div class="row pb-3">
-              <div class="col-6">
-                <div class="w-100">
-                  <h5 class="text-decoration-underline">{{__('form.currency')}}</h5>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" value="1" {{$supplier->currency == '1' ? 'checked' : null}} name="flexRadioCAD" id="flexRadioCAD" disabled>
-                    <label class="form-check-label" for="flexRadioCAD">{{__('form.canadianCurrency')}}</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" value="2" {{$supplier->currency == '2' ? 'checked' : null}} name="flexRadioUS" id="flexRadioUS" disabled>
-                    <label class="form-check-label" for="flexRadioUS">{{__('form.usCurrency')}}</label>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="w-100">
-                  <h5 class="text-decoration-underline">{{__('form.communication')}}</h5>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" value="1" {{$supplier->communication_mode == '1' ? 'checked' : null}} name="flexRadioEmail" id="flexRadioEmail" disabled>
-                    <label class="form-check-label" for="flexRadioEmail">{{__('form.email')}}</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" value="2" {{$supplier->communication_mode == '2' ? 'checked' : null}} name="flexRadioMail" id="flexRadioMail" disabled>
-                    <label class="form-check-label" for="flexRadioMail">{{__('form.mail')}}</label>
-                  </div>
-                </div>
+              <div class="text-end inline-block" id="filesSize">
+                <p class="mb-0" id="totalSize">/75Mo</p>
               </div>
             </div>
             @role(['responsable', 'admin'])
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-2">
-                <button id="btnEditFinances" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-                <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+                <a id="btnCancelAttachmentFiles" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#attachments-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
             @endrole
           </div>
-        </div>
+        </form>
+      </div><!--FIN PIÈCES JOINTES-->
+      <!--FINANCES-->
+      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="finances-section">
+        <form action="{{ route('suppliers.updateFinance', ['supplier'=>$supplier]) }}" method="post" class="need-validation w-65" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+        @csrf
+        @method('PATCH')
+          <div class="bg-white rounded my-2 form-section">
+            <div class="row">
+              <div class="col-12 text-center">
+                <h1>{{__('form.financesTitle')}}</h1>
+              </div>
+            </div>
+            <div class="row px-3 mb-3">
+              <div class="col-12 text-center pb-3">
+                <div class="form-floating pe-2">
+                  <input type="text" name="financesTps" id="financesTps" class="form-control" value="{{$supplier->tps_number ?? 'N/A' }}" placeholder="" maxlength="15" disabled>
+                  <label for="financesTps" id="">{{__('form.tpsNumber')}}</label>
+                  <div class="text-start invalid-feedback tpsInvalidRequired" style="display: none;">{{__('form.financeTpsValidationRequired')}}</div>
+                  <div class="text-start invalid-feedback tpsInvalidFormat" style="display: none;">{{__('form.financeTpsValidationFormat')}}</div>
+                  @if($errors->has('financesTps'))
+                    <p>{{ $errors->first('financesTps') }}</p>
+                  @endif
+                </div>
+              </div>
+              <div class="col-12 text-center pb-3">
+                <div class="form-floating pe-2">
+                  <input type="text" name="financesTvq" id="financesTvq" class="form-control" value="{{$supplier->tvq_number ?? 'N/A' }}" placeholder="" maxlength="16" disabled>
+                  <label for="financesTvq" id="">{{__('form.tvqNumber')}}</label>
+                  <div class="text-start invalid-feedback tvqInvalidRequired" style="display: none;">{{__('form.financeTvqValidationRequired')}}</div>
+                  <div class="text-start invalid-feedback tvqInvalidFormat" style="display: none;">
+                    <div>{{__('form.financeTvqValidationFormat')}}</div>
+                    <div class="invalidTvqFormat">{{__('form.financeTvqValidationFormat10Number')}}</div>
+                    <div class="invalidTvqFormat">{{__('form.financeTvqValidationFormatTQ')}}</div>
+                    <div class="invalidTvqFormat">{{__('form.financeTvqValidationFormatNR')}}</div>
+                    
+                  </div>
+                  @if($errors->has('financesTvq'))
+                    <p>{{ $errors->first('financesTvq') }}</p>
+                  @endif
+                </div>
+              </div>
+              <div class="col-12 text-center pb-3">
+                <div class="form-floating pe-2">
+                  <select name="financesPaymentConditions" id="financesPaymentConditions" class="form-select" aria-label="" disabled>
+                    <option value="" selected>{{__('form.paymentConditionsDefault')}}</option>
+                    <option value="nowPaymentNoDeduction" {{$supplier->payment_condition == 'nowPaymentNoDeduction' ? 'selected' : null  }}>{{__('form.nowPaymentNoDeduction')}}</option>
+                    <option value="nowPaymentNoDeduction15th" {{$supplier->payment_condition == 'nowPaymentNoDeduction15th' ? 'selected' : null  }}>{{__('form.nowPaymentNoDeduction15th')}}</option>
+                    <option value="15days2" {{$supplier->payment_condition == '15days2' ? 'selected' : null  }}>{{__('form.15days2')}}</option>
+                    <option value="until15th" {{$supplier->payment_condition == 'until15th' ? 'selected' : null  }}>{{__('form.until15th')}}</option>
+                    <option value="10days2" {{$supplier->payment_condition == '10days2' ? 'selected' : null  }}>{{__('form.10days2')}}</option>
+                    <option value="15daysNoDeduction" {{$supplier->payment_condition == '15daysNoDeduction' ? 'selected' : null  }}>{{__('form.15daysNoDeduction')}}</option>
+                    <option value="30daysNoDeduction" {{$supplier->payment_condition == '30daysNoDeduction' ? 'selected' : null  }}>{{__('form.30daysNoDeduction')}}</option>
+                    <option value="45daysNoDeduction" {{$supplier->payment_condition == '45daysNoDeduction' ? 'selected' : null  }}>{{__('form.45daysNoDeduction')}}</option>
+                    <option value="60daysNoDeduction" {{$supplier->payment_condition == '60daysNoDeduction' ? 'selected' : null  }}>{{__('form.60daysNoDeduction')}}</option>
+                  </select>
+                  <label for="financesPaymentConditions" id="">{{__('form.paymentConditions')}}</label>
+                  <div class="text-start invalid-feedback paymentInvalidRequired" style="display: none;">{{__('form.financeTpsValidationRequired')}}</div>
+                  @if($errors->has('financesPaymentConditions'))
+                    <p>{{ $errors->first('financesPaymentConditions') }}</p>
+                  @endif
+                </div>
+              </div>
+              <div class="row pb-3">
+                <div class="col-6">
+                  <div id="currencyRadios" class="w-100">
+                    <h5 class="text-decoration-underline">{{__('form.currency')}}</h5>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" value="1" {{$supplier->currency == '1' ? 'checked' : null}} name="currency" id="flexRadioCAD" disabled>
+                      <label class="form-check-label" for="flexRadioCAD">{{__('form.canadianCurrency')}}</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" value="2" {{$supplier->currency == '2' ? 'checked' : null}} name="currency" id="flexRadioUS" disabled>
+                      <label class="form-check-label" for="flexRadioUS">{{__('form.usCurrency')}}</label>
+                    </div>
+                    <div class="text-start invalid-feedback currencyInvalidRequired" style="display: none;">{{__('form.financeCurrencyValidationRequired')}}</div>
+                    @if($errors->has('currency'))
+                      <p>{{ $errors->first('currency') }}</p>
+                    @endif
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div id="commnucationModeRadios" class="w-100">
+                    <h5 class="text-decoration-underline">{{__('form.communication')}}</h5>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" value="1" {{$supplier->communication_mode == '1' ? 'checked' : null}} name="communication_mode" id="flexRadioEmail" disabled>
+                      <label class="form-check-label" for="flexRadioEmail">{{__('form.email')}}</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" value="2" {{$supplier->communication_mode == '2' ? 'checked' : null}} name="communication_mode" id="flexRadioMail" disabled>
+                      <label class="form-check-label" for="flexRadioMail">{{__('form.mail')}}</label>
+                    </div>
+                    <div class="text-start invalid-feedback communicationModeInvalidRequired" style="display: none;">{{__('form.financeCommunicationModeValidationRequired')}}</div>
+                    @if($errors->has('communication_mode'))
+                      <p>{{ $errors->first('communication_mode') }}</p>
+                    @endif
+                  </div>
+                </div>
+              </div>
+              @role(['responsable', 'admin'])
+              <div class="row">
+                <div class="col-12 d-flex justify-content-center mb-2">
+                  @php
+                    $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+                  @endphp
+                  <a id="btnCancelFinances" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#finances-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                  <button id="btnEditFinances" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                  <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+                </div>
+              </div>
+              @endrole
+            </div>
+          </div>
+        </form>
       </div><!--FIN FINANCES-->
     </div>
   </div>
@@ -1222,16 +1312,25 @@
 <script src=" {{ asset('js/suppliers/show/showSupplier.js') }} "></script>
 <script src=" {{ asset('js/suppliers/validateDenialForm.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/status/status.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/identification/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/identification/save.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/identification/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contactDetails/addCitiesDistrictAreas.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contactDetails/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contactDetails/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/contactDetails/save.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/save.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/cancel.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/contacts/validation.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/contactDetails/contactDetails.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/identification/edit.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/identification/save.js') }} "></script>
-<script src=" {{ asset('js/suppliers/show/identification/validation.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/save.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/validation.js') }} "></script>
 <script src=" {{ asset('js/suppliers/show/rbq/changeType.js') }} "></script>
+<script src=" {{ asset('js/suppliers/productsServices.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/productServices/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/attachments/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/finance/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/finance/save.js') }} "></script>
+<script src=" {{ asset('js/suppliers/show/finance/validation.js') }} "></script>
 @endsection
