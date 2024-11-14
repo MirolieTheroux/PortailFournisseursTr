@@ -10,16 +10,15 @@
 <div class="container-fluid h-100">
   <div class="row h-100">
     <!--NAVIGATION CÔTÉ-->
-    <div class="left-nav shadow-sm col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-start">
+    <div class="left-nav shadow-sm col-2 bg-white h-100 d-flex flex-column justify-content-start">
       <h4 class="py-2 fw-bold">{{$supplier->name}}</h4>
-      @role(['responsable', 'admin'])
-        <button id="btnExport" type="" class="my-2 py-1 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
-        @if($supplier->latestNonModifiedStatus()->status == 'deactivated')
+
+      @if($supplier->latestNonModifiedStatus()->status == 'deactivated')
         <a id="btnDelete" href="{{route('suppliers.reactivate', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.reactivate')}}</a>
-        @else
+      @else
         <a id="btnDelete" href="{{route('suppliers.removeFromList', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.removeFromList')}}</a>
-        @endif
-      @endrole
+      @endif
+
       <div id="requestStatus-nav-button" class="py-1 rounded">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="m-2">
           <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
@@ -270,7 +269,7 @@
        - Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
        -->
       <!--IDENTIFICATION-->
-      <div class="container d-flex flex-column h-100 show-section" id="identification-section">
+      <div class="container d-flex flex-column h-100 show-section d-none" id="identification-section">
         <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
@@ -1316,4 +1315,5 @@
 <script>
   const desktopString = "@lang('form.officeNumber')";
 </script>
+<script src=" {{ asset('js/suppliersShow/showSupplier.js') }} "></script>
 @endsection
