@@ -392,7 +392,7 @@
                     $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
                   @endphp
                   <a id="btnCancelId" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#identification-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
-                  <button id="btnModifyId" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                  <button id="btnEditId" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
                   <button id="btnSaveId" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
                 </div>
               </div>
@@ -402,9 +402,6 @@
         </form>  
       </div><!--FIN IDENTIFICATION-->
       <!--COORDONNÉES-->
-      <!--//TODO::
-        - Supprimer les # de téléphones dans la BD
-      -->
       <div class="container d-flex flex-column h-100 show-section d-none" id="contactDetails-section">
         <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
           @csrf
@@ -596,7 +593,7 @@
                   $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
                 @endphp
                 <a id="btnCancelContactDetails" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#contactDetails-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
-                <button id="btnModifyContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnEditContactDetails" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
                 <button id="btnSaveContactDetails" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
