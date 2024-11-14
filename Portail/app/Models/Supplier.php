@@ -63,7 +63,7 @@ class Supplier extends Authenticatable
       return $this->belongsToMany(ProductService::class, 'supplier_products_services', 'supplier_id', 'products_services_code', 'id', 'code');
     }
 
-    public function addresses(){
+    public function address(){
       return $this->hasOne(Address::class);
     }
 
@@ -73,5 +73,30 @@ class Supplier extends Authenticatable
 
     public function statusHistories(){
       return $this->hasMany(StatusHistory::class);
+    }
+
+    public function latestNonModifiedStatus()
+    {
+      return $this->statusHistories()
+        ->where('status', '!=', 'modified')
+        ->orderBy('created_at', 'desc')
+        ->first();
+    }
+
+    public function latestModifiedDate()
+    {
+      return $this->statusHistories()
+        ->where('status', '=', 'modified')
+        ->orderBy('created_at', 'desc')
+        ->first();
+    }
+
+    public function latestActivableStatus()
+    {
+        return $this->statusHistories()
+            ->where('status', '!=', 'modified')
+            ->where('status', '!=', 'deactivated')
+            ->orderBy('created_at', 'desc')
+            ->first();
     }
 }

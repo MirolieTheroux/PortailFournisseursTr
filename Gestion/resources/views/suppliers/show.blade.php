@@ -16,7 +16,7 @@
 <div class="container-fluid h-100">
   <div class="row h-100">
     <!--NAVIGATION CÔTÉ-->
-    <div class="left-nav shadow-sm col-2 bg-white h-100 full-viewport sticky-under-navbar d-flex flex-column justify-content-start">
+    <div class="left-nav shadow-sm col-2 bg-white h-100 d-flex flex-column justify-content-start">
       <h4 class="py-2 fw-bold">{{$supplier->name}}</h4>
       @role(['responsable', 'admin'])
         <button id="btnExport" type="" class="my-2 py-1 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
@@ -331,7 +331,7 @@
        - Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
        -->
       <!--IDENTIFICATION-->
-      <div class="container d-flex flex-column h-100 show-section" id="identification-section">
+      <div class="container d-flex flex-column h-100 show-section d-none" id="identification-section">
         <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
