@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\MailsController;
 use App\Http\Middleware\LoggerMiddleware;
 
 /*Route::get('/', function () {
@@ -36,3 +37,5 @@ Route::patch('/suppliers/update/finance/{supplier}',[SuppliersController::class,
 
 
 Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');
+
+Route::get('/send-inscription-mail/{supplier}', [MailsController::class, 'sendInscriptionMail']);

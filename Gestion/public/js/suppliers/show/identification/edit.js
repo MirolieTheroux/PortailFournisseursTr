@@ -1,6 +1,6 @@
 let idContainer;
 let btnCancelId;
-let btnModifyId; 
+let btnEditId; 
 let btnSaveId; 
 let idInputs; 
 
@@ -13,17 +13,17 @@ function getIdSectionElements(){
   idContainer = document.getElementById('identification-section');
   btnCancelId = document.getElementById("btnCancelId");
   btnSaveId = document.getElementById("btnSaveId");
-  btnModifyId = document.getElementById("btnModifyId");
+  btnEditId = document.getElementById("btnEditId");
   idInputs = idContainer.getElementsByClassName("form-control");
 }
 function addIdSectionListeners(){
-  btnModifyId.addEventListener('click', enableIdSectionEdit);
+  btnEditId.addEventListener('click', enableIdSectionEdit);
 }
 
 function enableIdSectionEdit(){
   btnCancelId.classList.remove("d-none");
   btnSaveId.classList.remove("d-none");
-  btnModifyId.classList.add("d-none");
+  btnEditId.classList.add("d-none");
   for (let index = 0; index < idInputs.length; index++) {
     idInputs[index].removeAttribute("disabled");
   }

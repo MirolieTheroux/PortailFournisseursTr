@@ -1,6 +1,6 @@
 let contactDetailsContainer;
 let btnCancelcontactDetails;
-let btnModifyContactDetails;
+let btnEditContactDetails;
 let btnSaveContactDetails;
 let contactDetailsInputs;
 let contactDetailsSelects;
@@ -8,16 +8,16 @@ let addPhone;
 let svgRemovePhone;
 
 document.addEventListener("DOMContentLoaded", function () {
-    getContactDetailsSectionElements();
-    addContactDetailsSectionListeners();
-    removePhoneNumberAlreadyThere();
+  getContactDetailsSectionElements();
+  addContactDetailsSectionListeners();
+  removePhoneNumberAlreadyThere();
 });
 
 function getContactDetailsSectionElements() {
   contactDetailsContainer = document.getElementById("contactDetails-section");
   btnCancelcontactDetails = document.getElementById("btnCancelContactDetails");
   btnSaveContactDetails = document.getElementById("btnSaveContactDetails");
-  btnModifyContactDetails = document.getElementById("btnModifyContactDetails");
+  btnEditContactDetails = document.getElementById("btnEditContactDetails");
   contactDetailsInputs = contactDetailsContainer.getElementsByClassName("form-control");
   contactDetailsSelects = contactDetailsContainer.getElementsByClassName("form-select");
   addPhone = document.getElementById("addPhone");
@@ -25,13 +25,13 @@ function getContactDetailsSectionElements() {
 }
 
 function addContactDetailsSectionListeners() {
-  btnModifyContactDetails.addEventListener("click",enableContactDetailsSectionEdit);
+  btnEditContactDetails.addEventListener("click",enableContactDetailsSectionEdit);
 }
 
 function enableContactDetailsSectionEdit() {
   btnCancelcontactDetails.classList.remove("d-none");
   btnSaveContactDetails.classList.remove("d-none");
-  btnModifyContactDetails.classList.add("d-none");
+  btnEditContactDetails.classList.add("d-none");
   addPhone.classList.remove("d-none");
   for (let index = 0; index < contactDetailsInputs.length; index++) {
     contactDetailsInputs[index].removeAttribute("disabled");
@@ -56,5 +56,3 @@ function emptyNAinputsContactDetails() {
     }
   });
 }
-
-//add delete icon for each phonenumbers already there
