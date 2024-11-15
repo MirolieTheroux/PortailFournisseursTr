@@ -264,8 +264,7 @@
       </div> <!-- END Modal for History-->
 
       <div class="container d-flex flex-column h-100 show-section" id="requestStatus-section">
-        <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateStatus', [$supplier])}}" enctype="multipart/form-data">
-          @csrf
+        <div class="h-100 w-100 d-flex align-items-center">
           <div class="bg-white my-2 rounded form-section w-100">
             <div class="row py-2">
               <div class="col-12 offset-md-2 offset-lg-2 offset-xl-2 col-md-7 col-lg-7 col-xl-8 text-center">
@@ -323,7 +322,7 @@
               
             </div>
           </div>
-        </form>
+        </div>
       </div><!--FIN ETAT DEMANDE-->
       <!--//* NICE_TO_HAVE::
        - Voir pourquoi quand on enregistre les boutons disparaissent.
@@ -1377,4 +1376,7 @@
 </script>
 <script src=" {{ asset('js/suppliersShow/showSupplier.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/status/status.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/identification/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/identification/save.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/identification/validation.js') }} "></script>
 @endsection

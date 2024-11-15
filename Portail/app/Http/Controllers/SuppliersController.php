@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SupplierRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\SupplierUpdateContactDetailsRequest;
+use App\Http\Requests\SupplierUpdateContactsRequest;
+use App\Http\Requests\SupplierUpdateIdentificationRequest;
+use App\Http\Requests\SupplierUpdateRbqRequest;
+use App\Http\Requests\SupplierUpdateFinanceRequest;
+
 use App\Models\Supplier;
 use App\Models\StatusHistory;
 use App\Models\Contact;
@@ -402,21 +408,27 @@ class SuppliersController extends Controller
     {
         //
     }
-
-  /**
-   * Update status of supplier.
-   */
-  public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier, StatusHistory $statusHistory)
-  {
-    Log::debug("UpdateStatus");
-  }
   
   /**
    * Update identification of supplier.
    */
   public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
   {
-    Log::debug("UpdateId");
+    try{
+      $supplier->neq = $request->neq;
+      $supplier->name = $request->name;
+      $supplier->email = $request->email;
+      $supplier->save();
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateContactDetails'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#identification-section');
+    }
+    catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+        ->withErrors('message',__('global.updateFailed'));
+    }
   }
 
   /**
@@ -494,15 +506,26 @@ class SuppliersController extends Controller
   public function checkEmail(Request $request)
   {
     $email = $request->email;
-    $exists = Supplier::where('neq', null)->where('email', $email)->exists();
+    $neq = $request->neq;
+    $supplierId = $request->supplierId;
+    $exists = Supplier::where('neq', $neq)
+                        ->where('email', $email)
+                        ->when($supplierId, function ($query, $supplierId) {
+                          return $query->where('id', '!=', $supplierId);
+                        })
+                        ->exists();
     return response()->json(['exists' => $exists]);
   }
 
   public function checkNeq(Request $request)
   {
-    Log::debug($request);
     $neq = $request->neq;
-    $exists = Supplier::where('neq', $neq)->exists();
+    $supplierId = $request->supplierId;
+    $exists = Supplier::where('neq', $neq)
+                        ->when($supplierId, function ($query, $supplierId) {
+                          return $query->where('id', '!=', $supplierId);
+                        })
+                      ->exists();
     return response()->json(['exists' => $exists]);
   }
 }
