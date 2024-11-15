@@ -1,3 +1,16 @@
+<!--//? REMARQUE::Piece jointe::
+  - Quand j'essaye d'enlever toutes les pièces jointes, ça échoue.
+  - Erreur des logs Laravel : [2024-11-15 02:19:51] local.DEBUG: TypeError: array_diff(): Argument #2 must be of type array, null given in D:\Projet_ecole\PortailFournisseursTr\Gestion\app\Http\Controllers\SuppliersController.php:562  
+  - Ma proposition : Dans supplier controller, je mettrais les lignes 561 à 563 dans un if($request->filled('attachmentFilesIds'))
+-->
+<!--//? REMARQUE::Piece jointe::
+  - Quand on supprime une pièce jointe, elle n'est pas retirer du dossier. À la longue ça va occuper de la mémoire sur le serveur si on garde des veilles affaires.
+    - Je me souvient pas si on c'était dit que ce serait moi qui le ferais cette partie, si oui, revient moi.
+-->
+<!--//? REMARQUE::Piece jointe::Nice to have?
+  - Quand il n'y a pas de pièces jointes, comme on peut pas en rajouter, on pourrait enlever le bouton modifier.
+-->
+
 <!--//* NICE_TO_HAVE::(nice_to_have) lorsqu'on clique sur "modifier", ne pas afficher le bouton enregistrer si il n'y a pas de changement (sinon, je fais enregistrer et ça change la date sans modification)-->
 <!--//* NICE_TO_HAVE::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
 <!--//* NICE_TO_HAVE::Potentiel nice to have, est-ce qu'on veut laisser le invalid si la personne quitte le modal de refus et reviens après ? Même chose pour le reste de la fiche-->
@@ -9,6 +22,7 @@
 - Mettre texte et curseur du textarea pour la raison du refus au début.
 - Mettre les statuts égaux 
 -->
+
 @extends('layouts.app')
 
 @section('css')
