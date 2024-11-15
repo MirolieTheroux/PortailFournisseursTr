@@ -663,7 +663,7 @@
         <button id="contactDetails-button" type="button" class="m-2 py-1 px-3 rounded button-darkblue next-button">{{__('global.next')}}</button>
       </div>
     </div>
-  </div> <!--FIN COORDONÉES-->
+  </div> <!--FIN COORDONNÉES-->
 
   <!--CONTACT-->
     <div class="container bg-white rounded my-2 form-section d-none" id="contacts-section">

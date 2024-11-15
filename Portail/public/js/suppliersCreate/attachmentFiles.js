@@ -251,8 +251,6 @@ document.addEventListener("DOMContentLoaded", function () {
       conteneurButton.remove();
     });
   });
-  addCitiesAndDAInSelect();
-  validateSelectCity();
 });
 
 window.addEventListener("beforeunload", () => {

@@ -10,6 +10,8 @@ use App\Http\Requests\SupplierUpdateIdentificationRequest;
 use App\Http\Requests\SupplierUpdateRbqRequest;
 use App\Http\Requests\SupplierUpdateFinanceRequest;
 
+use App\Http\Controllers\MailsController;
+
 use App\Models\Supplier;
 use App\Models\StatusHistory;
 use App\Models\Contact;
@@ -21,6 +23,7 @@ use App\Models\Province;
 use App\Models\ProductService;
 use App\Models\ProductServiceCategory;
 use App\Models\Attachment;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -311,6 +314,9 @@ class SuppliersController extends Controller
 
       $reussi=Auth::attempt(['email' => $request->email,'password' => $request->password]);
       if($reussi){
+        $user = Auth::user();
+        $mailsController = new MailsController();
+        $mailsController->sendInscriptionMail($user);
         return redirect()->route('suppliers.show')->with('message',"Demande d'inscription envoyée");
       }
     }
