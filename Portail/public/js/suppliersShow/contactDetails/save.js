@@ -13,9 +13,7 @@ function saveContactDetails(event){
   const currentSectionErrors = contactDetailsContainer.querySelectorAll(".invalid-feedback");
   
   currentSectionErrors.forEach(errorMessage => {
-    console.log("Test invalid input");
     if (errorMessage.style.display == "block") {
-      console.log("Test invalid input visible");
       event.preventDefault();
     }
   });

@@ -303,6 +303,7 @@ class SuppliersController extends Controller
       }
       $supplier->site = $request->contactDetailsWebsite;
       $supplier->address->save();
+      $supplier->save();
       
       //Update Phone numbers    
       $supplierExistingPhoneNumbers = $supplier->phoneNumbers->pluck('id')->toArray();

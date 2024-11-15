@@ -467,6 +467,55 @@ class SuppliersController extends Controller
   public function updateContactDetails(SupplierUpdateContactDetailsRequest $request, Supplier $supplier)
   {
     Log::debug("updateContactDetails");
+    //Log::debug($request);
+    try{
+      //Update Address
+      $supplier->address->civic_no = $request->contactDetailsCivicNumber;
+      $supplier->address->street = $request->contactDetailsStreetName;
+      $supplier->address->office = $request->contactDetailsOfficeNumber;
+      $postal_code = $request->contactDetailsPostalCode;
+      $postal_code = str_replace(' ', '', $postal_code);
+      $postal_code = strtoupper($postal_code);
+      $supplier->address->postal_code = $postal_code;
+      if($request->contactDetailsProvince == "Québec"){
+        $supplier->address->city = $request->contactDetailsCitySelect;
+        $supplier->address->region = $request->contactDetailsDistrictArea;
+      }
+      else{
+        $supplier->address->city = $request->contactDetailsInputCity;
+      }
+      
+      Log::debug($request->contactDetailsWebsite);
+      $supplier->site = $request->contactDetailsWebsite;
+      $supplier->address->save();
+      $supplier->save();
+      
+      //Update Phone numbers    
+      $supplierExistingPhoneNumbers = $supplier->phoneNumbers->pluck('id')->toArray();
+      $idsToDelete = array_diff($supplierExistingPhoneNumbers, $request->phoneNumberIds);
+      PhoneNumber::whereIn('id', $idsToDelete)->delete();
+
+      for($i = 0 ; $i < Count($request->phoneNumbers) ; $i++){
+        if($request->phoneNumberIds[$i] == -1){
+          $phoneNumber = new PhoneNumber();
+          $phoneNumber->number = str_replace('-', '', $request->phoneNumbers[$i]);
+          $phoneNumber->type = $request->phoneTypes[$i];
+          $phoneNumber->extension = $request->phoneExtensions[$i];
+          $phoneNumber->supplier()->associate($supplier->id);
+          $phoneNumber->contact()->associate(null);
+          $phoneNumber->save();
+        }
+      }
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateIdentification'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contactDetails-section');
+    }
+    catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->withErrors('message',__('global.updateFailed'));
+    }
   }
 
   /**
