@@ -341,12 +341,13 @@
               </div>
             </div>
             <div class="px-3">
-              <div class="row pb-3">
-                <div class="col-6">
+              <div class="row">
+                <div class="col-12 col-md-6 pb-3">
                   <div class="form-floating">
                     <input type="text" id="supplierId" value="{{ $supplier->id ? : '' }}" hidden>
                     <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ $supplier->neq ? : 'N/A' }}" maxlength="10" disabled>
-                    <label for="neq">{{__('form.neqLabel')}}</label>
+                    <label class="d-none d-xl-block" for="neq">{{__('form.neqLabel')}}</label>
+                    <label class="d-block d-xl-none" for="neq">{{__('form.neqLabelShort')}}</label>
                     <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
                     <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('form.identificationValidationNEQOnlyDigits')}}</div>
                     <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('form.identificationValidationNEQAmount')}}</div>
@@ -356,12 +357,10 @@
                   <p>{{ $errors->first('neq') }}</p>
                   @endif
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-md-6 pb-3">
                   <div class="form-floating">
                     <input type="text" name="name" id="name" class="form-control" placeholder="" value="{{ $supplier->name }}" maxlength="64" disabled>
                     <label for="name">{{__('form.companyNameLabel')}}</label>
-                    <div id="nameStart"></br></div>
-                    <div class="valid-feedback" id="nameValid" style="display: none;"></br></div>
                     <div class="invalid-feedback" id="nameInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Nom d\'entreprise'])}}</div>
                   </div>
                   @if($errors->has('name'))

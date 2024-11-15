@@ -62,13 +62,9 @@ function validateIdentificationNeq() {
 };
 
 function validateIdentificationName() {
-  const start = document.getElementById('nameStart');
-  const valid = document.getElementById('nameValid');
   const invalidEmpty = document.getElementById('nameInvalidEmpty');
 
   // Reset all error messages
-  start.style.display = 'none';
-  valid.style.display = 'none';
   invalidEmpty.style.display = 'none';
   
   // Basic validation logic
