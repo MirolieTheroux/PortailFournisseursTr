@@ -5,6 +5,7 @@
 @section('title', 'Accueil')
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('css/supplier.css') }}">
 <link rel="stylesheet" href="{{ asset('css/show.css') }}">
 @endsection
 
@@ -179,7 +180,7 @@
     </div>
     <!-- FIN NAVIGATION MOBILE-->
 
-    <div class="col-12 col-lg-9 col-xl-10 h-100 px-4 py-0 pb-md-5 pb-xl-0">
+    <div class="col-12 col-lg-9 col-xl-10 h-100 px-0 py-0 pb-md-5 pb-xl-0">
       <!--ETAT DEMANDE-->
       <!--//TODO::
         - Afficher dans le popover les modifications quand la BD sera faite.
@@ -263,8 +264,8 @@
         </div>
       </div> <!-- END Modal for History-->
 
-      <div class="container d-flex flex-column h-100 show-section" id="requestStatus-section">
-        <div class="h-100 w-100 d-flex align-items-center">
+      <div class="container px-lg-5 d-flex flex-column h-100 show-section" id="requestStatus-section">
+        <div class="px-lg-5 h-100 w-100 d-flex align-items-center">
           <div class="bg-white my-2 rounded form-section w-100">
             <div class="row py-2">
               <div class="col-12 offset-md-2 offset-lg-2 offset-xl-2 col-md-7 col-lg-7 col-xl-8 text-center">
@@ -330,8 +331,8 @@
        - Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
        -->
       <!--IDENTIFICATION-->
-      <div class="container d-flex flex-column h-100 show-section d-none" id="identification-section">
-        <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
+      <div class="container px-lg-5 d-flex flex-column h-100 show-section d-none" id="identification-section">
+        <form class="px-lg-5 h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
           <div class="bg-white my-2 rounded form-section w-100">
@@ -397,8 +398,8 @@
         </form>  
       </div><!--FIN IDENTIFICATION-->
       <!--COORDONNÉES-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
-        <form method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
+      <div class="container px-0 px-lg-5 h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
+        <form method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}">
           @csrf
           <div class="bg-white rounded my-2 form-section px-3">
             <div class="row">
@@ -483,7 +484,7 @@
                       <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" aria-label="" disabled>
                         <option>{{ $supplier->address->region }}</option>
                       </select>
-                      <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
+                      <label for="contactDetailsDistrictArea" id="contactDetailDALabel">{{__('form.districtArea')}}</label>
                     </div>
                     <div class="form-floating">
                       <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ $formattedPostalCode}}" placeholder="" maxlength="7" disabled>
@@ -581,7 +582,6 @@
                 <div class="text-start invalid-feedback" id="invalidListPhoneNumbers" style="display: none;">{{__('form.contactDetailsPhoneNumbersList')}}</div>
               </div>
             </div>
-            @role(['responsable', 'admin'])
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-3">
                 @php
@@ -592,7 +592,6 @@
                 <button id="btnSaveContactDetails" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
-            @endrole
           </div>
           @if(isset($errors) && $errors->any())
             <div class="alert alert-danger">
@@ -1378,4 +1377,8 @@
 <script src=" {{ asset('js/suppliersShow/identification/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/identification/save.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/identification/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contactDetails/addCitiesDistrictAreas.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contactDetails/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contactDetails/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contactDetails/save.js') }} "></script>
 @endsection

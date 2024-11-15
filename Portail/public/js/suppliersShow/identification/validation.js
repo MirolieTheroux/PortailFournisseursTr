@@ -76,7 +76,6 @@ function validateIdentificationName() {
   else {
     idNameInput.classList.remove('is-invalid');
     idNameInput.classList.add('is-valid');
-    valid.style.display = 'block';
   }
   
   idNameInput.classList.add('was-validated');
