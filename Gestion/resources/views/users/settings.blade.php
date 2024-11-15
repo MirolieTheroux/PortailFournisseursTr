@@ -3,7 +3,7 @@
 @section('title', __('settings.settings'))
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/settings/users.css') }}">
+<link rel="stylesheet" href="{{ asset('css/settings.css') }}">
 @endsection
 
 @section('content')
@@ -11,7 +11,7 @@
   <div class="row h-100">
     <!--NAVIGATION CÔTÉ-->
     <div class="left-nav shadow-sm col-2 bg-white h-100 d-flex flex-column justify-content-start">
-      <div id="" class="mt-3 py-1 rounded">
+      <div id="users-nav-button" class="mt-3 py-1 rounded">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="m-2">
           <path d="M15,6c0-3.309-2.691-6-6-6S3,2.691,3,6s2.691,6,6,6,6-2.691,6-6Zm-6,3c-1.654,0-3-1.346-3-3s1.346-3,3-3,3,1.346,3,3-1.346,3-3,3Zm13,9c0-.281-.026-.556-.076-.823l1.522-.879-1.5-2.598-1.524,.88c-.416-.356-.897-.637-1.422-.824v-1.757h-3v1.757c-.526,.186-1.007,.468-1.422,.824l-1.524-.88-1.5,2.598,1.522,.879c-.049,.267-.076,.542-.076,.823s.026,.556,.076,.823l-1.522,.879,1.5,2.598,1.524-.88c.416,.356,.897,.637,1.422,.824v1.757h3v-1.757c.526-.186,1.007-.468,1.422-.824l1.524,.88,1.5-2.598-1.522-.879c.049-.267,.076-.542,.076-.823Zm-4.5,1.5c-.827,0-1.5-.673-1.5-1.5s.673-1.5,1.5-1.5,1.5,.673,1.5,1.5-.673,1.5-1.5,1.5ZM5.5,14h3.5v3h-3.5c-1.378,0-2.5,1.122-2.5,2.5v4.5H0v-4.5c0-3.033,2.467-5.5,5.5-5.5Z"/>
         </svg>
@@ -20,7 +20,7 @@
         </svg>
         {{__('settings.userSettings')}}
       </div>
-      <div id="" class="py-1 rounded">
+      <div id="settings-nav-button" class="py-1 rounded">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="m-2">
           <path d="M15,24H9V20.487a9,9,0,0,1-2.849-1.646L3.107,20.6l-3-5.2L3.15,13.645a9.1,9.1,0,0,1,0-3.29L.107,8.6l3-5.2L6.151,5.159A9,9,0,0,1,9,3.513V0h6V3.513a9,9,0,0,1,2.849,1.646L20.893,3.4l3,5.2L20.85,10.355a9.1,9.1,0,0,1,0,3.29L23.893,15.4l-3,5.2-3.044-1.758A9,9,0,0,1,15,20.487Zm-4-2h2V18.973l.751-.194A6.984,6.984,0,0,0,16.994,16.9l.543-.553,2.623,1.515,1-1.732-2.62-1.513.206-.746a7.048,7.048,0,0,0,0-3.75l-.206-.746,2.62-1.513-1-1.732L17.537,7.649,16.994,7.1a6.984,6.984,0,0,0-3.243-1.875L13,5.027V2H11V5.027l-.751.194A6.984,6.984,0,0,0,7.006,7.1l-.543.553L3.84,6.134l-1,1.732L5.46,9.379l-.206.746a7.048,7.048,0,0,0,0,3.75l.206.746L2.84,16.134l1,1.732,2.623-1.515.543.553a6.984,6.984,0,0,0,3.243,1.875l.751.194Zm1-6a4,4,0,1,1,4-4A4,4,0,0,1,12,16Zm0-6a2,2,0,1,0,2,2A2,2,0,0,0,12,10Z"/>
         </svg>
@@ -29,7 +29,7 @@
         </svg>
         {{__('settings.settingsManagement')}}
       </div>
-      <div id="" class="py-1 rounded">
+      <div id="emails-nav-button" class="py-1 rounded">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="m-2">
           <path d="M19,1H5A5.006,5.006,0,0,0,0,6V18a5.006,5.006,0,0,0,5,5H19a5.006,5.006,0,0,0,5-5V6A5.006,5.006,0,0,0,19,1ZM5,3H19a3,3,0,0,1,2.78,1.887l-7.658,7.659a3.007,3.007,0,0,1-4.244,0L2.22,4.887A3,3,0,0,1,5,3ZM19,21H5a3,3,0,0,1-3-3V7.5L8.464,13.96a5.007,5.007,0,0,0,7.072,0L22,7.5V18A3,3,0,0,1,19,21Z"/>
         </svg>
@@ -42,10 +42,36 @@
     </div> <!-- FIN NAVIGATION CÔTÉ-->
 
     <div class="col-10 h-100 px-4 py-0">
-      <!--FIN USERS SETTINGS-->
-      <div class="container d-flex flex-column h-100 w-100 show-section " id="identification-section">
-        <div class="bg-white my-2 rounded form-section  w-100">
+      <!-- USERS SETTINGS-->
+      <div class="container d-flex flex-column h-100 show-section" id="users-section">
+        <div class="bg-white my-2 rounded form-section h-100 w-100">
           <h1 class="text-center">{{__('settings.userSettings')}}</h1>
+          <div class="px-3">
+            <div class="col-12 d-flex justify-content-center mb-2">
+              <a id="btnCancelId" href="" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+              <button id="btnEditUsers" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+              <button id="btnSaveUsers" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+            </div>
+          </div>
+        </div>
+      </div><!--FIN USERS SETTINGS-->
+      <!-- PARAMÈTRES -->
+      <div class="container d-flex flex-column h-100 show-section d-none" id="settings-section">
+        <div class="bg-white my-2 rounded form-section h-100 w-100">
+          <h1 class="text-center">{{__('settings.settingsManagement')}}</h1>
+          <div class="px-3">
+              <div class="col-12 d-flex justify-content-center mb-2">
+                <a id="btnCancelId" href="" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                <button id="btnEditUsers" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveUsers" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+              </div>
+          </div>
+        </div>
+      </div><!--FIN PARAMÈTRES-->
+      <!-- COURRIELS -->
+      <div class="container d-flex flex-column h-100 show-section d-none" id="emails-section">
+        <div class="bg-white my-2 rounded form-section h-100 w-100">
+          <h1 class="text-center">{{__('settings.emailSettings')}}</h1>
           <div class="px-3">
             <div class="row pb-3">
             <div class="row">
@@ -57,7 +83,7 @@
             </div>
           </div>
         </div>
-      </div><!--FIN USERS SETTINGS-->
+      </div><!--FIN COURRIEL-->
     </div>
   </div>
 </div>
