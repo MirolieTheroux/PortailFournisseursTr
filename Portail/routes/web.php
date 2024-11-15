@@ -25,7 +25,6 @@ Route::get('suppliers/show', [SuppliersController::class, 'show'])->name('suppli
 Route::get('suppliers/home', [SuppliersController::class, 'home'])->name('suppliers.home');
 
 //Modify suppliers informaiton
-Route::post('/suppliers/update/status/{supplier}',[SuppliersController::class, 'updateStatus'])->name('suppliers.updateStatus');
 Route::patch('/suppliers/update/identification/{supplier}',[SuppliersController::class, 'updateIdentification'])->name('suppliers.updateIdentification');
 Route::post('/suppliers/update/contactDetails/{supplier}',[SuppliersController::class, 'updateContactDetails'])->name('suppliers.updateContactDetails')->middleware(LoggerMiddleware::class);
 Route::get('/suppliers/remove/{supplier}', [SuppliersController::class, 'removeFromList'])->name('suppliers.removeFromList');

@@ -1,13 +1,6 @@
-const requestStatusCancelBtn = document.getElementById("btnCancelRequestStatus");
-const requestStatusEditBtn = document.getElementById("btnEditRequestStatus");
-const requestStatusSaveBtn = document.getElementById("btnSaveRequestStatus");
 const requestStatus = document.getElementById("requestStatus");
-const btnRequest = document.querySelector(".btnRequest");
 const deniedDivReason = document.querySelector(".deniedDivReason");
 const deniedReasonText = document.getElementById("deniedReasonText");
-const pendingOption = requestStatus.options[0];
-const oldValueRequest = requestStatus.value;
-const deniedReasonRequired = document.getElementById("deniedReasonRequired");
 
 document.addEventListener("DOMContentLoaded", function () {
   initializePopovers();
@@ -16,24 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
     deniedReasonText.setAttribute("disabled", "");
   }
 });
-
-//Statut Refuser
-// requestStatus.addEventListener("change", () => {
-//   showDeniedReason();
-// });
-
-// function showDeniedReason() {
-//   if (requestStatus.value === "denied") {
-//     deniedDivReason.classList.remove("d-none");
-//     deniedReasonText.removeAttribute("disabled");
-//   } 
-//   else {
-//     deniedDivReason.classList.add("d-none");
-//     deniedReasonRequired.style.display = "none";
-//     deniedReasonText.classList.remove("is-invalid");
-//     deniedReasonText.classList.remove("is-valid");
-//   }
-// }
 
 // HISTORIQUE
 const modalHistory = new bootstrap.Modal(

@@ -211,8 +211,6 @@ class SuppliersController extends Controller
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
         ->withErrors('message',__('global.updateFailed'));
     }
-    
-    return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
   public function denyRequest(SupplierDenialRequest $request, Supplier $supplier)
