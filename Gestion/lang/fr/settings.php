@@ -13,4 +13,7 @@ return [
     'admin' => 'Admnistrateur',
     'responsable' => 'Responsable',
     'clerk' => 'Commis',
+    'addUser' => 'Ajouter un utilisateur',
+    'emailTest' => 'test20@gmail.com',
+    'chooseUser' => 'Choisir un utilisateur',
 ];
