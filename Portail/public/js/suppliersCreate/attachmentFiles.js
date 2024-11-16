@@ -106,9 +106,19 @@ document.getElementById("add-file").addEventListener("click", () => {
         validateSameFileName();
         validateTotalSize(inputFile.files[0].size/(1024 * 1024).toFixed(2));
       }
+      if(emptyListDisplay){
+        updateListHeader();
+      }
     };
     removeDiv.appendChild(removeFile);
 
+    const inputFileIdHidden = document.createElement('input');
+    inputFileIdHidden.value = -1;
+    inputFileIdHidden.classList.add("d-none");
+    inputFileIdHidden.setAttribute("name", "attachmentFilesIds[]");
+
+
+    fileItem.appendChild(inputFileIdHidden);
     fileItem.appendChild(fileNameDiv);
     fileItem.appendChild(fileSizeDiv);
     fileItem.appendChild(fileDateDiv);

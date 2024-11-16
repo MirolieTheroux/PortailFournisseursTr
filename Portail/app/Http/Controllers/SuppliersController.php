@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\facades\Auth;
 use Illuminate\Support\facades\Session;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 class SuppliersController extends Controller
 {
@@ -462,7 +463,16 @@ class SuppliersController extends Controller
    */
   private function destroyAttachments($supplier)
   {
-    Log::debug("destroyAttachments");
+    if(!(self::USING_FILESTREAM)){
+      $directory = $supplier->name;
+      $path = env('FILE_STORAGE_PATH'). "\\". $directory;
+
+      Log::debug($path);
+      if (file_exists($path)) {
+        File::deleteDirectory($path);
+      }
+    }
+    $supplier->attachments()->delete();
   }
 
   /**
@@ -740,12 +750,87 @@ class SuppliersController extends Controller
   {
     Log::debug($request);
     try {
-      $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
-      $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
-      Attachment::whereIn('id', $idsToDelete)->delete();
-      
+      if($request->filled('attachmentFilesIds')){
+        $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
+        $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
+        //foreach
+        foreach ($idsToDelete as $id) {
+          $attachment = Attachment::FindOrFail($id);
+          $attachmentFullName = $attachment->name .".".$attachment->type;
+          
+          if(!(self::USING_FILESTREAM)){
+            $directory = $supplier->name;
+            $path = env('FILE_STORAGE_PATH'). "\\". $directory. "\\". $attachmentFullName;
+            Log::debug($path);
+            if (file_exists($path)) {
+              File::delete($path);
+            }
+          }
+        }
+        Attachment::whereIn('id', $idsToDelete)->delete();
+
+        for ($i=0; $i < Count($request->attachmentFilesIds) ; $i++) { 
+          if($request->attachmentFilesIds[$i] == -1){
+            $uploadedFile;
+            $fileNameWithoutExtension = $request->fileNames[$i];
+            foreach ($request->file('files') as $key => $file) {
+              # code...
+              if(str_contains($file->getClientOriginalName(), $fileNameWithoutExtension)){
+                $uploadedFile = $file;
+              }
+            }
+
+            if (!$uploadedFile->isValid()) {
+              Log::error("Fichier invalide : ", [
+                  'error' => $uploadedFile->getError(),
+                  'nom' => $uploadedFile->getClientOriginalName(),
+                  'taille' => $uploadedFile->getSize(),
+                  'mime' => $uploadedFile->getMimeType(),
+              ]);
+            }
+
+            if (isset($request->fileNames[$i]) && $uploadedFile->isValid()) {
+              $fileName = $fileNameWithoutExtension.'.'.$uploadedFile->extension();
+              $path = 'uploads/suppliers/' . $supplier->name;
+              $fullPath = storage_path('app/' . $path . '/' . $fileName);
+  
+  
+              if (!file_exists(storage_path('app/' . $path))) {
+                mkdir(storage_path('app/' . $path), 0777, true);
+              }
+              else if(file_exists($fullPath)){
+                while (file_exists($fullPath)) {
+                  $fileNameWithoutExtension = $fileNameWithoutExtension."_1";
+                  $fileName = $fileNameWithoutExtension.'.'.$uploadedFile->extension();
+                  $fullPath = storage_path('app/' . $path . '/' . $fileName);
+                }
+              }
+  
+              try{
+                $uploadedFile->storeAs($path, $fileName);
+              }
+              catch(\Symfony\Component\HttpFoundation\File\Exception\FileException $e){
+                Log::error("Erreur lors du téléversement du fichier.", [$e]);
+              }
+            }
+  
+            $attachment = new Attachment();
+            $attachment->name = $fileNameWithoutExtension;
+            $attachment->type = $uploadedFile->extension();
+            $attachment->size = $request->fileSizes[$i];
+            $attachment->deposit_date = $request->addedFileDates[$i];
+            $attachment->supplier()->associate($supplier);
+            $attachment->save();
+          }
+        }
+      }
+      else{
+        $this->destroyAttachments($supplier);
+      }
+
       $this->changeStatus($supplier, "modified");
-      
+      //Supprimer dans le dossier 
+
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePJ'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#attachments-section');

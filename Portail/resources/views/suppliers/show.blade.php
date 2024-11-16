@@ -1131,15 +1131,52 @@
             <h1 class="text-center">{{__('form.attachmentFilesTitle')}}</h1>
             <h2 class="text-center section-subtitle mb-3">{{__('form.attachmentFilesSection')}}</h2>
             <div class="row px-3 mb-3">
+              <div id="addAttachmentsContainer" class="col-12 d-flex flex-column justify-content-between d-none">
+                <div class="row flex-row justify-content-between">
+                  <div class="col-10">
+                    <div>
+                      <input class="form-control" type="file" id="formFile">
+                    </div>
+                    <div class="text-start invalid-feedback attachment" id="attachmentFileRequired" style="display: none;">{{__('form.attachmentFileRequired')}}</div>
+                    <div class="text-start invalid-feedback attachment" id="attachmentFileNameLength" style="display: none;">{{__('form.attachmentFileNameLength')}}</div>
+                    <div class="text-start invalid-feedback attachment" id="attachmentFileNameAlphaNum" style="display: none;">{{__('form.attachmentFileNameAlphaNum')}}</div>
+                    <div class="text-start invalid-feedback attachment" id="attachmentFileFormat" style="display: none;">{{__('form.attachmentFileFormat')}}</div>
+                    <div class="text-start invalid-feedback attachment" id="attachmentSameFileName" style="display: none;">{{__('form.attachmentSameFileName')}}</div>
+                    <div class="text-start invalid-feedback attachment" id="attachmentFilesExceedSize" style="display: none;">{{__('form.attachmentFilesExceedSize')}}</div>
+                  </div>
+                  <div class="col-2 text-center pt-1">
+                    <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill button-add-darkblue" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                    </svg>
+                  </div>
+                </div>
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
+                      <td class="text-center" id="fileName"></td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">{{__('form.attachmentFileSize')}}</td>
+                      <td class="text-center" id="fileSize"></td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">{{__('form.attachmentAddedFileDate')}}</td>
+                      <td class="text-center" id="addedFileDate"></td>
+                    </tr>
+                    <tr class="d-none">
+                      <td class="text-center" id="valueInput"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               <div class="col-12">
                 <div class="form-floating h-100" id="div-attachmentFilesList">
                   <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
                     <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
                     <div class="row px-3">
-                      @if($supplier->attachments->isEmpty())
-                      <div>{{__('form.noAttachmentFiles')}}</div>
-                      @else
-                      <div class="d-flex justify-content-between mt-2">
+                      <div id="emptyListDisplay" class="{{$supplier->attachments->isEmpty() ? '' : 'd-none'}}">{{__('form.noAttachmentFiles')}}</div>
+                      <div id="listHeader" class="d-flex justify-content-between mt-2 {{$supplier->attachments->isEmpty() ? 'd-none' : ''}}">
                         <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
                         <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
                         <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
@@ -1161,10 +1198,12 @@
                           <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removeAttachment d-none" viewBox="0 0 16 16" style="cursor:pointer;">
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                           </svg>
+                          <input class="d-none" name="fileNames[]" value="{{ $file->name }}" />
+                          <input class="d-none" name="fileSizes[]" value="{{ $file->size }}" />
+                          <input class="d-none" name="addedFileDates[]" value="{{ $file->deposit_date }}" />
                         </div>
                         @endforeach
                       </div>
-                      @endif
                     </div>
                   </div>
                 </div>
@@ -1325,4 +1364,6 @@
 <script src=" {{ asset('js/suppliersShow/finance/save.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/finance/validation.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/attachments/edit.js') }} "></script>
+<script src="{{ asset('js/suppliersCreate/attachmentFiles.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/attachments/listUpdate.js') }} "></script>
 @endsection
