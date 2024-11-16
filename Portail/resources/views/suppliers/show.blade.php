@@ -777,8 +777,8 @@
                 <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
               </div>
             </div>
-            <div id="productServiceShowContainer" class="flex-row d-flex justify-content-center px-3">
-              <div class="col-6 me-2">
+            <div id="productServiceShowContainer" class="row justify-content-center px-3">
+              <div class="col-12 col-md-6">
                 <h2 class="text-center section-subtitle">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
                 <div>
                   <div class="form-floating">
@@ -812,7 +812,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategoriesDetails')}}</h2>
                 <div class="text-center">
                   <div class="form-floating">
@@ -822,6 +822,7 @@
                 </div>
               </div>
             </div>
+
             <div id="productServiceEditContainer" class="row mx-0 w-100 d-none">
               <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
                 <h2 class="text-center h4">{{__('form.productsAndServiceServices')}}</h2>
@@ -841,7 +842,6 @@
                     <div class="note" id="results-count"><br></div>
                   </div>
                 </div>
-                
               </div>
               <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
                 <h2 class="text-center h4">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
@@ -851,7 +851,7 @@
                       <div class="mt-lg-0 mt-md-4" id="service-selected">
                         @foreach ($supplier->productsServices as $productService)
                           <div class="row align-items-start py-2 hover-options user-select-none" data-code="{{$productService->code}}">
-                            <input type="text" name="produits_services[]" value="{{$productService->code}}" class="d-none">
+                            <input type="text" name="products_services[]" value="{{$productService->code}}" class="d-none">
                             <div class="col-4 col-md-12 col-xl-4 d-flex flex-column justify-content-start">
                               {{$productService->code}}
                             </div>
@@ -878,7 +878,6 @@
                 </div>
               </div>
             </div>
-            @role(['responsable', 'admin'])
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-2">
                 @php
@@ -889,7 +888,6 @@
                 <button id="btnSaveProductsServices" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
-            @endrole
           </div>
         </form>
       </div><!--FIN PRODUITS ET SERVICES-->
@@ -1382,4 +1380,6 @@
 <script src=" {{ asset('js/suppliersShow/contacts/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/contacts/save.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/contacts/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliersCreate/productsServices.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/productServices/edit.js') }} "></script>
 @endsection

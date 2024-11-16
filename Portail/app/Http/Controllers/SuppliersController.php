@@ -613,7 +613,46 @@ class SuppliersController extends Controller
    */
   public function updateProductsServices(Request $request, Supplier $supplier)
   {
-    Log::debug("updateProductsServices");
+    Log::debug($request);
+    Log::debug($supplier->productsServices);
+
+    try {
+      $supplier->product_service_detail = $request->product_service_detail;
+      $supplier->save();
+
+      
+      foreach ($supplier->productsServices as $productService) {
+        if($request->filled('products_services')){
+          if(!in_array($productService->code, $request->products_services)){
+            $supplier->productsServices()->detach($productService->code);
+          }
+        }
+        else{
+          $supplier->productsServices()->detach();
+        }
+       
+      }
+
+      $supplierExistingProductsServices = $supplier->productsServices->pluck('code')->toArray();
+      if($request->filled('products_services')){
+        foreach ($request->products_services as $productServiceCode) {
+          if(!in_array($productServiceCode, $supplierExistingProductsServices)){
+            $productService = ProductService::where('code', $productServiceCode)->firstOrFail();
+            $supplier->productsServices()->attach($productService);
+          }
+        }
+      }
+
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdatePS'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#productsServices-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
   }
 
   /**
