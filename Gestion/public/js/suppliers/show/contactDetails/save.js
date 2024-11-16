@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
   
 function addContactDetailsSaveListeners(){
-  btnSaveContactDetails.addEventListener('click', saveContactDetails);
+  if(btnSaveContactDetails)
+    btnSaveContactDetails.addEventListener('click', saveContactDetails);
 }
   
 function saveContactDetails(event){
@@ -13,9 +14,7 @@ function saveContactDetails(event){
   const currentSectionErrors = contactDetailsContainer.querySelectorAll(".invalid-feedback");
   
   currentSectionErrors.forEach(errorMessage => {
-    console.log("Test invalid input");
     if (errorMessage.style.display == "block") {
-      console.log("Test invalid input visible");
       event.preventDefault();
     }
   });

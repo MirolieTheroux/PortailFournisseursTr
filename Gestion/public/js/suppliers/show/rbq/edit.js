@@ -23,7 +23,8 @@ function getRbqSectionElements(){
   rbqSubcategoryTitle = rbqContainer.getElementsByClassName("subcategory-title");
 }
 function addRbqSectionListeners(){
-  btnEditRbq.addEventListener('click', enableRbqSectionEdit);
+  if(btnEditRbq)
+    btnEditRbq.addEventListener('click', enableRbqSectionEdit);
 }
 
 function enableRbqSectionEdit(){

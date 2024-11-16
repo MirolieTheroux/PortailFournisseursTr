@@ -17,7 +17,8 @@ function getIdSectionElements(){
   idInputs = idContainer.getElementsByClassName("form-control");
 }
 function addIdSectionListeners(){
-  btnEditId.addEventListener('click', enableIdSectionEdit);
+  if(btnEditId)
+    btnEditId.addEventListener('click', enableIdSectionEdit);
 }
 
 function enableIdSectionEdit(){
