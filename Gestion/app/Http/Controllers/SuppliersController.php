@@ -201,6 +201,8 @@ class SuppliersController extends Controller
       $supplier->name = $request->name;
       $supplier->email = $request->email;
       $supplier->save();
+      
+      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateContactDetails'))
@@ -321,6 +323,8 @@ class SuppliersController extends Controller
           $phoneNumber->save();
         }
       }
+      
+      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateIdentification'))
@@ -561,6 +565,8 @@ class SuppliersController extends Controller
       $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
       $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
       Attachment::whereIn('id', $idsToDelete)->delete();
+      
+      $this->changeStatus($supplier, "modified");
       
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePJ'))

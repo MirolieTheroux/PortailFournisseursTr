@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\facades\Auth;
 use Illuminate\Support\facades\Session;
+use Carbon\Carbon;
 
 class SuppliersController extends Controller
 {
@@ -425,6 +426,8 @@ class SuppliersController extends Controller
       $supplier->name = $request->name;
       $supplier->email = $request->email;
       $supplier->save();
+      
+      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateContactDetails'))
@@ -466,8 +469,6 @@ class SuppliersController extends Controller
    */
   public function updateContactDetails(SupplierUpdateContactDetailsRequest $request, Supplier $supplier)
   {
-    Log::debug("updateContactDetails");
-    //Log::debug($request);
     try{
       //Update Address
       $supplier->address->civic_no = $request->contactDetailsCivicNumber;
@@ -507,6 +508,8 @@ class SuppliersController extends Controller
         }
       }
 
+      $this->changeStatus($supplier, "modified");
+
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateIdentification'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contactDetails-section');
@@ -523,7 +526,78 @@ class SuppliersController extends Controller
    */
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
   {
-    Log::debug("updateContacts");
+    try {
+      foreach ($supplier->contacts as $contact) {
+        if(!in_array($contact->id, $request->contactIds)){
+          foreach ($contact->phoneNumbers as $phoneNumber) {
+            $phoneNumber->delete();
+          }
+          $contact->delete();
+        }
+      }
+
+      for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
+        if($request->contactIds[$i] != -1){
+          $contact = Contact::findOrFail($request->contactIds[$i]);
+        }
+        else{
+          $contact = new Contact();
+        }
+        
+        $contact->email = $request->contactEmails[$i];
+        $contact->first_name = $request->contactFirstNames[$i];
+        $contact->last_name = $request->contactLastNames[$i];
+        $contact->job = $request->contactJobs[$i];
+        $contact->supplier()->associate($supplier);
+        $contact->save();
+
+        if($request->contactTelIdsA[$i] != -1){
+          $phoneNumberA = PhoneNumber::findOrFail($request->contactTelIdsA[$i]);
+        }
+        else{
+          $phoneNumberA = new PhoneNumber();
+        }
+        $phoneNumberA->number = str_replace('-', '', $request->contactTelNumbersA[$i]);
+        $phoneNumberA->type = $request->contactTelTypesA[$i];
+        $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
+
+        if($request->contactTelIdsA[$i] == -1){
+          $phoneNumberA->supplier()->associate(null);
+          $phoneNumberA->contact()->associate($contact);
+        }
+        $phoneNumberA->save();
+
+        if(!is_null($request->contactTelNumbersB[$i])){
+          if($request->contactTelIdsB[$i] != -1){
+            $phoneNumberB = PhoneNumber::findOrFail($request->contactTelIdsB[$i]);
+          }
+          else{
+            $phoneNumberB = new PhoneNumber();
+          }
+
+          $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
+          $phoneNumberB->type = $request->contactTelTypesB[$i];
+          $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
+          if($request->contactTelIdsB[$i] == -1){
+            $phoneNumberB->supplier()->associate(null);
+            $phoneNumberB->contact()->associate($contact);
+          }
+          $phoneNumberB->save();
+        }
+        else if(Count($contact->phoneNumbers) == 2){
+          $contact->phoneNumbers[1]->delete();
+        }
+      }
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateContact'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contacts-section');
+      
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
   }
 
   /**
@@ -548,6 +622,18 @@ class SuppliersController extends Controller
   public function updateFinance(SupplierUpdateFinanceRequest $request, Supplier $supplier)
   {
     Log::debug("updateFinance");
+  }
+
+  /**
+   * Update status of supplier.
+   */
+  private function changeStatus($supplier, $newStatus){
+    $status = new StatusHistory();
+    $status->status = $newStatus;
+    $status->updated_by = auth()->user()->email;
+    $status->created_at = Carbon::now('America/Toronto');
+    $status->supplier()->associate($supplier);
+    $status->save();
   }
 
     /**
