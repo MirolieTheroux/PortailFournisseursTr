@@ -151,7 +151,7 @@ return [
     'paymentConditions' => 'Conditions de paiement',
     'tvqNumber' => 'Numéro de TVQ',
     'noTvqNumber' => 'Aucun numéro de tvq au dossier',
-    'paymentConditionsDefault' => 'À choisir',
+    'paymentConditionsDefault' => 'Choisir une condition',
     'nowPaymentNoDeduction' => 'Payable immédiatement sans déduction',
     'nowPaymentNoDeduction15th' => 'Payable immédiatement sans déduction, Date de base au 15 du mois suivant',
     '15days2' => 'Dans les 15 jours 2% escpte, dans les 30 jours sans déduction',

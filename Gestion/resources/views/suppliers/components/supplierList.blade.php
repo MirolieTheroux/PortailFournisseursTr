@@ -56,7 +56,7 @@
           <div class="text-start supplier-list-table-text">{{$supplier->address->city}}</div>
         </div>
         <div class="col-2 text-center supplier-list-table-text">
-          <div class="text-centert">
+          <div class="text-center">
             @php
               $selectedProductsServices = $productsServices->pluck('code')->toArray();
               
