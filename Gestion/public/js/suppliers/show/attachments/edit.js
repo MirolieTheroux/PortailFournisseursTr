@@ -10,7 +10,7 @@ let tempTotalSize = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
   getAttachmentsSectionElements();
-  addAttacmentsSectionListeners();
+  addAttachmentsSectionListeners();
   getTotalSizeFiles();
   removeFiles();
 });
@@ -24,10 +24,19 @@ function getAttachmentsSectionElements() {
   filesSize = document.getElementById("filesSize");
   totalSize = document.getElementById("totalSize")
   fileSize = attachmentsContainer.querySelectorAll(".fileSize");
+  if(removeAttachements.length === 0){
+    btnEditAttachments.classList.add("d-none");
+    filesSize.classList.add("d-none");
+  }   
+    
+  else
+    if(btnEditAttachments)
+      btnEditAttachments.classList.remove("d-none");
 }
 
-function addAttacmentsSectionListeners() {
-  btnEditAttachments.addEventListener("click",enableAttacmentsSectionEdit);
+function addAttachmentsSectionListeners() {
+  if(btnEditAttachments)
+    btnEditAttachments.addEventListener("click",enableAttacmentsSectionEdit);
 }
 
 function enableAttacmentsSectionEdit() {

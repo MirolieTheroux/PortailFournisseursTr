@@ -277,7 +277,6 @@ class SuppliersController extends Controller
         File::deleteDirectory($path);
       }
     }
-
     $supplier->attachments()->delete();
   }
 
@@ -562,12 +561,32 @@ class SuppliersController extends Controller
   {
     Log::debug($request);
     try {
-      $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
-      $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
-      Attachment::whereIn('id', $idsToDelete)->delete();
-      
+      if($request->filled('attachmentFilesIds')){
+        $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
+        $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
+        //foreach
+        foreach ($idsToDelete as $id) {
+          $attachment = Attachment::FindOrFail($id);
+          $attachmentFullName = $attachment->name .".".$attachment->type;
+          
+          if(!(self::USING_FILESTREAM)){
+            $directory = $supplier->name;
+            $path = env('FILE_STORAGE_PATH'). "\\". $directory. "\\". $attachmentFullName;
+            Log::debug($path);
+            if (file_exists($path)) {
+              File::delete($path);
+            }
+          }
+        }
+        Attachment::whereIn('id', $idsToDelete)->delete();
+      }
+      else{
+        $this->destroyAttachments($supplier);
+      }
+
       $this->changeStatus($supplier, "modified");
-      
+      //Supprimer dans le dossier 
+
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePJ'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#attachments-section');

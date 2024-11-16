@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //Btn annuler
-requestStatusCancelBtn.addEventListener("click", () => {
+if(requestStatusCancelBtn){
+  requestStatusCancelBtn.addEventListener("click", () => {
     requestStatusEditBtn.classList.remove("d-none");
     requestStatusCancelBtn.classList.add("d-none");
     requestStatusSaveBtn.classList.add("d-none");
@@ -37,20 +38,27 @@ requestStatusCancelBtn.addEventListener("click", () => {
       deniedDivReason.classList.add("d-none");
     else if (oldValueRequest === "denied")
       deniedDivReason.classList.remove("d-none");
-});
+  });
+}
+
 //Btn Modifier
-requestStatusEditBtn.addEventListener("click", () => {
-  requestStatusEditBtn.classList.add("d-none");
-  requestStatusSaveBtn.classList.remove("d-none");
-  requestStatusCancelBtn.classList.remove("d-none");
-  requestStatus.removeAttribute("disabled");
-  deniedReasonText.removeAttribute("disabled");
-  requestStatus.options.remove(0);
-});
+if(requestStatusEditBtn){
+  requestStatusEditBtn.addEventListener("click", () => {
+    requestStatusEditBtn.classList.add("d-none");
+    requestStatusSaveBtn.classList.remove("d-none");
+    requestStatusCancelBtn.classList.remove("d-none");
+    requestStatus.removeAttribute("disabled");
+    deniedReasonText.removeAttribute("disabled");
+    requestStatus.options.remove(0);
+  });
+}
+
 //Btn Enregistrer
-requestStatusSaveBtn.addEventListener("click", (event) => {
-  saveStatus(event);
-});
+if(requestStatusSaveBtn){
+  requestStatusSaveBtn.addEventListener("click", (event) => {
+    saveStatus(event);
+  });
+}
 //Statut Refuser
 requestStatus.addEventListener("change", () => {
   showDeniedReason();
@@ -75,9 +83,12 @@ const modalHistory = new bootstrap.Modal(
   document.getElementById("modalHistory")
 );
 const btnHistory = document.getElementById("btnHistory");
-btnHistory.addEventListener("click", () => {
+if(btnHistory){
+  btnHistory.addEventListener("click", () => {
     modalHistory.show();
-});
+  }); 
+}
+
 
 function initializePopovers() {
   let currentPopover = null;
@@ -115,7 +126,8 @@ function initializePopovers() {
 }
 
 //Validations
-deniedReasonText.addEventListener("input", validateDeniedReason);
+if(deniedReasonText)
+  deniedReasonText.addEventListener("input", validateDeniedReason);
 function validateDeniedReason() {
   deniedReasonRequired.style.display = "none";
   if (!deniedReasonText.value) {
