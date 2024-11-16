@@ -25,7 +25,8 @@ function getContactDetailsSectionElements() {
 }
 
 function addContactDetailsSectionListeners() {
-  btnEditContactDetails.addEventListener("click",enableContactDetailsSectionEdit);
+  if(btnEditContactDetails)
+    btnEditContactDetails.addEventListener("click",enableContactDetailsSectionEdit);
 }
 
 function enableContactDetailsSectionEdit() {

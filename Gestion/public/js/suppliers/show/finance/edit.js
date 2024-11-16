@@ -21,7 +21,8 @@ function getFinanceSectionElements(){
   financeChecks = financeContainer.getElementsByClassName("form-check-input");
 }
 function addFinanceSectionListeners(){
-  btnEditFinances.addEventListener('click', enableFinanceSectionEdit);
+  if(btnEditFinances)
+    btnEditFinances.addEventListener('click', enableFinanceSectionEdit);
 }
 
 function enableFinanceSectionEdit(){

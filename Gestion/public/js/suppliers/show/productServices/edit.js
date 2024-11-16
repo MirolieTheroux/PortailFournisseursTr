@@ -19,7 +19,8 @@ function getPSSectionElements(){
   psEditContainer = document.getElementById("productServiceEditContainer");
 }
 function addPSSectionListeners(){
-  btnEditPS.addEventListener('click', enablePSSectionEdit);
+  if(btnEditPS)
+    btnEditPS.addEventListener('click', enablePSSectionEdit);
 }
 
 function enablePSSectionEdit(){
