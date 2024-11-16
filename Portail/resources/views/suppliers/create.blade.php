@@ -702,8 +702,8 @@
                     <div id="referenceContact" class="col-12 col-lg-6 d-flex flex-column justify-content-between mb-2">
                         <div class="rounded px-3 border">
                             <div class="row">
-                                <h2 id="contactSubtitle1" class="col-11 text-start h4">{{__('form.contactsSubtitle')}}</h2>
-                                <button type="button" class="col-1 text-end delete-contact p-0">
+                                <h2 id="contactSubtitle1" class="col-10 col-sm-11 text-start h4">{{__('form.contactsSubtitle')}}</h2>
+                                <button type="button" class="col-2 col-sm-1 text-end delete-contact p-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
                                     </svg>
@@ -818,8 +818,8 @@
 
                     <div class="rounded pt-1 px-3 border">
                         <div class="row">
-                            <h2 id="contactSubtitle1" class="col-11 text-start h4">{{__('form.contactsSubtitle')}}</h2>
-                            <button type="button" class="col-1 text-end delete-contact p-0">
+                            <h2 id="contactSubtitle1" class="col-10 col-sm-11 text-start h4">{{__('form.contactsSubtitle')}}</h2>
+                            <button type="button" class="col-2 col-sm-1 text-end delete-contact p-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
                                 </svg>

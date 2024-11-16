@@ -624,8 +624,8 @@
                 <div class="col-12 col-lg-6 d-flex flex-column justify-content-between mb-2 contactCard">
                   <div class="rounded px-3 pt-2 border">
                     <div class="row">
-                      <h2 class="col-11 text-start section-subtitle">{{__('form.contactsSubtitle')}}</h2>
-                      <button type="button" class="col-1 text-end delete-contact p-0 d-none">
+                      <h2 class="col-10 col-sm-11 col-lg-10 col-xl-11 text-start section-subtitle">{{__('form.contactsSubtitle')}}</h2>
+                      <button type="button" class="col-2 col-sm-1 col-lg-2 col-xl-1 text-end delete-contact p-0 d-none">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
                           <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
                         </svg>
@@ -753,7 +753,6 @@
                 </div>
                 @endforeach
             </div>
-            @role(['responsable', 'admin'])
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-3">
                 @php
@@ -764,7 +763,6 @@
                 <button id="btnSaveContacts" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
-            @endrole
           </div>
         </form>
       </div> <!--FIN CONTACT-->
@@ -1381,4 +1379,7 @@
 <script src=" {{ asset('js/suppliersShow/contactDetails/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/contactDetails/validation.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/contactDetails/save.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contacts/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contacts/save.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contacts/validation.js') }} "></script>
 @endsection
