@@ -555,7 +555,7 @@ class SuppliersController extends Controller
     }
   }
 
-    /**
+  /**
    * Update attachments of supplier.
    */
   public function updateAttachments(Request $request, Supplier $supplier)
@@ -576,7 +576,6 @@ class SuppliersController extends Controller
       Log::debug($e);
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
     }
-
   }
 
     public function filter(Request $request)

@@ -1056,15 +1056,15 @@
                                 type="checkbox"
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}"
-                                id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                id="flexCheckGen{{$workSubcategory->id}}OB"
                                 {{$checked && $supplier->rbqLicence->type == "ownerBuilder" ? 'checked' : ''}}
                                 disabled
                               >
                               <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->code}}
                                 </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->name}}
                                 </label>
                               </div>
@@ -1087,15 +1087,15 @@
                                 type="checkbox"
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}"
-                                id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                id="flexCheckGen{{$workSubcategory->id}}OB"
                                 {{$checked && $supplier->rbqLicence->type == "ownerBuilder" ? 'checked' : ''}}
                                 disabled
                               >
                               <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->code}}
                                 </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->name}}
                                 </label>
                               </div>
@@ -1110,7 +1110,6 @@
                 </div>
               </div>
             </div>
-            @role(['responsable', 'admin'])
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-2">
                 @php
@@ -1121,134 +1120,72 @@
                 <button id="btnSaveRbq" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
-            @endrole
           </div>
         </form>
       </div><!--FIN LICENCE RBQ-->
       <!--PIÈCES JOINTES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
-        <div class=" bg-white rounded my-2 form-section">
-          <div class="row">
-            <div class="col-12 text-center">
-              <h1>{{__('form.attachmentFilesTitle')}}</h1>
-            </div>
-          </div>
-          <div class="row px-3 mb-3">
-            <div class="col-12 d-flex flex-column justify-content-between mb-3">
-              <h2 class="text-center section-subtitle">{{__('form.attachmentFilesSection')}}</h2>
-            </div>
-            <div class=" col-12 d-flex flex-column justify-content-between">
-              <div class="row flex-row justify-content-between d-none">
-                <div class="col-10">
-                  <div>
-                    <input class="form-control" type="file" id="formFile" disabled>
-                  </div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFileRequired" style="display: none;">{{__('form.attachmentFileRequired')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFileNameLength" style="display: none;">{{__('form.attachmentFileNameLength')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFileNameAlphaNum" style="display: none;">{{__('form.attachmentFileNameAlphaNum')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFileFormat" style="display: none;">{{__('form.attachmentFileFormat')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentSameFileName" style="display: none;">{{__('form.attachmentSameFileName')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFilesExceedSize" style="display: none;">{{__('form.attachmentFilesExceedSize')}}</div>
-                </div>
-                <div class="col-2 text-center pt-1">
-                  <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                  </svg>
-                </div>
-              </div>
-              <table class="table d-none">
-                <tbody>
-                  <tr>
-                    <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
-                    <td class="text-center" id="fileName"></td>
-                  </tr>
-                  <tr>
-                    <td class="fw-bold">{{__('form.attachmentFileSize')}}</td>
-                    <td class="text-center" id="fileSize"></td>
-                  </tr>
-                  <tr>
-                    <td class="fw-bold">{{__('form.attachmentAddedFileDate')}}</td>
-                    <td class="text-center" id="addedFileDate"></td>
-                  </tr>
-                  <tr class="d-none">
-                    <td class="text-center" id="valueInput"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="col-12">
-              <div class="form-floating h-100" id="div-attachmentFilesList">
-                <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
-                  <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
-                  <div class="row px-3">
-                    @if($supplier->attachments->isEmpty())
-                    <div>{{__('form.noAttachmentFiles')}}</div>
-                    @else
-                    <div class="d-flex justify-content-between mt-2">
-                      <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
-                      <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
-                      <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
-                      <div class="col-2 "></div>
-                    </div>
-                    <div class="d-flex flex-column justify-content-between" id="attachmentFilesList">
-                      @foreach ($supplier->attachments as $file)
-                      <div class="row mb-2 ">
-                        <div class="col-6 fs-6 fileName">
-                          {{-- <a href="{{ route('attachments.show', ['supplier' => $supplier->id, 'attachment' => $file->id]) }}" target="_blank">{{ $file->name }}</a> --}}
-                        </div>
-                        <div class="col-2 fs-6 text-center fileSize">
-                          {{$file->size}}
-                        </div>
-                        <div class="col-2 fs-6 text-center addedFileDate">
-                          {{$file->deposit_date}}
-                        </div>
+        <form class="w-100" method="POST" action="{{route('suppliers.updateAttachments', [$supplier])}}" enctype="multipart/form-data">
+        @csrf
+          <div class="bg-white rounded my-2 w-100 form-section">
+            <h1 class="text-center">{{__('form.attachmentFilesTitle')}}</h1>
+            <h2 class="text-center section-subtitle mb-3">{{__('form.attachmentFilesSection')}}</h2>
+            <div class="row px-3 mb-3">
+              <div class="col-12">
+                <div class="form-floating h-100" id="div-attachmentFilesList">
+                  <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
+                    <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
+                    <div class="row px-3">
+                      @if($supplier->attachments->isEmpty())
+                      <div>{{__('form.noAttachmentFiles')}}</div>
+                      @else
+                      <div class="d-flex justify-content-between mt-2">
+                        <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
+                        <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
+                        <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
+                        <div class="col-2 "></div>
                       </div>
-                      @endforeach
+                      <div id="attachmentFilesList">
+                        @foreach ($supplier->attachments as $file)
+                        <div class="d-flex flex-row align-items-center mb-2">
+                          <input class="d-none" name="attachmentFilesIds[]" value="{{ $file->id }}" />
+                          <div class="col-6 fs-6 fileName">
+                            <a href="{{ route('attachments.show', ['supplier' => $supplier->id, 'attachment' => $file->id]) }}" target="_blank">{{ $file->name }}</a>
+                          </div>
+                          <div class="col-2 fs-6 text-center fileSize">
+                            {{$file->size}}
+                          </div>
+                          <div class="col-2 fs-6 text-center addedFileDate">
+                            {{$file->deposit_date}}
+                          </div>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removeAttachment d-none" viewBox="0 0 16 16" style="cursor:pointer;">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                          </svg>
+                        </div>
+                        @endforeach
+                      </div>
+                      @endif
                     </div>
-                    @endif
                   </div>
                 </div>
               </div>
+              <div class="text-end inline-block" id="filesSize">
+                <p class="mb-0" id="totalSize">/75Mo</p>
+              </div>
             </div>
-            <div class="text-end inline-block d-none">
-              <p class="mb-0" id="totalSize">/75Mo</p>
-            </div>
-            @if(!is_null(old('fileNames')))
-            @foreach(old('fileNames') as $fileName)
-            <div hidden>
-              {{$fileNameIndex = "phoneTypes." . "$loop->index"}}
-              {{$fileSizeIndex = "fileSizes." . "$loop->index"}}
-              {{$fileTypeIndex = "fileTypes." . "$loop->index"}}
-              {{$addedFileDateIndex = "addedFileDates." . "$loop->index"}}
-            </div>
-            @if($errors->has($fileNameIndex))
-            <p class="m-0">{{ $errors->first($fileNameIndex) }}</p>
-            @endif
-            @if($errors->has($fileSizeIndex))
-            <p class="m-0">{{ $errors->first($fileSizeIndex) }}</p>
-            @endif
-            @if($errors->has($fileTypeIndex))
-            <p class="m-0">{{ $errors->first($fileTypeIndex) }}</p>
-            @endif
-            @if($errors->has($addedFileDateIndex))
-            <p class="m-0">{{ $errors->first($addedFileDateIndex) }}</p>
-            @endif
-            @endforeach
-            @endif
-          </div>
-          @role(['responsable', 'admin'])
-          <div class="row">
-            <div class="col-12 d-flex justify-content-center mb-2">
-              <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-              <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center mb-2">
+                <a id="btnCancelAttachmentFiles" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#attachments-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+              </div>
             </div>
           </div>
-          @endrole
-        </div>
+        </form>
       </div><!--FIN PIÈCES JOINTES-->
       <!--FINANCES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="finances-section">
-        <form action="{{ route('suppliers.updateFinance', ['supplier'=>$supplier]) }}" method="post" class="need-validation w-65" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+        <form action="{{ route('suppliers.updateFinance', ['supplier'=>$supplier]) }}" method="post" class="need-validation" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
           <div class="bg-white rounded my-2 form-section">
@@ -1258,7 +1195,7 @@
               </div>
             </div>
             <div class="row px-3 mb-3">
-              <div class="col-12 text-center pb-3">
+              <div class="col-12 col-md-6 text-center pb-3">
                 <div class="form-floating pe-2">
                   <input type="text" name="financesTps" id="financesTps" class="form-control" value="{{$supplier->tps_number ?? 'N/A' }}" placeholder="" maxlength="15" disabled>
                   <label for="financesTps" id="">{{__('form.tpsNumber')}}</label>
@@ -1269,7 +1206,7 @@
                   @endif
                 </div>
               </div>
-              <div class="col-12 text-center pb-3">
+              <div class="col-12 col-md-6 text-center pb-3">
                 <div class="form-floating pe-2">
                   <input type="text" name="financesTvq" id="financesTvq" class="form-control" value="{{$supplier->tvq_number ?? 'N/A' }}" placeholder="" maxlength="16" disabled>
                   <label for="financesTvq" id="">{{__('form.tvqNumber')}}</label>
@@ -1308,8 +1245,8 @@
                 </div>
               </div>
               <div class="row pb-3">
-                <div class="col-6">
-                  <div id="currencyRadios" class="w-100">
+                <div class="col-12 col-lg-6 pb-3 pb-lg-0">
+                  <div id="currencyRadios">
                     <h5 class="text-decoration-underline">{{__('form.currency')}}</h5>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" value="1" {{$supplier->currency == '1' ? 'checked' : null}} name="currency" id="flexRadioCAD" disabled>
@@ -1325,8 +1262,8 @@
                     @endif
                   </div>
                 </div>
-                <div class="col-6">
-                  <div id="commnucationModeRadios" class="w-100">
+                <div class="col-12 col-lg-6">
+                  <div id="commnucationModeRadios">
                     <h5 class="text-decoration-underline">{{__('form.communication')}}</h5>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" value="1" {{$supplier->communication_mode == '1' ? 'checked' : null}} name="communication_mode" id="flexRadioEmail" disabled>
@@ -1343,7 +1280,6 @@
                   </div>
                 </div>
               </div>
-              @role(['responsable', 'admin'])
               <div class="row">
                 <div class="col-12 d-flex justify-content-center mb-2">
                   @php
@@ -1354,7 +1290,6 @@
                   <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
                 </div>
               </div>
-              @endrole
             </div>
           </div>
         </form>
@@ -1382,4 +1317,12 @@
 <script src=" {{ asset('js/suppliersShow/contacts/validation.js') }} "></script>
 <script src=" {{ asset('js/suppliersCreate/productsServices.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/productServices/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/rbq/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/rbq/save.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/rbq/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/rbq/changeType.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/finance/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/finance/save.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/finance/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/attachments/edit.js') }} "></script>
 @endsection

@@ -1070,15 +1070,15 @@
                                 type="checkbox"
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}"
-                                id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                id="flexCheckGen{{$workSubcategory->id}}OB"
                                 {{$checked && $supplier->rbqLicence->type == "ownerBuilder" ? 'checked' : ''}}
                                 disabled
                               >
                               <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->code}}
                                 </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->name}}
                                 </label>
                               </div>
@@ -1101,15 +1101,15 @@
                                 type="checkbox"
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}"
-                                id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                id="flexCheckGen{{$workSubcategory->id}}OB"
                                 {{$checked && $supplier->rbqLicence->type == "ownerBuilder" ? 'checked' : ''}}
                                 disabled
                               >
                               <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->code}}
                                 </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->name}}
                                 </label>
                               </div>

@@ -9,6 +9,7 @@ use App\Http\Requests\SupplierUpdateContactsRequest;
 use App\Http\Requests\SupplierUpdateIdentificationRequest;
 use App\Http\Requests\SupplierUpdateRbqRequest;
 use App\Http\Requests\SupplierUpdateFinanceRequest;
+use App\Http\Requests\SupplierUpdateAttachmentsRequest;
 
 use App\Http\Controllers\MailsController;
 
@@ -605,7 +606,62 @@ class SuppliersController extends Controller
    */
   public function updateRbq(SupplierUpdateRbqRequest $request, Supplier $supplier)
   {
-    Log::debug("updateRbq");
+    try {
+      $supplierRbqExisting = !is_null($supplier->rbqLicence);
+      $requestRbqExisting = !is_null($request->licenceRbq);
+  
+      if($supplierRbqExisting && $requestRbqExisting){
+        $licence = RbqLicence::findOrFail($supplier->rbqLicence->id);
+        $licence->number = $request->licenceRbq;
+        $licence->status = $request->statusRbq;
+        $licence->type = $request->typeRbq;
+        $licence->supplier()->associate($supplier);
+        $licence->save();
+
+        foreach ($supplier->workSubcategories as $rbqSubCategory) {
+          if(!in_array($rbqSubCategory->code, $request->rbqSubcategories)){
+            $supplier->workSubcategories()->detach($rbqSubCategory->id);
+          }
+        }
+
+        $supplierExistingCategories = $supplier->workSubcategories->pluck('code')->toArray();
+        foreach ($request->rbqSubcategories as $rbqSubCategory) {
+          if(!in_array($rbqSubCategory, $supplierExistingCategories)){
+            $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
+            $supplier->workSubcategories()->attach($subCategory);
+          }
+        }
+      }
+      else if(!$supplierRbqExisting && $requestRbqExisting){
+        $licence = new RbqLicence();
+        $licence->number = $request->licenceRbq;
+        $licence->status = $request->statusRbq;
+        $licence->type = $request->typeRbq;
+        $licence->supplier()->associate($supplier);
+        $licence->save();
+  
+        foreach($request->rbqSubcategories as $rbqSubCategory){
+          $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
+          $supplier->workSubcategories()->attach($subCategory);
+        }
+      }
+      else if($supplierRbqExisting && !$requestRbqExisting){
+        $licence = RbqLicence::findOrFail($supplier->rbqLicence->id);
+        $licence->delete();
+
+        $supplier->workSubcategories()->sync([]);
+      }
+
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateRbq'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#licence-section');
+      
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
   }
 
   /**
@@ -613,9 +669,6 @@ class SuppliersController extends Controller
    */
   public function updateProductsServices(Request $request, Supplier $supplier)
   {
-    Log::debug($request);
-    Log::debug($supplier->productsServices);
-
     try {
       $supplier->product_service_detail = $request->product_service_detail;
       $supplier->save();
@@ -660,7 +713,47 @@ class SuppliersController extends Controller
    */
   public function updateFinance(SupplierUpdateFinanceRequest $request, Supplier $supplier)
   {
-    Log::debug("updateFinance");
+    try {
+      $supplier->tps_number = $request->financesTps;
+      $supplier->tvq_number = $request->financesTvq;
+      $supplier->payment_condition = $request->financesPaymentConditions;
+      $supplier->currency = $request->currency;
+      $supplier->communication_mode = $request->communication_mode;
+      $supplier->save();
+      
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateFinance'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#finances-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
+  }
+
+  /**
+   * Update attachments of supplier.
+   */
+  public function updateAttachments(SupplierUpdateAttachmentsRequest $request, Supplier $supplier)
+  {
+    Log::debug($request);
+    try {
+      $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
+      $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
+      Attachment::whereIn('id', $idsToDelete)->delete();
+      
+      $this->changeStatus($supplier, "modified");
+      
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdatePJ'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#attachments-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
   }
 
   /**
