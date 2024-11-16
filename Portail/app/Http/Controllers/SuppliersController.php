@@ -753,7 +753,6 @@ class SuppliersController extends Controller
       if($request->filled('attachmentFilesIds')){
         $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
         $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
-        //foreach
         foreach ($idsToDelete as $id) {
           $attachment = Attachment::FindOrFail($id);
           $attachmentFullName = $attachment->name .".".$attachment->type;
@@ -774,7 +773,6 @@ class SuppliersController extends Controller
             $uploadedFile;
             $fileNameWithoutExtension = $request->fileNames[$i];
             foreach ($request->file('files') as $key => $file) {
-              # code...
               if(str_contains($file->getClientOriginalName(), $fileNameWithoutExtension)){
                 $uploadedFile = $file;
               }

@@ -1,5 +1,10 @@
-<!--NICE_TO_HAVE::Ajouter une variable dans la BD pour savoir qui à retirer le fournisseur de la liste et si c'est un responsable, empecher le fournisseur de réactiver-->
-
+<!--//* NICE_TO_HAVE::Ajouter une variable dans la BD pour savoir qui à retirer le fournisseur de la liste et si c'est un responsable, empecher le fournisseur de réactiver-->
+<!--//? REMARQUES::
+- //? De mon côté j'ai des trucs soulignés en rouge : Dans Supplier controller -> SupplierUpdateAttachmentsRequest, statusHistories() et dans web.php -> AttachmentsController
+ //? Tout marche quand même. 
+ //? En mobile pour État demande et Pièces jointes, c'est difficile à lire les infos vue que l'écriture est trop grosse donc ca va sur plusieurs lignes (pas grave)
+//? J'ai enlevé le retour au site de la ville dans le layout et ajouté le logo de la ville dans l'onglet
+-->
 @extends('layouts.app')
 
 @section('title', 'Accueil')

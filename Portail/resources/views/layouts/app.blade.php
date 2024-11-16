@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-
+    <link rel="icon" href="{{ asset('img/VTR-12080_logo_NOIR.ico') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
@@ -23,8 +23,7 @@
                 </div>
                 <div class="col-6 justify-content-end align-items-center">
                     <div class="d-none d-md-flex justify-content-end align-items-center h-100 w-100">
-                      <div class="p-2 border-end border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
-                      <div class="p-2"><a href="{{__('navbar.returnHomeWebSiteLink')}}">{{__('navbar.returnHomeWebSite')}}</a></div>
+                      <div class="p-2"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
                       @auth
                         <form action="{{route('suppliers.logout')}}" method="post">
                           @csrf
@@ -32,8 +31,6 @@
                         </form>
                       @endauth
                     </div>
-
-
                     <div class="d-flex d-md-none justify-content-end align-items-center h-100 w-100">
                       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
