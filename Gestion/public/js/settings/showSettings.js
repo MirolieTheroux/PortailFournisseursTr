@@ -23,9 +23,7 @@ function showSettingsSection(id){
     sectionsSettings[i].classList.add("d-none");
   }
   const displayedSection = document.getElementById(id);
-  
   displayedSection.classList.remove("d-none");
-  console.log(displayedSection);
 }
 
 function navigationMenu(){

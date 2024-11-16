@@ -31,7 +31,7 @@ class UsersSeeder extends Seeder
                 'id' => 3,
                 'email' => 'commis@gmail.com',
                 'password' => Hash::make('Secret1234!'),
-                'role' => 'commis'
+                'role' => 'clerk'
             ],
         ]);
     }

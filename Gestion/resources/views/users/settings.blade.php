@@ -1,6 +1,9 @@
+<!--//? REMARQUES :
+- //? Est-ce qu'on met juste les boutons (ajouter/enregistrer) directement sur la page ? Ou on fait comme la fiche fournisseur avec un bouton modifier ?
+-->
 @extends('layouts.app')
 
-@section('title', __('settings.settings'))
+@section('title', __('navbar.adminCenter'))
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/settings.css') }}">
@@ -43,18 +46,56 @@
 
     <div class="col-10 h-100 px-4 py-0">
       <!-- USERS SETTINGS-->
-      <div class="container d-flex flex-column h-100 show-section" id="users-section">
-        <div class="bg-white my-2 rounded form-section h-100 w-100">
-          <h1 class="text-center">{{__('settings.userSettings')}}</h1>
-          <div class="px-3">
-            <div class="col-12 d-flex justify-content-center mb-2">
-              <a id="btnCancelId" href="" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
-              <button id="btnEditUsers" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-              <button id="btnSaveUsers" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+      <div class="show-section" id="users-section">
+        <div class="row border-bottom border-2 border-dark mt-3">
+          <h2 class="mb-0">{{__('settings.userSettings')}}</h2>
+        </div>
+        <div class="container-fluid mb-0 mt-3 border-bottom border-dark">
+          <div class="row ">
+            <div class="col-5 p-0">
+              <div class="text-start ">{{__('settings.users')}}</div>
+            </div>
+            <div class="col-5 p-0">
+              <div class="text-center">{{__('settings.role')}}</div>
             </div>
           </div>
         </div>
-      </div><!--FIN USERS SETTINGS-->
+        <div class="container-fluid border border-top-0 border-dark rounded-bottom p-0 mb-3">
+          <div id="userList">
+            @if (Count($users) > 0)
+            <form id="usersListForm" method="POST" action="">
+            @csrf
+              @foreach ($users as $user)
+                <div class="row user-table mx-0 py-1">
+                  <div class="col-5 text-center ps-2">
+                    <div class="text-start">{{$user->email}}</div>
+                  </div>
+                  <div class="col-5 text-center ps-1">
+                    <select name="userRoles" id="userRoles" class="form-select" aria-label="">
+                      <option value="" selected>{{__('settings.defaultRole')}}</option>
+                      <option value="admin" {{$user->role == 'admin' ? 'selected' : null  }}>{{__('settings.admin')}}</option>
+                      <option value="responsable" {{$user->role == 'responsable' ? 'selected' : null  }}>{{__('settings.responsable')}}</option>
+                      <option value="clerk" {{$user->role == 'clerk' ? 'selected' : null  }}>{{__('settings.clerk')}}</option>
+                    </select>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2" viewBox="0 0 16 16" style="cursor:pointer;">
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                  </svg>
+                </div>
+              @endforeach
+            </form>
+            @else
+              <div class="text-center">{{__('index.noResults')}}</div>
+            @endif
+          </div>
+        </div>
+        <div class="d-flex justify-content-end align-items-end mb-2">
+          <!-- <a id="btnCancelUsers" href="" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a> -->
+          <button id="btnEditUsers" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.add')}}</button>
+          <button id="btnSaveUsers" type="submit" class="m-2 py-1 px-3 rounded button-darkblue save">{{__('global.save')}}</button>
+        </div>
+      </div>  <!--FIN USERS SETTINGS-->
+    
       <!-- PARAMÈTRES -->
       <div class="container d-flex flex-column h-100 show-section d-none" id="settings-section">
         <div class="bg-white my-2 rounded form-section h-100 w-100">
