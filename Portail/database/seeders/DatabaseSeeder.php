@@ -28,5 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SupplierWorkSubcategorySeeder::class);
         $this->call(SupplierProductsServicesSeeder::class);
         $this->call(StatusHistoriesSeeder::class);
+        $this->call(EmailModelsSeeder::class);
     }
 }
