@@ -1,6 +1,28 @@
 <!--//? REMARQUES :
 - //? Est-ce qu'on met juste les boutons (ajouter/enregistrer) directement sur la page ? Ou on fait comme la fiche fournisseur avec un bouton modifier ?
+  - //? Nico : Je pense que se serait bien de faire comme la fiche fournisseur. Par défaut, on voit Ajouter et modifier, et quand on click sur modifier, on
+    //?        masque les boutons ajouter et modifier pour afficher annuler et enregistrer
 -->
+<!--//? REMARQUES : Il faudrait mettre les boutons ajouter et modifier en haut à côté du titre car j'ai tester d'ajouter des 100aine de lignes test et c'est chiant de scroller jusqu'en bas.-->
+<!--//? REMARQUES : Je pense que se serait bien de changer tous les courriels de l'app de gestion pour des @vtr.net (Seeders, liste d'ajout)-->
+<!--//? REMARQUES : 
+  //? Pour info, je pense que la liste d'ajout, comme elle représente la liste azure qu'il vont plugguer là, 
+  //? on peut hardcoder les emails sans passer par les fichiers de langues.
+  //?  - PTI, J'ai ajouter des courriels pour tester et je me suis dit que ça fesais pas de mal de les laisser là
+-->
+<!--//? REMARQUES : Les utilisateurs créer n'ont pas de mot de passe, il faudrait qu'il y en ait un pour qu'il puisse se connecter.
+    //?    - Comme ils vont utiliser le mot de passe de leur AD, on peut juste hardcoder Secret1234! à la création
+-->
+<!--//? REMARQUES : 
+  //? Je me demande, est-ce qu'on pourrait afficher le bouton Liste des founisseur dans la navbar aussi pour les commis et les reponsables?
+  //? Comme ça, quand ils vont dans la liste de fournisseurs sélectionnés, ils auraient un boutons pour revenir à la liste normale.
+  //? Si on fait ça, tu peux ignorer la remarque juste après.
+-->
+<!--//? REMARQUES : 
+  //? Dans la navbar, quand on se connecte comme Commis ou responsable, il y a une border noir alor qui a rien à gauche et c'est un peu laid.
+  //? Je metterais la border a droite du centre admin pour qu'elle disparaissent quand il n'y a rien.
+-->
+
 @extends('layouts.app')
 
 @section('title', __('navbar.adminCenter'))
@@ -105,6 +127,12 @@
                       <select name="userEmail" id="userEmail" class="form-select" aria-label="">
                         <option value="{{__('settings.emailTest')}}">{{__('settings.emailTest')}}</option>
                         <option value="{{__('settings.emailTest2')}}">{{__('settings.emailTest2')}}</option>
+                        <option value="nfleurent@vtr.net">nfleurent@vtr.net</option>
+                        <option value="mtheroux@vtr.net">mtheroux@vtr.net</option>
+                        <option value="jfaucher@vtr.net">jfaucher@vtr.net</option>
+                        <option value="fjacob@vtr.net">fjacob@vtr.net</option>
+                        <option value="dbrouillette@vtr.net">dbrouillette@vtr.net</option>
+                        <option value="scarle@vtr.net">scarle@vtr.net</option>
                       </select>
                       <div class="invalid-feedback" id="emailExist" style="display: none;">{{__('settings.errorUserAlreadyAdded')}}</div>
                     </div>
