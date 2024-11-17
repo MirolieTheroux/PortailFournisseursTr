@@ -112,6 +112,9 @@ function invokeSelectChange(event){
   if(select.id == 'districtAreas'){
     updateCityList();
   }
+  else if(select.id == 'workCategories'){
+    updateWorkSubcategoryCounters();
+  }
 
   select.dispatchEvent(new Event('change'));
 }

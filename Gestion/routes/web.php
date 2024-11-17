@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AttachmentsController;
+use App\Http\Controllers\DocumentationController;
 use App\Http\Middleware\LoggerMiddleware;
 
 // Route::get('/', function () {
@@ -44,3 +45,5 @@ Route::patch('/suppliers/update/finance/{supplier}',[SuppliersController::class,
 Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class, 'show'])->name('attachments.show');
 Route::get('/settings', [UsersController::class, 'show'])->name('users.settings');
 Route::post('/settings/addUser', [UsersController::class, 'store'])->name('users.addUser')->middleware(LoggerMiddleware::class);;
+
+Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');
