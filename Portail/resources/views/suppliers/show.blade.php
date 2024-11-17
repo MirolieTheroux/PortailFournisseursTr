@@ -1,10 +1,6 @@
 <!--//* NICE_TO_HAVE::Ajouter une variable dans la BD pour savoir qui à retirer le fournisseur de la liste et si c'est un responsable, empecher le fournisseur de réactiver-->
-<!--//? REMARQUES::
-- //? De mon côté j'ai des trucs soulignés en rouge : Dans Supplier controller -> SupplierUpdateAttachmentsRequest, statusHistories() et dans web.php -> AttachmentsController
- //? Tout marche quand même. 
- //? En mobile pour État demande et Pièces jointes, c'est difficile à lire les infos vue que l'écriture est trop grosse donc ca va sur plusieurs lignes (pas grave)
-//? J'ai enlevé le retour au site de la ville dans le layout et ajouté le logo de la ville dans l'onglet
--->
+<!--//* NICE_TO_HAVE::Faire attention au responsive des dates dans l'historiques des états sur les très petits écrans-->
+
 @extends('layouts.app')
 
 @section('title', 'Accueil')
@@ -1180,14 +1176,14 @@
                   <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
                     <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
                     <div class="row px-3">
-                      <div id="emptyListDisplay" class="{{$supplier->attachments->isEmpty() ? '' : 'd-none'}}">{{__('form.noAttachmentFiles')}}</div>
-                      <div id="listHeader" class="d-flex justify-content-between mt-2 {{$supplier->attachments->isEmpty() ? 'd-none' : ''}}">
+                      <div id="emptyListDisplay" class="p-0 {{$supplier->attachments->isEmpty() ? '' : 'd-none'}}">{{__('form.noAttachmentFiles')}}</div>
+                      <div id="listHeader" class="d-flex justify-content-between mt-2 p-0 {{$supplier->attachments->isEmpty() ? 'd-none' : ''}}">
                         <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
                         <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
-                        <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
-                        <div class="col-2 "></div>
+                        <div class="col-3 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
+                        <div class="col-1"></div>
                       </div>
-                      <div id="attachmentFilesList">
+                      <div id="attachmentFilesList" class="p-0">
                         @foreach ($supplier->attachments as $file)
                         <div class="d-flex flex-row align-items-center mb-2">
                           <input class="d-none" name="attachmentFilesIds[]" value="{{ $file->id }}" />
@@ -1197,10 +1193,10 @@
                           <div class="col-2 fs-6 text-center fileSize">
                             {{$file->size}}
                           </div>
-                          <div class="col-2 fs-6 text-center addedFileDate">
+                          <div class="col-3 fs-6 text-center addedFileDate">
                             {{$file->deposit_date}}
                           </div>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removeAttachment d-none" viewBox="0 0 16 16" style="cursor:pointer;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-1 removeAttachment d-none" viewBox="0 0 16 16" style="cursor:pointer;">
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                           </svg>
                           <input class="d-none" name="fileNames[]" value="{{ $file->name }}" />
