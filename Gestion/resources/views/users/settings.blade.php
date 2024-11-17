@@ -63,7 +63,7 @@
         <div class="container-fluid border border-top-0 border-dark rounded-bottom p-0 mb-3">
           <div id="userList">
             @if (Count($users) > 0)
-            <form id="usersListForm" method="POST" action="">
+            <form id="usersListForm" method="POST" action="{{route('users.addUser')}}">
             @csrf
               @foreach ($users as $user)
                 <div class="row user-table mx-0 py-1">
@@ -71,7 +71,7 @@
                     <div class="text-start">{{$user->email}}</div>
                   </div>
                   <div class="col-5 text-center ps-1">
-                    <select name="userRoles" id="userRoles" class="form-select" aria-label="">
+                    <select name="userRoles" id="userRoles" class="form-select" aria-label="" disabled>
                       <option value="" selected>{{__('settings.defaultRole')}}</option>
                       <option value="admin" {{$user->role == 'admin' ? 'selected' : null  }}>{{__('settings.admin')}}</option>
                       <option value="responsable" {{$user->role == 'responsable' ? 'selected' : null  }}>{{__('settings.responsable')}}</option>
@@ -85,44 +85,50 @@
               @endforeach
             </form>
             @else
-              <div class="text-center">{{__('index.noResults')}}</div>
+              <div class="text-center">{{__('settings.noUser')}}</div>
             @endif
           </div>
         </div>
+        <!-- MODAL ADD USER -->
+        <div class="modal fade" id="modalAddUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="AddUser" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">{{__('settings.addUser')}}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="addUserForm" method="POST" action="{{route('users.addUser')}}">
+                  @csrf
+                    <div class="mb-3">
+                      <label>{{__('settings.chooseUser')}}</label>
+                      <select name="userEmail" id="userEmail" class="form-select" aria-label="">
+                        <option value="{{__('settings.emailTest')}}">{{__('settings.emailTest')}}</option>
+                        <option value="{{__('settings.emailTest2')}}">{{__('settings.emailTest2')}}</option>
+                      </select>
+                      <div class="invalid-feedback" id="emailExist" style="display: none;">{{__('settings.errorUserAlreadyAdded')}}</div>
+                    </div>
+                    <label>{{__('settings.defaultRole')}}</label>
+                    <select name="userRole" id="userRole" class="form-select" aria-label="">
+                      <option value="responsable">{{__('settings.responsable')}}</option>
+                      <option value="clerk">{{__('settings.clerk')}}</option>
+                      <option value="admin">{{__('settings.admin')}}</option>
+                    </select>
+                    <div class="invalid-feedback" id="maxAdmin" style="display: none;">{{__('settings.errorAdmin')}}</div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button id="addUserModal" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.add')}}</button>
+                  <button type="button" class="m-2 py-1 px-3 rounded button-darkblue" data-bs-dismiss="modal">{{__('global.close')}}</button>
+                </div>
+              </div>
+            </div>
+          
+        </div> <!-- END MODAL ADD USER-->
         <div class="d-flex justify-content-end align-items-end mb-2">
-          <!-- <a id="btnCancelUsers" href="" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a> -->
           <button id="btnAddUsers" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.add')}}</button>
           <button id="btnSaveUsers" type="submit" class="m-2 py-1 px-3 rounded button-darkblue save">{{__('global.save')}}</button>
         </div>
-        <!-- MODAL ADD USER -->
-        <div class="modal fade" id="modalAddUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="statusHistory" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">{{__('settings.addUser')}}</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            <div class="mb-3">
-              <label>{{__('settings.chooseUser')}}</label>
-              <select name="userRoles" id="userRoles" class="form-select" aria-label="">
-                <option value="{{__('settings.emailTest')}}">{{__('settings.emailTest')}}</option>
-              </select>
-            </div>
-            <label>{{__('settings.defaultRole')}}</label>
-            <select name="userRoles" id="userRoles" class="form-select" aria-label="">
-              <option value="admin">{{__('settings.admin')}}</option>
-              <option value="responsable">{{__('settings.responsable')}}</option>
-              <option value="clerk">{{__('settings.clerk')}}</option>
-            </select>
-            </div>
-            <div class="modal-footer">
-              <button id="addUser" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.add')}}</button>
-              <button type="button" class="m-2 py-1 px-3 rounded button-darkblue" data-bs-dismiss="modal">{{__('global.close')}}</button>
-            </div>
-          </div>
-        </div>
-      </div> <!-- END MODAL ADD USER-->
       </div>  <!--FIN USERS SETTINGS-->
     
       <!-- PARAMÈTRES -->
@@ -162,4 +168,5 @@
 @section('scripts')
 <script src=" {{ asset('js/adminCenter/showSettings.js') }} "></script>
 <script src=" {{ asset('js/adminCenter/users/addUsers.js') }} "></script>
+<script src=" {{ asset('js/adminCenter/users/validation.js') }} "></script>
 @endsection
