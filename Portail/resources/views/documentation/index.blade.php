@@ -37,7 +37,7 @@
         <h3 class="text-start">{{__('documentation.login')}} - {{__('documentation.company')}}</h3>
         <div class="d-flex w-100 justify-content-center mb-3">
           <video width="700" height="400" controls>
-            <source src="{{ asset('video/inscription_acces.mp4') }}" type="video/mp4"><!--TODO::Refaire le vidéo en navigation in private et quand le formulaire sera fini-->
+            <source src="{{ asset('video/inscription_acces.mp4') }}" type="video/mp4">
               {{__('documentation.videoFail')}}
           </video>
         </div>
@@ -49,28 +49,27 @@
         <h3 class="text-start">{{__('documentation.signUpAccess')}}</h3>
         <div class="d-flex w-100 justify-content-center mb-3">
           <video width="700" height="400" controls>
-            <source src="{{ asset('video/inscription_acces.mp4') }}" type="video/mp4"><!--TODO::Refaire le vidéo en navigation in private et quand le formulaire sera fini-->
-              {{__('documentation.videoFail')}}
+            <source src="{{ asset('video/inscription_acces.mp4') }}" type="video/mp4">
           </video>
         </div>
         <h3 class="text-start">{{__('documentation.signUpNavigation')}}</h3>
         <div class="d-flex w-100 justify-content-center mb-3">
           <video width="700" height="400" controls>
-            <source src="{{ asset('video/inscription_navigation.mp4') }}" type="video/mp4"><!--TODO::Refaire le vidéo en navigation in private et quand le formulaire sera fini-->
+            <source src="{{ asset('video/inscription_navigation.mp4') }}" type="video/mp4">
               {{__('documentation.videoFail')}}
           </video>
         </div>
         <h3 class="text-start">{{__('documentation.signUpComplexSection')}}</h3>
         <div class="d-flex w-100 justify-content-center mb-3">
           <video width="700" height="400" controls>
-            <source src="{{ asset('video/inscription_section_complexe.mp4') }}" type="video/mp4"><!--TODO::Refaire le vidéo en navigation in private et quand le formulaire sera fini-->
+            <source src="{{ asset('video/inscription_section_complexe.mp4') }}" type="video/mp4">
               {{__('documentation.videoFail')}}
           </video>
         </div>
         <h3 class="text-start">{{__('documentation.signUpSubmit')}}</h3>
         <div class="d-flex w-100 justify-content-center mb-3">
           <video width="700" height="400" controls>
-            <source src="{{ asset('video/inscription_soumettre.mp4') }}" type="video/mp4"><!--TODO::Refaire le vidéo en navigation in private et quand le formulaire sera fini-->
+            <source src="{{ asset('video/inscription_soumettre.mp4') }}" type="video/mp4">
               {{__('documentation.videoFail')}}
           </video>
         </div>
