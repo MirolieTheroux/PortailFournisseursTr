@@ -6,7 +6,7 @@ return [
     'title' => 'Documentation',
 
     'suppliersList' => 'Liste des fournisseurs',
-    'selectedsuppliersList' => 'Liste des fournisseurs sélectionnés',
+    'selectedSuppliersList' => 'Liste des fournisseurs sélectionnés',
     'supplierZoom' => 'Dossier fournisseur',
     'usersList' => 'Liste des utilisateurs',
     'addUser' => 'Ajouter un utilisateur',
@@ -14,23 +14,13 @@ return [
     'deleteUser' => 'Supprimer un utilisateur',
     'parametersManagement' => 'Gestion des paramètres',
     'emailsManagement' => 'Gestion des courriel',
-
-    'loginPage' => 'Page de connexion',
-    'company' => 'Entreprise',
-    'particular' => 'Particulier',
-
-    'signUpForm' => 'Formulaire d\'inscription',
-    'signUpAccess' => 'Accès au formulaire',
-    'signUpNavigation' => 'Naviguer dans les sections',
-    'signUpComplexSection' => 'Démarche pour remplir différentes sections',
-    'signUpSubmit' => 'Soumettre le formulaire',
-    'rbqSection' => 'Section licence RBQ',
-    'attachementSection' => 'Section pièces jointes',
     
+    'signUpNavigation' => 'Naviguer dans les sections',
     'sectionModification' => 'Modifier une section',
+    'acceptDenyRequest' => 'Accepter ou refuser une demande',
     'deactivateReactivate' => 'Désactivation et réactivation du dossier',
-    'mobileNavigation' => 'Navigation mobile',
     'statusHistoryAcces' => 'Accéder à l\'historique des modifications',
+    'exportToFinance' => 'Exporter aux finances',
 
     'videoFail' => 'Votre navigateur ne supporte pas les vidéos.',
 ];

@@ -7,8 +7,6 @@ let loginButtonMobile;
 let signupButton;
 let signupButtonMobile;
 
-let navbarToggler;
-
 document.addEventListener('DOMContentLoaded', async function() {
   getDocElement();
 });
@@ -16,22 +14,11 @@ document.addEventListener('DOMContentLoaded', async function() {
 function getDocElement(){
   docSections = document.getElementsByClassName("doc-section");
 
-  loginButton = document.getElementById("login-nav-button");
-  loginButton.addEventListener('click', ()=>{showSectionDoc("doc-section-login")});
+  loginButton = document.getElementById("suppliersList-nav-button");
+  loginButton.addEventListener('click', ()=>{showSectionDoc("doc-section-suppliersList")});
 
-  signupButton = document.getElementById("signup-nav-button");
-  signupButton.addEventListener('click', ()=>{showSectionDoc("doc-section-signup")});
-
-  signupButton = document.getElementById("home-nav-button");
-  signupButton.addEventListener('click', ()=>{showSectionDoc("doc-section-home")});
-
-  signupButton = document.getElementById("update-nav-button");
-  signupButton.addEventListener('click', ()=>{showSectionDoc("doc-section-update")});
-
-  signupButton = document.getElementById("delete-nav-button");
-  signupButton.addEventListener('click', ()=>{showSectionDoc("doc-section-delete")});
-
-  navbarToggler = document.querySelector(".navbar-toggler");
+  loginButton = document.getElementById("supplierZoom-nav-button");
+  loginButton.addEventListener('click', ()=>{showSectionDoc("doc-section-supplierZoom")});
 }
 
 function showSectionDoc(id){
@@ -41,6 +28,4 @@ function showSectionDoc(id){
 
   const displayedSection = document.getElementById(id);
   displayedSection.classList.remove("d-none");
-
-  navbarToggler.dispatchEvent(click);
 }
