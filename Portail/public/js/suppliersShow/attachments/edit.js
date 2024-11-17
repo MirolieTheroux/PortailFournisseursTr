@@ -1,45 +1,37 @@
 let attachmentsContainer;
+let addAttachementsContainer;
 let btnCancelAttachments;
 let btnEditAttachments;
 let btnSaveAttachments;
 let removeAttachements;
-let filesSize;
-let totalSize;
-let fileSize;
+let totalSizeUpdate;
+let fileSizeUpdate;
 let tempTotalSize = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
   getAttachmentsSectionElements();
-  addAttachmentsSectionListeners();
+  addAttacmentsSectionListeners();
   getTotalSizeFiles();
   removeFiles();
 });
 
 function getAttachmentsSectionElements() {
   attachmentsContainer = document.getElementById("attachments-section");
+  addAttachmentsContainer = document.getElementById("addAttachmentsContainer");
   btnCancelAttachments = document.getElementById("btnCancelAttachmentFiles");
   btnEditAttachments = document.getElementById("btnEditAttachmentFiles");
   btnSaveAttachments = document.getElementById("btnSaveAttachmentFiles");
   removeAttachements = attachmentsContainer.querySelectorAll(".removeAttachment");
-  filesSize = document.getElementById("filesSize");
-  totalSize = document.getElementById("totalSize")
-  fileSize = attachmentsContainer.querySelectorAll(".fileSize");
-  if(removeAttachements.length === 0){
-    btnEditAttachments.classList.add("d-none");
-    filesSize.classList.add("d-none");
-  }   
-    
-  else
-    if(btnEditAttachments)
-      btnEditAttachments.classList.remove("d-none");
+  totalSizeUpdate = document.getElementById("totalSize")
+  fileSizeUpdate = attachmentsContainer.querySelectorAll(".fileSize");
 }
 
-function addAttachmentsSectionListeners() {
-  if(btnEditAttachments)
-    btnEditAttachments.addEventListener("click",enableAttacmentsSectionEdit);
+function addAttacmentsSectionListeners() {
+  btnEditAttachments.addEventListener("click",enableAttacmentsSectionEdit);
 }
 
 function enableAttacmentsSectionEdit() {
+  addAttachmentsContainer.classList.remove("d-none");
   btnCancelAttachments.classList.remove("d-none");
   btnSaveAttachments.classList.remove("d-none");
   btnEditAttachments.classList.add("d-none");
@@ -57,15 +49,22 @@ function removeFiles(){
         const fileSize = parseFloat(fileSizeDiv.textContent);
         divAttachment.remove();
         tempTotalSize -= fileSize;
-        totalSize.textContent = tempTotalSize + "/75mo";
+        totalSizeUpdate.textContent = tempTotalSize + "/75mo";
+
+        //Variable from /js/suppliersCreate/attachmentFiles.js
+        totalSizeMo = tempTotalSize;
       }
     });
   });
 }
 
 function getTotalSizeFiles(){
-  fileSize.forEach(file => {
+  fileSizeUpdate.forEach(file => {
     tempTotalSize += parseInt(file.textContent);
   });
+  
   totalSize.textContent = tempTotalSize + "/75mo";
+
+  //Variable from /js/suppliersCreate/attachmentFiles.js
+  totalSizeMo = tempTotalSize;
 }

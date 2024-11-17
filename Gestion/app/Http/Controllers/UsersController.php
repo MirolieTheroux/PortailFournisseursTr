@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\UserUpdateRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\facades\Auth;
@@ -55,19 +57,47 @@ class UsersController extends Controller
   }
 
   /**
-   * Store a newly created resource in storage.
+   * Store user
    */
-  public function store(Request $request)
+  public function store(UserUpdateRequest $request)
   {
-      //
+    Log::debug($request);
+    try{
+      $newUser = new User();
+      $newUser->email = $request->userEmail;
+      $newUser->role = $request->userRole;
+      $newUser->save();
+      return redirect()->route('users.settings')
+      ->with('message',__('settings.successAddUser'));
+    }
+    catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('users.settings')
+      ->withErrors('message',__('global.updateFailed'));
+    }
+  }
+
+  public function checkEmailUser(Request $request)
+  {
+    $email = $request->input('email'); 
+    $exists = User::where('email', $email)->exists();
+    return response()->json(['exists' => $exists]);
+  }
+
+
+  public function checkNumbersOfAdmin()
+  {
+    $usersAdminCount = User::where('role', 'admin')->count();
+    return response()->json(['count' => $usersAdminCount]);
   }
 
   /**
-   * Display the specified resource.
+   * Display settings.
    */
-  public function show(string $id)
+  public function show()
   {
-      //
+    $users = User::all();
+    return View('users.settings',compact('users'));
   }
 
   /**

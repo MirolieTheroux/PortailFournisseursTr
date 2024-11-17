@@ -1,10 +1,12 @@
-<!--NICE_TO_HAVE::Ajouter une variable dans la BD pour savoir qui à retirer le fournisseur de la liste et si c'est un responsable, empecher le fournisseur de réactiver-->
+<!--//TODO::Ajouter une variable dans la BD pour savoir qui à retirer le fournisseur de la liste et si c'est un responsable, empecher le fournisseur de réactiver-->
+<!--//* NICE_TO_HAVE::Faire attention au responsive des dates dans l'historiques des états sur les très petits écrans-->
 
 @extends('layouts.app')
 
 @section('title', 'Accueil')
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('css/supplier.css') }}">
 <link rel="stylesheet" href="{{ asset('css/show.css') }}">
 @endsection
 
@@ -13,9 +15,9 @@
 <div class="w-100 border-top border-dark">
   <div class="text-center w-100 p-2 fw-bolder">{{$supplier->name}}</div>
   <div class="text-center w-100 p-2 fw-bolder">
-    @if($supplier->latestNonModifiedStatus()->status == 'deactivated')
+    @if($supplier->latestNonModifiedStatus()->status == 'deactivated' && !$supplier->latestNonModifiedStatus()->deactivated_by_admin)
       <a href="{{route('suppliers.reactivate', ['supplier' => $supplier->id])}}">{{__('show.reactivate')}}</a>
-    @else
+    @elseif(!$supplier->latestNonModifiedStatus()->deactivated_by_admin)
       <a href="{{route('suppliers.removeFromList', ['supplier' => $supplier->id])}}" class="text-danger">{{__('show.removeFromList')}}</a>
     @endif
   </div>
@@ -29,9 +31,9 @@
     <div class="d-none d-lg-flex left-nav shadow-sm col-3 col-xl-2 bg-white h-100 flex-column justify-content-start">
       <h4 class="py-2 fw-bold">{{$supplier->name}}</h4>
 
-      @if($supplier->latestNonModifiedStatus()->status == 'deactivated')
+      @if($supplier->latestNonModifiedStatus()->status == 'deactivated' && !$supplier->latestNonModifiedStatus()->deactivated_by_admin)
         <a id="btnDelete" href="{{route('suppliers.reactivate', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.reactivate')}}</a>
-      @else
+      @elseif(!$supplier->latestNonModifiedStatus()->deactivated_by_admin)
         <a id="btnDelete" href="{{route('suppliers.removeFromList', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.removeFromList')}}</a>
       @endif
 
@@ -110,7 +112,7 @@
       </div>
     </div> <!-- FIN NAVIGATION CÔTÉ-->
     <!--NAVIGATION MOBILE-->
-    <div class="d-flex d-lg-none justify-content-center align-items-center w-100">
+    <div class="d-flex d-lg-none flex-wrap justify-content-center align-items-center w-100">
       <div id="requestStatus-nav-mobile" class="mobile-icon-svg d-flex align-items-center p-2">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
@@ -179,7 +181,7 @@
     </div>
     <!-- FIN NAVIGATION MOBILE-->
 
-    <div class="col-12 col-lg-9 col-xl-10 h-100 px-4 py-0 pb-md-5 pb-xl-0">
+    <div class="col-12 col-lg-9 col-xl-10 h-100 px-0 py-0 pb-md-5 pb-xl-0">
       <!--ETAT DEMANDE-->
       <!--//TODO::
         - Afficher dans le popover les modifications quand la BD sera faite.
@@ -263,9 +265,8 @@
         </div>
       </div> <!-- END Modal for History-->
 
-      <div class="container d-flex flex-column h-100 show-section" id="requestStatus-section">
-        <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateStatus', [$supplier])}}" enctype="multipart/form-data">
-          @csrf
+      <div class="container px-lg-5 d-flex flex-column h-100 show-section" id="requestStatus-section">
+        <div class="px-lg-5 h-100 w-100 d-flex align-items-center">
           <div class="bg-white my-2 rounded form-section w-100">
             <div class="row py-2">
               <div class="col-12 offset-md-2 offset-lg-2 offset-xl-2 col-md-7 col-lg-7 col-xl-8 text-center">
@@ -323,7 +324,7 @@
               
             </div>
           </div>
-        </form>
+        </div>
       </div><!--FIN ETAT DEMANDE-->
       <!--//* NICE_TO_HAVE::
        - Voir pourquoi quand on enregistre les boutons disparaissent.
@@ -331,8 +332,8 @@
        - Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
        -->
       <!--IDENTIFICATION-->
-      <div class="container d-flex flex-column h-100 show-section d-none" id="identification-section">
-        <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
+      <div class="container px-lg-5 d-flex flex-column h-100 show-section d-none" id="identification-section">
+        <form class="px-lg-5 h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
           <div class="bg-white my-2 rounded form-section w-100">
@@ -342,12 +343,13 @@
               </div>
             </div>
             <div class="px-3">
-              <div class="row pb-3">
-                <div class="col-6">
+              <div class="row">
+                <div class="col-12 col-md-6 pb-3">
                   <div class="form-floating">
                     <input type="text" id="supplierId" value="{{ $supplier->id ? : '' }}" hidden>
                     <input type="text" name="neq" id="neq" class="form-control" placeholder="" value="{{ $supplier->neq ? : 'N/A' }}" maxlength="10" disabled>
-                    <label for="neq">{{__('form.neqLabel')}}</label>
+                    <label class="d-none d-xl-block" for="neq">{{__('form.neqLabel')}}</label>
+                    <label class="d-block d-xl-none" for="neq">{{__('form.neqLabelShort')}}</label>
                     <div class="invalid-feedback" id="neqInvalidStart" style="display: none;">{{__('validation.starts_with', ['attribute' => 'NEQ', 'values' => '11, 22, 33 ou 88'])}}</div>
                     <div class="invalid-feedback" id="neqInvalidCharacters" style="display: none;">{{__('form.identificationValidationNEQOnlyDigits')}}</div>
                     <div class="invalid-feedback" id="neqInvalidAmount" style="display: none;">{{__('form.identificationValidationNEQAmount')}}</div>
@@ -357,12 +359,10 @@
                   <p>{{ $errors->first('neq') }}</p>
                   @endif
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-md-6 pb-3">
                   <div class="form-floating">
                     <input type="text" name="name" id="name" class="form-control" placeholder="" value="{{ $supplier->name }}" maxlength="64" disabled>
                     <label for="name">{{__('form.companyNameLabel')}}</label>
-                    <div id="nameStart"></br></div>
-                    <div class="valid-feedback" id="nameValid" style="display: none;"></br></div>
                     <div class="invalid-feedback" id="nameInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Nom d\'entreprise'])}}</div>
                   </div>
                   @if($errors->has('name'))
@@ -384,7 +384,6 @@
                 <p>{{ $errors->first('email') }}</p>
                 @endif
               </div>
-              @role(['responsable', 'admin'])
               <div class="row">
                 <div class="col-12 d-flex justify-content-center mb-2">
                   @php
@@ -395,14 +394,13 @@
                   <button id="btnSaveId" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
                 </div>
               </div>
-              @endrole
             </div>
           </div>
         </form>  
       </div><!--FIN IDENTIFICATION-->
       <!--COORDONNÉES-->
-      <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
-        <form method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
+      <div class="container px-0 px-lg-5 h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
+        <form method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}">
           @csrf
           <div class="bg-white rounded my-2 form-section px-3">
             <div class="row">
@@ -487,7 +485,7 @@
                       <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" aria-label="" disabled>
                         <option>{{ $supplier->address->region }}</option>
                       </select>
-                      <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
+                      <label for="contactDetailsDistrictArea" id="contactDetailDALabel">{{__('form.districtArea')}}</label>
                     </div>
                     <div class="form-floating">
                       <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ $formattedPostalCode}}" placeholder="" maxlength="7" disabled>
@@ -585,7 +583,6 @@
                 <div class="text-start invalid-feedback" id="invalidListPhoneNumbers" style="display: none;">{{__('form.contactDetailsPhoneNumbersList')}}</div>
               </div>
             </div>
-            @role(['responsable', 'admin'])
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-3">
                 @php
@@ -596,7 +593,6 @@
                 <button id="btnSaveContactDetails" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
-            @endrole
           </div>
           @if(isset($errors) && $errors->any())
             <div class="alert alert-danger">
@@ -629,8 +625,8 @@
                 <div class="col-12 col-lg-6 d-flex flex-column justify-content-between mb-2 contactCard">
                   <div class="rounded px-3 pt-2 border">
                     <div class="row">
-                      <h2 class="col-11 text-start section-subtitle">{{__('form.contactsSubtitle')}}</h2>
-                      <button type="button" class="col-1 text-end delete-contact p-0 d-none">
+                      <h2 class="col-10 col-sm-11 col-lg-10 col-xl-11 text-start section-subtitle">{{__('form.contactsSubtitle')}}</h2>
+                      <button type="button" class="col-2 col-sm-1 col-lg-2 col-xl-1 text-end delete-contact p-0 d-none">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
                           <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
                         </svg>
@@ -758,7 +754,6 @@
                 </div>
                 @endforeach
             </div>
-            @role(['responsable', 'admin'])
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-3">
                 @php
@@ -769,7 +764,6 @@
                 <button id="btnSaveContacts" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
-            @endrole
           </div>
         </form>
       </div> <!--FIN CONTACT-->
@@ -784,8 +778,8 @@
                 <h1 class="section-title">{{__('form.productsAndServiceTitle')}}</h1>
               </div>
             </div>
-            <div id="productServiceShowContainer" class="flex-row d-flex justify-content-center px-3">
-              <div class="col-6 me-2">
+            <div id="productServiceShowContainer" class="row justify-content-center px-3">
+              <div class="col-12 col-md-6">
                 <h2 class="text-center section-subtitle">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
                 <div>
                   <div class="form-floating">
@@ -819,7 +813,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <h2 class="text-center section-subtitle">{{__('form.productsAndServiceCategoriesDetails')}}</h2>
                 <div class="text-center">
                   <div class="form-floating">
@@ -829,6 +823,7 @@
                 </div>
               </div>
             </div>
+
             <div id="productServiceEditContainer" class="row mx-0 w-100 d-none">
               <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
                 <h2 class="text-center h4">{{__('form.productsAndServiceServices')}}</h2>
@@ -848,7 +843,6 @@
                     <div class="note" id="results-count"><br></div>
                   </div>
                 </div>
-                
               </div>
               <div class="col-12 col-md-4 d-flex flex-column justify-content-between">
                 <h2 class="text-center h4">{{__('form.productsAndServiceSelectedServicesList')}}</h2>
@@ -858,7 +852,7 @@
                       <div class="mt-lg-0 mt-md-4" id="service-selected">
                         @foreach ($supplier->productsServices as $productService)
                           <div class="row align-items-start py-2 hover-options user-select-none" data-code="{{$productService->code}}">
-                            <input type="text" name="produits_services[]" value="{{$productService->code}}" class="d-none">
+                            <input type="text" name="products_services[]" value="{{$productService->code}}" class="d-none">
                             <div class="col-4 col-md-12 col-xl-4 d-flex flex-column justify-content-start">
                               {{$productService->code}}
                             </div>
@@ -885,7 +879,6 @@
                 </div>
               </div>
             </div>
-            @role(['responsable', 'admin'])
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-2">
                 @php
@@ -896,7 +889,6 @@
                 <button id="btnSaveProductsServices" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
-            @endrole
           </div>
         </form>
       </div><!--FIN PRODUITS ET SERVICES-->
@@ -1065,15 +1057,15 @@
                                 type="checkbox"
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}"
-                                id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                id="flexCheckGen{{$workSubcategory->id}}OB"
                                 {{$checked && $supplier->rbqLicence->type == "ownerBuilder" ? 'checked' : ''}}
                                 disabled
                               >
                               <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->code}}
                                 </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->name}}
                                 </label>
                               </div>
@@ -1096,15 +1088,15 @@
                                 type="checkbox"
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}"
-                                id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                id="flexCheckGen{{$workSubcategory->id}}OB"
                                 {{$checked && $supplier->rbqLicence->type == "ownerBuilder" ? 'checked' : ''}}
                                 disabled
                               >
                               <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->code}}
                                 </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->name}}
                                 </label>
                               </div>
@@ -1119,7 +1111,6 @@
                 </div>
               </div>
             </div>
-            @role(['responsable', 'admin'])
             <div class="row">
               <div class="col-12 d-flex justify-content-center mb-2">
                 @php
@@ -1130,134 +1121,111 @@
                 <button id="btnSaveRbq" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
               </div>
             </div>
-            @endrole
           </div>
         </form>
       </div><!--FIN LICENCE RBQ-->
       <!--PIÈCES JOINTES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
-        <div class=" bg-white rounded my-2 form-section">
-          <div class="row">
-            <div class="col-12 text-center">
-              <h1>{{__('form.attachmentFilesTitle')}}</h1>
-            </div>
-          </div>
-          <div class="row px-3 mb-3">
-            <div class="col-12 d-flex flex-column justify-content-between mb-3">
-              <h2 class="text-center section-subtitle">{{__('form.attachmentFilesSection')}}</h2>
-            </div>
-            <div class=" col-12 d-flex flex-column justify-content-between">
-              <div class="row flex-row justify-content-between d-none">
-                <div class="col-10">
-                  <div>
-                    <input class="form-control" type="file" id="formFile" disabled>
-                  </div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFileRequired" style="display: none;">{{__('form.attachmentFileRequired')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFileNameLength" style="display: none;">{{__('form.attachmentFileNameLength')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFileNameAlphaNum" style="display: none;">{{__('form.attachmentFileNameAlphaNum')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFileFormat" style="display: none;">{{__('form.attachmentFileFormat')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentSameFileName" style="display: none;">{{__('form.attachmentSameFileName')}}</div>
-                  <div class="text-start invalid-feedback attachment" id="attachmentFilesExceedSize" style="display: none;">{{__('form.attachmentFilesExceedSize')}}</div>
-                </div>
-                <div class="col-2 text-center pt-1">
-                  <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                  </svg>
-                </div>
-              </div>
-              <table class="table d-none">
-                <tbody>
-                  <tr>
-                    <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
-                    <td class="text-center" id="fileName"></td>
-                  </tr>
-                  <tr>
-                    <td class="fw-bold">{{__('form.attachmentFileSize')}}</td>
-                    <td class="text-center" id="fileSize"></td>
-                  </tr>
-                  <tr>
-                    <td class="fw-bold">{{__('form.attachmentAddedFileDate')}}</td>
-                    <td class="text-center" id="addedFileDate"></td>
-                  </tr>
-                  <tr class="d-none">
-                    <td class="text-center" id="valueInput"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="col-12">
-              <div class="form-floating h-100" id="div-attachmentFilesList">
-                <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
-                  <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
-                  <div class="row px-3">
-                    @if($supplier->attachments->isEmpty())
-                    <div>{{__('form.noAttachmentFiles')}}</div>
-                    @else
-                    <div class="d-flex justify-content-between mt-2">
-                      <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
-                      <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
-                      <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
-                      <div class="col-2 "></div>
+        <form class="w-100" method="POST" action="{{route('suppliers.updateAttachments', [$supplier])}}" enctype="multipart/form-data">
+        @csrf
+          <div class="bg-white rounded my-2 w-100 form-section">
+            <h1 class="text-center">{{__('form.attachmentFilesTitle')}}</h1>
+            <h2 class="text-center section-subtitle mb-3">{{__('form.attachmentFilesSection')}}</h2>
+            <div class="row px-3 mb-3">
+              <div id="addAttachmentsContainer" class="col-12 d-flex flex-column justify-content-between d-none">
+                <div class="row flex-row justify-content-between">
+                  <div class="col-10">
+                    <div>
+                      <input class="form-control" type="file" id="formFile">
                     </div>
-                    <div class="d-flex flex-column justify-content-between" id="attachmentFilesList">
-                      @foreach ($supplier->attachments as $file)
-                      <div class="row mb-2 ">
-                        <div class="col-6 fs-6 fileName">
-                          {{-- <a href="{{ route('attachments.show', ['supplier' => $supplier->id, 'attachment' => $file->id]) }}" target="_blank">{{ $file->name }}</a> --}}
-                        </div>
-                        <div class="col-2 fs-6 text-center fileSize">
-                          {{$file->size}}
-                        </div>
-                        <div class="col-2 fs-6 text-center addedFileDate">
-                          {{$file->deposit_date}}
-                        </div>
+                    <div class="text-start invalid-feedback attachment" id="attachmentFileRequired" style="display: none;">{{__('form.attachmentFileRequired')}}</div>
+                    <div class="text-start invalid-feedback attachment" id="attachmentFileNameLength" style="display: none;">{{__('form.attachmentFileNameLength')}}</div>
+                    <div class="text-start invalid-feedback attachment" id="attachmentFileNameAlphaNum" style="display: none;">{{__('form.attachmentFileNameAlphaNum')}}</div>
+                    <div class="text-start invalid-feedback attachment" id="attachmentFileFormat" style="display: none;">{{__('form.attachmentFileFormat')}}</div>
+                    <div class="text-start invalid-feedback attachment" id="attachmentSameFileName" style="display: none;">{{__('form.attachmentSameFileName')}}</div>
+                    <div class="text-start invalid-feedback attachment" id="attachmentFilesExceedSize" style="display: none;">{{__('form.attachmentFilesExceedSize')}}</div>
+                  </div>
+                  <div class="col-2 text-center pt-1">
+                    <svg id="add-file" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-circle-fill button-add-darkblue" width="30" height="30" viewBox="0 0 16 16" style="cursor: pointer;">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                    </svg>
+                  </div>
+                </div>
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td class="fw-bold">{{__('form.attachmentFileName')}}</td>
+                      <td class="text-center" id="fileName"></td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">{{__('form.attachmentFileSize')}}</td>
+                      <td class="text-center" id="fileSize"></td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">{{__('form.attachmentAddedFileDate')}}</td>
+                      <td class="text-center" id="addedFileDate"></td>
+                    </tr>
+                    <tr class="d-none">
+                      <td class="text-center" id="valueInput"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-12">
+                <div class="form-floating h-100" id="div-attachmentFilesList">
+                  <div class="form-control pt-2 h-100" id="attachmentList" style="overflow-x: hidden; overflow-y: auto; min-height:150px;">
+                    <div class="fs-5 text-start title-border fw-bold" for="attachmentList">{{__('form.attachmentFilesList')}}</div>
+                    <div class="row px-3">
+                      <div id="emptyListDisplay" class="p-0 {{$supplier->attachments->isEmpty() ? '' : 'd-none'}}">{{__('form.noAttachmentFiles')}}</div>
+                      <div id="listHeader" class="d-flex justify-content-between mt-2 p-0 {{$supplier->attachments->isEmpty() ? 'd-none' : ''}}">
+                        <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
+                        <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
+                        <div class="col-3 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
+                        <div class="col-1"></div>
                       </div>
-                      @endforeach
+                      <div id="attachmentFilesList" class="p-0">
+                        @foreach ($supplier->attachments as $file)
+                        <div class="d-flex flex-row align-items-center mb-2">
+                          <input class="d-none" name="attachmentFilesIds[]" value="{{ $file->id }}" />
+                          <div class="col-6 fs-6 fileName">
+                            <a href="{{ route('attachments.show', ['supplier' => $supplier->id, 'attachment' => $file->id]) }}" target="_blank">{{ $file->name }}</a>
+                          </div>
+                          <div class="col-2 fs-6 text-center fileSize">
+                            {{$file->size}}
+                          </div>
+                          <div class="col-3 fs-6 text-center addedFileDate">
+                            {{$file->deposit_date}}
+                          </div>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-1 removeAttachment d-none" viewBox="0 0 16 16" style="cursor:pointer;">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                          </svg>
+                          <input class="d-none" name="fileNames[]" value="{{ $file->name }}" />
+                          <input class="d-none" name="fileSizes[]" value="{{ $file->size }}" />
+                          <input class="d-none" name="addedFileDates[]" value="{{ $file->deposit_date }}" />
+                        </div>
+                        @endforeach
+                      </div>
                     </div>
-                    @endif
                   </div>
                 </div>
               </div>
+              <div class="text-end inline-block" id="filesSize">
+                <p class="mb-0" id="totalSize">/75Mo</p>
+              </div>
             </div>
-            <div class="text-end inline-block d-none">
-              <p class="mb-0" id="totalSize">/75Mo</p>
-            </div>
-            @if(!is_null(old('fileNames')))
-            @foreach(old('fileNames') as $fileName)
-            <div hidden>
-              {{$fileNameIndex = "phoneTypes." . "$loop->index"}}
-              {{$fileSizeIndex = "fileSizes." . "$loop->index"}}
-              {{$fileTypeIndex = "fileTypes." . "$loop->index"}}
-              {{$addedFileDateIndex = "addedFileDates." . "$loop->index"}}
-            </div>
-            @if($errors->has($fileNameIndex))
-            <p class="m-0">{{ $errors->first($fileNameIndex) }}</p>
-            @endif
-            @if($errors->has($fileSizeIndex))
-            <p class="m-0">{{ $errors->first($fileSizeIndex) }}</p>
-            @endif
-            @if($errors->has($fileTypeIndex))
-            <p class="m-0">{{ $errors->first($fileTypeIndex) }}</p>
-            @endif
-            @if($errors->has($addedFileDateIndex))
-            <p class="m-0">{{ $errors->first($addedFileDateIndex) }}</p>
-            @endif
-            @endforeach
-            @endif
-          </div>
-          @role(['responsable', 'admin'])
-          <div class="row">
-            <div class="col-12 d-flex justify-content-center mb-2">
-              <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-              <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center mb-2">
+                <a id="btnCancelAttachmentFiles" href="{{ route('suppliers.show', [$supplier, 'refresh' => $refreshCount]) }}#attachments-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
+                <button id="btnEditAttachmentFiles" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
+                <button id="btnSaveAttachmentFiles" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
+              </div>
             </div>
           </div>
-          @endrole
-        </div>
+        </form>
       </div><!--FIN PIÈCES JOINTES-->
       <!--FINANCES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="finances-section">
-        <form action="{{ route('suppliers.updateFinance', ['supplier'=>$supplier]) }}" method="post" class="need-validation w-65" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+        <form action="{{ route('suppliers.updateFinance', ['supplier'=>$supplier]) }}" method="post" class="need-validation" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
           <div class="bg-white rounded my-2 form-section">
@@ -1267,7 +1235,7 @@
               </div>
             </div>
             <div class="row px-3 mb-3">
-              <div class="col-12 text-center pb-3">
+              <div class="col-12 col-md-6 text-center pb-3">
                 <div class="form-floating pe-2">
                   <input type="text" name="financesTps" id="financesTps" class="form-control" value="{{$supplier->tps_number ?? 'N/A' }}" placeholder="" maxlength="15" disabled>
                   <label for="financesTps" id="">{{__('form.tpsNumber')}}</label>
@@ -1278,7 +1246,7 @@
                   @endif
                 </div>
               </div>
-              <div class="col-12 text-center pb-3">
+              <div class="col-12 col-md-6 text-center pb-3">
                 <div class="form-floating pe-2">
                   <input type="text" name="financesTvq" id="financesTvq" class="form-control" value="{{$supplier->tvq_number ?? 'N/A' }}" placeholder="" maxlength="16" disabled>
                   <label for="financesTvq" id="">{{__('form.tvqNumber')}}</label>
@@ -1317,8 +1285,8 @@
                 </div>
               </div>
               <div class="row pb-3">
-                <div class="col-6">
-                  <div id="currencyRadios" class="w-100">
+                <div class="col-12 col-lg-6 pb-3 pb-lg-0">
+                  <div id="currencyRadios">
                     <h5 class="text-decoration-underline">{{__('form.currency')}}</h5>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" value="1" {{$supplier->currency == '1' ? 'checked' : null}} name="currency" id="flexRadioCAD" disabled>
@@ -1334,8 +1302,8 @@
                     @endif
                   </div>
                 </div>
-                <div class="col-6">
-                  <div id="commnucationModeRadios" class="w-100">
+                <div class="col-12 col-lg-6">
+                  <div id="commnucationModeRadios">
                     <h5 class="text-decoration-underline">{{__('form.communication')}}</h5>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" value="1" {{$supplier->communication_mode == '1' ? 'checked' : null}} name="communication_mode" id="flexRadioEmail" disabled>
@@ -1352,7 +1320,6 @@
                   </div>
                 </div>
               </div>
-              @role(['responsable', 'admin'])
               <div class="row">
                 <div class="col-12 d-flex justify-content-center mb-2">
                   @php
@@ -1363,7 +1330,6 @@
                   <button id="btnSaveFinances" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none save">{{__('global.save')}}</button>
                 </div>
               </div>
-              @endrole
             </div>
           </div>
         </form>
@@ -1379,4 +1345,26 @@
 </script>
 <script src=" {{ asset('js/suppliersShow/showSupplier.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/status/status.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/identification/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/identification/save.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/identification/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contactDetails/addCitiesDistrictAreas.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contactDetails/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contactDetails/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contactDetails/save.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contacts/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contacts/save.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/contacts/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliersCreate/productsServices.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/productServices/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/rbq/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/rbq/save.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/rbq/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/rbq/changeType.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/finance/edit.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/finance/save.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/finance/validation.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/attachments/edit.js') }} "></script>
+<script src="{{ asset('js/suppliersCreate/attachmentFiles.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/attachments/listUpdate.js') }} "></script>
 @endsection

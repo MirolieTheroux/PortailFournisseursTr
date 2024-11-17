@@ -94,6 +94,30 @@ class PhoneNumbersSeeder extends Seeder
                 'contact_id' => 6,
                 'supplier_id' => null,
             ],
+            [
+                'id' => 11,
+                'number' => "8191119999",
+                'type' => "Bureau",
+                'extension' => null,
+                'contact_id' => null,
+                'supplier_id' => 2,
+            ],
+            [
+                'id' => 12,
+                'number' => "8191119999",
+                'type' => "Bureau",
+                'extension' => null,
+                'contact_id' => null,
+                'supplier_id' => 3,
+            ],
+            [
+                'id' => 13,
+                'number' => "8191119999",
+                'type' => "Bureau",
+                'extension' => null,
+                'contact_id' => null,
+                'supplier_id' => 4,
+            ],
         ]);
     }
 }

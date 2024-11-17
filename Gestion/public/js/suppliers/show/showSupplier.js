@@ -31,7 +31,6 @@ function showSectionDoc(id) {
   }
   const displayedSection = document.getElementById(id);
   displayedSection.classList.remove("d-none");
-  displayedSection.scrollIntoView({ behavior: 'smooth' });
 }
 
 document.querySelectorAll(".py-1.rounded").forEach(button => {
@@ -40,8 +39,6 @@ document.querySelectorAll(".py-1.rounded").forEach(button => {
   });
   button.addEventListener("click", function () {
     document.querySelectorAll(".section-clicked").forEach(icon => icon.classList.add("d-none"));
-
-    document.querySelectorAll(".py-1.rounded svg").forEach(icon => icon.classList.add("d-none"));
     document.querySelectorAll(".py-1.rounded svg:not(.section-clicked)").forEach(icon => icon.classList.remove("d-none"));
     const clickedIcon = this.querySelector(".section-clicked");
     const defaultIcon = this.querySelector("svg:not(.section-clicked)");

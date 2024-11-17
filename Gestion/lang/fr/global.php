@@ -22,6 +22,7 @@ return [
     'close' => 'Fermer',
     'confirm' => 'Confirmer',
     'none' => 'Aucun',
+    'add' => 'Ajouter',
 
     'updateSuccess' => 'La modification a fonctionné',
     'updateFailed' => 'La modification n\'a pas fonctionné',

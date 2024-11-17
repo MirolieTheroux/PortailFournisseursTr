@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuppliersController;
+use App\Http\Controllers\AttachmentsController;
 use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\MailsController;
 use App\Http\Middleware\LoggerMiddleware;
@@ -25,7 +26,6 @@ Route::get('suppliers/show', [SuppliersController::class, 'show'])->name('suppli
 Route::get('suppliers/home', [SuppliersController::class, 'home'])->name('suppliers.home');
 
 //Modify suppliers informaiton
-Route::post('/suppliers/update/status/{supplier}',[SuppliersController::class, 'updateStatus'])->name('suppliers.updateStatus');
 Route::patch('/suppliers/update/identification/{supplier}',[SuppliersController::class, 'updateIdentification'])->name('suppliers.updateIdentification');
 Route::post('/suppliers/update/contactDetails/{supplier}',[SuppliersController::class, 'updateContactDetails'])->name('suppliers.updateContactDetails')->middleware(LoggerMiddleware::class);
 Route::get('/suppliers/remove/{supplier}', [SuppliersController::class, 'removeFromList'])->name('suppliers.removeFromList');
@@ -34,7 +34,9 @@ Route::get('/suppliers/reactivate/{supplier}', [SuppliersController::class, 'rea
 Route::post('/suppliers/update/contacts/{supplier}',[SuppliersController::class, 'updateContacts'])->name('suppliers.updateContacts');
 Route::post('/suppliers/update/rbq/{supplier}',[SuppliersController::class, 'updateRbq'])->name('suppliers.updateRbq');
 Route::post('/suppliers/update/productsServices/{supplier}',[SuppliersController::class, 'updateProductsServices'])->name('suppliers.updateProductsServices');
+Route::post('/suppliers/update/attachments/{supplier}',[SuppliersController::class, 'updateAttachments'])->name('suppliers.updateAttachments');
 Route::patch('/suppliers/update/finance/{supplier}',[SuppliersController::class, 'updateFinance'])->name('suppliers.updateFinance');
 
+Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class, 'show'])->name('attachments.show');
 
 Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');

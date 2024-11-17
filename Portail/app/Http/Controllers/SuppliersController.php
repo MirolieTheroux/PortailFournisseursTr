@@ -4,7 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SupplierRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\SupplierUpdateContactDetailsRequest;
+use App\Http\Requests\SupplierUpdateContactsRequest;
+use App\Http\Requests\SupplierUpdateIdentificationRequest;
+use App\Http\Requests\SupplierUpdateRbqRequest;
+use App\Http\Requests\SupplierUpdateFinanceRequest;
+use App\Http\Requests\SupplierUpdateAttachmentsRequest;
+
 use App\Http\Controllers\MailsController;
+
 use App\Models\Supplier;
 use App\Models\StatusHistory;
 use App\Models\Contact;
@@ -22,6 +30,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\facades\Auth;
 use Illuminate\Support\facades\Session;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 class SuppliersController extends Controller
 {
@@ -167,6 +177,7 @@ class SuppliersController extends Controller
       $status_histories->status = 'waiting';
       $status_histories->updated_by = $request->email;
       $status_histories->supplier_id = $supplier->id;
+      $status_histories->created_at = Carbon::now('America/Toronto');
       $status_histories->supplier()->associate($supplier);
       $status_histories->save();
 
@@ -271,7 +282,7 @@ class SuppliersController extends Controller
             if (isset($request->fileNames[$i]) && $uploadedFiles[$i]->isValid()) {
               $fileNameWithoutExtension = $request->fileNames[$i];
               $fileName = $fileNameWithoutExtension.'.'.$uploadedFiles[$i]->extension();
-              $path = 'uploads/suppliers/' . $request->name;
+              $path = 'uploads/suppliers/' . $supplier->id;
               $fullPath = storage_path('app/' . $path . '/' . $fileName);
 
 
@@ -408,21 +419,29 @@ class SuppliersController extends Controller
     {
         //
     }
-
-  /**
-   * Update status of supplier.
-   */
-  public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier, StatusHistory $statusHistory)
-  {
-    Log::debug("UpdateStatus");
-  }
   
   /**
    * Update identification of supplier.
    */
   public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
   {
-    Log::debug("UpdateId");
+    try{
+      $supplier->neq = $request->neq;
+      $supplier->name = $request->name;
+      $supplier->email = $request->email;
+      $supplier->save();
+      
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateContactDetails'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#identification-section');
+    }
+    catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+        ->withErrors('message',__('global.updateFailed'));
+    }
   }
 
   /**
@@ -430,7 +449,12 @@ class SuppliersController extends Controller
    */
   public function removeFromList($id)
   {
-    Log::debug("RemoveSupplier");
+    $supplier = Supplier::findOrFail($id);
+    $this->changeStatus($supplier, "deactivated");
+
+    $this->destroyAttachments($supplier);
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.removeFromListSuccess'));
   }
 
   /**
@@ -438,7 +462,10 @@ class SuppliersController extends Controller
    */
   public function reactivate($id)
   {
-    Log::debug("ReactivateSupplier");
+    $supplier = Supplier::findOrFail($id);
+    $this->changeStatus($supplier, $supplier->latestActivableStatus()->status);
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.reactivationSuccess'));
   }
 
   /**
@@ -446,7 +473,16 @@ class SuppliersController extends Controller
    */
   private function destroyAttachments($supplier)
   {
-    Log::debug("destroyAttachments");
+    if(!(self::USING_FILESTREAM)){
+      $directory = $supplier->id;
+      $path = env('FILE_STORAGE_PATH'). "\\". $directory;
+
+      Log::debug($path);
+      if (file_exists($path)) {
+        File::deleteDirectory($path);
+      }
+    }
+    $supplier->attachments()->delete();
   }
 
   /**
@@ -454,7 +490,56 @@ class SuppliersController extends Controller
    */
   public function updateContactDetails(SupplierUpdateContactDetailsRequest $request, Supplier $supplier)
   {
-    Log::debug("updateContactDetails");
+    try{
+      //Update Address
+      $supplier->address->civic_no = $request->contactDetailsCivicNumber;
+      $supplier->address->street = $request->contactDetailsStreetName;
+      $supplier->address->office = $request->contactDetailsOfficeNumber;
+      $postal_code = $request->contactDetailsPostalCode;
+      $postal_code = str_replace(' ', '', $postal_code);
+      $postal_code = strtoupper($postal_code);
+      $supplier->address->postal_code = $postal_code;
+      if($request->contactDetailsProvince == "Québec"){
+        $supplier->address->city = $request->contactDetailsCitySelect;
+        $supplier->address->region = $request->contactDetailsDistrictArea;
+      }
+      else{
+        $supplier->address->city = $request->contactDetailsInputCity;
+      }
+      
+      Log::debug($request->contactDetailsWebsite);
+      $supplier->site = $request->contactDetailsWebsite;
+      $supplier->address->save();
+      $supplier->save();
+      
+      //Update Phone numbers    
+      $supplierExistingPhoneNumbers = $supplier->phoneNumbers->pluck('id')->toArray();
+      $idsToDelete = array_diff($supplierExistingPhoneNumbers, $request->phoneNumberIds);
+      PhoneNumber::whereIn('id', $idsToDelete)->delete();
+
+      for($i = 0 ; $i < Count($request->phoneNumbers) ; $i++){
+        if($request->phoneNumberIds[$i] == -1){
+          $phoneNumber = new PhoneNumber();
+          $phoneNumber->number = str_replace('-', '', $request->phoneNumbers[$i]);
+          $phoneNumber->type = $request->phoneTypes[$i];
+          $phoneNumber->extension = $request->phoneExtensions[$i];
+          $phoneNumber->supplier()->associate($supplier->id);
+          $phoneNumber->contact()->associate(null);
+          $phoneNumber->save();
+        }
+      }
+
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateIdentification'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contactDetails-section');
+    }
+    catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->withErrors('message',__('global.updateFailed'));
+    }
   }
 
   /**
@@ -462,7 +547,78 @@ class SuppliersController extends Controller
    */
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
   {
-    Log::debug("updateContacts");
+    try {
+      foreach ($supplier->contacts as $contact) {
+        if(!in_array($contact->id, $request->contactIds)){
+          foreach ($contact->phoneNumbers as $phoneNumber) {
+            $phoneNumber->delete();
+          }
+          $contact->delete();
+        }
+      }
+
+      for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
+        if($request->contactIds[$i] != -1){
+          $contact = Contact::findOrFail($request->contactIds[$i]);
+        }
+        else{
+          $contact = new Contact();
+        }
+        
+        $contact->email = $request->contactEmails[$i];
+        $contact->first_name = $request->contactFirstNames[$i];
+        $contact->last_name = $request->contactLastNames[$i];
+        $contact->job = $request->contactJobs[$i];
+        $contact->supplier()->associate($supplier);
+        $contact->save();
+
+        if($request->contactTelIdsA[$i] != -1){
+          $phoneNumberA = PhoneNumber::findOrFail($request->contactTelIdsA[$i]);
+        }
+        else{
+          $phoneNumberA = new PhoneNumber();
+        }
+        $phoneNumberA->number = str_replace('-', '', $request->contactTelNumbersA[$i]);
+        $phoneNumberA->type = $request->contactTelTypesA[$i];
+        $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
+
+        if($request->contactTelIdsA[$i] == -1){
+          $phoneNumberA->supplier()->associate(null);
+          $phoneNumberA->contact()->associate($contact);
+        }
+        $phoneNumberA->save();
+
+        if(!is_null($request->contactTelNumbersB[$i])){
+          if($request->contactTelIdsB[$i] != -1){
+            $phoneNumberB = PhoneNumber::findOrFail($request->contactTelIdsB[$i]);
+          }
+          else{
+            $phoneNumberB = new PhoneNumber();
+          }
+
+          $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
+          $phoneNumberB->type = $request->contactTelTypesB[$i];
+          $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
+          if($request->contactTelIdsB[$i] == -1){
+            $phoneNumberB->supplier()->associate(null);
+            $phoneNumberB->contact()->associate($contact);
+          }
+          $phoneNumberB->save();
+        }
+        else if(Count($contact->phoneNumbers) == 2){
+          $contact->phoneNumbers[1]->delete();
+        }
+      }
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateContact'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contacts-section');
+      
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
   }
 
   /**
@@ -470,7 +626,62 @@ class SuppliersController extends Controller
    */
   public function updateRbq(SupplierUpdateRbqRequest $request, Supplier $supplier)
   {
-    Log::debug("updateRbq");
+    try {
+      $supplierRbqExisting = !is_null($supplier->rbqLicence);
+      $requestRbqExisting = !is_null($request->licenceRbq);
+  
+      if($supplierRbqExisting && $requestRbqExisting){
+        $licence = RbqLicence::findOrFail($supplier->rbqLicence->id);
+        $licence->number = $request->licenceRbq;
+        $licence->status = $request->statusRbq;
+        $licence->type = $request->typeRbq;
+        $licence->supplier()->associate($supplier);
+        $licence->save();
+
+        foreach ($supplier->workSubcategories as $rbqSubCategory) {
+          if(!in_array($rbqSubCategory->code, $request->rbqSubcategories)){
+            $supplier->workSubcategories()->detach($rbqSubCategory->id);
+          }
+        }
+
+        $supplierExistingCategories = $supplier->workSubcategories->pluck('code')->toArray();
+        foreach ($request->rbqSubcategories as $rbqSubCategory) {
+          if(!in_array($rbqSubCategory, $supplierExistingCategories)){
+            $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
+            $supplier->workSubcategories()->attach($subCategory);
+          }
+        }
+      }
+      else if(!$supplierRbqExisting && $requestRbqExisting){
+        $licence = new RbqLicence();
+        $licence->number = $request->licenceRbq;
+        $licence->status = $request->statusRbq;
+        $licence->type = $request->typeRbq;
+        $licence->supplier()->associate($supplier);
+        $licence->save();
+  
+        foreach($request->rbqSubcategories as $rbqSubCategory){
+          $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
+          $supplier->workSubcategories()->attach($subCategory);
+        }
+      }
+      else if($supplierRbqExisting && !$requestRbqExisting){
+        $licence = RbqLicence::findOrFail($supplier->rbqLicence->id);
+        $licence->delete();
+
+        $supplier->workSubcategories()->sync([]);
+      }
+
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateRbq'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#licence-section');
+      
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
   }
 
   /**
@@ -478,7 +689,43 @@ class SuppliersController extends Controller
    */
   public function updateProductsServices(Request $request, Supplier $supplier)
   {
-    Log::debug("updateProductsServices");
+    try {
+      $supplier->product_service_detail = $request->product_service_detail;
+      $supplier->save();
+
+      
+      foreach ($supplier->productsServices as $productService) {
+        if($request->filled('products_services')){
+          if(!in_array($productService->code, $request->products_services)){
+            $supplier->productsServices()->detach($productService->code);
+          }
+        }
+        else{
+          $supplier->productsServices()->detach();
+        }
+       
+      }
+
+      $supplierExistingProductsServices = $supplier->productsServices->pluck('code')->toArray();
+      if($request->filled('products_services')){
+        foreach ($request->products_services as $productServiceCode) {
+          if(!in_array($productServiceCode, $supplierExistingProductsServices)){
+            $productService = ProductService::where('code', $productServiceCode)->firstOrFail();
+            $supplier->productsServices()->attach($productService);
+          }
+        }
+      }
+
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdatePS'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#productsServices-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
   }
 
   /**
@@ -486,7 +733,132 @@ class SuppliersController extends Controller
    */
   public function updateFinance(SupplierUpdateFinanceRequest $request, Supplier $supplier)
   {
-    Log::debug("updateFinance");
+    try {
+      $supplier->tps_number = $request->financesTps;
+      $supplier->tvq_number = $request->financesTvq;
+      $supplier->payment_condition = $request->financesPaymentConditions;
+      $supplier->currency = $request->currency;
+      $supplier->communication_mode = $request->communication_mode;
+      $supplier->save();
+      
+      $this->changeStatus($supplier, "modified");
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdateFinance'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#finances-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
+  }
+
+  /**
+   * Update attachments of supplier.
+   */
+  public function updateAttachments(SupplierUpdateAttachmentsRequest $request, Supplier $supplier)
+  {
+    Log::debug($request);
+    try {
+      if($request->filled('attachmentFilesIds')){
+        $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
+        $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
+        foreach ($idsToDelete as $id) {
+          $attachment = Attachment::FindOrFail($id);
+          $attachmentFullName = $attachment->name .".".$attachment->type;
+          
+          if(!(self::USING_FILESTREAM)){
+            $directory = $supplier->id;
+            $path = env('FILE_STORAGE_PATH'). "\\". $directory. "\\". $attachmentFullName;
+            Log::debug($path);
+            if (file_exists($path)) {
+              File::delete($path);
+            }
+          }
+        }
+        Attachment::whereIn('id', $idsToDelete)->delete();
+
+        for ($i=0; $i < Count($request->attachmentFilesIds) ; $i++) { 
+          if($request->attachmentFilesIds[$i] == -1){
+            $uploadedFile;
+            $fileNameWithoutExtension = $request->fileNames[$i];
+            foreach ($request->file('files') as $key => $file) {
+              if(str_contains($file->getClientOriginalName(), $fileNameWithoutExtension)){
+                $uploadedFile = $file;
+              }
+            }
+
+            if (!$uploadedFile->isValid()) {
+              Log::error("Fichier invalide : ", [
+                  'error' => $uploadedFile->getError(),
+                  'nom' => $uploadedFile->getClientOriginalName(),
+                  'taille' => $uploadedFile->getSize(),
+                  'mime' => $uploadedFile->getMimeType(),
+              ]);
+            }
+
+            if (isset($request->fileNames[$i]) && $uploadedFile->isValid()) {
+              $fileName = $fileNameWithoutExtension.'.'.$uploadedFile->extension();
+              $path = 'uploads/suppliers/' . $supplier->name;
+              $fullPath = storage_path('app/' . $path . '/' . $fileName);
+  
+  
+              if (!file_exists(storage_path('app/' . $path))) {
+                mkdir(storage_path('app/' . $path), 0777, true);
+              }
+              else if(file_exists($fullPath)){
+                while (file_exists($fullPath)) {
+                  $fileNameWithoutExtension = $fileNameWithoutExtension."_1";
+                  $fileName = $fileNameWithoutExtension.'.'.$uploadedFile->extension();
+                  $fullPath = storage_path('app/' . $path . '/' . $fileName);
+                }
+              }
+  
+              try{
+                $uploadedFile->storeAs($path, $fileName);
+              }
+              catch(\Symfony\Component\HttpFoundation\File\Exception\FileException $e){
+                Log::error("Erreur lors du téléversement du fichier.", [$e]);
+              }
+            }
+  
+            $attachment = new Attachment();
+            $attachment->name = $fileNameWithoutExtension;
+            $attachment->type = $uploadedFile->extension();
+            $attachment->size = $request->fileSizes[$i];
+            $attachment->deposit_date = $request->addedFileDates[$i];
+            $attachment->supplier()->associate($supplier);
+            $attachment->save();
+          }
+        }
+      }
+      else{
+        $this->destroyAttachments($supplier);
+      }
+
+      $this->changeStatus($supplier, "modified");
+      //Supprimer dans le dossier 
+
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.successUpdatePJ'))
+      ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#attachments-section');
+
+    } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
+  }
+
+  /**
+   * Update status of supplier.
+   */
+  private function changeStatus($supplier, $newStatus){
+    $status = new StatusHistory();
+    $status->status = $newStatus;
+    $status->updated_by = auth()->user()->email;
+    $status->created_at = Carbon::now('America/Toronto');
+    $status->supplier()->associate($supplier);
+    $status->save();
   }
 
     /**
@@ -500,15 +872,26 @@ class SuppliersController extends Controller
   public function checkEmail(Request $request)
   {
     $email = $request->email;
-    $exists = Supplier::where('neq', null)->where('email', $email)->exists();
+    $neq = $request->neq;
+    $supplierId = $request->supplierId;
+    $exists = Supplier::where('neq', $neq)
+                        ->where('email', $email)
+                        ->when($supplierId, function ($query, $supplierId) {
+                          return $query->where('id', '!=', $supplierId);
+                        })
+                        ->exists();
     return response()->json(['exists' => $exists]);
   }
 
   public function checkNeq(Request $request)
   {
-    Log::debug($request);
     $neq = $request->neq;
-    $exists = Supplier::where('neq', $neq)->exists();
+    $supplierId = $request->supplierId;
+    $exists = Supplier::where('neq', $neq)
+                        ->when($supplierId, function ($query, $supplierId) {
+                          return $query->where('id', '!=', $supplierId);
+                        })
+                      ->exists();
     return response()->json(['exists' => $exists]);
   }
 }

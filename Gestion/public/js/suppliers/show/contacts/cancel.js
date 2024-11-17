@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
   addContactsCancelListeners();
 });
 function addContactsCancelListeners(){
-  btnCancelContacts.addEventListener('click', cancelContacts);
+  if(btnCancelContacts)
+    btnCancelContacts.addEventListener('click', cancelContacts);
 }
 
 function cancelContacts(){

@@ -1,0 +1,21 @@
+.bg-gray{
+  background-color: lightgray;
+}
+.bg-gray:hover {
+  background-color: darkgray !important;
+}
+
+.left-nav > div:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.left-nav div svg {
+  width: 17px;
+  height: 17px;
+  margin-bottom: 5px;
+}
+
+.user-table:nth-child(odd){
+  background-color: white;
+}

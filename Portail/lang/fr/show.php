@@ -29,11 +29,11 @@ return [
 
     'successUpdateStatus' => 'L\'état de la demande a été mis à jour.',
     'successUpdateIdentification' => 'L\'identification a été mise à jour.',
-    'successUpdateContactDetails' => 'Les coordonnées ont été mise à jour.',
-    'successUpdateContact' => 'Les contacts ont été mise à jour.',
+    'successUpdateContactDetails' => 'Les coordonnées ont été mises à jour.',
+    'successUpdateContact' => 'Les contacts ont été mis à jour.',
     'successUpdateRbq' => 'La licence RBQ a été mise à jour.',
-    'successUpdatePS' => 'Les produits et services ont été mise à jour.',
-    'successUpdateFinance' => 'Les finances ont été mise à jour.',
+    'successUpdatePS' => 'Les produits et services ont été mis à jour.',
+    'successUpdatePJ' => 'Les pièces jointes ont été mises à jour.',
+    'successUpdateFinance' => 'Les finances ont été mises à jour.',
     'noChangesDetected' => 'Aucune modification détectée.', 
-
 ];

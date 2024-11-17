@@ -201,6 +201,8 @@ class SuppliersController extends Controller
       $supplier->name = $request->name;
       $supplier->email = $request->email;
       $supplier->save();
+      
+      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateContactDetails'))
@@ -211,8 +213,6 @@ class SuppliersController extends Controller
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
         ->withErrors('message',__('global.updateFailed'));
     }
-    
-    return redirect()->route('suppliers.show', ['supplier' => $supplier->id]);
   }
 
   public function denyRequest(SupplierDenialRequest $request, Supplier $supplier)
@@ -253,6 +253,8 @@ class SuppliersController extends Controller
     $status->status = $newStatus;
     $status->updated_by = auth()->user()->email;
     $status->created_at = Carbon::now('America/Toronto');
+    if($newStatus == "deactivated")
+      $status->deactivated_by_admin = true;
     $status->supplier()->associate($supplier);
     $status->save();
   }
@@ -269,7 +271,7 @@ class SuppliersController extends Controller
   private function destroyAttachments($supplier)
   {
     if(!(self::USING_FILESTREAM)){
-      $directory = $supplier->name;
+      $directory = $supplier->id;
       $path = env('FILE_STORAGE_PATH'). "\\". $directory;
 
       Log::debug($path);
@@ -277,7 +279,6 @@ class SuppliersController extends Controller
         File::deleteDirectory($path);
       }
     }
-
     $supplier->attachments()->delete();
   }
 
@@ -305,6 +306,7 @@ class SuppliersController extends Controller
       }
       $supplier->site = $request->contactDetailsWebsite;
       $supplier->address->save();
+      $supplier->save();
       
       //Update Phone numbers    
       $supplierExistingPhoneNumbers = $supplier->phoneNumbers->pluck('id')->toArray();
@@ -322,6 +324,8 @@ class SuppliersController extends Controller
           $phoneNumber->save();
         }
       }
+      
+      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateIdentification'))
@@ -552,17 +556,39 @@ class SuppliersController extends Controller
     }
   }
 
-    /**
+  /**
    * Update attachments of supplier.
    */
   public function updateAttachments(Request $request, Supplier $supplier)
   {
     Log::debug($request);
     try {
-      $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
-      $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
-      Attachment::whereIn('id', $idsToDelete)->delete();
-      
+      if($request->filled('attachmentFilesIds')){
+        $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
+        $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
+        //foreach
+        foreach ($idsToDelete as $id) {
+          $attachment = Attachment::FindOrFail($id);
+          $attachmentFullName = $attachment->name .".".$attachment->type;
+          
+          if(!(self::USING_FILESTREAM)){
+            $directory = $supplier->id;
+            $path = env('FILE_STORAGE_PATH'). "\\". $directory. "\\". $attachmentFullName;
+            Log::debug($path);
+            if (file_exists($path)) {
+              File::delete($path);
+            }
+          }
+        }
+        Attachment::whereIn('id', $idsToDelete)->delete();
+      }
+      else{
+        $this->destroyAttachments($supplier);
+      }
+
+      $this->changeStatus($supplier, "modified");
+      //Supprimer dans le dossier 
+
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePJ'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#attachments-section');
@@ -571,7 +597,6 @@ class SuppliersController extends Controller
       Log::debug($e);
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
     }
-
   }
 
     public function filter(Request $request)

@@ -43,7 +43,7 @@ class AttachmentsSeeder extends Seeder
                 'id' => 4,
                 'name' => 'anphiteatre',
                 'type' => 'jpg',
-                'size' => '81',
+                'size' => '20',
                 'deposit_date' => Carbon::create('2000', '09', '10'),
                 'supplier_id' => 4,
             ],

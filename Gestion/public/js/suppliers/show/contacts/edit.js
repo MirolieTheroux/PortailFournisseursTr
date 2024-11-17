@@ -79,7 +79,8 @@ function getContactSectionElements(){
   telExtensionLabelB = contactsRow.querySelector('#contactTelExtensionLabelB1');
 }
 function addContactsSectionListeners(){
-  btnEditContacts.addEventListener('click', enableContactSectionEdit);
+  if(btnEditContacts)
+    btnEditContacts.addEventListener('click', enableContactSectionEdit);
   addContactButton.addEventListener("click", cloneContact);
   
   const startingDelContactButtons = document.querySelectorAll('.delete-contact');

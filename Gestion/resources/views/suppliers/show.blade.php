@@ -9,6 +9,7 @@
 - Mettre texte et curseur du textarea pour la raison du refus au début.
 - Mettre les statuts égaux 
 -->
+
 @extends('layouts.app')
 
 @section('css')
@@ -1056,15 +1057,15 @@
                                 type="checkbox"
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}"
-                                id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                id="flexCheckGen{{$workSubcategory->id}}OB"
                                 {{$checked && $supplier->rbqLicence->type == "ownerBuilder" ? 'checked' : ''}}
                                 disabled
                               >
                               <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->code}}
                                 </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->name}}
                                 </label>
                               </div>
@@ -1087,15 +1088,15 @@
                                 type="checkbox"
                                 name="rbqSubcategories[]"
                                 value="{{$workSubcategory->code}}"
-                                id="flexCheckGen{{$workSubcategory->id}}Ent"
+                                id="flexCheckGen{{$workSubcategory->id}}OB"
                                 {{$checked && $supplier->rbqLicence->type == "ownerBuilder" ? 'checked' : ''}}
                                 disabled
                               >
                               <div class="d-flex">
-                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start rbq-category-label-number" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->code}}
                                 </label>
-                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}Ent">
+                                <label class="form-check-label text-start ps-2" for="flexCheckGen{{$workSubcategory->id}}OB">
                                   {{$workSubcategory->name}}
                                 </label>
                               </div>
@@ -1144,8 +1145,8 @@
                       <div class="d-flex justify-content-between mt-2">
                         <div class="col-6 fs-6 fst-italic">{{__('form.attachmentFileName')}}</div>
                         <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentFileSize')}}</div>
-                        <div class="col-2 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
-                        <div class="col-2 "></div>
+                        <div class="col-3 fs-6 text-center fst-italic">{{__('form.attachmentAddedFileDate')}}</div>
+                        <div class="col-1"></div>
                       </div>
                       <div id="attachmentFilesList">
                         @foreach ($supplier->attachments as $file)
@@ -1157,10 +1158,10 @@
                           <div class="col-2 fs-6 text-center fileSize">
                             {{$file->size}}
                           </div>
-                          <div class="col-2 fs-6 text-center addedFileDate">
+                          <div class="col-3 fs-6 text-center addedFileDate">
                             {{$file->deposit_date}}
                           </div>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removeAttachment d-none" viewBox="0 0 16 16" style="cursor:pointer;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-1 removeAttachment d-none" viewBox="0 0 16 16" style="cursor:pointer;">
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                           </svg>
                         </div>
