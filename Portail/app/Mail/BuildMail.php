@@ -8,20 +8,23 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\EmailModel;
 
-class InscriptionMail extends Mailable
+class BuildMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $user;
+    public $mailModel;
 
-    public function __construct($user)
+    public function __construct($user, $mailModel)
     {
         $this->user = $user;
+        $this->mailModel = $mailModel;
     }
 
     public function build()
     {
-        return $this->subject('Bienvenue!')->view('emails.inscription');
+        return $this->subject($this->mailModel->object)->view('emails.mail');
     }
 }

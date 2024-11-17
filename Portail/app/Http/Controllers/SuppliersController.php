@@ -16,6 +16,7 @@ use App\Models\Province;
 use App\Models\ProductService;
 use App\Models\ProductServiceCategory;
 use App\Models\Attachment;
+use App\Models\EmailModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -308,7 +309,8 @@ class SuppliersController extends Controller
       if($reussi){
         $user = Auth::user();
         $mailsController = new MailsController();
-        $mailsController->sendInscriptionMail($user);
+        $mailModel = EmailModel::where('name', 'inscription')->firstOrFail();
+        $mailsController->sendMail($user, $mailModel);
         return redirect()->route('suppliers.show')->with('message',"Demande d'inscription envoyée");
       }
     }

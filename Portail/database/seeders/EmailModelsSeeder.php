@@ -16,7 +16,7 @@ class EmailModelsSeeder extends Seeder
         DB::table('email_models')->insert([
             [
                 'id' => 1,
-                'name' => "Inscription",
+                'name' => "inscription",
                 'destinator' => "fournisseur",
                 'object' => "Bienvenue!",
                 'title' => "Bienvenue sur le Portail Fournisseur",

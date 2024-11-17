@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenue sur le Portail Fournisseur</title>
+    <title>{{ $mailModel->title }}</title>
 </head>
 <body style="word-spacing:normal;">
     <div>
@@ -51,7 +51,7 @@
                                                             style="line-height: 24px; text-align: center; margin: 10px 0; margin-top: 5px;">
                                                             <span
                                                                 style="color:#ffffff;font-family:Arial;font-size: min(6vw, 32px);">
-                                                                <b>Bienvenue sur le Portail Fournisseur</b>
+                                                                <b>{{ $mailModel->title }}</b>
                                                             </span>
                                                         </p>
                                                     </div>
@@ -82,14 +82,52 @@
                                                     </table>
                                                 </td>
                                             </tr>
+                                            @if ($mailModel->description)
+                                                <tr>
+                                                    <td align="left"
+                                                        style="font-size:0px;padding:10px 25px;padding-top:0px;padding-bottom:10px;word-break:break-word;">
+                                                        <div
+                                                            style="font-family:Arial, sans-serif;font-size:13px;letter-spacing:normal;line-height:1;text-align:left;color:#000000;">
+                                                            <p class="text-build-content"
+                                                                style="text-align: center; margin: 10px 0; margin-top: 10px;">
+                                                                <span style="color:#ffffff;">{{ $mailModel->description }}</span>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @if ($mailModel->subtitle)
+            <div style="background:#F1F1F1;background-color:#F1F1F1;margin:0px auto;max-width:600px;">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                    style="background:#F1F1F1;background-color:#F1F1F1;width:100%;">
+                    <tbody>
+                        <tr>
+                            <td
+                                style="direction:ltr;font-size:0px;padding:0 0 0 0;padding-bottom:0px;padding-top:0px;text-align:center;">
+                                <div class="mj-column-per-100 mj-outlook-group-fix"
+                                    style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                        style="vertical-align:top;" width="100%">
+                                        <tbody>
                                             <tr>
                                                 <td align="left"
-                                                    style="font-size:0px;padding:10px 25px;padding-top:0px;padding-bottom:10px;word-break:break-word;">
+                                                    style="background:#FFFFFF;font-size:0px;padding:20px 25px 10px 25px;padding-top:10px;padding-bottom:10px;word-break:break-word;">
                                                     <div
-                                                        style="font-family:Arial, sans-serif;font-size:13px;letter-spacing:normal;line-height:1;text-align:left;color:#000000;">
+                                                        style="font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
                                                         <p class="text-build-content"
-                                                            style="text-align: center; margin: 10px 0; margin-top: 10px;">
-                                                            <span style="color:#ffffff;">Bonjour et bienvenue sur le portail fournisseur de la Ville de Trois-Rivières!</span>
+                                                            style="line-height: 32px; text-align: center; margin: 10px 0; margin-top: 10px; margin-bottom: 10px;">
+                                                            <span style="color:#5e6977;font-family:Arial;font-size:26px;">
+                                                                <b>{{ $mailModel->subtitle }}</b>
+                                                            </span>
                                                         </p>
                                                     </div>
                                                 </td>
@@ -102,77 +140,45 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div style="background:#F1F1F1;background-color:#F1F1F1;margin:0px auto;max-width:600px;">
-            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                style="background:#F1F1F1;background-color:#F1F1F1;width:100%;">
-                <tbody>
-                    <tr>
-                        <td
-                            style="direction:ltr;font-size:0px;padding:0 0 0 0;padding-bottom:0px;padding-top:0px;text-align:center;">
-                            <div class="mj-column-per-100 mj-outlook-group-fix"
-                                style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                                <table border="0" cellpadding="0" cellspacing="0" role="presentation"
-                                    style="vertical-align:top;" width="100%">
-                                    <tbody>
-                                        <tr>
-                                            <td align="left"
-                                                style="background:#FFFFFF;font-size:0px;padding:20px 25px 10px 25px;padding-top:10px;padding-bottom:10px;word-break:break-word;">
-                                                <div
-                                                    style="font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
-                                                    <p class="text-build-content"
-                                                        style="line-height: 32px; text-align: center; margin: 10px 0; margin-top: 10px; margin-bottom: 10px;">
-                                                        <span style="color:#5e6977;font-family:Arial;font-size:26px;">
-                                                            <b>État de votre demande:</b>
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div style="background:#ffffff;background-color:#ffffff;margin:0px auto;max-width:600px;">
-            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                style="background:#ffffff;background-color:#ffffff;width:100%;">
-                <tbody>
-                    <tr>
-                        <td style="direction:ltr;font-size:0px;padding:0px 0px 0px 0px;text-align:center;">
-                            <div class="mj-column-per-33-333333333333336 mj-outlook-group-fix"
-                                style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                                <table border="0" cellpadding="0" cellspacing="0" role="presentation"
-                                    style="vertical-align:top;" width="100%">
-                                    <tbody>
-                                        <tr>
-                                            <td align="center"
-                                                style="font-size:0px;padding:0px 25px 0px 25px;word-break:break-word;">
-                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation"
-                                                    style="border-collapse:collapse;border-spacing:0px;">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td style="width:40px;">
-                                                                <img alt="" src="https://i.ibb.co/KXzGc2P/pending.gif"
-                                                                    style="border:none;border-radius:px;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
-                                                                    height="auto">
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        @endif
+        @if ($mailModel->icon)
+            <div style="background:#ffffff;background-color:#ffffff;margin:0px auto;max-width:600px;">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                    style="background:#ffffff;background-color:#ffffff;width:100%;">
+                    <tbody>
+                        <tr>
+                            <td style="direction:ltr;font-size:0px;padding:0px 0px 0px 0px;text-align:center;">
+                                <div class="mj-column-per-33-333333333333336 mj-outlook-group-fix"
+                                    style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                        style="vertical-align:top;" width="100%">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center"
+                                                    style="font-size:0px;padding:0px 25px 0px 25px;word-break:break-word;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                                        style="border-collapse:collapse;border-spacing:0px;">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width:40px;">
+                                                                    <img alt="{{ $mailModel->icon }}" src="{{ $mailModel->icon }}"
+                                                                        style="border:none;border-radius:px;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
+                                                                        height="auto">
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        @endif
         <div style="background:#ffffff;background-color:#ffffff;margin:0px auto;max-width:600px;">
             <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                 style="background:#ffffff;background-color:#ffffff;width:100%;">
@@ -189,18 +195,30 @@
                                                 style="font-size:0px;padding:10px 25px 20px 25px;padding-top:10px;padding-bottom:10px;word-break:break-word;">
                                                 <div
                                                     style="font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
-                                                    <p class="text-build-content"
-                                                        style="text-align: center; margin: 10px 0; margin-top: 10px;">
-                                                        <span
-                                                            style="color:#ff8800;font-family:Arial;font-size:24px;line-height:22px;">
-                                                            <b>En Attente</b>
-                                                        </span>
-                                                    </p>
-                                                    <p class="text-build-content"
-                                                        style="text-align: center; margin: 0px 0; margin-bottom: 0px; padding-top: 10px;">
-                                                        <span
-                                                            style="color:#5e6977;font-family:Arial;font-size:14px;line-height:22px;">Un membre de notre équipe procédera à la vérification de vos informations et vous informera par courriel une fois votre demande approuvé.</span>
-                                                    </p>
+                                                    @if ($mailModel->state)
+                                                        <p class="text-build-content"
+                                                            style="text-align: center; margin: 10px 0; margin-top: 10px;">
+                                                            <span
+                                                                style="font-family:Arial;font-size:24px;line-height:22px;">
+                                                                @if ($mailModel->state === 'waiting')
+                                                                    <b style="color:#ff8800;">En attente</b>
+                                                                @elseif ($mailModel->state === 'accepted')
+                                                                    <b style="color:#00ca00;">Acceptée</b>
+                                                                @elseif ($mailModel->state === 'denied')
+                                                                    <b style="color:#c50000;">Refusée</b>
+                                                                @elseif ($mailModel->state === 'toCheck')
+                                                                    <b style="color:#00aeff;">À vérifier</b>
+                                                                @endif
+                                                            </span>
+                                                        </p>
+                                                    @endif
+                                                    @if ($mailModel->message)
+                                                        <p class="text-build-content"
+                                                            style="text-align: center; margin: 0px 0; margin-bottom: 0px; padding-top: 10px;">
+                                                            <span
+                                                                style="color:#5e6977;font-family:Arial;font-size:14px;line-height:22px;">{!! $mailModel->message !!}</span>
+                                                        </p>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
@@ -234,7 +252,7 @@
                                                         style="font-family:Arial, sans-serif;font-size:13px;letter-spacing:normal;line-height:1;text-align:left;color:#000000;">
                                                         <p class="text-build-content"
                                                             style="text-align: center; margin: 10px 0; margin-top: 10px;">
-                                                            <span style="color:#ffffff; line-height:1.5;">Merci de votre intérêt et de votre patience.<br>L'équipe de la Ville de Trois-Rivières</span>
+                                                            <span style="color:#ffffff; line-height:1.5;">{!! $mailModel->footer !!}</span>
                                                         </p>
                                                     </div>
                                                 </td>
