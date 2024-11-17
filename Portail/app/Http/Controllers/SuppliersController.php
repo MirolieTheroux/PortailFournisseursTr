@@ -177,6 +177,7 @@ class SuppliersController extends Controller
       $status_histories->status = 'waiting';
       $status_histories->updated_by = $request->email;
       $status_histories->supplier_id = $supplier->id;
+      $status_histories->created_at = Carbon::now('America/Toronto');
       $status_histories->supplier()->associate($supplier);
       $status_histories->save();
 
