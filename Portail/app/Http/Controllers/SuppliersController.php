@@ -177,6 +177,7 @@ class SuppliersController extends Controller
       $status_histories->status = 'waiting';
       $status_histories->updated_by = $request->email;
       $status_histories->supplier_id = $supplier->id;
+      $status_histories->created_at = Carbon::now('America/Toronto');
       $status_histories->supplier()->associate($supplier);
       $status_histories->save();
 
@@ -281,7 +282,7 @@ class SuppliersController extends Controller
             if (isset($request->fileNames[$i]) && $uploadedFiles[$i]->isValid()) {
               $fileNameWithoutExtension = $request->fileNames[$i];
               $fileName = $fileNameWithoutExtension.'.'.$uploadedFiles[$i]->extension();
-              $path = 'uploads/suppliers/' . $request->name;
+              $path = 'uploads/suppliers/' . $supplier->id;
               $fullPath = storage_path('app/' . $path . '/' . $fileName);
 
 
@@ -447,7 +448,12 @@ class SuppliersController extends Controller
    */
   public function removeFromList($id)
   {
-    Log::debug("RemoveSupplier");
+    $supplier = Supplier::findOrFail($id);
+    $this->changeStatus($supplier, "deactivated");
+
+    $this->destroyAttachments($supplier);
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.removeFromListSuccess'));
   }
 
   /**
@@ -455,7 +461,10 @@ class SuppliersController extends Controller
    */
   public function reactivate($id)
   {
-    Log::debug("ReactivateSupplier");
+    $supplier = Supplier::findOrFail($id);
+    $this->changeStatus($supplier, $supplier->latestActivableStatus()->status);
+
+    return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.reactivationSuccess'));
   }
 
   /**
@@ -464,7 +473,7 @@ class SuppliersController extends Controller
   private function destroyAttachments($supplier)
   {
     if(!(self::USING_FILESTREAM)){
-      $directory = $supplier->name;
+      $directory = $supplier->id;
       $path = env('FILE_STORAGE_PATH'). "\\". $directory;
 
       Log::debug($path);
@@ -758,7 +767,7 @@ class SuppliersController extends Controller
           $attachmentFullName = $attachment->name .".".$attachment->type;
           
           if(!(self::USING_FILESTREAM)){
-            $directory = $supplier->name;
+            $directory = $supplier->id;
             $path = env('FILE_STORAGE_PATH'). "\\". $directory. "\\". $attachmentFullName;
             Log::debug($path);
             if (file_exists($path)) {

@@ -253,6 +253,8 @@ class SuppliersController extends Controller
     $status->status = $newStatus;
     $status->updated_by = auth()->user()->email;
     $status->created_at = Carbon::now('America/Toronto');
+    if($newStatus == "deactivated")
+      $status->deactivated_by_admin = true;
     $status->supplier()->associate($supplier);
     $status->save();
   }
@@ -269,7 +271,7 @@ class SuppliersController extends Controller
   private function destroyAttachments($supplier)
   {
     if(!(self::USING_FILESTREAM)){
-      $directory = $supplier->name;
+      $directory = $supplier->id;
       $path = env('FILE_STORAGE_PATH'). "\\". $directory;
 
       Log::debug($path);
@@ -570,7 +572,7 @@ class SuppliersController extends Controller
           $attachmentFullName = $attachment->name .".".$attachment->type;
           
           if(!(self::USING_FILESTREAM)){
-            $directory = $supplier->name;
+            $directory = $supplier->id;
             $path = env('FILE_STORAGE_PATH'). "\\". $directory. "\\". $attachmentFullName;
             Log::debug($path);
             if (file_exists($path)) {
