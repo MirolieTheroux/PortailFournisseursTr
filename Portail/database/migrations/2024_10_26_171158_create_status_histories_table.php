@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('status', 11);
             $table->string('updated_by', 64);
             $table->longText('refusal_reason')->nullable();
+            $table->boolean('deactivated_by_admin')->nullable();
             $table->foreignId('supplier_id')->constrained('suppliers');
             $table->timestamps();
         });

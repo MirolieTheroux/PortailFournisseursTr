@@ -1,4 +1,4 @@
-<!--//* NICE_TO_HAVE::Ajouter une variable dans la BD pour savoir qui à retirer le fournisseur de la liste et si c'est un responsable, empecher le fournisseur de réactiver-->
+<!--//TODO::Ajouter une variable dans la BD pour savoir qui à retirer le fournisseur de la liste et si c'est un responsable, empecher le fournisseur de réactiver-->
 <!--//* NICE_TO_HAVE::Faire attention au responsive des dates dans l'historiques des états sur les très petits écrans-->
 
 @extends('layouts.app')
@@ -15,9 +15,9 @@
 <div class="w-100 border-top border-dark">
   <div class="text-center w-100 p-2 fw-bolder">{{$supplier->name}}</div>
   <div class="text-center w-100 p-2 fw-bolder">
-    @if($supplier->latestNonModifiedStatus()->status == 'deactivated')
+    @if($supplier->latestNonModifiedStatus()->status == 'deactivated' && !$supplier->latestNonModifiedStatus()->deactivated_by_admin)
       <a href="{{route('suppliers.reactivate', ['supplier' => $supplier->id])}}">{{__('show.reactivate')}}</a>
-    @else
+    @elseif(!$supplier->latestNonModifiedStatus()->deactivated_by_admin)
       <a href="{{route('suppliers.removeFromList', ['supplier' => $supplier->id])}}" class="text-danger">{{__('show.removeFromList')}}</a>
     @endif
   </div>
@@ -31,9 +31,9 @@
     <div class="d-none d-lg-flex left-nav shadow-sm col-3 col-xl-2 bg-white h-100 flex-column justify-content-start">
       <h4 class="py-2 fw-bold">{{$supplier->name}}</h4>
 
-      @if($supplier->latestNonModifiedStatus()->status == 'deactivated')
+      @if($supplier->latestNonModifiedStatus()->status == 'deactivated' && !$supplier->latestNonModifiedStatus()->deactivated_by_admin)
         <a id="btnDelete" href="{{route('suppliers.reactivate', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.reactivate')}}</a>
-      @else
+      @elseif(!$supplier->latestNonModifiedStatus()->deactivated_by_admin)
         <a id="btnDelete" href="{{route('suppliers.removeFromList', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.removeFromList')}}</a>
       @endif
 
