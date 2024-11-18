@@ -267,7 +267,12 @@ class SuppliersController extends Controller
 
   public function reactivate($id){
     $supplier = Supplier::findOrFail($id);
-    $this->changeStatus($supplier, $supplier->latestActivableStatus()->status);
+    if($supplier->latestActivableStatus()->status == "denied"){
+      $refusal_reason = trim(unserialize(Crypt::decryptString($supplier->latestActivableStatus()->refusal_reason)));
+      $this->changeSupplierStatusWithReason($supplier, $supplier->latestActivableStatus()->status, $refusal_reason);
+    }
+    else
+      $this->changeStatus($supplier, $supplier->latestActivableStatus()->status);
 
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.reactivationSuccess'));
   }
