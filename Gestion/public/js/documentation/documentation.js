@@ -19,6 +19,9 @@ function getDocElement(){
 
   loginButton = document.getElementById("supplierZoom-nav-button");
   loginButton.addEventListener('click', ()=>{showSectionDoc("doc-section-supplierZoom")});
+
+  loginButton = document.getElementById("selectedSuppliersList-nav-button");
+  loginButton.addEventListener('click', ()=>{showSectionDoc("doc-section-selectedSuppliersList")});
 }
 
 function showSectionDoc(id){

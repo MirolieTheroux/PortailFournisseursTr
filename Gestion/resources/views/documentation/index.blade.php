@@ -16,12 +16,12 @@
       <div id="selectedSuppliersList-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.selectedSuppliersList')}}</div>
       
       @role(['admin'])
-      <div id="update-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.usersList')}}</div>
-      <div id="delete-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.addUser')}}</div>
-      <div id="update-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.updateUser')}}</div>
-      <div id="delete-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.deleteUser')}}</div>
-      <div id="update-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.parametersManagement')}}</div>
-      <div id="delete-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.emailsManagement')}}</div>
+      <div id="usersList-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.usersList')}}</div>
+      <div id="addUser-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.addUser')}}</div>
+      <div id="updateUser-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.updateUser')}}</div>
+      <div id="deleteUser-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.deleteUser')}}</div>
+      <div id="parametersManagement-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.parametersManagement')}}</div>
+      <div id="emailsManagement-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.emailsManagement')}}</div>
       @endrole
     </div>
 
@@ -74,23 +74,16 @@
         @endrole
       </div>
 
-      <div id="doc-section-home" class="d-none doc-section">
-        <h2 class="text-start">{{__('documentation.homePage')}}</h2>
-        <h3 class="text-start">{{__('documentation.signUpNavigation')}}</h3>
+      <div id="doc-section-selectedSuppliersList" class="d-none doc-section">
+        <h2 class="text-start">{{__('documentation.selectedSuppliersList')}}</h2>
         <div class="d-flex w-100 justify-content-center mb-3">
-          {{-- <video width="700" height="400" controls>
-            <source src="{{ asset('video/accueil_navigation_web.mp4') }}" type="video/mp4">
-          </video> --}}
-        </div>
-        <h3 class="text-start">{{__('documentation.mobileNavigation')}}</h3>
-        <div class="d-flex w-100 justify-content-center mb-3">
-          {{-- <video width="250" height="400" controls>
-            <source src="{{ asset('video/accueil_mobile.mp4') }}" type="video/mp4">
-              {{__('documentation.videoFail')}}
-          </video> --}}
+          <video width="700" height="400" controls>
+            <source src="{{ asset('video/selectedList.mp4') }}" type="video/mp4">
+          </video>
         </div>
       </div>
 
+      @role(['admin'])
       <div id="doc-section-update" class="d-none doc-section">
         <h2 class="text-start">{{__('documentation.updateAccount')}}</h2>
         <h3 class="text-start">{{__('documentation.sectionModification')}}</h3>
@@ -114,6 +107,7 @@
           </video> --}}
         </div>
       </div>
+      @endrole
     </div>
   </div>
 </div>
