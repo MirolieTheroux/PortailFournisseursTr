@@ -1,9 +1,3 @@
-<!--//? REMARQUES :
-- //? Est-ce qu'on met juste les boutons (ajouter/enregistrer) directement sur la page ? Ou on fait comme la fiche fournisseur avec un bouton modifier ?
-  - //? Nico : Je pense que se serait bien de faire comme la fiche fournisseur. Par défaut, on voit Ajouter et modifier, et quand on click sur modifier, on
-    //?        masque les boutons ajouter et modifier pour afficher annuler et enregistrer
--->
-<!--//? REMARQUES : Il faudrait mettre les boutons ajouter et modifier en haut à côté du titre car j'ai tester d'ajouter des 100aine de lignes test et c'est chiant de scroller jusqu'en bas.-->
 <!--//? REMARQUES : Je pense que se serait bien de changer tous les courriels de l'app de gestion pour des @vtr.net (Seeders, liste d'ajout)-->
 <!--//? REMARQUES : 
   //? Pour info, je pense que la liste d'ajout, comme elle représente la liste azure qu'il vont plugguer là, 
@@ -71,9 +65,9 @@
           @php
             $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
           @endphp
+          <button id="btnAddUsers" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.add')}}</button>
           <button id="btnEditUser" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
           <a id="btnCancelUser" href="{{ route('users.settings', ['refresh' => $refreshCount]) }}#users-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
-          <button id="btnAddUsers" type="button" class="m-2 py-1 px-3 rounded button-darkblue d-none">{{__('global.add')}}</button>
           <button id="btnSaveUsers" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none">{{__('global.save')}}</button>
         </div>
         <div class="container-fluid mb-0 border-bottom border-dark">

@@ -20,8 +20,8 @@ function addUsersSectionListeners() {
 }
 
 function enableUsersSectionEdit(){
-  btnAddUser.classList.remove("d-none");
   btnCancelUser.classList.remove("d-none");
   btnSaveUsers.classList.remove("d-none");
   btnEditUser.classList.add("d-none");
+  btnAddUser.classList.add("d-none");
 }

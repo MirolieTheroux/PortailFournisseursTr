@@ -44,4 +44,4 @@ Route::patch('/suppliers/update/finance/{supplier}',[SuppliersController::class,
 Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class, 'show'])->name('attachments.show');
 //TODO::Ajouter le middleware d'authentification (rôle admin)
 Route::get('/settings', [UsersController::class, 'show'])->name('users.settings');
-Route::post('/settings/addUser', [UsersController::class, 'store'])->name('users.addUser')->middleware(LoggerMiddleware::class);
+Route::post('/settings/addUser', [UsersController::class, 'store'])->name('users.addUser');
