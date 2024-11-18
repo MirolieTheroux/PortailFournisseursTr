@@ -1,9 +1,4 @@
 <!--//? REMARQUES : Je pense que se serait bien de changer tous les courriels de l'app de gestion pour des @vtr.net (Seeders, liste d'ajout)-->
-<!--//? REMARQUES : 
-  //? Pour info, je pense que la liste d'ajout, comme elle représente la liste azure qu'il vont plugguer là, 
-  //? on peut hardcoder les emails sans passer par les fichiers de langues.
-  //?  - PTI, J'ai ajouter des courriels pour tester et je me suis dit que ça fesais pas de mal de les laisser là
--->
 <!--//? REMARQUES : Les utilisateurs créer n'ont pas de mot de passe, il faudrait qu'il y en ait un pour qu'il puisse se connecter.
     //?    - Comme ils vont utiliser le mot de passe de leur AD, on peut juste hardcoder Secret1234! à la création
 -->
