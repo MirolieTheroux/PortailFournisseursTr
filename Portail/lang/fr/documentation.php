@@ -22,6 +22,11 @@ return [
     'signUpSubmit' => 'Soumettre le formulaire',
     'rbqSection' => 'Section licence RBQ',
     'attachementSection' => 'Section pièces jointes',
+    
+    'sectionModification' => 'Modifier une section',
+    'deactivateReactivate' => 'Désactivation et réactivation du dossier',
+    'mobileNavigation' => 'Navigation mobile',
+    'statusHistoryAcces' => 'Accéder à l\'historique des modifications',
 
     'videoFail' => 'Votre navigateur ne supporte pas les vidéos.',
 ];

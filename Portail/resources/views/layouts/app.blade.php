@@ -42,7 +42,6 @@
                 <div class="collapse" id="navbarToggleExternalContent">
                   <div class="d-flex d-md-none flex-column justify-content-center align-items-center">
                     <div class="text-center w-100 p-2 border-bottom border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
-                    <div class="text-center w-100 p-2">{{__('navbar.returnHomeWebSite')}}</div>
                     @auth
                       <form class="w-100" action="{{route('suppliers.logout')}}" method="post">
                         @csrf
