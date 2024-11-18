@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -12,9 +11,12 @@ use App\Models\ProductService;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
 use App\Models\RbqLicence;
+use App\Models\EmailModel;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\MailsController;
 
 use App\Http\Requests\SupplierUpdateStatusRequest;
 use App\Http\Requests\SupplierDenialRequest;
@@ -182,6 +184,21 @@ class SuppliersController extends Controller
         $this->destroyAttachments($supplier);
       }
 
+      if($request->requestStatus == "accepted"){
+        $mailModel = EmailModel::where('name', 'accepted')->firstOrFail();
+      }
+      else if($request->requestStatus == "denied"){
+        $mailModel = EmailModel::where('name', 'denied')->firstOrFail();
+      }
+      else if($request->requestStatus == "waiting"){
+        $mailModel = EmailModel::where('name', 'waiting')->firstOrFail();
+      }
+      else if($request->requestStatus == "toCheck"){
+        $mailModel = EmailModel::where('name', 'toCheck')->firstOrFail();
+      } 
+      $mailsController = new MailsController();
+      $mailsController->sendMail($supplier, $mailModel);
+
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateStatus'));
     } catch (\Throwable $e) {
@@ -219,15 +236,22 @@ class SuppliersController extends Controller
   {
     $this->changeSupplierStatusWithReason($supplier, "denied", $request->deniedReason);
 
+    $mailModel = EmailModel::where('name', 'denied')->firstOrFail();
+    $mailsController = new MailsController();
+    $mailsController->sendMail($supplier, $mailModel);
+
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.denialSuccess'));
   }
 
   public function approveRequest($id)
   {
     $supplier = Supplier::findOrFail($id);
-    $this->changeStatus($supplier, "accepted");
-    //$this->sendApprovalMail($supplier->email);
+    
+    $mailModel = EmailModel::where('name', 'accepted')->firstOrFail();
+    $mailsController = new MailsController();
+    $mailsController->sendMail($supplier, $mailModel);
 
+    $this->changeStatus($supplier, "accepted");
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.approvalSuccess'));
   }
 
