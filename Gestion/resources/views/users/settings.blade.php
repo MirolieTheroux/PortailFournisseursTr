@@ -16,11 +16,6 @@
 <!--//? REMARQUES : 
   //? Je me demande, est-ce qu'on pourrait afficher le bouton Liste des founisseur dans la navbar aussi pour les commis et les reponsables?
   //? Comme ça, quand ils vont dans la liste de fournisseurs sélectionnés, ils auraient un boutons pour revenir à la liste normale.
-  //? Si on fait ça, tu peux ignorer la remarque juste après.
--->
-<!--//? REMARQUES : 
-  //? Dans la navbar, quand on se connecte comme Commis ou responsable, il y a une border noir alor qui a rien à gauche et c'est un peu laid.
-  //? Je metterais la border a droite du centre admin pour qu'elle disparaissent quand il n'y a rien.
 -->
 
 @extends('layouts.app')
