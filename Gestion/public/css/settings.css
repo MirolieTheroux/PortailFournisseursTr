@@ -19,3 +19,12 @@
 .user-table:nth-child(odd){
   background-color: white;
 }
+
+.sticky-under-navbar{
+  position: sticky;
+  top: var(--header_logo_height);
+}
+
+.previous-button{
+  background-color: #EEEEF0 !important;
+}

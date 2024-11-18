@@ -1,4 +1,3 @@
-let btnAddUser;
 let modalAddUser;
 let modalAddUserContainer;
 let btnAddUserModal;
@@ -12,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function getElements(){
-  btnAddUser = document.getElementById("btnAddUsers");
   modalAddUserContainer = document.getElementById("modalAddUser")
   modalAddUser =  new bootstrap.Modal(modalAddUserContainer);
   btnAddUserModal = document.getElementById("addUserModal");

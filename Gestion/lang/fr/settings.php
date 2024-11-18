@@ -15,8 +15,6 @@ return [
     'responsable' => 'Responsable',
     'clerk' => 'Commis',
     'addUser' => 'Ajouter un utilisateur',
-    'emailTest' => 'test20@gmail.com',
-    'emailTest2' => 'test21@gmail.com',
     'chooseUser' => 'Choisir un utilisateur',
     'successAddUser' => 'L\'utilisateur a été ajouté',
     'errorAdmin' => 'Il ne peut y avoir que deux administrateurs.',
