@@ -1,34 +1,37 @@
-//Get elements in /users/addUsers
+const selectRoleModal = document.getElementById("userRoleModal");
 
 async function validateAllUser(){
   await validateUserEmail();
-  await validateRole();
+  await validateRole(selectRoleModal);
 }
 
 async function validateUserEmail(){
   const emailInvalidUnique = document.getElementById('emailExist');
-  let emailExist = await checkEmailUniqueUser(userSelectEmail.value);
+  let emailExist = await checkEmailUniqueUser(userSelectEmailModal.value);
   if(emailExist){
    
-    userSelectEmail.classList.add('is-invalid');
+    userSelectEmailModal.classList.add('is-invalid');
     emailInvalidUnique.style.display = 'block';
   }
   else{
-    userSelectEmail.classList.remove('is-invalid');
+    userSelectEmailModal.classList.remove('is-invalid');
     emailInvalidUnique.style.display = 'none';
   }
 }
 
-async function validateRole(){
-  const maxAdmin = document.getElementById('maxAdmin');
-  let numberAdmins = await checkAdmins();
-  if(numberAdmins == 2 && selectRole.value == "admin"){
-    selectRole.classList.add('is-invalid');
-    maxAdmin.style.display = 'block';
+async function validateRole(event,roleValue){
+  const maxAdminModal = document.getElementById('maxAdminModal');
+  const maxAdminSelect = document.getElementById('maxAdminSelect');
+  let numberAdmins = await checkAdmins(); 
+  if(numberAdmins == 2 && roleValue == "admin"){
+    selectRoleModal.classList.add('is-invalid');
+    maxAdminModal.style.display = 'block';
+    maxAdminSelect.style.display = 'block';
   }
   else{
-    selectRole.classList.remove('is-invalid');
-    maxAdmin.style.display = 'none';
+    selectRoleModal.classList.remove('is-invalid');
+    maxAdminModal.style.display = 'none';
+    maxAdminSelect.style.display = 'none';
   }
 }
 
@@ -56,3 +59,4 @@ async function checkAdmins(){
   const data = await response.json();
   return data.count;
 }
+

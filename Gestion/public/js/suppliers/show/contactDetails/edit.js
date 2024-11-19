@@ -45,13 +45,13 @@ function enableContactDetailsSectionEdit() {
   });
   addCitiesAndDAInSelect();
   emptyNAinputsContactDetails();
-  //à tester avec une province autre que QC 
+ 
   provinceContactDetails.value = selectedProvince;
 }
 
 function emptyNAinputsContactDetails() {
   const inputs = contactDetailsContainer.querySelectorAll(".form-control");
-  inputs.forEach((input) => {
+  inputs.forEach(input=> {
     if (input.value === "N/A") {
       input.value = "";
     }

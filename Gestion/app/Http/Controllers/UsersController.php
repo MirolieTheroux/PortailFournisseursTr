@@ -110,11 +110,11 @@ class UsersController extends Controller
   }
 
   /**
-   * Update the specified resource in storage.
+   * Update users
    */
-  public function update(Request $request, string $id)
+  public function updateUser(UserUpdateRequest $request)
   {
-      //
+    Log::debug($request);
   }
 
   /**

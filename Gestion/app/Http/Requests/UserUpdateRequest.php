@@ -22,8 +22,7 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
       return [
-        'userEmail' => 'required',
-        'userRole' => 'required'
+        'userRolesShow.*' => 'required'
       ];
     }
 }

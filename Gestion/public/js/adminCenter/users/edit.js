@@ -1,27 +1,69 @@
-let btnEditUser;
 let btnCancelUser;
 let btnAddUser;
 let btnSaveUsers;
+let modalAddUser;
+let modalAddUserContainer;
+let btnAddUserModal;
+let userSelectEmailModal;
+let selectsRoleShow;
+let formAddUser;
 
 document.addEventListener("DOMContentLoaded", function () {
-  getElementsEditUser();
-  addUsersSectionListeners()
+  getElements(); 
+  usersListeners();
 });
 
-function getElementsEditUser(){
-  btnEditUser = document.getElementById("btnEditUser");
+function getElements(){
   btnAddUser = document.getElementById("btnAddUsers");
   btnCancelUser = document.getElementById("btnCancelUser");
   btnSaveUsers = document.getElementById("btnSaveUsers");
+  modalAddUserContainer = document.getElementById("modalAddUser")
+  modalAddUser =  new bootstrap.Modal(modalAddUserContainer);
+  btnAddUserModal = document.getElementById("addUserModal");
+  formAddUser = document.getElementById("addUserForm");
+  userSelectEmailModal = document.getElementById("userEmail");
+  selectsRoleShow = document.getElementsByName("userRolesShow[]");
 }
 
-function addUsersSectionListeners() {
-  btnEditUser.addEventListener("click",enableUsersSectionEdit);
+function usersListeners() {
+  btnAddUser.addEventListener("click", ()=>{
+    modalAddUser.show();
+  });
+
+  if(userSelectEmailModal){
+    userSelectEmailModal.addEventListener('change', validateUserEmail);
+
+  }
+    
+  if(selectRoleModal){
+    selectRoleModal.addEventListener('change', function(event){
+      validateRole(event,selectRoleModal.value);
+    });
+  }
+    
+
+  btnAddUserModal.addEventListener("click", ()=>{
+    sendAddUserForm();
+  });
+
+  selectsRoleShow.forEach(select=>{
+    select.addEventListener("change", function(event){
+      validateRole(event, select.value);
+      
+    });
+  });
 }
 
-function enableUsersSectionEdit(){
-  btnCancelUser.classList.remove("d-none");
-  btnSaveUsers.classList.remove("d-none");
-  btnEditUser.classList.add("d-none");
-  btnAddUser.classList.add("d-none");
+async function sendAddUserForm(){
+  let response = await validateAllUser();  
+  const errorsMessage = modalAddUserContainer.querySelectorAll(".invalid-feedback");
+  let errors = false;
+  errorsMessage.forEach(errorMessage => {
+    if (errorMessage.style.display == "block") {
+      errors = true;
+    }
+  });
+  if (!errors) {
+    formAddUser.submit();
+  }
 }
