@@ -66,6 +66,7 @@ class UsersController extends Controller
       $newUser = new User();
       $newUser->email = $request->userEmail;
       $newUser->role = $request->userRole;
+      $newUser->password = Hash::make('Secret1234!');
       $newUser->save();
       return redirect()->route('users.settings')
       ->with('message',__('settings.successAddUser'));
