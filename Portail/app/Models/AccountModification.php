@@ -11,8 +11,8 @@ class AccountModification extends Model
 
     protected $fillable = [
         'changed_attribute',
-        'modification_type',
-        'modification',
+        'addition',
+        'deletion',
         'category_id',
         'status_id',
     ];

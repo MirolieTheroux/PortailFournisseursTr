@@ -215,11 +215,17 @@ class SuppliersController extends Controller
   /**
    * Create an account modification line.
    */
-  private function createAccountModificationLine(StatusHistory $status, string $changedAttribute, string $modificationType, string $modification, int $categoryId){
+  private function createAccountModificationLine(StatusHistory $status, ?string $changedAttribute, ?string $deletion, ?string $addition, int $categoryId){
     $accountModification = new AccountModification();
-    $accountModification->changed_attribute = $changedAttribute;
-    $accountModification->modification_type = $modificationType;
-    $accountModification->modification = $modification;
+    if(!is_null($changedAttribute)){
+      $accountModification->changed_attribute = $changedAttribute;
+    }
+    if(!is_null($deletion)){
+      $accountModification->deletion = $deletion;
+    }
+    if(!is_null($addition)){
+      $accountModification->addition = $addition;
+    }
     $accountModification->category_id = $categoryId;
     $accountModification->statusHistory()->associate($status);
     $accountModification->save();
@@ -235,16 +241,16 @@ class SuppliersController extends Controller
       $status = $this->changeStatus($supplier, "modified");
 
       if($supplier->neq != $request->neq){
+        $this->createAccountModificationLine($status, __('form.neqLabelShort'), $supplier->neq, $request->neq, $identification_category_id);
         $supplier->neq = $request->neq;
-        $this->createAccountModificationLine($status, __('accountModification.neq'), 'change', $request->neq, $identification_category_id);
       }
       if($supplier->name != $request->name){
+        $this->createAccountModificationLine($status, __('form.companyNameLabel'), $supplier->name, $request->name, $identification_category_id);
         $supplier->name = $request->name;
-        $this->createAccountModificationLine($status, __('accountModification.name'), 'change', $request->name, $identification_category_id);
       }
       if($supplier->email != $request->email){
+        $this->createAccountModificationLine($status, __('form.emailLabel'), $supplier->email, $request->email, $identification_category_id);
         $supplier->email = $request->email;
-        $this->createAccountModificationLine($status, __('accountModification.email'), 'change', $request->email, $identification_category_id);
       }
       $supplier->save();
 
@@ -344,16 +350,39 @@ class SuppliersController extends Controller
    */
   public function updateContactDetails(SupplierUpdateContactDetailsRequest $request, Supplier $supplier)
   {
+    $contactDetails_category_id = 2;
     //Log::debug($request);
     try{
+      $status = $this->changeStatus($supplier, "modified");
+
       //Update Address
-      $supplier->address->civic_no = $request->contactDetailsCivicNumber;
-      $supplier->address->street = $request->contactDetailsStreetName;
-      $supplier->address->office = $request->contactDetailsOfficeNumber;
+      if($supplier->address->civic_no != $request->contactDetailsCivicNumber){
+        $this->createAccountModificationLine($status, __('form.civicNumberLabel'), $supplier->address->civic_no, $request->contactDetailsCivicNumber, $contactDetails_category_id);
+        $supplier->address->civic_no = $request->contactDetailsCivicNumber;
+      }
+      if($supplier->address->street != $request->contactDetailsStreetName){
+        $this->createAccountModificationLine($status, __('form.streetName'), $supplier->address->street, $request->contactDetailsStreetName, $contactDetails_category_id);
+        $supplier->address->street = $request->contactDetailsStreetName;
+      }
+      if($supplier->address->office != $request->contactDetailsOfficeNumber){
+        $this->createAccountModificationLine($status, __('form.officeNumber'), $supplier->address->office, $request->contactDetailsOfficeNumber, $contactDetails_category_id);
+        $supplier->address->office = $request->contactDetailsOfficeNumber;
+      }
+      
       $postal_code = $request->contactDetailsPostalCode;
       $postal_code = str_replace(' ', '', $postal_code);
       $postal_code = strtoupper($postal_code);
-      $supplier->address->postal_code = $postal_code;
+      if($supplier->address->postal_code != $postal_code){
+        $this->createAccountModificationLine($status, __('form.postalCode'), $supplier->address->postal_code, $postal_code, $contactDetails_category_id);
+        $supplier->address->postal_code = $postal_code;
+      }
+
+      $province = Province::where('name', $request->contactDetailsProvince)->firstOrFail();
+      if($supplier->address->province->id != $province->id){
+        $this->createAccountModificationLine($status, __('form.province'), $supplier->address->province->name, $province->name, $contactDetails_category_id);
+        $supplier->address->province()->associate($province);
+      }
+
       if($request->contactDetailsProvince == "Québec"){
         $supplier->address->city = $request->contactDetailsCitySelect;
         $supplier->address->region = $request->contactDetailsDistrictArea;
@@ -381,8 +410,6 @@ class SuppliersController extends Controller
           $phoneNumber->save();
         }
       }
-      
-      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateIdentification'))

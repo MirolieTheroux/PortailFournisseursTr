@@ -129,54 +129,60 @@
                 <div class="px-3 fw-bold">{{__('show.modifiedBy')}}</div>
               </div>
               @foreach ($decryptedReasons as $reason)
-              <div class="d-flex flex-row justify-content-between">
-                <div class="px-3">{{ $reason->created_at }}</div>
+              <div class="d-flex flex-row justify-content-between pb-3">
+                <div class="d-flex flex-row justify-content-between w-100">
+                  <div class="px-3">{{ $reason->created_at }}</div>
+                </div>
                 
-                <div class="px-3 status">
-                  @switch($reason->status)
-                  @case('denied')
-                  <a href="#" tabindex="0"
-                    class="popover-link"
-                    data-bs-toggle="popover"
-                    data-bs-trigger="click"
-                    data-bs-content="{{$reason->refusal_reason}}">
-                    {{ __('global.denied') }}
-                  </a>
-                  @break
+                <div class="d-flex flex-row  justify-content-between justify-content-md-center w-100">
+                  <div class="px-3 status">
+                    @switch($reason->status)
+                    @case('denied')
+                    <a href="#" tabindex="0"
+                      class="popover-link"
+                      data-bs-toggle="popover"
+                      data-bs-trigger="click"
+                      data-bs-content="{{$reason->refusal_reason}}">
+                      {{ __('global.denied') }}
+                    </a>
+                    @break
 
-                  @case('modified')
-                  <a href="#" tabindex="0"
-                    class="popover-link"
-                    data-bs-html="true"
-                    data-bs-toggle="popover"
-                    data-bs-trigger="click"
-                    data-bs-content="@include('suppliers.components.modificationList', ['modifications' => $reason->accountModifications, 'modificationCategories' => $modificationCategories])">
-                    {{ __('global.modified') }}
-                  </a>
-                  @break
+                    @case('modified')
+                    <a href="#" tabindex="0"
+                      class="popover-link"
+                      data-bs-html="true"
+                      data-bs-toggle="popover"
+                      data-bs-trigger="click"
+                      data-bs-content="@include('suppliers.components.modificationList', ['modifications' => $reason->accountModifications, 'modificationCategories' => $modificationCategories])">
+                      {{ __('global.modified') }}
+                    </a>
+                    @break
 
-                  @case('accepted')
-                  {{ __('global.accepted') }}
-                  @break
+                    @case('accepted')
+                    {{ __('global.accepted') }}
+                    @break
 
-                  @case('waiting')
-                  {{ __('global.waiting') }}
-                  @break
+                    @case('waiting')
+                    {{ __('global.waiting') }}
+                    @break
 
-                  @case('toCheck')
-                  {{ __('global.toCheck') }}
-                  @break
+                    @case('toCheck')
+                    {{ __('global.toCheck') }}
+                    @break
 
-                  @case('deactivated')
-                  {{ __('global.deactivated') }}
-                  @break
+                    @case('deactivated')
+                    {{ __('global.deactivated') }}
+                    @break
 
-                  @default
-                  {{ $reason->status }}
-                  @endswitch
+                    @default
+                    {{ $reason->status }}
+                    @endswitch
+                  </div>
                 </div>
 
-                <div class="px-3">{{ $reason->updated_by }}</div>
+                <div class="d-flex flex-row justify-content-between justify-content-md-end w-100">
+                  <div class="px-3">{{ $reason->updated_by }}</div>
+                </div>
               </div>
               @endforeach
             </div>
