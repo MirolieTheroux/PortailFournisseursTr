@@ -12,6 +12,7 @@ use App\Models\Contact;
 use App\Models\PhoneNumber;
 use App\Models\RbqLicence;
 use App\Models\EmailModel;
+use App\Models\AccountModification;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -207,19 +208,42 @@ class SuppliersController extends Controller
         ->withErrors('message',__('global.updateFailed'));
     }
   }
+
+  /**
+   * Create an account modification line.
+   */
+  private function createAccountModificationLine(StatusHistory $status, string $changedAttribute, string $modificationType, string $modification, int $categoryId){
+    $accountModification = new AccountModification();
+    $accountModification->changed_attribute = $changedAttribute;
+    $accountModification->modification_type = $modificationType;
+    $accountModification->modification = $modification;
+    $accountModification->category_id = $categoryId;
+    $accountModification->statusHistory()->associate($status);
+    $accountModification->save();
+  }
   
   /**
    * Update identification of supplier.
    */
   public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
   {
+    $identification_category_id = 1;
     try{
-      $supplier->neq = $request->neq;
-      $supplier->name = $request->name;
-      $supplier->email = $request->email;
+      $status = $this->changeStatus($supplier, "modified");
+
+      if($supplier->neq != $request->neq){
+        $supplier->neq = $request->neq;
+        $this->createAccountModificationLine($status, __('accountModification.neq'), 'change', $request->neq, $identification_category_id);
+      }
+      if($supplier->name != $request->name){
+        $supplier->name = $request->name;
+        $this->createAccountModificationLine($status, __('accountModification.name'), 'change', $request->name, $identification_category_id);
+      }
+      if($supplier->email != $request->email){
+        $supplier->email = $request->email;
+        $this->createAccountModificationLine($status, __('accountModification.email'), 'change', $request->email, $identification_category_id);
+      }
       $supplier->save();
-      
-      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateContactDetails'))
@@ -286,6 +310,7 @@ class SuppliersController extends Controller
       $status->deactivated_by_admin = true;
     $status->supplier()->associate($supplier);
     $status->save();
+    return $status;
   }
   private function changeSupplierStatusWithReason($supplier, $newStatus, $reason){
     $status = new StatusHistory();

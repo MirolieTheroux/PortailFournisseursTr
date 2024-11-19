@@ -18,4 +18,8 @@ class StatusHistory extends Model
     public function supplier(){
       return $this->belongsTo(Supplier::class);
     }
+
+    public function accountModifications(){
+      return $this->hasMany(AccountModification::class);
+    }
 }
