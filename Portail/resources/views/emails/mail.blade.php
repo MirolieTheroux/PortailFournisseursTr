@@ -1,3 +1,29 @@
+<!--//? REMARQUES::432::Attention à mettre tout le texte dans les fichiers de langue (Réutiliser ceux qui existe déjà si possible) (Ligne : ~92, ~206 à ~212 et ~288)-->
+<!--//? REMARQUES::432::Est-ce que ce serait possible d'organiser les styles dans un fichier css en utilisant des id et des classes? Je pense que ce serait plus facile à lire-->
+
+<!--//? REMARQUES::431::Est-ce que tu as valider que tous les envois requis à la page 22 (Du document d'analyse) sont fait?
+    //?     - 1.a Fonctionne
+    //?     - 1.b Ne semble pas fait
+    //?     - 2.a Fonctionne
+    //?     - 3.a Fonctionne
+    //?     - 4.a S'envoit au fournisseur alors qu'il devrait s'envoyer à l'approvisionnement
+    //?     - 5.a À faire lorsque les modifs seront configurer
+-->
+
+<!--//? REMARQUES::581::(Nice_to_have?) Selon la page 37 du document d'analyse, nous ne sommes pas conforme.
+    //?     - Ajouter la possibilité au responsable de joindre la raison du refus au courriel.
+-->
+
+<!--//? REMARQUES::431/432::Je sais pas si c'est voulu mais je mentionne au cas que non mais j'ai un cadrier blanc dans les fonds bleus que je recois dans les courriels.-->
+
+<!--//? REMARQUES::431/432::Dans le SupplierController de l'app de gestion, les 3 lignes ci-dessous se répètent souvent et je pense que tu pourrais en extraire un méthode
+    $mailModel = EmailModel::where('name', 'denied')->firstOrFail();
+    $mailsController = new MailsController();
+    $mailsController->sendMail($supplier, $mailModel);
+-->
+
+<!--//? REMARQUES::431::Dans le SupplierController de l'app de gestion, aux lignes 183 à 185 j'ai le même if que le tien au ligne 190 à 192, est-ce qu'on pourrait les rassembler?-->
+
 <!DOCTYPE html>
 <html lang="fr">
 
