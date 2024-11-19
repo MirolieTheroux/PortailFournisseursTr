@@ -16,7 +16,7 @@ class AttachmentsController extends Controller
     $attachment = Attachment::findOrFail($attachment_id);
 
     if(!(self::USING_FILESTREAM)){
-      $directory = $supplier->name;
+      $directory = $supplier->id;
       $filename = $attachment->name . "." . $attachment->type;
       $path = env('FILE_STORAGE_PATH'). "\\". $directory . "\\" . $filename;
       Log::debug($path);

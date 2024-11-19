@@ -26,6 +26,21 @@ function getDocElement(){
   signupButton.addEventListener('click', ()=>{showSectionDoc("doc-section-signup")});
   signupButtonMobile.addEventListener('click', ()=>{showSectionDoc("doc-section-signup")});
 
+  signupButton = document.getElementById("home-nav-button");
+  signupButtonMobile = document.getElementById("home-nav-button-mobile");
+  signupButton.addEventListener('click', ()=>{showSectionDoc("doc-section-home")});
+  signupButtonMobile.addEventListener('click', ()=>{showSectionDoc("doc-section-home")});
+
+  signupButton = document.getElementById("update-nav-button");
+  signupButtonMobile = document.getElementById("update-nav-button-mobile");
+  signupButton.addEventListener('click', ()=>{showSectionDoc("doc-section-update")});
+  signupButtonMobile.addEventListener('click', ()=>{showSectionDoc("doc-section-update")});
+
+  signupButton = document.getElementById("delete-nav-button");
+  signupButtonMobile = document.getElementById("delete-nav-button-mobile");
+  signupButton.addEventListener('click', ()=>{showSectionDoc("doc-section-delete")});
+  signupButtonMobile.addEventListener('click', ()=>{showSectionDoc("doc-section-delete")});
+
   navbarToggler = document.querySelector(".navbar-toggler");
 }
 

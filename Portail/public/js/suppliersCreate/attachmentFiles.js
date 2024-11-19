@@ -44,7 +44,7 @@ document.getElementById("add-file").addEventListener("click", () => {
 
   if(validateFileBeforeClick()){
     const fileItem = document.createElement("div");
-    fileItem.classList.add("row", "mb-2", "align-items-center", "justify-content-between");
+    fileItem.setAttribute("class", "d-flex flex-row align-items-center mb-2 p-0")
     //INPUT FILEFORM
     const fileForm = inputFile.cloneNode(true);
     fileForm.classList.add("d-none");
@@ -70,7 +70,7 @@ document.getElementById("add-file").addEventListener("click", () => {
     inputFileSizeHidden.setAttribute("name", "fileSizes[]");
     //DIV FILE ADDED DATE
     const fileDateDiv = document.createElement("div");
-    fileDateDiv.classList.add("col-2", "fs-6", "text-center", "addedFileDate");
+    fileDateDiv.classList.add("col-3", "fs-6", "text-center", "addedFileDate");
     fileDateDiv.textContent = addedFileDate.textContent;
     const inputAddedFileDateHidden = document.createElement("input");
     inputAddedFileDateHidden.value = addedFileDate.textContent;
@@ -82,20 +82,18 @@ document.getElementById("add-file").addEventListener("click", () => {
     inputFileTypeHidden.classList.add("d-none");
     inputFileTypeHidden.setAttribute("name", "fileTypes[]");
 
-    const removeDiv = document.createElement("div");
-    removeDiv.classList.add("col-2", "text-center");
-
     const removeFile = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     removeFile.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-    removeFile.setAttribute("width", "38");
-    removeFile.setAttribute("height", "38");
+    removeFile.setAttribute("width", "35");
+    removeFile.setAttribute("height", "35");
     removeFile.setAttribute("fill", "currentColor");
-    removeFile.setAttribute("class", "bi bi-trash-fill");
+    removeFile.setAttribute("class", "bi bi-trash-fill removeAttachment");
     removeFile.setAttribute("viewBox", "0 0 16 16");
     removeFile.style.cursor = "pointer";
     removeFile.innerHTML = `<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>`;
+    removeFile.classList.add("col-1", "text-center");
     
-    removeDiv.onclick = () => {
+    removeFile.onclick = () => {
       const fileSize = parseFloat(fileSizeDiv.textContent); 
       fileItem.remove();
       totalSizeMo -= fileSize; 
@@ -110,7 +108,6 @@ document.getElementById("add-file").addEventListener("click", () => {
         updateListHeader();
       }
     };
-    removeDiv.appendChild(removeFile);
 
     const inputFileIdHidden = document.createElement('input');
     inputFileIdHidden.value = -1;
@@ -122,7 +119,7 @@ document.getElementById("add-file").addEventListener("click", () => {
     fileItem.appendChild(fileNameDiv);
     fileItem.appendChild(fileSizeDiv);
     fileItem.appendChild(fileDateDiv);
-    fileItem.appendChild(removeDiv);
+    fileItem.appendChild(removeFile);
     fileItem.appendChild(fileForm);
     fileItem.appendChild(inputFileNameHidden);
     fileItem.appendChild(inputFileSizeHidden);

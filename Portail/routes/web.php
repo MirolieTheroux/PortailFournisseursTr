@@ -40,5 +40,3 @@ Route::patch('/suppliers/update/finance/{supplier}',[SuppliersController::class,
 Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class, 'show'])->name('attachments.show');
 
 Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');
-
-Route::get('/send-inscription-mail/{supplier}', [MailsController::class, 'sendInscriptionMail']);

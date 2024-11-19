@@ -11,17 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('email_model', function (Blueprint $table) {
+        Schema::create('email_models', function (Blueprint $table) {
             $table->id();
             $table->string('name', 64)->unique();
-            $table->string('Object', 128);
+            $table->string('destinator', 64);
+            $table->string('object', 128);
             $table->string('title', 50);
-            $table->string('description', 100);
-            $table->string('subtitle', 50);
-            $table->string('icon', 128);
-            $table->string('state', 50);
-            $table->string('message', 500);
-            $table->string('footer', 200);
+            $table->string('description', 100)->nullable();
+            $table->string('subtitle', 50)->nullable();
+            $table->string('icon', 128)->nullable();
+            $table->string('state', 50)->nullable();
+            $table->string('message', 500)->nullable();
+            $table->string('footer', 200)->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Email_Model');
+        Schema::dropIfExists('email_models');
     }
 };

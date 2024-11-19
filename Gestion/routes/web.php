@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AttachmentsController;
+use App\Http\Controllers\DocumentationController;
 use App\Http\Middleware\LoggerMiddleware;
 
 // Route::get('/', function () {
@@ -45,3 +46,4 @@ Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class,
 //TODO::Ajouter le middleware d'authentification (rôle admin)
 Route::get('/settings', [UsersController::class, 'show'])->name('users.settings');
 Route::post('/settings/addUser', [UsersController::class, 'store'])->name('users.addUser');
+Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');

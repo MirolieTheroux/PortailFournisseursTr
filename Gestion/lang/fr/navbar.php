@@ -8,4 +8,5 @@ return [
     'disconnect' => 'Déconnexion',
     'adminCenter' => 'Centre d\'administration',
     'returnSuppliers' => 'Liste des fournisseurs',
+    'help' => 'Aide',
 ];

@@ -22,8 +22,8 @@
                 </div>
                 <div class="col-6 justify-content-end align-items-center">
                     <div class="d-none d-md-flex justify-content-end align-items-center h-100 w-100">
-                      {{-- <div class="p-2 border-end border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div> --}}
-                      <div class="p-2"><a href="{{route('suppliers.index')}}">{{__('navbar.returnSuppliers')}}</a></div>
+                      <div class="p-2"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
+                      <div class="p-2 border-start border-dark"><a href="{{route('suppliers.index')}}">{{__('navbar.returnSuppliers')}}</a></div>
                       @role(['admin'])
                       <div class="p-2 border-start border-dark"><a href="{{route('users.settings')}}">{{__('navbar.adminCenter')}}</a></div>
                       @endrole
@@ -34,8 +34,6 @@
                         </form>
                       @endauth
                     </div>
-
-
                     <div class="d-flex d-md-none justify-content-end align-items-center h-100 w-100">
                       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
@@ -43,19 +41,6 @@
                         </svg>
                       </button>
                     </div>
-                </div>
-                <div class="collapse" id="navbarToggleExternalContent">
-                  <div class="d-flex d-md-none flex-column justify-content-center align-items-center">
-                    {{-- <div class="text-center w-100 p-2 border-bottom border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div> --}}
-                    <div class="text-center w-100 p-2">{{__('navbar.returnHomeWebSite')}}</div>
-                    @auth
-                      <form action="{{route('users.logout')}}" method="post">
-                        @csrf
-                        <button class="text-center w-100 p-2 border-top border-dark link-button" type="submit">{{__('navbar.disconnect')}}</button>
-                      </form>
-                    @endauth
-                    @yield('mobile-navbar')
-                  </div>
                 </div>
             </div>
         </div>
