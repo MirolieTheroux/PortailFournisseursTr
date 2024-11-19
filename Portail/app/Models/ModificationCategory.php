@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ModificationCategory extends Model
 {
     protected $table = 'modification_categories';
+
+    public function accountModifications(){
+      return $this->hasMany(AccountModification::class);
+    }
 }
