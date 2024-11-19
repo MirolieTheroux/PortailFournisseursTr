@@ -23,8 +23,8 @@
                 <div class="col-6 justify-content-end align-items-center">
                     <div class="d-none d-md-flex justify-content-end align-items-center h-100 w-100">
                       {{-- <div class="p-2 border-end border-dark"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div> --}}
-                      @role(['admin'])
                       <div class="p-2"><a href="{{route('suppliers.index')}}">{{__('navbar.returnSuppliers')}}</a></div>
+                      @role(['admin'])
                       <div class="p-2 border-start border-dark"><a href="{{route('users.settings')}}">{{__('navbar.adminCenter')}}</a></div>
                       @endrole
                       @auth

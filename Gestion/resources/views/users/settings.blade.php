@@ -1,12 +1,3 @@
-<!--//? REMARQUES : Je pense que se serait bien de changer tous les courriels de l'app de gestion pour des @vtr.net (Seeders, liste d'ajout)-->
-<!--//? REMARQUES : Les utilisateurs créer n'ont pas de mot de passe, il faudrait qu'il y en ait un pour qu'il puisse se connecter.
-    //?    - Comme ils vont utiliser le mot de passe de leur AD, on peut juste hardcoder Secret1234! à la création
--->
-<!--//? REMARQUES : 
-  //? Je me demande, est-ce qu'on pourrait afficher le bouton Liste des founisseur dans la navbar aussi pour les commis et les reponsables?
-  //? Comme ça, quand ils vont dans la liste de fournisseurs sélectionnés, ils auraient un boutons pour revenir à la liste normale.
--->
-
 @extends('layouts.app')
 
 @section('title', __('navbar.adminCenter'))

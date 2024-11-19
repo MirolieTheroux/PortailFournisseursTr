@@ -17,19 +17,19 @@ class UsersSeeder extends Seeder
         DB::table('app_gestion_users')->insert([
             [
                 'id' => 1,
-                'email' => 'admin@gmail.com',
+                'email' => 'admin@vtr.net',
                 'password' => Hash::make('Secret1234!'),
                 'role' => 'admin'
             ],
             [
                 'id' => 2,
-                'email' => 'responsable@gmail.com',
+                'email' => 'responsable@vtr.net',
                 'password' => Hash::make('Secret1234!'),
                 'role' => 'responsable'
             ],
             [
                 'id' => 3,
-                'email' => 'commis@gmail.com',
+                'email' => 'commis@vtr.net',
                 'password' => Hash::make('Secret1234!'),
                 'role' => 'clerk'
             ],
