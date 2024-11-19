@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('account_modifications', function (Blueprint $table) {
+        Schema::create('modification_additions', function (Blueprint $table) {
             $table->id();
-            $table->string('changed_attribute', 64)->nullable();
-            $table->foreignId('category_id')->constrained('modification_categories');
-            $table->foreignId('status_id')->constrained('status_histories');
+            $table->string('addition', 500)->nullable();
+            $table->foreignId('modification_id')->constrained('account_modifications');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('account_modifications');
+        Schema::dropIfExists('modification_additions');
     }
 };

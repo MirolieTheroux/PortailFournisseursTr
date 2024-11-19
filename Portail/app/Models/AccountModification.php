@@ -11,8 +11,6 @@ class AccountModification extends Model
 
     protected $fillable = [
         'changed_attribute',
-        'addition',
-        'deletion',
         'category_id',
         'status_id',
     ];
@@ -23,5 +21,13 @@ class AccountModification extends Model
   
     public function statusHistory(){
         return $this->belongsTo(StatusHistory::class, 'status_id');
+    }
+
+    public function additions(){
+      return $this->hasMany(ModificationAddition::class);
+    }
+
+    public function deletions(){
+      return $this->hasMany(ModificationDeletion::class);
     }
 }

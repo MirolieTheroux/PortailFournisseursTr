@@ -9,16 +9,18 @@
         @if(!is_null($modification->changed_attribute))
           <div class='fw-bolder'>{{$modification->changed_attribute}}</div>
         @endif
-        @if(!is_null($modification->deletion))
-          <div class='ms-2 txt-red'>
-            - {{$modification->deletion}}
+        @foreach ($modification->deletions as $deletion)
+          <div class='d-flex flex-row ms-2 txt-red'>
+            <div class='me-2'>-</div>
+            <div>{{$deletion->deletion}}</div>
           </div>
-        @endif
-        @if(!is_null($modification->addition))
-          <div class='ms-2 txt-green'>
-            + {{$modification->addition}}
+        @endforeach
+        @foreach ($modification->additions as $addition)
+          <div class='d-flex flex-row ms-2 txt-green'>
+            <div class='me-2'>+</div>
+            <div>{{$addition->addition}}</div>
           </div>
-        @endif
+        @endforeach
       </div>
     @endif
   @endforeach

@@ -14,6 +14,8 @@ use App\Models\RbqLicence;
 use App\Models\EmailModel;
 use App\Models\AccountModification;
 use App\Models\ModificationCategory;
+use App\Models\ModificationDeletion;
+use App\Models\ModificationAddition;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -215,20 +217,31 @@ class SuppliersController extends Controller
   /**
    * Create an account modification line.
    */
-  private function createAccountModificationLine(StatusHistory $status, ?string $changedAttribute, ?string $deletion, ?string $addition, int $categoryId){
+  private function createAccountModificationLine(StatusHistory $status, ?string $changedAttribute, $deletionsInformations, $additionsInformations, int $categoryId){
     $accountModification = new AccountModification();
     if(!is_null($changedAttribute)){
       $accountModification->changed_attribute = $changedAttribute;
     }
-    if(!is_null($deletion)){
-      $accountModification->deletion = $deletion;
-    }
-    if(!is_null($addition)){
-      $accountModification->addition = $addition;
-    }
     $accountModification->category_id = $categoryId;
     $accountModification->statusHistory()->associate($status);
     $accountModification->save();
+
+    foreach ($deletionsInformations as $deletionInformation) {
+      if(!is_null($deletionInformation)){
+        $deletion = new ModificationDeletion();
+        $deletion->deletion = $deletionInformation;
+        $deletion->accountModification()->associate($accountModification);
+        $deletion->save();
+      }
+    }
+    foreach ($additionsInformations as $additionsInformation) {
+      if(!is_null($additionsInformation)){
+        $addition = new ModificationAddition();
+        $addition->addition = $additionsInformation;
+        $addition->accountModification()->associate($accountModification);
+        $addition->save();
+      }
+    }
   }
   
   /**
@@ -241,15 +254,15 @@ class SuppliersController extends Controller
       $status = $this->changeStatus($supplier, "modified");
 
       if($supplier->neq != $request->neq){
-        $this->createAccountModificationLine($status, __('form.neqLabelShort'), $supplier->neq, $request->neq, $identification_category_id);
+        $this->createAccountModificationLine($status, __('form.neqLabelShort'), [$supplier->neq], [$request->neq], $identification_category_id);
         $supplier->neq = $request->neq;
       }
       if($supplier->name != $request->name){
-        $this->createAccountModificationLine($status, __('form.companyNameLabel'), $supplier->name, $request->name, $identification_category_id);
+        $this->createAccountModificationLine($status, __('form.companyNameLabel'), [$supplier->name], [$request->name], $identification_category_id);
         $supplier->name = $request->name;
       }
       if($supplier->email != $request->email){
-        $this->createAccountModificationLine($status, __('form.emailLabel'), $supplier->email, $request->email, $identification_category_id);
+        $this->createAccountModificationLine($status, __('form.emailLabel'), [$supplier->email], [$request->email], $identification_category_id);
         $supplier->email = $request->email;
       }
       $supplier->save();
@@ -351,21 +364,23 @@ class SuppliersController extends Controller
   public function updateContactDetails(SupplierUpdateContactDetailsRequest $request, Supplier $supplier)
   {
     $contactDetails_category_id = 2;
+    $removedPhoneNumbers = [];
+    $addedPhoneNumbers = [];
     //Log::debug($request);
     try{
       $status = $this->changeStatus($supplier, "modified");
 
       //Update Address
       if($supplier->address->civic_no != $request->contactDetailsCivicNumber){
-        $this->createAccountModificationLine($status, __('form.civicNumberLabel'), $supplier->address->civic_no, $request->contactDetailsCivicNumber, $contactDetails_category_id);
+        $this->createAccountModificationLine($status, __('form.civicNumberLabel'), [$supplier->address->civic_no], [$request->contactDetailsCivicNumber], $contactDetails_category_id);
         $supplier->address->civic_no = $request->contactDetailsCivicNumber;
       }
       if($supplier->address->street != $request->contactDetailsStreetName){
-        $this->createAccountModificationLine($status, __('form.streetName'), $supplier->address->street, $request->contactDetailsStreetName, $contactDetails_category_id);
+        $this->createAccountModificationLine($status, __('form.streetName'), [$supplier->address->street], [$request->contactDetailsStreetName], $contactDetails_category_id);
         $supplier->address->street = $request->contactDetailsStreetName;
       }
       if($supplier->address->office != $request->contactDetailsOfficeNumber){
-        $this->createAccountModificationLine($status, __('form.officeNumber'), $supplier->address->office, $request->contactDetailsOfficeNumber, $contactDetails_category_id);
+        $this->createAccountModificationLine($status, __('form.officeNumber'), [$supplier->address->office], [$request->contactDetailsOfficeNumber], $contactDetails_category_id);
         $supplier->address->office = $request->contactDetailsOfficeNumber;
       }
       
@@ -373,30 +388,50 @@ class SuppliersController extends Controller
       $postal_code = str_replace(' ', '', $postal_code);
       $postal_code = strtoupper($postal_code);
       if($supplier->address->postal_code != $postal_code){
-        $this->createAccountModificationLine($status, __('form.postalCode'), $supplier->address->postal_code, $postal_code, $contactDetails_category_id);
+        $this->createAccountModificationLine($status, __('form.postalCode'), [$supplier->address->postal_code], [$postal_code], $contactDetails_category_id);
         $supplier->address->postal_code = $postal_code;
       }
 
       $province = Province::where('name', $request->contactDetailsProvince)->firstOrFail();
       if($supplier->address->province->id != $province->id){
-        $this->createAccountModificationLine($status, __('form.province'), $supplier->address->province->name, $province->name, $contactDetails_category_id);
+        $this->createAccountModificationLine($status, __('form.province'), [$supplier->address->province->name], [$province->name], $contactDetails_category_id);
         $supplier->address->province()->associate($province);
       }
 
       if($request->contactDetailsProvince == "Québec"){
-        $supplier->address->city = $request->contactDetailsCitySelect;
-        $supplier->address->region = $request->contactDetailsDistrictArea;
+        if($supplier->address->city != $request->contactDetailsCitySelect){
+          $this->createAccountModificationLine($status, __('form.city'), [$supplier->address->city], [$request->contactDetailsCitySelect], $contactDetails_category_id);
+          $supplier->address->city = $request->contactDetailsCitySelect;
+        }
       }
       else{
-        $supplier->address->city = $request->contactDetailsInputCity;
+        if($supplier->address->city != $request->contactDetailsInputCity){
+          $this->createAccountModificationLine($status, __('form.city'), [$supplier->address->city], [$request->contactDetailsInputCity], $contactDetails_category_id);
+          $supplier->address->city = $request->contactDetailsInputCity;
+        }
       }
-      $supplier->site = $request->contactDetailsWebsite;
+      if($supplier->address->region != $request->contactDetailsDistrictArea){
+        $this->createAccountModificationLine($status, __('form.districtArea'), [$supplier->address->region], [$request->contactDetailsDistrictArea], $contactDetails_category_id);
+        $supplier->address->region = $request->contactDetailsDistrictArea;
+      }
+
+      if($supplier->site != $request->contactDetailsWebsite){
+        $this->createAccountModificationLine($status, __('form.website'), [$supplier->site], [$request->contactDetailsWebsite], $contactDetails_category_id);
+        $supplier->site = $request->contactDetailsWebsite;
+      }
       $supplier->address->save();
       $supplier->save();
       
       //Update Phone numbers    
       $supplierExistingPhoneNumbers = $supplier->phoneNumbers->pluck('id')->toArray();
       $idsToDelete = array_diff($supplierExistingPhoneNumbers, $request->phoneNumberIds);
+      foreach ($idsToDelete as $idToDelete) {
+        $phoneNumber = PhoneNumber::findOrFail($idToDelete);
+        $extension = "";
+        if($phoneNumber->extension)
+          $extension = " #".$phoneNumber->extension;
+        array_push($removedPhoneNumbers, $phoneNumber->type.' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number).$extension);
+      }
       PhoneNumber::whereIn('id', $idsToDelete)->delete();
 
       for($i = 0 ; $i < Count($request->phoneNumbers) ; $i++){
@@ -408,8 +443,16 @@ class SuppliersController extends Controller
           $phoneNumber->supplier()->associate($supplier->id);
           $phoneNumber->contact()->associate(null);
           $phoneNumber->save();
+
+          $extension = "";
+          if($phoneNumber->extension)
+            $extension = " #".$phoneNumber->extension;
+          array_push($addedPhoneNumbers, $request->phoneTypes[$i].' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number).$extension);
         }
       }
+
+      if(Count($removedPhoneNumbers) > 0 || Count($addedPhoneNumbers) > 0)
+        $this->createAccountModificationLine($status, __('form.phoneNumber'), $removedPhoneNumbers, $addedPhoneNumbers, $contactDetails_category_id);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateIdentification'))
@@ -427,18 +470,25 @@ class SuppliersController extends Controller
    */
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
   {
-    Log::debug($request);
+    $contacts_category_id = 3;
+    
     try {
+      $status = $this->changeStatus($supplier, "modified");
+
       foreach ($supplier->contacts as $contact) {
         if(!in_array($contact->id, $request->contactIds)){
           foreach ($contact->phoneNumbers as $phoneNumber) {
             $phoneNumber->delete();
           }
+          $this->createAccountModificationLine($status, $contact->first_name.' '.$contact->last_name, [__('accountModification.deletion')], [], $contacts_category_id);
           $contact->delete();
         }
       }
 
       for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
+        $removedInformations = [];
+        $addedInformations = [];
+        
         if($request->contactIds[$i] != -1){
           $contact = Contact::findOrFail($request->contactIds[$i]);
         }
@@ -446,10 +496,26 @@ class SuppliersController extends Controller
           $contact = new Contact();
         }
         
-        $contact->email = $request->contactEmails[$i];
-        $contact->first_name = $request->contactFirstNames[$i];
-        $contact->last_name = $request->contactLastNames[$i];
-        $contact->job = $request->contactJobs[$i];
+        if($contact->email != $request->contactEmails[$i]){
+          array_push($removedInformations, $contact->email);
+          array_push($addedInformations, $request->contactEmails[$i]);
+          $contact->email = $request->contactEmails[$i];
+        }
+        if($contact->first_name != $request->contactFirstNames[$i]){
+          array_push($removedInformations, $contact->first_name);
+          array_push($addedInformations, $request->contactFirstNames[$i]);
+          $contact->first_name = $request->contactFirstNames[$i];
+        }
+        if($contact->last_name != $request->contactLastNames[$i]){
+          array_push($removedInformations, $contact->last_name);
+          array_push($addedInformations, $request->contactLastNames[$i]);
+          $contact->last_name = $request->contactLastNames[$i];
+        }
+        if($contact->job != $request->contactJobs[$i]){
+          array_push($removedInformations, $contact->job);
+          array_push($addedInformations, $request->contactJobs[$i]);
+          $contact->job = $request->contactJobs[$i];
+        }
         $contact->supplier()->associate($supplier);
         $contact->save();
 
@@ -459,9 +525,27 @@ class SuppliersController extends Controller
         else{
           $phoneNumberA = new PhoneNumber();
         }
-        $phoneNumberA->number = str_replace('-', '', $request->contactTelNumbersA[$i]);
-        $phoneNumberA->type = $request->contactTelTypesA[$i];
-        $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
+        if($phoneNumberA->number != str_replace('-', '', $request->contactTelNumbersA[$i]) || 
+            $phoneNumberA->extension != $request->contactTelExtensionsA[$i] || 
+            $phoneNumberA->type != $request->contactTelTypesA[$i]
+          )
+        {
+          if($phoneNumberA->number){
+            $extension = "";
+            if($phoneNumberA->extension)
+              $extension = " #".$phoneNumberA->extension;
+            array_push($removedInformations, $phoneNumberA->type.' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumberA->number).$extension);
+          }
+
+          $phoneNumberA->number = str_replace('-', '', $request->contactTelNumbersA[$i]);
+          $phoneNumberA->type = $request->contactTelTypesA[$i];
+          $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
+          
+          $extension = "";
+          if($request->contactTelExtensionsA[$i])
+            $extension = " #".$request->contactTelExtensionsA[$i];
+          array_push($addedInformations, $request->contactTelTypesA[$i].' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', str_replace('-', '', $request->contactTelNumbersA[$i])).$extension);
+        }
 
         if($request->contactTelIdsA[$i] == -1){
           $phoneNumberA->supplier()->associate(null);
@@ -476,10 +560,30 @@ class SuppliersController extends Controller
           else{
             $phoneNumberB = new PhoneNumber();
           }
+          
+          if(
+            $phoneNumberB->number != str_replace('-', '', $request->contactTelNumbersB[$i]) || 
+            $phoneNumberB->extension != $request->contactTelExtensionsB[$i] || 
+            $phoneNumberB->type != $request->contactTelTypesB[$i]
+            )
+          {
+            if($phoneNumberB->number){
+              $extension = "";
+              if($phoneNumberB->extension)
+                $extension = " #".$phoneNumberB->extension;
+              array_push($removedInformations, $phoneNumberB->type.' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumberB->number).$extension);
+            }
 
-          $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
-          $phoneNumberB->type = $request->contactTelTypesB[$i];
-          $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
+            $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
+            $phoneNumberB->type = $request->contactTelTypesB[$i];
+            $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
+            
+            $extension = "";
+            if($request->contactTelExtensionsB[$i])
+              $extension = " #".$request->contactTelExtensionsB[$i];
+            array_push($addedInformations, $request->contactTelTypesB[$i].' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', str_replace('-', '', $request->contactTelNumbersB[$i])).$extension);
+          }
+          
           if($request->contactTelIdsB[$i] == -1){
             $phoneNumberB->supplier()->associate(null);
             $phoneNumberB->contact()->associate($contact);
@@ -487,10 +591,16 @@ class SuppliersController extends Controller
           $phoneNumberB->save();
         }
         else if(Count($contact->phoneNumbers) == 2){
+          $extension = "";
+          if($contact->phoneNumbers[1]->extension)
+            $extension = " #".$contact->phoneNumbers[1]->extension;
+          array_push($removedInformations, $contact->phoneNumbers[1]->type.' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $contact->phoneNumbers[1]->number).$extension);
+
           $contact->phoneNumbers[1]->delete();
         }
+        if(Count($removedInformations) > 0 || Count($addedInformations) > 0)
+          $this->createAccountModificationLine($status, $contact->first_name.' '.$contact->last_name, $removedInformations, $addedInformations, $contacts_category_id);
       }
-      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateContact'))

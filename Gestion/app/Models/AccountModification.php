@@ -24,4 +24,12 @@ class AccountModification extends Model
     public function statusHistory(){
         return $this->belongsTo(StatusHistory::class, 'status_id');
     }
+
+    public function additions(){
+      return $this->hasMany(ModificationAddition::class, 'modification_id');
+    }
+
+    public function deletions(){
+      return $this->hasMany(ModificationDeletion::class, 'modification_id');
+    }
 }
