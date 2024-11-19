@@ -1,28 +1,14 @@
-<!--//? REMARQUES::432::Attention à mettre tout le texte dans les fichiers de langue (Réutiliser ceux qui existe déjà si possible) (Ligne : ~92, ~206 à ~212 et ~288)-->
-<!--//? REMARQUES::432::Est-ce que ce serait possible d'organiser les styles dans un fichier css en utilisant des id et des classes? Je pense que ce serait plus facile à lire-->
+<!--//? NICE_TO_HAVE::432:: Est-ce que ce serait possible d'organiser les styles dans un fichier css en utilisant des id et des classes? Je pense que ce serait plus facile à lire-->
+<!--//? NICE_TO_HAVE::581:: Ajouter la possibilité au responsable de joindre la raison du refus au courriel.-->
+
 
 <!--//? REMARQUES::431::Est-ce que tu as valider que tous les envois requis à la page 22 (Du document d'analyse) sont fait?
-    //?     - 1.a Fonctionne
     //?     - 1.b Ne semble pas fait
     //?     - 2.a Fonctionne
     //?     - 3.a Fonctionne
     //?     - 4.a S'envoit au fournisseur alors qu'il devrait s'envoyer à l'approvisionnement
     //?     - 5.a À faire lorsque les modifs seront configurer
 -->
-
-<!--//? REMARQUES::581::(Nice_to_have?) Selon la page 37 du document d'analyse, nous ne sommes pas conforme.
-    //?     - Ajouter la possibilité au responsable de joindre la raison du refus au courriel.
--->
-
-<!--//? REMARQUES::431/432::Je sais pas si c'est voulu mais je mentionne au cas que non mais j'ai un cadrier blanc dans les fonds bleus que je recois dans les courriels.-->
-
-<!--//? REMARQUES::431/432::Dans le SupplierController de l'app de gestion, les 3 lignes ci-dessous se répètent souvent et je pense que tu pourrais en extraire un méthode
-    $mailModel = EmailModel::where('name', 'denied')->firstOrFail();
-    $mailsController = new MailsController();
-    $mailsController->sendMail($supplier, $mailModel);
--->
-
-<!--//? REMARQUES::431::Dans le SupplierController de l'app de gestion, aux lignes 183 à 185 j'ai le même if que le tien au ligne 190 à 192, est-ce qu'on pourrait les rassembler?-->
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -99,7 +85,7 @@
                                                                         target="_blank">
                                                                         <span
                                                                             style="background-color:#ffffff;color:#0075d5;font-family:Arial;font-size:14px;">
-                                                                            <b>Accéder au portail</b>
+                                                                            <b>{{__('mail.portalButton')}}</b>
                                                                         </span>
                                                                     </a>
                                                                 </td>
@@ -227,13 +213,13 @@
                                                             <span
                                                                 style="font-family:Arial;font-size:24px;line-height:22px;">
                                                                 @if ($mailModel->state === 'waiting')
-                                                                    <b style="color:#ff8800;">En attente</b>
+                                                                    <b style="color:#ff8800;">{{__('mail.waiting')}}</b>
                                                                 @elseif ($mailModel->state === 'accepted')
-                                                                    <b style="color:#00ca00;">Acceptée</b>
+                                                                    <b style="color:#00ca00;">{{__('mail.accepted')}}</b>
                                                                 @elseif ($mailModel->state === 'denied')
-                                                                    <b style="color:#c50000;">Refusée</b>
+                                                                    <b style="color:#c50000;">{{__('mail.denied')}}</b>
                                                                 @elseif ($mailModel->state === 'toCheck')
-                                                                    <b style="color:#00aeff;">À vérifier</b>
+                                                                    <b style="color:#00aeff;">{{__('mail.toCheck')}}</b>
                                                                 @endif
                                                             </span>
                                                         </p>
@@ -309,7 +295,7 @@
                                                     style="font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
                                                     <p class="text-build-content"
                                                         style="text-align: center; margin: 10px 0; margin-top: 5px; margin-bottom: 5px;">
-                                                        <span style="color:#949aa2;font-family:Arial;font-size:16px;line-height:22px;">Ce message est généré automatiquement. Merci de ne pas y répondre.</span>
+                                                        <span style="color:#949aa2;font-family:Arial;font-size:16px;line-height:22px;">{{__('mail.noReply')}}</span>
                                                     </p>
                                                 </div>
                                             </td>

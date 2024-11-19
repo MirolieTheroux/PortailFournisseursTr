@@ -319,11 +319,15 @@ class SuppliersController extends Controller
       $reussi=Auth::attempt(['email' => $request->email,'password' => $request->password]);
       if($reussi){
         $user = Auth::user();
-        $mailsController = new MailsController();
-        $mailModel = EmailModel::where('name', 'inscription')->firstOrFail();
-        $mailsController->sendMail($user, $mailModel);
+        InscriptionSendMail($user);
         return redirect()->route('suppliers.show')->with('message',"Demande d'inscription envoyée");
       }
+    }
+
+    private function InscriptionSendMail(Supplier $supplier){
+      $mailsController = new MailsController();
+      $mailModel = EmailModel::where('name', 'inscription')->firstOrFail();
+      $mailsController->sendMail($supplier, $mailModel);
     }
 
     /**

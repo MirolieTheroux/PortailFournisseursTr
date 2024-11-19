@@ -184,20 +184,7 @@ class SuppliersController extends Controller
         $this->destroyAttachments($supplier);
       }
 
-      if($request->requestStatus == "accepted"){
-        $mailModel = EmailModel::where('name', 'accepted')->firstOrFail();
-      }
-      else if($request->requestStatus == "denied"){
-        $mailModel = EmailModel::where('name', 'denied')->firstOrFail();
-      }
-      else if($request->requestStatus == "waiting"){
-        $mailModel = EmailModel::where('name', 'waiting')->firstOrFail();
-      }
-      else if($request->requestStatus == "toCheck"){
-        $mailModel = EmailModel::where('name', 'toCheck')->firstOrFail();
-      } 
-      $mailsController = new MailsController();
-      $mailsController->sendMail($supplier, $mailModel);
+      verifyStatusAndSendMail($request->requestStatus, $supplier);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateStatus'));
@@ -236,9 +223,7 @@ class SuppliersController extends Controller
   {
     $this->changeSupplierStatusWithReason($supplier, "denied", $request->deniedReason);
 
-    $mailModel = EmailModel::where('name', 'denied')->firstOrFail();
-    $mailsController = new MailsController();
-    $mailsController->sendMail($supplier, $mailModel);
+    verifyStatusAndSendMail("denied", $supplier);
 
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.denialSuccess'));
   }
@@ -247,9 +232,7 @@ class SuppliersController extends Controller
   {
     $supplier = Supplier::findOrFail($id);
     
-    $mailModel = EmailModel::where('name', 'accepted')->firstOrFail();
-    $mailsController = new MailsController();
-    $mailsController->sendMail($supplier, $mailModel);
+    verifyStatusAndSendMail("accepted", $supplier);
 
     $this->changeStatus($supplier, "accepted");
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.approvalSuccess'));
@@ -365,6 +348,23 @@ class SuppliersController extends Controller
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->withErrors('message',__('global.updateFailed'));
     }
+  }
+
+  private function verifyStatusAndSendMail(string $status, Supplier $supplier){
+    if($status == "accepted"){
+      $mailModel = EmailModel::where('name', 'accepted')->firstOrFail();
+    }
+    else if($status == "denied"){
+      $mailModel = EmailModel::where('name', 'denied')->firstOrFail();
+    }
+    else if($status == "waiting"){
+      $mailModel = EmailModel::where('name', 'waiting')->firstOrFail();
+    }
+    else if($status == "toCheck"){
+      $mailModel = EmailModel::where('name', 'toCheck')->firstOrFail();
+    } 
+    $mailsController = new MailsController();
+    $mailsController->sendMail($supplier, $mailModel);
   }
 
   /**

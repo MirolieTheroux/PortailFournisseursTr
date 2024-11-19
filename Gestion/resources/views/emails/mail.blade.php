@@ -73,7 +73,7 @@
                                                                         target="_blank">
                                                                         <span
                                                                             style="background-color:#ffffff;color:#0075d5;font-family:Arial;font-size:14px;">
-                                                                            <b>Accéder au portail</b>
+                                                                            <b>{{__('mail.portalButton')}}</b>
                                                                         </span>
                                                                     </a>
                                                                 </td>
@@ -201,13 +201,13 @@
                                                             <span
                                                                 style="font-family:Arial;font-size:24px;line-height:22px;">
                                                                 @if ($mailModel->state === 'waiting')
-                                                                    <b style="color:#ff8800;">En attente</b>
+                                                                    <b style="color:#ff8800;">{{__('mail.waiting')}}</b>
                                                                 @elseif ($mailModel->state === 'accepted')
-                                                                    <b style="color:#00ca00;">Acceptée</b>
+                                                                    <b style="color:#00ca00;">{{__('mail.accepted')}}</b>
                                                                 @elseif ($mailModel->state === 'denied')
-                                                                    <b style="color:#c50000;">Refusée</b>
+                                                                    <b style="color:#c50000;">{{__('mail.denied')}}</b>
                                                                 @elseif ($mailModel->state === 'toCheck')
-                                                                    <b style="color:#00aeff;">À vérifier</b>
+                                                                    <b style="color:#00aeff;">{{__('mail.toCheck')}}</b>
                                                                 @endif
                                                             </span>
                                                         </p>
@@ -283,7 +283,7 @@
                                                     style="font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
                                                     <p class="text-build-content"
                                                         style="text-align: center; margin: 10px 0; margin-top: 5px; margin-bottom: 5px;">
-                                                        <span style="color:#949aa2;font-family:Arial;font-size:16px;line-height:22px;">Ce message est généré automatiquement. Merci de ne pas y répondre.</span>
+                                                        <span style="color:#949aa2;font-family:Arial;font-size:16px;line-height:22px;">{{__('mail.noReply')}}</span>
                                                     </p>
                                                 </div>
                                             </td>
