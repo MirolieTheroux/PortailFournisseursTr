@@ -13,6 +13,7 @@ use App\Models\PhoneNumber;
 use App\Models\RbqLicence;
 use App\Models\EmailModel;
 use App\Models\AccountModification;
+use App\Models\ModificationCategory;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -92,6 +93,7 @@ class SuppliersController extends Controller
   {
     $workSubcategories = WorkSubcategory::all();
     $provinces = Province::all();
+    $modificationCategories = ModificationCategory::all();
     $supplierWithProductsCategories = $supplier->load('productsServices.categories');
     $suppliersGroupedByNatureAndCategory = $supplierWithProductsCategories->productsServices->groupBy(function ($product) {
       return $product->categories->nature;
@@ -139,7 +141,8 @@ class SuppliersController extends Controller
         'refusal_reason' => $deniedReason,
         'supplier_id' => $history->supplier_id,
         'created_at' => $history->created_at,
-        'updated_at' => null
+        'updated_at' => null,
+        'accountModifications' => $history->accountModifications,
       ];
     });
     $deniedStatus = $decryptedReasons->filter(function ($history) {
@@ -153,7 +156,7 @@ class SuppliersController extends Controller
     return View('suppliers.show', 
     compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails',
     'formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories',
-    'provinces','formattedPostalCode'));
+    'provinces','formattedPostalCode', 'modificationCategories'));
   }
   
   /**
