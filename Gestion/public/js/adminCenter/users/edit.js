@@ -1,6 +1,7 @@
 let btnCancelUser;
 let btnAddUser;
 let btnSaveUsers;
+let showUsersContainer;
 let modalAddUser;
 let modalAddUserContainer;
 let btnAddUserModal;
@@ -17,6 +18,7 @@ function getElements(){
   btnAddUser = document.getElementById("btnAddUsers");
   btnCancelUser = document.getElementById("btnCancelUser");
   btnSaveUsers = document.getElementById("btnSaveUsers");
+  showUsersContainer = document.getElementById("users-section");
   modalAddUserContainer = document.getElementById("modalAddUser")
   modalAddUser =  new bootstrap.Modal(modalAddUserContainer);
   btnAddUserModal = document.getElementById("addUserModal");
@@ -31,31 +33,53 @@ function usersListeners() {
   });
 
   if(userSelectEmailModal){
-    userSelectEmailModal.addEventListener('change', validateUserEmail);
+    userSelectEmailModal.addEventListener("change", validateUserEmail);
 
   }
     
   if(selectRoleModal){
-    selectRoleModal.addEventListener('change', function(event){
-      validateRole(event,selectRoleModal.value);
-    });
+    selectRoleModal.addEventListener('change', validateRoleModal)
   }
-    
+
+  selectsRoleShow.forEach((select, index) => {
+    select.addEventListener("change", async function (event) {
+      const errorMessageMax = document.getElementById(`maxAdminSelect${index + 1}`);
+      const errorMessageMin = document.getElementById(`minAdmins${index + 1}`);
+      const { errorMax, errorMin } = await validateExistingUserRoleMaxAdmin(select.value);
+      if (errorMax) {
+        select.classList.add("is-invalid");
+        errorMessageMax.style.display = 'block';
+        errorMessageMin.style.display = 'none';
+      } 
+      else{
+        selectsRoleShow.forEach((otherSelect, otherIndex) => {
+          const otherErrorMessageMax = document.getElementById(`maxAdminSelect${otherIndex + 1}`);
+          otherSelect.classList.remove("is-invalid");
+          otherErrorMessageMax.style.display = 'none';
+       });
+      }
+      if (errorMin) {
+        select.classList.add("is-invalid");
+        errorMessageMin.style.display = 'block';
+        errorMessageMax.style.display = 'none'; 
+      }
+      else{
+        selectsRoleShow.forEach((otherSelect, otherIndex) => {
+          const otherErrorMessageMin = document.getElementById(`minAdmins${otherIndex + 1}`);
+          otherSelect.classList.remove("is-invalid");
+          otherErrorMessageMin.style.display = 'none';
+        });
+      } 
+    });
+  });
 
   btnAddUserModal.addEventListener("click", ()=>{
     sendAddUserForm();
   });
-
-  selectsRoleShow.forEach(select=>{
-    select.addEventListener("change", function(event){
-      validateRole(event, select.value);
-      
-    });
-  });
 }
 
 async function sendAddUserForm(){
-  let response = await validateAllUser();  
+  let response = await validateAddUserModal();  
   const errorsMessage = modalAddUserContainer.querySelectorAll(".invalid-feedback");
   let errors = false;
   errorsMessage.forEach(errorMessage => {

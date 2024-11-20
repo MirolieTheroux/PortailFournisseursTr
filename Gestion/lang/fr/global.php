@@ -26,4 +26,5 @@ return [
 
     'updateSuccess' => 'La modification a fonctionné',
     'updateFailed' => 'La modification n\'a pas fonctionné',
+    'storeFailed' => 'L\'ajout n\'a pas fonctionné',
 ];
