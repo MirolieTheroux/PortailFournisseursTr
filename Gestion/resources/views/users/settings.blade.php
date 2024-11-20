@@ -43,59 +43,62 @@
 
     <div class="col-10 h-100 px-4 py-0">
       <!-- USERS SETTINGS-->
-      <div class="show-section sticky-under-navbar bg-lightgrey" id="users-section">
-        <div class="row border-bottom border-2 border-dark mt-3">
-          <h2 class="mb-0">{{__('settings.userSettings')}}</h2>
-        </div>
-        <div class="d-flex justify-content-end align-items-end">
-          @php
-            $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
-          @endphp
-          <button id="btnAddUsers" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.add')}}</button>
-          <button id="btnEditUser" type="button" class="m-2 py-1 px-3 rounded button-darkblue edit">{{__('global.edit')}}</button>
-          <a id="btnCancelUser" href="{{ route('users.settings', ['refresh' => $refreshCount]) }}#users-section" class="m-2 py-1 px-3 rounded previous-button d-none">{{__('global.cancel')}}</a>
-          <button id="btnSaveUsers" type="submit" class="m-2 py-1 px-3 rounded button-darkblue d-none">{{__('global.save')}}</button>
-        </div>
-        <div class="container-fluid mb-0 border-bottom border-dark">
-          <div class="row ">
-            <div class="col-5 p-0">
-              <div class="text-start ">{{__('settings.users')}}</div>
-            </div>
-            <div class="col-5 p-0">
-              <div class="text-center">{{__('settings.role')}}</div>
+      <form class="show-section" id="users-section" method="POST" action="{{route('users.updateUser')}}" enctype="multipart/form-data">
+      @csrf
+      @method('PATCH')
+        <div class="sticky-under-navbar bg-lightgrey">
+          <div class="row border-bottom border-2 border-dark mt-3">
+            <h2 class="mb-0">{{__('settings.userSettings')}}</h2>
+          </div>
+          <div class="d-flex justify-content-end align-items-end">
+            @php
+              $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+            @endphp
+            <a id="btnCancelUser" href="{{ route('users.settings', ['refresh' => $refreshCount]) }}#users-section" class="m-2 py-1 px-3 rounded previous-button">{{__('global.cancel')}}</a>
+            <button id="btnAddUsers" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.add')}}</button>
+            <button id="btnSaveUsers" type="submit" class="m-2 py-1 px-3 rounded button-darkblue ">{{__('global.save')}}</button>
+          </div>
+          <div class="container-fluid mb-0 border-bottom border-dark">
+            <div class="row ">
+              <div class="col-5 p-0">
+                <div class="text-start ">{{__('settings.users')}}</div>
+              </div>
+              <div class="col-5 p-0">
+                <div class="text-center">{{__('settings.role')}}</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="container-fluid border border-top-0 border-dark rounded-bottom p-0 mb-3">
-        <div id="userList">
-          @if (Count($users) > 0)
-          <form id="usersListForm" method="POST" action="{{route('users.addUser')}}">
-          @csrf
-            @foreach ($users as $user)
-              <div class="row user-table mx-0 py-1">
-                <div class="col-5 text-center ps-2">
-                  <div class="text-start">{{$user->email}}</div>
+        <div class="container-fluid border border-top-0 border-dark rounded-bottom p-0 mb-3">
+          <div id="userList">
+            @if (Count($users) > 0)
+              @foreach ($users as $user)
+                <div class="row user-table mx-0 py-1">
+                  <div class="col-5 text-center ps-2">
+                    <div class="text-start">{{$user->email}}</div>
+                    <input type="text" name="usersIds[]" hidden value="{{$user->id}}">
+                  </div>
+                  <div class="col-5 text-center ps-1">
+                    <select name="userRolesShow[]" id="{{"userRoleShow" . ($loop->index+1)}}" class="form-select" aria-label="">             
+                      <option value="admin" {{$user->role == 'admin' ? 'selected' : null  }}>{{__('settings.admin')}}</option>
+                      <option value="responsable" {{$user->role == 'responsable' ? 'selected' : null  }}>{{__('settings.responsable')}}</option>
+                      <option value="clerk" {{$user->role == 'clerk' ? 'selected' : null  }}>{{__('settings.clerk')}}</option>
+                    </select>
+                    <div class="invalid-feedback" id="{{"maxAdminSelect" . ($loop->index+1)}}" style="display: none;">{{__('settings.errorAdminMax')}}</div>
+                    <div class="invalid-feedback" id="{{"minAdmins" . ($loop->index+1)}}" style="display: none;">{{__('settings.errorAdminMin')}}</div>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removeUser" viewBox="0 0 16 16" style="cursor:pointer;">
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                  </svg>
                 </div>
-                <div class="col-5 text-center ps-1">
-                  <select name="userRoles" id="userRoles" class="form-select" aria-label="" disabled>
-                    <option value="" selected>{{__('settings.defaultRole')}}</option>
-                    <option value="admin" {{$user->role == 'admin' ? 'selected' : null  }}>{{__('settings.admin')}}</option>
-                    <option value="responsable" {{$user->role == 'responsable' ? 'selected' : null  }}>{{__('settings.responsable')}}</option>
-                    <option value="clerk" {{$user->role == 'clerk' ? 'selected' : null  }}>{{__('settings.clerk')}}</option>
-                  </select>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2" viewBox="0 0 16 16" style="cursor:pointer;">
-                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
-                </svg>
-              </div>
-            @endforeach
-          </form>
-          @else
-            <div class="text-center">{{__('settings.noUser')}}</div>
-          @endif
+              @endforeach
+            </form>
+            @else
+              <div class="text-center">{{__('settings.noUser')}}</div>
+            @endif
+          </div>
         </div>
-      </div>
+      </form>
       <!-- MODAL ADD USER -->
       <div class="modal fade" id="modalAddUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="AddUser" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -122,12 +125,12 @@
                   <div class="invalid-feedback" id="emailExist" style="display: none;">{{__('settings.errorUserAlreadyAdded')}}</div>
                 </div>
                 <label>{{__('settings.defaultRole')}}</label>
-                <select name="userRole" id="userRole" class="form-select" aria-label="">
+                <select name="userRoleModal" id="userRoleModal" class="form-select" aria-label="">
                   <option value="responsable">{{__('settings.responsable')}}</option>
                   <option value="clerk">{{__('settings.clerk')}}</option>
                   <option value="admin">{{__('settings.admin')}}</option>
                 </select>
-                <div class="invalid-feedback" id="maxAdmin" style="display: none;">{{__('settings.errorAdmin')}}</div>
+                <div class="invalid-feedback" id="maxAdminModal" style="display: none;">{{__('settings.errorAdminMax')}}</div>
               </form>
             </div>
             <div class="modal-footer">
@@ -173,7 +176,7 @@
 
 @section('scripts')
 <script src=" {{ asset('js/adminCenter/showSettings.js') }} "></script>
-<script src=" {{ asset('js/adminCenter/users/edit.js') }} "></script>
-<script src=" {{ asset('js/adminCenter/users/addUsers.js') }} "></script>
 <script src=" {{ asset('js/adminCenter/users/validation.js') }} "></script>
+<script src=" {{ asset('js/adminCenter/users/edit.js') }} "></script>
+<script src=" {{ asset('js/adminCenter/users/save.js') }} "></script>
 @endsection

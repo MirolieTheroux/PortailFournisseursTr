@@ -17,7 +17,9 @@ return [
     'addUser' => 'Ajouter un utilisateur',
     'chooseUser' => 'Choisir un utilisateur',
     'successAddUser' => 'L\'utilisateur a été ajouté',
-    'errorAdmin' => 'Il ne peut y avoir que deux administrateurs.',
+    'errorAdminMax' => 'Il ne peut y avoir que deux administrateurs.',
+    'errorAdminMin' => 'Il doit y avoir deux administrateurs.',
     'errorUserAlreadyAdded' => 'L\'utilisateur a déjà été ajouté.',
+    'successUpdateUsers' => 'Les utilisateurs ont été modifiés.',
 
 ];

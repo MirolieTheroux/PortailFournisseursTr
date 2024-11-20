@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -59,13 +58,13 @@ class UsersController extends Controller
   /**
    * Store user
    */
-  public function store(UserUpdateRequest $request)
+  public function store(Request $request)
   {
     Log::debug($request);
     try{
       $newUser = new User();
       $newUser->email = $request->userEmail;
-      $newUser->role = $request->userRole;
+      $newUser->role = $request->userRoleModal;
       $newUser->password = Hash::make('Secret1234!');
       $newUser->save();
       return redirect()->route('users.settings')
@@ -74,7 +73,7 @@ class UsersController extends Controller
     catch (\Throwable $e) {
       Log::debug($e);
       return redirect()->route('users.settings')
-      ->withErrors('message',__('global.updateFailed'));
+      ->withErrors('message',__('global.storeFailed'));
     }
   }
 
@@ -110,11 +109,32 @@ class UsersController extends Controller
   }
 
   /**
-   * Update the specified resource in storage.
+   * Update users
    */
-  public function update(Request $request, string $id)
+  public function updateUser(Request $request)
   {
-      //
+    Log::debug($request);
+    $usersIds = $request->usersIds;
+    $userRoles = $request->userRolesShow;
+    $usersWithRoles = collect($usersIds)
+    ->combine($userRoles)
+    ->toArray();
+    try {
+      foreach ($usersWithRoles as $userId => $role) {
+          $user = User::find($userId);
+          
+          if ($user) {
+              $user->role = $role;
+              $user->save();
+          }
+      }
+      return redirect()->route('users.settings')
+          ->with('message', __('settings.successUpdateUsers'));
+  } catch (\Throwable $e) {
+      Log::debug($e);
+      return redirect()->route('users.settings')
+          ->withErrors('message', __('global.updateFailed'));
+  }
   }
 
   /**
