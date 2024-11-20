@@ -9,9 +9,6 @@
 - Mettre texte et curseur du textarea pour la raison du refus au début.
 - Mettre les statuts égaux 
 -->
-<!--// TODO::
-- Voir bug province
--->
 
 @extends('layouts.app')
 
