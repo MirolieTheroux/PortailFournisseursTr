@@ -4,4 +4,5 @@
 
 return [
   'deletion' => 'Suppression',
+  'categories' => 'Categories',
 ];

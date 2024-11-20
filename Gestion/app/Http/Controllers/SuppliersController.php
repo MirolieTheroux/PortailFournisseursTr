@@ -213,36 +213,6 @@ class SuppliersController extends Controller
         ->withErrors('message',__('global.updateFailed'));
     }
   }
-
-  /**
-   * Create an account modification line.
-   */
-  private function createAccountModificationLine(StatusHistory $status, ?string $changedAttribute, $deletionsInformations, $additionsInformations, int $categoryId){
-    $accountModification = new AccountModification();
-    if(!is_null($changedAttribute)){
-      $accountModification->changed_attribute = $changedAttribute;
-    }
-    $accountModification->category_id = $categoryId;
-    $accountModification->statusHistory()->associate($status);
-    $accountModification->save();
-
-    foreach ($deletionsInformations as $deletionInformation) {
-      if(!is_null($deletionInformation)){
-        $deletion = new ModificationDeletion();
-        $deletion->deletion = $deletionInformation;
-        $deletion->accountModification()->associate($accountModification);
-        $deletion->save();
-      }
-    }
-    foreach ($additionsInformations as $additionsInformation) {
-      if(!is_null($additionsInformation)){
-        $addition = new ModificationAddition();
-        $addition->addition = $additionsInformation;
-        $addition->accountModification()->associate($accountModification);
-        $addition->save();
-      }
-    }
-  }
   
   /**
    * Update identification of supplier.
@@ -617,22 +587,40 @@ class SuppliersController extends Controller
    */
   public function updateRbq(SupplierUpdateRbqRequest $request, Supplier $supplier)
   {
-    Log::debug($request);
+    $licenceRbq_category_id = 5;
+    $removedCategories = [];
+    $addedCategories = [];
 
     try {
+      $status = $this->changeStatus($supplier, "modified");
+
       $supplierRbqExisting = !is_null($supplier->rbqLicence);
       $requestRbqExisting = !is_null($request->licenceRbq);
   
+
       if($supplierRbqExisting && $requestRbqExisting){
         $licence = RbqLicence::findOrFail($supplier->rbqLicence->id);
-        $licence->number = $request->licenceRbq;
-        $licence->status = $request->statusRbq;
-        $licence->type = $request->typeRbq;
+        
+        if($licence->number != $request->licenceRbq){
+          $this->createAccountModificationLine($status, __('form.rbqLicenceSection'), [$licence->number], [$request->licenceRbq], $licenceRbq_category_id);
+          $licence->number = $request->licenceRbq;
+        }
+        if($licence->status != $request->statusRbq){
+          $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [$request->statusRbq], $licenceRbq_category_id);
+          $licence->status = $request->statusRbq;
+        }
+        if($licence->type != $request->typeRbq){
+          $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [$request->typeRbq], $licenceRbq_category_id);
+          $licence->type = $request->typeRbq;
+        }
         $licence->supplier()->associate($supplier);
         $licence->save();
 
         foreach ($supplier->workSubcategories as $rbqSubCategory) {
           if(!in_array($rbqSubCategory->code, $request->rbqSubcategories)){
+            $categoryLabel = $rbqSubCategory->code.' '.$rbqSubCategory->name;
+            array_push($removedCategories, $categoryLabel);
+
             $supplier->workSubcategories()->detach($rbqSubCategory->id);
           }
         }
@@ -642,30 +630,64 @@ class SuppliersController extends Controller
           if(!in_array($rbqSubCategory, $supplierExistingCategories)){
             $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
             $supplier->workSubcategories()->attach($subCategory);
+            
+            $categoryLabel = $subCategory->code.' '.$subCategory->name;
+            array_push($addedCategories, $categoryLabel);
           }
         }
       }
       else if(!$supplierRbqExisting && $requestRbqExisting){
         $licence = new RbqLicence();
-        $licence->number = $request->licenceRbq;
-        $licence->status = $request->statusRbq;
-        $licence->type = $request->typeRbq;
+        
+        if($licence->number != $request->licenceRbq){
+          $this->createAccountModificationLine($status, __('form.rbqLicenceSection'), [$licence->number], [$request->licenceRbq], $licenceRbq_category_id);
+          $licence->number = $request->licenceRbq;
+        }
+        if($licence->status != $request->statusRbq){
+          $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [$request->statusRbq], $licenceRbq_category_id);
+          $licence->status = $request->statusRbq;
+        }
+        if($licence->type != $request->typeRbq){
+          $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [$request->typeRbq], $licenceRbq_category_id);
+          $licence->type = $request->typeRbq;
+        }
         $licence->supplier()->associate($supplier);
         $licence->save();
   
         foreach($request->rbqSubcategories as $rbqSubCategory){
           $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
           $supplier->workSubcategories()->attach($subCategory);
+            
+          $categoryLabel = $subCategory->code.' '.$subCategory->name;
+          array_push($addedCategories, $categoryLabel);
         }
       }
       else if($supplierRbqExisting && !$requestRbqExisting){
         $licence = RbqLicence::findOrFail($supplier->rbqLicence->id);
+        
+        if($licence->number != $request->licenceRbq){
+          $this->createAccountModificationLine($status, __('form.rbqLicenceSection'), [$licence->number], [null], $licenceRbq_category_id);
+          $licence->number = $request->licenceRbq;
+        }
+        if($licence->status != $request->statusRbq){
+          $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [null], $licenceRbq_category_id);
+          $licence->status = $request->statusRbq;
+        }
+        if($licence->type != $request->typeRbq){
+          $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [null], $licenceRbq_category_id);
+          $licence->type = $request->typeRbq;
+        }
         $licence->delete();
 
+        foreach ($supplier->workSubcategories as $workSubcategory) {
+          $categoryLabel = $workSubcategory->code.' '.$workSubcategory->name;
+          array_push($removedCategories, $categoryLabel);
+        }
         $supplier->workSubcategories()->sync([]);
       }
-
-      $this->changeStatus($supplier, "modified");
+      
+      if(Count($removedCategories) > 0 || Count($addedCategories) > 0)
+        $this->createAccountModificationLine($status, __('accountModification.categories'), $removedCategories, $addedCategories, $licenceRbq_category_id);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateRbq'))
@@ -806,6 +828,36 @@ class SuppliersController extends Controller
     } catch (\Throwable $e) {
       Log::debug($e);
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('errorMessage',__('global.updateFailed'));
+    }
+  }
+
+  /**
+   * Create an account modification line.
+   */
+  private function createAccountModificationLine(StatusHistory $status, ?string $changedAttribute, $deletionsInformations, $additionsInformations, int $categoryId){
+    $accountModification = new AccountModification();
+    if(!is_null($changedAttribute)){
+      $accountModification->changed_attribute = $changedAttribute;
+    }
+    $accountModification->category_id = $categoryId;
+    $accountModification->statusHistory()->associate($status);
+    $accountModification->save();
+
+    foreach ($deletionsInformations as $deletionInformation) {
+      if(!is_null($deletionInformation)){
+        $deletion = new ModificationDeletion();
+        $deletion->deletion = $deletionInformation;
+        $deletion->accountModification()->associate($accountModification);
+        $deletion->save();
+      }
+    }
+    foreach ($additionsInformations as $additionsInformation) {
+      if(!is_null($additionsInformation)){
+        $addition = new ModificationAddition();
+        $addition->addition = $additionsInformation;
+        $addition->accountModification()->associate($accountModification);
+        $addition->save();
+      }
     }
   }
 
