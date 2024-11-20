@@ -793,8 +793,13 @@ class SuppliersController extends Controller
    */
   public function updateAttachments(Request $request, Supplier $supplier)
   {
-    Log::debug($request);
+    $attachments_category_id = 6;
+    $removedAttachments = [];
+    $addedAttachments = [];
+
     try {
+      $status = $this->changeStatus($supplier, "modified");
+
       if($request->filled('attachmentFilesIds')){
         $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
         $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
@@ -802,6 +807,7 @@ class SuppliersController extends Controller
         foreach ($idsToDelete as $id) {
           $attachment = Attachment::FindOrFail($id);
           $attachmentFullName = $attachment->name .".".$attachment->type;
+          array_push($removedAttachments, $attachmentFullName);
           
           if(!(self::USING_FILESTREAM)){
             $directory = $supplier->id;
@@ -815,11 +821,15 @@ class SuppliersController extends Controller
         Attachment::whereIn('id', $idsToDelete)->delete();
       }
       else{
+        foreach ($supplier->attachments as $attachment) {
+          $attachmentFullName = $attachment->name.'.'.$attachment->type;
+          array_push($removedAttachments, $attachmentFullName);
+        }
         $this->destroyAttachments($supplier);
       }
-
-      $this->changeStatus($supplier, "modified");
-      //Supprimer dans le dossier 
+      
+      if(Count($removedAttachments) > 0 || Count($addedAttachments) > 0)
+        $this->createAccountModificationLine($status, null, $removedAttachments, $addedAttachments, $attachments_category_id);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePJ'))
