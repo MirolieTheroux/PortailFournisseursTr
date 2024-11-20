@@ -15,11 +15,11 @@ return [
     'responsable' => 'Responsable',
     'clerk' => 'Commis',
     'addUser' => 'Ajouter un utilisateur',
-    'emailTest' => 'test20@gmail.com',
-    'emailTest2' => 'test21@gmail.com',
     'chooseUser' => 'Choisir un utilisateur',
     'successAddUser' => 'L\'utilisateur a été ajouté',
-    'errorAdmin' => 'Il ne peut y avoir que deux administrateurs.',
+    'errorAdminMax' => 'Il ne peut y avoir que deux administrateurs.',
+    'errorAdminMin' => 'Il doit y avoir deux administrateurs.',
     'errorUserAlreadyAdded' => 'L\'utilisateur a déjà été ajouté.',
+    'successUpdateUsers' => 'Les utilisateurs ont été modifiés.',
 
 ];

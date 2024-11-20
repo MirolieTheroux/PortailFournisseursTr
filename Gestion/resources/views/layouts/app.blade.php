@@ -23,8 +23,8 @@
                 <div class="col-6 justify-content-end align-items-center">
                     <div class="d-none d-md-flex justify-content-end align-items-center h-100 w-100">
                       <div class="p-2"><a href="{{route('documentation.index')}}" target="_blank">{{__('navbar.help')}}</a></div>
-                      @role(['admin'])
                       <div class="p-2 border-start border-dark"><a href="{{route('suppliers.index')}}">{{__('navbar.returnSuppliers')}}</a></div>
+                      @role(['admin'])
                       <div class="p-2 border-start border-dark"><a href="{{route('users.settings')}}">{{__('navbar.adminCenter')}}</a></div>
                       @endrole
                       @auth
@@ -34,8 +34,6 @@
                         </form>
                       @endauth
                     </div>
-
-
                     <div class="d-flex d-md-none justify-content-end align-items-center h-100 w-100">
                       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">

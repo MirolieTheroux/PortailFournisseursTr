@@ -5,13 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StatusHistory extends Model
+class ModificationCategory extends Model
 {
-    protected $table = 'status_histories';
-
-    public function supplier(){
-      return $this->belongsTo(Supplier::class);
-    }
+    protected $table = 'modification_categories';
 
     public function accountModifications(){
       return $this->hasMany(AccountModification::class);
