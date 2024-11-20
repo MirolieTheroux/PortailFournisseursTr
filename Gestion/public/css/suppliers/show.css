@@ -64,3 +64,8 @@ cursor: pointer;
 .invalidTvqFormat{
   padding-left: 20px;
 }
+
+/*Modification List*/
+.popover{
+  max-width: 400px !important;
+}
