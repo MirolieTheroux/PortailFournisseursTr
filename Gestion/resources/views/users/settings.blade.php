@@ -130,7 +130,7 @@
                   <option value="clerk">{{__('settings.clerk')}}</option>
                   <option value="admin">{{__('settings.admin')}}</option>
                 </select>
-                <div class="invalid-feedback" id="maxAdminModal" style="display: none;">{{__('settings.errorAdmin')}}</div>
+                <div class="invalid-feedback" id="maxAdminModal" style="display: none;">{{__('settings.errorAdminMax')}}</div>
               </form>
             </div>
             <div class="modal-footer">
