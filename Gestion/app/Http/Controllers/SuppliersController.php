@@ -682,25 +682,37 @@ class SuppliersController extends Controller
    */
   public function updateProductsServices(Request $request, Supplier $supplier)
   {
-    Log::debug($request);
+    $productsServices_category_id = 4;
 
     try {
-      $supplier->product_service_detail = $request->product_service_detail;
-      $supplier->save();
+      $status = $this->changeStatus($supplier, "modified");
 
+      if($supplier->product_service_detail != $request->product_service_detail){
+        $this->createAccountModificationLine($status, __('form.productsAndServiceCategoriesDetails'), [$supplier->product_service_detail], [$request->product_service_detail], $productsServices_category_id);
+        $supplier->product_service_detail = $request->product_service_detail;
+      }
+      $supplier->save();
       
-      foreach ($supplier->productsServices as $productService) {
-        if($request->filled('produits_services')){
+      $removedProductsServices = [];
+      $addedProductsServices = [];
+      
+      if($request->filled('produits_services')){
+        foreach ($supplier->productsServices as $productService) {
           if(!in_array($productService->code, $request->produits_services)){
+            $productServiceLabel = $productService->code.' '.$productService->description;
+            array_push($removedProductsServices, $productServiceLabel);
+
             $supplier->productsServices()->detach($productService->code);
           }
         }
-        else{
-          $supplier->productsServices()->detach();
-        }
-       
       }
-
+      else{
+        foreach ($supplier->productsServices as $productService) {
+          $productServiceLabel = $productService->code.' '.$productService->description;
+          array_push($removedProductsServices, $productServiceLabel);
+        }
+        $supplier->productsServices()->detach();
+      }
       
       $supplierExistingProductsServices = $supplier->productsServices->pluck('code')->toArray();
       if($request->filled('produits_services')){
@@ -708,11 +720,15 @@ class SuppliersController extends Controller
           if(!in_array($productServiceCode, $supplierExistingProductsServices)){
             $productService = ProductService::where('code', $productServiceCode)->firstOrFail();
             $supplier->productsServices()->attach($productService);
+
+            $productServiceLabel = $productService->code.' '.$productService->description;
+            array_push($addedProductsServices, $productServiceLabel);
           }
         }
       }
-
-      $this->changeStatus($supplier, "modified");
+      
+      if(Count($removedProductsServices) > 0 || Count($addedProductsServices) > 0)
+        $this->createAccountModificationLine($status, __('form.productsAndServiceServices'), $removedProductsServices, $addedProductsServices, $productsServices_category_id);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePS'))
