@@ -767,16 +767,37 @@ class SuppliersController extends Controller
    */
   public function updateFinance(SupplierUpdateFinanceRequest $request, Supplier $supplier)
   {
-    Log::debug($request);
+    $finance_category_id = 7;
     try {
-      $supplier->tps_number = $request->financesTps;
-      $supplier->tvq_number = $request->financesTvq;
-      $supplier->payment_condition = $request->financesPaymentConditions;
-      $supplier->currency = $request->currency;
-      $supplier->communication_mode = $request->communication_mode;
+      $status = $this->changeStatus($supplier, "modified");
+
+      if($supplier->tps_number != $request->financesTps){
+        $this->createAccountModificationLine($status, __('form.tpsNumber'), [$supplier->tps_number], [$request->financesTps], $finance_category_id);
+        $supplier->tps_number = $request->financesTps;
+      }
+      if($supplier->tvq_number != $request->financesTvq){
+        $this->createAccountModificationLine($status, __('form.tvqNumber'), [$supplier->tvq_number], [$request->financesTvq], $finance_category_id);
+        $supplier->tvq_number = $request->financesTvq;
+      }
+      if($supplier->payment_condition != $request->financesPaymentConditions){
+        $supplierTradVariable = 'form.'.$supplier->payment_condition;
+        $requestTradVariable = 'form.'.$request->financesPaymentConditions;
+        $this->createAccountModificationLine($status, __('form.paymentConditions'), [__($supplierTradVariable)], [__($requestTradVariable)], $finance_category_id);
+        $supplier->payment_condition = $request->financesPaymentConditions;
+      }
+      if($supplier->currency != $request->currency){
+        $supplierTradVariable = $supplier->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
+        $requestTradVariable = $request->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
+        $this->createAccountModificationLine($status, __('form.currency'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
+        $supplier->currency = $request->currency;
+      }
+      if($supplier->communication_mode != $request->communication_mode){
+        $supplierTradVariable = $supplier->communication_mode == 1 ? __('form.email') : __('form.mail');
+        $requestTradVariable = $request->communication_mode == 1 ? __('form.email') : __('form.mail');
+        $this->createAccountModificationLine($status, __('form.communication'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
+        $supplier->communication_mode = $request->communication_mode;
+      }
       $supplier->save();
-      
-      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateFinance'))
