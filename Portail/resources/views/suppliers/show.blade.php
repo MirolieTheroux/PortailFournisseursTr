@@ -225,7 +225,7 @@
                       data-bs-html="true"
                       data-bs-toggle="popover"
                       data-bs-trigger="click"
-                      data-bs-content="@include('suppliers.components.modificationList', ['modifications' => $reason->accountModifications, 'modificationCategories' => $modificationCategories])">
+                      data-bs-content="@include('suppliers.components.modificationList', ['modifications' => $statusHistory->accountModifications, 'modificationCategories' => $modificationCategories])">
                       {{ __('global.modified') }}
                     </a>
                     @break

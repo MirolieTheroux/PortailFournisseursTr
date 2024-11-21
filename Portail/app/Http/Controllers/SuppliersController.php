@@ -25,6 +25,11 @@ use App\Models\ProductService;
 use App\Models\ProductServiceCategory;
 use App\Models\Attachment;
 use App\Models\EmailModel;
+use App\Models\AccountModification;
+use App\Models\ModificationCategory;
+use App\Models\ModificationDeletion;
+use App\Models\ModificationAddition;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -340,6 +345,7 @@ class SuppliersController extends Controller
 
         $workSubcategories = WorkSubcategory::all();
         $provinces = Province::all();
+        $modificationCategories = ModificationCategory::all();
 
         $supplierWithProductsCategories = $supplier->load('productsServices.categories');
         $suppliersGroupedByNatureAndCategory = $supplierWithProductsCategories->productsServices->groupBy(function ($product) {
@@ -402,7 +408,7 @@ class SuppliersController extends Controller
         return View('suppliers.show', 
         compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails',
         'formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories',
-        'provinces','formattedPostalCode'));
+        'provinces','formattedPostalCode', 'modificationCategories'));
       }
       else
         return redirect()->route('suppliers.showLogin')->with('errorMessage',__('login.notConnected'));
@@ -429,13 +435,24 @@ class SuppliersController extends Controller
    */
   public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
   {
+    $identification_category_id = 1;
+
     try{
-      $supplier->neq = $request->neq;
-      $supplier->name = $request->name;
-      $supplier->email = $request->email;
+      $status = $this->changeStatus($supplier, "modified");
+
+      if($supplier->neq != $request->neq){
+        $this->createAccountModificationLine($status, __('form.neqLabelShort'), [$supplier->neq], [$request->neq], $identification_category_id);
+        $supplier->neq = $request->neq;
+      }
+      if($supplier->name != $request->name){
+        $this->createAccountModificationLine($status, __('form.companyNameLabel'), [$supplier->name], [$request->name], $identification_category_id);
+        $supplier->name = $request->name;
+      }
+      if($supplier->email != $request->email){
+        $this->createAccountModificationLine($status, __('form.emailLabel'), [$supplier->email], [$request->email], $identification_category_id);
+        $supplier->email = $request->email;
+      }
       $supplier->save();
-      
-      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateContactDetails'))
@@ -479,7 +496,7 @@ class SuppliersController extends Controller
   {
     if(!(self::USING_FILESTREAM)){
       $directory = $supplier->id;
-      $path = env('FILE_STORAGE_PATH'). "\\". $directory;
+      $path = storage_path('app\\uploads\\suppliers\\' . $directory);
 
       Log::debug($path);
       if (file_exists($path)) {
@@ -494,31 +511,73 @@ class SuppliersController extends Controller
    */
   public function updateContactDetails(SupplierUpdateContactDetailsRequest $request, Supplier $supplier)
   {
+    $contactDetails_category_id = 2;
+    $removedPhoneNumbers = [];
+    $addedPhoneNumbers = [];
     try{
+      $status = $this->changeStatus($supplier, "modified");
       //Update Address
-      $supplier->address->civic_no = $request->contactDetailsCivicNumber;
-      $supplier->address->street = $request->contactDetailsStreetName;
-      $supplier->address->office = $request->contactDetailsOfficeNumber;
+      if($supplier->address->civic_no != $request->contactDetailsCivicNumber){
+        $this->createAccountModificationLine($status, __('form.civicNumberLabel'), [$supplier->address->civic_no], [$request->contactDetailsCivicNumber], $contactDetails_category_id);
+        $supplier->address->civic_no = $request->contactDetailsCivicNumber;
+      }
+      if($supplier->address->street != $request->contactDetailsStreetName){
+        $this->createAccountModificationLine($status, __('form.streetName'), [$supplier->address->street], [$request->contactDetailsStreetName], $contactDetails_category_id);
+        $supplier->address->street = $request->contactDetailsStreetName;
+      }
+      if($supplier->address->office != $request->contactDetailsOfficeNumber){
+        $this->createAccountModificationLine($status, __('form.officeNumber'), [$supplier->address->office], [$request->contactDetailsOfficeNumber], $contactDetails_category_id);
+        $supplier->address->office = $request->contactDetailsOfficeNumber;
+      }
+
       $postal_code = $request->contactDetailsPostalCode;
       $postal_code = str_replace(' ', '', $postal_code);
       $postal_code = strtoupper($postal_code);
-      $supplier->address->postal_code = $postal_code;
+      if($supplier->address->postal_code != $postal_code){
+        $this->createAccountModificationLine($status, __('form.postalCode'), [$supplier->address->postal_code], [$postal_code], $contactDetails_category_id);
+        $supplier->address->postal_code = $postal_code;
+      }
+
+      $province = Province::where('name', $request->contactDetailsProvince)->firstOrFail();
+      if($supplier->address->province->id != $province->id){
+        $this->createAccountModificationLine($status, __('form.province'), [$supplier->address->province->name], [$province->name], $contactDetails_category_id);
+        $supplier->address->province()->associate($province);
+      }
+
       if($request->contactDetailsProvince == "Québec"){
-        $supplier->address->city = $request->contactDetailsCitySelect;
-        $supplier->address->region = $request->contactDetailsDistrictArea;
+        if($supplier->address->city != $request->contactDetailsCitySelect){
+          $this->createAccountModificationLine($status, __('form.city'), [$supplier->address->city], [$request->contactDetailsCitySelect], $contactDetails_category_id);
+          $supplier->address->city = $request->contactDetailsCitySelect;
+        }
       }
       else{
-        $supplier->address->city = $request->contactDetailsInputCity;
+        if($supplier->address->city != $request->contactDetailsInputCity){
+          $this->createAccountModificationLine($status, __('form.city'), [$supplier->address->city], [$request->contactDetailsInputCity], $contactDetails_category_id);
+          $supplier->address->city = $request->contactDetailsInputCity;
+        }
       }
-      
-      Log::debug($request->contactDetailsWebsite);
-      $supplier->site = $request->contactDetailsWebsite;
+      if($supplier->address->region != $request->contactDetailsDistrictArea){
+        $this->createAccountModificationLine($status, __('form.districtArea'), [$supplier->address->region], [$request->contactDetailsDistrictArea], $contactDetails_category_id);
+        $supplier->address->region = $request->contactDetailsDistrictArea;
+      }
+
+      if($supplier->site != $request->contactDetailsWebsite){
+        $this->createAccountModificationLine($status, __('form.website'), [$supplier->site], [$request->contactDetailsWebsite], $contactDetails_category_id);
+        $supplier->site = $request->contactDetailsWebsite;
+      }
       $supplier->address->save();
       $supplier->save();
       
       //Update Phone numbers    
       $supplierExistingPhoneNumbers = $supplier->phoneNumbers->pluck('id')->toArray();
       $idsToDelete = array_diff($supplierExistingPhoneNumbers, $request->phoneNumberIds);
+      foreach ($idsToDelete as $idToDelete) {
+        $phoneNumber = PhoneNumber::findOrFail($idToDelete);
+        $extension = "";
+        if($phoneNumber->extension)
+          $extension = " #".$phoneNumber->extension;
+        array_push($removedPhoneNumbers, $phoneNumber->type.' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number).$extension);
+      }
       PhoneNumber::whereIn('id', $idsToDelete)->delete();
 
       for($i = 0 ; $i < Count($request->phoneNumbers) ; $i++){
@@ -530,10 +589,16 @@ class SuppliersController extends Controller
           $phoneNumber->supplier()->associate($supplier->id);
           $phoneNumber->contact()->associate(null);
           $phoneNumber->save();
+
+          $extension = "";
+          if($phoneNumber->extension)
+            $extension = " #".$phoneNumber->extension;
+          array_push($addedPhoneNumbers, $request->phoneTypes[$i].' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number).$extension);
         }
       }
 
-      $this->changeStatus($supplier, "modified");
+      if(Count($removedPhoneNumbers) > 0 || Count($addedPhoneNumbers) > 0)
+        $this->createAccountModificationLine($status, __('form.phoneNumber'), $removedPhoneNumbers, $addedPhoneNumbers, $contactDetails_category_id);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateIdentification'))
@@ -551,17 +616,24 @@ class SuppliersController extends Controller
    */
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
   {
+    $contacts_category_id = 3;
     try {
+      $status = $this->changeStatus($supplier, "modified");
+
       foreach ($supplier->contacts as $contact) {
         if(!in_array($contact->id, $request->contactIds)){
           foreach ($contact->phoneNumbers as $phoneNumber) {
             $phoneNumber->delete();
           }
+          $this->createAccountModificationLine($status, $contact->first_name.' '.$contact->last_name, [__('accountModification.deletion')], [], $contacts_category_id);
           $contact->delete();
         }
       }
 
       for($i = 0 ; $i < Count($request->contactFirstNames) ; $i++){
+        $removedInformations = [];
+        $addedInformations = [];
+
         if($request->contactIds[$i] != -1){
           $contact = Contact::findOrFail($request->contactIds[$i]);
         }
@@ -569,10 +641,26 @@ class SuppliersController extends Controller
           $contact = new Contact();
         }
         
-        $contact->email = $request->contactEmails[$i];
-        $contact->first_name = $request->contactFirstNames[$i];
-        $contact->last_name = $request->contactLastNames[$i];
-        $contact->job = $request->contactJobs[$i];
+        if($contact->email != $request->contactEmails[$i]){
+          array_push($removedInformations, $contact->email);
+          array_push($addedInformations, $request->contactEmails[$i]);
+          $contact->email = $request->contactEmails[$i];
+        }
+        if($contact->first_name != $request->contactFirstNames[$i]){
+          array_push($removedInformations, $contact->first_name);
+          array_push($addedInformations, $request->contactFirstNames[$i]);
+          $contact->first_name = $request->contactFirstNames[$i];
+        }
+        if($contact->last_name != $request->contactLastNames[$i]){
+          array_push($removedInformations, $contact->last_name);
+          array_push($addedInformations, $request->contactLastNames[$i]);
+          $contact->last_name = $request->contactLastNames[$i];
+        }
+        if($contact->job != $request->contactJobs[$i]){
+          array_push($removedInformations, $contact->job);
+          array_push($addedInformations, $request->contactJobs[$i]);
+          $contact->job = $request->contactJobs[$i];
+        }
         $contact->supplier()->associate($supplier);
         $contact->save();
 
@@ -582,9 +670,27 @@ class SuppliersController extends Controller
         else{
           $phoneNumberA = new PhoneNumber();
         }
-        $phoneNumberA->number = str_replace('-', '', $request->contactTelNumbersA[$i]);
-        $phoneNumberA->type = $request->contactTelTypesA[$i];
-        $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
+        if($phoneNumberA->number != str_replace('-', '', $request->contactTelNumbersA[$i]) || 
+            $phoneNumberA->extension != $request->contactTelExtensionsA[$i] || 
+            $phoneNumberA->type != $request->contactTelTypesA[$i]
+          )
+        {
+          if($phoneNumberA->number){
+            $extension = "";
+            if($phoneNumberA->extension)
+              $extension = " #".$phoneNumberA->extension;
+            array_push($removedInformations, $phoneNumberA->type.' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumberA->number).$extension);
+          }
+
+          $phoneNumberA->number = str_replace('-', '', $request->contactTelNumbersA[$i]);
+          $phoneNumberA->type = $request->contactTelTypesA[$i];
+          $phoneNumberA->extension = $request->contactTelExtensionsA[$i];
+          
+          $extension = "";
+          if($request->contactTelExtensionsA[$i])
+            $extension = " #".$request->contactTelExtensionsA[$i];
+          array_push($addedInformations, $request->contactTelTypesA[$i].' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', str_replace('-', '', $request->contactTelNumbersA[$i])).$extension);
+        }
 
         if($request->contactTelIdsA[$i] == -1){
           $phoneNumberA->supplier()->associate(null);
@@ -599,10 +705,30 @@ class SuppliersController extends Controller
           else{
             $phoneNumberB = new PhoneNumber();
           }
+          
+          if(
+            $phoneNumberB->number != str_replace('-', '', $request->contactTelNumbersB[$i]) || 
+            $phoneNumberB->extension != $request->contactTelExtensionsB[$i] || 
+            $phoneNumberB->type != $request->contactTelTypesB[$i]
+            )
+          {
+            if($phoneNumberB->number){
+              $extension = "";
+              if($phoneNumberB->extension)
+                $extension = " #".$phoneNumberB->extension;
+              array_push($removedInformations, $phoneNumberB->type.' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumberB->number).$extension);
+            }
 
-          $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
-          $phoneNumberB->type = $request->contactTelTypesB[$i];
-          $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
+            $phoneNumberB->number = str_replace('-', '', $request->contactTelNumbersB[$i]);
+            $phoneNumberB->type = $request->contactTelTypesB[$i];
+            $phoneNumberB->extension = $request->contactTelExtensionsB[$i];
+            
+            $extension = "";
+            if($request->contactTelExtensionsB[$i])
+              $extension = " #".$request->contactTelExtensionsB[$i];
+            array_push($addedInformations, $request->contactTelTypesB[$i].' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', str_replace('-', '', $request->contactTelNumbersB[$i])).$extension);
+          }
+
           if($request->contactTelIdsB[$i] == -1){
             $phoneNumberB->supplier()->associate(null);
             $phoneNumberB->contact()->associate($contact);
@@ -610,10 +736,16 @@ class SuppliersController extends Controller
           $phoneNumberB->save();
         }
         else if(Count($contact->phoneNumbers) == 2){
+          $extension = "";
+          if($contact->phoneNumbers[1]->extension)
+            $extension = " #".$contact->phoneNumbers[1]->extension;
+          array_push($removedInformations, $contact->phoneNumbers[1]->type.' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $contact->phoneNumbers[1]->number).$extension);
+
           $contact->phoneNumbers[1]->delete();
         }
+        if(Count($removedInformations) > 0 || Count($addedInformations) > 0)
+          $this->createAccountModificationLine($status, $contact->first_name.' '.$contact->last_name, $removedInformations, $addedInformations, $contacts_category_id);
       }
-      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateContact'))
@@ -630,20 +762,39 @@ class SuppliersController extends Controller
    */
   public function updateRbq(SupplierUpdateRbqRequest $request, Supplier $supplier)
   {
+    $licenceRbq_category_id = 5;
+    $removedCategories = [];
+    $addedCategories = [];
+
     try {
+      $status = $this->changeStatus($supplier, "modified");
+
       $supplierRbqExisting = !is_null($supplier->rbqLicence);
       $requestRbqExisting = !is_null($request->licenceRbq);
   
       if($supplierRbqExisting && $requestRbqExisting){
         $licence = RbqLicence::findOrFail($supplier->rbqLicence->id);
-        $licence->number = $request->licenceRbq;
-        $licence->status = $request->statusRbq;
-        $licence->type = $request->typeRbq;
+        
+        if($licence->number != $request->licenceRbq){
+          $this->createAccountModificationLine($status, __('form.rbqLicenceSection'), [$licence->number], [$request->licenceRbq], $licenceRbq_category_id);
+          $licence->number = $request->licenceRbq;
+        }
+        if($licence->status != $request->statusRbq){
+          $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [$request->statusRbq], $licenceRbq_category_id);
+          $licence->status = $request->statusRbq;
+        }
+        if($licence->type != $request->typeRbq){
+          $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [$request->typeRbq], $licenceRbq_category_id);
+          $licence->type = $request->typeRbq;
+        }
         $licence->supplier()->associate($supplier);
         $licence->save();
 
         foreach ($supplier->workSubcategories as $rbqSubCategory) {
           if(!in_array($rbqSubCategory->code, $request->rbqSubcategories)){
+            $categoryLabel = $rbqSubCategory->code.' '.$rbqSubCategory->name;
+            array_push($removedCategories, $categoryLabel);
+
             $supplier->workSubcategories()->detach($rbqSubCategory->id);
           }
         }
@@ -653,30 +804,64 @@ class SuppliersController extends Controller
           if(!in_array($rbqSubCategory, $supplierExistingCategories)){
             $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
             $supplier->workSubcategories()->attach($subCategory);
+            
+            $categoryLabel = $subCategory->code.' '.$subCategory->name;
+            array_push($addedCategories, $categoryLabel);
           }
         }
       }
       else if(!$supplierRbqExisting && $requestRbqExisting){
         $licence = new RbqLicence();
-        $licence->number = $request->licenceRbq;
-        $licence->status = $request->statusRbq;
-        $licence->type = $request->typeRbq;
+        
+        if($licence->number != $request->licenceRbq){
+          $this->createAccountModificationLine($status, __('form.rbqLicenceSection'), [$licence->number], [$request->licenceRbq], $licenceRbq_category_id);
+          $licence->number = $request->licenceRbq;
+        }
+        if($licence->status != $request->statusRbq){
+          $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [$request->statusRbq], $licenceRbq_category_id);
+          $licence->status = $request->statusRbq;
+        }
+        if($licence->type != $request->typeRbq){
+          $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [$request->typeRbq], $licenceRbq_category_id);
+          $licence->type = $request->typeRbq;
+        }
         $licence->supplier()->associate($supplier);
         $licence->save();
   
         foreach($request->rbqSubcategories as $rbqSubCategory){
           $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
           $supplier->workSubcategories()->attach($subCategory);
+            
+          $categoryLabel = $subCategory->code.' '.$subCategory->name;
+          array_push($addedCategories, $categoryLabel);
         }
       }
       else if($supplierRbqExisting && !$requestRbqExisting){
         $licence = RbqLicence::findOrFail($supplier->rbqLicence->id);
+
+        if($licence->number != $request->licenceRbq){
+          $this->createAccountModificationLine($status, __('form.rbqLicenceSection'), [$licence->number], [null], $licenceRbq_category_id);
+          $licence->number = $request->licenceRbq;
+        }
+        if($licence->status != $request->statusRbq){
+          $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [null], $licenceRbq_category_id);
+          $licence->status = $request->statusRbq;
+        }
+        if($licence->type != $request->typeRbq){
+          $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [null], $licenceRbq_category_id);
+          $licence->type = $request->typeRbq;
+        }
         $licence->delete();
 
+        foreach ($supplier->workSubcategories as $workSubcategory) {
+          $categoryLabel = $workSubcategory->code.' '.$workSubcategory->name;
+          array_push($removedCategories, $categoryLabel);
+        }
         $supplier->workSubcategories()->sync([]);
       }
-
-      $this->changeStatus($supplier, "modified");
+      
+      if(Count($removedCategories) > 0 || Count($addedCategories) > 0)
+        $this->createAccountModificationLine($status, __('accountModification.categories'), $removedCategories, $addedCategories, $licenceRbq_category_id);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateRbq'))
@@ -693,21 +878,37 @@ class SuppliersController extends Controller
    */
   public function updateProductsServices(Request $request, Supplier $supplier)
   {
-    try {
-      $supplier->product_service_detail = $request->product_service_detail;
-      $supplier->save();
+    $productsServices_category_id = 4;
 
+    try {
+      $status = $this->changeStatus($supplier, "modified");
+
+      if($supplier->product_service_detail != $request->product_service_detail){
+        $this->createAccountModificationLine($status, __('form.productsAndServiceCategoriesDetails'), [$supplier->product_service_detail], [$request->product_service_detail], $productsServices_category_id);
+        $supplier->product_service_detail = $request->product_service_detail;
+      }
+      $supplier->save();
+      
+      $removedProductsServices = [];
+      $addedProductsServices = [];
       
       foreach ($supplier->productsServices as $productService) {
         if($request->filled('products_services')){
           if(!in_array($productService->code, $request->products_services)){
+            $productServiceLabel = $productService->code.' '.$productService->description;
+            array_push($removedProductsServices, $productServiceLabel);
+
             $supplier->productsServices()->detach($productService->code);
           }
         }
         else{
+          foreach ($supplier->productsServices as $productService) {
+            $productServiceLabel = $productService->code.' '.$productService->description;
+            array_push($removedProductsServices, $productServiceLabel);
+          }
+
           $supplier->productsServices()->detach();
         }
-       
       }
 
       $supplierExistingProductsServices = $supplier->productsServices->pluck('code')->toArray();
@@ -716,11 +917,15 @@ class SuppliersController extends Controller
           if(!in_array($productServiceCode, $supplierExistingProductsServices)){
             $productService = ProductService::where('code', $productServiceCode)->firstOrFail();
             $supplier->productsServices()->attach($productService);
+
+            $productServiceLabel = $productService->code.' '.$productService->description;
+            array_push($addedProductsServices, $productServiceLabel);
           }
         }
       }
-
-      $this->changeStatus($supplier, "modified");
+      
+      if(Count($removedProductsServices) > 0 || Count($addedProductsServices) > 0)
+        $this->createAccountModificationLine($status, __('form.productsAndServiceServices'), $removedProductsServices, $addedProductsServices, $productsServices_category_id);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePS'))
@@ -737,15 +942,37 @@ class SuppliersController extends Controller
    */
   public function updateFinance(SupplierUpdateFinanceRequest $request, Supplier $supplier)
   {
+    $finance_category_id = 7;
     try {
-      $supplier->tps_number = $request->financesTps;
-      $supplier->tvq_number = $request->financesTvq;
-      $supplier->payment_condition = $request->financesPaymentConditions;
-      $supplier->currency = $request->currency;
-      $supplier->communication_mode = $request->communication_mode;
+      $status = $this->changeStatus($supplier, "modified");
+
+      if($supplier->tps_number != $request->financesTps){
+        $this->createAccountModificationLine($status, __('form.tpsNumber'), [$supplier->tps_number], [$request->financesTps], $finance_category_id);
+        $supplier->tps_number = $request->financesTps;
+      }
+      if($supplier->tvq_number != $request->financesTvq){
+        $this->createAccountModificationLine($status, __('form.tvqNumber'), [$supplier->tvq_number], [$request->financesTvq], $finance_category_id);
+        $supplier->tvq_number = $request->financesTvq;
+      }
+      if($supplier->payment_condition != $request->financesPaymentConditions){
+        $supplierTradVariable = 'form.'.$supplier->payment_condition;
+        $requestTradVariable = 'form.'.$request->financesPaymentConditions;
+        $this->createAccountModificationLine($status, __('form.paymentConditions'), [__($supplierTradVariable)], [__($requestTradVariable)], $finance_category_id);
+        $supplier->payment_condition = $request->financesPaymentConditions;
+      }
+      if($supplier->currency != $request->currency){
+        $supplierTradVariable = $supplier->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
+        $requestTradVariable = $request->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
+        $this->createAccountModificationLine($status, __('form.currency'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
+        $supplier->currency = $request->currency;
+      }
+      if($supplier->communication_mode != $request->communication_mode){
+        $supplierTradVariable = $supplier->communication_mode == 1 ? __('form.email') : __('form.mail');
+        $requestTradVariable = $request->communication_mode == 1 ? __('form.email') : __('form.mail');
+        $this->createAccountModificationLine($status, __('form.communication'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
+        $supplier->communication_mode = $request->communication_mode;
+      }
       $supplier->save();
-      
-      $this->changeStatus($supplier, "modified");
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateFinance'))
@@ -762,18 +989,24 @@ class SuppliersController extends Controller
    */
   public function updateAttachments(SupplierUpdateAttachmentsRequest $request, Supplier $supplier)
   {
-    Log::debug($request);
+    $attachments_category_id = 6;
+    $removedAttachments = [];
+    $addedAttachments = [];
+
     try {
+      $status = $this->changeStatus($supplier, "modified");
+
       if($request->filled('attachmentFilesIds')){
         $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
         $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
         foreach ($idsToDelete as $id) {
           $attachment = Attachment::FindOrFail($id);
           $attachmentFullName = $attachment->name .".".$attachment->type;
+          array_push($removedAttachments, $attachmentFullName);
           
           if(!(self::USING_FILESTREAM)){
             $directory = $supplier->id;
-            $path = env('FILE_STORAGE_PATH'). "\\". $directory. "\\". $attachmentFullName;
+            $path = storage_path('app\\uploads\\suppliers\\' . $directory . '\\' . $attachmentFullName);
             Log::debug($path);
             if (file_exists($path)) {
               File::delete($path);
@@ -802,27 +1035,29 @@ class SuppliersController extends Controller
             }
 
             if (isset($request->fileNames[$i]) && $uploadedFile->isValid()) {
-              $fileName = $fileNameWithoutExtension.'.'.$uploadedFile->extension();
-              $path = 'uploads/suppliers/' . $supplier->name;
-              $fullPath = storage_path('app/' . $path . '/' . $fileName);
-  
-  
-              if (!file_exists(storage_path('app/' . $path))) {
-                mkdir(storage_path('app/' . $path), 0777, true);
-              }
-              else if(file_exists($fullPath)){
-                while (file_exists($fullPath)) {
-                  $fileNameWithoutExtension = $fileNameWithoutExtension."_1";
-                  $fileName = $fileNameWithoutExtension.'.'.$uploadedFile->extension();
-                  $fullPath = storage_path('app/' . $path . '/' . $fileName);
+              if(!(self::USING_FILESTREAM)){
+                $fileName = $fileNameWithoutExtension.'.'.$uploadedFile->extension();
+                $path = 'uploads/suppliers/' . $supplier->id;
+                $fullPath = storage_path('app/' . $path . '/' . $fileName);
+    
+    
+                if (!file_exists(storage_path('app/' . $path))) {
+                  mkdir(storage_path('app/' . $path), 0777, true);
                 }
-              }
-  
-              try{
-                $uploadedFile->storeAs($path, $fileName);
-              }
-              catch(\Symfony\Component\HttpFoundation\File\Exception\FileException $e){
-                Log::error("Erreur lors du téléversement du fichier.", [$e]);
+                else if(file_exists($fullPath)){
+                  while (file_exists($fullPath)) {
+                    $fileNameWithoutExtension = $fileNameWithoutExtension."_1";
+                    $fileName = $fileNameWithoutExtension.'.'.$uploadedFile->extension();
+                    $fullPath = storage_path('app/' . $path . '/' . $fileName);
+                  }
+                }
+    
+                try{
+                  $uploadedFile->storeAs($path, $fileName);
+                }
+                catch(\Symfony\Component\HttpFoundation\File\Exception\FileException $e){
+                  Log::error("Erreur lors du téléversement du fichier.", [$e]);
+                }
               }
             }
   
@@ -833,15 +1068,20 @@ class SuppliersController extends Controller
             $attachment->deposit_date = $request->addedFileDates[$i];
             $attachment->supplier()->associate($supplier);
             $attachment->save();
+            array_push($addedAttachments, $fileName);
           }
         }
       }
       else{
+        foreach ($supplier->attachments as $attachment) {
+          $attachmentFullName = $attachment->name.'.'.$attachment->type;
+          array_push($removedAttachments, $attachmentFullName);
+        }
         $this->destroyAttachments($supplier);
       }
-
-      $this->changeStatus($supplier, "modified");
-      //Supprimer dans le dossier 
+      
+      if(Count($removedAttachments) > 0 || Count($addedAttachments) > 0)
+        $this->createAccountModificationLine($status, null, $removedAttachments, $addedAttachments, $attachments_category_id);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePJ'))
@@ -863,6 +1103,37 @@ class SuppliersController extends Controller
     $status->created_at = Carbon::now('America/Toronto');
     $status->supplier()->associate($supplier);
     $status->save();
+    return $status;
+  }
+
+  /**
+   * Create an account modification line.
+   */
+  private function createAccountModificationLine(StatusHistory $status, ?string $changedAttribute, $deletionsInformations, $additionsInformations, int $categoryId){
+    $accountModification = new AccountModification();
+    if(!is_null($changedAttribute)){
+      $accountModification->changed_attribute = $changedAttribute;
+    }
+    $accountModification->category_id = $categoryId;
+    $accountModification->statusHistory()->associate($status);
+    $accountModification->save();
+
+    foreach ($deletionsInformations as $deletionInformation) {
+      if(!is_null($deletionInformation)){
+        $deletion = new ModificationDeletion();
+        $deletion->deletion = $deletionInformation;
+        $deletion->accountModification()->associate($accountModification);
+        $deletion->save();
+      }
+    }
+    foreach ($additionsInformations as $additionsInformation) {
+      if(!is_null($additionsInformation)){
+        $addition = new ModificationAddition();
+        $addition->addition = $additionsInformation;
+        $addition->accountModification()->associate($accountModification);
+        $addition->save();
+      }
+    }
   }
 
     /**
