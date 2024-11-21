@@ -222,9 +222,10 @@
                     @case('modified')
                     <a href="#" tabindex="0"
                       class="popover-link"
+                      data-bs-html="true"
                       data-bs-toggle="popover"
                       data-bs-trigger="click"
-                      data-bs-content="Afficher les modifications.">
+                      data-bs-content="@include('suppliers.components.modificationList', ['modifications' => $statusHistory->accountModifications, 'modificationCategories' => $modificationCategories])">
                       {{ __('global.modified') }}
                     </a>
                     @break

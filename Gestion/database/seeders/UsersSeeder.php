@@ -33,6 +33,12 @@ class UsersSeeder extends Seeder
                 'password' => Hash::make('Secret1234!'),
                 'role' => 'clerk'
             ],
+            [
+                'id' => 4,
+                'email' => 'admin2@vtr.net',
+                'password' => Hash::make('Secret1234!'),
+                'role' => 'admin'
+            ],
         ]);
     }
 }

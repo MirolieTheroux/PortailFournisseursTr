@@ -190,7 +190,7 @@ class SuppliersController extends Controller
         $this->destroyAttachments($supplier);
       }
 
-      verifyStatusAndSendMail($request->requestStatus, $supplier);
+      $this->verifyStatusAndSendMail($request->requestStatus, $supplier);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateStatus'));
@@ -239,7 +239,7 @@ class SuppliersController extends Controller
   {
     $this->changeSupplierStatusWithReason($supplier, "denied", $request->deniedReason);
 
-    verifyStatusAndSendMail("denied", $supplier);
+    $this->verifyStatusAndSendMail("denied", $supplier);
 
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.denialSuccess'));
   }
@@ -248,7 +248,7 @@ class SuppliersController extends Controller
   {
     $supplier = Supplier::findOrFail($id);
     
-    verifyStatusAndSendMail("accepted", $supplier);
+    $this->verifyStatusAndSendMail("accepted", $supplier);
 
     $this->changeStatus($supplier, "accepted");
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.approvalSuccess'));
@@ -419,20 +419,23 @@ class SuppliersController extends Controller
   }
 
   private function verifyStatusAndSendMail(string $status, Supplier $supplier){
+    $mailsController = new MailsController();
     if($status == "accepted"){
-      $mailModel = EmailModel::where('name', 'accepted')->firstOrFail();
+      $mailModel = EmailModel::where('name', 'SupplierAccepted')->firstOrFail();
+      $mailsController->sendStatusSupplierMail($supplier, $mailModel);
     }
     else if($status == "denied"){
-      $mailModel = EmailModel::where('name', 'denied')->firstOrFail();
+      $mailModel = EmailModel::where('name', 'SupplierDenied')->firstOrFail();
+      $mailsController->sendStatusSupplierMail($supplier, $mailModel);
     }
     else if($status == "waiting"){
-      $mailModel = EmailModel::where('name', 'waiting')->firstOrFail();
+      $mailModel = EmailModel::where('name', 'SupplierWaiting')->firstOrFail();
+      $mailsController->sendStatusSupplierMail($supplier, $mailModel);
     }
     else if($status == "toCheck"){
-      $mailModel = EmailModel::where('name', 'toCheck')->firstOrFail();
-    } 
-    $mailsController = new MailsController();
-    $mailsController->sendMail($supplier, $mailModel);
+      $mailModel = EmailModel::where('name', 'ResponsableToCheck')->firstOrFail();
+      $mailsController->sendToCheckResponsableMail($supplier, $mailModel);
+    }
   }
 
   /**

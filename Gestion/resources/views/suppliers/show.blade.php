@@ -111,9 +111,6 @@
 
     <div class="col-10 h-100 px-4 py-0">
       <!--ETAT DEMANDE-->
-      <!--//TODO::
-        - Afficher dans le popover les modifications quand la BD sera faite.
-      -->
       <!-- Modal for History -->
       <div class="modal fade" id="modalHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="statusHistory" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">

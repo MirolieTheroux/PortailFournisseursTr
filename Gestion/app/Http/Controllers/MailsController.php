@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\Log;
 
 class MailsController extends Controller
 {
-    public $destinator;
-    public function sendMail(Supplier $supplier, EmailModel $mailModel)
+    public function sendStatusSupplierMail(Supplier $supplier, EmailModel $mailModel)
     {
-        if ($mailModel->destinator == "fournisseur"){
-            $destinator = $supplier->email;
-        }
-        
-        Mail::to($destinator)->send(new BuildMail($supplier, $mailModel));
+        Mail::to($supplier->email)->send(new BuildMail('Supplier', $supplier, $mailModel));
+    }
+
+    public function sendToCheckResponsableMail(Supplier $supplier, EmailModel $mailModel)
+    {
+        Mail::to(env('MAIL_RESPONSABLE'))->send(new BuildMail('Responsable', $supplier, $mailModel));
     }
 }

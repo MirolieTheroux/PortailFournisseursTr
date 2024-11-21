@@ -19,11 +19,11 @@ class CheckRole
 
         if (!$user) {
           if (!$request->is('login')) {
-            return redirect()->route('users.showLogin');
+            return redirect()->route('login')->with('errorMessage',__('login.getError'));
           }
         } else {
           if (!in_array($user->role, $roles)) {
-            return redirect()->route('users.showLogin');
+            return redirect()->route('suppliers.index')->with('errorMessage',__('login.getError'));
           }
         }
             
