@@ -496,7 +496,7 @@ class SuppliersController extends Controller
   {
     if(!(self::USING_FILESTREAM)){
       $directory = $supplier->id;
-      $path = env('FILE_STORAGE_PATH'). "\\". $directory;
+      $path = storage_path('app\\uploads\\suppliers\\' . $directory);
 
       Log::debug($path);
       if (file_exists($path)) {
@@ -989,18 +989,24 @@ class SuppliersController extends Controller
    */
   public function updateAttachments(SupplierUpdateAttachmentsRequest $request, Supplier $supplier)
   {
-    Log::debug($request);
+    $attachments_category_id = 6;
+    $removedAttachments = [];
+    $addedAttachments = [];
+
     try {
+      $status = $this->changeStatus($supplier, "modified");
+
       if($request->filled('attachmentFilesIds')){
         $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
         $idsToDelete = array_diff($supplierExistingAttachments, $request->attachmentFilesIds);
         foreach ($idsToDelete as $id) {
           $attachment = Attachment::FindOrFail($id);
           $attachmentFullName = $attachment->name .".".$attachment->type;
+          array_push($removedAttachments, $attachmentFullName);
           
           if(!(self::USING_FILESTREAM)){
             $directory = $supplier->id;
-            $path = env('FILE_STORAGE_PATH'). "\\". $directory. "\\". $attachmentFullName;
+            $path = storage_path('app\\uploads\\suppliers\\' . $directory . '\\' . $attachmentFullName);
             Log::debug($path);
             if (file_exists($path)) {
               File::delete($path);
@@ -1029,27 +1035,29 @@ class SuppliersController extends Controller
             }
 
             if (isset($request->fileNames[$i]) && $uploadedFile->isValid()) {
-              $fileName = $fileNameWithoutExtension.'.'.$uploadedFile->extension();
-              $path = 'uploads/suppliers/' . $supplier->name;
-              $fullPath = storage_path('app/' . $path . '/' . $fileName);
-  
-  
-              if (!file_exists(storage_path('app/' . $path))) {
-                mkdir(storage_path('app/' . $path), 0777, true);
-              }
-              else if(file_exists($fullPath)){
-                while (file_exists($fullPath)) {
-                  $fileNameWithoutExtension = $fileNameWithoutExtension."_1";
-                  $fileName = $fileNameWithoutExtension.'.'.$uploadedFile->extension();
-                  $fullPath = storage_path('app/' . $path . '/' . $fileName);
+              if(!(self::USING_FILESTREAM)){
+                $fileName = $fileNameWithoutExtension.'.'.$uploadedFile->extension();
+                $path = 'uploads/suppliers/' . $supplier->id;
+                $fullPath = storage_path('app/' . $path . '/' . $fileName);
+    
+    
+                if (!file_exists(storage_path('app/' . $path))) {
+                  mkdir(storage_path('app/' . $path), 0777, true);
                 }
-              }
-  
-              try{
-                $uploadedFile->storeAs($path, $fileName);
-              }
-              catch(\Symfony\Component\HttpFoundation\File\Exception\FileException $e){
-                Log::error("Erreur lors du téléversement du fichier.", [$e]);
+                else if(file_exists($fullPath)){
+                  while (file_exists($fullPath)) {
+                    $fileNameWithoutExtension = $fileNameWithoutExtension."_1";
+                    $fileName = $fileNameWithoutExtension.'.'.$uploadedFile->extension();
+                    $fullPath = storage_path('app/' . $path . '/' . $fileName);
+                  }
+                }
+    
+                try{
+                  $uploadedFile->storeAs($path, $fileName);
+                }
+                catch(\Symfony\Component\HttpFoundation\File\Exception\FileException $e){
+                  Log::error("Erreur lors du téléversement du fichier.", [$e]);
+                }
               }
             }
   
@@ -1060,15 +1068,20 @@ class SuppliersController extends Controller
             $attachment->deposit_date = $request->addedFileDates[$i];
             $attachment->supplier()->associate($supplier);
             $attachment->save();
+            array_push($addedAttachments, $fileName);
           }
         }
       }
       else{
+        foreach ($supplier->attachments as $attachment) {
+          $attachmentFullName = $attachment->name.'.'.$attachment->type;
+          array_push($removedAttachments, $attachmentFullName);
+        }
         $this->destroyAttachments($supplier);
       }
-
-      $this->changeStatus($supplier, "modified");
-      //Supprimer dans le dossier 
+      
+      if(Count($removedAttachments) > 0 || Count($addedAttachments) > 0)
+        $this->createAccountModificationLine($status, null, $removedAttachments, $addedAttachments, $attachments_category_id);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePJ'))
