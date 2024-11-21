@@ -17,6 +17,6 @@ class MailsController extends Controller
 
     public function sendInscriptionNotificationResponsableMail(Supplier $supplier, EmailModel $mailModel)
     {
-        Mail::to('faucher.jeremy0201@gmail.com'/*env('MAIL_RESPONSABLE')*/)->send(new BuildMail('Responsable', $supplier, $mailModel));
+        Mail::to(env('MAIL_RESPONSABLE'))->send(new BuildMail('Responsable', $supplier, $mailModel));
     }
 }
