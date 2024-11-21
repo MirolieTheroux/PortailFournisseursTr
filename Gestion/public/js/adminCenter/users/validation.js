@@ -32,7 +32,7 @@ async function validateRoleModal(){
   }
 }
 
-async function validateExistingUserRoleMaxAdmin(selectedValue) {
+async function validateExistingUserRole() {
   let errorMax = false;
   let errorMin = false;
   if (getNumberAdminsListUsers() > 2)
@@ -44,6 +44,15 @@ async function validateExistingUserRoleMaxAdmin(selectedValue) {
     errorMax = false;
   }
   return { errorMax, errorMin };
+}
+
+async function validateRoleBeforeRemoving(role) {
+  let errorMin = false;
+  if (getNumberAdminsListUsers() == 2 && role === "admin")
+    errorMin = true;
+  else
+  errorMin = false;
+  return errorMin ;
 }
 
 async function checkEmailUniqueUser(email){
