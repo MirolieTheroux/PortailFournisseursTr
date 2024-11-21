@@ -24,10 +24,10 @@ class AccountModification extends Model
     }
 
     public function additions(){
-      return $this->hasMany(ModificationAddition::class);
+      return $this->hasMany(ModificationAddition::class, 'modification_id');
     }
 
     public function deletions(){
-      return $this->hasMany(ModificationDeletion::class);
+      return $this->hasMany(ModificationDeletion::class, 'modification_id');
     }
 }
