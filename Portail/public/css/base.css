@@ -127,6 +127,12 @@ input:focus, select:focus, textarea:focus{
 .bg-green{
     background-color: var(--green);
 }
+.txt-green{
+    color: var(--green);
+}
+.txt-red{
+    color: var(--red);
+}
 
 .full-viewport{
     height: calc(100vh - var(--header_logo_height)) !important;

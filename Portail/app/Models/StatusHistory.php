@@ -14,6 +14,6 @@ class StatusHistory extends Model
     }
 
     public function accountModifications(){
-      return $this->hasMany(AccountModification::class);
+      return $this->hasMany(AccountModification::class, 'status_id');
     }
 }
