@@ -22,7 +22,7 @@ return [
     'dateAndTime' => 'Date et heure',
     'modifiedBy' => 'Modifié par',
     'removeFromList' => 'Désactiver mon dossier',
-    'removeFromListSuccess' => 'Votre dossier a été retirer de la liste avec succès',
+    'removeFromListSuccess' => 'Votre dossier a été retiré de la liste avec succès',
     'reactivate' => 'Réactiver mon dossier',
     'reactivationSuccess' => 'Votre dossier a été remis dans la liste avec succès',
     'noProductOrService' => 'Aucun produit ou service',
