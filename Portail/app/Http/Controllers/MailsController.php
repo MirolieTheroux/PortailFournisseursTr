@@ -10,17 +10,13 @@ use App\Models\EmailModel;
 
 class MailsController extends Controller
 {
-    public function sendMail(Supplier $supplier, EmailModel $mailModel)
+    public function sendInscriptionSupplierMail(Supplier $supplier, EmailModel $mailModel)
     {
-        if ($mailModel->destinator == 'fournisseur'){
-            $destinator = $supplier->email;
-        }
-        /*else if ($mailModel->destinator == 'responsable'){
-            $destinator = $supplier->email;
-        }*/
+        Mail::to($supplier->email)->send(new BuildMail('Supplier', $supplier, $mailModel));
+    }
 
-        if ($mailModel->name == 'inscription'){
-            Mail::to($destinator)->send(new BuildMail($supplier, $mailModel));
-        }
+    public function sendInscriptionNotificationResponsableMail(Supplier $supplier, EmailModel $mailModel)
+    {
+        Mail::to('faucher.jeremy0201@gmail.com'/*env('MAIL_RESPONSABLE')*/)->send(new BuildMail('Responsable', $supplier, $mailModel));
     }
 }

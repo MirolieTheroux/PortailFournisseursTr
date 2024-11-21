@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('email_models', function (Blueprint $table) {
             $table->id();
             $table->string('name', 64)->unique();
-            $table->string('destinator', 64);
             $table->string('object', 128);
             $table->string('title', 50);
             $table->string('description', 100)->nullable();

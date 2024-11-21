@@ -16,8 +16,7 @@ class EmailModelsSeeder extends Seeder
         DB::table('email_models')->insert([
             [
                 'id' => 1,
-                'name' => "inscription",
-                'destinator' => "fournisseur",
+                'name' => "SupplierInscription",
                 'object' => "Bienvenue",
                 'title' => "Bienvenue sur le Portail Fournisseur",
                 'description' => "Bonjour et bienvenue sur le portail fournisseur de la Ville de Trois-Rivières!",
@@ -29,21 +28,7 @@ class EmailModelsSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'name' => "modification",
-                'destinator' => "fournisseur",
-                'object' => "Dossier modifié",
-                'title' => "Votre dossier a été modifié",
-                'description' => "Les informations de votre dossier ont été modifié avec succès.",
-                'subtitle' => "État de votre demande:",
-                'icon' => null,
-                'state' => "toCheck",
-                'message' => "Un membre de notre équipe procédera à la vérification de vos informations et vous informera par courriel une fois votre demande révisé.",
-                'footer' => "Merci de votre intérêt et de votre patience.<br>L'équipe de la Ville de Trois-Rivières"
-            ],
-            [
-                'id' => 3,
-                'name' => "accepted",
-                'destinator' => "fournisseur",
+                'name' => "SupplierAccepted",
                 'object' => "Demande accepté",
                 'title' => "Le statut de votre demande a changé",
                 'description' => null,
@@ -54,9 +39,8 @@ class EmailModelsSeeder extends Seeder
                 'footer' => "Merci de votre intérêt et de votre patience.<br>L'équipe de la Ville de Trois-Rivières"
             ],
             [
-                'id' => 4,
-                'name' => "denied",
-                'destinator' => "fournisseur",
+                'id' => 3,
+                'name' => "SupplierDenied",
                 'object' => "Demande rejeté",
                 'title' => "Le statut de votre demande a changé",
                 'description' => null,
@@ -67,9 +51,8 @@ class EmailModelsSeeder extends Seeder
                 'footer' => "Merci de votre intérêt et de votre patience.<br>L'équipe de la Ville de Trois-Rivières"
             ],
             [
-                'id' => 5,
-                'name' => "waiting",
-                'destinator' => "fournisseur",
+                'id' => 4,
+                'name' => "SupplierWaiting",
                 'object' => "Demande en attente",
                 'title' => "Le statut de votre demande a changé",
                 'description' => null,
@@ -80,17 +63,28 @@ class EmailModelsSeeder extends Seeder
                 'footer' => "Merci de votre intérêt et de votre patience.<br>L'équipe de la Ville de Trois-Rivières"
             ],
             [
-                'id' => 6,
-                'name' => "toCheck",
-                'destinator' => "fournisseur",
-                'object' => "Demande en vérification",
-                'title' => "Le statut de votre demande a changé",
+                'id' => 5,
+                'name' => "ResponsableToCheck",
+                'object' => "Demande à vérifier",
+                'title' => "Une demande est en attente de vérification",
                 'description' => null,
-                'subtitle' => "État de votre demande:",
+                'subtitle' => "Fournisseur:",
                 'icon' => null,
-                'state' => "toCheck",
-                'message' => "Votre demande a été mise en vérification par un responsable.",
-                'footer' => "Merci de votre intérêt et de votre patience.<br>L'équipe de la Ville de Trois-Rivières"
+                'state' => null,
+                'message' => "Pour plus de détails, consultez le portail responsable.",
+                'footer' => null
+            ],
+            [
+                'id' => 6,
+                'name' => "ResponsableInscriptionNotification",
+                'object' => "Nouvelle demande",
+                'title' => "Un fournisseur à fait une nouvelle demande",
+                'description' => null,
+                'subtitle' => "Fournisseur:",
+                'icon' => null,
+                'state' => null,
+                'message' => "Pour plus de détails, consultez le portail responsable.",
+                'footer' => null
             ]
         ]);
     }
