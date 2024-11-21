@@ -48,4 +48,5 @@ Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class,
 Route::get('/settings', [UsersController::class, 'show'])->name('users.settings');
 Route::post('/settings/addUser', [UsersController::class, 'store'])->name('users.addUser');
 Route::patch('/settings/updateUser', [UsersController::class, 'updateUser'])->name('users.updateUser');
+Route::patch('/settings/removeUser', [UsersController::class, 'removeUser'])->name('users.removeUser');
 Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');

@@ -8,6 +8,7 @@ let btnAddUserModal;
 let userSelectEmailModal;
 let selectsRoleShow;
 let formAddUser;
+let listUsers;
 
 document.addEventListener("DOMContentLoaded", function () {
   getElements(); 
@@ -25,6 +26,7 @@ function getElements(){
   formAddUser = document.getElementById("addUserForm");
   userSelectEmailModal = document.getElementById("userEmail");
   selectsRoleShow = document.getElementsByName("userRolesShow[]");
+  listUsers = document.querySelectorAll(".listUsers");
 }
 
 function usersListeners() {
@@ -32,20 +34,25 @@ function usersListeners() {
     modalAddUser.show();
   });
 
-  if(userSelectEmailModal){
+  if(userSelectEmailModal)
     userSelectEmailModal.addEventListener("change", validateUserEmail);
-
-  }
-    
-  if(selectRoleModal){
+  
+  if(selectRoleModal)
     selectRoleModal.addEventListener('change', validateRoleModal)
-  }
 
+  editUser();
+  removeUser();
+  btnAddUserModal.addEventListener("click", ()=>{
+    sendAddUserForm();
+  });
+}
+
+function editUser(){
   selectsRoleShow.forEach((select, index) => {
     select.addEventListener("change", async function (event) {
       const errorMessageMax = document.getElementById(`maxAdminSelect${index + 1}`);
       const errorMessageMin = document.getElementById(`minAdmins${index + 1}`);
-      const { errorMax, errorMin } = await validateExistingUserRoleMaxAdmin(select.value);
+      const { errorMax, errorMin } = await validateExistingUserRole();
       if (errorMax) {
         select.classList.add("is-invalid");
         errorMessageMax.style.display = 'block';
@@ -55,7 +62,8 @@ function usersListeners() {
         selectsRoleShow.forEach((otherSelect, otherIndex) => {
           const otherErrorMessageMax = document.getElementById(`maxAdminSelect${otherIndex + 1}`);
           otherSelect.classList.remove("is-invalid");
-          otherErrorMessageMax.style.display = 'none';
+          if(otherErrorMessageMax != null)
+            otherErrorMessageMax.style.display = 'none';
        });
       }
       if (errorMin) {
@@ -67,27 +75,11 @@ function usersListeners() {
         selectsRoleShow.forEach((otherSelect, otherIndex) => {
           const otherErrorMessageMin = document.getElementById(`minAdmins${otherIndex + 1}`);
           otherSelect.classList.remove("is-invalid");
-          otherErrorMessageMin.style.display = 'none';
+          if(otherErrorMessageMin != null)
+            otherErrorMessageMin.style.display = 'none';
         });
       } 
     });
   });
-
-  btnAddUserModal.addEventListener("click", ()=>{
-    sendAddUserForm();
-  });
 }
 
-async function sendAddUserForm(){
-  let response = await validateAddUserModal();  
-  const errorsMessage = modalAddUserContainer.querySelectorAll(".invalid-feedback");
-  let errors = false;
-  errorsMessage.forEach(errorMessage => {
-    if (errorMessage.style.display == "block") {
-      errors = true;
-    }
-  });
-  if (!errors) {
-    formAddUser.submit();
-  }
-}
