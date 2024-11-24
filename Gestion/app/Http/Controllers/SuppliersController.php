@@ -46,12 +46,17 @@ class SuppliersController extends Controller
 {
   const SUPPLIER_FETCH_LIMIT = 100;
   const USING_FILESTREAM = false;
+  const DAYS_BEFORE_TO_CHECK = 90;
+  const USING_CRON = false;
 
   /**
    * Display a listing of the resource.
    */
   public function index()
   { 
+    if(self::USING_CRON){}
+      $this->toCheckRevision();
+
     $suppliersQuery = Supplier::query();
 
     $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
@@ -69,6 +74,19 @@ class SuppliersController extends Controller
     }
     else{
       return redirect()->route('suppliers.index')->with('errorMessage',__('index.noSelection'));
+    }
+  }
+  
+  public function toCheckRevision()
+  {
+    $suppliersQuery = Supplier::query();
+    $suppliers = $suppliersQuery->get()->filter(function ($supplier){
+      return $supplier->latestNonModifiedStatus()->status == 'denied';
+    });
+    foreach ($suppliers as $supplier) {
+      if($supplier->latestNonModifiedStatus()->created_at <= Carbon::now('America/Toronto')->subDays(self::DAYS_BEFORE_TO_CHECK)){
+        $this->changeStatus($supplier, "toCheck");
+      }
     }
   }
 

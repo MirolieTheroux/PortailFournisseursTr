@@ -7,7 +7,6 @@
 @endsection
 
 @section('mobile-navbar')
-<!--NICE_TO_HAVE::- Peut-être diminuer les titres.-->
 <div class="w-100 border-top border-dark">
   <div class="text-center w-100 p-2 fw-bolder">{{__('documentation.title')}}</div>
   <div id="login-nav-button-mobile" class="text-center w-100 p-2">{{__('documentation.login')}}</div>
@@ -21,7 +20,6 @@
 @section('content')
 <div class="container-fluid d-flex flex-column h-100">
   <div class="row h-100">
-    <!--NICE_TO_HAVE::Box-Shadow pour le menu du côté.-->
     <div class="d-none d-lg-flex left-nav shadow-sm col-3 col-xl-2 bg-white h-100 flex-column justify-content-start">
       <div id="login-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.login')}}</div>
       <div id="signup-nav-button" class="text-start rounded px-3 py-1 mt-2 doc-nav-button">{{__('documentation.signUp')}}</div>
