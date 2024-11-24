@@ -57,7 +57,6 @@ function showSectionDoc(id){
 }
 
 function grayOption(id){
-  console.log('test');
   const section = id.split('-')[2];
   const sectionId = section + '-nav-button';
   const buttons = document.querySelectorAll('.doc-nav-button');

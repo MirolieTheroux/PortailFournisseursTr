@@ -2,10 +2,12 @@ const click = new Event('click');
 
 let docSections;
 
-let loginButton;
-let loginButtonMobile;
-let signupButton;
-let signupButtonMobile;
+let suppliersListButton;
+let supplierZoomButton;
+let selectedSuppliersListButton;
+let usersListButton;
+let parametersButton;
+let emailsButton;
 
 document.addEventListener('DOMContentLoaded', async function() {
   getDocElement();
@@ -14,14 +16,23 @@ document.addEventListener('DOMContentLoaded', async function() {
 function getDocElement(){
   docSections = document.getElementsByClassName("doc-section");
 
-  loginButton = document.getElementById("suppliersList-nav-button");
-  loginButton.addEventListener('click', ()=>{showSectionDoc("doc-section-suppliersList")});
+  suppliersListButton = document.getElementById("suppliersList-nav-button");
+  suppliersListButton.addEventListener('click', ()=>{showSectionDoc("doc-section-suppliersList")});
 
-  loginButton = document.getElementById("supplierZoom-nav-button");
-  loginButton.addEventListener('click', ()=>{showSectionDoc("doc-section-supplierZoom")});
+  supplierZoomButton = document.getElementById("supplierZoom-nav-button");
+  supplierZoomButton.addEventListener('click', ()=>{showSectionDoc("doc-section-supplierZoom")});
 
-  loginButton = document.getElementById("selectedSuppliersList-nav-button");
-  loginButton.addEventListener('click', ()=>{showSectionDoc("doc-section-selectedSuppliersList")});
+  selectedSuppliersListButton = document.getElementById("selectedSuppliersList-nav-button");
+  selectedSuppliersListButton.addEventListener('click', ()=>{showSectionDoc("doc-section-selectedSuppliersList")});
+
+  userListButton = document.getElementById("usersList-nav-button");
+  userListButton.addEventListener('click', ()=>{showSectionDoc("doc-section-usersList")});
+
+  parametersButton = document.getElementById("parametersManagement-nav-button");
+  parametersButton.addEventListener('click', ()=>{showSectionDoc("doc-section-parametersManagement")});
+
+  emailsButton = document.getElementById("emailsManagement-nav-button");
+  emailsButton.addEventListener('click', ()=>{showSectionDoc("doc-section-emailsManagement")});
 }
 
 function showSectionDoc(id){
@@ -35,7 +46,6 @@ function showSectionDoc(id){
 }
 
 function grayOption(id){
-  console.log('test');
   const section = id.split('-')[2];
   const sectionId = section + '-nav-button';
   const buttons = document.querySelectorAll('.doc-nav-button');
