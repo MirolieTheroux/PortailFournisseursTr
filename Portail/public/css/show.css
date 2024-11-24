@@ -14,13 +14,6 @@
   height: 10%;
 }
 
-.bg-gray{
-  background-color: lightgray;
-}
-.bg-gray:hover {
-  background-color: darkgray !important;
-}
-
 .left-nav > div:hover {
 background-color: lightgray;
 cursor: pointer;
