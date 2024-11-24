@@ -44,7 +44,7 @@ use App\Models\Attachment;
 
 class SuppliersController extends Controller
 {
-  const SUPPLIER_FETCH_LIMIT = 100;
+  const SUPPLIER_FETCH_LIMIT = 25;
   const USING_FILESTREAM = false;
 
   /**
