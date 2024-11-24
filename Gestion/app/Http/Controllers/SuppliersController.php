@@ -47,14 +47,14 @@ class SuppliersController extends Controller
   const SUPPLIER_FETCH_LIMIT = 100;
   const USING_FILESTREAM = false;
   const DAYS_BEFORE_TO_CHECK = 90;
-  const USING_CRON = false;
+  const USING_CRON = true;
 
   /**
    * Display a listing of the resource.
    */
   public function index()
   { 
-    if(self::USING_CRON){}
+    if(!self::USING_CRON)
       $this->toCheckRevision();
 
     $suppliersQuery = Supplier::query();
@@ -79,13 +79,14 @@ class SuppliersController extends Controller
   
   public function toCheckRevision()
   {
+    Log::info("Mise à jours automatique des statuts.");
     $suppliersQuery = Supplier::query();
     $suppliers = $suppliersQuery->get()->filter(function ($supplier){
       return $supplier->latestNonModifiedStatus()->status == 'denied';
     });
     foreach ($suppliers as $supplier) {
       if($supplier->latestNonModifiedStatus()->created_at <= Carbon::now('America/Toronto')->subDays(self::DAYS_BEFORE_TO_CHECK)){
-        $this->changeStatus($supplier, "toCheck");
+        $this->changeStatusBySystem($supplier, "toCheck");
       }
     }
   }
@@ -313,6 +314,17 @@ class SuppliersController extends Controller
     $status->refusal_reason = Crypt::encrypt($reason);
     $status->supplier()->associate($supplier);
     $status->save();
+  }
+  private function changeStatusBySystem($supplier, $newStatus){
+    $status = new StatusHistory();
+    $status->status = $newStatus;
+    $status->updated_by = __('global.system');
+    $status->created_at = Carbon::now('America/Toronto');
+    if($newStatus == "deactivated")
+      $status->deactivated_by_admin = true;
+    $status->supplier()->associate($supplier);
+    $status->save();
+    return $status;
   }
 
   private function destroyAttachments($supplier)

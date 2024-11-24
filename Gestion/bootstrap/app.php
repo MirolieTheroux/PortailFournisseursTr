@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\CheckRole;
+use Illuminate\Console\Scheduling\Schedule;
+use App\Http\Controllers\SuppliersController;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -16,6 +18,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'CheckRole' => CheckRole::class
         ]);
     })
+    ->withSchedule(function (Schedule $schedule) {
+        $schedule->call(function () {
+            $supplierController = new SuppliersController();
+            $supplierController->toCheckRevision();
+        })->everySecond();
+    })
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
+    
