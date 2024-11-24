@@ -128,6 +128,12 @@ input:focus, select:focus, textarea:focus{
 .bg-green{
     background-color: var(--green);
 }
+.bg-gray{
+  background-color: lightgray;
+}
+.bg-gray:hover {
+  background-color: darkgray !important;
+}
 .txt-green{
     color: var(--green);
 }
