@@ -166,7 +166,7 @@
                                                             @if ($mailModel->name === 'ResponsableToCheck' | $mailModel->name === 'ResponsableInscriptionNotification')
                                                                 <b style="color:#0076D5;">{{ $user->neq }}
                                                                 <br><br>
-                                                                style="color:#0076D5;">{{ $user->name }}</b>
+                                                                {{ $user->name }}</b>
                                                             @elseif ($mailModel->state === 'waiting')
                                                                 <b style="color:#ff8800;">{{__('mail.waiting')}}</b>
                                                             @elseif ($mailModel->state === 'accepted')
