@@ -1,8 +1,9 @@
 <!--REMARQUES::
-  - Lorsqu'on supprimme un admin, on a le message d'erreur si on en a juste 2. Ça si c'est bon.
+  - Lorsqu'on supprimme un admin, on a le message d'erreur si on en a juste 2. Ça si c'est bon. ??
   - Lorsqu'on lui change son role pour un autre, le message d'erreur est encore là me on peu le supprimer.
+      J'ai fait que s'il y a une erreur tu ne peux pas supprimer le user.
   - Lorsqu'on est rendu avec juste un admin, on peut enresgitrer.
-
+********retester
     - Il faudrait faire que si y'a juste un admin, on peut pas enregistrer.
 -->
 <!--REMARQUES::(Probablement un nice_to_have)

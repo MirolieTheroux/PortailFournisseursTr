@@ -5,7 +5,9 @@ function removeUser() {
     user.childNodes.forEach((child) => {
       if (child.nodeName === "svg")
         child.addEventListener("click", async function (event) {
+         
           const parentContainer = child.closest(".user-table");
+      
           const select = parentContainer.querySelector(".selects select");
           const role = select.value;
           const errorMessageMin = document.getElementById(`minAdmins${index + 1}`);
@@ -15,7 +17,8 @@ function removeUser() {
             errorMessageMin.style.display = 'block';
           }
           else {
-            user.remove();
+            if(errorMessageMin.style.display != "block")
+              user.remove();
             if (getNumberAdminsListUsers() == 2) {
               selectsRoleShow.forEach((otherSelect) => {
                 otherSelect.classList.remove("is-invalid");

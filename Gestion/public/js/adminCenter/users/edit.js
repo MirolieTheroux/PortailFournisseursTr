@@ -49,22 +49,18 @@ function usersListeners() {
 
 function editUser(){
   selectsRoleShow.forEach((select, index) => {
-    select.addEventListener("change", async function (event) {
+    select.addEventListener("change",  function (event) {
       const errorMessageMax = document.getElementById(`maxAdminSelect${index + 1}`);
       const errorMessageMin = document.getElementById(`minAdmins${index + 1}`);
-      const { errorMax, errorMin } = await validateExistingUserRole();
-      if (errorMax) {
+      const { errorMax, errorMin } =  validateExistingUserRole();
+      if (errorMax && select.value === "admin") {
         select.classList.add("is-invalid");
         errorMessageMax.style.display = 'block';
         errorMessageMin.style.display = 'none';
       } 
       else{
-        selectsRoleShow.forEach((otherSelect, otherIndex) => {
-          const otherErrorMessageMax = document.getElementById(`maxAdminSelect${otherIndex + 1}`);
-          otherSelect.classList.remove("is-invalid");
-          if(otherErrorMessageMax != null)
-            otherErrorMessageMax.style.display = 'none';
-       });
+      select.classList.remove("is-invalid");
+      errorMessageMax.style.display = 'none';
       }
       if (errorMin) {
         select.classList.add("is-invalid");
@@ -72,14 +68,33 @@ function editUser(){
         errorMessageMax.style.display = 'none'; 
       }
       else{
-        selectsRoleShow.forEach((otherSelect, otherIndex) => {
-          const otherErrorMessageMin = document.getElementById(`minAdmins${otherIndex + 1}`);
-          otherSelect.classList.remove("is-invalid");
-          if(otherErrorMessageMin != null)
-            otherErrorMessageMin.style.display = 'none';
-        });
+        select.classList.remove("is-invalid");
+        errorMessageMin.style.display = 'none';
       } 
+      resetErrorMessagesRolesValid();
     });
   });
+}
+
+function resetErrorMessagesRolesValid(){
+  const { errorMax, errorMin } =  validateExistingUserRole();
+  if (!errorMax) {
+    selectsRoleShow.forEach((otherSelect, otherIndex) => {
+      const otherErrorMessageMax = document.getElementById(`maxAdminSelect${otherIndex + 1}`);
+      otherSelect.classList.remove("is-invalid");
+      if(otherErrorMessageMax != null)
+        otherErrorMessageMax.style.display = 'none';
+   });
+  } 
+ 
+  if (!errorMin) {
+    selectsRoleShow.forEach((otherSelect, otherIndex) => {
+      const otherErrorMessageMin = document.getElementById(`minAdmins${otherIndex + 1}`);
+      otherSelect.classList.remove("is-invalid");
+      if(otherErrorMessageMin != null)
+        otherErrorMessageMin.style.display = 'none';
+    });
+  }
+ 
 }
 

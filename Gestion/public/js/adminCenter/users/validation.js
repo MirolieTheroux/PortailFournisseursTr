@@ -9,7 +9,6 @@ async function validateUserEmail(){
   const emailInvalidUnique = document.getElementById('emailExist');
   let emailExist = await checkEmailUniqueUser(userSelectEmailModal.value);
   if(emailExist){
-   
     userSelectEmailModal.classList.add('is-invalid');
     emailInvalidUnique.style.display = 'block';
   }
@@ -19,20 +18,19 @@ async function validateUserEmail(){
   }
 }
 
-async function validateRoleModal(){
+async function validateRoleModal() {
   const maxAdminModal = document.getElementById('maxAdminModal');
-  let numberAdmins = await checkAdmins(); 
-  if(numberAdmins == 2 && selectRoleModal.value == "admin"){
+  let numberAdmins = await checkAdmins();
+  if (numberAdmins === 2 && selectRoleModal.value === "admin") {
     selectRoleModal.classList.add('is-invalid');
     maxAdminModal.style.display = 'block';
-  }
-  else{
+  } else {
     selectRoleModal.classList.remove('is-invalid');
     maxAdminModal.style.display = 'none';
   }
 }
 
-async function validateExistingUserRole() {
+ function validateExistingUserRole() {
   let errorMax = false;
   let errorMin = false;
   if (getNumberAdminsListUsers() > 2)
@@ -46,12 +44,12 @@ async function validateExistingUserRole() {
   return { errorMax, errorMin };
 }
 
-async function validateRoleBeforeRemoving(role) {
+ function validateRoleBeforeRemoving(role) {
   let errorMin = false;
-  if (getNumberAdminsListUsers() == 2 && role === "admin")
+  if (getNumberAdminsListUsers() === 2 && role === "admin")
     errorMin = true;
   else
-  errorMin = false;
+    errorMin = false;
   return errorMin ;
 }
 
