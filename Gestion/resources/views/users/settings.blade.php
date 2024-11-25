@@ -1,3 +1,13 @@
+<!--REMARQUES::
+  - Lorsqu'on supprimme un admin, on a le message d'erreur si on en a juste 2. Ça si c'est bon.
+  - Lorsqu'on lui change son role pour un autre, le message d'erreur est encore là me on peu le supprimer.
+  - Lorsqu'on est rendu avec juste un admin, on peut enresgitrer.
+
+    - Il faudrait faire que si y'a juste un admin, on peut pas enregistrer.
+-->
+<!--REMARQUES::(Probablement un nice_to_have)
+  - C'est pas super clair quand on a ajouter un user qu'on est pas obliger de faire enregistrer.
+-->
 @extends('layouts.app')
 
 @section('title', __('navbar.adminCenter'))

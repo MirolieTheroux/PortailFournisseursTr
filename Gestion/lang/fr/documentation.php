@@ -9,6 +9,7 @@ return [
     'selectedSuppliersList' => 'Liste des fournisseurs sélectionnés',
     'supplierZoom' => 'Dossier fournisseur',
     'usersList' => 'Liste des utilisateurs',
+    'accesUsersList' => 'Accéder à la liste',
     'addUser' => 'Ajouter un utilisateur',
     'updateUser' => 'Modifier un utilisateur',
     'deleteUser' => 'Supprimer un utilisateur',
