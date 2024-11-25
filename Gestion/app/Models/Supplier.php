@@ -71,10 +71,10 @@ class Supplier extends Model
 
     public function latestNonModifiedStatus()
     {
-      return $this->statusHistories()
+      return $this->hasOne(StatusHistory::class)
+        ->select('supplier_id', 'status', 'created_at')
         ->where('status', '!=', 'modified')
-        ->orderBy('created_at', 'desc')
-        ->first();
+        ->orderByDesc('created_at');
     }
 
     public function latestModifiedDate()

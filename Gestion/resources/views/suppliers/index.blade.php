@@ -20,18 +20,11 @@
         <form id="filterForm" class="h-100 d-flex flex-column justify-content-start">
           <button id="btnListSelectedSupplier" type="button" class="d-none my-2 py-1 px-3 rounded button-darkblue">{{__('index.listSelectedSuppliers')}}</button>
           @role(['responsable', 'admin'])
-            @php
-              $waitingSuppliersCount = $suppliers->filter(function ($supplier){
-                if(!is_null($supplier->latestNonModifiedStatus()))
-                return $supplier->latestNonModifiedStatus()->status === 'waiting';
-              })->count();
-            @endphp
             @if ($waitingSuppliersCount == 1)
               <button id="btnWaitingSupplier" type="button" class="my-2 py-1 px-3 rounded button-red">{{$waitingSuppliersCount}} {{__('index.waitingSupplierSingle')}}</button>
             @elseif ($waitingSuppliersCount > 1)
               <button id="btnWaitingSupplier" type="button" class="my-2 py-1 px-3 rounded button-red">{{$waitingSuppliersCount}} {{__('index.waitingSuppliers')}}</button>
             @endif
-            
           @endrole
           <div>
             <div>{{__('index.supplierSearch')}}</div>

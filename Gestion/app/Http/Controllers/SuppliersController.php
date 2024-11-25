@@ -56,15 +56,51 @@ class SuppliersController extends Controller
   { 
     if(!self::USING_CRON)
       $this->toCheckRevision();
-
-    $suppliersQuery = Supplier::query();
-
-    $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
-      return $supplier->latestNonModifiedStatus()->status != 'deactivated';
-    });
+    
     $workSubcategories = WorkSubcategory::all();
-    $productsServices = ProductService::limit(self::SUPPLIER_FETCH_LIMIT)->get();
-    return View('suppliers.index', compact('suppliers','workSubcategories', 'productsServices'));
+    $productsServices = ProductService::paginate(self::SUPPLIER_FETCH_LIMIT);
+
+    $suppliers = Supplier::select('id', 'name')
+    ->with([
+      'address' => function ($query) {
+        $query->select('city', 'supplier_id');
+      },
+      'latestNonModifiedStatus' => function ($query) {
+        $query->select('status', 'supplier_id');
+      },
+      'productsServices' => function ($query) {
+        $query->select('code', 'supplier_id');
+      },
+      'workSubcategories' => function ($query) {
+        $query->select('code', 'supplier_id');
+      },
+    ])
+    ->whereHas('latestNonModifiedStatus', function ($query) {
+      $query->where('status', '!=', 'deactivated');
+    })
+    ->withCount([
+      'productsServices as productsServicesCount' => function ($query) use ($productsServices) {
+        $selectedProductsServices = $productsServices->pluck('code')->toArray();
+        $query->whereIn('code', $selectedProductsServices);
+      },
+      'workSubcategories as workSubcategoriesCount' => function ($query) use ($workSubcategories) {
+        $selectedWorkSubcategories = $workSubcategories->pluck('code')->toArray();
+        $query->whereIn('code', $selectedWorkSubcategories);
+      }
+    ])
+    ->paginate(self::SUPPLIER_FETCH_LIMIT);
+
+
+    $waitingSuppliersCount = Supplier::whereHas('statusHistories', function ($query) {
+      $query->where('status', '!=', 'modified')
+            ->where('status', 'waiting')
+            ->whereRaw('created_at = (SELECT MAX(created_at) 
+                                      FROM status_histories 
+                                      WHERE supplier_id = suppliers.id 
+                                        AND status != "modified")');
+    })->count();
+    
+    return View('suppliers.index', compact('suppliers','workSubcategories', 'productsServices', 'waitingSuppliersCount'));
   }
 
   public function selectedList(Request $request){
@@ -89,6 +125,132 @@ class SuppliersController extends Controller
         $this->changeStatusBySystem($supplier, "toCheck");
       }
     }
+  }
+
+  public function filter(Request $request)
+  {
+      Log::debug($request);
+      $suppliersQuery = Supplier::query()->select('id', 'name')
+      ->with([
+        'address' => function ($query) {
+          $query->select('city', 'supplier_id');
+        },
+        'latestNonModifiedStatus' => function ($query) {
+          $query->select('status', 'supplier_id');
+        },
+        'productsServices' => function ($query) {
+          $query->select('code', 'supplier_id');
+        },
+        'workSubcategories' => function ($query) {
+          $query->select('code', 'supplier_id');
+        },
+      ])
+      ->withCount([
+        'productsServices as productsServicesCount' => function ($query) use ($request) {
+          if ($request->filled('produits_services') && is_array($request->produits_services)) {
+            $query->whereIn('code', $request->produits_services);
+          }
+        },
+        'workSubcategories as workSubcategoriesCount' => function ($query) use ($request) {
+          if ($request->filled('workCategories') && is_array($request->workCategories)) {
+            $query->whereIn('code', $request->workCategories);
+          }
+        }
+      ]);
+
+      if($request->filled('name')){
+          $suppliersQuery->where('name', 'like',  '%' . $request->name .'%');
+      }
+
+      if ($request->filled('cities') && is_array($request->input('cities'))) {
+          $suppliersQuery->whereHas('address', function($q) use($request){
+              $q->whereIn('city', $request->cities);
+          });
+      }
+
+      if ($request->filled('districtAreas') && is_array($request->input('districtAreas'))) {
+          $suppliersQuery->whereHas('address', function($q) use($request){
+              $q->whereIn('region', $request->districtAreas);
+          });
+      }
+
+      if ($request->filled('workCategories') && is_array($request->input('workCategories'))) {
+          $suppliersQuery->whereHas('workSubcategories', function($q) use($request){ 
+              $q->whereIn('code', $request->workCategories);
+          });
+      }
+
+      if ($request->filled('produits_services') && is_array($request->input('produits_services'))) {
+          $suppliersQuery->whereHas('productsServices', function($q) use($request){
+              $q->whereIn('code', $request->produits_services);
+          });
+      }
+
+      if($request->filled('status') && is_array($request->input('status'))){
+        $suppliersQuery->whereHas('statusHistories', function ($query) use ($request) {
+          $query->where('status', '!=', 'modified')
+                ->whereIn('status', $request->status)
+                ->whereRaw('created_at = (SELECT MAX(created_at) 
+                                          FROM status_histories 
+                                          WHERE supplier_id = suppliers.id 
+                                            AND status != "modified")');
+        });
+      }
+      else{
+        $suppliersQuery->whereHas('latestNonModifiedStatus', function ($query) {
+          $query->where('status', '!=', 'deactivated');
+        });
+      }
+
+      $suppliers = $suppliersQuery->paginate(self::SUPPLIER_FETCH_LIMIT);
+      
+      return response()->json([
+          'html' => view('suppliers.components.supplierList', compact('suppliers'))->render(),
+      ]);
+  }
+
+  public function waitingSuppliers(){
+      $workSubcategories = WorkSubcategory::all();
+      $productsServices = ProductService::paginate(self::SUPPLIER_FETCH_LIMIT);
+      
+      $suppliers = Supplier::select('id', 'name')
+      ->with([
+        'address' => function ($query) {
+          $query->select('city', 'supplier_id');
+        },
+        'latestNonModifiedStatus' => function ($query) {
+          $query->select('status', 'supplier_id');
+        },
+        'productsServices' => function ($query) {
+          $query->select('code', 'supplier_id');
+        },
+        'workSubcategories' => function ($query) {
+          $query->select('code', 'supplier_id');
+        },
+      ])
+      ->whereHas('statusHistories', function ($query) {
+        $query->where('status', '!=', 'modified')
+              ->where('status', 'waiting')
+              ->whereRaw('created_at = (SELECT MAX(created_at) 
+                                        FROM status_histories 
+                                        WHERE supplier_id = suppliers.id 
+                                          AND status != "modified")');
+      })
+      ->withCount([
+        'productsServices as productsServicesCount' => function ($query) use ($productsServices) {
+          $selectedProductsServices = $productsServices->pluck('code')->toArray();
+          $query->whereIn('code', $selectedProductsServices);
+        },
+        'workSubcategories as workSubcategoriesCount' => function ($query) use ($workSubcategories) {
+          $selectedWorkSubcategories = $workSubcategories->pluck('code')->toArray();
+          $query->whereIn('code', $selectedWorkSubcategories);
+        }
+      ])
+      ->paginate(self::SUPPLIER_FETCH_LIMIT);
+
+      return response()->json([
+          'html' => view('suppliers.components.supplierList', compact('suppliers'))->render(),
+      ]);
   }
 
   /**
@@ -924,81 +1086,6 @@ class SuppliersController extends Controller
       }
     }
   }
-
-    public function filter(Request $request)
-    {
-        Log::debug($request);
-        $suppliersQuery = Supplier::query();
-        $workCategoriesQuery = WorkSubcategory::query();
-        $productsServicesQuery = ProductService::query();
-
-        if($request->filled('name')){
-            $suppliersQuery->where('name', 'like',  '%' . $request->name .'%');
-        }
-
-        if ($request->filled('cities') && is_array($request->input('cities'))) {
-            $suppliersQuery->whereHas('address', function($q) use($request){
-                $cities = $request->cities; 
-                $q->whereIn('city', $cities);
-            });
-        }
-
-        if ($request->filled('districtAreas') && is_array($request->input('districtAreas'))) {
-            $suppliersQuery->whereHas('address', function($q) use($request){
-                $districtAreas = $request->districtAreas; 
-                $q->whereIn('region', $districtAreas);
-            });
-        }
-
-        if ($request->filled('workCategories') && is_array($request->input('workCategories'))) {
-            $suppliersQuery->whereHas('workSubcategories', function($q) use($request){
-                $workCategories = $request->workCategories; 
-                $q->whereIn('code', $workCategories);
-            });
-            $workCategoriesQuery->whereIn('code',$request->workCategories);
-        }
-
-        if ($request->filled('produits_services') && is_array($request->input('produits_services'))) {
-            $suppliersQuery->whereHas('productsServices', function($q) use($request){
-                $produits_services = $request->produits_services; 
-                $q->whereIn('code', $produits_services);
-            });
-            $productsServicesQuery->whereIn('code',$request->produits_services);
-        }
-
-        if($request->filled('status') && is_array($request->input('status'))){
-            $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier) use ($request){
-                return in_array($supplier->latestNonModifiedStatus()->status, $request->status);
-            });
-        }
-        else{
-          $suppliers = $suppliersQuery->with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier){
-            return $supplier->latestNonModifiedStatus()->status != 'deactivated';
-          });
-        }
-
-        $workSubcategories = $workCategoriesQuery->get();
-        $productsServices = $productsServicesQuery->get();
-        
-        return response()->json([
-            'html' => view('suppliers.components.supplierList', compact('suppliers', 'workSubcategories', 'productsServices'))->render(),
-        ]);
-    }
-
-    public function waitingSuppliers(){
-        Log::debug("test");
-
-        $suppliers = Supplier::with('address')->limit(self::SUPPLIER_FETCH_LIMIT)->get()->filter(function ($supplier) {
-            return $supplier->latestNonModifiedStatus()->status === "waiting";
-        });
-        
-        $workSubcategories = WorkSubcategory::all();
-        $productsServices = ProductService::all();
-
-        return response()->json([
-            'html' => view('suppliers.components.supplierList', compact('suppliers', 'workSubcategories', 'productsServices'))->render(),
-        ]);
-    }
 
     public function search(Request $request)
     {
