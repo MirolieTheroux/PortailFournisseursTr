@@ -4,7 +4,7 @@
     @foreach ($suppliers as $supplier)
       <div class="row supplier-table mx-0 py-1">
         <div class="col-1 d-flex px-1">
-          @switch($supplier->latestNonModifiedStatus()->status)
+          @switch($supplier->latestNonModifiedStatus->status)
             @case('accepted')
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#02542d" class="bi bi-check2-circle" viewBox="0 0 16 16">
                 <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
@@ -57,30 +57,12 @@
         </div>
         <div class="col-2 text-center supplier-list-table-text">
           <div class="text-center">
-            @php
-              $selectedProductsServices = $productsServices->pluck('code')->toArray();
-              
-              $productsServicesCount = 0;
-              foreach ($supplier->productsServices as $productService) {
-                if(in_array($productService->code, $selectedProductsServices))
-                  $productsServicesCount++;
-              }
-            @endphp
-            {{$productsServicesCount}}
+            {{$supplier->productsServicesCount}}
           </div>
         </div>
         <div class="col-2 text-center supplier-list-table-text">
           <div class="text-center">
-            @php
-              $selectedWorkSubcategories = $workSubcategories->pluck('code')->toArray();
-              
-              $workSubcategoriesCount = 0;
-              foreach ($supplier->workSubcategories as $workSubcategory) {
-                if(in_array($workSubcategory->code, $selectedWorkSubcategories))
-                  $workSubcategoriesCount++;
-              }
-            @endphp
-            {{$workSubcategoriesCount}}
+            {{$supplier->workSubcategoriesCount}}
           </div>
         </div>
         <div class="col-1 d-flex justify-content-between">
