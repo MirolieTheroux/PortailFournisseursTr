@@ -3,8 +3,8 @@
 function removeUser() {
   listUsers.forEach((user, index) => {
     user.childNodes.forEach((child) => {
-      if (child.nodeName === "svg"){
-        child.addEventListener("click", function (event) {
+      if (child.nodeName === "svg"){     
+        child.addEventListener("click", function () {
           const parentContainer = child.closest(".user-table");
           const select = parentContainer.querySelector(".selects select");
           const role = select.value;

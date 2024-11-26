@@ -12,6 +12,9 @@ let selectsRoleShow;
 let formAddUser;
 let listUsers;
 let usersEmailList;
+let emailInvalidUnique;
+let maxAdminModal;
+
 
 document.addEventListener("DOMContentLoaded", function () {
   getElements(); 
@@ -32,49 +35,58 @@ function getElements(){
   userSelectRoleModal = document.getElementById("userRoleModal");
   selectsRoleShow = document.getElementsByName("userRolesShow[]");
   listUsers = document.querySelectorAll(".listUsers");
+  emailInvalidUnique = document.getElementById("emailExist");
+  maxAdminModal = document.getElementById('maxAdminModal');
 }
 
 function usersListeners() {
   btnAddUser.addEventListener("click", ()=>{
+    removeErrorMessagesModal();
     modalAddUser.show();
   });
 
-  editUser();
-  removeUser();
-  btnAddUserModal.addEventListener("click", ()=>{
-    sendAddUserForm();
-  });
- 
-}
+  if (userSelectEmailModal) {
+    userSelectEmailModal.addEventListener("change", function () {
+      validateUserEmail(userSelectEmailModal.value);
+    });
+  }
 
-function editUser(){
-  selectsRoleShow.forEach((select, index) => {
-    select.addEventListener("change",  function (event) {   
-      resetErrorMessagesRolesValid();
-      const errorMessageMax = document.getElementById(`maxAdminSelect${index + 1}`);
-      const errorMessageMin = document.getElementById(`minAdmins${index + 1}`);
-      const { errorMax, errorMin } =  validateExistingUserRole();
-      if (errorMax && select.value === "admin") {
-        select.classList.add("is-invalid");
-        errorMessageMax.style.display = 'block';
-        errorMessageMin.style.display = 'none';
-      } 
-      else{
-      select.classList.remove("is-invalid");
-      errorMessageMax.style.display = 'none';
-      }
-      if (errorMin) {
-        select.classList.add("is-invalid");
-        errorMessageMin.style.display = 'block';
-        errorMessageMax.style.display = 'none'; 
-      }
-      else{
-        select.classList.remove("is-invalid");
-        errorMessageMin.style.display = 'none';
-      } 
-   
+  if(selectRoleModal)
+    selectRoleModal.addEventListener('change', validateRoleModal)
+
+  selectsRoleShow.forEach(select => {
+    select.addEventListener("change", function () {
+      editUser(select);
     });
   });
+  removeUser();
+  btnAddUserModal.addEventListener("click", ()=>{
+    addUser();
+  });
+}
+
+function editUser(select) {
+  resetErrorMessagesRolesValid() ;
+  const errorMessageMax = select.parentElement.querySelector(".invalid-feedback[id^='maxAdminSelect']");
+  const errorMessageMin = select.parentElement.querySelector(".invalid-feedback[id^='minAdmins']");
+  const { errorMax, errorMin } = validateExistingUserRole();
+  if (errorMax && select.value === "admin") {
+    select.classList.add("is-invalid");
+    errorMessageMax.style.display = 'block';
+    errorMessageMin.style.display = 'none';
+  } else {
+    select.classList.remove("is-invalid");
+    errorMessageMax.style.display = 'none';
+  }
+
+  if (errorMin) {
+    select.classList.add("is-invalid");
+    errorMessageMin.style.display = 'block';
+    errorMessageMax.style.display = 'none';
+  } else {
+    select.classList.remove("is-invalid");
+    errorMessageMin.style.display = 'none';
+  }
 }
 
 function resetErrorMessagesRolesValid() {
@@ -103,4 +115,10 @@ function resetErrorMessagesRolesValid() {
   }
 }
 
+function removeErrorMessagesModal(){
+  emailInvalidUnique.style.display = "none";
+  userSelectEmailModal.classList.remove("is-invalid");
+  selectRoleModal.classList.remove('is-invalid');
+  maxAdminModal.style.display = 'none';
+}
 

@@ -25,7 +25,6 @@ function validateUserEmail(email) {
     div.textContent.trim()
   );
   const emailExists = emails.includes(email);
-  const emailInvalidUnique = document.getElementById("emailExist");
   if (emailExists) {
     userSelectEmailModal.classList.add("is-invalid");
     emailInvalidUnique.style.display = "block";
@@ -36,8 +35,6 @@ function validateUserEmail(email) {
 }
 
 function validateRoleModal() {
-  const maxAdminModal = document.getElementById('maxAdminModal');
-  //let numberAdmins = await checkAdmins();
   if (getNumberAdminsListUsers() === 2 && selectRoleModal.value === "admin") {
     selectRoleModal.classList.add('is-invalid');
     maxAdminModal.style.display = 'block';
@@ -50,6 +47,7 @@ function validateRoleModal() {
  function validateExistingUserRole() {
   let errorMax = false;
   let errorMin = false;
+  console.log(getNumberAdminsListUsers());
   if (getNumberAdminsListUsers() > 2)
     errorMax = true;
   else if (getNumberAdminsListUsers() <= 1)
@@ -61,43 +59,21 @@ function validateRoleModal() {
   return { errorMax, errorMin };
 }
 
- function validateRoleBeforeRemoving(role) {
+function validateRoleBeforeRemoving(role) {
   let errorMin = false;
-  if (getNumberAdminsListUsers() === 2 && role === "admin")
+  console.log(getNumberAdminsListUsers());
+  if (getNumberAdminsListUsers() === 2 || getNumberAdminsListUsers() < 2 && role === "admin")
     errorMin = true;
   else
     errorMin = false;
   return errorMin ;
 }
 
-// async function checkEmailUniqueUser(email){
-//   const response = await fetch('/settings/addUser/checkEmailUser', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
-//     },
-//     body: JSON.stringify({ email: email }) 
-//   });
-//   const data = await response.json();
-//   return data.exists;
-// }
-
-// async function checkAdmins(){
-//   const response = await fetch('/settings/addUser/checkAdmins', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
-//     },        
-//   })
-//   const data = await response.json();
-//   return data.count;
-// }
-
 function getNumberAdminsListUsers(){
   let numberAdmins = 0;
+  selectsRoleShow = document.getElementsByName("userRolesShow[]");
   selectsRoleShow.forEach(select => {
+    console.log(select);
     if(select.value == "admin")
       numberAdmins++;
   });
