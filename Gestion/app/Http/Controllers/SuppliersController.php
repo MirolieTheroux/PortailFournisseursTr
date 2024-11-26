@@ -47,7 +47,7 @@ class SuppliersController extends Controller
   const SUPPLIER_FETCH_LIMIT = 100;
   const USING_FILESTREAM = false;
   const DAYS_BEFORE_TO_CHECK = 90;
-  const USING_CRON = true;
+  const USING_CRON = false;
 
   /**
    * Display a listing of the resource.
@@ -94,9 +94,9 @@ class SuppliersController extends Controller
     $waitingSuppliersCount = Supplier::whereHas('statusHistories', function ($query) {
       $query->where('status', '!=', 'modified')
             ->where('status', 'waiting')
-            ->whereRaw('created_at = (SELECT MAX(created_at) 
-                                      FROM status_histories 
-                                      WHERE supplier_id = suppliers.id 
+            ->whereRaw('created_at = (SELECT MAX(created_at)
+                                      FROM status_histories
+                                      WHERE supplier_id = suppliers.id
                                         AND status != "modified")');
     })->count();
     
@@ -118,10 +118,10 @@ class SuppliersController extends Controller
     Log::info("Mise à jours automatique des statuts.");
     $suppliersQuery = Supplier::query();
     $suppliers = $suppliersQuery->get()->filter(function ($supplier){
-      return $supplier->latestNonModifiedStatus()->status == 'denied';
+      return $supplier->latestNonModifiedStatus->status == 'denied';
     });
     foreach ($suppliers as $supplier) {
-      if($supplier->latestNonModifiedStatus()->created_at <= Carbon::now('America/Toronto')->subDays(self::DAYS_BEFORE_TO_CHECK)){
+      if($supplier->latestNonModifiedStatus->created_at <= Carbon::now('America/Toronto')->subDays(self::DAYS_BEFORE_TO_CHECK)){
         $this->changeStatusBySystem($supplier, "toCheck");
       }
     }
@@ -336,7 +336,7 @@ class SuppliersController extends Controller
     $postalCode = $supplier->address->postal_code;
     $formattedPostalCode = substr($postalCode, 0, 3) . ' ' . substr($postalCode, 3);
     
-    return View('suppliers.show', 
+    return View('suppliers.show',
     compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails',
     'formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories',
     'provinces','formattedPostalCode', 'modificationCategories'));
@@ -482,8 +482,7 @@ class SuppliersController extends Controller
     $status->status = $newStatus;
     $status->updated_by = __('global.system');
     $status->created_at = Carbon::now('America/Toronto');
-    if($newStatus == "deactivated")
-      $status->deactivated_by_admin = true;
+    $this->verifyStatusAndSendMail($newStatus, $supplier);
     $status->supplier()->associate($supplier);
     $status->save();
     return $status;
