@@ -86,7 +86,7 @@
               @foreach ($users as $user)
                 <div class="row user-table mx-0 py-1 listUsers">
                   <div class="col-5 text-center ps-2">
-                    <div class="text-start">{{$user->email}}</div>
+                    <div class="text-start userEmails">{{$user->email}}</div>
                     <input  name="usersIds[]" hidden value="{{$user->id}}">
                   </div>
                     <div class="col-5 text-center ps-1 selects">
@@ -119,8 +119,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form id="addUserForm" method="POST" action="{{route('users.addUser')}}">
-              @csrf
+             
                 <div class="mb-3">
                   <label>{{__('settings.chooseUser')}}</label>
                   <select name="userEmail" id="userEmail" class="form-select" aria-label="">
@@ -142,10 +141,10 @@
                   <option value="admin">{{__('settings.admin')}}</option>
                 </select>
                 <div class="invalid-feedback" id="maxAdminModal" style="display: none;">{{__('settings.errorAdminMax')}}</div>
-              </form>
+            
             </div>
             <div class="modal-footer">
-              <button id="addUserModal" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.add')}}</button>
+              <button id="addUserModal" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.add')}}</button>
               <button type="button" class="m-2 py-1 px-3 rounded button-darkblue" data-bs-dismiss="modal">{{__('global.close')}}</button>
             </div>
           </div>
