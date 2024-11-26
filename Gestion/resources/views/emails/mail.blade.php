@@ -54,7 +54,7 @@
                                                                             </span>
                                                                         </a>
                                                                     @else
-                                                                        <a href="http://127.0.0.1:8000/" style="display:inline-block;background:#ffffff;color:#ffffff;font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:20px;" target="_blank">
+                                                                        <a href="http://127.0.0.1:8080/" style="display:inline-block;background:#ffffff;color:#ffffff;font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:20px;" target="_blank">
                                                                             <span style="background-color:#ffffff;color:#0075d5;font-family:Arial;font-size:14px;">
                                                                                 <b>{{__('mail.portalButton')}}</b>
                                                                             </span>
