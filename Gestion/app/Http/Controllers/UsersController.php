@@ -113,28 +113,35 @@ class UsersController extends Controller
    */
   public function updateUser(Request $request)
   {
-    Log::debug($request);
+    //Log::debug($request);
+    $user = User::all();
     $usersIds = $request->usersIds;
     $userRoles = $request->userRolesShow;
     $usersWithRoles = collect($usersIds)
-    ->combine($userRoles)
-    ->toArray();
+      ->combine($userRoles)
+      ->toArray();
     try {
       foreach ($usersWithRoles as $userId => $role) {
-          $user = User::find($userId);
-          
-          if ($user) {
-              $user->role = $role;
-              $user->save();
-          }
+        $userFound = User::find($userId);
+        if ($userFound) {
+          $userFound->role = $role;
+          $userFound->save();
+        }
+      }
+      $existingUsersIds = $user->pluck('id')->toArray();
+      $userIdsToDelete = array_diff($existingUsersIds, $request->usersIds);
+      Log::debug($userIdsToDelete);
+      foreach ($userIdsToDelete as $idToDelete) {
+        $userToDelete = User::findOrFail($idToDelete);
+        $userToDelete->delete();
       }
       return redirect()->route('users.settings')
-          ->with('message', __('settings.successUpdateUsers'));
-  } catch (\Throwable $e) {
+      ->with('message', __('settings.successUpdateUsers'));
+    } catch (\Throwable $e) {
       Log::debug($e);
       return redirect()->route('users.settings')
-          ->withErrors('message', __('global.updateFailed'));
-  }
+      ->withErrors('message', __('global.updateFailed'));
+    }
   }
 
   /**

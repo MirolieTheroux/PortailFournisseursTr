@@ -53,4 +53,20 @@ function showSectionDoc(id){
   displayedSection.classList.remove("d-none");
 
   navbarToggler.dispatchEvent(click);
+  grayOption(id);
+}
+
+function grayOption(id){
+  const section = id.split('-')[2];
+  const sectionId = section + '-nav-button';
+  const buttons = document.querySelectorAll('.doc-nav-button');
+
+  buttons.forEach(button => {
+    if(button.id === sectionId){
+      button.classList.add("bg-gray");
+    }
+    else{
+      button.classList.remove("bg-gray");
+    }
+  });
 }

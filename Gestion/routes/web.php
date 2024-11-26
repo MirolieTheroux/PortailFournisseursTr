@@ -49,5 +49,4 @@ Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class,
 Route::get('/settings', [UsersController::class, 'show'])->name('users.settings')->middleware('CheckRole:admin');
 Route::post('/settings/addUser', [UsersController::class, 'store'])->name('users.addUser')->middleware('CheckRole:admin');
 Route::patch('/settings/updateUser', [UsersController::class, 'updateUser'])->name('users.updateUser')->middleware('CheckRole:admin');
-
 Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');

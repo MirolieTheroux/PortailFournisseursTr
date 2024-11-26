@@ -23,6 +23,7 @@ return [
     'confirm' => 'Confirmer',
     'none' => 'Aucun',
     'add' => 'Ajouter',
+    'system' => 'Système',
 
     'updateSuccess' => 'La modification a fonctionné',
     'updateFailed' => 'La modification n\'a pas fonctionné',

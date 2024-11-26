@@ -28,7 +28,7 @@
       <h4 class="py-2 fw-bold">{{$supplier->name}}</h4>
       @role(['responsable', 'admin'])
         <button id="btnExport" type="" class="my-2 py-1 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
-        @if($supplier->latestNonModifiedStatus()->status == 'deactivated')
+        @if($supplier->latestNonModifiedStatus->status == 'deactivated')
         <a id="btnDelete" href="{{route('suppliers.reactivate', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.reactivate')}}</a>
         @else
         <a id="btnDelete" href="{{route('suppliers.removeFromList', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.removeFromList')}}</a>
@@ -239,7 +239,7 @@
 
       <div class="container d-flex flex-column h-100 show-section" id="requestStatus-section">
         @role(['responsable', 'admin'])
-          @if($supplier->latestNonModifiedStatus()->status == 'waiting' || $supplier->latestNonModifiedStatus()->status == 'toCheck')
+          @if($supplier->latestNonModifiedStatus->status == 'waiting' || $supplier->latestNonModifiedStatus->status == 'toCheck')
             <div class="d-flex justify-content-end btnRequest">
               <button id="btnAccept" type="button" class="m-2 py-1 px-3 rounded button-darkblue" data-bs-toggle="modal" data-bs-target="#approvalModal">{{__('show.acceptRequest')}}</button>
               <button id="btnDeny" type="button" class="m-2 py-1 px-3 rounded button-darkblue" data-bs-toggle="modal" data-bs-target="#denialModal">{{__('show.denyRequest')}}</button>
@@ -265,18 +265,18 @@
                   <div class="form-floating">
                     <select name="requestStatus" id="requestStatus" class="form-select" aria-label="" disabled>
                       <option value="">
-                      <option value="waiting" {{ $supplier->latestNonModifiedStatus()->status === 'waiting' ? 'selected' : null}}>{{__('global.waiting')}}</option>
-                      <option value="toCheck" {{ $supplier->latestNonModifiedStatus()->status === 'toCheck' ? 'selected' : null}}>{{__('global.toCheck')}}</option>
-                      <option value="accepted" {{ $supplier->latestNonModifiedStatus()->status === 'accepted' ? 'selected' : null}}>{{__('global.accepted')}}</option>
-                      <option value="denied" {{ $supplier->latestNonModifiedStatus()->status === 'denied' ? 'selected' : null}}>{{__('global.denied')}}</option>
-                      <option value="deactivated" {{ $supplier->latestNonModifiedStatus()->status === 'deactivated' ? 'selected' : null}} disabled>{{__('global.deactivated')}}</option>
+                      <option value="waiting" {{ $supplier->latestNonModifiedStatus->status === 'waiting' ? 'selected' : null}}>{{__('global.waiting')}}</option>
+                      <option value="toCheck" {{ $supplier->latestNonModifiedStatus->status === 'toCheck' ? 'selected' : null}}>{{__('global.toCheck')}}</option>
+                      <option value="accepted" {{ $supplier->latestNonModifiedStatus->status === 'accepted' ? 'selected' : null}}>{{__('global.accepted')}}</option>
+                      <option value="denied" {{ $supplier->latestNonModifiedStatus->status === 'denied' ? 'selected' : null}}>{{__('global.denied')}}</option>
+                      <option value="deactivated" {{ $supplier->latestNonModifiedStatus->status === 'deactivated' ? 'selected' : null}} disabled>{{__('global.deactivated')}}</option>
                     </select>
                     <label for="requestStatus" id="">{{__('form.status')}}</label>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-floating">
-                    <input type="date" name="requestStatusDate" id="requestStatusDate" class="form-control" value="{{date_format($supplier->latestNonModifiedStatus()->created_at, 'Y-m-d')}}" placeholder="" disabled>
+                    <input type="date" name="requestStatusDate" id="requestStatusDate" class="form-control" value="{{date_format($supplier->latestNonModifiedStatus->created_at, 'Y-m-d')}}" placeholder="" disabled>
                     <label for="requestStatusDate" id="">{{__('form.requestResponseDate')}}</label>
                   </div>
                 </div>
@@ -1155,7 +1155,7 @@
                       <div id="attachmentFilesList">
                         @foreach ($supplier->attachments as $file)
                         <div class="d-flex flex-row align-items-center mb-2">
-                          <input class="d-none" name="attachmentFilesIds[]" value="{{ $file->id }}" />
+                          <input hidden name="attachmentFilesIds[]" value="{{ $file->id }}" />
                           <div class="col-6 fs-6 fileName">
                             <a href="{{ route('attachments.show', ['supplier' => $supplier->id, 'attachment' => $file->id]) }}" target="_blank">{{ $file->name }}</a>
                           </div>
