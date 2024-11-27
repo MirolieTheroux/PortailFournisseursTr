@@ -64,3 +64,30 @@ function getNumberAdminsListUsers(){
   });
   return numberAdmins;
 }
+
+function resetErrorMessagesRolesValid() {
+  const { errorMax, errorMin } = validateExistingUserRole();
+  if (!errorMax) {
+    errorMessagesMax.forEach((message) => {
+      const select = message.closest('.selects').querySelector('select');
+      select.classList.remove("is-invalid");
+      message.style.display = 'none';
+    });
+  }
+
+  if (!errorMin) {
+    errorMessagesMin.forEach((message) => {
+      const select = message.closest('.selects').querySelector('select');
+      select.classList.remove("is-invalid");
+      message.style.display = 'none';
+    });
+  }
+}
+
+function removeErrorMessagesModal(){
+  emailInvalidUnique.style.display = "none";
+  userSelectEmailModal.classList.remove("is-invalid");
+  selectRoleModal.classList.remove('is-invalid');
+  maxAdminModal.style.display = 'none';
+}
+
