@@ -416,7 +416,7 @@
             <div class="row px-3">
               <div class="col-12 col-md-6 d-flex flex-column">
                 <h2 class="text-center section-subtitle">{{__('form.contactDetailsAddressSection')}}</h2>
-                <div class=" text-center d-flex flex-row ">
+                <div class="text-center d-flex flex-row ">
                   <div class="form-floating col-6 pe-2">
                     <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ $supplier->address->civic_no }}" placeholder="" maxlength="8" disabled>
                     <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>

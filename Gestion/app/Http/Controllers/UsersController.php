@@ -40,37 +40,14 @@ class UsersController extends Controller
     return redirect()->route('login')->with('message',__('login.successfulLogout'));
   }  
 
-  /**
-   * Store user
-   */
-  public function store(Request $request)
-  {
-    Log::debug($request);
-    try{
-      $newUser = new User();
-      $newUser->email = $request->userEmail;
-      $newUser->role = $request->userRoleModal;
-      $newUser->password = Hash::make('Secret1234!');
-      $newUser->save();
-      return redirect()->route('users.settings')
-      ->with('message',__('settings.successAddUser'));
-    }
-    catch (\Throwable $e) {
-      Log::debug($e);
-      return redirect()->route('users.settings')
-      ->withErrors('message',__('global.storeFailed'));
-    }
-  }
-
   public function show()
   {
     $users = User::all();
-    return View('users.settings',compact('users'));
+    return View('settings.settings',compact('users'));
   }
 
   public function updateUser(UserUpdateRequest $request)
   {
-    //Log::debug($request);
     $usersIds = $request->usersIds;
     $userRoles = $request->userRolesShow;
     $usersWithRoles = collect($usersIds)
@@ -93,7 +70,6 @@ class UsersController extends Controller
           $newUser->email = $newUserEmails[$newEmailIndex]; 
           $newUser->password = Hash::make('Secret1234!');
           $newUser->role = $role;
-          //Log::debug($newUser);
           $newUser->save();
           $newEmailIndex++;
         } else {
@@ -111,13 +87,5 @@ class UsersController extends Controller
       return redirect()->route('users.settings')
       ->withErrors('message', __('global.updateFailed'));
     }
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   */
-  public function destroy(string $id)
-  {
-      //
   }
 }
