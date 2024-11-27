@@ -23,7 +23,7 @@ class UserUpdateRequest extends FormRequest
     {
       return [
         'userRolesShow.*' => 'required',
-        'userEmails.*' => 'nullable'
+        'userEmails.*' => 'required'
       ];
     }
 }

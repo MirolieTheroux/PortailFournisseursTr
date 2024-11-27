@@ -48,4 +48,6 @@ Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class,
 // SETTINGS USERS
 Route::get('/settings', [UsersController::class, 'show'])->name('users.settings')->middleware('CheckRole:admin');
 Route::patch('/settings/updateUser', [UsersController::class, 'updateUser'])->name('users.updateUser')->middleware('CheckRole:admin');
+// SETTINGS
+
 Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');
