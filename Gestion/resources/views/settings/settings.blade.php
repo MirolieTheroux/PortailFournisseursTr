@@ -1,3 +1,11 @@
+<!--REMARQUES::
+Lorsque j'enleve un admin, j'ai l'erreur qui s'affiche. Ensuite, lorsque j'ajoute un user en le mettant directement admin, l'erreur est encore là. 
+(Ça empêche pas de supprimer so c'est pas si grave)
+-->
+<!--REMARQUES::
+En fait, lorsque tu créer une nouvelle ligne, si l'erreur s'affiche sur une des nouvelles lignes, ça elle ne disparait plus jamais a moins de rechanger le status.
+-->
+
 @extends('layouts.app')
 
 @section('title', __('navbar.adminCenter'))
