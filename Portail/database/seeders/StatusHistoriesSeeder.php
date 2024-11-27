@@ -70,7 +70,7 @@ class StatusHistoriesSeeder extends Seeder
                 'updated_by' => "nic@vtr.com",
                 'refusal_reason' => Crypt::encrypt("Permis non valide"),
                 'supplier_id' => 2,
-                'created_at' => '2024-11-07 08:29:10'
+                'created_at' => '2024-02-07 08:29:10'
             ],
             [
                 'id' => 8,
