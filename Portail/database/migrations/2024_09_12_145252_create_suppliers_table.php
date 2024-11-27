@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->string('neq', 10)->unique()->nullable();
-            $table->string('name', 255);
+            $table->string('name', 64);
             $table->string('password', 128);
             $table->string('email', 64);
             $table->string('site', 64)->nullable();
