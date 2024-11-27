@@ -1,8 +1,9 @@
 <!--REMARQUES::
-  - Lorsqu'on supprimme un admin, on a le message d'erreur si on en a juste 2. Ça si c'est bon.
+  - Lorsqu'on supprimme un admin, on a le message d'erreur si on en a juste 2. Ça si c'est bon. ??
   - Lorsqu'on lui change son role pour un autre, le message d'erreur est encore là me on peu le supprimer.
+      J'ai fait que s'il y a une erreur tu ne peux pas supprimer le user.
   - Lorsqu'on est rendu avec juste un admin, on peut enresgitrer.
-
+********retester
     - Il faudrait faire que si y'a juste un admin, on peut pas enregistrer.
 -->
 <!--REMARQUES::(Probablement un nice_to_have)
@@ -85,7 +86,7 @@
               @foreach ($users as $user)
                 <div class="row user-table mx-0 py-1 listUsers">
                   <div class="col-5 text-center ps-2">
-                    <div class="text-start">{{$user->email}}</div>
+                    <div class="text-start userEmails">{{$user->email}}</div>
                     <input  name="usersIds[]" hidden value="{{$user->id}}">
                   </div>
                     <div class="col-5 text-center ps-1 selects">
@@ -94,8 +95,8 @@
                         <option value="responsable" {{$user->role == 'responsable' ? 'selected' : null  }}>{{__('settings.responsable')}}</option>
                         <option value="clerk" {{$user->role == 'clerk' ? 'selected' : null  }}>{{__('settings.clerk')}}</option>
                       </select>
-                      <div class="invalid-feedback text-start" id="{{"maxAdminSelect" . ($loop->index+1)}}" style="display: none;">{{__('settings.errorAdminMax')}}</div>
-                      <div class="invalid-feedback text-start" id="{{"minAdmins" . ($loop->index+1)}}" style="display: none;">{{__('settings.errorAdminMin')}}</div>
+                      <div class="invalid-feedback text-start maxErrors" id="{{"maxAdminSelect" . ($loop->index+1)}}" style="display: none;">{{__('settings.errorAdminMax')}}</div>
+                      <div class="invalid-feedback text-start minErrors" id="{{"minAdmins" . ($loop->index+1)}}" style="display: none;">{{__('settings.errorAdminMin')}}</div>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x col-2 removeUser" viewBox="0 0 16 16" style="cursor:pointer;">
                       <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
@@ -118,8 +119,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form id="addUserForm" method="POST" action="{{route('users.addUser')}}">
-              @csrf
+             
                 <div class="mb-3">
                   <label>{{__('settings.chooseUser')}}</label>
                   <select name="userEmail" id="userEmail" class="form-select" aria-label="">
@@ -141,10 +141,10 @@
                   <option value="admin">{{__('settings.admin')}}</option>
                 </select>
                 <div class="invalid-feedback" id="maxAdminModal" style="display: none;">{{__('settings.errorAdminMax')}}</div>
-              </form>
+            
             </div>
             <div class="modal-footer">
-              <button id="addUserModal" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.add')}}</button>
+              <button id="addUserModal" type="button" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.add')}}</button>
               <button type="button" class="m-2 py-1 px-3 rounded button-darkblue" data-bs-dismiss="modal">{{__('global.close')}}</button>
             </div>
           </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -40,22 +41,6 @@ class UsersController extends Controller
   }  
 
   /**
-   * Display a listing of the resource.
-   */
-  public function index()
-  {
-      //
-  }
-
-  /**
-   * Show the form for creating a new resource.
-   */
-  public function create()
-  {
-      //
-  }
-
-  /**
    * Store user
    */
   public function store(Request $request)
@@ -77,63 +62,47 @@ class UsersController extends Controller
     }
   }
 
-  public function checkEmailUser(Request $request)
-  {
-    $email = $request->input('email'); 
-    $exists = User::where('email', $email)->exists();
-    return response()->json(['exists' => $exists]);
-  }
-
-
-  public function checkNumbersOfAdmin()
-  {
-    $usersAdminCount = User::where('role', 'admin')->count();
-    return response()->json(['count' => $usersAdminCount]);
-  }
-
-  /**
-   * Display settings.
-   */
   public function show()
   {
     $users = User::all();
     return View('users.settings',compact('users'));
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   */
-  public function edit(string $id)
-  {
-      //
-  }
-
-  /**
-   * Update users
-   */
-  public function updateUser(Request $request)
+  public function updateUser(UserUpdateRequest $request)
   {
     //Log::debug($request);
-    $user = User::all();
     $usersIds = $request->usersIds;
     $userRoles = $request->userRolesShow;
     $usersWithRoles = collect($usersIds)
       ->combine($userRoles)
       ->toArray();
+    $newUserEmails = $request->userEmails;
     try {
-      foreach ($usersWithRoles as $userId => $role) {
-        $userFound = User::find($userId);
-        if ($userFound) {
-          $userFound->role = $role;
-          $userFound->save();
-        }
-      }
-      $existingUsersIds = $user->pluck('id')->toArray();
-      $userIdsToDelete = array_diff($existingUsersIds, $request->usersIds);
-      Log::debug($userIdsToDelete);
+      $existingUsersIds = User::pluck('id')->toArray();
+      $userIdsToKeep = array_filter($usersIds, fn($id) => $id != -1); 
+      $userIdsToDelete = array_diff($existingUsersIds, $userIdsToKeep);
       foreach ($userIdsToDelete as $idToDelete) {
         $userToDelete = User::findOrFail($idToDelete);
         $userToDelete->delete();
+      }
+      
+      $newEmailIndex = 0;
+      foreach ($usersWithRoles as $userId => $role) {
+        if ($userId == -1) {
+          $newUser = new User();
+          $newUser->email = $newUserEmails[$newEmailIndex]; 
+          $newUser->password = Hash::make('Secret1234!');
+          $newUser->role = $role;
+          //Log::debug($newUser);
+          $newUser->save();
+          $newEmailIndex++;
+        } else {
+          $userFound = User::findOrFail($userId);
+          if ($userFound) {
+            $userFound->role = $role;
+            $userFound->save();
+          }
+        }
       }
       return redirect()->route('users.settings')
       ->with('message', __('settings.successUpdateUsers'));
