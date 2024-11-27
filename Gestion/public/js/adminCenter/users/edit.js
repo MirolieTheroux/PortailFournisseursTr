@@ -67,6 +67,7 @@ function usersListeners() {
   removeUser();
   btnAddUserModal.addEventListener("click", ()=>{
     addUser();
+    getElements();
   });
 }
 
