@@ -37,6 +37,9 @@ use Illuminate\Support\facades\Auth;
 use Illuminate\Support\facades\Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class SuppliersController extends Controller
 {
@@ -1170,5 +1173,56 @@ class SuppliersController extends Controller
                         })
                       ->exists();
     return response()->json(['exists' => $exists]);
+  }
+
+  public function forgotPassword(Request $request)
+  {
+      $supplier = Supplier::where('neq', $request->identifiant)->exists();
+
+      if (!$supplier) {
+        $supplier = Supplier::where('email', $request->identifiant)->whereNull('neq')->exists();
+      }
+      Log::info($supplier);
+      if ($supplier){
+        $token = Str::random(64);
+        DB::table('password_resets')->insert([
+            'email' => $supplier->email,
+            'token' => $token,
+            'created_at' => now(),
+        ]);
+
+        $resetLink = route('password.reset', ['token' => $token]);
+        Mail::send('emails.password_reset', ['link' => $resetLink], function ($message) use ($request) {
+            $message->to($supplier->email);
+            $message->subject('Reset Your Password');
+        });
+      }
+      return redirect()->route('suppliers.showLogin')->with('message',"Un courriel de réinitialisation a été envoyer à l'adresse courriel lié au compte");
+  }
+
+  public function resetPasswordForm($token)
+  {
+      return view('auth.password_reset', ['token' => $token]);
+  }
+
+  public function resetPassword(Request $request)
+  {
+      $request->validate([
+          'token' => 'required',
+          'password' => 'required|confirmed|min:8',
+      ]);
+
+      $resetData = DB::table('password_resets')->where('token', $request->token)->first();
+
+      if (!$resetData || now()->diffInMinutes($resetData->created_at) > 60) {
+          return response()->json(['message' => 'Token is invalid or expired.'], 400);
+      }
+
+      $supplier = Supplier::where('email', $resetData->email)->first();
+      $supplier->update(['password' => Hash::make($request->password)]);
+
+      DB::table('password_resets')->where('email', $resetData->email)->delete();
+
+      return response()->json(['message' => 'Password has been successfully reset.']);
   }
 }

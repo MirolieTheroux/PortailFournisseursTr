@@ -8,6 +8,11 @@ let emailContainer;
 let emailInput;
 let errorMessages;
 
+let forgotPasswordLink;
+let forgotPasswordBackLink;
+let connexionForm;
+let forgotPasswordForm;
+
 document.addEventListener('DOMContentLoaded', async function() {
   getLoginElement();
   if(emailInput.value){
@@ -22,6 +27,11 @@ function getLoginElement(){
   neqContainer = document.getElementById('neqContainer');
   neqInput = document.getElementById('neq');
 
+  forgotPasswordLink = document.getElementById('forgotPassword-link');
+  forgotPasswordBackLink = document.getElementById('forgotPasswordBack-link');
+  connexionForm = document.getElementById('connexion-form');
+  forgotPasswordForm = document.getElementById('forgotPassword-form');
+  
   emailButton = document.getElementById('possessNoNeq-button');
   emailLink = document.getElementById('possessNoNeq-link');
   emailContainer = document.getElementById('emailContainer');
@@ -33,6 +43,8 @@ function addInputChangeListeners(){
   neqLink.addEventListener('click', (event)=>{changeInput(event.target)});
   emailButton.addEventListener('click', (event)=>{changeInput(event.target)});
   emailLink.addEventListener('click', (event)=>{changeInput(event.target)});
+  forgotPasswordLink.addEventListener('click', (event)=>{changeInput(event.target)});
+  forgotPasswordBackLink.addEventListener('click', (event)=>{changeInput(event.target)});
 }
 
 function changeInput(element){
@@ -40,13 +52,21 @@ function changeInput(element){
     if(element.id.includes("possessNoNeq")){
       showEmail();
     }
-    else{
+    else if(element.id.includes("possessNeq")){
       showNeq();
+    }
+    else if(element.id.includes("forgotPasswordBack")){
+      hideForgotPassword();
+    }
+    else if(element.id.includes("forgotPassword")){
+      showForgotPassword();
     }
   }
 }
 
 function showNeq(){
+  connexionForm.classList.remove('d-none');
+  forgotPasswordForm.classList.add('d-none');
   neqButton.classList.remove('login-unselected');
   neqButton.classList.add('login-selected');
   neqLink.classList.remove('login-unselected');
@@ -65,6 +85,8 @@ function showNeq(){
 }
 
 function showEmail(){
+  connexionForm.classList.remove('d-none');
+  forgotPasswordForm.classList.add('d-none');
   neqButton.classList.remove('login-selected');
   neqButton.classList.add('login-unselected');
   neqLink.classList.remove('login-selected');
@@ -80,4 +102,14 @@ function showEmail(){
 
   emailContainer.classList.remove('d-none');
   emailInput.setAttribute('name', 'email');
+}
+
+function hideForgotPassword(){
+  connexionForm.classList.remove('d-none');
+  forgotPasswordForm.classList.add('d-none');
+}
+
+function showForgotPassword(){
+  connexionForm.classList.add('d-none');
+  forgotPasswordForm.classList.remove('d-none');
 }

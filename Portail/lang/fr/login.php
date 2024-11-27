@@ -11,6 +11,10 @@ return [
   'possessNeq' => 'J\'ai un NEQ',
   'possessNoNeq' => 'Je n\'ai pas de NEQ',
 
+  'passwordReset' => 'Réinitialiser votre mot de passe',
+  'forgotPassword' => 'Mot de passe oublié?',
+  'sendLink' => 'envoyer le lien',
+
   'notConnected' => 'Vous devez être connecté pour accéder à cette page.',
   'wrongCredentials' => 'Les informations de connexion sont invalides.',
   'missingCredentials' => 'Vous devez fournir votre identifiant.',

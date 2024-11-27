@@ -40,3 +40,7 @@ Route::patch('/suppliers/update/finance/{supplier}',[SuppliersController::class,
 Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class, 'show'])->name('attachments.show')->middleware('auth');
 
 Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');
+
+Route::post('/password/forgot', [SuppliersController::class, 'forgotPassword']);
+Route::get('/password/reset/{token}', [SuppliersController::class, 'resetPasswordForm'])->name('password.reset');
+Route::post('/password/reset', [SuppliersController::class, 'resetPassword']);

@@ -16,7 +16,7 @@
   </div>
   <div class="col-12 col-md-6 d-flex align-items-center justify-content-center h-100 bg-grey-transparent-gradient py-3">
     <div class="row w-100">
-      <div class="offset-md-1 offset-lg-2 offset-xl-3 col-12 col-md-10 col-lg-8 col-xl-6 bg-white rounded-custom">
+      <div id="connexion-form" class="offset-md-1 offset-lg-2 offset-xl-3 col-12 col-md-10 col-lg-8 col-xl-6 bg-white rounded-custom">
         <div class="row d-none d-md-flex">
           <div id="possessNeq-button" class="col-6 text-center fs-6 py-3 rounded-top-left loginChange-button login-selected">{{__('login.possessNeq')}}</div>
           <div id="possessNoNeq-button" class="col-6 text-center fs-6 py-3 rounded-top-right loginChange-button login-unselected">{{__('login.possessNoNeq')}}</div>
@@ -64,6 +64,9 @@
           </div>
           <div class="row">
             <div class="col-12 d-flex justify-content-center text-center mb-3">
+              <a id="forgotPassword-link" class="singin-link login-unselected" href="">{{__('login.forgotPassword')}}</a>
+            </div>
+            <div class="col-12 d-flex justify-content-center text-center mb-3">
               <a class="singin-link" href="{{ route('suppliers.create') }}">{{__('login.signinLink')}}</a>
             </div>
           </div>
@@ -75,6 +78,30 @@
           </div>
         </form>
       </div>
+      <div id="forgotPassword-form" class="d-none offset-md-1 offset-lg-2 offset-xl-3 col-12 col-md-10 col-lg-8 col-xl-6 bg-white rounded-custom">
+          <h3 class="d-md-block mt-3 text-center">{{__('login.passwordReset')}}</h3>
+          <form method="POST" action="/password/forgot" class="form d-flex flex-column mx-3">
+              @csrf
+              <div class="text-start">
+                <div id="forgotPasswordContainer">
+                  <div class="form-floating">
+                    <input type="text" name="identifiant" class="form-control" placeholder="" value="" required>
+                    <label for="identifiant">{{__('login.id')}}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12 d-flex justify-content-center mb-3">
+                  <button type="submit" class="py-1 px-3 rounded button-darkblue">{{__('login.sendLink')}}</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 d-flex justify-content-center text-center mb-3">
+                  <a id="forgotPasswordBack-link" class="singin-link login-unselected" href="">{{__('global.cancel')}}</a>
+                </div>
+              </div>
+          </form>
+        </div>
     </div>
   </div>
 </div>
