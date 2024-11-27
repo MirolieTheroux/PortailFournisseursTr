@@ -1,23 +1,9 @@
 //Get elements in /users/edit
-const selectRoleModal = document.getElementById("userRoleModal");
 
 function validateAddUserModal(){
   validateUserEmail(userSelectEmailModal.value);
   validateRoleModal();
 }
-
-// async function validateUserEmail(){
-//   const emailInvalidUnique = document.getElementById('emailExist');
-//   let emailExist = await checkEmailUniqueUser(userSelectEmailModal.value);
-//   if(emailExist){
-//     userSelectEmailModal.classList.add('is-invalid');
-//     emailInvalidUnique.style.display = 'block';
-//   }
-//   else{
-//     userSelectEmailModal.classList.remove('is-invalid');
-//     emailInvalidUnique.style.display = 'none';
-//   }
-// }
 
 function validateUserEmail(email) {
   usersEmailList = document.querySelectorAll(".userEmails")
@@ -47,7 +33,6 @@ function validateRoleModal() {
  function validateExistingUserRole() {
   let errorMax = false;
   let errorMin = false;
-  console.log(getNumberAdminsListUsers());
   if (getNumberAdminsListUsers() > 2)
     errorMax = true;
   else if (getNumberAdminsListUsers() <= 1)
@@ -61,8 +46,9 @@ function validateRoleModal() {
 
 function validateRoleBeforeRemoving(role) {
   let errorMin = false;
-  console.log(getNumberAdminsListUsers());
-  if (getNumberAdminsListUsers() === 2 || getNumberAdminsListUsers() < 2 && role === "admin")
+  if (getNumberAdminsListUsers() === 2  && role === "admin")
+    errorMin = true;
+  else if(getNumberAdminsListUsers() < 2  && role === "admin")
     errorMin = true;
   else
     errorMin = false;
@@ -73,7 +59,6 @@ function getNumberAdminsListUsers(){
   let numberAdmins = 0;
   selectsRoleShow = document.getElementsByName("userRolesShow[]");
   selectsRoleShow.forEach(select => {
-    console.log(select);
     if(select.value == "admin")
       numberAdmins++;
   });
