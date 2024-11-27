@@ -62,14 +62,14 @@ function addUser() {
     divRole.appendChild(roleSelect);
 
     const maxAdminError = document.createElement("div");
-    maxAdminError.classList.add("invalid-feedback", "text-start");
+    maxAdminError.classList.add("invalid-feedback", "text-start", "maxErrors");
     maxAdminError.id = "maxAdminSelect" + (userListContainer.children.length);
     maxAdminError.style.display = "none"; 
     maxAdminError.textContent = "Il ne peut y avoir que deux administrateurs."; 
     divRole.appendChild(maxAdminError);
 
     const minAdminError = document.createElement("div");
-    minAdminError.classList.add("invalid-feedback", "text-start");
+    minAdminError.classList.add("invalid-feedback", "text-start", "minErrors");
     minAdminError.id = "minAdmins" + (userListContainer.children.length);
     minAdminError.style.display = "none"; 
     minAdminError.textContent = "Il doit y avoir deux administrateurs."; 
@@ -92,6 +92,7 @@ function addUser() {
     divUser.appendChild(removeUserSvg);
     modalAddUser.hide();
     getElements();
+    resetErrorMessagesRolesValid();
     //Fonction in /users/delete
     removeUser();
     //Fonction in /users/edit
