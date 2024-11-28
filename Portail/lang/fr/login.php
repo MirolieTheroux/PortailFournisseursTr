@@ -13,6 +13,7 @@ return [
 
   'passwordReset' => 'Réinitialiser votre mot de passe',
   'forgotPassword' => 'Mot de passe oublié?',
+  'forgotPasswordDescription' => 'Nous avons reçu une demande de réinitialisation de votre mot de passe.',
   'sendLink' => 'envoyer le lien',
 
   'notConnected' => 'Vous devez être connecté pour accéder à cette page.',

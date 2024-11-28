@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\Password;
 
 class SuppliersController extends Controller
 {
@@ -1177,13 +1178,14 @@ class SuppliersController extends Controller
 
   public function forgotPassword(Request $request)
   {
-      $supplier = Supplier::where('neq', $request->identifiant)->exists();
+      $supplier = Supplier::where('neq', $request->identifiant)->first();
 
-      if (!$supplier) {
-        $supplier = Supplier::where('email', $request->identifiant)->whereNull('neq')->exists();
+      if (is_null($supplier)) {
+        $supplier = Supplier::where('email', $request->identifiant)->whereNull('neq')->first();
       }
-      Log::info($supplier);
-      if ($supplier){
+
+      if (!is_null($supplier)){
+        Log::info("test" . $supplier->email);
         $token = Str::random(64);
         DB::table('password_resets')->insert([
             'email' => $supplier->email,
@@ -1192,12 +1194,12 @@ class SuppliersController extends Controller
         ]);
 
         $resetLink = route('password.reset', ['token' => $token]);
-        Mail::send('emails.password_reset', ['link' => $resetLink], function ($message) use ($request) {
-            $message->to($supplier->email);
-            $message->subject('Reset Your Password');
-        });
+
+        $mailsController = new MailsController();
+        $mailModel = EmailModel::where('name', 'SupplierResetPassword')->firstOrFail();
+        $mailsController->sendResetPasswordSupplierMail($supplier, $mailModel, $resetLink);
       }
-      return redirect()->route('suppliers.showLogin')->with('message',"Un courriel de réinitialisation a été envoyer à l'adresse courriel lié au compte");
+      return redirect()->route('suppliers.showLogin')->with('message',"Un courriel de réinitialisation a été envoyer à l'adresse courriel lié au compte.");
   }
 
   public function resetPasswordForm($token)
@@ -1209,13 +1211,18 @@ class SuppliersController extends Controller
   {
       $request->validate([
           'token' => 'required',
-          'password' => 'required|confirmed|min:8',
+          'password' => [
+            'required',
+            Password::min(7)->max(12)->mixedCase()->numbers()->symbols(),
+            'confirmed',
+          ],
+          'password_confirmation' => 'required',
       ]);
 
       $resetData = DB::table('password_resets')->where('token', $request->token)->first();
 
       if (!$resetData || now()->diffInMinutes($resetData->created_at) > 60) {
-          return response()->json(['message' => 'Token is invalid or expired.'], 400);
+          return redirect()->route('suppliers.showLogin')->with('error',"La demande est invalide ou expiré.");
       }
 
       $supplier = Supplier::where('email', $resetData->email)->first();
@@ -1223,6 +1230,6 @@ class SuppliersController extends Controller
 
       DB::table('password_resets')->where('email', $resetData->email)->delete();
 
-      return response()->json(['message' => 'Password has been successfully reset.']);
+      return redirect()->route('suppliers.showLogin')->with('message',"Le mot de passe a été modifié avec succès.");
   }
 }

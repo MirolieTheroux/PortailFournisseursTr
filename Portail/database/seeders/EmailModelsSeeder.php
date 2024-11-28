@@ -64,6 +64,18 @@ class EmailModelsSeeder extends Seeder
             ],
             [
                 'id' => 5,
+                'name' => "SupplierResetPassword",
+                'object' => "Réinitialiser votre mot de passe",
+                'title' => "Réinitialiser votre mot de passe",
+                'description' => "Nous avons reçu une demande de réinitialisation de votre mot de passe.",
+                'subtitle' => null,
+                'icon' => null,
+                'state' => null,
+                'message' => "Si ce n'est pas votre compte, veuillez ne pas tenir compte de ce message.",
+                'footer' => "Merci de votre intérêt et de votre patience.<br>L'équipe de la Ville de Trois-Rivières"
+            ],
+            [
+                'id' => 6,
                 'name' => "ResponsableToCheck",
                 'object' => "Demande à vérifier",
                 'title' => "Une demande est en attente de vérification",
@@ -75,7 +87,7 @@ class EmailModelsSeeder extends Seeder
                 'footer' => null
             ],
             [
-                'id' => 6,
+                'id' => 7,
                 'name' => "ResponsableInscriptionNotification",
                 'object' => "Nouvelle demande",
                 'title' => "Un fournisseur à fait une nouvelle demande",

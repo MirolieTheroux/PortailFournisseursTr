@@ -167,6 +167,9 @@
                                                                 <b style="color:#0076D5;">{{ $user->neq }}
                                                                 <br><br>
                                                                 {{ $user->name }}</b>
+                                                            @elseif ($mailModel->name === 'SupplierResetPassword')
+                                                                    <b style="color:#0076D5;">{{ $user->name }}</b>
+                                                                    <br><br><br>
                                                             @elseif ($mailModel->state === 'waiting')
                                                                 <b style="color:#ff8800;">{{__('mail.waiting')}}</b>
                                                             @elseif ($mailModel->state === 'accepted')
@@ -175,6 +178,9 @@
                                                                 <b style="color:#c50000;">{{__('mail.denied')}}</b>
                                                             @endif
                                                         </span>
+                                                        @if ($mailModel->name === 'SupplierResetPassword')
+                                                            <a href="{{ $resetLink }}" style="background-color: #0076D5; color: white; padding: 10px 20px; text-decoration: none;">{{__('login.passwordReset')}}</a>
+                                                        @endif
                                                     </p>
                                                     @if ($mailModel->message)
                                                         <p class="text-build-content" style="text-align: center; margin: 0px 0; margin-bottom: 0px; padding-top: 10px;">

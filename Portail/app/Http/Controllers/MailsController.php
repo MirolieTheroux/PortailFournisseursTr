@@ -12,11 +12,16 @@ class MailsController extends Controller
 {
     public function sendInscriptionSupplierMail(Supplier $supplier, EmailModel $mailModel)
     {
-        Mail::to($supplier->email)->send(new BuildMail('Supplier', $supplier, $mailModel));
+        Mail::to($supplier->email)->send(new BuildMail('Supplier', $supplier, $mailModel, null));
     }
 
     public function sendInscriptionNotificationResponsableMail(Supplier $supplier, EmailModel $mailModel)
     {
-        Mail::to(env('MAIL_RESPONSABLE'))->send(new BuildMail('Responsable', $supplier, $mailModel));
+        Mail::to(env('MAIL_RESPONSABLE'))->send(new BuildMail('Responsable', $supplier, $mailModel, null));
+    }
+
+    public function sendResetPasswordSupplierMail(Supplier $supplier, EmailModel $mailModel, string $resetLink)
+    {
+        Mail::to($supplier->email)->send(new BuildMail('Supplier', $supplier, $mailModel, $resetLink));
     }
 }
