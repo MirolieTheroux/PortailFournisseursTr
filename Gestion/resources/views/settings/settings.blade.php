@@ -148,11 +148,8 @@ En fait, lorsque tu créer une nouvelle ligne, si l'erreur s'affiche sur une des
       <form class="show-section d-none h-100 d-flex flex-column" id="settings-section" method="POST" action="{{route('users.updateUser')}}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
-
         <h2 class="mb-0 row border-bottom border-2 border-dark mt-3">{{__('settings.settingsManagement')}}</h2>
-
-        <!-- Contenu principal du formulaire -->
-        <div class="flex-grow-1">
+        <div class="flex-grow-1 px-4 py-3">
           <div class="row my-3">
             <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.approverEmail')}}</div>
             <div class="col-6">
