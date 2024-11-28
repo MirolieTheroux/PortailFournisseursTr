@@ -26,4 +26,8 @@ return [
     'financesEmail' => 'Courriel des finances',
     'timeBeforeRevisionMonth' => 'Délai avant la révision (mois)',
     'maxSizeFiles' => 'Taille maximale des fichiers joints (Mo)',
+    'maxsizeFilesInvalidEmpty' => 'La taille maximale des fichiers joints est requise.',
+    'maxsizeFilesInvalidFormat' => 'La taille maximale doit être en chiffre seulement.',
+    'timeBeforeRevisionMonthInvalidEmpty' => 'Le délai avant la révision est requis.',
+    'timeBeforeRevisionMonthInvalidFormat' => 'Le délai doit être en chiffre seulement.',
 ];

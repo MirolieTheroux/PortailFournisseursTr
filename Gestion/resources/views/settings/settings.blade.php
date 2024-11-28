@@ -141,35 +141,67 @@
         @csrf
         @method('PATCH')
         <h2 class="mb-0 row border-bottom border-2 border-dark mt-3">{{__('settings.settingsManagement')}}</h2>
-        <div class="flex-grow-1 px-4 py-3">
-          <div class="row my-3">
-            <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.approverEmail')}}</div>
-            <div class="col-6">
-            <input type="email" name="approverEmail" id="approverEmail" class="form-control form-control-sm" value="">
+        <div class="flex-grow-1 mx-4 my-3 d-flex flex-column justify-content-between">
+          <div class="mt-3 height">
+            <div class="row">
+              <div class="fs-5 col-6 d-flex align-items-center">
+                <div >{{__('settings.approverEmail')}}</div>
+              </div>
+              <div class="col-6">
+                <input type="email" name="approverEmail" id="approverEmail" class="form-control form-control-sm" value="">
+              </div>
+            </div> 
+            <div class="row mb-3">
+              <div class="col-6 offset-6">
+                <div class="invalid-feedback" id="approverEmailInvalidEmpty" style="display: none;">{{__('form.contactsEmailsValidationRequired')}}</div>
+                <div class="invalid-feedback" id="approverEmailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
+              </div>
             </div>
           </div>
-          <div class="row my-3">
-            <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.financesEmail')}}</div>
-            <div class="col-6">
-            <input type="email" name="financesEmail" id="financesEmail" class="form-control form-control-sm" value="">
+          <div class="mt-3 height">
+            <div class="row">
+              <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.financesEmail')}}</div>
+              <div class="col-6">
+                <input type="email" name="financesEmail" id="financesEmail" class="form-control form-control-sm" value="">
+              </div>
+            </div>
+            <div class="row mb-4">
+              <div class="col-6 offset-6">
+                <div class="invalid-feedback" id="financesEmailInvalidEmpty" style="display: none;">{{__('form.contactsEmailsValidationRequired')}}</div>
+                <div class="invalid-feedback" id="financesEmailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
+              </div>
             </div>
           </div>
-          <div class="row my-3">
-            <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.maxSizeFiles')}}</div>
-            <div class="col-6">
-              <input type="number" inputmode="numeric" name="maxSizeFiles" id="maxSizeFiles" class="form-control form-control-sm" value="">
+          <div class="mt-3 height">
+            <div class="row">
+              <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.maxSizeFiles')}}</div>
+              <div class="col-6">
+                <input type="text" name="maxSizeFiles" id="maxSizeFiles" class="form-control form-control-sm" value="">
+              </div>
+            </div>
+            <div class="row mb-4">
+              <div class="col-6 offset-6">
+                <div class="invalid-feedback" id="maxsizeFilesInvalidEmpty" style="display: none;">{{__('settings.maxsizeFilesInvalidEmpty')}}</div>
+                <div class="invalid-feedback" id="maxsizeFilesInvalidFormat" style="display: none;">{{__('settings.maxsizeFilesInvalidFormat')}}</div>
+              </div>
             </div>
           </div>
-          <div class="row my-3">
-            <div class="fs-5 col-6">{{__('settings.timeBeforeRevisionMonth')}}</div>
-            <div class="col-6 d-flex align-items-center">
-              <input type="number" inputmode="numeric" name="timeBeforeRevisionMonth" id="timeBeforeRevisionMonth" class="form-control form-control-sm" min="1" max="100">
+          <div class="mt-3 height">
+            <div class="row">
+              <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.timeBeforeRevisionMonth')}}</div>
+              <div class="col-6">
+                <input type="text" name="timeBeforeRevisionMonth" id="timeBeforeRevisionMonth" class="form-control form-control-sm" value="">        
+              </div>
+            </div>
+            <div class="row mb-4">
+              <div class="col-6 offset-6">
+                <div class="invalid-feedback" id="timeBeforeRevisionMonthInvalidEmpty" style="display: none;">{{__('settings.timeBeforeRevisionMonthInvalidEmpty')}}</div>
+                <div class="invalid-feedback" id="timeBeforeRevisionMonthInvalidFormat" style="display: none;">{{__('settings.timeBeforeRevisionMonthInvalidFormat')}}</div>
+              </div>
             </div>
           </div>
         </div>
-
-        <!-- Boutons -->
-        <div class="d-flex justify-content-end mb-5">
+        <div class="d-flex justify-content-end mb-3 mx-4">
           @php
           $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
           @endphp
@@ -194,10 +226,12 @@
 
 @section('scripts')
 <script src=" {{ asset('js/adminCenter/showSettings.js') }} "></script>
-<script src=" {{ asset('js/adminCenter/users/validation.js') }} "></script>
 <script src=" {{ asset('js/adminCenter/users/edit.js') }} "></script>
 <script src=" {{ asset('js/adminCenter/users/add.js') }} "></script>
 <script src=" {{ asset('js/adminCenter/users/delete.js') }} "></script>
 <script src=" {{ asset('js/adminCenter/users/save.js') }} "></script>
+<script src=" {{ asset('js/adminCenter/users/validation.js') }} "></script>
 <script src=" {{ asset('js/adminCenter/settings/edit.js') }} "></script>
+<script src=" {{ asset('js/adminCenter/settings/validation.js') }} "></script>
+<script src=" {{ asset('js/adminCenter/settings/save.js') }} "></script>
 @endsection
