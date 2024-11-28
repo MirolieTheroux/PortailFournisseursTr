@@ -107,7 +107,7 @@ class StatusHistoriesSeeder extends Seeder
             [
                 'id' => 12,
                 'status' => "toCheck",
-                'updated_by' => "système",
+                'updated_by' => "Système",
                 'refusal_reason' => null,
                 'supplier_id' => 4,
                 'created_at' => '2024-06-15 15:25:25'
