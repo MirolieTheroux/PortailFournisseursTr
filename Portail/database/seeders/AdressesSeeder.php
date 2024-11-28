@@ -63,12 +63,12 @@ class AdressesSeeder extends Seeder
         for ($i = 5; $i <= 50; $i++) {
             $postalCode = sprintf(
                 '%s%d%s%d%s%d',
-                $letters[array_rand($letters)], // Première lettre
-                $numbers[array_rand($numbers)], // Premier chiffre
-                $letters[array_rand($letters)], // Deuxième lettre
-                $numbers[array_rand($numbers)], // Deuxième chiffre
-                $letters[array_rand($letters)], // Troisième lettre
-                $numbers[array_rand($numbers)]  // Troisième chiffre
+                $letters[array_rand($letters)],
+                $numbers[array_rand($numbers)],
+                $letters[array_rand($letters)],
+                $numbers[array_rand($numbers)],
+                $letters[array_rand($letters)],
+                $numbers[array_rand($numbers)] 
             );
 
             $city;
