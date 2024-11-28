@@ -183,6 +183,9 @@
         <div class="row border-bottom border-2 border-dark mt-3">
           <h2 class="mb-0">{{__('settings.emailSettings')}}</h2>
         </div>
+        <div class="row mt-3">
+          
+        </div>
       </div><!--FIN COURRIEL-->
     </div>
   </div>
