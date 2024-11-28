@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('app_gestion_users', function (Blueprint $table) {
+        Schema::create('modification_deletions', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('role');
-            $table->rememberToken();
+            $table->string('deletion', 500)->nullable();
+            $table->foreignId('modification_id')->constrained('account_modifications');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('app_gestion_users');
+        Schema::dropIfExists('modification_deletions');
     }
 };

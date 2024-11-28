@@ -90,14 +90,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const newtelTypeInputA = newContact.querySelector('#'+telTypeInputA.getAttribute("id"));
     newtelTypeInputA.setAttribute("id", newtelTypeInputA.getAttribute("id").slice(0, -1) + contactNumber);
-    newtelTypeInputA.value = "desktop";
+    newtelTypeInputA.value = desktopString;
     const newtelTypeLabelA = newContact.querySelector('#'+telTypeLabelA.getAttribute("id"));
     newtelTypeLabelA.setAttribute("id", newtelTypeLabelA.getAttribute("id").slice(0, -1) + contactNumber);
     newtelTypeLabelA.setAttribute("for", newtelTypeInputA.getAttribute("id"));
 
     const newtelTypeInputB = newContact.querySelector('#'+telTypeInputB.getAttribute("id"));
     newtelTypeInputB.setAttribute("id", newtelTypeInputB.getAttribute("id").slice(0, -1) + contactNumber);
-    newtelTypeInputB.value = "desktop";
+    newtelTypeInputB.value = desktopString;
     const newtelTypeLabelB = newContact.querySelector('#'+telTypeLabelB.getAttribute("id"));
     newtelTypeLabelB.setAttribute("id", newtelTypeLabelB.getAttribute("id").slice(0, -1) + contactNumber);
     newtelTypeLabelB.setAttribute("for", newtelTypeInputB.getAttribute("id"));

@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('app_gestion_users', function (Blueprint $table) {
+        Schema::create('supplier_work_subcategory', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('role');
-            $table->rememberToken();
+            $table->foreignId('supplier_id')->constrained('suppliers');
+            $table->foreignId('work_subcategory_id')->constrained('work_subcategories');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('app_gestion_users');
+        Schema::dropIfExists('supplier_work_subcategory');
     }
 };

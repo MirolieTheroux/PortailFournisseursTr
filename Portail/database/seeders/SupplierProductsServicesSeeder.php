@@ -14,59 +14,85 @@ class SupplierProductsServicesSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('supplier_products_services')->insert([
-            [
-                'supplier_id' => 1,
-                'products_services_code' => "10000000",
-            ],
-            [
-                'supplier_id' => 1,
-                'products_services_code' => "10100000",
-            ],
-            [
-                'supplier_id' => 1,
-                'products_services_code' => "10101500",
-            ],
-            [
-                'supplier_id' => 1,
-                'products_services_code' => "10101501",
-            ],
-            [
-                'supplier_id' => 1,
-                'products_services_code' => "10101502",
-            ],
-            [
-                'supplier_id' => 1,
-                'products_services_code' => "10101504",
-            ],
-            [
-                'supplier_id' => 2,
-                'products_services_code' => "10000000",
-            ],
-            [
-                'supplier_id' => 2,
-                'products_services_code' => "10100000",
-            ],
-            [
-                'supplier_id' => 2,
-                'products_services_code' => "10101500",
-            ],
-            [
-                'supplier_id' => 3,
-                'products_services_code' => "10101500",
-            ],
-            [
-                'supplier_id' => 3,
-                'products_services_code' => "10101600",
-            ],
-            [
-                'supplier_id' => 3,
-                'products_services_code' => "10101601",
-            ],
-            [
-                'supplier_id' => 4,
-                'products_services_code' => "10151803",
-            ],
-        ]);
+        $suppliersPS = [];
+
+        $suppliersPS[] = [
+            'supplier_id' => 1,
+            'products_services_code' => "10000000",
+        ];
+        $suppliersPS[] = [
+            'supplier_id' => 1,
+            'products_services_code' => "10100000",
+        ];
+        $suppliersPS[] = [
+            'supplier_id' => 1,
+            'products_services_code' => "10101500",
+        ];
+        $suppliersPS[] = [
+            'supplier_id' => 1,
+            'products_services_code' => "10101501",
+        ];
+        $suppliersPS[] = [
+            'supplier_id' => 1,
+            'products_services_code' => "10101502",
+        ];
+        $suppliersPS[] = [
+            'supplier_id' => 1,
+            'products_services_code' => "10101504",
+        ];
+        $suppliersPS[] = [
+            'supplier_id' => 2,
+            'products_services_code' => "10000000",
+        ];
+        $suppliersPS[] = [
+            'supplier_id' => 2,
+            'products_services_code' => "10100000",
+        ];
+        $suppliersPS[] = [
+            'supplier_id' => 2,
+            'products_services_code' => "10101500",
+        ];
+        $suppliersPS[] = [
+            'supplier_id' => 3,
+            'products_services_code' => "10101500",
+        ];
+        $suppliersPS[] = [
+            'supplier_id' => 3,
+            'products_services_code' => "10101600",
+        ];
+        $suppliersPS[] = [
+            'supplier_id' => 3,
+            'products_services_code' => "10101601",
+        ];
+        $suppliersPS[] = [
+            'supplier_id' => 4,
+            'products_services_code' => "10151803",
+        ];
+
+        $codes = [
+            "10000000",
+            "10100000",
+            "10101500",
+            "10101501",
+            "10101502",
+            "10101504",
+            "10101600",
+            "10101601",
+            "10151803",
+        ];
+
+        for ($i = 5; $i <= 50; $i++) {
+            $psNumber = rand(1,9);
+
+            for($j = 0 ; $j < $psNumber ; $j++){
+                $suppliersPS[] = [
+                    'supplier_id' => $i,
+                    'products_services_code' => $codes[$j],
+                ];
+            }
+
+        }
+
+        DB::table('supplier_products_services')->insert($suppliersPS);
     }
 }

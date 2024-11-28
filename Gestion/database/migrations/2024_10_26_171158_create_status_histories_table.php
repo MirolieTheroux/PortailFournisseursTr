@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('app_gestion_users', function (Blueprint $table) {
+        Schema::create('status_histories', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('role');
-            $table->rememberToken();
+            $table->string('status', 11);
+            $table->string('updated_by', 64);
+            $table->longText('refusal_reason')->nullable();
+            $table->boolean('deactivated_by_admin')->nullable();
+            $table->foreignId('supplier_id')->constrained('suppliers');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('app_gestion_users');
+        Schema::dropIfExists('status_histories');
     }
 };

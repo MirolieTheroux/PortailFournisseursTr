@@ -75,8 +75,13 @@ class SuppliersController extends Controller
         $query->select('code', 'supplier_id');
       },
     ])
-    ->whereHas('latestNonModifiedStatus', function ($query) {
-      $query->where('status', '!=', 'deactivated');
+    ->whereNotIn('id', function ($query) {
+      $query->select('supplier_id')
+            ->from('status_histories')
+            ->whereRaw('created_at = (SELECT MAX(created_at)
+                                      FROM status_histories
+                                      WHERE supplier_id = suppliers.id
+                                        AND status = "deactivated")');;
     })
     ->withCount([
       'productsServices as productsServicesCount' => function ($query) use ($productsServices) {
@@ -90,10 +95,10 @@ class SuppliersController extends Controller
     ])
     ->paginate(self::SUPPLIER_FETCH_LIMIT);
 
+    Log::debug($suppliers);
 
     $waitingSuppliersCount = Supplier::whereHas('statusHistories', function ($query) {
-      $query->where('status', '!=', 'modified')
-            ->where('status', 'waiting')
+      $query->where('status', 'waiting')
             ->whereRaw('created_at = (SELECT MAX(created_at)
                                       FROM status_histories
                                       WHERE supplier_id = suppliers.id
@@ -188,8 +193,7 @@ class SuppliersController extends Controller
 
       if($request->filled('status') && is_array($request->input('status'))){
         $suppliersQuery->whereHas('statusHistories', function ($query) use ($request) {
-          $query->where('status', '!=', 'modified')
-                ->whereIn('status', $request->status)
+          $query->whereIn('status', $request->status)
                 ->whereRaw('created_at = (SELECT MAX(created_at) 
                                           FROM status_histories 
                                           WHERE supplier_id = suppliers.id 
@@ -197,8 +201,13 @@ class SuppliersController extends Controller
         });
       }
       else{
-        $suppliersQuery->whereHas('latestNonModifiedStatus', function ($query) {
-          $query->where('status', '!=', 'deactivated');
+        $suppliersQuery->whereNotIn('id', function ($query) {
+          $query->select('supplier_id')
+                ->from('status_histories')
+                ->whereRaw('created_at = (SELECT MAX(created_at)
+                                          FROM status_histories
+                                          WHERE supplier_id = suppliers.id
+                                            AND status = "deactivated")');;
         });
       }
 
@@ -229,8 +238,7 @@ class SuppliersController extends Controller
         },
       ])
       ->whereHas('statusHistories', function ($query) {
-        $query->where('status', '!=', 'modified')
-              ->where('status', 'waiting')
+        $query->where('status', 'waiting')
               ->whereRaw('created_at = (SELECT MAX(created_at) 
                                         FROM status_histories 
                                         WHERE supplier_id = suppliers.id 
@@ -421,6 +429,11 @@ class SuppliersController extends Controller
     $this->changeSupplierStatusWithReason($supplier, "denied", $request->deniedReason);
 
     $this->verifyStatusAndSendMail("denied", $supplier);
+
+    if($request->filled('includeDenialReason')){
+      //TODO::inclure la raison dans le courriel
+      Log::Debug('inclure la raison');
+    }
 
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.denialSuccess'));
   }

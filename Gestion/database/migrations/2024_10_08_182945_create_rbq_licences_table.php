@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('app_gestion_users', function (Blueprint $table) {
+        Schema::create('rbq_licences', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('role');
-            $table->rememberToken();
+            $table->string('number', 10);
+            $table->string('status', 32);
+            $table->string('type', 32);
+            $table->foreignId('supplier_id')->constrained('suppliers');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('app_gestion_users');
+        Schema::dropIfExists('rbq_licences');
     }
 };

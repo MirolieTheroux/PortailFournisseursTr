@@ -1032,6 +1032,7 @@
 <script>
   const oldCity = "{{ old('contactDetailsCitySelect') }}";
   const oldDistrictArea = "{{ old('contactDetailsDistrictArea') }}";
+  const desktopString = "@lang('form.officeNumber')";
 </script>
 <script src="{{ asset('js/suppliersCreate/createValidationIdentification.js') }}"></script>
 <script src="{{ asset('js/suppliersCreate/productsServices.js') }}"></script>
