@@ -228,6 +228,18 @@
                   <div class="invalid-feedback d-none" id="denialReasonRequiredError">{{__('show.denialReasonRequiredError')}}</div>
                 </div>
               </div>
+              <div class="align-items-center">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="includeDenialReason"
+                  value="includeDenialReason"
+                  id="includeDenialReason"
+                >
+                <label class="form-check-label text-start" for="includeDenialReason">
+                  {{__('show.includeDenialReasontoEmail')}}
+                </label>
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('global.cancel')}}</button>
