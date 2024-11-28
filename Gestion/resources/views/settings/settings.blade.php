@@ -148,7 +148,7 @@
                 <div >{{__('settings.approverEmail')}}</div>
               </div>
               <div class="col-6">
-                <input type="email" name="approverEmail" id="approverEmail" class="form-control form-control-sm" value="">
+                <input type="email" name="approverEmail" id="approverEmail" class="form-control form-control-sm" value="" maxlength="64">
               </div>
             </div> 
             <div class="row mb-3">
@@ -162,7 +162,7 @@
             <div class="row">
               <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.financesEmail')}}</div>
               <div class="col-6">
-                <input type="email" name="financesEmail" id="financesEmail" class="form-control form-control-sm" value="">
+                <input type="email" name="financesEmail" id="financesEmail" class="form-control form-control-sm" value="" maxlength="64">
               </div>
             </div>
             <div class="row mb-4">

@@ -26,14 +26,13 @@ function validateEmailInput(input, errorEmpty, errorFormat) {
 function validateNumericInput(input, errorEmpty, errorFormat){
   errorEmpty.style.display = 'none';
   errorFormat.style.display = 'none';
-  
   // Basic validation logic
   if (!input.value) {
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
     errorEmpty.style.display = 'block';
   }
-  else if (isNaN(input.value)) {
+  else if (!Number.isInteger(input.value)) {
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
     errorFormat.style.display = 'block';
