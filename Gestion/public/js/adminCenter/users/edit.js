@@ -19,11 +19,11 @@ let errorMessagesMax;
 let errorMessagesMin;
 
 document.addEventListener("DOMContentLoaded", function () {
-  getElements(); 
+  getElementsUsers(); 
   usersListeners();
 });
 
-function getElements(){
+function getElementsUsers(){
   btnAddUser = document.getElementById("btnAddUsers");
   btnCancelUser = document.getElementById("btnCancelUser");
   btnSaveUsers = document.getElementById("btnSaveUsers");
@@ -67,7 +67,7 @@ function usersListeners() {
   removeUser();
   btnAddUserModal.addEventListener("click", ()=>{
     addUser();
-    getElements();
+    getElementsUsers();
   });
 }
 

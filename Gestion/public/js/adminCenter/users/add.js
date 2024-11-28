@@ -91,7 +91,7 @@ function addUser() {
     `;
     divUser.appendChild(removeUserSvg);
     modalAddUser.hide();
-    getElements();
+    getElementsUsers();
     resetErrorMessagesRolesValid();
     //Fonction in /users/delete
     removeUser();
