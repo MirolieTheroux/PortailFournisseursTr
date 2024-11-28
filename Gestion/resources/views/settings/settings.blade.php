@@ -178,7 +178,6 @@ En fait, lorsque tu créer une nouvelle ligne, si l'erreur s'affiche sur une des
                 <option value="dbrouillette@vtr.net">dbrouillette@vtr.net</option>
                 <option value="scarle@vtr.net">scarle@vtr.net</option>
               </select>
-              <!-- <input type="text" name="financesEmail" id="financesEmail" class="form-control form-control-sm" value=""> -->
             </div>
           </div>
           <div class="row my-3">
