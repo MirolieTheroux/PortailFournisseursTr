@@ -29,6 +29,7 @@ use App\Models\AccountModification;
 use App\Models\ModificationCategory;
 use App\Models\ModificationDeletion;
 use App\Models\ModificationAddition;
+use App\Models\PasswordResetToken;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -72,7 +73,7 @@ class SuppliersController extends Controller
 
     if($reussi){
       $supplier = Auth::user();
-      return redirect()->route('suppliers.show')->with('message',"Connexion réussie");
+      return redirect()->route('suppliers.show')->with('message',__('login.loginSuccessful'));
     }
     else{
       return redirect()->route('suppliers.showLogin')->with('errorMessage',__('login.wrongCredentials'));
@@ -87,8 +88,73 @@ class SuppliersController extends Controller
   
       $request->session()->regenerateToken();
   
-      return redirect()->route('suppliers.showLogin')->with('message',"Déconnexion réussie");
+      return redirect()->route('suppliers.showLogin')->with('message',__('login.logoutSuccessful'));
   }  
+
+  
+
+  public function forgotPassword(Request $request)
+  {
+      $supplier = Supplier::where('neq', $request->identifiant)->first();
+
+      if (is_null($supplier)) {
+        $supplier = Supplier::where('email', $request->identifiant)->whereNull('neq')->first();
+      }
+
+      if (!is_null($supplier)){
+        Log::info("test" . $supplier->email);
+        $token = Str::random(64);
+        DB::table('password_resets')->insert([
+            'email' => $supplier->email,
+            'token' => $token,
+            'created_at' => now(),
+        ]);
+
+        $resetLink = route('password.reset', ['token' => $token]);
+
+        $mailsController = new MailsController();
+        $mailModel = EmailModel::where('name', 'SupplierResetPassword')->firstOrFail();
+        $mailsController->sendResetPasswordSupplierMail($supplier, $mailModel, $resetLink);
+      }
+      return redirect()->route('suppliers.showLogin')->with('message',__('login.linkSent'));
+  }
+
+  public function resetPasswordForm($token)
+  {
+    $resetToken = PasswordResetToken::where('token', $token)->first();
+    if($resetToken && now()->diffInMinutes($resetToken->created_at) >= -1){
+      return view('auth.password_reset', ['token' => $token]);
+    }
+    else{
+      if($resetToken)
+        PasswordResetToken::where('email', $resetToken->email)->delete();
+      return redirect()->route('suppliers.showLogin')->with('errorMessage',__('login.expiredLink'));
+      
+    }
+  }
+
+  public function resetPassword(Request $request)
+  {
+      $request->validate([
+          'token' => 'required',
+          'password' => [
+            'required',
+            Password::min(7)->max(12)->mixedCase()->numbers()->symbols(),
+            'confirmed',
+          ],
+          'password_confirmation' => 'required',
+      ]);
+
+      $resetData = DB::table('password_resets')->where('token', $request->token)->first();
+
+
+      $supplier = Supplier::where('email', $resetData->email)->first();
+      $supplier->update(['password' => Hash::make($request->password)]);
+
+      DB::table('password_resets')->where('email', $resetData->email)->delete();
+
+      return redirect()->route('suppliers.showLogin')->with('message',__('login.passwordResetSuccessful'));
+  }
 
     /**
      * Display a listing of the resource.
@@ -329,7 +395,7 @@ class SuppliersController extends Controller
       if($reussi){
         $user = Auth::user();
         $this->InscriptionSendMail($user);
-        return redirect()->route('suppliers.show')->with('message',"Demande d'inscription envoyée");
+        return redirect()->route('suppliers.show')->with('message',__('login.signinSuccessful'));
       }
     }
 
@@ -1174,62 +1240,5 @@ class SuppliersController extends Controller
                         })
                       ->exists();
     return response()->json(['exists' => $exists]);
-  }
-
-  public function forgotPassword(Request $request)
-  {
-      $supplier = Supplier::where('neq', $request->identifiant)->first();
-
-      if (is_null($supplier)) {
-        $supplier = Supplier::where('email', $request->identifiant)->whereNull('neq')->first();
-      }
-
-      if (!is_null($supplier)){
-        Log::info("test" . $supplier->email);
-        $token = Str::random(64);
-        DB::table('password_resets')->insert([
-            'email' => $supplier->email,
-            'token' => $token,
-            'created_at' => now(),
-        ]);
-
-        $resetLink = route('password.reset', ['token' => $token]);
-
-        $mailsController = new MailsController();
-        $mailModel = EmailModel::where('name', 'SupplierResetPassword')->firstOrFail();
-        $mailsController->sendResetPasswordSupplierMail($supplier, $mailModel, $resetLink);
-      }
-      return redirect()->route('suppliers.showLogin')->with('message',"Un courriel de réinitialisation a été envoyer à l'adresse courriel lié au compte.");
-  }
-
-  public function resetPasswordForm($token)
-  {
-      return view('auth.password_reset', ['token' => $token]);
-  }
-
-  public function resetPassword(Request $request)
-  {
-      $request->validate([
-          'token' => 'required',
-          'password' => [
-            'required',
-            Password::min(7)->max(12)->mixedCase()->numbers()->symbols(),
-            'confirmed',
-          ],
-          'password_confirmation' => 'required',
-      ]);
-
-      $resetData = DB::table('password_resets')->where('token', $request->token)->first();
-
-      if (!$resetData || now()->diffInMinutes($resetData->created_at) > 60) {
-          return redirect()->route('suppliers.showLogin')->with('error',"La demande est invalide ou expiré.");
-      }
-
-      $supplier = Supplier::where('email', $resetData->email)->first();
-      $supplier->update(['password' => Hash::make($request->password)]);
-
-      DB::table('password_resets')->where('email', $resetData->email)->delete();
-
-      return redirect()->route('suppliers.showLogin')->with('message',"Le mot de passe a été modifié avec succès.");
   }
 }
