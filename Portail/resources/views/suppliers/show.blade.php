@@ -207,8 +207,9 @@
               @foreach ($supplier->statusHistories as $statusHistory)
               <div class="d-flex flex-column flex-md-row justify-content-between pb-3">
                 <div class="d-flex flex-row justify-content-between w-100">
-                  <div class="d-block d-md-none px-3 fw-bold">{{__('show.dateAndTime')}} : </div>
-                  <div class="px-3">{{ $statusHistory->created_at }}</div>
+                  <div class="d-block d-md-none col-7 col-sm-6 px-3 fw-bold">{{__('show.dateAndTime')}} : </div>
+                  <div class="d-block d-sm-none px-3 text-end">{{ $statusHistory->created_at }}</div>
+                  <div class="d-none d-sm-block px-3 text-start">{{ $statusHistory->created_at }}</div>
                 </div>
                 
                 <div class="d-flex flex-row  justify-content-between justify-content-md-center w-100">

@@ -47,7 +47,7 @@ class SuppliersController extends Controller
   const SUPPLIER_FETCH_LIMIT = 100;
   const USING_FILESTREAM = false;
   const DAYS_BEFORE_TO_CHECK = 90;
-  const USING_CRON = false;
+  const USING_CRON = true;
 
   /**
    * Display a listing of the resource.
