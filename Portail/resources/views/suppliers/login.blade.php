@@ -64,7 +64,7 @@
           </div>
           <div class="row">
             <div class="col-12 d-flex justify-content-center text-center mb-3">
-              <a id="forgotPassword-link" class="singin-link login-unselected" href="">{{__('login.forgotPassword')}}</a>
+              <a id="forgotPassword-link" class="singin-link login-unselected" href="#forgotPassword">{{__('login.forgotPassword')}}</a>
             </div>
             <div class="col-12 d-flex justify-content-center text-center mb-3">
               <a class="singin-link" href="{{ route('suppliers.create') }}">{{__('login.signinLink')}}</a>
