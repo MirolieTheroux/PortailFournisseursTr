@@ -46,7 +46,7 @@ class SuppliersController extends Controller
 {
   const SUPPLIER_FETCH_LIMIT = 100;
   const USING_FILESTREAM = false;
-  const DAYS_BEFORE_TO_CHECK = 90;
+  const MONTHS_BEFORE_TO_CHECK = 3;
   const USING_CRON = true;
 
   /**
@@ -126,7 +126,7 @@ class SuppliersController extends Controller
       return $supplier->latestNonModifiedStatus->status == 'denied';
     });
     foreach ($suppliers as $supplier) {
-      if($supplier->latestNonModifiedStatus->created_at <= Carbon::now('America/Toronto')->subDays(self::DAYS_BEFORE_TO_CHECK)){
+      if($supplier->latestNonModifiedStatus->created_at <= Carbon::now('America/Toronto')->subMonths(self::MONTHS_BEFORE_TO_CHECK)){
         $this->changeStatusBySystem($supplier, "toCheck");
       }
     }
