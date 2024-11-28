@@ -106,7 +106,7 @@
           </div>
           <div class="container-fluid border-bottom border-dark mb-0">
             <div class="row">
-              <div class="col-1 p-0 d-flex justify-content-center align-items-end">
+              <div class="col-1 p-0 d-flex justify-content-start align-items-end">
                 <div class="text-start supplier-list-header-text">{{__('index.requestStatus')}}</div>
               </div>
               <div class="col-3 p-0 d-flex justify-content-start align-items-end">

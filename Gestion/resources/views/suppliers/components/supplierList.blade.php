@@ -3,7 +3,7 @@
   @csrf
     @foreach ($suppliers as $supplier)
       <div class="row supplier-table mx-0 py-1">
-        <div class="col-1 d-flex px-1">
+        <div class="col-1 d-flex align-items-center px-1 text-status-request">
           @switch($supplier->latestNonModifiedStatus->status)
             @case('accepted')
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#02542d" class="bi bi-check2-circle" viewBox="0 0 16 16">
@@ -49,18 +49,18 @@
               
           @endswitch
         </div>
-        <div class="col-3 text-center ps-2">
+        <div class="col-3 d-flex align-items-center ps-2">
           <div class="text-start supplier-list-table-text">{{$supplier->name}}</div>
         </div>
-        <div class="col-3 text-center ps-1">
+        <div class="col-3 d-flex align-items-center ps-1">
           <div class="text-start supplier-list-table-text">{{$supplier->address->city}}</div>
         </div>
-        <div class="col-2 text-center supplier-list-table-text">
+        <div class="col-2 d-flex align-items-center justify-content-center supplier-list-table-text">
           <div class="text-center">
             {{$supplier->productsServicesCount}}
           </div>
         </div>
-        <div class="col-2 text-center supplier-list-table-text">
+        <div class="col-2 d-flex align-items-center justify-content-center supplier-list-table-text">
           <div class="text-center">
             {{$supplier->workSubcategoriesCount}}
           </div>

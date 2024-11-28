@@ -13,16 +13,18 @@ body{
     top: var(--header_logo_height);
 }
 
-.supplier-list-header-text{
-    font-size: 0.88em;
-}
-
 .supplier-list-table-text{
+    font-size: 0.9em;
+}
+.text-status-request{
     font-size: 0.75em;
 }
 
 .supplier-table:nth-child(odd){
     background-color: white;
+}
+.supplier-table:hover{
+    background-color: #bdbdbd;
 }
 .supplier-table svg{
     min-width: 20px;
