@@ -1,9 +1,3 @@
-<!--//? NICE_TO_HAVE::Changer la couleur des contacts sélectionné? (peut-être rgb(200,200,200), j'ai l'impression que vert c'est agressif)-->
-<!--//? NICE_TO_HAVE::Lorsqu'un contact est sélectionné, changer le texte du bouton "contacté" pour "retirer"?-->
-<!--//? NICE_TO_HAVE::lorsqu'il n'y a plus de choix de numéro, mettre les flèches en d-none au lieu de gris?-->
-<!--//? NICE_TO_HAVE::Afficher le nombre de numéro total du contact (Ex: 3/90 numéros) un peu comme j'ai fait pour les produits services-->
-<!--//? NICE_TO_HAVE::Mettre un icône lorsque le contacté est actif pour les daltoniens (et autres)-->
-
 @extends('layouts.app')
 
 @section('title', __('selectedSuppliersList.selectedListTitle'))

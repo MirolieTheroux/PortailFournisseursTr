@@ -1,6 +1,3 @@
-<!--//? NICE_TO_HAVE::Mettre s'incrire plus visible-->
-<!--//? NICE_TO_HAVE:pour les boutons "j'ai un NEQ" et "je n'ai pas de NEQ", mettre le bouton sélectionné en blanc et le bouton non sélectionné en blanc avec des ombres (reculer)-->
-
 @extends('layouts.app')
 
 @section('title', __('global.login'))

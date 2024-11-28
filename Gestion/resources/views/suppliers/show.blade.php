@@ -1,15 +1,3 @@
-<!--//* NICE_TO_HAVE::(nice_to_have) lorsqu'on clique sur "modifier", ne pas afficher le bouton enregistrer si il n'y a pas de changement (sinon, je fais enregistrer et ça change la date sans modification)-->
-<!--//* NICE_TO_HAVE::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
-<!--//* NICE_TO_HAVE::Potentiel nice to have, est-ce qu'on veut laisser le invalid si la personne quitte le modal de refus et reviens après ? Même chose pour le reste de la fiche-->
-<!--//* NICE_TO_HAVE::
-- Est ce qu'on met un message quand il l'utilisateur enregistre, mais qu'il n'y a pas de modification de détectée ?
-- Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
--->
-<!--//* NICE_TO_HAVE::
-- Mettre texte et curseur du textarea pour la raison du refus au début.
-- Mettre les statuts égaux 
--->
-
 @extends('layouts.app')
 
 @section('css')
@@ -17,9 +5,7 @@
 @endsection
 
 @section('title', 'Gestion - ' . $supplier->name)
-<!--//* NICE_TO_HAVE
-  - Quand on arrive sur la fiche fournisseur mettre le statut demande sélectionné sur le côté.
--->
+
 @section('content')
 <div class="container-fluid h-100">
   <div class="row h-100">
