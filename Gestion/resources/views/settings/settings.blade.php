@@ -193,8 +193,7 @@ En fait, lorsque tu créer une nouvelle ligne, si l'erreur s'affiche sur une des
           <div class="row my-3">
             <div class="fs-5 col-6">{{__('settings.timeBeforeRevisionMonth')}}</div>
             <div class="col-6 d-flex align-items-center">
-              <input type="range" name="timeBeforeRevisionMonth" id="timeBeforeRevisionMonth" class="form-control-range w-90" min="1" max="100">
-              <span class="ms-4 fs-5" id="rangeValueMonths">0</span>
+              <input type="number" inputmode="numeric" name="timeBeforeRevisionMonth" id="timeBeforeRevisionMonth" class="form-control form-control-sm" min="1" max="100">
             </div>
           </div>
         </div>
