@@ -430,6 +430,11 @@ class SuppliersController extends Controller
 
     $this->verifyStatusAndSendMail("denied", $supplier);
 
+    if($request->filled('includeDenialReason')){
+      //TODO::inclure la raison dans le courriel
+      Log::Debug('inclure la raison');
+    }
+
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.denialSuccess'));
   }
 

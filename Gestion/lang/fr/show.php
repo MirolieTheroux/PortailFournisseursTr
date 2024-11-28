@@ -29,6 +29,7 @@ return [
     'denialSuccess' => 'Le fournisseur a été refusé avec succès',
     'denialReasonRequiredError' => 'La raison du refus est requise.',
     'noProductOrService' => 'Aucun produit ou service',
+    'includeDenialReasontoEmail' => 'Inclure la raison du refus au courriel',
 
     'successUpdateStatus' => 'L\'état de la demande a été mis à jour.',
     'successUpdateIdentification' => 'L\'identification a été mise à jour.',
