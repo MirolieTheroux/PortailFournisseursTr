@@ -145,66 +145,69 @@ En fait, lorsque tu créer une nouvelle ligne, si l'erreur s'affiche sur une des
         </div>
       </div> <!-- END MODAL ADD USER--> <!--FIN USERS SETTINGS-->
       <!-- PARAMÈTRES -->
-      <div class="show-section d-none h-100" id="settings-section">
-        <form class="h-100" method="POST" action="{{route('users.updateUser')}}" enctype="multipart/form-data">
-          @csrf
-          @method('PATCH')
-          <div class="row border-bottom border-2 border-dark mt-3">
-            <h2 class="mb-0">{{__('settings.settingsManagement')}}</h2>
-          </div>
-          <div class="d-flex flex-row mt-3 d-none">
-            <div class="col-6 pe-2">
-              <div class="form-floating">
-                <input type="text" name="approverEmail" id="approverEmail" class="form-control" value="" placeholder="">
-                <label for="approverEmail">{{__('settings.approverEmail')}}</label>
-              </div>
-              <div class="form-floating mt-3">
-                <input type="text" name="timeBeforeRevisionMonth" id="timeBeforeRevisionMonth" class="form-control" value="" placeholder="">
-                <label for="timeBeforeRevisionMonth">{{__('settings.timeBeforeRevisionMonth')}}</label>
-              </div>
-            </div>
-            <div class="col-6 pe-2">
-              <div class="form-floating">
-                <input type="text" name="financesEmail" id="financesEmail" class="form-control" value="" placeholder="">
-                <label for="financesEmail">{{__('settings.financesEmail')}}</label>
-              </div>
-              <div class="form-floating mt-3">
-                <input type="text" name="maxSizeFiles" id="maxSizeFiles" class="form-control" value="" placeholder="">
-                <label for="maxSizeFiles">{{__('settings.maxSizeFiles')}}</label>
-              </div>
+      <form class="show-section d-none h-100 d-flex flex-column" id="settings-section" method="POST" action="{{route('users.updateUser')}}" enctype="multipart/form-data">
+        @csrf
+        @method('PATCH')
+
+        <h2 class="mb-0 row border-bottom border-2 border-dark mt-3">{{__('settings.settingsManagement')}}</h2>
+
+        <!-- Contenu principal du formulaire -->
+        <div class="flex-grow-1">
+          <div class="row my-3">
+            <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.approverEmail')}}</div>
+            <div class="col-6">
+            <select name="financeEmail" id="financeEmail" class="form-select" aria-label="">
+              <option value="rdowneyjr@vtr.net">rdowneyjr@vtr.net</option>
+              <option value="cwaltz@vtr.net">cwaltz@vtr.net</option>
+              <option value="nfleurent@vtr.net">nfleurent@vtr.net</option>
+              <option value="mtheroux@vtr.net">mtheroux@vtr.net</option>
+              <option value="jfaucher@vtr.net">jfaucher@vtr.net</option>
+              <option value="fjacob@vtr.net">fjacob@vtr.net</option>
+              <option value="dbrouillette@vtr.net">dbrouillette@vtr.net</option>
+              <option value="scarle@vtr.net">scarle@vtr.net</option>
+            </select>
             </div>
           </div>
-          <div class="d-flex flex-row mt-3">
-            <div class="col-6 pe-2">
-              <div class="form-floating">
-                <input type="text" name="approverEmail" id="approverEmail" class="form-control" value="" placeholder="">
-                <label for="approverEmail">{{__('settings.approverEmail')}}</label>
-              </div>
-              <div class="form-floating mt-3">
-                <input type="text" name="timeBeforeRevisionMonth" id="timeBeforeRevisionMonth" class="form-control" value="" placeholder="">
-                <label for="timeBeforeRevisionMonth">{{__('settings.timeBeforeRevisionMonth')}}</label>
-              </div>
-            </div>
-            <div class="col-6 pe-2">
-              <div class="form-floating">
-                <input type="text" name="financesEmail" id="financesEmail" class="form-control" value="" placeholder="">
-                <label for="financesEmail">{{__('settings.financesEmail')}}</label>
-              </div>
-              <div class="form-floating mt-3">
-                <input type="text" name="maxSizeFiles" id="maxSizeFiles" class="form-control" value="" placeholder="">
-                <label for="maxSizeFiles">{{__('settings.maxSizeFiles')}}</label>
-              </div>
+          <div class="row my-3">
+            <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.financesEmail')}}</div>
+            <div class="col-6">
+              <select name="approverEmail" id="approverEmail" class="form-select" aria-label="">
+                <option value="rdowneyjr@vtr.net">rdowneyjr@vtr.net</option>
+                <option value="cwaltz@vtr.net">cwaltz@vtr.net</option>
+                <option value="nfleurent@vtr.net">nfleurent@vtr.net</option>
+                <option value="mtheroux@vtr.net">mtheroux@vtr.net</option>
+                <option value="jfaucher@vtr.net">jfaucher@vtr.net</option>
+                <option value="fjacob@vtr.net">fjacob@vtr.net</option>
+                <option value="dbrouillette@vtr.net">dbrouillette@vtr.net</option>
+                <option value="scarle@vtr.net">scarle@vtr.net</option>
+              </select>
+              <!-- <input type="text" name="financesEmail" id="financesEmail" class="form-control form-control-sm" value=""> -->
             </div>
           </div>
-          <div class="d-flex justify-content-end align-items-end">
-            @php
-            $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
-            @endphp
-            <a id="btnCancelSettings" href="{{ route('users.settings', ['refresh' => $refreshCount]) }}#settings-section" class="m-2 py-1 px-3 rounded previous-button">{{__('global.cancel')}}</a>
-            <button id="btnSaveSettings" type="submit" class="m-2 py-1 px-3 rounded button-darkblue ">{{__('global.save')}}</button>
+          <div class="row my-3">
+            <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.maxSizeFiles')}}</div>
+            <div class="col-6">
+              <input type="number" inputmode="numeric" name="maxSizeFiles" id="maxSizeFiles" class="form-control form-control-sm" value="">
+            </div>
           </div>
-        </form>
-      </div><!--FIN PARAMÈTRES-->
+          <div class="row my-3">
+            <div class="fs-5 col-6">{{__('settings.timeBeforeRevisionMonth')}}</div>
+            <div class="col-6 d-flex align-items-center">
+              <input type="number" inputmode="numeric" name="timeBeforeRevisionMonth" id="timeBeforeRevisionMonth" class="form-control form-control-sm" min="1" max="100">
+            </div>
+          </div>
+        </div>
+
+        <!-- Boutons -->
+        <div class="d-flex justify-content-end mb-5">
+          @php
+          $refreshCount = request('refresh') ? request('refresh') + 1 : 1;
+          @endphp
+          <a id="btnCancelSettings" href="{{ route('users.settings', ['refresh' => $refreshCount]) }}#settings-section" class="m-2 py-1 px-3 rounded previous-button">{{__('global.cancel')}}</a>
+          <button id="btnSaveSettings" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button>
+        </div>
+      </form>
+
       <!-- COURRIELS -->
       <div class="h-100 show-section d-none" id="emails-section">
         <div class="row border-bottom border-2 border-dark mt-3">
@@ -223,4 +226,5 @@ En fait, lorsque tu créer une nouvelle ligne, si l'erreur s'affiche sur une des
 <script src=" {{ asset('js/adminCenter/users/add.js') }} "></script>
 <script src=" {{ asset('js/adminCenter/users/delete.js') }} "></script>
 <script src=" {{ asset('js/adminCenter/users/save.js') }} "></script>
+<script src=" {{ asset('js/adminCenter/settings/edit.js') }} "></script>
 @endsection
