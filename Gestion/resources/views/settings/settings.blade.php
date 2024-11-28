@@ -1,11 +1,3 @@
-<!--REMARQUES::
-Lorsque j'enleve un admin, j'ai l'erreur qui s'affiche. Ensuite, lorsque j'ajoute un user en le mettant directement admin, l'erreur est encore là. 
-(Ça empêche pas de supprimer so c'est pas si grave)
--->
-<!--REMARQUES::
-En fait, lorsque tu créer une nouvelle ligne, si l'erreur s'affiche sur une des nouvelles lignes, ça elle ne disparait plus jamais a moins de rechanger le status.
--->
-
 @extends('layouts.app')
 
 @section('title', __('navbar.adminCenter'))
@@ -153,31 +145,13 @@ En fait, lorsque tu créer une nouvelle ligne, si l'erreur s'affiche sur une des
           <div class="row my-3">
             <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.approverEmail')}}</div>
             <div class="col-6">
-            <select name="financeEmail" id="financeEmail" class="form-select" aria-label="">
-              <option value="rdowneyjr@vtr.net">rdowneyjr@vtr.net</option>
-              <option value="cwaltz@vtr.net">cwaltz@vtr.net</option>
-              <option value="nfleurent@vtr.net">nfleurent@vtr.net</option>
-              <option value="mtheroux@vtr.net">mtheroux@vtr.net</option>
-              <option value="jfaucher@vtr.net">jfaucher@vtr.net</option>
-              <option value="fjacob@vtr.net">fjacob@vtr.net</option>
-              <option value="dbrouillette@vtr.net">dbrouillette@vtr.net</option>
-              <option value="scarle@vtr.net">scarle@vtr.net</option>
-            </select>
+            <input type="email" name="approverEmail" id="approverEmail" class="form-control form-control-sm" value="">
             </div>
           </div>
           <div class="row my-3">
             <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.financesEmail')}}</div>
             <div class="col-6">
-              <select name="approverEmail" id="approverEmail" class="form-select" aria-label="">
-                <option value="rdowneyjr@vtr.net">rdowneyjr@vtr.net</option>
-                <option value="cwaltz@vtr.net">cwaltz@vtr.net</option>
-                <option value="nfleurent@vtr.net">nfleurent@vtr.net</option>
-                <option value="mtheroux@vtr.net">mtheroux@vtr.net</option>
-                <option value="jfaucher@vtr.net">jfaucher@vtr.net</option>
-                <option value="fjacob@vtr.net">fjacob@vtr.net</option>
-                <option value="dbrouillette@vtr.net">dbrouillette@vtr.net</option>
-                <option value="scarle@vtr.net">scarle@vtr.net</option>
-              </select>
+            <input type="email" name="financesEmail" id="financesEmail" class="form-control form-control-sm" value="">
             </div>
           </div>
           <div class="row my-3">
