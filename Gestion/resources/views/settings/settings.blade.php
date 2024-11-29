@@ -183,12 +183,14 @@
         <div class="row border-bottom border-2 border-dark mt-3">
           <h2 class="mb-0">{{__('settings.emailSettings')}}</h2>
         </div>
-        <div class="col-5 text-center ps-1 selects">
-          <select name="test" id="test" class="form-select" aria-label="">
-            <option value="admin">{{__('settings.admin')}}</option>
-            <option value="responsable">{{__('settings.responsable')}}</option>
-            <option value="clerk">{{__('settings.clerk')}}</option>
-          </select>
+        <div class="row mt-3">
+          <div class="col-6 offset-3 text-center ps-1 selects">
+            <select name="test" id="test" class="form-select" aria-label="">
+              <option value="admin">{{__('settings.admin')}}</option>
+              <option value="responsable">{{__('settings.responsable')}}</option>
+              <option value="clerk">{{__('settings.clerk')}}</option>
+            </select>
+          </div>
         </div>
         <div class="row mt-3">
           @include('settings.mailModel')

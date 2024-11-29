@@ -34,7 +34,7 @@
                                                 <td align="left" style="font-size:0px;padding:0px 25px 0px 25px;padding-top:0px;padding-bottom:0px;word-break:break-word;">
                                                     <div style="font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
                                                         <p class="text-build-content" style="line-height: 24px; text-align: center; margin: 10px 0; margin-top: 5px;">
-                                                            <span style="color:#ffffff;font-family:Arial;font-size: min(6vw, 32px);">
+                                                            <span style="color:#ffffff;font-family:Arial;font-size: 24pt;">
                                                                 <b>Titre</b>
                                                             </span>
                                                         </p>
@@ -69,9 +69,9 @@
                                             <!--if ($mailModel->description)-->
                                                 <tr>
                                                     <td align="left" style="font-size:0px;padding:10px 25px;padding-top:0px;padding-bottom:10px;word-break:break-word;">
-                                                        <div style="font-family:Arial, sans-serif;font-size:13px;letter-spacing:normal;line-height:1;text-align:left;color:#000000;">
+                                                        <div style="font-family:Arial, sans-serif;letter-spacing:normal;line-height:1;text-align:left;color:#000000;">
                                                             <p class="text-build-content" style="text-align: center; margin: 10px 0; margin-top: 10px;">
-                                                                <span style="color:#ffffff;">Description</span>
+                                                                <span style="color:#ffffff;font-size:10pt;">Description</span>
                                                             </p>
                                                         </div>
                                                     </td>
@@ -99,7 +99,7 @@
                                                 <td align="left" style="background:#FFFFFF;font-size:0px;padding:20px 25px 10px 25px;padding-top:10px;padding-bottom:10px;word-break:break-word;">
                                                     <div style="font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
                                                         <p class="text-build-content" style="line-height: 32px; text-align: center; margin: 10px 0; margin-top: 10px; margin-bottom: 10px;">
-                                                            <span style="color:#5e6977;font-family:Arial;font-size:26px;">
+                                                            <span style="color:#5e6977;font-family:Arial;font-size:20pt;">
                                                                 <b>Sous Titre</b>
                                                             </span>
                                                         </p>
@@ -159,7 +159,7 @@
                                                 <div style="font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
                                                     <p class="text-build-content" style="text-align: center; margin: 10px 0; margin-top: 10px;">
                                                         <span
-                                                            style="font-family:Arial;font-size:24px;line-height:22px;">
+                                                            style="font-family:Arial;font-size:18pt;line-height:22px;">
                                                             <!--if ($mailModel->name === 'ResponsableToCheck' | $mailModel->name === 'ResponsableInscriptionNotification')
                                                                 <b style="color:#0076D5;">{{ $user->neq }}
                                                                 <br><br>
@@ -182,7 +182,7 @@
                                                     </p>
                                                     <!--if ($mailModel->message)-->
                                                         <p class="text-build-content" style="text-align: center; margin: 0px 0; margin-bottom: 0px; padding-top: 10px;">
-                                                            <span style="color:#5e6977;font-family:Arial;font-size:14px;line-height:22px;">Message</span>
+                                                            <span style="color:#5e6977;font-family:Arial;font-size:10pt;line-height:22px;">Message</span>
                                                         </p>
                                                     <!--endif-->
                                                 </div>

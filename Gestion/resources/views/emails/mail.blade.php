@@ -34,7 +34,7 @@
                                                 <td align="left" style="font-size:0px;padding:0px 25px 0px 25px;padding-top:0px;padding-bottom:0px;word-break:break-word;">
                                                     <div style="font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
                                                         <p class="text-build-content" style="line-height: 24px; text-align: center; margin: 10px 0; margin-top: 5px;">
-                                                            <span style="color:#ffffff;font-family:Arial;font-size: min(6vw, 32px);">
+                                                            <span style="color:#ffffff;font-family:Arial;font-size: 24pt;">
                                                                 <b>{{ $mailModel->title }}</b>
                                                             </span>
                                                         </p>
