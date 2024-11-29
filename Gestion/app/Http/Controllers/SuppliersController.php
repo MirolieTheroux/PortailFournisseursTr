@@ -110,7 +110,15 @@ class SuppliersController extends Controller
 
   public function selectedList(Request $request){
     if($request->filled('suppliers') && is_array($request->suppliers)){
-      $suppliers = Supplier::whereIn('id', $request->suppliers)->get();
+      $suppliers = Supplier::select('id', 'name', 'email')
+                            ->with([
+                              'phoneNumbers',
+                              'contacts' => function ($query) {
+                                $query->with('phoneNumbers');
+                              },
+                            ])
+                            ->whereIn('id', $request->suppliers)
+                            ->get();
       return View('suppliers.selectedList', compact('suppliers'));
     }
     else{
