@@ -27,6 +27,10 @@ function showSettingsSection(id){
 }
 
 function navigationMenu(){
+  const sectionFromUrl = window.location.hash.substring(1);
+  if (sectionFromUrl) {
+    showSettingsSection(sectionFromUrl);  
+  }
   for (let i = 0; i < divsMenuSettings.length; i++) {
     divsMenuSettings[i].addEventListener("click", () =>{
       if(lastClickedDiv){

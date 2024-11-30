@@ -30,4 +30,5 @@ return [
     'maxsizeFilesInvalidFormat' => 'La taille maximale doit être en chiffre seulement.',
     'timeBeforeRevisionMonthInvalidEmpty' => 'Le délai avant la révision est requis.',
     'timeBeforeRevisionMonthInvalidFormat' => 'Le délai doit être en chiffre seulement.',
+    'successUpdateSettings' => 'Les paramètres ont été modifiés.',
 ];

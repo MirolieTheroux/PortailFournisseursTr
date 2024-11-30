@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\facades\Auth;
@@ -43,7 +44,8 @@ class UsersController extends Controller
   public function show()
   {
     $users = User::all();
-    return View('settings.settings',compact('users'));
+    $settings = Setting::first();
+    return View('settings.settings',compact('users', 'settings'));
   }
 
   public function updateUser(UserUpdateRequest $request)

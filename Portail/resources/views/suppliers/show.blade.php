@@ -183,12 +183,8 @@
 
     <div class="col-12 col-lg-9 col-xl-10 h-100 px-0 py-0 pb-md-5 pb-xl-0">
       <!--ETAT DEMANDE-->
-      <!--//TODO::
-        - Afficher dans le popover les modifications quand la BD sera faite.
-      -->
       <!--//* NICE_TO_HAVE::
         - Mettre texte et curseur du textarea pour la raison du refus au début.
-        - Mettre les statuts égaux 
       -->
       <!-- Modal for History -->
       <div class="modal fade" id="modalHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="statusHistory" aria-hidden="true">
@@ -1212,7 +1208,7 @@
                 </div>
               </div>
               <div class="text-end inline-block" id="filesSize">
-                <p class="mb-0" id="totalSize">/75Mo</p>
+                <p class="mb-0" id="totalSize">/<span id="maxSizeFiles">{{ $settings->file_max_size }}</span>mo</p>
               </div>
             </div>
             <div class="row">

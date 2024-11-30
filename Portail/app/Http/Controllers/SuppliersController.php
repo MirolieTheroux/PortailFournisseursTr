@@ -30,6 +30,7 @@ use App\Models\ModificationCategory;
 use App\Models\ModificationDeletion;
 use App\Models\ModificationAddition;
 use App\Models\PasswordResetToken;
+use App\Models\Setting;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -82,41 +83,41 @@ class SuppliersController extends Controller
 
   public function logout(Request $request)
   {
-      Auth::logout();
-  
-      $request->session()->invalidate();
-  
-      $request->session()->regenerateToken();
-  
-      return redirect()->route('suppliers.showLogin')->with('message',__('login.logoutSuccessful'));
+    Auth::logout();
+
+    $request->session()->invalidate();
+
+    $request->session()->regenerateToken();
+
+    return redirect()->route('suppliers.showLogin')->with('message',__('login.logoutSuccessful'));
   }  
 
   
 
   public function forgotPassword(Request $request)
   {
-      $supplier = Supplier::where('neq', $request->identifiant)->first();
+    $supplier = Supplier::where('neq', $request->identifiant)->first();
 
-      if (is_null($supplier)) {
-        $supplier = Supplier::where('email', $request->identifiant)->whereNull('neq')->first();
-      }
+    if (is_null($supplier)) {
+      $supplier = Supplier::where('email', $request->identifiant)->whereNull('neq')->first();
+    }
 
-      if (!is_null($supplier)){
-        Log::info("test" . $supplier->email);
-        $token = Str::random(64);
-        DB::table('password_resets')->insert([
-            'email' => $supplier->email,
-            'token' => $token,
-            'created_at' => now(),
-        ]);
+    if (!is_null($supplier)){
+      Log::info("test" . $supplier->email);
+      $token = Str::random(64);
+      DB::table('password_resets')->insert([
+          'email' => $supplier->email,
+          'token' => $token,
+          'created_at' => now(),
+      ]);
 
-        $resetLink = route('password.reset', ['token' => $token]);
+      $resetLink = route('password.reset', ['token' => $token]);
 
-        $mailsController = new MailsController();
-        $mailModel = EmailModel::where('name', 'SupplierResetPassword')->firstOrFail();
-        $mailsController->sendResetPasswordSupplierMail($supplier, $mailModel, $resetLink);
-      }
-      return redirect()->route('suppliers.showLogin')->with('message',__('login.linkSent'));
+      $mailsController = new MailsController();
+      $mailModel = EmailModel::where('name', 'SupplierResetPassword')->firstOrFail();
+      $mailsController->sendResetPasswordSupplierMail($supplier, $mailModel, $resetLink);
+    }
+    return redirect()->route('suppliers.showLogin')->with('message',__('login.linkSent'));
   }
 
   public function resetPasswordForm($token)
@@ -135,51 +136,41 @@ class SuppliersController extends Controller
 
   public function resetPassword(Request $request)
   {
-      $request->validate([
-          'token' => 'required',
-          'password' => [
-            'required',
-            Password::min(7)->max(12)->mixedCase()->numbers()->symbols(),
-            'confirmed',
-          ],
-          'password_confirmation' => 'required',
-      ]);
+    $request->validate([
+      'token' => 'required',
+      'password' => [
+        'required',
+        Password::min(7)->max(12)->mixedCase()->numbers()->symbols(),
+        'confirmed',
+      ],
+      'password_confirmation' => 'required',
+    ]);
 
-      $resetData = DB::table('password_resets')->where('token', $request->token)->first();
+    $resetData = DB::table('password_resets')->where('token', $request->token)->first();
 
 
-      $supplier = Supplier::where('email', $resetData->email)->first();
-      $supplier->update(['password' => Hash::make($request->password)]);
+    $supplier = Supplier::where('email', $resetData->email)->first();
+    $supplier->update(['password' => Hash::make($request->password)]);
 
-      DB::table('password_resets')->where('email', $resetData->email)->delete();
+    DB::table('password_resets')->where('email', $resetData->email)->delete();
 
-      return redirect()->route('suppliers.showLogin')->with('message',__('login.passwordResetSuccessful'));
+    return redirect()->route('suppliers.showLogin')->with('message',__('login.passwordResetSuccessful'));
   }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $workSubcategories = WorkSubcategory::orderByRaw('
-          CAST(SUBSTRING_INDEX(code, ".", 1) AS UNSIGNED),
-          CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(code, ".0"), ".", 2), ".", -1) AS UNSIGNED),
-          CAST(SUBSTRING_INDEX(CONCAT(code, ".0.0"), ".", -1) AS UNSIGNED)
-        ')->get();
-        $provinces = Province::all();
-        $productServices = ProductService::all();
-        $productServiceSubCategories = ProductServiceCategory::all();
-        $productServiceCategories = ProductServiceCategory::select('nature')->groupBy('nature')->orderBy('nature')->get();
-
-        return View('suppliers.create', compact('workSubcategories','provinces', 'productServices', 'productServiceSubCategories', 'productServiceCategories'));
+      $workSubcategories = WorkSubcategory::orderByRaw('
+        CAST(SUBSTRING_INDEX(code, ".", 1) AS UNSIGNED),
+        CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(code, ".0"), ".", 2), ".", -1) AS UNSIGNED),
+        CAST(SUBSTRING_INDEX(CONCAT(code, ".0.0"), ".", -1) AS UNSIGNED)
+      ')->get();
+      $provinces = Province::all();
+      $productServices = ProductService::all();
+      $productServiceSubCategories = ProductServiceCategory::all();
+      $productServiceCategories = ProductServiceCategory::select('nature')->groupBy('nature')->orderBy('nature')->get();
+      $settings = Setting::first();
+      return View('suppliers.create', compact('workSubcategories','provinces', 'productServices', 'productServiceSubCategories', 'productServiceCategories', 'settings'));
     }
 
     public function search(Request $request)
@@ -477,10 +468,12 @@ class SuppliersController extends Controller
         $postalCode = $supplier->address->postal_code;
         $formattedPostalCode = substr($postalCode, 0, 3) . ' ' . substr($postalCode, 3);
 
+        $settings = Setting::first();
+
         return View('suppliers.show', 
         compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails',
         'formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories',
-        'provinces','formattedPostalCode', 'modificationCategories'));
+        'provinces','formattedPostalCode', 'modificationCategories','settings'));
       }
       else
         return redirect()->route('suppliers.showLogin')->with('errorMessage',__('login.notConnected'));

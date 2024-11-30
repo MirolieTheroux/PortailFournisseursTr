@@ -7,6 +7,7 @@ let removeAttachements;
 let totalSizeUpdate;
 let fileSizeUpdate;
 let tempTotalSize = 0;
+let maxSizeFiles;
 
 document.addEventListener("DOMContentLoaded", function () {
   getAttachmentsSectionElements();
@@ -17,13 +18,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function getAttachmentsSectionElements() {
   attachmentsContainer = document.getElementById("attachments-section");
-  addAttachmentsContainer = document.getElementById("addAttachmentsContainer");
+  addAttachementsContainer = document.getElementById("addAttachmentsContainer");
   btnCancelAttachments = document.getElementById("btnCancelAttachmentFiles");
   btnEditAttachments = document.getElementById("btnEditAttachmentFiles");
   btnSaveAttachments = document.getElementById("btnSaveAttachmentFiles");
   removeAttachements = attachmentsContainer.querySelectorAll(".removeAttachment");
   totalSizeUpdate = document.getElementById("totalSize")
   fileSizeUpdate = attachmentsContainer.querySelectorAll(".fileSize");
+  maxSizeFiles = document.getElementById("maxSizeFiles")
+  //console.log(maxSizeFiles.textContent);
 }
 
 function addAttacmentsSectionListeners() {
@@ -31,7 +34,7 @@ function addAttacmentsSectionListeners() {
 }
 
 function enableAttacmentsSectionEdit() {
-  addAttachmentsContainer.classList.remove("d-none");
+  addAttachementsContainer.classList.remove("d-none");
   btnCancelAttachments.classList.remove("d-none");
   btnSaveAttachments.classList.remove("d-none");
   btnEditAttachments.classList.add("d-none");
@@ -48,9 +51,9 @@ function removeFiles(){
         const fileSizeDiv = divAttachment.querySelector(".fileSize");
         const fileSize = parseFloat(fileSizeDiv.textContent);
         divAttachment.remove();
-        tempTotalSize -= fileSize;
-        totalSizeUpdate.textContent = tempTotalSize + "/75mo";
-
+        tempTotalSize -= fileSize; 
+        totalSizeUpdate.textContent = tempTotalSize + "/" + maxSizeFiles.textContent + "mo";
+       
         //Variable from /js/suppliersCreate/attachmentFiles.js
         totalSizeMo = tempTotalSize;
       }
@@ -62,8 +65,8 @@ function getTotalSizeFiles(){
   fileSizeUpdate.forEach(file => {
     tempTotalSize += parseInt(file.textContent);
   });
-  
-  totalSize.textContent = tempTotalSize + "/75mo";
+
+  totalSizeUpdate.textContent = tempTotalSize + "/" + maxSizeFiles.textContent + "mo";  
 
   //Variable from /js/suppliersCreate/attachmentFiles.js
   totalSizeMo = tempTotalSize;
