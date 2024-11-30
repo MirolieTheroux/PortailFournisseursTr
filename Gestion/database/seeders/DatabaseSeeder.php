@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProvincesSeeder::class);
         $this->call(EmailModelsSeeder::class);
         $this->call(ModificationCategoriesSeeder::class);
+        $this->call(SettingsSeeder::class);
     }
 }
