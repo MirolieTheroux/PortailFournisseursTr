@@ -1,3 +1,8 @@
+<!--REMARQUES::Paramètres
+  - Lorsque je vais dans le formulaire d'inscription, dans la section pièce jointe, je peux ajouter une pièce jointe mais après ça plante.
+   - Uncaught ReferenceError: maxSizeFiles is not defined
+-->
+
 @extends('layouts.app')
 
 @section('title', __('navbar.adminCenter'))
