@@ -34,7 +34,7 @@ function getAttachmentsSectionElements() {
     if(btnEditAttachments)
       btnEditAttachments.classList.remove("d-none");
   
-  maxSizeFiles = document.getElementById("maxSizeFiles")
+  maxSizeFiles = document.getElementById("maxSizeFiles");
 }
 
 function addAttachmentsSectionListeners() {
@@ -60,7 +60,7 @@ function removeFiles(){
         const fileSize = parseFloat(fileSizeDiv.textContent);
         divAttachment.remove();
         tempTotalSize -= fileSize;
-        totalSize.textContent = tempTotalSize + "/" + maxSizeFiles + "mo";
+        totalSize.textContent = tempTotalSize + "/" + maxSizeFiles.textContent + "mo";
       }
     });
   });
@@ -70,5 +70,5 @@ function getTotalSizeFiles(){
   fileSize.forEach(file => {
     tempTotalSize += parseInt(file.textContent);
   });
-  totalSize.textContent = tempTotalSize + "/" + maxSizeFiles + "mo";
+  totalSize.textContent = tempTotalSize + "/" + maxSizeFiles.textContent + "mo";
 }
