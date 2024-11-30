@@ -19,6 +19,8 @@ let districtArea = "";
 let licenceRestriction = false;
 let neqNumber = "";
 
+let isPhoneNumberFilled = false;
+
 function getElements(){
   entrepreneurContainer = document.getElementById('entrepreneur-categories');
   ownerBuilderContainer = document.getElementById('ownerBuilder-categories');
@@ -45,6 +47,7 @@ async function fetchRBQ() {
   typeLicence = "";
   licenceNumber = "";
   licenceRestriction = false;
+  isPhoneNumberFilled = false;
   if(formFailContainer === null){
     checkboxesReset(true);
   }
@@ -348,7 +351,7 @@ function getAddressAndFillForm(){
     let streetName = addressInfo[0].substring(addressInfo[0].indexOf(" ") + 1);
     let postalCode = addressInfo[1].substring(addressInfo[1].length-7,addressInfo[0].length);
     let postalCodeNoSpace = postalCode.replace(" ", ""); 
-
+  
     document.querySelectorAll("[name='contactDetailsCivicNumber']").forEach(input => {input.value = civicNumber;});
     document.querySelectorAll("[name='contactDetailsStreetName']").forEach(input => {input.value = streetName; });
     document.getElementById("contactDetailsCitySelect").value = city;
@@ -357,7 +360,16 @@ function getAddressAndFillForm(){
       if(da.includes(districtArea))
         document.getElementById("contactDetailsDistrictArea").value = da;
     });
-    document.getElementById("contactDetailsPhoneNumber").value = phoneNumber;
+    if(!isPhoneNumberFilled){
+      document.getElementById("contactDetailsPhoneNumber").value = phoneNumber;
+
+      //Those functions are in the contactDetails.js file
+      validatePhoneNumber();
+      if (isPhoneNumberValid()) {
+        createPhoneNumberLine();
+        isPhoneNumberFilled = true;
+      }
+    }
   }
 }
 
