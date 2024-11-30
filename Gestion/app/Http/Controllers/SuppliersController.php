@@ -16,6 +16,7 @@ use App\Models\AccountModification;
 use App\Models\ModificationCategory;
 use App\Models\ModificationDeletion;
 use App\Models\ModificationAddition;
+use App\Models\Setting;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -95,8 +96,6 @@ class SuppliersController extends Controller
     ])
     ->paginate(self::SUPPLIER_FETCH_LIMIT);
 
-    Log::debug($suppliers);
-
     $waitingSuppliersCount = Supplier::whereHas('statusHistories', function ($query) {
       $query->where('status', 'waiting')
             ->whereRaw('created_at = (SELECT MAX(created_at)
@@ -129,12 +128,14 @@ class SuppliersController extends Controller
   public function toCheckRevision()
   {
     Log::info("Mise à jours automatique des statuts.");
+    $settings = Setting::first();
+    Log::debug($settings->revision_delay);
     $suppliersQuery = Supplier::query();
     $suppliers = $suppliersQuery->get()->filter(function ($supplier){
       return $supplier->latestNonModifiedStatus->status == 'denied';
     });
     foreach ($suppliers as $supplier) {
-      if($supplier->latestNonModifiedStatus->created_at <= Carbon::now('America/Toronto')->subMonths(self::MONTHS_BEFORE_TO_CHECK)){
+      if($supplier->latestNonModifiedStatus->created_at <= Carbon::now('America/Toronto')->subMonths($settings->revision_delay)){
         $this->changeStatusBySystem($supplier, "toCheck");
       }
     }
@@ -142,7 +143,6 @@ class SuppliersController extends Controller
 
   public function filter(Request $request)
   {
-      Log::debug($request);
       $suppliersQuery = Supplier::query()->select('id', 'name')
       ->with([
         'address' => function ($query) {
