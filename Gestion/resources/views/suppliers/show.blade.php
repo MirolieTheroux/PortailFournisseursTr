@@ -331,6 +331,7 @@
           </div>
         </form>
       </div><!--FIN ETAT DEMANDE-->
+
       <!--IDENTIFICATION-->
       <div class="container d-flex flex-column h-100 show-section d-none" id="identification-section">
         <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
@@ -401,6 +402,7 @@
           </div>
         </form>  
       </div><!--FIN IDENTIFICATION-->
+
       <!--COORDONNÉES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
         <form method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
@@ -601,6 +603,7 @@
           </div>
         </form>
       </div><!--FIN COORDONNÉES-->
+
       <!--CONTACT-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contacts-section">
         <form action="{{ route('suppliers.updateContacts', ['supplier'=>$supplier]) }}" method="post" class="need-validation w-100" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
@@ -1128,6 +1131,7 @@
           </div>
         </form>
       </div><!--FIN LICENCE RBQ-->
+
       <!--PIÈCES JOINTES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
         <form class="w-100" method="POST" action="{{route('suppliers.updateAttachments', [$supplier])}}" enctype="multipart/form-data">
@@ -1190,6 +1194,7 @@
           </div>
         </form>
       </div><!--FIN PIÈCES JOINTES-->
+
       <!--FINANCES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="finances-section">
         <form action="{{ route('suppliers.updateFinance', ['supplier'=>$supplier]) }}" method="post" class="need-validation w-65" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
@@ -1303,6 +1308,7 @@
           </div>
         </form>
       </div><!--FIN FINANCES-->
+      
     </div>
   </div>
 </div>

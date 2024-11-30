@@ -1,6 +1,3 @@
-<!--//TODO::Ajouter une variable dans la BD pour savoir qui à retirer le fournisseur de la liste et si c'est un responsable, empecher le fournisseur de réactiver-->
-<!--//* NICE_TO_HAVE::Faire attention au responsive des dates dans l'historiques des états sur les très petits écrans-->
-
 @extends('layouts.app')
 
 @section('title', 'Accueil')
@@ -183,9 +180,6 @@
 
     <div class="col-12 col-lg-9 col-xl-10 h-100 px-0 py-0 pb-md-5 pb-xl-0">
       <!--ETAT DEMANDE-->
-      <!--//* NICE_TO_HAVE::
-        - Mettre texte et curseur du textarea pour la raison du refus au début.
-      -->
       <!-- Modal for History -->
       <div class="modal fade" id="modalHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="statusHistory" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -324,11 +318,7 @@
           </div>
         </div>
       </div><!--FIN ETAT DEMANDE-->
-      <!--//* NICE_TO_HAVE::
-       - Voir pourquoi quand on enregistre les boutons disparaissent.
-       - Est ce qu'on met un message quand il l'utilisateur enregistre, mais qu'il n'y a pas de modification de détectée ?
-       - Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
-       -->
+      
       <!--IDENTIFICATION-->
       <div class="container px-lg-5 d-flex flex-column h-100 show-section d-none" id="identification-section">
         <form class="px-lg-5 h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
@@ -396,6 +386,7 @@
           </div>
         </form>  
       </div><!--FIN IDENTIFICATION-->
+
       <!--COORDONNÉES-->
       <div class="container px-0 px-lg-5 h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
         <form method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}">
@@ -601,6 +592,7 @@
           @endif
         </form>
       </div><!--FIN COORDONNÉES-->
+
       <!--CONTACT-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contacts-section">
         <form action="{{ route('suppliers.updateContacts', ['supplier'=>$supplier]) }}" method="post" class="need-validation w-100" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
@@ -1122,6 +1114,7 @@
           </div>
         </form>
       </div><!--FIN LICENCE RBQ-->
+
       <!--PIÈCES JOINTES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
         <form class="w-100" method="POST" action="{{route('suppliers.updateAttachments', [$supplier])}}" enctype="multipart/form-data">
@@ -1221,6 +1214,7 @@
           </div>
         </form>
       </div><!--FIN PIÈCES JOINTES-->
+
       <!--FINANCES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="finances-section">
         <form action="{{ route('suppliers.updateFinance', ['supplier'=>$supplier]) }}" method="post" class="need-validation" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
