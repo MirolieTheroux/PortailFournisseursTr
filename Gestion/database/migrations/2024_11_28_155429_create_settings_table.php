@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('approbation_email', 64);
             $table->string('finance_email', 64);
-            $table->integer('file_max_size ');
+            $table->integer('file_max_size');
             $table->integer('revision_delay');
             $table->timestamps();
         });

@@ -18,7 +18,7 @@ class SettingsSeeder extends Seeder
                 'id' => 1,
                 'approbation_email' => "approver@vtr.net",
                 'finance_email' => "finances@vtr.net",
-                'file_max_size ' => 75,
+                'file_max_size' => 75,
                 'revision_delay' => 3,
             ],
         ]);
