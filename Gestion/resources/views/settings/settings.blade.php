@@ -1,3 +1,15 @@
+<!--//? REMARQUES::Gestion des paramètres::
+    //?   - Les informations devraient être pré-remplies. Pour l'instant, tout est vide.
+            - PS. Je me doute que c'est parce que tu avais pas de BD mais je laisse pour être sur de pas oublier.
+-->
+<!--//? REMARQUES::Gestion des paramètres::
+    //?   - Lorsqu'on entre un chiffre à la taille ou au délai, on a quand même l'erreur que ça doit être un chiffre.
+    //?     - Comme la valeur est toujours un string, le isInteger ne fonctionne pas. Il faudrait surment caster en int avant ou après.
+-->
+<!--//? REMARQUES::Gestion des paramètres::
+    //?   - Lorsqu'on fait annuler, on ne revient pas à la section paramètres mais à la section des accès.
+-->
+
 @extends('layouts.app')
 
 @section('title', __('navbar.adminCenter'))

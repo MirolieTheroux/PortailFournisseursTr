@@ -38,6 +38,13 @@
               {{__('documentation.videoFail')}}
           </video>
         </div>
+        <h2 class="text-start">{{__('documentation.forgottenPassword')}}</h2>
+        <div class="d-flex w-100 justify-content-center mb-3">
+          <video width="700" height="400" controls>
+            <source src="{{ asset('video/mdp_oublie.mp4') }}" type="video/mp4">
+              {{__('documentation.videoFail')}}
+          </video>
+        </div>
       </div>
 
       <div id="doc-section-signup" class="d-none doc-section">

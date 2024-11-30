@@ -11,7 +11,7 @@ return [
   'possessNeq' => 'J\'ai un NEQ',
   'possessNoNeq' => 'Je n\'ai pas de NEQ',
   'loginSuccessful' => 'Connexion réussie',
-  'logoutSuccessful' => 'Connexion réussie',
+  'logoutSuccessful' => 'Déconnexion réussie',
   'signinSuccessful' => 'Demande d\'inscription envoyée',
 
   'passwordReset' => 'Réinitialiser votre mot de passe',
