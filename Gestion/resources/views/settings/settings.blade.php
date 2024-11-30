@@ -1,15 +1,3 @@
-<!--//? REMARQUES::Gestion des paramètres::
-    //?   - Les informations devraient être pré-remplies. Pour l'instant, tout est vide.
-            - PS. Je me doute que c'est parce que tu avais pas de BD mais je laisse pour être sur de pas oublier.
--->
-<!--//? REMARQUES::Gestion des paramètres::
-    //?   - Lorsqu'on entre un chiffre à la taille ou au délai, on a quand même l'erreur que ça doit être un chiffre.
-    //?     - Comme la valeur est toujours un string, le isInteger ne fonctionne pas. Il faudrait surment caster en int avant ou après.
--->
-<!--//? REMARQUES::Gestion des paramètres::
-    //?   - Lorsqu'on fait annuler, on ne revient pas à la section paramètres mais à la section des accès.
--->
-
 @extends('layouts.app')
 
 @section('title', __('navbar.adminCenter'))
@@ -149,7 +137,7 @@
         </div>
       </div> <!-- END MODAL ADD USER--> <!--FIN USERS SETTINGS-->
       <!-- PARAMÈTRES -->
-      <form class="show-section d-none h-100 d-flex flex-column" id="settings-section" method="POST" action="{{route('users.updateUser')}}" enctype="multipart/form-data">
+      <form class="show-section d-none h-100 d-flex flex-column" id="settings-section" method="POST" action="{{route('settings.update')}}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
         <h2 class="mb-0 row border-bottom border-2 border-dark mt-3">{{__('settings.settingsManagement')}}</h2>
@@ -160,7 +148,7 @@
                 <div >{{__('settings.approverEmail')}}</div>
               </div>
               <div class="col-6">
-                <input type="email" name="approverEmail" id="approverEmail" class="form-control form-control-sm" value="" maxlength="64">
+                <input type="email" name="approverEmail" id="approverEmail" class="form-control form-control-sm" value="{{ $settings->approbation_email }}" maxlength="64">
               </div>
             </div> 
             <div class="row mb-3">
@@ -174,7 +162,7 @@
             <div class="row">
               <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.financesEmail')}}</div>
               <div class="col-6">
-                <input type="email" name="financesEmail" id="financesEmail" class="form-control form-control-sm" value="" maxlength="64">
+                <input type="email" name="financesEmail" id="financesEmail" class="form-control form-control-sm" value="{{ $settings->finance_email }}" maxlength="64">
               </div>
             </div>
             <div class="row mb-4">
@@ -188,7 +176,7 @@
             <div class="row">
               <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.maxSizeFiles')}}</div>
               <div class="col-6">
-                <input type="text" name="maxSizeFiles" id="maxSizeFiles" class="form-control form-control-sm" value="">
+                <input type="text" name="maxSizeFiles" id="maxSizeFiles" class="form-control form-control-sm" value="{{ $settings->file_max_size }}">
               </div>
             </div>
             <div class="row mb-4">
@@ -202,7 +190,7 @@
             <div class="row">
               <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.timeBeforeRevisionMonth')}}</div>
               <div class="col-6">
-                <input type="text" name="timeBeforeRevisionMonth" id="timeBeforeRevisionMonth" class="form-control form-control-sm" value="">        
+                <input type="text" name="timeBeforeRevisionMonth" id="timeBeforeRevisionMonth" class="form-control form-control-sm" value="{{ $settings->revision_delay }}">        
               </div>
             </div>
             <div class="row mb-4">

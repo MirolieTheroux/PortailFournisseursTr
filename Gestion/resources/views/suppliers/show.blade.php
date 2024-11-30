@@ -1175,7 +1175,7 @@
                 </div>
               </div>
               <div class="text-end inline-block" id="filesSize">
-                <p class="mb-0" id="totalSize">/75Mo</p>
+                <p class="mb-0" id="totalSize">/{{$settings->file_max_size}}mo</p>
               </div>
             </div>
             @role(['responsable', 'admin'])

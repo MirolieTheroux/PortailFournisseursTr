@@ -47,7 +47,6 @@ class SuppliersController extends Controller
 {
   const SUPPLIER_FETCH_LIMIT = 100;
   const USING_FILESTREAM = false;
-  const MONTHS_BEFORE_TO_CHECK = 3;
   const USING_CRON = true;
 
   /**
@@ -351,11 +350,13 @@ class SuppliersController extends Controller
 
     $postalCode = $supplier->address->postal_code;
     $formattedPostalCode = substr($postalCode, 0, 3) . ' ' . substr($postalCode, 3);
+
+    $settings = Setting::first();
     
     return View('suppliers.show',
     compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails',
     'formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories',
-    'provinces','formattedPostalCode', 'modificationCategories'));
+    'provinces','formattedPostalCode', 'modificationCategories', 'settings'));
   }
   
   /**

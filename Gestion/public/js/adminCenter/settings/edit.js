@@ -10,6 +10,8 @@ let maxsizeFilesInvalidEmpty;
 let maxsizeFilesInvalidFormat;
 let timeBeforeRevisionMonthInvalidEmpty;
 let timeBeforeRevisionMonthInvalidFormat;
+let settingsContainer;
+let btnSaveSettings;
 
 document.addEventListener("DOMContentLoaded", function () {
 	getElementsSettings();
@@ -29,6 +31,8 @@ function getElementsSettings() {
   maxsizeFilesInvalidFormat = document.getElementById("maxsizeFilesInvalidFormat");
   timeBeforeRevisionMonthInvalidEmpty = document.getElementById("timeBeforeRevisionMonthInvalidEmpty");
   timeBeforeRevisionMonthInvalidFormat = document.getElementById("timeBeforeRevisionMonthInvalidFormat");
+  settingsContainer = document.getElementById("settings-section");
+  btnSaveSettings = document.getElementById("btnSaveSettings");
 }
 
 function settingsListeners() {
