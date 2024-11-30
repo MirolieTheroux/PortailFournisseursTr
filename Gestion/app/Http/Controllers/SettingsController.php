@@ -27,10 +27,4 @@ class SettingsController extends Controller
         ->withErrors('message',__('global.updateFailed'));
     }
   }
-
-  public function getMaxSizeFiles()
-  {
-    $settings = Setting::first(); 
-    return response()->json($settings->file_max_size);
-  }
 }

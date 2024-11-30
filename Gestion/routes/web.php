@@ -19,7 +19,6 @@ Route::post('/logout', [UsersController::class, 'logout'])->name('users.logout')
 
 Route::post('/suppliers/checkEmail', [SuppliersController::class, 'checkEmail'])->name('suppliers.checkEmail')->middleware('auth');
 Route::post('/suppliers/checkNeq', [SuppliersController::class, 'checkNeq'])->name('suppliers.checkNeq')->middleware('auth');
-Route::post('/settings/maxSizeFiles', [SettingsController::class, 'getMaxSizeFiles'])->name('settings.getMaxSizeFiles');
 
 Route::get('/suppliers', [SuppliersController::class, 'index'])->name('suppliers.index')->middleware('auth');
 Route::post('/suppliers/selectedList', [SuppliersController::class, 'selectedList'])->name('suppliers.selectedList')->middleware('auth');

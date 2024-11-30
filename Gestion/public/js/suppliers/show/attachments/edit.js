@@ -9,8 +9,7 @@ let fileSize;
 let tempTotalSize = 0;
 let maxSizeFiles;
 
-document.addEventListener("DOMContentLoaded", async function () {
-  await getMaxSizeFilesSettings();
+document.addEventListener("DOMContentLoaded",  function () {
   getAttachmentsSectionElements();
   addAttachmentsSectionListeners();
   getTotalSizeFiles();
@@ -34,6 +33,8 @@ function getAttachmentsSectionElements() {
   else
     if(btnEditAttachments)
       btnEditAttachments.classList.remove("d-none");
+  
+  maxSizeFiles = document.getElementById("maxSizeFiles")
 }
 
 function addAttachmentsSectionListeners() {
@@ -70,15 +71,4 @@ function getTotalSizeFiles(){
     tempTotalSize += parseInt(file.textContent);
   });
   totalSize.textContent = tempTotalSize + "/" + maxSizeFiles + "mo";
-}
-
-async function getMaxSizeFilesSettings(){
-  const response = await fetch('/settings/maxSizeFiles', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': document.querySelector('[name="_token"]').getAttribute('value')
-    },        
-  })
-  maxSizeFiles = await response.json();
 }
