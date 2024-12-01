@@ -15,6 +15,7 @@ let pTotalSize = document.getElementById("totalSize");
 let fileNameWithoutExtension;
 let fileSizeMo;
 let totalSizeMo = 0;
+let maxSizeFiles;
 
 document.getElementById("formFile").addEventListener("change", () => {
   // Reset all error messages
@@ -216,6 +217,7 @@ function validateSameFileName(){
 
 function validateTotalSize(size){
   let addedSize = parseFloat(size) + totalSizeMo;
+  console.log(maxSizeFiles);
   let maxSizeFilesToFloat = parseFloat(maxSizeFiles.textContent);
   if(addedSize > maxSizeFilesToFloat){
     inputFile.classList.remove("is-valid");
@@ -252,6 +254,7 @@ function clearInfos(){
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  maxSizeFiles = document.getElementById("maxSizeFiles");
   const buttonsDelete = document.querySelectorAll(".removeFile");
   buttonsDelete.forEach(button => {
     const conteneurButton = button.closest(".divFile");
