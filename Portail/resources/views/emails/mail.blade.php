@@ -1,6 +1,3 @@
-<!--//? NICE_TO_HAVE::432:: Est-ce que ce serait possible d'organiser les styles dans un fichier css en utilisant des id et des classes? Je pense que ce serait plus facile à lire-->
-<!--//? NICE_TO_HAVE::581:: Ajouter la possibilité au responsable de joindre la raison du refus au courriel.-->
-
 <!DOCTYPE html>
 <html lang="fr">
 

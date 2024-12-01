@@ -5,6 +5,7 @@ use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AttachmentsController;
 use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Middleware\LoggerMiddleware;
 use App\Http\Middleware\CheckRole;
 
@@ -18,8 +19,6 @@ Route::post('/logout', [UsersController::class, 'logout'])->name('users.logout')
 
 Route::post('/suppliers/checkEmail', [SuppliersController::class, 'checkEmail'])->name('suppliers.checkEmail')->middleware('auth');
 Route::post('/suppliers/checkNeq', [SuppliersController::class, 'checkNeq'])->name('suppliers.checkNeq')->middleware('auth');
-Route::post('/settings/addUser/checkEmailUser', [UsersController::class, 'checkEmailUser'])->name('users.checkEmailUser')->middleware('CheckRole:admin');
-Route::post('/settings/addUser/checkAdmins', [UsersController::class, 'checkNumbersOfAdmin'])->name('users.checkNumbersOfAdmin')->middleware('CheckRole:admin');
 
 Route::get('/suppliers', [SuppliersController::class, 'index'])->name('suppliers.index')->middleware('auth');
 Route::post('/suppliers/selectedList', [SuppliersController::class, 'selectedList'])->name('suppliers.selectedList')->middleware('auth');
@@ -49,5 +48,6 @@ Route::get('/attachment/{supplier}/{attachment}', [AttachmentsController::class,
 Route::get('/settings', [UsersController::class, 'show'])->name('users.settings')->middleware('CheckRole:admin');
 Route::patch('/settings/updateUser', [UsersController::class, 'updateUser'])->name('users.updateUser')->middleware('CheckRole:admin');
 // SETTINGS
+Route::patch('/settings/updateSettings', [SettingsController::class, 'updateSettings'])->name('settings.update')->middleware('CheckRole:admin');
 
 Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');

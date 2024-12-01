@@ -1,15 +1,3 @@
-<!--//* NICE_TO_HAVE::(nice_to_have) lorsqu'on clique sur "modifier", ne pas afficher le bouton enregistrer si il n'y a pas de changement (sinon, je fais enregistrer et ça change la date sans modification)-->
-<!--//* NICE_TO_HAVE::(À faire pour le portail fournisseur) Quand la personne arrive sur la page, si elle n'a pas rempli la section finance, elle pourrait avoir un bouton "Remplir mes informations de finances"-->
-<!--//* NICE_TO_HAVE::Potentiel nice to have, est-ce qu'on veut laisser le invalid si la personne quitte le modal de refus et reviens après ? Même chose pour le reste de la fiche-->
-<!--//* NICE_TO_HAVE::
-- Est ce qu'on met un message quand il l'utilisateur enregistre, mais qu'il n'y a pas de modification de détectée ?
-- Est-ce qu'on met une erreur s'il y a déjà un Neq et que l'utilisateur l'enlève ? 
--->
-<!--//* NICE_TO_HAVE::
-- Mettre texte et curseur du textarea pour la raison du refus au début.
-- Mettre les statuts égaux 
--->
-
 @extends('layouts.app')
 
 @section('css')
@@ -17,9 +5,7 @@
 @endsection
 
 @section('title', 'Gestion - ' . $supplier->name)
-<!--//* NICE_TO_HAVE
-  - Quand on arrive sur la fiche fournisseur mettre le statut demande sélectionné sur le côté.
--->
+
 @section('content')
 <div class="container-fluid h-100">
   <div class="row h-100">
@@ -345,6 +331,7 @@
           </div>
         </form>
       </div><!--FIN ETAT DEMANDE-->
+
       <!--IDENTIFICATION-->
       <div class="container d-flex flex-column h-100 show-section d-none" id="identification-section">
         <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
@@ -415,6 +402,7 @@
           </div>
         </form>  
       </div><!--FIN IDENTIFICATION-->
+
       <!--COORDONNÉES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
         <form method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
@@ -615,6 +603,7 @@
           </div>
         </form>
       </div><!--FIN COORDONNÉES-->
+
       <!--CONTACT-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contacts-section">
         <form action="{{ route('suppliers.updateContacts', ['supplier'=>$supplier]) }}" method="post" class="need-validation w-100" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
@@ -1142,6 +1131,7 @@
           </div>
         </form>
       </div><!--FIN LICENCE RBQ-->
+
       <!--PIÈCES JOINTES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
         <form class="w-100" method="POST" action="{{route('suppliers.updateAttachments', [$supplier])}}" enctype="multipart/form-data">
@@ -1189,7 +1179,7 @@
                 </div>
               </div>
               <div class="text-end inline-block" id="filesSize">
-                <p class="mb-0" id="totalSize">/75Mo</p>
+                <p class="mb-0" id="totalSize">/<span id="maxSizeFiles">{{$settings->file_max_size}}</span>mo</p>
               </div>
             </div>
             @role(['responsable', 'admin'])
@@ -1204,6 +1194,7 @@
           </div>
         </form>
       </div><!--FIN PIÈCES JOINTES-->
+
       <!--FINANCES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="finances-section">
         <form action="{{ route('suppliers.updateFinance', ['supplier'=>$supplier]) }}" method="post" class="need-validation w-65" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
@@ -1317,6 +1308,7 @@
           </div>
         </form>
       </div><!--FIN FINANCES-->
+      
     </div>
   </div>
 </div>

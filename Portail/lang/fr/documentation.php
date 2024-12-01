@@ -12,6 +12,7 @@ return [
     'deleteAccount' => 'Retirer le dossier',
 
     'loginPage' => 'Page de connexion',
+    'forgottenPassword' => 'Mot de passe oublié',
     'company' => 'Entreprise',
     'particular' => 'Particulier',
 

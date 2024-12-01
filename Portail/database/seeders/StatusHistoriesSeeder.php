@@ -55,7 +55,7 @@ class StatusHistoriesSeeder extends Seeder
             'updated_by' => "nic@vtr.com",
             'refusal_reason' => Crypt::encrypt("Dossier criminel"),
             'supplier_id' => 2,
-            'created_at' => '2024-06-15 09:50:25'
+            'created_at' => '2024-11-15 09:50:25'
         ];
         $statusHistories[] = [
             'id' => 6,

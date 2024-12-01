@@ -16,6 +16,7 @@ use App\Models\AccountModification;
 use App\Models\ModificationCategory;
 use App\Models\ModificationDeletion;
 use App\Models\ModificationAddition;
+use App\Models\Setting;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -46,12 +47,8 @@ class SuppliersController extends Controller
 {
   const SUPPLIER_FETCH_LIMIT = 100;
   const USING_FILESTREAM = false;
-  const DAYS_BEFORE_TO_CHECK = 90;
   const USING_CRON = true;
 
-  /**
-   * Display a listing of the resource.
-   */
   public function index()
   { 
     if(!self::USING_CRON)
@@ -95,8 +92,6 @@ class SuppliersController extends Controller
     ])
     ->paginate(self::SUPPLIER_FETCH_LIMIT);
 
-    Log::debug($suppliers);
-
     $waitingSuppliersCount = Supplier::whereHas('statusHistories', function ($query) {
       $query->where('status', 'waiting')
             ->whereRaw('created_at = (SELECT MAX(created_at)
@@ -110,7 +105,15 @@ class SuppliersController extends Controller
 
   public function selectedList(Request $request){
     if($request->filled('suppliers') && is_array($request->suppliers)){
-      $suppliers = Supplier::whereIn('id', $request->suppliers)->get();
+      $suppliers = Supplier::select('id', 'name', 'email')
+                            ->with([
+                              'phoneNumbers',
+                              'contacts' => function ($query) {
+                                $query->with('phoneNumbers');
+                              },
+                            ])
+                            ->whereIn('id', $request->suppliers)
+                            ->get();
       return View('suppliers.selectedList', compact('suppliers'));
     }
     else{
@@ -121,12 +124,14 @@ class SuppliersController extends Controller
   public function toCheckRevision()
   {
     Log::info("Mise à jours automatique des statuts.");
+    $settings = Setting::first();
+    Log::debug($settings->revision_delay);
     $suppliersQuery = Supplier::query();
     $suppliers = $suppliersQuery->get()->filter(function ($supplier){
       return $supplier->latestNonModifiedStatus->status == 'denied';
     });
     foreach ($suppliers as $supplier) {
-      if($supplier->latestNonModifiedStatus->created_at <= Carbon::now('America/Toronto')->subDays(self::DAYS_BEFORE_TO_CHECK)){
+      if($supplier->latestNonModifiedStatus->created_at <= Carbon::now('America/Toronto')->subMonths($settings->revision_delay)){
         $this->changeStatusBySystem($supplier, "toCheck");
       }
     }
@@ -134,7 +139,6 @@ class SuppliersController extends Controller
 
   public function filter(Request $request)
   {
-      Log::debug($request);
       $suppliersQuery = Supplier::query()->select('id', 'name')
       ->with([
         'address' => function ($query) {
@@ -261,25 +265,6 @@ class SuppliersController extends Controller
       ]);
   }
 
-  /**
-   * Show the form for creating a new resource.
-   */
-  public function create()
-  {
-    //
-  }
-
-  /**
-   * Store a newly created resource in storage.
-   */
-  public function store(Request $request)
-  {
-    //
-  }
-
-  /**
-   * Display the specified resource.
-   */
   public function show(Supplier $supplier)
   {
     $workSubcategories = WorkSubcategory::all();
@@ -343,24 +328,15 @@ class SuppliersController extends Controller
 
     $postalCode = $supplier->address->postal_code;
     $formattedPostalCode = substr($postalCode, 0, 3) . ' ' . substr($postalCode, 3);
+
+    $settings = Setting::first();
     
     return View('suppliers.show',
     compact('supplier', 'suppliersGroupedByNatureAndCategory', 'formattedPhoneNumbersContactDetails',
     'formattedPhoneNumbersContacts', 'decryptedReasons','latestDeniedReason', 'workSubcategories',
-    'provinces','formattedPostalCode', 'modificationCategories'));
+    'provinces','formattedPostalCode', 'modificationCategories', 'settings'));
   }
   
-  /**
-   * Show the form for editing the specified resource.
-   */
-  public function edit(string $id)
-  {
-    
-  }
-
-  /**
-   * Update status of supplier.
-   */
   public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier, StatusHistory $statusHistory)
   {
     try {
@@ -390,9 +366,6 @@ class SuppliersController extends Controller
     }
   }
   
-  /**
-   * Update identification of supplier.
-   */
   public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
   {
     $identification_category_id = 1;
@@ -515,15 +488,11 @@ class SuppliersController extends Controller
     $supplier->attachments()->delete();
   }
 
-  /**
-   * Update contact details of supplier.
-   */
   public function updateContactDetails(SupplierUpdateContactDetailsRequest $request, Supplier $supplier)
   {
     $contactDetails_category_id = 2;
     $removedPhoneNumbers = [];
     $addedPhoneNumbers = [];
-    //Log::debug($request);
     try{
       $status = $this->changeStatus($supplier, "modified");
 
@@ -642,9 +611,6 @@ class SuppliersController extends Controller
     }
   }
 
-  /**
-   * Update contacts of supplier.
-   */
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
   {
     $contacts_category_id = 3;
@@ -789,9 +755,6 @@ class SuppliersController extends Controller
     }
   }
 
-  /**
-   * Update RBQ Licence of supplier.
-   */
   public function updateRbq(SupplierUpdateRbqRequest $request, Supplier $supplier)
   {
     $licenceRbq_category_id = 5;
@@ -906,9 +869,6 @@ class SuppliersController extends Controller
     }
   }
 
-  /**
-   * Update products and services of supplier.
-   */
   public function updateProductsServices(Request $request, Supplier $supplier)
   {
     $productsServices_category_id = 4;
@@ -969,9 +929,6 @@ class SuppliersController extends Controller
     }
   }
 
-  /**
-   * Update finance of supplier.
-   */
   public function updateFinance(SupplierUpdateFinanceRequest $request, Supplier $supplier)
   {
     $finance_category_id = 7;
@@ -1016,9 +973,6 @@ class SuppliersController extends Controller
     }
   }
 
-  /**
-   * Update attachments of supplier.
-   */
   public function updateAttachments(Request $request, Supplier $supplier)
   {
     $attachments_category_id = 6;
@@ -1069,9 +1023,6 @@ class SuppliersController extends Controller
     }
   }
 
-  /**
-   * Create an account modification line.
-   */
   private function createAccountModificationLine(StatusHistory $status, ?string $changedAttribute, $deletionsInformations, $additionsInformations, int $categoryId){
     $accountModification = new AccountModification();
     if(!is_null($changedAttribute)){

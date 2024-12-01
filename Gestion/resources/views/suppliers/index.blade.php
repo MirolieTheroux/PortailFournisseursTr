@@ -1,9 +1,3 @@
-<!--//? NICE_TO_HAVE::Liste des fournisseurs - Faire les tri selon le nombre de critères rempli et status-->
-<!--//? NICE_TO_HAVE: 
-    //?   Faire en sorte que lorsqu'on recherche dans un filtre et qu'on coche une option, la recherche ne se réénitialise pas
-    //?    - Voir à faire qu'on peut enlever les items avec un X à la place.
--->
-<!--//? NICE_TO_HAVE: Faire en sorte qu'on puisse déselectionner le bouton fournisseur en attente-->
 @extends('layouts.app')
 
 @section('title', __('index.suppliersListTitle'))

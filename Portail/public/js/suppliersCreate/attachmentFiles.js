@@ -15,6 +15,7 @@ let pTotalSize = document.getElementById("totalSize");
 let fileNameWithoutExtension;
 let fileSizeMo;
 let totalSizeMo = 0;
+let maxSizeFiles;
 
 document.getElementById("formFile").addEventListener("change", () => {
   // Reset all error messages
@@ -97,7 +98,7 @@ document.getElementById("add-file").addEventListener("click", () => {
       const fileSize = parseFloat(fileSizeDiv.textContent); 
       fileItem.remove();
       totalSizeMo -= fileSize; 
-      pTotalSize.textContent = totalSizeMo.toFixed(2) + " Mo" + "/75 Mo";
+      pTotalSize.textContent = totalSizeMo.toFixed(2) + "/" + maxSizeFiles.textContent + "mo";
       inputFile.classList.remove("is-valid");
       inputFile.classList.remove("is-invalid");
       if(inputFile.files.length > 0){
@@ -216,7 +217,9 @@ function validateSameFileName(){
 
 function validateTotalSize(size){
   let addedSize = parseFloat(size) + totalSizeMo;
-  if(addedSize > 75){
+  console.log(maxSizeFiles);
+  let maxSizeFilesToFloat = parseFloat(maxSizeFiles.textContent);
+  if(addedSize > maxSizeFilesToFloat){
     inputFile.classList.remove("is-valid");
     inputFile.classList.add("is-invalid");
     attachmentFilesExceedSize.style.display = "block";
@@ -240,7 +243,7 @@ function validateFileBeforeClick(){
 
 function updateTotalSize(){
   totalSizeMo += parseFloat(fileSizeMo);
-  pTotalSize.textContent = totalSizeMo.toFixed(2) + " Mo" + "/75 Mo";
+  pTotalSize.textContent = totalSizeMo.toFixed(2) + "/" + maxSizeFiles.textContent + "mo";
 }
 
 function clearInfos(){
@@ -251,6 +254,7 @@ function clearInfos(){
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  maxSizeFiles = document.getElementById("maxSizeFiles");
   const buttonsDelete = document.querySelectorAll(".removeFile");
   buttonsDelete.forEach(button => {
     const conteneurButton = button.closest(".divFile");
