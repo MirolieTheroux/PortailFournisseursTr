@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Log;
 class SettingsController extends Controller
 { 
   public function updateSettings(SettingsUpdateRequest $request){
-    Log::debug($request);
     try{
       $settings = Setting::first();
       $settings->approbation_email = $request->approverEmail;
