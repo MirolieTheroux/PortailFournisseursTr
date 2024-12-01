@@ -1356,7 +1356,7 @@
 <script src=" {{ asset('js/suppliersShow/finance/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/finance/save.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/finance/validation.js') }} "></script>
-<script src=" {{ asset('js/suppliersShow/attachments/edit.js') }} "></script>
 <script src="{{ asset('js/suppliersCreate/attachmentFiles.js') }} "></script>
+<script src=" {{ asset('js/suppliersShow/attachments/edit.js') }} "></script>
 <script src=" {{ asset('js/suppliersShow/attachments/listUpdate.js') }} "></script>
 @endsection

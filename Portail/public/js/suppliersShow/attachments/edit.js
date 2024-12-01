@@ -7,7 +7,7 @@ let removeAttachements;
 let totalSizeUpdate;
 let fileSizeUpdate;
 let tempTotalSize = 0;
-let maxSizeFiles;
+
 
 document.addEventListener("DOMContentLoaded", function () {
   getAttachmentsSectionElements();
@@ -25,8 +25,6 @@ function getAttachmentsSectionElements() {
   removeAttachements = attachmentsContainer.querySelectorAll(".removeAttachment");
   totalSizeUpdate = document.getElementById("totalSize")
   fileSizeUpdate = attachmentsContainer.querySelectorAll(".fileSize");
-  maxSizeFiles = document.getElementById("maxSizeFiles")
-  //console.log(maxSizeFiles.textContent);
 }
 
 function addAttacmentsSectionListeners() {
