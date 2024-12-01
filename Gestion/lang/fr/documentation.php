@@ -14,7 +14,7 @@ return [
     'updateUser' => 'Modifier un utilisateur',
     'deleteUser' => 'Supprimer un utilisateur',
     'parametersManagement' => 'Gestion des paramètres',
-    'emailsManagement' => 'Gestion des courriel',
+    'emailsManagement' => 'Gestion des courriels',
     
     'signUpNavigation' => 'Naviguer dans les sections',
     'sectionModification' => 'Modifier une section',
