@@ -47,7 +47,7 @@ return [
     'productsAndServiceServices' => 'Services',
     'productsAndServiceServicesCategorySelection' => 'Cliquez pour ajouter une catégorie',
     'productsAndServiceSelectedServicesList' => 'Liste des services à offrir',
-    'productsAndServiceServicesCategorySelected' => 'Cliquez pour suprimer une catégorie',
+    'productsAndServiceServicesCategorySelected' => 'Cliquez pour supprimer une catégorie',
     
     'contactDetailsTitle' => 'Coordonnées',
     'contactDetailsAddressSection' => 'Adresse',
@@ -94,7 +94,7 @@ return [
     'rbqLicenceSection' => 'Licence',
     'rbqLicenceValidation' => 'Le champ licence ne doit contenir que des chiffres.',
     'rbqLicenceValidationSize' => 'Le champ licence doit contenir 10 chiffres.',
-    'rbqLicenceExistValidation' => 'Ce numéro est déjà enregistrer pour un autre compte.',
+    'rbqLicenceExistValidation' => 'Ce numéro est déjà enregistré pour un autre compte.',
     'rbqStatusValidationRequired' => 'Le champ status est requis lorsqu\'il y a une licence.',
     'rbqStatusValidationRequiredNot' => 'Le champ status ne doit pas être rempli lorsqu\'il n\'y a pas de licence.',
     'rbqTypeValidationRequired' => 'Le champ type est requis lorsqu\'il y a une licence.',
