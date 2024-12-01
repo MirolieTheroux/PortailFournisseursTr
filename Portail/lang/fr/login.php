@@ -17,7 +17,7 @@ return [
   'passwordReset' => 'Réinitialiser votre mot de passe',
   'forgotPassword' => 'Mot de passe oublié?',
   'forgotPasswordDescription' => 'Nous avons reçu une demande de réinitialisation de votre mot de passe.',
-  'sendLink' => 'envoyer le lien',
+  'sendLink' => 'Envoyer le lien',
   'passwordResetSuccessful' => 'Le mot de passe a été modifié avec succès.',
 
   'notConnected' => 'Vous devez être connecté pour accéder à cette page.',
@@ -27,5 +27,5 @@ return [
 
   
   'expiredLink' => 'Ce lien est expiré.',
-  'linkSent' => 'Un courriel de réinitialisation a été envoyer à l\'adresse courriel lié au compte.',
+  'linkSent' => 'Un courriel de réinitialisation a été envoyé à l\'adresse courriel liée au compte.',
 ];
