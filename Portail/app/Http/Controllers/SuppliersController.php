@@ -335,8 +335,8 @@ class SuppliersController extends Controller
 
     private function InscriptionSendMail(Supplier $supplier){
       $mailsController = new MailsController();
-      $mailModel = EmailModel::where('name', 'SupplierInscription')->firstOrFail();
-      $mailModel2 = EmailModel::where('name', 'ResponsableInscriptionNotification')->firstOrFail();
+      $mailModel = EmailModel::where('name', 'Inscription fournisseur')->firstOrFail();
+      $mailModel2 = EmailModel::where('name', 'Inscription fournisseur notification')->firstOrFail();
       $mailsController->sendInscriptionSupplierMail($supplier, $mailModel);
       $mailsController->sendInscriptionNotificationResponsableMail($supplier, $mailModel2);
     }
