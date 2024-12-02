@@ -7,6 +7,8 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use App\Models\Setting;
+use App\Models\EmailModel;
+use App\Models\Supplier;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\facades\Auth;
@@ -45,7 +47,13 @@ class UsersController extends Controller
   {
     $users = User::all();
     $settings = Setting::first();
-    return View('settings.settings',compact('users', 'settings'));
+    $mailModel = EmailModel::all();
+    $supplier = new Supplier();
+    $supplier->neq = 1111111111;
+    $supplier->name = "Entreprise Demo";
+    $supplier->email = "EntrepriseDemo@exemple.com";
+    $supplier->site = "www.EntrepriseDemo.com";
+    return View('settings.settings',compact('users', 'settings', 'mailModel', 'supplier'));
   }
 
   public function updateUser(UserUpdateRequest $request)

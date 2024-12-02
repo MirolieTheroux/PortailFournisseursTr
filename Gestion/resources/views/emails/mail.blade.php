@@ -45,14 +45,14 @@
                                                         <div style="font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
                                                             <p class="text-build-content" style="line-height: 24px; text-align: center; margin: 10px 0; margin-top: 5px;">
                                                                 <span style="color:{{ $mailModel->titleColor }};font-family:Arial;font-size: {{ $mailModel->titleSize }}pt;">
-                                                                    <b>{{ $mailModel->titleText }}</b>
+                                                                    <b>{!! $mailModel->titleText !!}</b>
                                                                 </span>
                                                             </p>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             @endif
-                                            @if ($mailModel->buttonIsActive)
+                                            @if ($mailModel->buttonUrl)
                                                 <tr>
                                                     <td align="center" vertical-align="middle" style="font-size:0px;padding:5px 25px 5px 25px;padding-bottom:5px;word-break:break-word;">
                                                         <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
@@ -61,7 +61,7 @@
                                                                     <td align="center" bgcolor="#ffffff" role="presentation" style="border:none;border-radius:20px;cursor:auto;mso-padding-alt:10px 25px;background:#ffffff;" valign="middle">
                                                                         <a href="{{ $mailModel->buttonUrl }}" style="display:inline-block;background:#ffffff;color:#ffffff;font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:20px;" target="_blank">
                                                                             <span style="background-color:{{ $mailModel->buttonBackgroundColor }};color:{{ $mailModel->buttonTextColor }};font-family:Arial;font-size:14px;">
-                                                                                <b>{{ $mailModel->buttonText }}</b>
+                                                                                <b>{!! $mailModel->buttonText !!}</b>
                                                                             </span>
                                                                         </a>
                                                                     </td>
@@ -76,7 +76,7 @@
                                                     <td align="left" style="font-size:0px;padding:10px 25px;padding-top:0px;padding-bottom:10px;word-break:break-word;">
                                                         <div style="font-family:Arial, sans-serif;letter-spacing:normal;line-height:1;text-align:left;color:#000000;">
                                                             <p class="text-build-content" style="text-align: center; margin: 10px 0; margin-top: 10px;">
-                                                                <span style="color:{{ $mailModel->descriptionColor }}; font-size:{{ $mailModel->descriptionSize }}pt;">{{ $mailModel->descriptionText }}</span>
+                                                                <span style="color:{{ $mailModel->descriptionColor }}; font-size:{{ $mailModel->descriptionSize }}pt;">{!! $mailModel->descriptionText !!}</span>
                                                             </p>
                                                         </div>
                                                     </td>
@@ -105,7 +105,7 @@
                                                     <div style="font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
                                                         <p class="text-build-content" style="line-height: 32px; text-align: center; margin: 10px 0; margin-top: 10px; margin-bottom: 10px;">
                                                             <span style="color:{{ $mailModel->subtitleColor }};font-family:Arial;font-size:{{ $mailModel->subtitleSize }}pt;">
-                                                                <b>{{ $mailModel->subtitleText }}</b>
+                                                                <b>{!! $mailModel->subtitleText !!}</b>
                                                             </span>
                                                         </p>
                                                     </div>
@@ -166,11 +166,11 @@
                                                         @if ($mailModel->importantInfoText)
                                                             <span
                                                                 style="font-family:Arial;font-size:{{ $mailModel->importantInfoSize }}pt;line-height:22px;">
-                                                                <b style="color:{{ $mailModel->importantInfoColor }};">{{ $mailModel->importantInfoText }}</b>
+                                                                <b style="color:{{ $mailModel->importantInfoColor }};">{!! $mailModel->importantInfoText !!}</b>
                                                             </span>
                                                         @endif
                                                         @if ($mailModel->name === 'Réinitialisation mot de passe fournisseur')
-                                                            <a href="{{ $resetLink }}" style="background-color: {{ $mailModel->passwordResetButtonBackgroundColor }}; color: {{ $mailModel->passwordResetButtonColor }}; padding: 10px 20px; text-decoration: none;">{{ $mailModel->passwordResetButtonText }}</a>
+                                                            <a href="{{ $resetLink }}" style="background-color: {{ $mailModel->passwordResetButtonBackgroundColor }}; color: {{ $mailModel->passwordResetButtonColor }}; padding: 10px 20px; text-decoration: none;">{!! $mailModel->passwordResetButtonText !!}</a>
                                                         @endif
                                                     </p>
                                                     @if ($mailModel->messageText)
@@ -205,19 +205,17 @@
                             <td style="direction:ltr;font-size:0px;padding:0 0 0 0;padding-bottom:0px;padding-top:0px;text-align:center;">
                                 <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                                        @if ($mailModel->footerText)
-                                            <tbody>
-                                                <tr>
-                                                    <td align="left" style="font-size:0px;padding:20px 25px 20px 25px;padding-top:20px;padding-bottom:20px;word-break:break-word;">
-                                                        <div style="font-family:Arial, sans-serif;font-size:13px;letter-spacing:normal;line-height:1;text-align:left;color:#000000;">
-                                                            <p class="text-build-content" style="text-align: center; margin: 10px 0; margin-top: 10px;">
-                                                                <span style="color:{{ $mailModel->footerColor }}; line-height:1.5; font-size:{{ $mailModel->footerSize }}pt;">{!! $mailModel->footerText !!}</span>
-                                                            </p>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        @endif
+                                        <tbody>
+                                            <tr>
+                                                <td align="left" style="font-size:0px;padding:20px 25px 20px 25px;padding-top:20px;padding-bottom:20px;word-break:break-word;">
+                                                    <div style="font-family:Arial, sans-serif;font-size:13px;letter-spacing:normal;line-height:1;text-align:left;color:#000000;">
+                                                        <p class="text-build-content" style="text-align: center; margin: 10px 0; margin-top: 10px;">
+                                                            <span style="color:{{ $mailModel->footerColor }}; line-height:1.5; font-size:{{ $mailModel->footerSize }}pt;">{!! $mailModel->footerText !!}</span>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                             </td>

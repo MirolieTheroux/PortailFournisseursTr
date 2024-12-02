@@ -20,7 +20,7 @@ class BuildMail extends Mailable
 
     public function __construct($user, $mailModel, $resetLink)
     {
-        $this->user = $user;
+        $this->destinator = $user;
         $this->mailModel = $mailModel;
         $this->resetLink = $resetLink;
     }

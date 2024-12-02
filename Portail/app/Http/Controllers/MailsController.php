@@ -22,7 +22,6 @@ class MailsController extends Controller
         $newMailModel->titleText = Blade::render($mailModel->titleText, ['supplier' => $supplier]);
         $newMailModel->titleSize = $mailModel->titleSize;
         $newMailModel->titleColor = $mailModel->titleColor;
-        $newMailModel->buttonIsActive = $mailModel->buttonIsActive;
         $newMailModel->buttonUrl = $mailModel->buttonUrl;
         $newMailModel->buttonText = Blade::render($mailModel->buttonText, ['supplier' => $supplier]);
         $newMailModel->buttonTextColor = $mailModel->buttonTextColor;
@@ -64,7 +63,6 @@ class MailsController extends Controller
         $newMailModel->titleText = Blade::render($mailModel->titleText, ['supplier' => $supplier]);
         $newMailModel->titleSize = $mailModel->titleSize;
         $newMailModel->titleColor = $mailModel->titleColor;
-        $newMailModel->buttonIsActive = $mailModel->buttonIsActive;
         $newMailModel->buttonUrl = $mailModel->buttonUrl;
         $newMailModel->buttonText = Blade::render($mailModel->buttonText, ['supplier' => $supplier]);
         $newMailModel->buttonTextColor = $mailModel->buttonTextColor;
@@ -92,7 +90,7 @@ class MailsController extends Controller
         $newMailModel->footerSize = $mailModel->footerSize;
         $newMailModel->footerColor = $mailModel->footerColor;
         $newMailModel->footerBackgroundUrl = $mailModel->footerBackgroundUrl;
-        Mail::to(env('MAIL_RESPONSABLE'))->send(new BuildMail($supplier, $mailModel, null));
+        Mail::to(env('MAIL_RESPONSABLE'))->send(new BuildMail($supplier, $newMailModel, null));
     }
 
     public function sendResetPasswordSupplierMail(Supplier $supplier, EmailModel $mailModel, string $resetLink)
@@ -106,7 +104,6 @@ class MailsController extends Controller
         $newMailModel->titleText = Blade::render($mailModel->titleText, ['supplier' => $supplier]);
         $newMailModel->titleSize = $mailModel->titleSize;
         $newMailModel->titleColor = $mailModel->titleColor;
-        $newMailModel->buttonIsActive = $mailModel->buttonIsActive;
         $newMailModel->buttonUrl = $mailModel->buttonUrl;
         $newMailModel->buttonText = Blade::render($mailModel->buttonText, ['supplier' => $supplier]);
         $newMailModel->buttonTextColor = $mailModel->buttonTextColor;
@@ -134,6 +131,6 @@ class MailsController extends Controller
         $newMailModel->footerSize = $mailModel->footerSize;
         $newMailModel->footerColor = $mailModel->footerColor;
         $newMailModel->footerBackgroundUrl = $mailModel->footerBackgroundUrl;
-        Mail::to($supplier->email)->send(new BuildMail($supplier, $mailModel, $resetLink));
+        Mail::to($supplier->email)->send(new BuildMail($supplier, $newMailModel, $resetLink));
     }
 }

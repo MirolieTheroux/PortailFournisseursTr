@@ -114,7 +114,7 @@ class SuppliersController extends Controller
       $resetLink = route('password.reset', ['token' => $token]);
 
       $mailsController = new MailsController();
-      $mailModel = EmailModel::where('name', 'SupplierResetPassword')->firstOrFail();
+      $mailModel = EmailModel::where('name', 'Réinitialisation mot de passe fournisseur')->firstOrFail();
       $mailsController->sendResetPasswordSupplierMail($supplier, $mailModel, $resetLink);
     }
     return redirect()->route('suppliers.showLogin')->with('message',__('login.linkSent'));

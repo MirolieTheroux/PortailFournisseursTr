@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('titleText', 64)->nullable();
             $table->integer('titleSize');
             $table->string('titleColor', 7);
-            $table->boolean('buttonIsActive');
             $table->string('buttonUrl', 512);
             $table->string('buttonText', 50);
             $table->string('buttonTextColor', 7);

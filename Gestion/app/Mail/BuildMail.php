@@ -16,13 +16,15 @@ class BuildMail extends Mailable
 
     public $user;
     public $mailModel;
-    public $destinator;
+    public $resetLink;
+    public $reason;
 
-    public function __construct($destinator, $user, $mailModel)
+    public function __construct($user, $mailModel, $resetLink, $reason)
     {
-        $this->user = $destinator;
-        $this->user = $user;
+        $this->destinator = $user;
         $this->mailModel = $mailModel;
+        $this->resetLink = $resetLink;
+        $this->reason = $reason;
     }
 
     public function build()

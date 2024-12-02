@@ -401,11 +401,11 @@ class SuppliersController extends Controller
   {
     $this->changeSupplierStatusWithReason($supplier, "denied", $request->deniedReason);
 
-    $this->verifyStatusAndSendMail("denied", $supplier);
-
     if($request->filled('includeDenialReason')){
-      //TODO::inclure la raison dans le courriel
-      Log::Debug('inclure la raison');
+      $this->SendMailWithReason($supplier, $request);
+    }
+    else {
+      $this->verifyStatusAndSendMail("denied", $supplier);
     }
 
     return redirect()->route('suppliers.show', ['supplier' => $supplier->id])->with('message',__('show.denialSuccess'));
@@ -594,21 +594,31 @@ class SuppliersController extends Controller
   private function verifyStatusAndSendMail(string $status, Supplier $supplier){
     $mailsController = new MailsController();
     if($status == "accepted"){
-      $mailModel = EmailModel::where('name', 'SupplierAccepted')->firstOrFail();
+      $mailModel = EmailModel::where('name', 'Fournisseur accepté')->firstOrFail();
       $mailsController->sendStatusSupplierMail($supplier, $mailModel);
     }
     else if($status == "denied"){
-      $mailModel = EmailModel::where('name', 'SupplierDenied')->firstOrFail();
+      $mailModel = EmailModel::where('name', 'Fournisseur refusé')->firstOrFail();
+      $mailsController->sendStatusSupplierMail($supplier, $mailModel);
+    }
+    else if($status == "deniedWithReason"){
+      $mailModel = EmailModel::where('name', 'Fournisseur refusé')->firstOrFail();
       $mailsController->sendStatusSupplierMail($supplier, $mailModel);
     }
     else if($status == "waiting"){
-      $mailModel = EmailModel::where('name', 'SupplierWaiting')->firstOrFail();
+      $mailModel = EmailModel::where('name', 'Fournisseur en attente')->firstOrFail();
       $mailsController->sendStatusSupplierMail($supplier, $mailModel);
     }
     else if($status == "toCheck"){
-      $mailModel = EmailModel::where('name', 'ResponsableToCheck')->firstOrFail();
+      $mailModel = EmailModel::where('name', 'Fournisseur à réviser')->firstOrFail();
       $mailsController->sendToCheckResponsableMail($supplier, $mailModel);
     }
+  }
+  
+  private function SendMailWithReason(Supplier $supplier, SupplierDenialRequest $request){
+    $mailsController = new MailsController();
+    $mailModel = EmailModel::where('name', 'Fournisseur refusé avec raison')->firstOrFail();
+    $mailsController->sendDeniedSupplierMail($supplier, $mailModel, $request->deniedReason);
   }
 
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
@@ -1150,16 +1160,6 @@ class SuppliersController extends Controller
     $writer->save($temp_file);
 
     return response()->download($temp_file, $fileName)->deleteFileAfterSend(true);
-  }
-
-  public function sendApprovalMail($supplierEmail){
-    Log::debug($supplierEmail);
-    $details = [
-      'title' => 'Mail from Laravel',
-      'body' => 'This is a test email.'
-    ];
-    Mail::to('fleurent.nicolas@hotmail.com')->send(new ApprovalMail($details));
-    return "Email Sent!";
   }
 
   public function checkEmail(Request $request)
