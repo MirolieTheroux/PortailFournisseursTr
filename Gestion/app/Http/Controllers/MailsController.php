@@ -10,9 +10,36 @@ use App\Models\EmailModel;
 use App\Http\Requests\SupplierDenialRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Blade;
+use App\Http\Requests\MailsUpdateRequest;
 
 class MailsController extends Controller
 {
+    public function fetch($name)
+    {
+        $mail = EmailModel::where('name', $name)->first();
+
+        if (!$mail) {
+            return response()->json(['error' => 'Mail model not found'], 404);
+        }
+
+        return response()->json($mail);
+    }
+
+    public function update(MailsUpdateRequest $request)
+    {
+        // Find the existing mail entry by 'name' or return an error if not found
+        $mail = EmailModel::where('name', $request->input('selectedMail'))->first();
+
+        if (!$mail) {
+            return redirect()->back()->withErrors(['selectedMail' => 'The selected mail does not exist.']);
+        }
+
+        // Update the mail with validated data
+        $mail->update($request->validated());
+
+        return redirect()->route('users.settings')->with('message',__('mail.mailModelModification'));
+    }
+
     public function sendStatusSupplierMail(Supplier $supplier, EmailModel $mailModel)
     {
         $newMailModel = new EmailModel();

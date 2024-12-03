@@ -59,8 +59,8 @@
                                                             <tbody>
                                                                 <tr>
                                                                     <td align="center" bgcolor="#ffffff" role="presentation" style="border:none;border-radius:20px;cursor:auto;mso-padding-alt:10px 25px;background:#ffffff;" valign="middle">
-                                                                        <a href="{{ $mailModel->buttonUrl }}" style="display:inline-block;background:#ffffff;color:#ffffff;font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:20px;" target="_blank">
-                                                                            <span style="background-color:{{ $mailModel->buttonBackgroundColor }};color:{{ $mailModel->buttonTextColor }};font-family:Arial;font-size:14px;">
+                                                                        <a href="{{ $mailModel->buttonUrl }}" style="display:inline-block;background:{{ $mailModel->buttonBackgroundColor }};color:#ffffff;font-family:Verdana, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:20px;" target="_blank">
+                                                                            <span style="color:{{ $mailModel->buttonTextColor }};font-family:Arial;font-size:14px;">
                                                                                 <b>{!! $mailModel->buttonText !!}</b>
                                                                             </span>
                                                                         </a>
@@ -170,7 +170,7 @@
                                                             </span>
                                                         @endif
                                                         @if ($mailModel->name === 'Réinitialisation mot de passe fournisseur')
-                                                            <a href="{{ $resetLink }}" style="background-color: {{ $mailModel->passwordResetButtonBackgroundColor }}; color: {{ $mailModel->passwordResetButtonColor }}; padding: 10px 20px; text-decoration: none;">{!! $mailModel->passwordResetButtonText !!}</a>
+                                                            <br><br><br><a href="{{ $resetLink }}" style="background-color: {{ $mailModel->passwordResetButtonBackgroundColor }}; color: {{ $mailModel->passwordResetButtonColor }}; padding: 10px 20px; text-decoration: none;">{!! $mailModel->passwordResetButtonText !!}</a>
                                                         @endif
                                                     </p>
                                                     @if ($mailModel->messageText)

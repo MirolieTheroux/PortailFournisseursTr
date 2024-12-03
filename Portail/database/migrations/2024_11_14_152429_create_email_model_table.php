@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('titleText', 64)->nullable();
             $table->integer('titleSize');
             $table->string('titleColor', 7);
-            $table->string('buttonUrl', 512);
-            $table->string('buttonText', 50);
+            $table->string('buttonUrl', 512)->nullable();
+            $table->string('buttonText', 50)->nullable();
             $table->string('buttonTextColor', 7);
             $table->string('buttonBackgroundColor', 7);
             $table->string('descriptionText', 100)->nullable();
@@ -36,13 +36,12 @@ return new class extends Migration
             $table->string('importantInfoText', 50)->nullable();
             $table->integer('importantInfoSize');
             $table->string('importantInfoColor', 7);
-            $table->string('passwordResetButtonText', 50);
+            $table->string('passwordResetButtonText', 50)->nullable();
             $table->string('passwordResetButtonColor', 7);
             $table->string('passwordResetButtonBackgroundColor', 7);
             $table->longText('messageText')->nullable();
             $table->integer('messageSize');
             $table->string('messageColor', 7);
-            $table->string('backgroundColor', 7);
             $table->string('footerText', 256)->nullable();
             $table->integer('footerSize');
             $table->string('footerColor', 7);

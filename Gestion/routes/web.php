@@ -6,6 +6,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AttachmentsController;
 use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\MailsController;
 use App\Http\Middleware\LoggerMiddleware;
 use App\Http\Middleware\CheckRole;
 
@@ -51,3 +52,6 @@ Route::patch('/settings/updateUser', [UsersController::class, 'updateUser'])->na
 Route::patch('/settings/updateSettings', [SettingsController::class, 'updateSettings'])->name('settings.update')->middleware('CheckRole:admin');
 
 Route::get('/doc', [DocumentationController::class, 'index'])->name('documentation.index');
+
+Route::get('/email-model/{name}', [MailsController::class, 'fetch'])->name('email-model.fetch');
+Route::patch('/save-mail', [MailsController::class, 'update'])->name('mail.update');

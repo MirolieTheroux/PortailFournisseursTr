@@ -32,3 +32,9 @@
 .height{
   height: 60px;
 }
+
+.mailModificationBox{
+  height: 600px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
