@@ -232,45 +232,46 @@
                     </select>
                   </div>
                   <div class="col-5">
-                    <a id="btnCancelMails" href="" class="m-2 py-1 px-3 rounded previous-button">{{__('global.cancel')}}</a>
+                    <a id="btnCancelMails" href="{{ route('users.settings', ['refresh' => $refreshCount]) }}#emails-section" class="m-2 py-1 px-3 rounded previous-button">{{__('global.cancel')}}</a>
                     <button id="btnSaveMails" type="submit" class="m-2 py-1 px-3 rounded button-darkblue">{{__('global.save')}}</button>
                   </div>
                 </div>
                 <div class="row mt-1">
                   <div class="col-10 offset-1">
-                    Insérez "{neq}", "{nom}", "{email}", "{site}", "{produits services détails}" dans n'importe quel champ de texte pour afficher les données des fournisseurs.
+                    Variables:<br>
+                    "{neq}", "{nom}", "{email}", "{site}", "{produits services détails}"
                   </div>
                 </div>
                 <div class="row mt-1">
                   <div class="col-10 offset-1 form-floating mb-3">
                     <input type="text" name="object" id="object" class="form-control" placeholder="" value="" maxlength="128" required>
-                    <label for="object">{{__('mail.Subjet')}}</label>
+                    <label for="object" class="ms-2">{{__('mail.Subjet')}}</label>
                   </div>
                 </div>
                 <div class="row mt-1">
                   <div class="col-10 offset-1 form-floating mb-3">
                     <input type="text" name="headerBackgroundUrl" id="headerBackgroundUrl" class="form-control" placeholder="" value="" maxlength="512">
-                    <label for="headerBackgroundUrl">{{__('mail.headerBackgroundUrl')}}</label>
+                    <label for="headerBackgroundUrl"  class="ms-2">{{__('mail.headerBackgroundUrl')}}</label>
                   </div>
                 </div>
                 <div class="row mt-1">
                   <div class="col-8 offset-1 form-floating mb-3">
                     <input type="text" name="logoUrl" id="logoUrl" class="form-control" placeholder="" value="" maxlength="512">
-                    <label for="logoUrl">{{__('mail.logoUrl')}}</label>
+                    <label for="logoUrl"  class="ms-2">{{__('mail.logoUrl')}}</label>
                   </div>
                   <div class="col-2 form-floating mb-3">
                     <input type="number" name="logoSize" id="logoSize" class="form-control" placeholder="" min="0" max="500" required>
-                    <label for="logoSize">{{__('mail.size')}}</label>
+                    <label for="logoSize" class="ms-2">{{__('mail.size')}}</label>
                   </div>
                 </div>
                 <div class="row mt-1">
                   <div class="col-7 offset-1 form-floating mb-3">
                     <input type="text" name="titleText" id="titleText" class="form-control" placeholder="" value="" maxlength="64">
-                    <label for="titleText">{{__('mail.titleText')}}</label>
+                    <label for="titleText" class="ms-2">{{__('mail.titleText')}}</label>
                   </div>
                   <div class="col-2 form-floating mb-3">
                     <input type="number" name="titleSize" id="titleSize" class="form-control" placeholder="" min="0" max="50" required>
-                    <label for="titleSize">{{__('mail.size')}}</label>
+                    <label for="titleSize" class="ms-2">{{__('mail.size')}}</label>
                   </div>
                   <div class="col-1 form-floating mb-3">
                     <input type="color" class="form-control form-control-color" id="titleColor" name="titleColor" value="#ffffff" title="{{__('mail.titleColor')}}" required>
@@ -279,11 +280,11 @@
                 <div class="row mt-1">
                   <div class="col-4 offset-1 form-floating mb-3">
                     <input type="text" name="buttonUrl" id="buttonUrl" class="form-control" placeholder="" value="" maxlength="512">
-                    <label for="buttonUrl">{{__('mail.buttonUrl')}}</label>
+                    <label for="buttonUrl" class="ms-2">{{__('mail.buttonUrl')}}</label>
                   </div>
                   <div class="col-4 form-floating mb-3">
                     <input type="text" name="buttonText" id="buttonText" class="form-control" placeholder="" value="" maxlength="50">
-                    <label for="buttonText">{{__('mail.buttonText')}}</label>
+                    <label for="buttonText" class="ms-2">{{__('mail.buttonText')}}</label>
                   </div>
                   <div class="col-1 form-floating mb-3">
                     <input type="color" class="form-control form-control-color" id="buttonTextColor" name="buttonTextColor" value="#ffffff" title="{{__('mail.buttonTextColor')}}" required>
@@ -295,11 +296,11 @@
                 <div class="row mt-1">
                   <div class="col-7 offset-1 form-floating mb-3">
                     <input type="text" name="descriptionText" id="descriptionText" class="form-control" placeholder="" value="" maxlength="100">
-                    <label for="descriptionText">{{__('mail.descriptionText')}}</label>
+                    <label for="descriptionText" class="ms-2">{{__('mail.descriptionText')}}</label>
                   </div>
                   <div class="col-2 form-floating mb-3">
                     <input type="number" name="descriptionSize" id="descriptionSize" class="form-control" placeholder="" min="0" max="50" required>
-                    <label for="descriptionSize">{{__('mail.size')}}</label>
+                    <label for="descriptionSize" class="ms-2">{{__('mail.size')}}</label>
                   </div>
                   <div class="col-1 form-floating mb-3">
                     <input type="color" class="form-control form-control-color" id="descriptionColor" name="descriptionColor" value="#ffffff" title="{{__('mail.descriptionColor')}}" required>
@@ -308,11 +309,11 @@
                 <div class="row mt-1">
                   <div class="col-7 offset-1 form-floating mb-3">
                     <input type="text" name="subtitleText" id="subtitleText" class="form-control" placeholder="" value="" maxlength="50">
-                    <label for="subtitleText">{{__('mail.subtitleText')}}</label>
+                    <label for="subtitleText" class="ms-2">{{__('mail.subtitleText')}}</label>
                   </div>
                   <div class="col-2 form-floating mb-3">
                     <input type="number" name="subtitleSize" id="subtitleSize" class="form-control" placeholder="" min="0" max="50" required>
-                    <label for="subtitleSize">{{__('mail.size')}}</label>
+                    <label for="subtitleSize" class="ms-2">{{__('mail.size')}}</label>
                   </div>
                   <div class="col-1 form-floating mb-3">
                     <input type="color" class="form-control form-control-color" id="subtitleColor" name="subtitleColor" value="#ffffff" title="{{__('mail.subtitleColor')}}" required>
@@ -321,21 +322,21 @@
                 <div class="row mt-1">
                   <div class="col-8 offset-1 form-floating mb-3">
                     <input type="text" name="iconUrl" id="iconUrl" class="form-control" placeholder="" value="" maxlength="512">
-                    <label for="iconUrl">{{__('mail.iconUrl')}}</label>
+                    <label for="iconUrl" class="ms-2">{{__('mail.iconUrl')}}</label>
                   </div>
                   <div class="col-2 form-floating mb-3">
                     <input type="number" name="iconSize" id="iconSize" class="form-control" placeholder="" min="0" max="500" required>
-                    <label for="iconSize">{{__('mail.size')}}</label>
+                    <label for="iconSize" class="ms-2">{{__('mail.size')}}</label>
                   </div>
                 </div>
                 <div class="row mt-1">
                   <div class="col-7 offset-1 form-floating mb-3">
                     <input type="text" name="importantInfoText" id="importantInfoText" class="form-control" placeholder="" value="" maxlength="50">
-                    <label for="importantInfoText">{{__('mail.importantInfoText')}}</label>
+                    <label for="importantInfoText" class="ms-2">{{__('mail.importantInfoText')}}</label>
                   </div>
                   <div class="col-2 form-floating mb-3">
                     <input type="number" name="importantInfoSize" id="importantInfoSize" class="form-control" placeholder="" min="0" max="50" required>
-                    <label for="importantInfoSize">{{__('mail.size')}}</label>
+                    <label for="importantInfoSize" class="ms-2">{{__('mail.size')}}</label>
                   </div>
                   <div class="col-1 form-floating mb-3">
                     <input type="color" class="form-control form-control-color" id="importantInfoColor" name="importantInfoColor" value="#ffffff" title="{{__('mail.importantInfoColor')}}" required>
@@ -344,7 +345,7 @@
                 <div class="row mt-1">
                   <div class="col-8 offset-1 form-floating mb-3">
                     <input type="text" name="passwordResetButtonText" id="passwordResetButtonText" class="form-control" placeholder="" value="" maxlength="50">
-                    <label for="passwordResetButtonText">{{__('mail.passwordResetButtonText')}}</label>
+                    <label for="passwordResetButtonText" class="ms-2">{{__('mail.passwordResetButtonText')}}</label>
                   </div>
                   <div class="col-1 form-floating mb-3">
                     <input type="color" class="form-control form-control-color" id="passwordResetButtonColor" name="passwordResetButtonColor" value="#ffffff" title="{{__('mail.passwordResetButtonColor')}}" required>
@@ -356,11 +357,11 @@
                 <div class="row mt-1">
                   <div class="col-7 offset-1 form-floating mb-3">
                     <input type="text" name="messageText" id="messageText" class="form-control" placeholder="" value="">
-                    <label for="messageText">{{__('mail.messageText')}}</label>
+                    <label for="messageText" class="ms-2">{{__('mail.messageText')}}</label>
                   </div>
                   <div class="col-2 form-floating mb-3">
                     <input type="number" name="messageSize" id="messageSize" class="form-control" placeholder="" min="0" max="50" required>
-                    <label for="messageSize">{{__('mail.size')}}</label>
+                    <label for="messageSize" class="ms-2">{{__('mail.size')}}</label>
                   </div>
                   <div class="col-1 form-floating mb-3">
                     <input type="color" class="form-control form-control-color" id="messageColor" name="messageColor" value="#ffffff" title="{{__('mail.messageColor')}}" required>
@@ -369,11 +370,11 @@
                 <div class="row mt-1">
                   <div class="col-7 offset-1 form-floating mb-3">
                     <input type="text" name="footerText" id="footerText" class="form-control" placeholder="" value="" maxlength="256">
-                    <label for="footerText">{{__('mail.footerText')}}</label>
+                    <label for="footerText" class="ms-2">{{__('mail.footerText')}}</label>
                   </div>
                   <div class="col-2 form-floating mb-3">
                     <input type="number" name="footerSize" id="footerSize" class="form-control" placeholder="" min="0" max="50" required>
-                    <label for="footerSize">{{__('mail.size')}}</label>
+                    <label for="footerSize" class="ms-2">{{__('mail.size')}}</label>
                   </div>
                   <div class="col-1 form-floating mb-3">
                     <input type="color" class="form-control form-control-color" id="footerColor" name="footerColor" value="#ffffff" title="{{__('mail.footerColor')}}" required>
@@ -382,7 +383,7 @@
                 <div class="row mt-1">
                   <div class="col-10 offset-1 form-floating mb-3">
                     <input type="text" name="footerBackgroundUrl" id="footerBackgroundUrl" class="form-control" placeholder="" value="" maxlength="512">
-                    <label for="footerBackgroundUrl">{{__('mail.footerBackgroundUrl')}}</label>
+                    <label for="footerBackgroundUrl" class="ms-2">{{__('mail.footerBackgroundUrl')}}</label>
                   </div>
                 </div>
               </div>

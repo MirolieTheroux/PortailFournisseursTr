@@ -37,7 +37,7 @@ class MailsController extends Controller
         // Update the mail with validated data
         $mail->update($request->validated());
 
-        return redirect()->route('users.settings')->with('message',__('mail.mailModelModification'));
+        return redirect()->route('users.settings')->with('message',__('mail.mailModelModification'))->header('Location', route('users.settings') . '#emails-section');
     }
 
     public function sendStatusSupplierMail(Supplier $supplier, EmailModel $mailModel)

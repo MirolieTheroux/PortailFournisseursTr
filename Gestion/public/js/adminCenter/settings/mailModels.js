@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Attach the 'change' event to all form elements
     Array.from(form.elements).forEach(element => {
-        element.addEventListener('change', insertValues);
+        element.addEventListener('input', insertValues);
     });
 });
 
