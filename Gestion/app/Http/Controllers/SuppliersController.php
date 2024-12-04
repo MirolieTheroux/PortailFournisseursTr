@@ -75,10 +75,11 @@ class SuppliersController extends Controller
     ->whereNotIn('id', function ($query) {
       $query->select('supplier_id')
             ->from('status_histories')
-            ->whereRaw('created_at = (SELECT MAX(created_at)
-                                      FROM status_histories
-                                      WHERE supplier_id = suppliers.id
-                                        AND status = "deactivated")');;
+            ->whereRaw('"deactivated" = (SELECT status
+                                          FROM status_histories
+                                          WHERE supplier_id = suppliers.id
+                                          ORDER BY created_at DESC
+                                          LIMIT 1)');
     })
     ->withCount([
       'productsServices as productsServicesCount' => function ($query) use ($productsServices) {
@@ -208,10 +209,11 @@ class SuppliersController extends Controller
         $suppliersQuery->whereNotIn('id', function ($query) {
           $query->select('supplier_id')
                 ->from('status_histories')
-                ->whereRaw('created_at = (SELECT MAX(created_at)
+                ->whereRaw('"deactivated" = (SELECT status
                                           FROM status_histories
                                           WHERE supplier_id = suppliers.id
-                                            AND status = "deactivated")');;
+                                          ORDER BY created_at DESC
+                                          LIMIT 1)');
         });
       }
 
