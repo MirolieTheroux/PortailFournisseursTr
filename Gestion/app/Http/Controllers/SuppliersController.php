@@ -75,10 +75,11 @@ class SuppliersController extends Controller
     ->whereNotIn('id', function ($query) {
       $query->select('supplier_id')
             ->from('status_histories')
-            ->whereRaw('created_at = (SELECT MAX(created_at)
-                                      FROM status_histories
-                                      WHERE supplier_id = suppliers.id
-                                        AND status = "deactivated")');;
+            ->whereRaw('"deactivated" = (SELECT status
+                                          FROM status_histories
+                                          WHERE supplier_id = suppliers.id
+                                          ORDER BY created_at DESC
+                                          LIMIT 1)');
     })
     ->withCount([
       'productsServices as productsServicesCount' => function ($query) use ($productsServices) {
@@ -90,7 +91,17 @@ class SuppliersController extends Controller
         $query->whereIn('code', $selectedWorkSubcategories);
       }
     ])
-    ->paginate(self::SUPPLIER_FETCH_LIMIT);
+    ->paginate(self::SUPPLIER_FETCH_LIMIT)
+    ->sortBy(function ($supplier) {
+        $status = $supplier->latestNonModifiedStatus->status ?? 'unknown';
+        return match ($status) {
+            'accepted' => 1,
+            'waiting' => 2,
+            'toCheck' => 3,
+            'refused' => 4,
+            default => 5,
+        };
+    });
 
     $waitingSuppliersCount = Supplier::whereHas('statusHistories', function ($query) {
       $query->where('status', 'waiting')
@@ -208,14 +219,25 @@ class SuppliersController extends Controller
         $suppliersQuery->whereNotIn('id', function ($query) {
           $query->select('supplier_id')
                 ->from('status_histories')
-                ->whereRaw('created_at = (SELECT MAX(created_at)
+                ->whereRaw('"deactivated" = (SELECT status
                                           FROM status_histories
                                           WHERE supplier_id = suppliers.id
-                                            AND status = "deactivated")');;
+                                          ORDER BY created_at DESC
+                                          LIMIT 1)');
         });
       }
 
-      $suppliers = $suppliersQuery->paginate(self::SUPPLIER_FETCH_LIMIT);
+      $suppliers = $suppliersQuery->paginate(self::SUPPLIER_FETCH_LIMIT)
+                                  ->sortBy(function ($supplier) {
+                                      $status = $supplier->latestNonModifiedStatus->status ?? 'unknown';
+                                      return match ($status) {
+                                          'accepted' => 1,
+                                          'waiting' => 2,
+                                          'toCheck' => 3,
+                                          'refused' => 4,
+                                          default => 5,
+                                      };
+                                  });
       
       return response()->json([
           'html' => view('suppliers.components.supplierList', compact('suppliers'))->render(),
@@ -355,7 +377,12 @@ class SuppliersController extends Controller
         $this->destroyAttachments($supplier);
       }
 
-      $this->verifyStatusAndSendMail($request->requestStatus, $supplier);
+      if($request->filled('includeDenialReason')){
+        $this->SendMailWithReasonUpdate($supplier, $request);
+      }
+      else {
+        $this->verifyStatusAndSendMail($request->requestStatus, $supplier);
+      }
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateStatus'));
@@ -619,6 +646,11 @@ class SuppliersController extends Controller
     $mailsController = new MailsController();
     $mailModel = EmailModel::where('name', 'Fournisseur refusé avec raison')->firstOrFail();
     $mailsController->sendDeniedSupplierMail($supplier, $mailModel, $request->deniedReason);
+  }  
+  private function SendMailWithReasonUpdate(Supplier $supplier, SupplierUpdateStatusRequest $request){
+    $mailsController = new MailsController();
+    $mailModel = EmailModel::where('name', 'Fournisseur refusé avec raison')->firstOrFail();
+    $mailsController->sendDeniedSupplierMail($supplier, $mailModel, $request->deniedReasonText);
   }
 
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)

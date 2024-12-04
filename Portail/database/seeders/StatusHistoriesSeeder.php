@@ -130,7 +130,7 @@ class StatusHistoriesSeeder extends Seeder
                     $createdAt = '2024-06-01 15:25:25';
                 }
                 else if($j == 2){
-                    $status = rand(1,2) == 1 ? 'accepted' : 'denied';
+                    $status = rand(1,4) != 1 ? 'accepted' : 'denied';
                     $updatedBy = "admin@vtr.net";
                     $secondStatus = $status;
                     if($status == 'denied'){
