@@ -91,7 +91,17 @@ class SuppliersController extends Controller
         $query->whereIn('code', $selectedWorkSubcategories);
       }
     ])
-    ->paginate(self::SUPPLIER_FETCH_LIMIT);
+    ->paginate(self::SUPPLIER_FETCH_LIMIT)
+    ->sortBy(function ($supplier) {
+        $status = $supplier->latestNonModifiedStatus->status ?? 'unknown';
+        return match ($status) {
+            'accepted' => 1,
+            'waiting' => 2,
+            'toCheck' => 3,
+            'refused' => 4,
+            default => 5,
+        };
+    });
 
     $waitingSuppliersCount = Supplier::whereHas('statusHistories', function ($query) {
       $query->where('status', 'waiting')
@@ -217,7 +227,17 @@ class SuppliersController extends Controller
         });
       }
 
-      $suppliers = $suppliersQuery->paginate(self::SUPPLIER_FETCH_LIMIT);
+      $suppliers = $suppliersQuery->paginate(self::SUPPLIER_FETCH_LIMIT)
+                                  ->sortBy(function ($supplier) {
+                                      $status = $supplier->latestNonModifiedStatus->status ?? 'unknown';
+                                      return match ($status) {
+                                          'accepted' => 1,
+                                          'waiting' => 2,
+                                          'toCheck' => 3,
+                                          'refused' => 4,
+                                          default => 5,
+                                      };
+                                  });
       
       return response()->json([
           'html' => view('suppliers.components.supplierList', compact('suppliers'))->render(),
