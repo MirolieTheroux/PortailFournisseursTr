@@ -361,7 +361,6 @@ class SuppliersController extends Controller
   
   public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier, StatusHistory $statusHistory)
   {
-    Log::debug($request);
     try {
       $user = Auth::user()->email;
       $statusHistory->status = $request->requestStatus;
