@@ -361,6 +361,7 @@ class SuppliersController extends Controller
   
   public function updateStatus(SupplierUpdateStatusRequest $request, Supplier $supplier, StatusHistory $statusHistory)
   {
+    Log::debug($request);
     try {
       $user = Auth::user()->email;
       $statusHistory->status = $request->requestStatus;
@@ -377,7 +378,12 @@ class SuppliersController extends Controller
         $this->destroyAttachments($supplier);
       }
 
-      $this->verifyStatusAndSendMail($request->requestStatus, $supplier);
+      if($request->filled('includeDenialReason')){
+        $this->SendMailWithReasonUpdate($supplier, $request);
+      }
+      else {
+        $this->verifyStatusAndSendMail($request->requestStatus, $supplier);
+      }
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateStatus'));
@@ -641,6 +647,11 @@ class SuppliersController extends Controller
     $mailsController = new MailsController();
     $mailModel = EmailModel::where('name', 'Fournisseur refusé avec raison')->firstOrFail();
     $mailsController->sendDeniedSupplierMail($supplier, $mailModel, $request->deniedReason);
+  }  
+  private function SendMailWithReasonUpdate(Supplier $supplier, SupplierUpdateStatusRequest $request){
+    $mailsController = new MailsController();
+    $mailModel = EmailModel::where('name', 'Fournisseur refusé avec raison')->firstOrFail();
+    $mailsController->sendDeniedSupplierMail($supplier, $mailModel, $request->deniedReasonText);
   }
 
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)

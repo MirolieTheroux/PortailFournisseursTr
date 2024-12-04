@@ -314,6 +314,18 @@
                   </textarea>
                   <label for="deniedReasonText" class="labelbackground">{{__('form.deniedReason')}}</label>
                 </div>
+                <div id="includeDenialReasonModifyContainer" class="d-none align-items-center">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="includeDenialReason"
+                    value="includeDenialReason"
+                    id="includeDenialReasonModify"
+                  >
+                  <label class="form-check-label text-start" for="includeDenialReasonModify">
+                    {{__('show.includeDenialReasontoEmail')}}
+                  </label>
+                </div>
               </div>
               <div class="invalid-feedback pb-3" id="deniedReasonRequired" style="display: none;">{{__('show.denialReasonRequiredError')}}</div>
               @if($errors->has('deniedReason'))
