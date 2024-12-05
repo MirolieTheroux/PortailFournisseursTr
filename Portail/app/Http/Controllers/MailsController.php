@@ -7,6 +7,7 @@ use App\Mail\BuildMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Supplier;
 use App\Models\EmailModel;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Blade;
 
 class MailsController extends Controller
@@ -19,8 +20,9 @@ class MailsController extends Controller
 
     public function sendInscriptionNotificationResponsableMail(Supplier $supplier, EmailModel $mailModel)
     {
+        $setting = Setting::where('id', 1)->first();
         $newMailModel = $this->prepareMailModel($supplier, $mailModel);
-        Mail::to('faucher.jeremy2.0@gmail.com')->send(new BuildMail($supplier, $newMailModel, null, null));
+        Mail::to($setting->approbation_email)->send(new BuildMail($supplier, $newMailModel, null, null));
     }
 
     public function sendResetPasswordSupplierMail(Supplier $supplier, EmailModel $mailModel, string $resetLink)
@@ -31,8 +33,9 @@ class MailsController extends Controller
 
     public function sendModificationResponsableMail(Supplier $supplier, EmailModel $mailModel, string $supplierModification)
     {
+        $setting = Setting::where('id', 1)->first();
         $newMailModel = $this->prepareMailModel($supplier, $mailModel);
-        Mail::to('faucher.jeremy2.0@gmail.com')->send(new BuildMail($supplier, $newMailModel, null, $supplierModification));
+        Mail::to($setting->approbation_email)->send(new BuildMail($supplier, $newMailModel, null, $supplierModification));
     }
 
     public function prepareMailModel($supplier, $mailModel){

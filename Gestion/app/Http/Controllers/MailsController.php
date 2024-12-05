@@ -7,6 +7,7 @@ use App\Mail\BuildMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Supplier;
 use App\Models\EmailModel;
+use App\Models\Setting;
 use App\Http\Requests\SupplierDenialRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Blade;
@@ -34,6 +35,7 @@ class MailsController extends Controller
             '{nom}' => '{{ $supplier->name }}',
             '{email}' => '{{ $supplier->email }}',
             '{site}' => '{{ $supplier->site }}',
+            '{raison}' => '{{ $raison }}',
             '{ligne}' => '<br>',
         ];
 
@@ -65,8 +67,9 @@ class MailsController extends Controller
 
     public function sendToCheckResponsableMail(Supplier $supplier, EmailModel $mailModel)
     {
+        $setting = Setting::where('id', 1)->first();
         $newMailModel = $this->prepareMailModel($supplier, $mailModel, null);
-        Mail::to('faucher.jeremy2.0@gmail.com')->send(new BuildMail($supplier, $newMailModel, null, null));
+        Mail::to($setting->approbation_email)->send(new BuildMail($supplier, $newMailModel, null, null));
     }
 
     public function prepareMailModel($supplier, $mailModel, $reason){
