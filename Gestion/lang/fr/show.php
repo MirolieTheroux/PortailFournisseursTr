@@ -32,6 +32,7 @@ return [
     'includeDenialReasontoEmail' => 'Inclure la raison du refus au courriel',
 
     'successUpdateStatus' => 'L\'état de la demande a été mis à jour.',
+    'exportSupplierToFinanceConfirm' => 'Le fournisseur a été exporté vers les finances.',
     'successUpdateIdentification' => 'L\'identification a été mise à jour.',
     'successUpdateContactDetails' => 'Les coordonnées ont été mises à jour.',
     'successUpdateContact' => 'Les contacts ont été mis à jour.',

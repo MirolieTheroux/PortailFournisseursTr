@@ -14,14 +14,14 @@ class BuildMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $supplier;
     public $mailModel;
     public $resetLink;
     public $reason;
 
-    public function __construct($user, $mailModel, $resetLink, $reason)
+    public function __construct($supplier, $mailModel, $resetLink, $reason)
     {
-        $this->destinator = $user;
+        $this->supplier = $supplier;
         $this->mailModel = $mailModel;
         $this->resetLink = $resetLink;
         $this->reason = $reason;

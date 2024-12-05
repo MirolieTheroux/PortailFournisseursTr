@@ -173,6 +173,47 @@
                                                             <br><br><br><a href="{{ $resetLink }}" style="background-color: {{ $mailModel->passwordResetButtonBackgroundColor }}; color: {{ $mailModel->passwordResetButtonColor }}; padding: 10px 20px; text-decoration: none;">{!! $mailModel->passwordResetButtonText !!}</a>
                                                         @endif
                                                     </p>
+                                                    @if ($mailModel->name === 'Exporter au finance')
+                                                        <p style="text-align: center;">
+                                                            <br><span style="color:{{ $mailModel->importantInfoColor }};font-size: 10pt;">{{ $supplier->tps_number }}</span>
+                                                            <br><span style="color:{{ $mailModel->importantInfoColor }};font-size: 10pt;">{{ $supplier->tvq_number }}</span>
+                                                            <br><span style="color:{{ $mailModel->importantInfoColor }};font-size: 10pt;">
+                                                                @if ($supplier->payment_condition == 'nowPaymentNoDeduction')
+                                                                    {{__('form.nowPaymentNoDeduction')}}
+                                                                @elseif ($supplier->payment_condition == 'nowPaymentNoDeduction15th')
+                                                                    {{__('form.nowPaymentNoDeduction15th')}}
+                                                                @elseif ($supplier->payment_condition == '15days2')
+                                                                    {{__('form.15days2')}}
+                                                                @elseif ($supplier->payment_condition == 'until15th')
+                                                                    {{__('form.until15th')}}
+                                                                @elseif ($supplier->payment_condition == '10days2')
+                                                                    {{__('form.10days2')}}
+                                                                @elseif ($supplier->payment_condition == '15daysNoDeduction')
+                                                                    {{__('form.15daysNoDeduction')}}
+                                                                @elseif ($supplier->payment_condition == '30daysNoDeduction')
+                                                                    {{__('form.30daysNoDeduction')}}
+                                                                @elseif ($supplier->payment_condition == '45daysNoDeduction')
+                                                                    {{__('form.45daysNoDeduction')}}
+                                                                @elseif ($supplier->payment_condition == '60daysNoDeduction')
+                                                                    {{__('form.60daysNoDeduction')}}
+                                                                @endif
+                                                            </span>
+                                                            <br><span style="color:{{ $mailModel->importantInfoColor }};font-size: 10pt;">
+                                                                @if ($supplier->currency == '1')
+                                                                    {{__('form.canadianCurrency')}}
+                                                                @elseif ($supplier->currency == '2')
+                                                                    {{__('form.usCurrency')}}
+                                                                @endif
+                                                            </span>
+                                                            <br><span style="color:{{ $mailModel->importantInfoColor }};font-size: 10pt;">
+                                                                @if ($supplier->communication_mode == '1')
+                                                                    {{__('form.email')}}
+                                                                @elseif ($supplier->communication_mode == '2')
+                                                                    {{__('form.mail')}}
+                                                                @endif
+                                                            </span>
+                                                        </p>
+                                                    @endif
                                                     @if ($mailModel->messageText)
                                                         <p class="text-build-content" style="text-align: center; margin: 0px 0; margin-bottom: 0px; padding-top: 10px;">
                                                             <span style="color:{{ $mailModel->messageColor }};font-family:Arial;font-size:{{ $mailModel->messageSize }}pt;line-height:22px;">{!! $mailModel->messageText !!}</span>

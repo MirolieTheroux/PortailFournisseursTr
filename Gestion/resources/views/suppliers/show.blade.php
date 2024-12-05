@@ -13,7 +13,10 @@
     <div class="left-nav shadow-sm col-2 bg-white h-100 d-flex flex-column justify-content-start">
       <h4 class="py-2 fw-bold">{{$supplier->name}}</h4>
       @role(['responsable', 'admin'])
-        <button id="btnExport" type="" class="my-2 py-1 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
+        <form action="{{ route('send.finance-email', ['supplier' => $supplier->id]) }}" method="POST">
+          @csrf
+          <button id="btnExport" type="submit" class="my-2 py-1 col-12 rounded button-darkblue">{{__('show.exportSupplierToFinance')}}</button>
+        </form>
         @if($supplier->latestNonModifiedStatus->status == 'deactivated')
         <a id="btnDelete" href="{{route('suppliers.reactivate', ['supplier' => $supplier->id])}}" class="my-2 py-1 rounded button-darkblue text-center">{{__('show.reactivate')}}</a>
         @else

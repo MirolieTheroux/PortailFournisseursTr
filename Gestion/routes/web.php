@@ -55,3 +55,5 @@ Route::get('/doc', [DocumentationController::class, 'index'])->name('documentati
 
 Route::get('/email-model/{name}', [MailsController::class, 'fetch'])->name('email-model.fetch');
 Route::patch('/save-mail', [MailsController::class, 'update'])->name('mail.update');
+
+Route::post('/send-finance-email/{supplier}', [MailsController::class, 'sendFinanceEmail'])->name('send.finance-email');

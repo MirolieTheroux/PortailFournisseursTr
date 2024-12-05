@@ -56,6 +56,16 @@ class MailsController extends Controller
         return redirect()->route('users.settings')->with('message',__('mail.mailModelModification'))->header('Location', route('users.settings') . '#emails-section');
     }
 
+    public function sendFinanceEmail(Supplier $supplier)
+    {
+        $setting = Setting::where('id', 1)->first();
+        $mailModel = EmailModel::where('name', 'Exporter au finance')->firstOrFail();
+        $newMailModel = $this->prepareMailModel($supplier, $mailModel, null);
+        Mail::to($setting->finance_email)->send(new BuildMail($supplier, $newMailModel, null, null));
+        return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
+      ->with('message',__('show.exportSupplierToFinanceConfirm'));
+    }
+
     public function sendStatusSupplierMail(Supplier $supplier, EmailModel $mailModel)
     {
         $newMailModel = $this->prepareMailModel($supplier, $mailModel, null);
