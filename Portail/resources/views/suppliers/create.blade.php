@@ -17,26 +17,38 @@
       <div class="step current clickFleche">
         <span class="number clickCircle">1</span>
         <span class="name">{{__('form.identificationTitle')}}</span>
+        <span class="icon-valid"></span>
+        <span class="icon-invalid"></span>
       </div>
       <div class="step clickFleche">
         <span class="number clickCircle">2</span>
         <span class="name">{{__('form.contactDetailsTitle')}}</span>
+        <span class="icon-valid"></span>
+        <span class="icon-invalid"></span>
       </div>
       <div class="step clickFleche">
         <span class="number clickCircle">3</span>
         <span class="name">{{__('form.contactsTitle')}}</span>
+        <span class="icon-valid"></span>
+        <span class="icon-invalid"></span>
       </div>
       <div class="step clickFleche">
         <span class="number clickCircle">4</span>
         <span class="name">{{__('form.productsAndServiceTitle')}}</span>
+        <span class="icon-valid"></span>
+        <span class="icon-invalid"></span>
       </div>
       <div class="step clickFleche">
         <span class="number clickCircle">5</span>
         <span class="name">{{__('form.rbqTitle')}}</span>
+        <span class="icon-valid"></span>
+        <span class="icon-invalid"></span>
       </div>
       <div class="step clickFleche">
         <span class="number clickCircle">6</span>
         <span class="name">{{__('form.attachmentFilesTitle')}}</span>
+        <span class="icon-valid"></span>
+        <span class="icon-invalid"></span>
       </div>
     </div>
   </div><!-- FIN PROGRESS BAR-->

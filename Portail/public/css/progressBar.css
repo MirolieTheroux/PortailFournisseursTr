@@ -61,9 +61,6 @@
 	border-left: 17px solid var(--dark_blue);	
 }
 
-.click:hover{
-  color: aqua;
-}
 
 /* MEDIA QUERIES */
 @media (min-width: 1400px) {
