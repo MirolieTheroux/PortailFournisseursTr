@@ -9,7 +9,7 @@ function replaceByPlaceholders(text) {
 
     let replacedText = text.replace(/{{\s*\$supplier->\w+\s*}}/g, (match) => placeholders[match] || match);
 
-    replacedText = replacedText.replace(/{{\s*\$raison\s*}}/g, '{raison}');
+    replacedText = replacedText.replace(/{{\s*\$reason\s*}}/g, '{raison}');
     replacedText = replacedText.replace(/<br\s*\/?>/gi, '{ligne}');
 
     return replacedText;

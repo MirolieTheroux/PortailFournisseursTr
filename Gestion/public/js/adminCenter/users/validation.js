@@ -2,7 +2,6 @@
 
 function validateAddUserModal(){
   validateUserEmail(userSelectEmailModal.value);
-  validateRoleModal();
 }
 
 function validateUserEmail(email) {
@@ -20,28 +19,14 @@ function validateUserEmail(email) {
   }
 }
 
-function validateRoleModal() {
-  if (getNumberAdminsListUsers() === 2 && selectRoleModal.value === "admin") {
-    selectRoleModal.classList.add('is-invalid');
-    maxAdminModal.style.display = 'block';
-  } else {
-    selectRoleModal.classList.remove('is-invalid');
-    maxAdminModal.style.display = 'none';
-  }
-}
-
  function validateExistingUserRole() {
-  let errorMax = false;
   let errorMin = false;
-  if (getNumberAdminsListUsers() > 2)
-    errorMax = true;
-  else if (getNumberAdminsListUsers() <= 1)
+  if (getNumberAdminsListUsers() <= 1)
     errorMin = true;
-  else{
-    errorMax = false;
-    errorMax = false;
-  }
-  return { errorMax, errorMin };
+  else
+    errorMin = false;
+  
+  return errorMin;
 }
 
 function validateRoleBeforeRemoving(role) {
@@ -66,14 +51,7 @@ function getNumberAdminsListUsers(){
 }
 
 function resetErrorMessagesRolesValid() {
-  const { errorMax, errorMin } = validateExistingUserRole();
-  if (!errorMax) {
-    errorMessagesMax.forEach((message) => {
-      const select = message.closest('.selects').querySelector('select');
-      select.classList.remove("is-invalid");
-      message.style.display = 'none';
-    });
-  }
+  const errorMin = validateExistingUserRole();
 
   if (!errorMin) {
     errorMessagesMin.forEach((message) => {

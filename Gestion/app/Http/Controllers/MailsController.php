@@ -39,7 +39,7 @@ class MailsController extends Controller
         ];
 
         if ($request->input('selectedMail') === 'Fournisseur refusé avec raison') {
-            $placeholders['{raison}'] = '{{ $raison }}';
+            $placeholders['{raison}'] = '{{ $reason }}';
         }
 
         $data = $request->validated();

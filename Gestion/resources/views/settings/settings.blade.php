@@ -142,8 +142,8 @@
         @method('PATCH')
         <h2 class="mb-0 row border-bottom border-2 border-dark mt-3">{{__('settings.settingsManagement')}}</h2>
         <div class="flex-grow-1 mx-4 my-3 d-flex flex-column justify-content-between">
-          <div class="mt-3 height">
-            <div class="row">
+          <div class="mt-3 height mb-3">
+            <div class="row flex-column">
               <div class="fs-5 col-6 d-flex align-items-center">
                 <div >{{__('settings.approverEmail')}}</div>
               </div>
@@ -151,50 +151,50 @@
                 <input type="email" name="approverEmail" id="approverEmail" class="form-control form-control-sm" value="{{ $settings->approbation_email }}" maxlength="64">
               </div>
             </div> 
-            <div class="row mb-3">
-              <div class="col-6 offset-6">
+            <div class="row">
+              <div class="col-6">
                 <div class="invalid-feedback" id="approverEmailInvalidEmpty" style="display: none;">{{__('form.contactsEmailsValidationRequired')}}</div>
                 <div class="invalid-feedback" id="approverEmailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
               </div>
             </div>
           </div>
-          <div class="mt-3 height">
-            <div class="row">
+          <div class="mt-3 height mb-3">
+            <div class="row flex-column">
               <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.financesEmail')}}</div>
               <div class="col-6">
                 <input type="email" name="financesEmail" id="financesEmail" class="form-control form-control-sm" value="{{ $settings->finance_email }}" maxlength="64">
               </div>
             </div>
-            <div class="row mb-4">
-              <div class="col-6 offset-6">
+            <div class="row">
+              <div class="col-6">
                 <div class="invalid-feedback" id="financesEmailInvalidEmpty" style="display: none;">{{__('form.contactsEmailsValidationRequired')}}</div>
                 <div class="invalid-feedback" id="financesEmailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
               </div>
             </div>
           </div>
-          <div class="mt-3 height">
-            <div class="row">
+          <div class="mt-3 height mb-3">
+            <div class="row flex-column">
               <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.maxSizeFiles')}}</div>
               <div class="col-6">
                 <input type="text" name="maxSizeFiles" id="maxSizeFiles" class="form-control form-control-sm" value="{{ $settings->file_max_size }}">
               </div>
             </div>
-            <div class="row mb-4">
-              <div class="col-6 offset-6">
+            <div class="row">
+              <div class="col-6">
                 <div class="invalid-feedback" id="maxsizeFilesInvalidEmpty" style="display: none;">{{__('settings.maxsizeFilesInvalidEmpty')}}</div>
                 <div class="invalid-feedback" id="maxsizeFilesInvalidFormat" style="display: none;">{{__('settings.maxsizeFilesInvalidFormat')}}</div>
               </div>
             </div>
           </div>
-          <div class="mt-3 height">
-            <div class="row">
+          <div class="mt-3 height mb-3">
+            <div class="row flex-column">
               <div class="fs-5 col-6 d-flex align-items-center">{{__('settings.timeBeforeRevisionMonth')}}</div>
               <div class="col-6">
                 <input type="text" name="timeBeforeRevisionMonth" id="timeBeforeRevisionMonth" class="form-control form-control-sm" value="{{ $settings->revision_delay }}">        
               </div>
             </div>
-            <div class="row mb-4">
-              <div class="col-6 offset-6">
+            <div class="row">
+              <div class="col-6">
                 <div class="invalid-feedback" id="timeBeforeRevisionMonthInvalidEmpty" style="display: none;">{{__('settings.timeBeforeRevisionMonthInvalidEmpty')}}</div>
                 <div class="invalid-feedback" id="timeBeforeRevisionMonthInvalidFormat" style="display: none;">{{__('settings.timeBeforeRevisionMonthInvalidFormat')}}</div>
               </div>

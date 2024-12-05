@@ -61,13 +61,6 @@ function addUser() {
     });
     divRole.appendChild(roleSelect);
 
-    const maxAdminError = document.createElement("div");
-    maxAdminError.classList.add("invalid-feedback", "text-start", "maxErrors");
-    maxAdminError.id = "maxAdminSelect" + (userListContainer.children.length);
-    maxAdminError.style.display = "none"; 
-    maxAdminError.textContent = "Il ne peut y avoir que deux administrateurs."; 
-    divRole.appendChild(maxAdminError);
-
     const minAdminError = document.createElement("div");
     minAdminError.classList.add("invalid-feedback", "text-start", "minErrors");
     minAdminError.id = "minAdmins" + (userListContainer.children.length);

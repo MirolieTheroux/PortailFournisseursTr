@@ -9,14 +9,13 @@ function removeUser() {
           const select = parentContainer.querySelector(".selects select");
           const role = select.value;
           const errorMessageMin = document.getElementById(`minAdmins${index + 1}`);
-          const errorMessageMax = document.getElementById(`maxAdminSelect${index + 1}`);
           const errorMin =  validateRoleBeforeRemoving(role);
           if (errorMin) {
             select.classList.add("is-invalid");
             errorMessageMin.style.display = 'block';
           }
           else {
-            if(errorMessageMin.style.display != "block" && errorMessageMax.style.display != "block" ){
+            if(errorMessageMin.style.display != "block"){
               user.remove();
             }
             if (getNumberAdminsListUsers() == 2) {
