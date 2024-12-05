@@ -1,6 +1,5 @@
 function replaceByPlaceholders(text) {
     if (!text) return '';
-
     const placeholders = {
         '{{ $supplier->neq }}': '{neq}',
         '{{ $supplier->name }}': '{nom}',
@@ -10,6 +9,7 @@ function replaceByPlaceholders(text) {
 
     let replacedText = text.replace(/{{\s*\$supplier->\w+\s*}}/g, (match) => placeholders[match] || match);
 
+    replacedText = replacedText.replace(/{{\s*\$raison\s*}}/g, '{raison}');
     replacedText = replacedText.replace(/<br\s*\/?>/gi, '{ligne}');
 
     return replacedText;
@@ -17,7 +17,7 @@ function replaceByPlaceholders(text) {
 
 function replacePlaceholders(text) {
     if (!text) return '';
-
+    const selectedEmail = document.getElementById('selectedMail').value;
     const placeholders = {
         '{neq}': '1111111111',
         '{nom}': 'Demo',
@@ -25,6 +25,10 @@ function replacePlaceholders(text) {
         '{site}': 'Demo.com',
         '{ligne}': '<br>',
     };
+
+    if (selectedEmail === "Fournisseur refusé avec raison") {
+        placeholders['{raison}'] = 'demo de raison';
+    }
 
     let replacedText = text.replace(/{[^}]+}/g, (match) => placeholders[match] || match);
 
