@@ -75,10 +75,11 @@ class SuppliersController extends Controller
     ->whereNotIn('id', function ($query) {
       $query->select('supplier_id')
             ->from('status_histories')
-            ->whereRaw('created_at = (SELECT MAX(created_at)
-                                      FROM status_histories
-                                      WHERE supplier_id = suppliers.id
-                                        AND status = "deactivated")');;
+            ->whereRaw('"deactivated" = (SELECT status
+                                          FROM status_histories
+                                          WHERE supplier_id = suppliers.id
+                                          ORDER BY created_at DESC
+                                          LIMIT 1)');
     })
     ->withCount([
       'productsServices as productsServicesCount' => function ($query) use ($productsServices) {
@@ -90,7 +91,17 @@ class SuppliersController extends Controller
         $query->whereIn('code', $selectedWorkSubcategories);
       }
     ])
-    ->paginate(self::SUPPLIER_FETCH_LIMIT);
+    ->paginate(self::SUPPLIER_FETCH_LIMIT)
+    ->sortBy(function ($supplier) {
+        $status = $supplier->latestNonModifiedStatus->status ?? 'unknown';
+        return match ($status) {
+            'accepted' => 1,
+            'waiting' => 2,
+            'toCheck' => 3,
+            'refused' => 4,
+            default => 5,
+        };
+    });
 
     $waitingSuppliersCount = Supplier::whereHas('statusHistories', function ($query) {
       $query->where('status', 'waiting')
@@ -208,14 +219,25 @@ class SuppliersController extends Controller
         $suppliersQuery->whereNotIn('id', function ($query) {
           $query->select('supplier_id')
                 ->from('status_histories')
-                ->whereRaw('created_at = (SELECT MAX(created_at)
+                ->whereRaw('"deactivated" = (SELECT status
                                           FROM status_histories
                                           WHERE supplier_id = suppliers.id
-                                            AND status = "deactivated")');;
+                                          ORDER BY created_at DESC
+                                          LIMIT 1)');
         });
       }
 
-      $suppliers = $suppliersQuery->paginate(self::SUPPLIER_FETCH_LIMIT);
+      $suppliers = $suppliersQuery->paginate(self::SUPPLIER_FETCH_LIMIT)
+                                  ->sortBy(function ($supplier) {
+                                      $status = $supplier->latestNonModifiedStatus->status ?? 'unknown';
+                                      return match ($status) {
+                                          'accepted' => 1,
+                                          'waiting' => 2,
+                                          'toCheck' => 3,
+                                          'refused' => 4,
+                                          default => 5,
+                                      };
+                                  });
       
       return response()->json([
           'html' => view('suppliers.components.supplierList', compact('suppliers'))->render(),
@@ -355,7 +377,12 @@ class SuppliersController extends Controller
         $this->destroyAttachments($supplier);
       }
 
-      $this->verifyStatusAndSendMail($request->requestStatus, $supplier);
+      if($request->filled('includeDenialReason')){
+        $this->SendMailWithReasonUpdate($supplier, $request);
+      }
+      else {
+        $this->verifyStatusAndSendMail($request->requestStatus, $supplier);
+      }
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateStatus'));
@@ -619,6 +646,11 @@ class SuppliersController extends Controller
     $mailsController = new MailsController();
     $mailModel = EmailModel::where('name', 'Fournisseur refusé avec raison')->firstOrFail();
     $mailsController->sendDeniedSupplierMail($supplier, $mailModel, $request->deniedReason);
+  }  
+  private function SendMailWithReasonUpdate(Supplier $supplier, SupplierUpdateStatusRequest $request){
+    $mailsController = new MailsController();
+    $mailModel = EmailModel::where('name', 'Fournisseur refusé avec raison')->firstOrFail();
+    $mailsController->sendDeniedSupplierMail($supplier, $mailModel, $request->deniedReasonText);
   }
 
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
@@ -953,26 +985,38 @@ class SuppliersController extends Controller
         $this->createAccountModificationLine($status, __('form.tvqNumber'), [$supplier->tvq_number], [$request->financesTvq], $finance_category_id);
         $supplier->tvq_number = $request->financesTvq;
       }
-      if($supplier->payment_condition != $request->financesPaymentConditions){
-        $supplierTradVariable = 'form.'.$supplier->payment_condition;
-        $requestTradVariable = 'form.'.$request->financesPaymentConditions;
+      if ($supplier->payment_condition != $request->financesPaymentConditions) {
+        if (!is_null($supplier->payment_condition))
+          $supplierTradVariable = 'form.' . $supplier->payment_condition;
+        else
+          $supplierTradVariable = null;
+
+        $requestTradVariable = 'form.' . $request->financesPaymentConditions;
         $this->createAccountModificationLine($status, __('form.paymentConditions'), [__($supplierTradVariable)], [__($requestTradVariable)], $finance_category_id);
         $supplier->payment_condition = $request->financesPaymentConditions;
       }
-      if($supplier->currency != $request->currency){
-        $supplierTradVariable = $supplier->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
+      if ($supplier->currency != $request->currency) {
+        if (!is_null($supplier->currency))
+          $supplierTradVariable = $supplier->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
+        else
+          $supplierTradVariable = null;
+
         $requestTradVariable = $request->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
         $this->createAccountModificationLine($status, __('form.currency'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
         $supplier->currency = $request->currency;
       }
-      if($supplier->communication_mode != $request->communication_mode){
-        $supplierTradVariable = $supplier->communication_mode == 1 ? __('form.email') : __('form.mail');
+      if ($supplier->communication_mode != $request->communication_mode) {
+        if (!is_null($supplier->communication_mode))
+          $supplierTradVariable = $supplier->communication_mode == 1 ? __('form.email') : __('form.mail');
+        else
+          $supplierTradVariable = null;
+
         $requestTradVariable = $request->communication_mode == 1 ? __('form.email') : __('form.mail');
         $this->createAccountModificationLine($status, __('form.communication'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
         $supplier->communication_mode = $request->communication_mode;
       }
       $supplier->save();
-
+      
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateFinance'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#finances-section');

@@ -8,6 +8,7 @@ const deniedReasonText = document.getElementById("deniedReasonText");
 const pendingOption = requestStatus.options[0];
 const oldValueRequest = requestStatus.value;
 const deniedReasonRequired = document.getElementById("deniedReasonRequired");
+const includeDenialReasonModifyContainer = document.getElementById("includeDenialReasonModifyContainer");
 
 document.addEventListener("DOMContentLoaded", function () {
   initializePopovers();
@@ -50,6 +51,7 @@ if(requestStatusEditBtn){
     requestStatus.removeAttribute("disabled");
     deniedReasonText.removeAttribute("disabled");
     requestStatus.options.remove(0);
+    includeDenialReasonModifyContainer.classList.remove("d-none");
   });
 }
 

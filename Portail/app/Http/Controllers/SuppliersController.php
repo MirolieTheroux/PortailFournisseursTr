@@ -1020,19 +1020,31 @@ class SuppliersController extends Controller
         $supplier->tvq_number = $request->financesTvq;
       }
       if($supplier->payment_condition != $request->financesPaymentConditions){
-        $supplierTradVariable = 'form.'.$supplier->payment_condition;
+        if(!is_null($supplier->payment_condition))
+          $supplierTradVariable = 'form.'.$supplier->payment_condition;
+        else
+         $supplierTradVariable = null;
+
         $requestTradVariable = 'form.'.$request->financesPaymentConditions;
         $this->createAccountModificationLine($status, __('form.paymentConditions'), [__($supplierTradVariable)], [__($requestTradVariable)], $finance_category_id);
         $supplier->payment_condition = $request->financesPaymentConditions;
       }
       if($supplier->currency != $request->currency){
-        $supplierTradVariable = $supplier->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
+        if(!is_null($supplier->currency))
+          $supplierTradVariable = $supplier->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
+        else
+          $supplierTradVariable = null;
+
         $requestTradVariable = $request->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
         $this->createAccountModificationLine($status, __('form.currency'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
         $supplier->currency = $request->currency;
       }
       if($supplier->communication_mode != $request->communication_mode){
-        $supplierTradVariable = $supplier->communication_mode == 1 ? __('form.email') : __('form.mail');
+        if(!is_null($supplier->communication_mode))
+          $supplierTradVariable = $supplier->communication_mode == 1 ? __('form.email') : __('form.mail');
+        else
+          $supplierTradVariable = null;
+
         $requestTradVariable = $request->communication_mode == 1 ? __('form.email') : __('form.mail');
         $this->createAccountModificationLine($status, __('form.communication'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
         $supplier->communication_mode = $request->communication_mode;
@@ -1182,7 +1194,7 @@ class SuppliersController extends Controller
     $accountModification->category_id = $categoryId;
     $accountModification->statusHistory()->associate($status);
     $accountModification->save();
-
+    Log::debug($deletionsInformations);
     foreach ($deletionsInformations as $deletionInformation) {
       if(!is_null($deletionInformation)){
         $deletion = new ModificationDeletion();
