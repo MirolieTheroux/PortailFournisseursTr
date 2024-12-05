@@ -666,7 +666,7 @@
                     </div>
                     <div class="text-center mb-4">
                       <div class="form-floating">
-                        <input type="text" name="contactJobs[]" id="{{"contactJob" . ($loop->index+1)}}" class="form-control contact-input contact-job-input" placeholder="" maxlength="32" value="{{ $contact->job }}" disabled>
+                        <input type="text" name="contactJobs[]" id="{{"contactJob" . ($loop->index+1)}}" class="form-control contact-input contact-job-input" placeholder="" maxlength="32" value="{{ $contact->job ? $contact->job : 'N/A' }}" disabled>
                         <label id="{{"contactJobLabel" . ($loop->index+1)}}" for="{{"contactJob" . ($loop->index+1)}}">{{__('form.jobLabel')}}</label>
                         <div class="text-start valid-feedback jobValid" style="display: none;"></br></div>
                         <div class="text-start invalid-feedback jobInvalidRequired" style="display: none;">{{__('form.contactsJobsValidationRequired')}}</div>

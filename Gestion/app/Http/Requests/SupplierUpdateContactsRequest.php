@@ -24,7 +24,7 @@ class SupplierUpdateContactsRequest extends FormRequest
         return [
             'contactFirstNames.*' => 'required|max:32|regex:/^[a-zA-ZÀ-ÿ\'\-]+$/',
             'contactLastNames.*' => 'required|max:32|regex:/^[a-zA-ZÀ-ÿ\'\-]+$/',
-            'contactJobs.*' => 'required|max:32',
+            'contactJobs.*' => 'max:32',
             'contactEmails.*' => 'required|email|max:64',
             'contactTelTypesA.*' => 'required',
             'contactTelNumbersA.*' => 'required|regex:/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/',
