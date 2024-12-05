@@ -16,19 +16,28 @@ function getSectionsInfo() {
     const sectionNavButton = document.getElementById(sectionNavto + '-nav-button');
     const sectionMobileButton = document.getElementById(sectionNavto + '-nav-mobile');
     
-    if( window.innerWidth >= 920)
+    if (window.innerWidth >= 920) {
       changeSVGFill(sectionNavButton);
-    else
+      sectionNavButton.classList.add("bg-gray"); 
+      lastClickedDiv = sectionNavButton;
+    } else {
       changeSVGFill(sectionMobileButton);
-  }
-  else{
+      sectionMobileButton.classList.add("bg-gray"); 
+      lastClickedDiv = sectionMobileButton;
+    }
+  } else {
     const sectionNavButton = document.getElementById('requestStatus-nav-button');
     const sectionMobileButton = document.getElementById('requestStatus-nav-mobile');
     
-    if( window.innerWidth >= 920)
+    if (window.innerWidth >= 920) {
       changeSVGFill(sectionNavButton);
-    else
+      sectionNavButton.classList.add("bg-gray");
+      lastClickedDiv = sectionNavButton;
+    } else {
       changeSVGFill(sectionMobileButton);
+      sectionMobileButton.classList.add("bg-gray");
+      lastClickedDiv = sectionMobileButton;
+    }
   }
   
   navSectionsDivs.forEach((div) => {
@@ -46,17 +55,24 @@ function getSectionsInfo() {
       changeSVGFill(div);
     });
   });
+
   mobileNavButtons.forEach((div) => {
     div.querySelectorAll("svg").forEach(svg => {
       svg.style.fill = "#0B2341";
     });
     div.addEventListener("click", function () {
+      if (lastClickedDiv) {
+        lastClickedDiv.classList.remove("bg-gray");
+      }
+      lastClickedDiv = div;
+      div.classList.add("bg-gray");
       div.style.cursor = "pointer"; 
       showSectionDoc(div.id.replace("-nav-mobile", "-section"));
-      changeSVGFill(div)
+      changeSVGFill(div);
     });
   });
 }
+
 
 function showSectionDoc(id) {
   const sections = document.getElementsByClassName("show-section");

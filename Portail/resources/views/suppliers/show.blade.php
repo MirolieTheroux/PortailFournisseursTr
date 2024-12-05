@@ -1127,7 +1127,8 @@
                 <div class="row flex-row justify-content-between">
                   <div class="col-10">
                     <div>
-                      <input class="form-control" type="file" id="formFile">
+                      <input class="form-control" type="file" id="formFile" accept=".doc,.docx,.pdf,.jpg,.jpeg,.png,.bmp,.tiff,.txt,.rtf,.odt,.xls,.xlsx,.ppt,.pptx">
+                      <div>{{__('form.attachmentFileFormat')}}</div>
                     </div>
                     <div class="text-start invalid-feedback attachment" id="attachmentFileRequired" style="display: none;">{{__('form.attachmentFileRequired')}}</div>
                     <div class="text-start invalid-feedback attachment" id="attachmentFileNameLength" style="display: none;">{{__('form.attachmentFileNameLength')}}</div>
