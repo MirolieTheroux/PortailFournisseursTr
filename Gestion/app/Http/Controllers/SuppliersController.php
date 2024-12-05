@@ -655,6 +655,7 @@ class SuppliersController extends Controller
 
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
   {
+    Log::debug($request);
     $contacts_category_id = 3;
     
     try {

@@ -109,8 +109,6 @@ function validateContactsJob(id) {
   // Basic validation logic
   if (!input.value) {
     input.classList.remove('is-valid');
-    input.classList.add('is-invalid');
-    invalidRequiredMessage.style.display = 'block';
   }
   else {
     input.classList.remove('is-invalid');

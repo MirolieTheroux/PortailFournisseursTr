@@ -128,7 +128,12 @@
 
       <div id="doc-section-emailsManagement" class="d-none doc-section">
         <h2 class="text-start">{{__('documentation.emailsManagement')}}</h2>
-        <p>Vidéo à venir</p>
+        <div class="d-flex w-100 justify-content-center mb-3">
+          <video width="700" height="400" controls>
+            <source src="{{ asset('video/modele_courriel.mp4') }}" type="video/mp4">
+              {{__('documentation.videoFail')}}
+          </video>
+        </div>
       </div>
       @endrole
     </div>
