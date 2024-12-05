@@ -27,103 +27,49 @@ class MailsController extends Controller
 
     public function update(MailsUpdateRequest $request)
     {
-        // Find the existing mail entry by 'name' or return an error if not found
         $mail = EmailModel::where('name', $request->input('selectedMail'))->first();
 
-        if (!$mail) {
-            return redirect()->back()->withErrors(['selectedMail' => 'The selected mail does not exist.']);
+        $placeholders = [
+            '{neq}' => '{{ $supplier->neq }}',
+            '{nom}' => '{{ $supplier->name }}',
+            '{email}' => '{{ $supplier->email }}',
+            '{site}' => '{{ $supplier->site }}',
+            '{ligne}' => '<br>',
+        ];
+
+        $data = $request->validated();
+
+        foreach ($data as $key => $value) {
+            if (is_string($value)) {
+                $sanitizedValue = strip_tags($value);
+                $data[$key] = str_replace(array_keys($placeholders), array_values($placeholders), $sanitizedValue);
+            }
         }
 
-        // Update the mail with validated data
-        $mail->update($request->validated());
+        $mail->update($data);
 
         return redirect()->route('users.settings')->with('message',__('mail.mailModelModification'))->header('Location', route('users.settings') . '#emails-section');
     }
 
     public function sendStatusSupplierMail(Supplier $supplier, EmailModel $mailModel)
     {
-        $newMailModel = new EmailModel();
-        $newMailModel->id = $mailModel->id;
-        $newMailModel->name = $mailModel->name;
-        $newMailModel->object = Blade::render($mailModel->object, ['supplier' => $supplier]);
-        $newMailModel->logoUrl = $mailModel->logoUrl;
-        $newMailModel->logoSize = $mailModel->logoSize;
-        $newMailModel->titleText = Blade::render($mailModel->titleText, ['supplier' => $supplier]);
-        $newMailModel->titleSize = $mailModel->titleSize;
-        $newMailModel->titleColor = $mailModel->titleColor;
-        $newMailModel->buttonUrl = $mailModel->buttonUrl;
-        $newMailModel->buttonText = Blade::render($mailModel->buttonText, ['supplier' => $supplier]);
-        $newMailModel->buttonTextColor = $mailModel->buttonTextColor;
-        $newMailModel->buttonBackgroundColor = $mailModel->buttonBackgroundColor;
-        $newMailModel->descriptionText = Blade::render($mailModel->descriptionText, ['supplier' => $supplier]);
-        $newMailModel->descriptionSize = $mailModel->descriptionSize;
-        $newMailModel->descriptionColor = $mailModel->descriptionColor;
-        $newMailModel->headerBackgroundUrl = $mailModel->headerBackgroundUrl;
-        $newMailModel->subtitleText = Blade::render($mailModel->subtitleText, ['supplier' => $supplier]);
-        $newMailModel->subtitleSize = $mailModel->subtitleSize;
-        $newMailModel->subtitleColor = $mailModel->subtitleColor;
-        $newMailModel->iconUrl = $mailModel->iconUrl;
-        $newMailModel->iconSize = $mailModel->iconSize;
-        $newMailModel->importantInfoText = Blade::render($mailModel->importantInfoText, ['supplier' => $supplier]);
-        $newMailModel->importantInfoSize = $mailModel->importantInfoSize;
-        $newMailModel->importantInfoColor = $mailModel->importantInfoColor;
-        $newMailModel->passwordResetButtonText = Blade::render($mailModel->passwordResetButtonText, ['supplier' => $supplier]);
-        $newMailModel->passwordResetButtonColor = $mailModel->passwordResetButtonColor;
-        $newMailModel->passwordResetButtonBackgroundColor = $mailModel->passwordResetButtonBackgroundColor;
-        $newMailModel->messageText = Blade::render($mailModel->messageText, ['supplier' => $supplier]);
-        $newMailModel->messageSize = $mailModel->messageSize;
-        $newMailModel->messageColor = $mailModel->messageColor;
-        $newMailModel->backgroundColor = $mailModel->backgroundColor;
-        $newMailModel->footerText = Blade::render($mailModel->footerText, ['supplier' => $supplier]);
-        $newMailModel->footerSize = $mailModel->footerSize;
-        $newMailModel->footerColor = $mailModel->footerColor;
-        $newMailModel->footerBackgroundUrl = $mailModel->footerBackgroundUrl;
+        $newMailModel = $this->prepareMailModel($supplier, $mailModel);
         Mail::to($supplier->email)->send(new BuildMail($supplier, $newMailModel, null, null));
     }
 
     public function sendDeniedSupplierMail(Supplier $supplier, EmailModel $mailModel, string $reason)
     {
-        $newMailModel = new EmailModel();
-        $newMailModel->id = $mailModel->id;
-        $newMailModel->name = $mailModel->name;
-        $newMailModel->object = Blade::render($mailModel->object, ['supplier' => $supplier, 'reason' => $reason]);
-        $newMailModel->logoUrl = $mailModel->logoUrl;
-        $newMailModel->logoSize = $mailModel->logoSize;
-        $newMailModel->titleText = Blade::render($mailModel->titleText, ['supplier' => $supplier, 'reason' => $reason]);
-        $newMailModel->titleSize = $mailModel->titleSize;
-        $newMailModel->titleColor = $mailModel->titleColor;
-        $newMailModel->buttonUrl = $mailModel->buttonUrl;
-        $newMailModel->buttonText = Blade::render($mailModel->buttonText, ['supplier' => $supplier, 'reason' => $reason]);
-        $newMailModel->buttonTextColor = $mailModel->buttonTextColor;
-        $newMailModel->buttonBackgroundColor = $mailModel->buttonBackgroundColor;
-        $newMailModel->descriptionText = Blade::render($mailModel->descriptionText, ['supplier' => $supplier, 'reason' => $reason]);
-        $newMailModel->descriptionSize = $mailModel->descriptionSize;
-        $newMailModel->descriptionColor = $mailModel->descriptionColor;
-        $newMailModel->headerBackgroundUrl = $mailModel->headerBackgroundUrl;
-        $newMailModel->subtitleText = Blade::render($mailModel->subtitleText, ['supplier' => $supplier, 'reason' => $reason]);
-        $newMailModel->subtitleSize = $mailModel->subtitleSize;
-        $newMailModel->subtitleColor = $mailModel->subtitleColor;
-        $newMailModel->iconUrl = $mailModel->iconUrl;
-        $newMailModel->iconSize = $mailModel->iconSize;
-        $newMailModel->importantInfoText = Blade::render($mailModel->importantInfoText, ['supplier' => $supplier, 'reason' => $reason]);
-        $newMailModel->importantInfoSize = $mailModel->importantInfoSize;
-        $newMailModel->importantInfoColor = $mailModel->importantInfoColor;
-        $newMailModel->passwordResetButtonText = Blade::render($mailModel->passwordResetButtonText, ['supplier' => $supplier, 'reason' => $reason]);
-        $newMailModel->passwordResetButtonColor = $mailModel->passwordResetButtonColor;
-        $newMailModel->passwordResetButtonBackgroundColor = $mailModel->passwordResetButtonBackgroundColor;
-        $newMailModel->messageText = Blade::render($mailModel->messageText, ['supplier' => $supplier, 'reason' => $reason]);
-        $newMailModel->messageSize = $mailModel->messageSize;
-        $newMailModel->messageColor = $mailModel->messageColor;
-        $newMailModel->backgroundColor = $mailModel->backgroundColor;
-        $newMailModel->footerText = Blade::render($mailModel->footerText, ['supplier' => $supplier, 'reason' => $reason]);
-        $newMailModel->footerSize = $mailModel->footerSize;
-        $newMailModel->footerColor = $mailModel->footerColor;
-        $newMailModel->footerBackgroundUrl = $mailModel->footerBackgroundUrl;
+        $newMailModel = $this->prepareMailModel($supplier, $mailModel);
         Mail::to($supplier->email)->send(new BuildMail($supplier, $newMailModel, null, $reason));
     }
 
     public function sendToCheckResponsableMail(Supplier $supplier, EmailModel $mailModel)
     {
+        $newMailModel = $this->prepareMailModel($supplier, $mailModel);
+        Mail::to('faucher.jeremy2.0@gmail.com')->send(new BuildMail($supplier, $newMailModel, null, null));
+    }
+
+    public function prepareMailModel($supplier, $mailModel){
         $newMailModel = new EmailModel();
         $newMailModel->id = $mailModel->id;
         $newMailModel->name = $mailModel->name;
@@ -160,6 +106,6 @@ class MailsController extends Controller
         $newMailModel->footerSize = $mailModel->footerSize;
         $newMailModel->footerColor = $mailModel->footerColor;
         $newMailModel->footerBackgroundUrl = $mailModel->footerBackgroundUrl;
-        Mail::to(env('MAIL_RESPONSABLE'))->send(new BuildMail($supplier, $newMailModel, null, null));
+        return $newMailModel;
     }
 }

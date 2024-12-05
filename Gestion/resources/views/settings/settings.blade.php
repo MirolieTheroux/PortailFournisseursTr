@@ -239,7 +239,7 @@
                 <div class="row mt-1">
                   <div class="col-10 offset-1">
                     Variables:<br>
-                    "{neq}", "{nom}", "{email}", "{site}", "{produits services détails}"
+                    "{neq}", "{nom}", "{email}", "{site}", "{ligne}"
                   </div>
                 </div>
                 <div class="row mt-1">

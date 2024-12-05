@@ -6,7 +6,6 @@ function replaceByPlaceholders(text) {
         '{{ $supplier->name }}': '{nom}',
         '{{ $supplier->email }}': '{email}',
         '{{ $supplier->site }}': '{site}',
-        '{{ $supplier->product_service_detail }}': '{produits services détails}',
     };
 
     let replacedText = text.replace(/{{\s*\$supplier->\w+\s*}}/g, (match) => placeholders[match] || match);
@@ -24,7 +23,6 @@ function replacePlaceholders(text) {
         '{nom}': 'Demo',
         '{email}': 'Demo@example.com',
         '{site}': 'Demo.com',
-        '{produits services détails}': 'Détails de produits et services',
         '{ligne}': '<br>',
     };
 

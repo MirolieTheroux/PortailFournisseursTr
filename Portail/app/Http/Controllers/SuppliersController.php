@@ -1170,7 +1170,7 @@ class SuppliersController extends Controller
     $status->save();
     return $status;
   }
-
+  
   /**
    * Create an account modification line.
    */
