@@ -501,23 +501,56 @@ class SuppliersController extends Controller
   public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
   {
     $identification_category_id = 1;
-
     try{
       $status = $this->changeStatus($supplier, "modified");
-
+      $supplierModification = "";
       if($supplier->neq != $request->neq){
         $this->createAccountModificationLine($status, __('form.neqLabelShort'), [$supplier->neq], [$request->neq], $identification_category_id);
+        if (is_null($request->neq)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->neq}</span><br>";
+        }
+        else if (is_null($supplier->neq)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->neq}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->neq}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->neq}</span><br>";
+        }
         $supplier->neq = $request->neq;
       }
       if($supplier->name != $request->name){
         $this->createAccountModificationLine($status, __('form.companyNameLabel'), [$supplier->name], [$request->name], $identification_category_id);
+        if (is_null($request->name)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->name}</span><br>";
+        }
+        else if (is_null($supplier->name)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->name}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->name}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->name}</span><br>";
+        }
         $supplier->name = $request->name;
       }
       if($supplier->email != $request->email){
         $this->createAccountModificationLine($status, __('form.emailLabel'), [$supplier->email], [$request->email], $identification_category_id);
+        if (is_null($request->email)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->email}</span><br>";
+        }
+        else if (is_null($supplier->email)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->email}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->email}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->email}</span><br>";
+        }
         $supplier->email = $request->email;
       }
       $supplier->save();
+
+	    $mailsController = new MailsController();
+		  $mailModel = EmailModel::where('name', 'Fournisseur modifié')->firstOrFail();
+		  $mailsController->sendModificationResponsableMail($supplier, $mailModel, $supplierModification);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateContactDetails'))
@@ -579,19 +612,50 @@ class SuppliersController extends Controller
     $contactDetails_category_id = 2;
     $removedPhoneNumbers = [];
     $addedPhoneNumbers = [];
+    $supplierModification = "";
     try{
       $status = $this->changeStatus($supplier, "modified");
       //Update Address
       if($supplier->address->civic_no != $request->contactDetailsCivicNumber){
         $this->createAccountModificationLine($status, __('form.civicNumberLabel'), [$supplier->address->civic_no], [$request->contactDetailsCivicNumber], $contactDetails_category_id);
+        if (is_null($request->contactDetailsCivicNumber)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->civic_no}</span><br>";
+        }
+        else if (is_null($supplier->address->civic_no)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsCivicNumber}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->civic_no}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsCivicNumber}</span><br>";
+        }
         $supplier->address->civic_no = $request->contactDetailsCivicNumber;
       }
       if($supplier->address->street != $request->contactDetailsStreetName){
         $this->createAccountModificationLine($status, __('form.streetName'), [$supplier->address->street], [$request->contactDetailsStreetName], $contactDetails_category_id);
+        if (is_null($request->contactDetailsStreetName)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->street}</span><br>";
+        }
+        else if (is_null($supplier->address->street)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsStreetName}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->street}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsStreetName}</span><br>";
+        }
         $supplier->address->street = $request->contactDetailsStreetName;
       }
       if($supplier->address->office != $request->contactDetailsOfficeNumber){
         $this->createAccountModificationLine($status, __('form.officeNumber'), [$supplier->address->office], [$request->contactDetailsOfficeNumber], $contactDetails_category_id);
+        if (is_null($request->contactDetailsOfficeNumber)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->office}</span><br>";
+        }
+        else if (is_null($supplier->address->office)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsOfficeNumber}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->office}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsOfficeNumber}</span><br>";
+        }
         $supplier->address->office = $request->contactDetailsOfficeNumber;
       }
 
@@ -600,34 +664,86 @@ class SuppliersController extends Controller
       $postal_code = strtoupper($postal_code);
       if($supplier->address->postal_code != $postal_code){
         $this->createAccountModificationLine($status, __('form.postalCode'), [$supplier->address->postal_code], [$postal_code], $contactDetails_category_id);
+        if (is_null($postal_code)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->postal_code}</span><br>";
+        }
+        else if (is_null($supplier->address->postal_code)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$postal_code}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->postal_code}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$postal_code}</span><br>";
+        }
         $supplier->address->postal_code = $postal_code;
       }
 
       $province = Province::where('name', $request->contactDetailsProvince)->firstOrFail();
       if($supplier->address->province->id != $province->id){
         $this->createAccountModificationLine($status, __('form.province'), [$supplier->address->province->name], [$province->name], $contactDetails_category_id);
+        $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->province->name}</span><br>";
+        $supplierModification .= "<span style='color:#68B545;'>+ {$province->name}</span><br>";
         $supplier->address->province()->associate($province);
       }
 
       if($request->contactDetailsProvince == "Québec"){
         if($supplier->address->city != $request->contactDetailsCitySelect){
           $this->createAccountModificationLine($status, __('form.city'), [$supplier->address->city], [$request->contactDetailsCitySelect], $contactDetails_category_id);
+          if (is_null($request->contactDetailsCitySelect)){
+            $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->city}</span><br>";
+          }
+          else if (is_null($supplier->address->city)){
+            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsCitySelect}</span><br>";
+          }
+          else{
+            $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->city}</span><br>";
+            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsCitySelect}</span><br>";
+          }
           $supplier->address->city = $request->contactDetailsCitySelect;
         }
       }
       else{
         if($supplier->address->city != $request->contactDetailsInputCity){
           $this->createAccountModificationLine($status, __('form.city'), [$supplier->address->city], [$request->contactDetailsInputCity], $contactDetails_category_id);
+          if (is_null($request->contactDetailsInputCity)){
+            $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->city}</span><br>";
+          }
+          else if (is_null($supplier->address->city)){
+            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsInputCity}</span><br>";
+          }
+          else{
+            $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->city}</span><br>";
+            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsInputCity}</span><br>";
+          }
           $supplier->address->city = $request->contactDetailsInputCity;
         }
       }
       if($supplier->address->region != $request->contactDetailsDistrictArea){
         $this->createAccountModificationLine($status, __('form.districtArea'), [$supplier->address->region], [$request->contactDetailsDistrictArea], $contactDetails_category_id);
+        if (is_null($request->contactDetailsDistrictArea)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->region}</span><br>";
+        }
+        else if (is_null($supplier->address->region)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsDistrictArea}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->region}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsDistrictArea}</span><br>";
+        }
         $supplier->address->region = $request->contactDetailsDistrictArea;
       }
 
       if($supplier->site != $request->contactDetailsWebsite){
         $this->createAccountModificationLine($status, __('form.website'), [$supplier->site], [$request->contactDetailsWebsite], $contactDetails_category_id);
+        if (is_null($request->contactDetailsWebsite)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->site}</span><br>";
+        }
+        else if (is_null($supplier->site)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsWebsite}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->site}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsWebsite}</span><br>";
+        }
         $supplier->site = $request->contactDetailsWebsite;
       }
       $supplier->address->save();
@@ -641,6 +757,7 @@ class SuppliersController extends Controller
         $extension = "";
         if($phoneNumber->extension)
           $extension = " #".$phoneNumber->extension;
+        $supplierModification .= "<span style='color:#E5004D;'>- {$phoneNumber->number} {$phoneNumber->type} {$phoneNumber->extension}</span><br>";
         array_push($removedPhoneNumbers, $phoneNumber->type.' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number).$extension);
       }
       PhoneNumber::whereIn('id', $idsToDelete)->delete();
@@ -658,12 +775,17 @@ class SuppliersController extends Controller
           $extension = "";
           if($phoneNumber->extension)
             $extension = " #".$phoneNumber->extension;
+          $supplierModification .= "<span style='color:#68B545;'>+ {$phoneNumber->number} {$phoneNumber->type} {$phoneNumber->extension}</span><br>";
           array_push($addedPhoneNumbers, $request->phoneTypes[$i].' '.preg_replace('/(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/', '$1-$2-$3', $phoneNumber->number).$extension);
         }
       }
 
       if(Count($removedPhoneNumbers) > 0 || Count($addedPhoneNumbers) > 0)
         $this->createAccountModificationLine($status, __('form.phoneNumber'), $removedPhoneNumbers, $addedPhoneNumbers, $contactDetails_category_id);
+
+      $mailsController = new MailsController();
+		  $mailModel = EmailModel::where('name', 'Fournisseur modifié')->firstOrFail();
+		  $mailsController->sendModificationResponsableMail($supplier, $mailModel, $supplierModification);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateIdentification'))
@@ -682,6 +804,7 @@ class SuppliersController extends Controller
   public function updateContacts(SupplierUpdateContactsRequest $request, Supplier $supplier)
   {
     $contacts_category_id = 3;
+    $supplierModification = "";
     try {
       $status = $this->changeStatus($supplier, "modified");
 
@@ -691,6 +814,7 @@ class SuppliersController extends Controller
             $phoneNumber->delete();
           }
           $this->createAccountModificationLine($status, $contact->first_name.' '.$contact->last_name, [__('accountModification.deletion')], [], $contacts_category_id);
+          $supplierModification .= "<span style='color:#E5004D;'>- {$contact->first_name} {$contact->last_name}</span><br>";
           $contact->delete();
         }
       }
@@ -707,21 +831,61 @@ class SuppliersController extends Controller
         }
         
         if($contact->email != $request->contactEmails[$i]){
+          if (is_null($request->contactEmails[$i])){
+            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->email}</span><br>";
+          }
+          else if (is_null($contact->email)){
+            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactEmails[$i]}</span><br>";
+          }
+          else{
+            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->email}</span><br>";
+            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactEmails[$i]}</span><br>";
+          }
           array_push($removedInformations, $contact->email);
           array_push($addedInformations, $request->contactEmails[$i]);
           $contact->email = $request->contactEmails[$i];
         }
         if($contact->first_name != $request->contactFirstNames[$i]){
+          if (is_null($request->contactFirstNames[$i])){
+            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->first_name}</span><br>";
+          }
+          else if (is_null($contact->first_name)){
+            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactFirstNames[$i]}</span><br>";
+          }
+          else{
+            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->first_name}</span><br>";
+            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactFirstNames[$i]}</span><br>";
+          }
           array_push($removedInformations, $contact->first_name);
           array_push($addedInformations, $request->contactFirstNames[$i]);
           $contact->first_name = $request->contactFirstNames[$i];
         }
         if($contact->last_name != $request->contactLastNames[$i]){
+          if (is_null($request->contactLastNames[$i])){
+            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->last_name}</span><br>";
+          }
+          else if (is_null($contact->last_name)){
+            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactLastNames[$i]}</span><br>";
+          }
+          else{
+            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->last_name}</span><br>";
+            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactLastNames[$i]}</span><br>";
+          }
           array_push($removedInformations, $contact->last_name);
           array_push($addedInformations, $request->contactLastNames[$i]);
           $contact->last_name = $request->contactLastNames[$i];
         }
         if($contact->job != $request->contactJobs[$i]){
+          if (is_null($request->contactJobs[$i])){
+            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->job}</span><br>";
+          }
+          else if (is_null($contact->job)){
+            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactJobs[$i]}</span><br>";
+          }
+          else{
+            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->job}</span><br>";
+            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactJobs[$i]}</span><br>";
+          }
           array_push($removedInformations, $contact->job);
           array_push($addedInformations, $request->contactJobs[$i]);
           $contact->job = $request->contactJobs[$i];
@@ -740,6 +904,9 @@ class SuppliersController extends Controller
             $phoneNumberA->type != $request->contactTelTypesA[$i]
           )
         {
+          $formatedNumber = str_replace('-', '', $request->contactTelNumbersA[$i]);
+          $supplierModification .= "<span style='color:#E5004D;'>- {$phoneNumberA->number} {$phoneNumberA->type} {$phoneNumberA->extension}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$formatedNumber} {$request->contactTelTypesA[$i]} {$request->contactTelExtensionsA[$i]}</span><br>";
           if($phoneNumberA->number){
             $extension = "";
             if($phoneNumberA->extension)
@@ -777,6 +944,17 @@ class SuppliersController extends Controller
             $phoneNumberB->type != $request->contactTelTypesB[$i]
             )
           {
+            $formatedNumber2 = str_replace('-', '', $request->contactTelNumbersB[$i]);
+            if (is_null($request->contactTelNumbersB[$i])){
+              $supplierModification .= "<span style='color:#E5004D;'>- {$phoneNumberB->number} {$phoneNumberB->type} {$phoneNumberB->extension}</span><br>";
+            }
+            else if (is_null($phoneNumberB->number)){
+              $supplierModification .= "<span style='color:#68B545;'>+ {$formatedNumber2} {$request->contactTelTypesB[$i]} {$request->contactTelExtensionsB[$i]}</span><br>";
+            }
+            else{
+              $supplierModification .= "<span style='color:#E5004D;'>- {$phoneNumberB->number} {$phoneNumberB->type} {$phoneNumberB->extension}</span><br>";
+              $supplierModification .= "<span style='color:#68B545;'>+ {$formatedNumber2} {$request->contactTelTypesB[$i]} {$request->contactTelExtensionsB[$i]}</span><br>";
+            }
             if($phoneNumberB->number){
               $extension = "";
               if($phoneNumberB->extension)
@@ -812,6 +990,10 @@ class SuppliersController extends Controller
           $this->createAccountModificationLine($status, $contact->first_name.' '.$contact->last_name, $removedInformations, $addedInformations, $contacts_category_id);
       }
 
+      $mailsController = new MailsController();
+		  $mailModel = EmailModel::where('name', 'Fournisseur modifié')->firstOrFail();
+		  $mailsController->sendModificationResponsableMail($supplier, $mailModel, $supplierModification);
+
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateContact'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contacts-section');
@@ -830,7 +1012,7 @@ class SuppliersController extends Controller
     $licenceRbq_category_id = 5;
     $removedCategories = [];
     $addedCategories = [];
-
+    $supplierModification = "";
     try {
       $status = $this->changeStatus($supplier, "modified");
 
@@ -842,14 +1024,20 @@ class SuppliersController extends Controller
         
         if($licence->number != $request->licenceRbq){
           $this->createAccountModificationLine($status, __('form.rbqLicenceSection'), [$licence->number], [$request->licenceRbq], $licenceRbq_category_id);
+          $supplierModification .= "<span style='color:#E5004D;'>- {$licence->number}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->licenceRbq}</span><br>";
           $licence->number = $request->licenceRbq;
         }
         if($licence->status != $request->statusRbq){
           $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [$request->statusRbq], $licenceRbq_category_id);
+          $supplierModification .= "<span style='color:#E5004D;'>- {$licence->status}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->statusRbq}</span><br>";
           $licence->status = $request->statusRbq;
         }
         if($licence->type != $request->typeRbq){
           $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [$request->typeRbq], $licenceRbq_category_id);
+          $supplierModification .= "<span style='color:#E5004D;'>- {$licence->type}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->typeRbq}</span><br>";
           $licence->type = $request->typeRbq;
         }
         $licence->supplier()->associate($supplier);
@@ -857,6 +1045,7 @@ class SuppliersController extends Controller
 
         foreach ($supplier->workSubcategories as $rbqSubCategory) {
           if(!in_array($rbqSubCategory->code, $request->rbqSubcategories)){
+            $supplierModification .= "<span style='color:#E5004D;'>- {$rbqSubCategory->code} {$rbqSubCategory->name}</span><br>";
             $categoryLabel = $rbqSubCategory->code.' '.$rbqSubCategory->name;
             array_push($removedCategories, $categoryLabel);
 
@@ -880,14 +1069,17 @@ class SuppliersController extends Controller
         
         if($licence->number != $request->licenceRbq){
           $this->createAccountModificationLine($status, __('form.rbqLicenceSection'), [$licence->number], [$request->licenceRbq], $licenceRbq_category_id);
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->licenceRbq}</span><br>";
           $licence->number = $request->licenceRbq;
         }
         if($licence->status != $request->statusRbq){
           $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [$request->statusRbq], $licenceRbq_category_id);
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->statusRbq}</span><br>";
           $licence->status = $request->statusRbq;
         }
         if($licence->type != $request->typeRbq){
           $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [$request->typeRbq], $licenceRbq_category_id);
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->typeRbq}</span><br>";
           $licence->type = $request->typeRbq;
         }
         $licence->supplier()->associate($supplier);
@@ -896,7 +1088,7 @@ class SuppliersController extends Controller
         foreach($request->rbqSubcategories as $rbqSubCategory){
           $subCategory = WorkSubcategory::where('code', $rbqSubCategory)->firstOrFail();
           $supplier->workSubcategories()->attach($subCategory);
-            
+          $supplierModification .= "<span style='color:#68B545;'>+ {$subCategory->code} {$subCategory->name}</span><br>";
           $categoryLabel = $subCategory->code.' '.$subCategory->name;
           array_push($addedCategories, $categoryLabel);
         }
@@ -906,20 +1098,24 @@ class SuppliersController extends Controller
 
         if($licence->number != $request->licenceRbq){
           $this->createAccountModificationLine($status, __('form.rbqLicenceSection'), [$licence->number], [null], $licenceRbq_category_id);
+          $supplierModification .= "<span style='color:#E5004D;'>- {$licence->number}</span><br>";
           $licence->number = $request->licenceRbq;
         }
         if($licence->status != $request->statusRbq){
           $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [null], $licenceRbq_category_id);
+          $supplierModification .= "<span style='color:#E5004D;'>- {$licence->status}</span><br>";
           $licence->status = $request->statusRbq;
         }
         if($licence->type != $request->typeRbq){
           $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [null], $licenceRbq_category_id);
+          $supplierModification .= "<span style='color:#E5004D;'>- {$licence->type}</span><br>";
           $licence->type = $request->typeRbq;
         }
         $licence->delete();
 
         foreach ($supplier->workSubcategories as $workSubcategory) {
           $categoryLabel = $workSubcategory->code.' '.$workSubcategory->name;
+          $supplierModification .= "<span style='color:#E5004D;'>- {$workSubcategory->code} {$workSubcategory->name}</span><br>";
           array_push($removedCategories, $categoryLabel);
         }
         $supplier->workSubcategories()->sync([]);
@@ -927,6 +1123,10 @@ class SuppliersController extends Controller
       
       if(Count($removedCategories) > 0 || Count($addedCategories) > 0)
         $this->createAccountModificationLine($status, __('accountModification.categories'), $removedCategories, $addedCategories, $licenceRbq_category_id);
+
+      $mailsController = new MailsController();
+      $mailModel = EmailModel::where('name', 'Fournisseur modifié')->firstOrFail();
+      $mailsController->sendModificationResponsableMail($supplier, $mailModel, $supplierModification);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateRbq'))
@@ -944,12 +1144,23 @@ class SuppliersController extends Controller
   public function updateProductsServices(Request $request, Supplier $supplier)
   {
     $productsServices_category_id = 4;
-
+    $supplierModification = "";
+    
     try {
       $status = $this->changeStatus($supplier, "modified");
 
       if($supplier->product_service_detail != $request->product_service_detail){
         $this->createAccountModificationLine($status, __('form.productsAndServiceCategoriesDetails'), [$supplier->product_service_detail], [$request->product_service_detail], $productsServices_category_id);
+        if (is_null($request->product_service_detail)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->product_service_detail}</span><br>";
+        }
+        else if (is_null($supplier->product_service_detail)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->product_service_detail}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->product_service_detail}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->product_service_detail}</span><br>";
+        }
         $supplier->product_service_detail = $request->product_service_detail;
       }
       $supplier->save();
@@ -961,6 +1172,7 @@ class SuppliersController extends Controller
         if($request->filled('products_services')){
           if(!in_array($productService->code, $request->products_services)){
             $productServiceLabel = $productService->code.' '.$productService->description;
+            $supplierModification .= "<span style='color:#E5004D;'>- {$productService->description}</span><br>";
             array_push($removedProductsServices, $productServiceLabel);
 
             $supplier->productsServices()->detach($productService->code);
@@ -969,6 +1181,7 @@ class SuppliersController extends Controller
         else{
           foreach ($supplier->productsServices as $productService) {
             $productServiceLabel = $productService->code.' '.$productService->description;
+            $supplierModification .= "<span style='color:#E5004D;'>- {$productService->description}</span><br>";
             array_push($removedProductsServices, $productServiceLabel);
           }
 
@@ -982,7 +1195,7 @@ class SuppliersController extends Controller
           if(!in_array($productServiceCode, $supplierExistingProductsServices)){
             $productService = ProductService::where('code', $productServiceCode)->firstOrFail();
             $supplier->productsServices()->attach($productService);
-
+            $supplierModification .= "<span style='color:#68B545;'>+ {$productService->description}</span><br>";
             $productServiceLabel = $productService->code.' '.$productService->description;
             array_push($addedProductsServices, $productServiceLabel);
           }
@@ -991,6 +1204,10 @@ class SuppliersController extends Controller
       
       if(Count($removedProductsServices) > 0 || Count($addedProductsServices) > 0)
         $this->createAccountModificationLine($status, __('form.productsAndServiceServices'), $removedProductsServices, $addedProductsServices, $productsServices_category_id);
+
+      $mailsController = new MailsController();
+      $mailModel = EmailModel::where('name', 'Fournisseur modifié')->firstOrFail();
+      $mailsController->sendModificationResponsableMail($supplier, $mailModel, $supplierModification);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePS'))
@@ -1008,48 +1225,92 @@ class SuppliersController extends Controller
   public function updateFinance(SupplierUpdateFinanceRequest $request, Supplier $supplier)
   {
     $finance_category_id = 7;
+    $supplierModification = "";
+    
     try {
       $status = $this->changeStatus($supplier, "modified");
 
       if($supplier->tps_number != $request->financesTps){
         $this->createAccountModificationLine($status, __('form.tpsNumber'), [$supplier->tps_number], [$request->financesTps], $finance_category_id);
+        if (is_null($request->financesTps)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->tps_number}</span><br>";
+        }
+        else if (is_null($supplier->tps_number)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->financesTps}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->tps_number}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->financesTps}</span><br>";
+        }
         $supplier->tps_number = $request->financesTps;
       }
       if($supplier->tvq_number != $request->financesTvq){
         $this->createAccountModificationLine($status, __('form.tvqNumber'), [$supplier->tvq_number], [$request->financesTvq], $finance_category_id);
+        if (is_null($request->financesTvq)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->tvq_number}</span><br>";
+        }
+        else if (is_null($supplier->tvq_number)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->financesTvq}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->tvq_number}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->financesTvq}</span><br>";
+        }
         $supplier->tvq_number = $request->financesTvq;
       }
       if($supplier->payment_condition != $request->financesPaymentConditions){
-        if(!is_null($supplier->payment_condition))
-          $supplierTradVariable = 'form.'.$supplier->payment_condition;
-        else
-         $supplierTradVariable = null;
-
+        $supplierTradVariable = 'form.'.$supplier->payment_condition;
         $requestTradVariable = 'form.'.$request->financesPaymentConditions;
         $this->createAccountModificationLine($status, __('form.paymentConditions'), [__($supplierTradVariable)], [__($requestTradVariable)], $finance_category_id);
+        if (is_null($request->financesPaymentConditions)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->payment_condition}</span><br>";
+        }
+        else if (is_null($supplier->payment_condition)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->financesPaymentConditions}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->payment_condition}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->financesPaymentConditions}</span><br>";
+        }
         $supplier->payment_condition = $request->financesPaymentConditions;
       }
       if($supplier->currency != $request->currency){
-        if(!is_null($supplier->currency))
-          $supplierTradVariable = $supplier->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
-        else
-          $supplierTradVariable = null;
-
+        $supplierTradVariable = $supplier->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
         $requestTradVariable = $request->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
         $this->createAccountModificationLine($status, __('form.currency'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
+        if (is_null($request->currency)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->currency}</span><br>";
+        }
+        else if (is_null($supplier->currency)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->currency}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->currency}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->currency}</span><br>";
+        }
         $supplier->currency = $request->currency;
       }
       if($supplier->communication_mode != $request->communication_mode){
-        if(!is_null($supplier->communication_mode))
-          $supplierTradVariable = $supplier->communication_mode == 1 ? __('form.email') : __('form.mail');
-        else
-          $supplierTradVariable = null;
-
+        $supplierTradVariable = $supplier->communication_mode == 1 ? __('form.email') : __('form.mail');
         $requestTradVariable = $request->communication_mode == 1 ? __('form.email') : __('form.mail');
         $this->createAccountModificationLine($status, __('form.communication'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
+        if (is_null($request->communication_mode)){
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->communication_mode}</span><br>";
+        }
+        else if (is_null($supplier->communication_mode)){
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->communication_mode}</span><br>";
+        }
+        else{
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->communication_mode}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$request->communication_mode}</span><br>";
+        }
         $supplier->communication_mode = $request->communication_mode;
       }
       $supplier->save();
+
+      $mailsController = new MailsController();
+      $mailModel = EmailModel::where('name', 'Fournisseur modifié')->firstOrFail();
+      $mailsController->sendModificationResponsableMail($supplier, $mailModel, $supplierModification);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdateFinance'))
@@ -1069,9 +1330,10 @@ class SuppliersController extends Controller
     $attachments_category_id = 6;
     $removedAttachments = [];
     $addedAttachments = [];
-
+    
     try {
       $status = $this->changeStatus($supplier, "modified");
+      $supplierModification = "<span style='color:#ff8800;'>* Pièces jointes modifiés</span><br>";
 
       if($request->filled('attachmentFilesIds')){
         $supplierExistingAttachments= $supplier->attachments->pluck('id')->toArray();
@@ -1160,6 +1422,10 @@ class SuppliersController extends Controller
       if(Count($removedAttachments) > 0 || Count($addedAttachments) > 0)
         $this->createAccountModificationLine($status, null, $removedAttachments, $addedAttachments, $attachments_category_id);
 
+      $mailsController = new MailsController();
+      $mailModel = EmailModel::where('name', 'Fournisseur modifié')->firstOrFail();
+      $mailsController->sendModificationResponsableMail($supplier, $mailModel, $supplierModification);
+
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
       ->with('message',__('show.successUpdatePJ'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#attachments-section');
@@ -1194,7 +1460,7 @@ class SuppliersController extends Controller
     $accountModification->category_id = $categoryId;
     $accountModification->statusHistory()->associate($status);
     $accountModification->save();
-    Log::debug($deletionsInformations);
+
     foreach ($deletionsInformations as $deletionInformation) {
       if(!is_null($deletionInformation)){
         $deletion = new ModificationDeletion();

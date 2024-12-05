@@ -14,25 +14,25 @@ class MailsController extends Controller
     public function sendInscriptionSupplierMail(Supplier $supplier, EmailModel $mailModel)
     {
         $newMailModel = $this->prepareMailModel($supplier, $mailModel);
-        Mail::to($supplier->email)->send(new BuildMail($supplier, $newMailModel, null));
+        Mail::to($supplier->email)->send(new BuildMail($supplier, $newMailModel, null, null));
     }
 
     public function sendInscriptionNotificationResponsableMail(Supplier $supplier, EmailModel $mailModel)
     {
         $newMailModel = $this->prepareMailModel($supplier, $mailModel);
-        Mail::to('faucher.jeremy2.0@gmail.com')->send(new BuildMail($supplier, $newMailModel, null));
+        Mail::to('faucher.jeremy2.0@gmail.com')->send(new BuildMail($supplier, $newMailModel, null, null));
     }
 
     public function sendResetPasswordSupplierMail(Supplier $supplier, EmailModel $mailModel, string $resetLink)
     {
         $newMailModel = $this->prepareMailModel($supplier, $mailModel);
-        Mail::to($supplier->email)->send(new BuildMail($supplier, $newMailModel, $resetLink));
+        Mail::to($supplier->email)->send(new BuildMail($supplier, $newMailModel, $resetLink, null));
     }
 
-    public function sendModificationResponsableMail(Supplier $supplier, EmailModel $mailModel)
+    public function sendModificationResponsableMail(Supplier $supplier, EmailModel $mailModel, string $supplierModification)
     {
         $newMailModel = $this->prepareMailModel($supplier, $mailModel);
-        Mail::to('faucher.jeremy2.0@gmail.com')->send(new BuildMail($supplier, $newMailModel, null));
+        Mail::to('faucher.jeremy2.0@gmail.com')->send(new BuildMail($supplier, $newMailModel, null, $supplierModification));
     }
 
     public function prepareMailModel($supplier, $mailModel){

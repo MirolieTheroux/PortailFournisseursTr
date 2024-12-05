@@ -173,6 +173,11 @@
                                                             <br><br><br><a href="{{ $resetLink }}" style="background-color: {{ $mailModel->passwordResetButtonBackgroundColor }}; color: {{ $mailModel->passwordResetButtonColor }}; padding: 10px 20px; text-decoration: none;">{!! $mailModel->passwordResetButtonText !!}</a>
                                                         @endif
                                                     </p>
+                                                    @if ($mailModel->name === 'Fournisseur modifié')
+                                                        <p style="text-align: center;">
+                                                            {!! $supplierModification !!}
+                                                        </p>
+                                                    @endif
                                                     @if ($mailModel->messageText)
                                                         <p class="text-build-content" style="text-align: center; margin: 0px 0; margin-bottom: 0px; padding-top: 10px;">
                                                             <span style="color:{{ $mailModel->messageColor }};font-family:Arial;font-size:{{ $mailModel->messageSize }}pt;line-height:22px;">{!! $mailModel->messageText !!}</span>
