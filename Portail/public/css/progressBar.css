@@ -61,6 +61,10 @@
 	border-left: 17px solid var(--dark_blue);	
 }
 
+.arrow-steps .step.current .icon-valid {
+	fill: white;
+}
+
 
 /* MEDIA QUERIES */
 @media (min-width: 1400px) {
@@ -73,8 +77,8 @@
 		display: none; 
 	}
 
-  .clickFleche:hover{
-    cursor: pointer;
+  .clickFleche:hover {
+  	cursor: pointer;
   }
 }
 
@@ -120,6 +124,13 @@
     cursor: pointer;
   }
 
+  .arrow-steps .step.current .icon-valid-circle {
+  	fill: white;
+  }
+
+  .icon-invalid, .icon-valid {
+	display: none; 
+  }
 	.arrow-steps .name {
 	  display: none; 
 	}
@@ -174,55 +185,53 @@
 	}
 }
 
-@media (max-width: 700px){
-  .click:hover{
-    color: black;
-  }
-	.container-fluid{
+@media (max-width: 700px) {
+	.click:hover {
+		color: black;
+	}
+
+	.icon-invalid-circle , .icon-valid-circle {
+		width: 12px;
+		height: 12px;
+	}
+
+	.container-fluid {
 		margin-bottom: 15px;
 	}
 
 	.arrow-steps .number {
-	width: 30px;
-	height: 30px;
-	font-size: 1rem;
-	line-height: 30px; 
+		width: 30px;
+		height: 30px;
+		font-size: 1rem;
+		line-height: 30px;
 	}
 
 	.arrow-steps .step:not(:last-child)::after {
-        right: -11px; 
-        width: 21px; 
-        height: 1.5px;
-    }
+		right: -11px;
+		width: 21px;
+		height: 1.5px;
+	}
 
-	.arrow-steps .step{
-	padding: 5px;
+	.arrow-steps .step {
+		padding: 5px;
 	}
 }
 
-@media (max-width: 400px){
-	.arrow-steps .step{
-	padding: 2px;
+@media (max-width: 400px) {
+	.arrow-steps .step {
+		padding: 2px;
 	}
 
 	.arrow-steps .number {
 		width: 28px;
 		height: 28px;
 		font-size: 1rem;
-		line-height: 30px; 
+		line-height: 30px;
 	}
 
 	.arrow-steps .step:not(:last-child)::after {
-        width: 18px; 
-		right: -9px; 
-    }
+		width: 18px;
+		right: -9px;
+	}
 
 }
-
-
-
-
-
-  
-  
-  
