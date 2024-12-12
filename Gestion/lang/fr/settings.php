@@ -22,7 +22,7 @@ return [
     'errorUserAlreadyAdded' => 'L\'utilisateur a déjà été ajouté.',
     'successUpdateUsers' => 'Les utilisateurs ont été modifiés.',
 
-    'approverEmail' => 'Courriel de l\'approbateur',
+    'supplyEmail' => 'Courriel de l\'approvisionnement',
     'financesEmail' => 'Courriel des finances',
     'timeBeforeRevisionMonth' => 'Délai avant la révision (mois)',
     'maxSizeFiles' => 'Taille maximale des fichiers joints (Mo)',

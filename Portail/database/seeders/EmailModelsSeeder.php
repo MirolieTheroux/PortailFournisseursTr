@@ -14,7 +14,7 @@ class EmailModelsSeeder extends Seeder
     public function run(): void
     {
         DB::table('email_models')->insert([
-            [
+             [
                 'id' => 1,
                 'name' => "Inscription fournisseur",
                 'object' => "Bienvenue",
@@ -42,7 +42,7 @@ class EmailModelsSeeder extends Seeder
                 'passwordResetButtonText' => "Réinitialiser votre mot de passe",
                 'passwordResetButtonColor' => "#ffffff",
                 'passwordResetButtonBackgroundColor' => "#0076D5",
-                'messageText' => "Un membre de notre équipe procédera à la vérification de vos informations et vous informera par courriel une fois votre demande approuvé.",
+                'messageText' => "Un membre de notre équipe procédera à la vérification de vos informations et vous informera par courriel une fois votre demande approuvée.",
                 'messageSize' => 10,
                 'messageColor' => "#5e6977",
                 'footerText' => "Merci de votre intérêt et de votre patience.<br>L'équipe de la Ville de Trois-Rivières",
@@ -53,7 +53,7 @@ class EmailModelsSeeder extends Seeder
             [
                 'id' => 2,
                 'name' => "Fournisseur accepté",
-                'object' => "Demande accepté",
+                'object' => "Demande acceptée",
                 'logoUrl' => "https://www.v3r.net/wp-content/uploads/2022/06/vtr_noir.png",
                 'logoSize' => 50,
                 'titleText' => "Le statut de votre demande a changé",
@@ -89,7 +89,7 @@ class EmailModelsSeeder extends Seeder
             [
                 'id' => 3,
                 'name' => "Fournisseur refusé",
-                'object' => "Demande rejeté",
+                'object' => "Demande rejetée",
                 'logoUrl' => "https://www.v3r.net/wp-content/uploads/2022/06/vtr_noir.png",
                 'logoSize' => 50,
                 'titleText' => "Le statut de votre demande a changé",
@@ -114,7 +114,7 @@ class EmailModelsSeeder extends Seeder
                 'passwordResetButtonText' => "Réinitialiser votre mot de passe",
                 'passwordResetButtonColor' => "#ffffff",
                 'passwordResetButtonBackgroundColor' => "#0076D5",
-                'messageText' => "Votre demande à été refusé. Pour plus de détails, veuillez vous rendre sur le portail.",
+                'messageText' => "Votre demande a été refusée. Pour plus de détails, veuillez vous rendre sur le portail.",
                 'messageSize' => 10,
                 'messageColor' => "#5e6977",
                 'footerText' => "Merci de votre intérêt et de votre patience.<br>L'équipe de la Ville de Trois-Rivières",
@@ -125,7 +125,7 @@ class EmailModelsSeeder extends Seeder
             [
                 'id' => 4,
                 'name' => "Fournisseur refusé avec raison",
-                'object' => "Demande rejeté",
+                'object' => "Demande rejetée",
                 'logoUrl' => "https://www.v3r.net/wp-content/uploads/2022/06/vtr_noir.png",
                 'logoSize' => 50,
                 'titleText' => "Le statut de votre demande a changé",
@@ -150,7 +150,7 @@ class EmailModelsSeeder extends Seeder
                 'passwordResetButtonText' => "Réinitialiser votre mot de passe",
                 'passwordResetButtonColor' => "#ffffff",
                 'passwordResetButtonBackgroundColor' => "#0076D5",
-                'messageText' => "Votre demande à été refusé pour la raison suivante: {{ \$reason }}. Pour plus de détails, veuillez vous rendre sur le portail.",
+                'messageText' => "Votre demande a été refusée pour la raison suivante: {{ \$reason }}. Pour plus de détails, veuillez vous rendre sur le portail.",
                 'messageSize' => 10,
                 'messageColor' => "#5e6977",
                 'footerText' => "Merci de votre intérêt et de votre patience.<br>L'équipe de la Ville de Trois-Rivières",
@@ -272,7 +272,7 @@ class EmailModelsSeeder extends Seeder
                 'object' => "Nouvelle demande",
                 'logoUrl' => "https://www.v3r.net/wp-content/uploads/2022/06/vtr_noir.png",
                 'logoSize' => 50,
-                'titleText' => "Un fournisseur à fait une nouvelle demande",
+                'titleText' => "Un fournisseur a fait une nouvelle demande",
                 'titleSize' => 24,
                 'titleColor' => "#ffffff",
                 'buttonUrl' => "http://127.0.0.1:8080/",
@@ -308,7 +308,7 @@ class EmailModelsSeeder extends Seeder
                 'object' => "Modification d'un fournisseur",
                 'logoUrl' => "https://www.v3r.net/wp-content/uploads/2022/06/vtr_noir.png",
                 'logoSize' => 50,
-                'titleText' => "Un fournisseur à été modifié",
+                'titleText' => "Un fournisseur a été modifié",
                 'titleSize' => 24,
                 'titleColor' => "#ffffff",
                 'buttonUrl' => "http://127.0.0.1:8080/",
@@ -344,7 +344,7 @@ class EmailModelsSeeder extends Seeder
                 'object' => "Compte fournisseur",
                 'logoUrl' => "https://www.v3r.net/wp-content/uploads/2022/06/vtr_noir.png",
                 'logoSize' => 50,
-                'titleText' => "Un fournisseur à été exporté",
+                'titleText' => "Un fournisseur a été exporté",
                 'titleSize' => 24,
                 'titleColor' => "#ffffff",
                 'buttonUrl' => "http://127.0.0.1:8080/",
