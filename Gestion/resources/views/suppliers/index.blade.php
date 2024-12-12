@@ -7,6 +7,12 @@
   <link rel="stylesheet" href="{{ asset('css/suppliers/index.css') }}">
 @endsection
 
+@section('headerScript')
+<script>
+  var firstFilterLoad = true;
+</script>
+@endsection
+
 @section('content')
   <div class="container-fluid h-100">
     <div class="row h-100">

@@ -24,64 +24,66 @@ function fetchServices() {
                 totalCount = data.total_count;
 
                 const resultCount = document.getElementById('results-count');
-                resultCount.innerHTML = `${curentCount} sur ${totalCount} resultat(s)`; // Update with count of results shown vs total
+                //resultCount.innerHTML = `${curentCount} sur ${totalCount} resultat(s)`; // Update with count of results shown vs total
 
                 data.services.forEach(service => {
-                    const serviceItem = document.createElement('div');
-                    serviceItem.classList.add('row', 'align-items-start', 'py-2', 'hover-options', 'user-select-none');
+                    if(suppliersProductsServicesCodes.includes(service.code)){
+                        const serviceItem = document.createElement('div');
+                        serviceItem.classList.add('row', 'align-items-start', 'py-2', 'hover-options', 'user-select-none');
 
-                    // Original values for non-highlighted cloning
-                    const originalCode = service.code;
-                    const originalDescription = service.description;
+                        // Original values for non-highlighted cloning
+                        const originalCode = service.code;
+                        const originalDescription = service.description;
 
-                    // Highlighting the code and description with the search term
-                    const highlightedCode = highlightText(originalCode, searchTerm);
-                    const highlightedDescription = highlightText(originalDescription, searchTerm);
+                        // Highlighting the code and description with the search term
+                        const highlightedCode = highlightText(originalCode, searchTerm);
+                        const highlightedDescription = highlightText(originalDescription, searchTerm);
 
-                    serviceItem.innerHTML = `
-                        <div class="col-4 col-md-12 col-xl-4 d-flex flex-column justify-content-start">
-                            <label class="form-check-label" id="category${service.code}">${highlightedCode}</label>
-                        </div>
-                        <div class="col-8 col-md-11 offset-md-1 offset-xl-0 col-xl-8 d-flex flex-column justify-content-start">
-                            <label class="form-check-label" id="category${service.code}">${highlightedDescription}</label>
-                        </div>
-                    `;
-
-                    // Check for existing cloned services and hide originals if found
-                    const clonedService = document.querySelector(`#service-selected [data-code="${service.code}"]`);
-                    if (clonedService) {
-                        serviceItem.classList.add('disabled-options'); // Hide the original if a cloned service exists
-                    }
-
-                    // Handle click event for selecting service
-                    serviceItem.addEventListener('click', function () {
-                        serviceItem.classList.add('disabled-options');
-
-                        // Clone the service without the highlight
-                        const selectedService = document.createElement('div');
-                        selectedService.classList.add('row', 'align-items-start', 'py-2', 'hover-options', 'user-select-none');
-                        selectedService.dataset.code = service.code;
-
-                        selectedService.innerHTML = `
-                            <input type="text" name="produits_services[]" value="${originalCode}" class="d-none">
+                        serviceItem.innerHTML = `
                             <div class="col-4 col-md-12 col-xl-4 d-flex flex-column justify-content-start">
-                                ${originalCode}
+                                <label class="form-check-label" id="category${service.code}">${highlightedCode}</label>
                             </div>
                             <div class="col-8 col-md-11 offset-md-1 offset-xl-0 col-xl-8 d-flex flex-column justify-content-start">
-                                ${originalDescription}
+                                <label class="form-check-label" id="category${service.code}">${highlightedDescription}</label>
                             </div>
                         `;
 
-                        // Handle click event on the cloned service to remove it and show the original
-                        addSelectedServiceListener(selectedService);
+                        // Check for existing cloned services and hide originals if found
+                        const clonedService = document.querySelector(`#service-selected [data-code="${service.code}"]`);
+                        if (clonedService) {
+                            serviceItem.classList.add('disabled-options'); // Hide the original if a cloned service exists
+                        }
 
-                        // Insert the cloned service into the selected services list
-                        const selectedContainer = document.getElementById('service-selected');
-                        selectedContainer.appendChild(selectedService);
-                        updateProductServiceCount();
-                    });
+                        // Handle click event for selecting service
+                        serviceItem.addEventListener('click', function () {
+                            serviceItem.classList.add('disabled-options');
 
-                    serviceList.appendChild(serviceItem);
+                            // Clone the service without the highlight
+                            const selectedService = document.createElement('div');
+                            selectedService.classList.add('row', 'align-items-start', 'py-2', 'hover-options', 'user-select-none');
+                            selectedService.dataset.code = service.code;
+
+                            selectedService.innerHTML = `
+                                <input type="text" name="produits_services[]" value="${originalCode}" class="d-none">
+                                <div class="col-4 col-md-12 col-xl-4 d-flex flex-column justify-content-start">
+                                    ${originalCode}
+                                </div>
+                                <div class="col-8 col-md-11 offset-md-1 offset-xl-0 col-xl-8 d-flex flex-column justify-content-start">
+                                    ${originalDescription}
+                                </div>
+                            `;
+
+                            // Handle click event on the cloned service to remove it and show the original
+                            addSelectedServiceListener(selectedService);
+
+                            // Insert the cloned service into the selected services list
+                            const selectedContainer = document.getElementById('service-selected');
+                            selectedContainer.appendChild(selectedService);
+                            updateProductServiceCount();
+                        });
+
+                        serviceList.appendChild(serviceItem);
+                    }
                 });
 
                 // Call update function to handle hiding originals if cloned versions exist
