@@ -550,6 +550,15 @@ function validateListPhoneNumber() {
   }
 }
 
+function addPhoneNumberAutomatically(){
+  const input = document.getElementById("contactDetailsPhoneNumber");
+  if(input.value){
+    validatePhoneNumber();
+    if (isPhoneNumberValid()) 
+      createPhoneNumberLine();
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const buttonsDelete = document.querySelectorAll(".removePhone");
   buttonsDelete.forEach(button => {
@@ -563,6 +572,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.getElementById("contactDetails-button").addEventListener("click", () =>{
+  addPhoneNumberAutomatically();
   validateListPhoneNumber();
   validateCivicNumber();
   validateStreetName();
