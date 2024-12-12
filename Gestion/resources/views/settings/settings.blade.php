@@ -145,7 +145,7 @@
           <div class="mt-3 height mb-3">
             <div class="row flex-column">
               <div class="fs-5 col-6 d-flex align-items-center">
-                <div >{{__('settings.approverEmail')}}</div>
+                <div >{{__('settings.supplyEmail')}}</div>
               </div>
               <div class="col-6">
                 <input type="email" name="approverEmail" id="approverEmail" class="form-control form-control-sm" value="{{ $settings->approbation_email }}" maxlength="64">

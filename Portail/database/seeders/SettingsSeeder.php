@@ -16,7 +16,7 @@ class SettingsSeeder extends Seeder
         DB::table('settings')->insert([
             [
                 'id' => 1,
-                'approbation_email' => "approver@vtr.net",
+                'approbation_email' => "approvisionnement@vtr.net",
                 'finance_email' => "finances@vtr.net",
                 'file_max_size' => 75,
                 'revision_delay' => 3,
