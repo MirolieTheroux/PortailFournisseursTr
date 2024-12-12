@@ -1,4 +1,5 @@
 let btnListSelectedSupplier;
+let btnExportSelectedSupplier;
 let selectAllCheck;
 let supplierChecks;
 
@@ -12,6 +13,12 @@ function getSuppliersListElements(){
     sendSelectedSuppliersForm();
   });
 
+  
+  btnExportSelectedSupplier = document.getElementById("btnExportSelectedSupplier");
+  btnExportSelectedSupplier.addEventListener('click', ()=>{
+    exportCSV();
+  });
+
   selectAllCheck = document.getElementById('selectAllCheck');
   selectAllCheck.addEventListener('change', (event)=>{
     selectAllSuppliers(event.target.checked);
@@ -19,10 +26,6 @@ function getSuppliersListElements(){
 
   supplierChecks = document.querySelectorAll('.supplier-select-check');
   addHideSendButtonListeners();
-}
-
-function sendSelectedSuppliersForm(){
-  document.getElementById("suppliersListForm").submit();
 }
 
 function selectAllSuppliers(isChecked){
@@ -45,9 +48,11 @@ function hideSendButton(){
   const checkedCount = countCheckedChecks();
   if(checkedCount >= 1){
     btnListSelectedSupplier.classList.remove('d-none');
+    btnExportSelectedSupplier.classList.remove('d-none');
   }
   else{
     btnListSelectedSupplier.classList.add('d-none');
+    btnExportSelectedSupplier.classList.add('d-none');
   }
 }
 

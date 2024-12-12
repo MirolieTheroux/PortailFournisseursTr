@@ -14,6 +14,7 @@ return [
     'selectAll' => 'Sélectionner tous les fournisseurs',
 
     'listSelectedSuppliers' => 'Lister les fourniseurs sélectionnés',
+    'exportSelectedSuppliers' => 'Exporter les fourniseurs sélectionnés en CSV',
     'waitingSuppliers' => 'fournisseurs en attente',
     'waitingSupplierSingle' => 'fournisseur en attente',
     'pickStatus' => 'Choisir un statut de demande',

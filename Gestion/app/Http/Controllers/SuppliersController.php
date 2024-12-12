@@ -157,7 +157,7 @@ class SuppliersController extends Controller
   }
 
   public function selectedList(Request $request){
-    if($request->filled('suppliers') && is_array($request->suppliers)){
+    if($request->filled('supplierIds') && is_array($request->supplierIds)){
       $suppliers = Supplier::select('id', 'name', 'email')
                             ->with([
                               'phoneNumbers',
@@ -165,7 +165,7 @@ class SuppliersController extends Controller
                                 $query->with('phoneNumbers');
                               },
                             ])
-                            ->whereIn('id', $request->suppliers)
+                            ->whereIn('id', $request->supplierIds)
                             ->get();
       return View('suppliers.selectedList', compact('suppliers'));
     }
@@ -1498,8 +1498,10 @@ class SuppliersController extends Controller
 
   public function export(Request $request)
   {
+    Log::debug($request);
     $suppliersIds = $request->input('supplierIds', []);
     $suppliers = Supplier::whereIn('id', $suppliersIds)->get();
+    Log::debug($suppliers);
 
     $selectedSupplierIds = $request->input('selectedSupplierIds', []);
     $selectedSupplierContactNames = $request->input('selectedSupplierContactNames', []);
