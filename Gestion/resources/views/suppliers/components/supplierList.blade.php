@@ -97,11 +97,24 @@
   var suppliersWorkCategoriesCodes  = [];
   for(var code in suppliersWorkCategoriesCodesJson)
     suppliersWorkCategoriesCodes.push(code);
+  
+  var suppliersProductsServicesCodesJson = @json($suppliersProductsServicesCodes);
+  var suppliersProductsServicesCodes  = [];
+  for(var i in suppliersProductsServicesCodesJson)
+    suppliersProductsServicesCodes.push(suppliersProductsServicesCodesJson[i]);
+
+  var suppliersStatusJson = @json($suppliersStatus);
+  var suppliersStatus  = [];
+  for(var i in suppliersStatusJson)
+    suppliersStatus.push(suppliersStatusJson[i]);
 
   if(!firstFilterLoad){
     updateDistrictAreas();
     updateCitiesFilter();
     updateWorkSubcategoriesFilter();
+    updateStatusFilter();
+    updateProductsServicesFilter();
+    fetchServices();
   }
   else{
     firstFilterLoad = false;

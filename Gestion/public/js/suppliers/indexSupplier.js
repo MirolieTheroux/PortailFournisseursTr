@@ -147,4 +147,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   updateDistrictAreas();
   updateCitiesFilter();
   updateWorkSubcategoriesFilter();
+  updateStatusFilter();
+  updateProductsServicesFilter();
 });

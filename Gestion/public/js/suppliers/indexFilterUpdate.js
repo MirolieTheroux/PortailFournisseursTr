@@ -36,3 +36,20 @@ function updateWorkSubcategoriesFilter(){
       option.classList.add("d-none");
   });
 }
+
+function updateProductsServicesFilter(){
+  console.log(suppliersProductsServicesCodes);
+}
+
+function updateStatusFilter(){
+  const statusContainer = document.getElementById('status');
+  const statusMultiSelect = statusContainer.querySelector('.multi-select-options');
+  const statusOptions = statusMultiSelect.querySelectorAll('.multi-select-option');
+
+  statusOptions.forEach(option => {
+    if(suppliersStatus.includes(option.dataset.value))
+      option.classList.remove("d-none");
+    else
+      option.classList.add("d-none");
+  });
+}
