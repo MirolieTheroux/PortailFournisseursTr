@@ -298,11 +298,9 @@ class SuppliersController extends Controller
                         ])->get();
 
       $suppliersAdresses = $allSuppliers->pluck('address');
-      $suppliersCities = $suppliersAdresses->pluck('city')->unique()->toArray();
-      $suppliersRegions =$this->getSupplierRegions($request);
-
-      $suppliersWorkCategories = $allSuppliers->pluck('workSubcategories')->unique();
-      $suppliersWorkCategoriesCodes = $suppliersWorkCategories->flatten()->pluck('name', 'code')->toArray();
+      $suppliersCities = $this->getSupplierCities($request);
+      $suppliersRegions = $this->getSupplierRegions($request);
+      $suppliersWorkCategoriesCodes = $this->getSupplierWorkSubcategories($request);
 
       $suppliersProductsServices = $allSuppliers->pluck('productsServices');
       $suppliersProductsServicesCodes = $suppliersProductsServices->flatten()->pluck('code')->unique()->toArray();
@@ -368,6 +366,107 @@ class SuppliersController extends Controller
     $suppliersAdresses = $suppliers->pluck('address');
     $suppliersRegions = $suppliersAdresses->pluck('region')->unique()->toArray();
     return $suppliersRegions;
+  }
+
+  public function getSupplierCities(Request $request){
+    $suppliersQuery = Supplier::query()
+                                ->with([
+                                  'address' => function ($query) {
+                                    $query->select('city', 'supplier_id');
+                                  }
+                                ]);
+    
+    if($request->filled('name')){
+      $suppliersQuery->where('name', 'like',  '%' . $request->name .'%');
+    }
+    if ($request->filled('workCategories') && is_array($request->input('workCategories'))) {
+        $suppliersQuery->whereHas('workSubcategories', function($q) use($request){ 
+            $q->whereIn('code', $request->workCategories);
+        });
+    }
+    if ($request->filled('produits_services') && is_array($request->input('produits_services'))) {
+        $suppliersQuery->whereHas('productsServices', function($q) use($request){
+            $q->whereIn('code', $request->produits_services);
+        });
+    }
+    if($request->filled('status') && is_array($request->input('status'))){
+      $suppliersQuery->whereHas('statusHistories', function ($query) use ($request) {
+        $query->whereIn('status', $request->status)
+              ->whereRaw('created_at = (SELECT MAX(created_at) 
+                                        FROM status_histories 
+                                        WHERE supplier_id = suppliers.id 
+                                          AND status != "modified")');
+      });
+    }
+    else{
+      $suppliersQuery->whereNotIn('id', function ($query) {
+        $query->select('supplier_id')
+              ->from('status_histories')
+              ->whereRaw('"deactivated" = (SELECT status
+                                        FROM status_histories
+                                        WHERE supplier_id = suppliers.id
+                                        ORDER BY created_at DESC
+                                        LIMIT 1)');
+      });
+    }
+
+    $suppliers = $suppliersQuery->get();
+    $suppliersAdresses = $suppliers->pluck('address');
+    $supplierscities = $suppliersAdresses->pluck('city')->unique()->toArray();
+    return $supplierscities;
+  }
+
+  public function getSupplierWorkSubcategories(Request $request){
+    $suppliersQuery = Supplier::query()
+                                ->with([
+                                  'workSubcategories' => function ($query) {
+                                    $query->select('code', 'name', 'supplier_id');
+                                  }
+                                ]);
+    
+    if($request->filled('name')){
+      $suppliersQuery->where('name', 'like',  '%' . $request->name .'%');
+    }
+    if ($request->filled('cities') && is_array($request->input('cities'))) {
+        $suppliersQuery->whereHas('address', function($q) use($request){
+            $q->whereIn('city', $request->cities);
+        });
+    }
+    if ($request->filled('districtAreas') && is_array($request->input('districtAreas'))) {
+        $suppliersQuery->whereHas('address', function($q) use($request){
+            $q->whereIn('region', $request->districtAreas);
+        });
+    }
+    if ($request->filled('produits_services') && is_array($request->input('produits_services'))) {
+        $suppliersQuery->whereHas('productsServices', function($q) use($request){
+            $q->whereIn('code', $request->produits_services);
+        });
+    }
+    if($request->filled('status') && is_array($request->input('status'))){
+      $suppliersQuery->whereHas('statusHistories', function ($query) use ($request) {
+        $query->whereIn('status', $request->status)
+              ->whereRaw('created_at = (SELECT MAX(created_at) 
+                                        FROM status_histories 
+                                        WHERE supplier_id = suppliers.id 
+                                          AND status != "modified")');
+      });
+    }
+    else{
+      $suppliersQuery->whereNotIn('id', function ($query) {
+        $query->select('supplier_id')
+              ->from('status_histories')
+              ->whereRaw('"deactivated" = (SELECT status
+                                        FROM status_histories
+                                        WHERE supplier_id = suppliers.id
+                                        ORDER BY created_at DESC
+                                        LIMIT 1)');
+      });
+    }
+
+    $suppliers = $suppliersQuery->get();
+    $suppliersWorkCategories = $suppliers->pluck('workSubcategories')->unique();
+    $suppliersWorkCategoriesCodes = $suppliersWorkCategories->flatten()->pluck('name', 'code')->toArray();
+    return $suppliersWorkCategoriesCodes;
   }
 
   public function waitingSuppliers(){

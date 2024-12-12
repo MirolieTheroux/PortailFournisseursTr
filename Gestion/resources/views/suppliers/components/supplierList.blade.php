@@ -95,11 +95,13 @@
   
   var suppliersWorkCategoriesCodesJson = @json($suppliersWorkCategoriesCodes);
   var suppliersWorkCategoriesCodes  = [];
-  for(var name in suppliersWorkCategoriesCodesJson)
-  suppliersWorkCategoriesCodes.push([name, suppliersWorkCategoriesCodesJson[name]]);
+  for(var code in suppliersWorkCategoriesCodesJson)
+    suppliersWorkCategoriesCodes.push(code);
 
   if(!firstFilterLoad){
     updateDistrictAreas();
+    updateCitiesFilter();
+    updateWorkSubcategoriesFilter();
   }
   else{
     firstFilterLoad = false;

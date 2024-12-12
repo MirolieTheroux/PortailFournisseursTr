@@ -103,6 +103,7 @@ function updateCityList(){
   addCities(citiesSelect);
   new MultiSelect(citiesSelect);
   refreshListeners();
+  updateCitiesFilter();
 }
 
 function invokeSelectChange(event){
@@ -144,4 +145,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   pageLoaded = true;
 
   updateDistrictAreas();
+  updateCitiesFilter();
+  updateWorkSubcategoriesFilter();
 });
