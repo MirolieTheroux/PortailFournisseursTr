@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/toast.css') }}">
     @yield('css')
+
+    @yield('headerScript')
 </head>
 <body class="d-flex flex-column justify-content-between min-vh-100">
     <!-- #HEADER -->

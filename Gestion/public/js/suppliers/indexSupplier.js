@@ -142,4 +142,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.querySelectorAll('[data-multi-select]').forEach(select => new MultiSelect(select));
   refreshListeners();
   pageLoaded = true;
+
+  updateDistrictAreas();
 });

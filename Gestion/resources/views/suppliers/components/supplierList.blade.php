@@ -80,3 +80,28 @@
 @else
   <div class="text-center">{{__('index.noResults')}}</div>
 @endif
+
+<script src="{{ asset('js/suppliers/indexFilterUpdate.js') }} "></script>
+<script>
+  var suppliersCitiesJson = @json($suppliersCities);
+  var suppliersCities  = [];
+  for(var i in suppliersCitiesJson)
+    suppliersCities.push(suppliersCitiesJson[i]);
+  
+  var suppliersRegionsJson = @json($suppliersRegions);
+  var suppliersRegions  = [];
+  for(var i in suppliersRegionsJson)
+    suppliersRegions.push(suppliersRegionsJson[i]);
+  
+  var suppliersWorkCategoriesCodesJson = @json($suppliersWorkCategoriesCodes);
+  var suppliersWorkCategoriesCodes  = [];
+  for(var name in suppliersWorkCategoriesCodesJson)
+  suppliersWorkCategoriesCodes.push([name, suppliersWorkCategoriesCodesJson[name]]);
+
+  if(!firstFilterLoad){
+    updateDistrictAreas();
+  }
+  else{
+    firstFilterLoad = false;
+  }
+</script>

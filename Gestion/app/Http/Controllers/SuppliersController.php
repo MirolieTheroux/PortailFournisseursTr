@@ -111,7 +111,49 @@ class SuppliersController extends Controller
                                         AND status != "modified")');
     })->count();
     
-    return View('suppliers.index', compact('suppliers','workSubcategories', 'productsServices', 'waitingSuppliersCount'));
+    $allSuppliers = Supplier::
+                        with([
+                          'address' => function ($query) {
+                            $query->select('city', 'region', 'supplier_id');
+                          },
+                          'latestNonModifiedStatus' => function ($query) {
+                            $query->select('status', 'supplier_id');
+                          },
+                          'productsServices' => function ($query) {
+                            $query->select('code', 'supplier_id');
+                          },
+                          'workSubcategories' => function ($query) {
+                            $query->select('code', 'name', 'supplier_id');
+                          },
+                        ])->get();
+
+    $suppliersWorkCategories = $allSuppliers->pluck('workSubcategories')->unique();
+    $suppliersWorkCategoriesCodes = $suppliersWorkCategories->flatten()->pluck('name', 'code')->toArray();
+
+    $suppliersAdresses = $allSuppliers->pluck('address');
+    $suppliersCities = $suppliersAdresses->pluck('city')->unique()->toArray();
+    $suppliersRegions = $suppliersAdresses->pluck('region')->unique()->toArray();
+
+    $suppliersProductsServices = $allSuppliers->pluck('productsServices');
+    $suppliersProductsServicesCodes = $suppliersProductsServices->flatten()->pluck('code')->unique()->toArray();
+
+    $suppliersLastestStatus = $allSuppliers->pluck('latestNonModifiedStatus');
+    $suppliersStatus = $suppliersLastestStatus->pluck('status')->unique()->toArray();
+    
+    return View(
+      'suppliers.index', 
+      compact(
+        'suppliers',
+        'workSubcategories', 
+        'productsServices', 
+        'waitingSuppliersCount', 
+        'suppliersCities', 
+        'suppliersRegions', 
+        'suppliersWorkCategoriesCodes', 
+        'suppliersProductsServicesCodes', 
+        'suppliersStatus'
+      )
+    );
   }
 
   public function selectedList(Request $request){
@@ -238,10 +280,94 @@ class SuppliersController extends Controller
                                           default => 5,
                                       };
                                   });
+
+      $allSuppliers = Supplier::
+                        with([
+                          'address' => function ($query) {
+                            $query->select('city', 'region', 'supplier_id');
+                          },
+                          'latestNonModifiedStatus' => function ($query) {
+                            $query->select('status', 'supplier_id');
+                          },
+                          'productsServices' => function ($query) {
+                            $query->select('code', 'supplier_id');
+                          },
+                          'workSubcategories' => function ($query) {
+                            $query->select('code', 'name', 'supplier_id');
+                          },
+                        ])->get();
+
+      $suppliersAdresses = $allSuppliers->pluck('address');
+      $suppliersCities = $suppliersAdresses->pluck('city')->unique()->toArray();
+      $suppliersRegions =$this->getSupplierRegions($request);
+
+      $suppliersWorkCategories = $allSuppliers->pluck('workSubcategories')->unique();
+      $suppliersWorkCategoriesCodes = $suppliersWorkCategories->flatten()->pluck('name', 'code')->toArray();
+
+      $suppliersProductsServices = $allSuppliers->pluck('productsServices');
+      $suppliersProductsServicesCodes = $suppliersProductsServices->flatten()->pluck('code')->unique()->toArray();
+
+      $suppliersLastestStatus = $allSuppliers->pluck('latestNonModifiedStatus');
+      $suppliersStatus = $suppliersLastestStatus->pluck('status')->unique()->toArray();
       
       return response()->json([
-          'html' => view('suppliers.components.supplierList', compact('suppliers'))->render(),
+          'html' => view('suppliers.components.supplierList', compact(
+            'suppliers', 
+            'suppliersCities', 
+            'suppliersRegions', 
+            'suppliersWorkCategoriesCodes', 
+            'suppliersProductsServicesCodes', 
+            'suppliersStatus'
+          ))->render(),
       ]);
+  }
+
+  public function getSupplierRegions(Request $request){
+    $suppliersQuery = Supplier::query()
+                                ->with([
+                                  'address' => function ($query) {
+                                    $query->select('region', 'supplier_id');
+                                  }
+                                ]);
+    
+    if($request->filled('name')){
+      $suppliersQuery->where('name', 'like',  '%' . $request->name .'%');
+    }
+    if ($request->filled('workCategories') && is_array($request->input('workCategories'))) {
+        $suppliersQuery->whereHas('workSubcategories', function($q) use($request){ 
+            $q->whereIn('code', $request->workCategories);
+        });
+    }
+    if ($request->filled('produits_services') && is_array($request->input('produits_services'))) {
+        $suppliersQuery->whereHas('productsServices', function($q) use($request){
+            $q->whereIn('code', $request->produits_services);
+        });
+    }
+    if($request->filled('status') && is_array($request->input('status'))){
+      $suppliersQuery->whereHas('statusHistories', function ($query) use ($request) {
+        $query->whereIn('status', $request->status)
+              ->whereRaw('created_at = (SELECT MAX(created_at) 
+                                        FROM status_histories 
+                                        WHERE supplier_id = suppliers.id 
+                                          AND status != "modified")');
+      });
+    }
+    else{
+      $suppliersQuery->whereNotIn('id', function ($query) {
+        $query->select('supplier_id')
+              ->from('status_histories')
+              ->whereRaw('"deactivated" = (SELECT status
+                                        FROM status_histories
+                                        WHERE supplier_id = suppliers.id
+                                        ORDER BY created_at DESC
+                                        LIMIT 1)');
+      });
+    }
+
+    $suppliers = $suppliersQuery->get();
+    $suppliersAdresses = $suppliers->pluck('address');
+    $suppliersRegions = $suppliersAdresses->pluck('region')->unique()->toArray();
+    return $suppliersRegions;
   }
 
   public function waitingSuppliers(){
