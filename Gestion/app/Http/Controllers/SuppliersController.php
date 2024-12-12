@@ -1130,11 +1130,39 @@ class SuppliersController extends Controller
           $licence->number = $request->licenceRbq;
         }
         if($licence->status != $request->statusRbq){
-          $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [$request->statusRbq], $licenceRbq_category_id);
+          if (!is_null($licence->status)){
+            $statusWithMaj = strtoupper(substr($licence->status, 0, 1)) . substr($licence->status, 1);
+            $supplierTradVariable = 'form.choice' . $statusWithMaj;
+          }
+          else
+            $supplierTradVariable = null;
+
+          if (!is_null($request->statusRbq)){
+            $statusWithMaj = strtoupper(substr($request->statusRbq, 0, 1)) . substr($request->statusRbq, 1);
+            $requestTradVariable = 'form.choice' . $statusWithMaj;
+          }
+          else
+            $requestTradVariable = null;
+
+          $this->createAccountModificationLine($status, __('form.statusLabel'), [__($supplierTradVariable)], [__($requestTradVariable)], $licenceRbq_category_id);
           $licence->status = $request->statusRbq;
         }
         if($licence->type != $request->typeRbq){
-          $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [$request->typeRbq], $licenceRbq_category_id);
+          if (!is_null($licence->type)){
+            $typeWithMaj = strtoupper(substr($licence->type, 0, 1)) . substr($licence->type, 1);
+            $supplierTradVariable = 'form.choice' . $typeWithMaj;
+          }
+          else
+            $supplierTradVariable = null;
+
+          if (!is_null($request->typeRbq)){
+            $typeWithMaj = strtoupper(substr($request->typeRbq, 0, 1)) . substr($request->typeRbq, 1);
+            $requestTradVariable = 'form.choice' . $typeWithMaj;
+          }
+          else
+            $requestTradVariable = null;
+
+          $this->createAccountModificationLine($status, __('form.typeLabel'), [__($supplierTradVariable)], [__($requestTradVariable)], $licenceRbq_category_id);
           $licence->type = $request->typeRbq;
         }
         $licence->supplier()->associate($supplier);
