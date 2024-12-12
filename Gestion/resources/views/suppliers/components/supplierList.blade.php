@@ -113,7 +113,6 @@
     updateCitiesFilter();
     updateWorkSubcategoriesFilter();
     updateStatusFilter();
-    updateProductsServicesFilter();
     fetchServices();
   }
   else{
