@@ -6,6 +6,10 @@
     background-position: center;
 }
 
+.required{
+    color: var(--red);
+}
+
 /* IDENTIFICATION */
 .fond-identification{
     background-image: url("/img/indentification_background.jpg");
