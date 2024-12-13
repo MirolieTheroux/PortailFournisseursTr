@@ -6,6 +6,6 @@ return [
   'selectedListTitle' => 'Fournisseurs sélectionnés',
   'contacted' => 'Contacté',
   'exportList' => 'Exporter la liste',
-  'joined' => 'Rejoin',
+  'joined' => 'Rejoint',
   'exportDate' => 'Date d\'exportation : ',
 ];
