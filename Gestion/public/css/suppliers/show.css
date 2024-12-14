@@ -1,3 +1,7 @@
+.required{
+  color: var(--red);
+}
+
 .w-85 {
   width: 85%;
 }

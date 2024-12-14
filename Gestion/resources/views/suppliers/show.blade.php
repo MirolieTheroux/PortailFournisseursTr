@@ -272,7 +272,7 @@
                       <option value="denied" {{ $supplier->latestNonModifiedStatus->status === 'denied' ? 'selected' : null}}>{{__('global.denied')}}</option>
                       <option value="deactivated" {{ $supplier->latestNonModifiedStatus->status === 'deactivated' ? 'selected' : null}} disabled>{{__('global.deactivated')}}</option>
                     </select>
-                    <label for="requestStatus" id="">{{__('form.status')}}</label>
+                    <label for="requestStatus" id="">{{__('form.status')}} <span class="required">*</span></label>
                   </div>
                 </div>
                 <div class="col-6">
@@ -377,7 +377,7 @@
                 <div class="col-6">
                   <div class="form-floating">
                     <input type="text" name="name" id="name" class="form-control" placeholder="" value="{{ $supplier->name }}" maxlength="64" disabled>
-                    <label for="name">{{__('form.companyNameLabel')}}</label>
+                    <label for="name">{{__('form.companyNameLabel')}} <span class="required">*</span></label>
                     <div id="nameStart"></br></div>
                     <div class="valid-feedback" id="nameValid" style="display: none;"></br></div>
                     <div class="invalid-feedback" id="nameInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Nom d\'entreprise'])}}</div>
@@ -391,7 +391,7 @@
                 <div class="col-12">
                   <div class="form-floating">
                     <input type="email" name="email" id="email" class="form-control" placeholder="" value="{{ $supplier->email }}" maxlength="64" disabled>
-                    <label for="email">{{__('form.emailLabel')}}</label>
+                    <label for="email">{{__('form.emailLabel')}} <span class="required">*</span></label>
                     <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
                     <div class="invalid-feedback" id="emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
                     <div class="invalid-feedback" id="emailInvalidUnique" style="display: none;">{{__('form.identificationValidationEmailUnique')}}</div>
@@ -434,7 +434,7 @@
                 <div class="text-center d-flex flex-row ">
                   <div class="form-floating col-6 pe-2">
                     <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ $supplier->address->civic_no }}" placeholder="" maxlength="8" disabled>
-                    <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>
+                    <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}} <span class="required">*</span></label>
                   </div>
                   <div class="form-floating col-6">
                     <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control" value="{{ $supplier->address->office ? : 'N/A' }}" placeholder="" maxlength="8" disabled>
@@ -461,7 +461,7 @@
                 <div class="text-center mb-4">
                   <div class="form-floating">
                     <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control" value="{{ $supplier->address->street }}" placeholder="" maxlength="64" disabled>
-                    <label for="contactDetailsStreetName">{{__('form.streetName')}}</label>
+                    <label for="contactDetailsStreetName">{{__('form.streetName')}} <span class="required">*</span></label>
                     <div class="text-start invalid-feedback" id="invalidRequiredStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationRequired')}}</div>
                     <div class="text-start invalid-feedback" id="invalidStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationAlphaNumSC')}}</div>
                     <div class="text-start invalid-feedback" id="invalidStreetNameLength" style="display: none;">{{__('form.contactDetailsStreetNameValidationLength')}}</div>
@@ -477,7 +477,7 @@
                         <option>{{ $supplier->address->city }}</option>
                       </select>
                       <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none" value="{{ $supplier->address->city }}" placeholder="" maxlength="64" disabled>
-                      <label for="contactDetailsCitySelect">{{__('form.city')}}</label>
+                      <label for="contactDetailsCitySelect">{{__('form.city')}} <span class="required">*</span></label>
                     </div>
                     <div class="form-floating col-6">
                       <select name="contactDetailsProvince" id="contactDetailsProvince" class="form-select" aria-label="" disabled>
@@ -488,7 +488,7 @@
                         </option>
                       @endforeach
                       </select>
-                      <label for="contactDetailsProvince">{{__('form.province')}}</label>
+                      <label for="contactDetailsProvince">{{__('form.province')}} <span class="required">*</span></label>
                     </div>
                   </div>
                   <div class="row mb-4">
@@ -505,11 +505,11 @@
                       <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" aria-label="" disabled>
                         <option>{{ $supplier->address->region }}</option>
                       </select>
-                      <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
+                      <label for="contactDetailsDistrictArea">{{__('form.districtArea')}} <span class="required">*</span></label>
                     </div>
                     <div class="form-floating">
                       <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ $formattedPostalCode}}" placeholder="" maxlength="7" disabled>
-                      <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
+                      <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}<span class="required">*</span></label>
                       @if($errors->has('contactDetailsPostalCode'))
                       <p>{{ $errors->first('contactDetailsPostalCode') }}</p>
                       @endif
@@ -575,7 +575,7 @@
                 </div>
                 <div class="form-floating h-100 pb-4" id="div-phoneNumberList">
                   <div class="form-control pt-2 h-100  mb-4" id="contactDetailsPhoneNumberList" style="overflow-x: hidden; overflow-y: auto;">
-                    <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}}</div>
+                    <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}} <span class="required">*</span></div>
                     <div class="d-flex flex-row mt-2">
                       <div class="col-2 fs-6">{{__('form.typeLabel')}}</div>
                       <div class="col-6 fs-6 text-center" id="phoneNumber">{{__('form.phoneNumber')}}</div>
@@ -653,7 +653,7 @@
                         <div class="form-floating">
                           <input type="number" name="contactIds[]" id="{{"contactId" . ($loop->index+1)}}" value="{{ $contact->id}}" hidden>
                           <input type="text" name="contactFirstNames[]" id="{{"contactFirstName" . ($loop->index+1)}}" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="{{ $contact->first_name}}" disabled>
-                          <label id="{{"contactFirstNameLabel" . ($loop->index+1)}}" for="{{"contactFirstName" . ($loop->index+1)}}">{{__('form.firstNameLabel')}}</label>
+                          <label id="{{"contactFirstNameLabel" . ($loop->index+1)}}" for="{{"contactFirstName" . ($loop->index+1)}}">{{__('form.firstNameLabel')}} <span class="required">*</span></label>
                           <div class="text-start invalid-feedback nameInvalidRequired" style="display: none;">{{__('form.contactsFirstNamesValidationRequired')}}</div>
                           <div class="text-start invalid-feedback nameInvalidSymbols" style="display: none;">{{__('form.contactsNamesValidationSymbols')}}</div>
                         </div>
@@ -661,7 +661,7 @@
                       <div class="col-12 col-lg-6 text-center mb-4">
                         <div class="form-floating">
                           <input type="text" name="contactLastNames[]" id="{{"contactLastName" . ($loop->index+1)}}" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="{{ $contact->last_name }}" disabled>
-                          <label id="{{"contactLastNameLabel" . ($loop->index+1)}}" for="{{"contactLastName" . ($loop->index+1)}}">{{__('form.lastNameLabel')}}</label>
+                          <label id="{{"contactLastNameLabel" . ($loop->index+1)}}" for="{{"contactLastName" . ($loop->index+1)}}">{{__('form.lastNameLabel')}} <span class="required">*</span></label>
                           <div class="text-start invalid-feedback nameInvalidRequired" style="display: none;">{{__('form.contactsLastNamesValidationRequired')}}</div>
                           <div class="text-start invalid-feedback nameInvalidSymbols" style="display: none;">{{__('form.contactsNamesValidationSymbols')}}</div>
                         </div>
@@ -678,7 +678,7 @@
                     <div class="text-center mb-4">
                       <div class="form-floating">
                         <input type="text" name="contactEmails[]" id="{{"contactEmail" . ($loop->index+1)}}" class="form-control contact-input contact-email-input" placeholder="" maxlength="64" value="{{ $contact->email }}" disabled>
-                        <label id="{{"contactEmailLabel" . ($loop->index+1)}}" for="{{"contactEmail" . ($loop->index+1)}}">{{__('form.emailLabel')}}</label>
+                        <label id="{{"contactEmailLabel" . ($loop->index+1)}}" for="{{"contactEmail" . ($loop->index+1)}}">{{__('form.emailLabel')}} <span class="required">*</span></label>
                         <div class="text-start invalid-feedback emailInvalidRequired" style="display: none;">{{__('form.contactsEmailsValidationRequired')}}</div>
                         <div class="text-start invalid-feedback emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
                       </div>
@@ -695,11 +695,11 @@
                             <option value="{{__('form.fax')}}" {{ __('form.fax') == $contact->formattedPhoneNumbers[0]->type ? 'selected' : null }}>{{__('form.fax')}}</option>
                             <option value="{{__('form.cellphone')}}" {{ __('form.cellphone') == $contact->formattedPhoneNumbers[0]->type ? 'selected' : null }}>{{__('form.cellphone')}}</option>
                           </select>
-                          <label id="{{"contactTelTypeLabelA" . ($loop->index+1)}}" for="{{"contactTelTypeA" . ($loop->index+1)}}">{{__('form.typeLabel')}}</label>
+                          <label id="{{"contactTelTypeLabelA" . ($loop->index+1)}}" for="{{"contactTelTypeA" . ($loop->index+1)}}">{{__('form.typeLabel')}} <span class="required">*</span></label>
                         </div>
                         <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
                           <input type="text" name="contactTelNumbersA[]" id="{{"contactTelNumberA" . ($loop->index+1)}}" class="form-control contact-input contact-primary-phone-input" placeholder="" maxlength="12" value="{{ $contact->formattedPhoneNumbers[0]->number }}" disabled>
-                          <label id="{{"contactTelNumberLabelA" . ($loop->index+1)}}" class="my-4 my-md-0 ms-md-2" for="{{"contactTelNumberA" . ($loop->index+1)}}">{{__('form.numberLabel')}}</label>
+                          <label id="{{"contactTelNumberLabelA" . ($loop->index+1)}}" class="my-4 my-md-0 ms-md-2" for="{{"contactTelNumberA" . ($loop->index+1)}}">{{__('form.numberLabel')}} <span class="required">*</span></label>
                         </div>
                         <div class="form-floating col-12 col-md-3">
                           <input type="text" name="contactTelExtensionsA[]" id="{{"contactTelExtensionA" . ($loop->index+1)}}" class="form-control contact-input contact-extension-input" placeholder="" maxlength="6" value="{{ $contact->formattedPhoneNumbers[0]->extension ? : 'N/A' }}" disabled>
