@@ -498,6 +498,22 @@ class SuppliersController extends Controller
   /**
    * Update identification of supplier.
    */
+
+    public function modificationMailText(string $request, string $supplier){
+      $modification = "";
+      if (is_null($request)){
+        $modification .= "<span style='color:#E5004D;'>- {$supplier}</span><br>";
+      }
+      else if (is_null($supplier)){
+        $modification .= "<span style='color:#68B545;'>+ {$request}</span><br>";
+      }
+      else{
+        $modification .= "<span style='color:#E5004D;'>- {$supplier}</span><br>";
+        $modification .= "<span style='color:#68B545;'>+ {$request}</span><br>";
+      }
+      return $modification;
+    }
+
   public function updateIdentification(SupplierUpdateIdentificationRequest $request, Supplier $supplier)
   {
     $identification_category_id = 1;
@@ -506,44 +522,17 @@ class SuppliersController extends Controller
       $supplierModification = "";
       if($supplier->neq != $request->neq){
         $this->createAccountModificationLine($status, __('form.neqLabelShort'), [$supplier->neq], [$request->neq], $identification_category_id);
-        if (is_null($request->neq)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->neq}</span><br>";
-        }
-        else if (is_null($supplier->neq)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->neq}</span><br>";
-        }
-        else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->neq}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->neq}</span><br>";
-        }
+        $supplierModification .= $this->modificationMailText($request->neq, $supplier->neq);
         $supplier->neq = $request->neq;
       }
       if($supplier->name != $request->name){
         $this->createAccountModificationLine($status, __('form.companyNameLabel'), [$supplier->name], [$request->name], $identification_category_id);
-        if (is_null($request->name)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->name}</span><br>";
-        }
-        else if (is_null($supplier->name)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->name}</span><br>";
-        }
-        else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->name}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->name}</span><br>";
-        }
+        $supplierModification .= $this->modificationMailText($request->name, $supplier->name);
         $supplier->name = $request->name;
       }
       if($supplier->email != $request->email){
         $this->createAccountModificationLine($status, __('form.emailLabel'), [$supplier->email], [$request->email], $identification_category_id);
-        if (is_null($request->email)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->email}</span><br>";
-        }
-        else if (is_null($supplier->email)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->email}</span><br>";
-        }
-        else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->email}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->email}</span><br>";
-        }
+        $supplierModification .= $this->modificationMailText($request->email, $supplier->email);
         $supplier->email = $request->email;
       }
       $supplier->save();
@@ -618,44 +607,17 @@ class SuppliersController extends Controller
       //Update Address
       if($supplier->address->civic_no != $request->contactDetailsCivicNumber){
         $this->createAccountModificationLine($status, __('form.civicNumberLabel'), [$supplier->address->civic_no], [$request->contactDetailsCivicNumber], $contactDetails_category_id);
-        if (is_null($request->contactDetailsCivicNumber)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->civic_no}</span><br>";
-        }
-        else if (is_null($supplier->address->civic_no)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsCivicNumber}</span><br>";
-        }
-        else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->civic_no}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsCivicNumber}</span><br>";
-        }
+        $supplierModification .= $this->sendModificationMail($request->contactDetailsCivicNumber, $supplier->address->civic_no);
         $supplier->address->civic_no = $request->contactDetailsCivicNumber;
       }
       if($supplier->address->street != $request->contactDetailsStreetName){
         $this->createAccountModificationLine($status, __('form.streetName'), [$supplier->address->street], [$request->contactDetailsStreetName], $contactDetails_category_id);
-        if (is_null($request->contactDetailsStreetName)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->street}</span><br>";
-        }
-        else if (is_null($supplier->address->street)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsStreetName}</span><br>";
-        }
-        else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->street}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsStreetName}</span><br>";
-        }
+        $supplierModification .= $this->sendModificationMail($request->contactDetailsStreetName, $supplier->address->street);
         $supplier->address->street = $request->contactDetailsStreetName;
       }
       if($supplier->address->office != $request->contactDetailsOfficeNumber){
         $this->createAccountModificationLine($status, __('form.officeNumber'), [$supplier->address->office], [$request->contactDetailsOfficeNumber], $contactDetails_category_id);
-        if (is_null($request->contactDetailsOfficeNumber)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->office}</span><br>";
-        }
-        else if (is_null($supplier->address->office)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsOfficeNumber}</span><br>";
-        }
-        else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->office}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsOfficeNumber}</span><br>";
-        }
+        $supplierModification .= $this->sendModificationMail($request->contactDetailsOfficeNumber, $supplier->address->office);
         $supplier->address->office = $request->contactDetailsOfficeNumber;
       }
 
@@ -664,86 +626,40 @@ class SuppliersController extends Controller
       $postal_code = strtoupper($postal_code);
       if($supplier->address->postal_code != $postal_code){
         $this->createAccountModificationLine($status, __('form.postalCode'), [$supplier->address->postal_code], [$postal_code], $contactDetails_category_id);
-        if (is_null($postal_code)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->postal_code}</span><br>";
-        }
-        else if (is_null($supplier->address->postal_code)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$postal_code}</span><br>";
-        }
-        else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->postal_code}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$postal_code}</span><br>";
-        }
+        $supplierModification .= $this->sendModificationMail($postal_code, $supplier->address->postal_code);
         $supplier->address->postal_code = $postal_code;
       }
 
       $province = Province::where('name', $request->contactDetailsProvince)->firstOrFail();
       if($supplier->address->province->id != $province->id){
         $this->createAccountModificationLine($status, __('form.province'), [$supplier->address->province->name], [$province->name], $contactDetails_category_id);
-        $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->province->name}</span><br>";
-        $supplierModification .= "<span style='color:#68B545;'>+ {$province->name}</span><br>";
+        $supplierModification .= $this->sendModificationMail($province->name, $supplier->address->province->name);
         $supplier->address->province()->associate($province);
       }
 
       if($request->contactDetailsProvince == "Québec"){
         if($supplier->address->city != $request->contactDetailsCitySelect){
           $this->createAccountModificationLine($status, __('form.city'), [$supplier->address->city], [$request->contactDetailsCitySelect], $contactDetails_category_id);
-          if (is_null($request->contactDetailsCitySelect)){
-            $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->city}</span><br>";
-          }
-          else if (is_null($supplier->address->city)){
-            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsCitySelect}</span><br>";
-          }
-          else{
-            $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->city}</span><br>";
-            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsCitySelect}</span><br>";
-          }
+          $supplierModification .= $this->sendModificationMail($request->contactDetailsCitySelect, $supplier->address->city);
           $supplier->address->city = $request->contactDetailsCitySelect;
         }
       }
       else{
         if($supplier->address->city != $request->contactDetailsInputCity){
           $this->createAccountModificationLine($status, __('form.city'), [$supplier->address->city], [$request->contactDetailsInputCity], $contactDetails_category_id);
-          if (is_null($request->contactDetailsInputCity)){
-            $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->city}</span><br>";
-          }
-          else if (is_null($supplier->address->city)){
-            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsInputCity}</span><br>";
-          }
-          else{
-            $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->city}</span><br>";
-            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsInputCity}</span><br>";
-          }
+          $supplierModification .= $this->sendModificationMail($request->contactDetailsInputCity, $supplier->address->city);
           $supplier->address->city = $request->contactDetailsInputCity;
         }
       }
       if($supplier->address->region != $request->contactDetailsDistrictArea){
         $this->createAccountModificationLine($status, __('form.districtArea'), [$supplier->address->region], [$request->contactDetailsDistrictArea], $contactDetails_category_id);
-        if (is_null($request->contactDetailsDistrictArea)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->region}</span><br>";
-        }
-        else if (is_null($supplier->address->region)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsDistrictArea}</span><br>";
-        }
-        else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->address->region}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsDistrictArea}</span><br>";
-        }
+        $supplierModification .= $this->sendModificationMail($request->contactDetailsDistrictArea, $supplier->address->region);
         $supplier->address->region = $request->contactDetailsDistrictArea;
       }
 
       if($supplier->site != $request->contactDetailsWebsite){
         $this->createAccountModificationLine($status, __('form.website'), [$supplier->site], [$request->contactDetailsWebsite], $contactDetails_category_id);
-        if (is_null($request->contactDetailsWebsite)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->site}</span><br>";
-        }
-        else if (is_null($supplier->site)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsWebsite}</span><br>";
-        }
-        else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->site}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactDetailsWebsite}</span><br>";
-        }
+        $supplierModification .= $this->sendModificationMail($request->contactDetailsWebsite, $supplier->site);
         $supplier->site = $request->contactDetailsWebsite;
       }
       $supplier->address->save();
@@ -831,61 +747,25 @@ class SuppliersController extends Controller
         }
         
         if($contact->email != $request->contactEmails[$i]){
-          if (is_null($request->contactEmails[$i])){
-            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->email}</span><br>";
-          }
-          else if (is_null($contact->email)){
-            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactEmails[$i]}</span><br>";
-          }
-          else{
-            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->email}</span><br>";
-            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactEmails[$i]}</span><br>";
-          }
+          $supplierModification .= $this->sendModificationMail($request->contactEmails[$i], $contact->email);
           array_push($removedInformations, $contact->email);
           array_push($addedInformations, $request->contactEmails[$i]);
           $contact->email = $request->contactEmails[$i];
         }
         if($contact->first_name != $request->contactFirstNames[$i]){
-          if (is_null($request->contactFirstNames[$i])){
-            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->first_name}</span><br>";
-          }
-          else if (is_null($contact->first_name)){
-            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactFirstNames[$i]}</span><br>";
-          }
-          else{
-            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->first_name}</span><br>";
-            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactFirstNames[$i]}</span><br>";
-          }
+          $supplierModification .= $this->sendModificationMail($request->contactFirstNames[$i], $contact->first_name);
           array_push($removedInformations, $contact->first_name);
           array_push($addedInformations, $request->contactFirstNames[$i]);
           $contact->first_name = $request->contactFirstNames[$i];
         }
         if($contact->last_name != $request->contactLastNames[$i]){
-          if (is_null($request->contactLastNames[$i])){
-            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->last_name}</span><br>";
-          }
-          else if (is_null($contact->last_name)){
-            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactLastNames[$i]}</span><br>";
-          }
-          else{
-            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->last_name}</span><br>";
-            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactLastNames[$i]}</span><br>";
-          }
+          $supplierModification .= $this->sendModificationMail($request->contactLastNames[$i], $contact->last_name);
           array_push($removedInformations, $contact->last_name);
           array_push($addedInformations, $request->contactLastNames[$i]);
           $contact->last_name = $request->contactLastNames[$i];
         }
         if($contact->job != $request->contactJobs[$i]){
-          if (is_null($request->contactJobs[$i])){
-            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->job}</span><br>";
-          }
-          else if (is_null($contact->job)){
-            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactJobs[$i]}</span><br>";
-          }
-          else{
-            $supplierModification .= "<span style='color:#E5004D;'>- {$contact->job}</span><br>";
-            $supplierModification .= "<span style='color:#68B545;'>+ {$request->contactJobs[$i]}</span><br>";
-          }
+          $supplierModification .= $this->sendModificationMail($request->contactJobs[$i], $contact->job);
           array_push($removedInformations, $contact->job);
           array_push($addedInformations, $request->contactJobs[$i]);
           $contact->job = $request->contactJobs[$i];
