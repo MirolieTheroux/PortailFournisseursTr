@@ -904,8 +904,7 @@ class SuppliersController extends Controller
         
         if($licence->number != $request->licenceRbq){
           $this->createAccountModificationLine($status, __('form.rbqLicenceSection'), [$licence->number], [$request->licenceRbq], $licenceRbq_category_id);
-          $supplierModification .= "<span style='color:#E5004D;'>- {$licence->number}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->licenceRbq}</span><br>";
+          $supplierModification .= $this->modificationMailText($request->licenceRbq, $licence->number);
           $licence->number = $request->licenceRbq;
         }
         if($licence->status != $request->statusRbq){
@@ -926,8 +925,7 @@ class SuppliersController extends Controller
           $this->createAccountModificationLine($status, __('form.statusLabel'), [__($supplierTradVariable)], [__($requestTradVariable)], $licenceRbq_category_id);
           $oldStatus = __($supplierTradVariable);
           $newStatus = __($requestTradVariable);
-          $supplierModification .= "<span style='color:#E5004D;'>- {$oldStatus}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$newStatus}</span><br>";
+          $supplierModification .= $this->modificationMailText($newStatus, $oldStatus);
           $licence->status = $request->statusRbq;
         }
         if($licence->type != $request->typeRbq){
@@ -948,8 +946,7 @@ class SuppliersController extends Controller
           $this->createAccountModificationLine($status, __('form.typeLabel'), [__($supplierTradVariable)], [__($requestTradVariable)], $licenceRbq_category_id);
           $oldType = __($supplierTradVariable);
           $newType = __($requestTradVariable);
-          $supplierModification .= "<span style='color:#E5004D;'>- {$oldType}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$newType}</span><br>";
+          $supplierModification .= $this->modificationMailText($newType, $oldType);
           $licence->type = $request->typeRbq;
         }
         $licence->supplier()->associate($supplier);
@@ -981,17 +978,17 @@ class SuppliersController extends Controller
         
         if($licence->number != $request->licenceRbq){
           $this->createAccountModificationLine($status, __('form.rbqLicenceSection'), [$licence->number], [$request->licenceRbq], $licenceRbq_category_id);
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->licenceRbq}</span><br>";
+          $supplierModification .= $this->modificationMailText($request->licenceRbq, $licence->number);
           $licence->number = $request->licenceRbq;
         }
         if($licence->status != $request->statusRbq){
           $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [$request->statusRbq], $licenceRbq_category_id);
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->statusRbq}</span><br>";
+          $supplierModification .= $this->modificationMailText($request->statusRbq, $licence->status);
           $licence->status = $request->statusRbq;
         }
         if($licence->type != $request->typeRbq){
           $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [$request->typeRbq], $licenceRbq_category_id);
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->typeRbq}</span><br>";
+          $supplierModification .= $this->modificationMailText($request->typeRbq, $licence->type);
           $licence->type = $request->typeRbq;
         }
         $licence->supplier()->associate($supplier);
@@ -1010,17 +1007,17 @@ class SuppliersController extends Controller
 
         if($licence->number != $request->licenceRbq){
           $this->createAccountModificationLine($status, __('form.rbqLicenceSection'), [$licence->number], [null], $licenceRbq_category_id);
-          $supplierModification .= "<span style='color:#E5004D;'>- {$licence->number}</span><br>";
+          $supplierModification .= $this->modificationMailText($request->licenceRbq, $licence->number);
           $licence->number = $request->licenceRbq;
         }
         if($licence->status != $request->statusRbq){
           $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [null], $licenceRbq_category_id);
-          $supplierModification .= "<span style='color:#E5004D;'>- {$licence->status}</span><br>";
+          $supplierModification .= $this->modificationMailText($request->statusRbq, $licence->status);
           $licence->status = $request->statusRbq;
         }
         if($licence->type != $request->typeRbq){
           $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [null], $licenceRbq_category_id);
-          $supplierModification .= "<span style='color:#E5004D;'>- {$licence->type}</span><br>";
+          $supplierModification .= $this->modificationMailText($request->typeRbq, $licence->type);
           $licence->type = $request->typeRbq;
         }
         $licence->delete();
@@ -1063,16 +1060,7 @@ class SuppliersController extends Controller
 
       if($supplier->product_service_detail != $request->product_service_detail){
         $this->createAccountModificationLine($status, __('form.productsAndServiceCategoriesDetails'), [$supplier->product_service_detail], [$request->product_service_detail], $productsServices_category_id);
-        if (is_null($request->product_service_detail)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->product_service_detail}</span><br>";
-        }
-        else if (is_null($supplier->product_service_detail)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->product_service_detail}</span><br>";
-        }
-        else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->product_service_detail}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->product_service_detail}</span><br>";
-        }
+        $supplierModification .= $this->modificationMailText($request->product_service_detail, $supplier->product_service_detail);
         $supplier->product_service_detail = $request->product_service_detail;
       }
       $supplier->save();
@@ -1144,30 +1132,12 @@ class SuppliersController extends Controller
 
       if($supplier->tps_number != $request->financesTps){
         $this->createAccountModificationLine($status, __('form.tpsNumber'), [$supplier->tps_number], [$request->financesTps], $finance_category_id);
-        if (is_null($request->financesTps)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->tps_number}</span><br>";
-        }
-        else if (is_null($supplier->tps_number)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->financesTps}</span><br>";
-        }
-        else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->tps_number}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->financesTps}</span><br>";
-        }
+        $supplierModification .= $this->modificationMailText($request->financesTps, $supplier->tps_number);
         $supplier->tps_number = $request->financesTps;
       }
       if($supplier->tvq_number != $request->financesTvq){
         $this->createAccountModificationLine($status, __('form.tvqNumber'), [$supplier->tvq_number], [$request->financesTvq], $finance_category_id);
-        if (is_null($request->financesTvq)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->tvq_number}</span><br>";
-        }
-        else if (is_null($supplier->tvq_number)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->financesTvq}</span><br>";
-        }
-        else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->tvq_number}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->financesTvq}</span><br>";
-        }
+        $supplierModification .= $this->modificationMailText($request->financesTvq, $supplier->tvq_number);
         $supplier->tvq_number = $request->financesTvq;
       }
       if($supplier->payment_condition != $request->financesPaymentConditions){
