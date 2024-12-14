@@ -19,6 +19,7 @@
       <div class="col-3 bg-white h-100 full-viewport sticky-under-navbar">
         <form id="filterForm" class="h-100 d-flex flex-column justify-content-start">
           <button id="btnListSelectedSupplier" type="button" class="d-none my-2 py-1 px-3 rounded button-darkblue">{{__('index.listSelectedSuppliers')}}</button>
+          <button id="btnExportSelectedSupplier" type="button" class="d-none my-2 py-1 px-3 rounded button-darkblue">{{__('index.exportSelectedSuppliers')}}</button>
           @role(['responsable', 'admin'])
             @if ($waitingSuppliersCount == 1)
               <button id="btnWaitingSupplier" type="button" class="my-2 py-1 px-3 rounded button-red">{{$waitingSuppliersCount}} {{__('index.waitingSupplierSingle')}}</button>
@@ -121,7 +122,7 @@
               <div class="col-2 p-0 d-flex justify-content-center align-items-end">
                 <div class="text-center">{{__('index.workCategories')}}</div>
               </div>
-              <div class="col-1 d-flex justify-content-end align-items-end px-0"><input id="selectAllCheck" title="{{__('index.selectAll')}}" class="mb-1 ms-2" type="checkbox" name="suppliers[]" id=""></div>
+              <div class="col-1 d-flex justify-content-end align-items-end px-0"><input id="selectAllCheck" title="{{__('index.selectAll')}}" class="mb-1 ms-2" type="checkbox" name="supplierIds[]" id=""></div>
             </div>
           </div>
         </div>
@@ -198,6 +199,20 @@ function loadWaitingSuppliers(){
         alert('Erreur lors du filtrage des fournisseurs.');
       }
     });
+}
+
+function sendSelectedSuppliersForm(){
+  const form = document.getElementById('suppliersListForm');
+  form.action = "{{ route('suppliers.selectedList') }}";
+  form.method = 'POST';
+  form.submit();
+}
+
+function exportCSV(){
+  const form = document.getElementById('suppliersListForm');
+  form.action = "{{ route('suppliers.selectedList.export') }}";
+  form.method = 'POST';
+  form.submit();
 }
 </script>
 @endsection

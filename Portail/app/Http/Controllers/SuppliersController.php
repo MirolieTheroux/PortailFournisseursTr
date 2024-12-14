@@ -909,15 +909,47 @@ class SuppliersController extends Controller
           $licence->number = $request->licenceRbq;
         }
         if($licence->status != $request->statusRbq){
-          $this->createAccountModificationLine($status, __('form.statusLabel'), [$licence->status], [$request->statusRbq], $licenceRbq_category_id);
-          $supplierModification .= "<span style='color:#E5004D;'>- {$licence->status}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->statusRbq}</span><br>";
+          if (!is_null($licence->status)){
+            $statusWithMaj = strtoupper(substr($licence->status, 0, 1)) . substr($licence->status, 1);
+            $supplierTradVariable = 'form.choice' . $statusWithMaj;
+          }
+          else
+            $supplierTradVariable = null;
+
+          if (!is_null($request->statusRbq)){
+            $statusWithMaj = strtoupper(substr($request->statusRbq, 0, 1)) . substr($request->statusRbq, 1);
+            $requestTradVariable = 'form.choice' . $statusWithMaj;
+          }
+          else
+            $requestTradVariable = null;
+
+          $this->createAccountModificationLine($status, __('form.statusLabel'), [__($supplierTradVariable)], [__($requestTradVariable)], $licenceRbq_category_id);
+          $oldStatus = __($supplierTradVariable);
+          $newStatus = __($requestTradVariable);
+          $supplierModification .= "<span style='color:#E5004D;'>- {$oldStatus}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$newStatus}</span><br>";
           $licence->status = $request->statusRbq;
         }
         if($licence->type != $request->typeRbq){
-          $this->createAccountModificationLine($status, __('form.typeLabel'), [$licence->type], [$request->typeRbq], $licenceRbq_category_id);
-          $supplierModification .= "<span style='color:#E5004D;'>- {$licence->type}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->typeRbq}</span><br>";
+          if (!is_null($licence->type)){
+            $typeWithMaj = strtoupper(substr($licence->type, 0, 1)) . substr($licence->type, 1);
+            $supplierTradVariable = 'form.choice' . $typeWithMaj;
+          }
+          else
+            $supplierTradVariable = null;
+
+          if (!is_null($request->typeRbq)){
+            $typeWithMaj = strtoupper(substr($request->typeRbq, 0, 1)) . substr($request->typeRbq, 1);
+            $requestTradVariable = 'form.choice' . $typeWithMaj;
+          }
+          else
+            $requestTradVariable = null;
+
+          $this->createAccountModificationLine($status, __('form.typeLabel'), [__($supplierTradVariable)], [__($requestTradVariable)], $licenceRbq_category_id);
+          $oldType = __($supplierTradVariable);
+          $newType = __($requestTradVariable);
+          $supplierModification .= "<span style='color:#E5004D;'>- {$oldType}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$newType}</span><br>";
           $licence->type = $request->typeRbq;
         }
         $licence->supplier()->associate($supplier);
@@ -1142,15 +1174,17 @@ class SuppliersController extends Controller
         $supplierTradVariable = 'form.'.$supplier->payment_condition;
         $requestTradVariable = 'form.'.$request->financesPaymentConditions;
         $this->createAccountModificationLine($status, __('form.paymentConditions'), [__($supplierTradVariable)], [__($requestTradVariable)], $finance_category_id);
+        $oldPaiement = __($supplierTradVariable);
+        $newPaiement = __($requestTradVariable);
         if (is_null($request->financesPaymentConditions)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->payment_condition}</span><br>";
+          $supplierModification .= "<span style='color:#E5004D;'>- {$oldPaiement}</span><br>";
         }
         else if (is_null($supplier->payment_condition)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->financesPaymentConditions}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$newPaiement}</span><br>";
         }
         else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->payment_condition}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->financesPaymentConditions}</span><br>";
+          $supplierModification .= "<span style='color:#E5004D;'>- {$oldPaiement}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$newPaiement}</span><br>";
         }
         $supplier->payment_condition = $request->financesPaymentConditions;
       }
@@ -1159,14 +1193,14 @@ class SuppliersController extends Controller
         $requestTradVariable = $request->currency == 1 ? __('form.canadianCurrency') : __('form.usCurrency');
         $this->createAccountModificationLine($status, __('form.currency'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
         if (is_null($request->currency)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->currency}</span><br>";
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplierTradVariable}</span><br>";
         }
         else if (is_null($supplier->currency)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->currency}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$requestTradVariable}</span><br>";
         }
         else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->currency}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->currency}</span><br>";
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplierTradVariable}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$requestTradVariable}</span><br>";
         }
         $supplier->currency = $request->currency;
       }
@@ -1175,14 +1209,14 @@ class SuppliersController extends Controller
         $requestTradVariable = $request->communication_mode == 1 ? __('form.email') : __('form.mail');
         $this->createAccountModificationLine($status, __('form.communication'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
         if (is_null($request->communication_mode)){
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->communication_mode}</span><br>";
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplierTradVariable}</span><br>";
         }
         else if (is_null($supplier->communication_mode)){
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->communication_mode}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$requestTradVariable}</span><br>";
         }
         else{
-          $supplierModification .= "<span style='color:#E5004D;'>- {$supplier->communication_mode}</span><br>";
-          $supplierModification .= "<span style='color:#68B545;'>+ {$request->communication_mode}</span><br>";
+          $supplierModification .= "<span style='color:#E5004D;'>- {$supplierTradVariable}</span><br>";
+          $supplierModification .= "<span style='color:#68B545;'>+ {$requestTradVariable}</span><br>";
         }
         $supplier->communication_mode = $request->communication_mode;
       }

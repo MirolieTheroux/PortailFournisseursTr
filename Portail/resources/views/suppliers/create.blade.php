@@ -15,88 +15,88 @@
   <div class="container-fluid d-flex justify-content-center">
     <div id="progressBar" class="arrow-steps mt-3">
       <div class="step current clickFleche">
-        <span class="number clickCircle">1
-          <svg class="d-none icon-valid-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-            <path d="m16.298,8.288l1.404,1.425-5.793,5.707c-.387.387-.896.58-1.407.58s-1.025-.195-1.416-.585l-2.782-2.696,1.393-1.437,2.793,2.707,5.809-5.701Zm7.702,3.712c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-2,0c0-5.514-4.486-10-10-10S2,6.486,2,12s4.486,10,10,10,10-4.486,10-10Z" />
-          </svg>
-
-          <svg class="d-none icon-invalid-circle" width="20" height="20" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="m23.121,6.151L17.849.878c-.567-.566-1.321-.878-2.121-.878h-7.455c-.8,0-1.554.312-2.122.879L.879,6.151c-.566.567-.879,1.32-.879,2.121v7.456c0,.801.312,1.554.879,2.121l5.272,5.273c.567.566,1.321.878,2.121.878h7.455c.8,0,1.554-.312,2.122-.879l5.271-5.272c.566-.567.879-1.32.879-2.121v-7.456c0-.801-.313-1.554-.879-2.121Zm-1.121,9.577c0,.263-.106.521-.293.707l-5.271,5.271c-.19.189-.442.294-.709.294h-7.455c-.267,0-.519-.104-.708-.293l-5.271-5.272c-.187-.187-.293-.444-.293-.707v-7.456c0-.263.106-.521.293-.707L7.563,2.294c.19-.189.442-.294.709-.294h7.455c.267,0,.519.104.708.293l5.271,5.272c.187.187.293.444.293.707v7.456Zm-9-2.728h-2v-7h2v7Zm.5,3.5c0,.828-.672,1.5-1.5,1.5s-1.5-.672-1.5-1.5.672-1.5,1.5-1.5,1.5.672,1.5,1.5Z" />
-          </svg>
+        <span class="number clickCircle">
+        <svg class="d-none icon-valid-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+          <path d="m16.298,8.288l1.404,1.425-5.793,5.707c-.387.387-.896.58-1.407.58s-1.025-.195-1.416-.585l-2.782-2.696,1.393-1.437,2.793,2.707,5.809-5.701Zm7.702,3.712c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-2,0c0-5.514-4.486-10-10-10S2,6.486,2,12s4.486,10,10,10,10-4.486,10-10Z" />
+        </svg>
+        <svg class="d-none icon-invalid-circle" width="20" height="20" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="m23.121,6.151L17.849.878c-.567-.566-1.321-.878-2.121-.878h-7.455c-.8,0-1.554.312-2.122.879L.879,6.151c-.566.567-.879,1.32-.879,2.121v7.456c0,.801.312,1.554.879,2.121l5.272,5.273c.567.566,1.321.878,2.121.878h7.455c.8,0,1.554-.312,2.122-.879l5.271-5.272c.566-.567.879-1.32.879-2.121v-7.456c0-.801-.313-1.554-.879-2.121Zm-1.121,9.577c0,.263-.106.521-.293.707l-5.271,5.271c-.19.189-.442.294-.709.294h-7.455c-.267,0-.519-.104-.708-.293l-5.271-5.272c-.187-.187-.293-.444-.293-.707v-7.456c0-.263.106-.521.293-.707L7.563,2.294c.19-.189.442-.294.709-.294h7.455c.267,0,.519.104.708.293l5.271,5.272c.187.187.293.444.293.707v7.456Zm-9-2.728h-2v-7h2v7Zm.5,3.5c0,.828-.672,1.5-1.5,1.5s-1.5-.672-1.5-1.5.672-1.5,1.5-1.5,1.5.672,1.5,1.5Z" />
+        </svg>
+        1
         </span>
+        <span class="icon-valid"></span>
+        <span class="icon-invalid"></span>
         <span class="name">{{__('form.identificationTitle')}}</span>
-        <span class="icon-valid"></span>
-        <span class="icon-invalid"></span>
       </div>
       <div class="step clickFleche">
-        <span class="number clickCircle">2
-          <svg class="d-none icon-valid-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-            <path d="m16.298,8.288l1.404,1.425-5.793,5.707c-.387.387-.896.58-1.407.58s-1.025-.195-1.416-.585l-2.782-2.696,1.393-1.437,2.793,2.707,5.809-5.701Zm7.702,3.712c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-2,0c0-5.514-4.486-10-10-10S2,6.486,2,12s4.486,10,10,10,10-4.486,10-10Z" />
-          </svg>
-          <svg class="d-none icon-invalid-circle" class="ms-1" xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20" fill="white">
-            <path d="M16,8a1,1,0,0,0-1.414,0L12,10.586,9.414,8A1,1,0,0,0,8,9.414L10.586,12,8,14.586A1,1,0,0,0,9.414,16L12,13.414,14.586,16A1,1,0,0,0,16,14.586L13.414,12,16,9.414A1,1,0,0,0,16,8Z" />
-            <path d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm0,22A10,10,0,1,1,22,12,10.011,10.011,0,0,1,12,22Z" />
-          </svg>
+        <span class="number clickCircle">
+        <svg class="d-none icon-valid-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+          <path d="m16.298,8.288l1.404,1.425-5.793,5.707c-.387.387-.896.58-1.407.58s-1.025-.195-1.416-.585l-2.782-2.696,1.393-1.437,2.793,2.707,5.809-5.701Zm7.702,3.712c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-2,0c0-5.514-4.486-10-10-10S2,6.486,2,12s4.486,10,10,10,10-4.486,10-10Z" />
+        </svg>
+        <svg class="d-none icon-invalid-circle" width="20" height="20" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="m23.121,6.151L17.849.878c-.567-.566-1.321-.878-2.121-.878h-7.455c-.8,0-1.554.312-2.122.879L.879,6.151c-.566.567-.879,1.32-.879,2.121v7.456c0,.801.312,1.554.879,2.121l5.272,5.273c.567.566,1.321.878,2.121.878h7.455c.8,0,1.554-.312,2.122-.879l5.271-5.272c.566-.567.879-1.32.879-2.121v-7.456c0-.801-.313-1.554-.879-2.121Zm-1.121,9.577c0,.263-.106.521-.293.707l-5.271,5.271c-.19.189-.442.294-.709.294h-7.455c-.267,0-.519-.104-.708-.293l-5.271-5.272c-.187-.187-.293-.444-.293-.707v-7.456c0-.263.106-.521.293-.707L7.563,2.294c.19-.189.442-.294.709-.294h7.455c.267,0,.519.104.708.293l5.271,5.272c.187.187.293.444.293.707v7.456Zm-9-2.728h-2v-7h2v7Zm.5,3.5c0,.828-.672,1.5-1.5,1.5s-1.5-.672-1.5-1.5.672-1.5,1.5-1.5,1.5.672,1.5,1.5Z" />
+        </svg>
+        2
         </span>
+        <span class="icon-valid"></span>
+        <span class="icon-invalid"></span>
         <span class="name">{{__('form.contactDetailsTitle')}}</span>
-        <span class="icon-valid"></span>
-        <span class="icon-invalid"></span>
       </div>
       <div class="step clickFleche">
-        <span class="number clickCircle">3
-          <svg class="d-none icon-valid-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-            <path d="m16.298,8.288l1.404,1.425-5.793,5.707c-.387.387-.896.58-1.407.58s-1.025-.195-1.416-.585l-2.782-2.696,1.393-1.437,2.793,2.707,5.809-5.701Zm7.702,3.712c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-2,0c0-5.514-4.486-10-10-10S2,6.486,2,12s4.486,10,10,10,10-4.486,10-10Z" />
-          </svg>
-          <svg class="d-none icon-invalid-circle" class="ms-1" xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20" fill="white">
-            <path d="M16,8a1,1,0,0,0-1.414,0L12,10.586,9.414,8A1,1,0,0,0,8,9.414L10.586,12,8,14.586A1,1,0,0,0,9.414,16L12,13.414,14.586,16A1,1,0,0,0,16,14.586L13.414,12,16,9.414A1,1,0,0,0,16,8Z" />
-            <path d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm0,22A10,10,0,1,1,22,12,10.011,10.011,0,0,1,12,22Z" />
-          </svg>
+        <span class="number clickCircle">
+        <svg class="d-none icon-valid-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+          <path d="m16.298,8.288l1.404,1.425-5.793,5.707c-.387.387-.896.58-1.407.58s-1.025-.195-1.416-.585l-2.782-2.696,1.393-1.437,2.793,2.707,5.809-5.701Zm7.702,3.712c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-2,0c0-5.514-4.486-10-10-10S2,6.486,2,12s4.486,10,10,10,10-4.486,10-10Z" />
+        </svg>
+        <svg class="d-none icon-invalid-circle" width="20" height="20" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="m23.121,6.151L17.849.878c-.567-.566-1.321-.878-2.121-.878h-7.455c-.8,0-1.554.312-2.122.879L.879,6.151c-.566.567-.879,1.32-.879,2.121v7.456c0,.801.312,1.554.879,2.121l5.272,5.273c.567.566,1.321.878,2.121.878h7.455c.8,0,1.554-.312,2.122-.879l5.271-5.272c.566-.567.879-1.32.879-2.121v-7.456c0-.801-.313-1.554-.879-2.121Zm-1.121,9.577c0,.263-.106.521-.293.707l-5.271,5.271c-.19.189-.442.294-.709.294h-7.455c-.267,0-.519-.104-.708-.293l-5.271-5.272c-.187-.187-.293-.444-.293-.707v-7.456c0-.263.106-.521.293-.707L7.563,2.294c.19-.189.442-.294.709-.294h7.455c.267,0,.519.104.708.293l5.271,5.272c.187.187.293.444.293.707v7.456Zm-9-2.728h-2v-7h2v7Zm.5,3.5c0,.828-.672,1.5-1.5,1.5s-1.5-.672-1.5-1.5.672-1.5,1.5-1.5,1.5.672,1.5,1.5Z" />
+        </svg>
+        3
         </span>
+        <span class="icon-valid"></span>
+        <span class="icon-invalid"></span>
         <span class="name">{{__('form.contactsTitle')}}</span>
-        <span class="icon-valid"></span>
-        <span class="icon-invalid"></span>
       </div>
       <div class="step clickFleche">
-        <span class="number clickCircle">4
-          <svg class="d-none icon-valid-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-            <path d="m16.298,8.288l1.404,1.425-5.793,5.707c-.387.387-.896.58-1.407.58s-1.025-.195-1.416-.585l-2.782-2.696,1.393-1.437,2.793,2.707,5.809-5.701Zm7.702,3.712c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-2,0c0-5.514-4.486-10-10-10S2,6.486,2,12s4.486,10,10,10,10-4.486,10-10Z" />
-          </svg>
-          <svg class="d-none icon-invalid-circle" class="ms-1" xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20" fill="white">
-            <path d="M16,8a1,1,0,0,0-1.414,0L12,10.586,9.414,8A1,1,0,0,0,8,9.414L10.586,12,8,14.586A1,1,0,0,0,9.414,16L12,13.414,14.586,16A1,1,0,0,0,16,14.586L13.414,12,16,9.414A1,1,0,0,0,16,8Z" />
-            <path d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm0,22A10,10,0,1,1,22,12,10.011,10.011,0,0,1,12,22Z" />
-          </svg>
+        <span class="number clickCircle">
+        <svg class="d-none icon-valid-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+          <path d="m16.298,8.288l1.404,1.425-5.793,5.707c-.387.387-.896.58-1.407.58s-1.025-.195-1.416-.585l-2.782-2.696,1.393-1.437,2.793,2.707,5.809-5.701Zm7.702,3.712c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-2,0c0-5.514-4.486-10-10-10S2,6.486,2,12s4.486,10,10,10,10-4.486,10-10Z" />
+        </svg>
+        <svg class="d-none icon-invalid-circle" width="20" height="20" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="m23.121,6.151L17.849.878c-.567-.566-1.321-.878-2.121-.878h-7.455c-.8,0-1.554.312-2.122.879L.879,6.151c-.566.567-.879,1.32-.879,2.121v7.456c0,.801.312,1.554.879,2.121l5.272,5.273c.567.566,1.321.878,2.121.878h7.455c.8,0,1.554-.312,2.122-.879l5.271-5.272c.566-.567.879-1.32.879-2.121v-7.456c0-.801-.313-1.554-.879-2.121Zm-1.121,9.577c0,.263-.106.521-.293.707l-5.271,5.271c-.19.189-.442.294-.709.294h-7.455c-.267,0-.519-.104-.708-.293l-5.271-5.272c-.187-.187-.293-.444-.293-.707v-7.456c0-.263.106-.521.293-.707L7.563,2.294c.19-.189.442-.294.709-.294h7.455c.267,0,.519.104.708.293l5.271,5.272c.187.187.293.444.293.707v7.456Zm-9-2.728h-2v-7h2v7Zm.5,3.5c0,.828-.672,1.5-1.5,1.5s-1.5-.672-1.5-1.5.672-1.5,1.5-1.5,1.5.672,1.5,1.5Z" />
+        </svg>
+        4
         </span>
+        <span class="icon-valid"></span>
+        <span class="icon-invalid"></span>
         <span class="name">{{__('form.productsAndServiceTitle')}}</span>
-        <span class="icon-valid"></span>
-        <span class="icon-invalid"></span>
       </div>
       <div class="step clickFleche">
-        <span class="number clickCircle">5
-          <svg class="d-none icon-valid-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-            <path d="m16.298,8.288l1.404,1.425-5.793,5.707c-.387.387-.896.58-1.407.58s-1.025-.195-1.416-.585l-2.782-2.696,1.393-1.437,2.793,2.707,5.809-5.701Zm7.702,3.712c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-2,0c0-5.514-4.486-10-10-10S2,6.486,2,12s4.486,10,10,10,10-4.486,10-10Z" />
-          </svg>
-          <svg class="d-none icon-invalid-circle" class="ms-1" xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20" fill="white">
-            <path d="M16,8a1,1,0,0,0-1.414,0L12,10.586,9.414,8A1,1,0,0,0,8,9.414L10.586,12,8,14.586A1,1,0,0,0,9.414,16L12,13.414,14.586,16A1,1,0,0,0,16,14.586L13.414,12,16,9.414A1,1,0,0,0,16,8Z" />
-            <path d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm0,22A10,10,0,1,1,22,12,10.011,10.011,0,0,1,12,22Z" />
-          </svg>
+        <span class="number clickCircle">
+        <svg class="d-none icon-valid-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+          <path d="m16.298,8.288l1.404,1.425-5.793,5.707c-.387.387-.896.58-1.407.58s-1.025-.195-1.416-.585l-2.782-2.696,1.393-1.437,2.793,2.707,5.809-5.701Zm7.702,3.712c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-2,0c0-5.514-4.486-10-10-10S2,6.486,2,12s4.486,10,10,10,10-4.486,10-10Z" />
+        </svg>
+        <svg class="d-none icon-invalid-circle" width="20" height="20" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="m23.121,6.151L17.849.878c-.567-.566-1.321-.878-2.121-.878h-7.455c-.8,0-1.554.312-2.122.879L.879,6.151c-.566.567-.879,1.32-.879,2.121v7.456c0,.801.312,1.554.879,2.121l5.272,5.273c.567.566,1.321.878,2.121.878h7.455c.8,0,1.554-.312,2.122-.879l5.271-5.272c.566-.567.879-1.32.879-2.121v-7.456c0-.801-.313-1.554-.879-2.121Zm-1.121,9.577c0,.263-.106.521-.293.707l-5.271,5.271c-.19.189-.442.294-.709.294h-7.455c-.267,0-.519-.104-.708-.293l-5.271-5.272c-.187-.187-.293-.444-.293-.707v-7.456c0-.263.106-.521.293-.707L7.563,2.294c.19-.189.442-.294.709-.294h7.455c.267,0,.519.104.708.293l5.271,5.272c.187.187.293.444.293.707v7.456Zm-9-2.728h-2v-7h2v7Zm.5,3.5c0,.828-.672,1.5-1.5,1.5s-1.5-.672-1.5-1.5.672-1.5,1.5-1.5,1.5.672,1.5,1.5Z" />
+        </svg>
+        5
         </span>
+        <span class="icon-valid"></span>
+        <span class="icon-invalid"></span>
         <span class="name">{{__('form.rbqTitle')}}</span>
-        <span class="icon-valid"></span>
-        <span class="icon-invalid"></span>
       </div>
       <div class="step clickFleche">
-        <span class="number clickCircle">6
-          <svg class="d-none icon-valid-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-            <path d="m16.298,8.288l1.404,1.425-5.793,5.707c-.387.387-.896.58-1.407.58s-1.025-.195-1.416-.585l-2.782-2.696,1.393-1.437,2.793,2.707,5.809-5.701Zm7.702,3.712c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-2,0c0-5.514-4.486-10-10-10S2,6.486,2,12s4.486,10,10,10,10-4.486,10-10Z" />
-          </svg>
-          <svg class="d-none icon-invalid-circle" class="ms-1" xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="20" height="20" fill="white">
-            <path d="M16,8a1,1,0,0,0-1.414,0L12,10.586,9.414,8A1,1,0,0,0,8,9.414L10.586,12,8,14.586A1,1,0,0,0,9.414,16L12,13.414,14.586,16A1,1,0,0,0,16,14.586L13.414,12,16,9.414A1,1,0,0,0,16,8Z" />
-            <path d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm0,22A10,10,0,1,1,22,12,10.011,10.011,0,0,1,12,22Z" />
-          </svg>
+        <span class="number clickCircle">
+        <svg class="d-none icon-valid-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+          <path d="m16.298,8.288l1.404,1.425-5.793,5.707c-.387.387-.896.58-1.407.58s-1.025-.195-1.416-.585l-2.782-2.696,1.393-1.437,2.793,2.707,5.809-5.701Zm7.702,3.712c0,6.617-5.383,12-12,12S0,18.617,0,12,5.383,0,12,0s12,5.383,12,12Zm-2,0c0-5.514-4.486-10-10-10S2,6.486,2,12s4.486,10,10,10,10-4.486,10-10Z" />
+        </svg>
+        <svg class="d-none icon-invalid-circle" width="20" height="20" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="m23.121,6.151L17.849.878c-.567-.566-1.321-.878-2.121-.878h-7.455c-.8,0-1.554.312-2.122.879L.879,6.151c-.566.567-.879,1.32-.879,2.121v7.456c0,.801.312,1.554.879,2.121l5.272,5.273c.567.566,1.321.878,2.121.878h7.455c.8,0,1.554-.312,2.122-.879l5.271-5.272c.566-.567.879-1.32.879-2.121v-7.456c0-.801-.313-1.554-.879-2.121Zm-1.121,9.577c0,.263-.106.521-.293.707l-5.271,5.271c-.19.189-.442.294-.709.294h-7.455c-.267,0-.519-.104-.708-.293l-5.271-5.272c-.187-.187-.293-.444-.293-.707v-7.456c0-.263.106-.521.293-.707L7.563,2.294c.19-.189.442-.294.709-.294h7.455c.267,0,.519.104.708.293l5.271,5.272c.187.187.293.444.293.707v7.456Zm-9-2.728h-2v-7h2v7Zm.5,3.5c0,.828-.672,1.5-1.5,1.5s-1.5-.672-1.5-1.5.672-1.5,1.5-1.5,1.5.672,1.5,1.5Z" />
+        </svg>
+        6
         </span>
-        <span class="name">{{__('form.attachmentFilesTitle')}}</span>
         <span class="icon-valid"></span>
         <span class="icon-invalid"></span>
+        <span class="name">{{__('form.attachmentFilesTitle')}}</span>
       </div>
     </div>
   </div><!-- FIN PROGRESS BAR-->
@@ -131,7 +131,7 @@
           <div class="text-start">
             <div class="form-floating mb-3">
               <input type="text" name="name" id="name" class="form-control" placeholder="" value="{{ old('name') }}" maxlength="64">
-              <label for="name">{{__('form.companyNameLabel')}}</label>
+              <label for="name">{{__('form.companyNameLabel')}} <span class="required">*</span></label>
               <div id="nameStart"></br></div>
               <div class="valid-feedback" id="nameValid" style="display: none;"></br></div>
               <div class="invalid-feedback" id="nameInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Nom d\'entreprise'])}}</div>
@@ -148,7 +148,7 @@
           <div class="text-start">
             <div class="form-floating mb-3">
               <input type="email" name="email" id="email" class="form-control" placeholder="example@gmail.com" value="{{ old('email') }}" maxlength="64">
-              <label for="email">{{__('form.emailLabel')}}</label>
+              <label for="email">{{__('form.emailLabel')}} <span class="required">*</span></label>
               <div class="invalid-feedback" id="emailInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Adresse courriel'])}}</div>
               <div class="invalid-feedback" id="emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
               <div class="invalid-feedback" id="emailInvalidUnique" style="display: none;">{{__('form.identificationValidationEmailUnique')}}</div>
@@ -162,7 +162,7 @@
               <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                 <div class="form-floating mb-3">
                   <input type="password" name="password" id="password" class="form-control" placeholder="" maxlength="12">
-                  <label for="password">{{__('form.passwordLabel')}}</label>
+                  <label for="password">{{__('form.passwordLabel')}} <span class="required">*</span></label>
                   <div id="passwordStart"></br></div>
                   <div class="valid-feedback" id="passwordValid" style="display: none;"></br></div>
                   <div class="invalid-feedback" id="passwordInvalidEmpty" style="display: none;">{{__('validation.required', ['attribute' => 'Mot de passe'])}}</div>
@@ -179,7 +179,7 @@
               <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
                 <div class="form-floating mb-3">
                   <input type="password" name="password_confirmation" id="password_confirmation" placeholder="" class="form-control" maxlength="12">
-                  <label for="password_confirmation">{{__('form.passwordConfirmLabel')}}</label>
+                  <label for="password_confirmation">{{__('form.passwordConfirmLabel')}} <span class="required">*</span></label>
                   <div id="password_confirmationStart"></br></div>
                   <div class="valid-feedback" id="password_confirmationValid" style="display: none;"></br></div>
                   <div class="invalid-feedback" id="password_confirmationInvalidDifferent" style="display: none;">{{__('form.identificationValidationMDPConfirm')}}</div>
@@ -485,7 +485,7 @@
         <div class=" text-center d-flex flex-row">
           <div class="form-floating col-6 pe-2">
             <input type="text" name="contactDetailsCivicNumber" id="contactDetailsCivicNumber" class="form-control" value="{{ old('contactDetailsCivicNumber') }}" placeholder="" maxlength="8">
-            <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}}</label>
+            <label for="contactDetailsCivicNumber" id="civicNumber">{{__('form.civicNumberLabel')}} <span class="required">*</span></label>
           </div>
           <div class="form-floating col-6">
             <input type="text" name="contactDetailsOfficeNumber" id="contactDetailsOfficeNumber" class="form-control" value="{{ old('contactDetailsOfficeNumber') }}" placeholder="" maxlength="8">
@@ -512,7 +512,7 @@
         <div class="text-center mb-4">
           <div class="form-floating">
             <input type="text" name="contactDetailsStreetName" id="contactDetailsStreetName" class="form-control" value="{{ old('contactDetailsStreetName') }}" placeholder="" maxlength="64">
-            <label for="contactDetailsStreetName">{{__('form.streetName')}}</label>
+            <label for="contactDetailsStreetName">{{__('form.streetName')}} <span class="required">*</span></label>
             <div class="text-start invalid-feedback" id="invalidRequiredStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationRequired')}}</div>
             <div class="text-start invalid-feedback" id="invalidStreetName" style="display: none;">{{__('form.contactDetailsStreetNameValidationAlphaNumSC')}}</div>
             <div class="text-start invalid-feedback" id="invalidStreetNameLength" style="display: none;">{{__('form.contactDetailsStreetNameValidationLength')}}</div>
@@ -526,7 +526,7 @@
             <div class="form-floating col-6 pe-2" id="div-city">
               <select name="contactDetailsCitySelect" id="contactDetailsCitySelect" class="form-select" aria-label=""></select>
               <input type="text" name="contactDetailsInputCity" id="contactDetailsInputCity" class="form-control d-none" value="{{ old('contactDetailsInputCity') }}" placeholder="" maxlength="64">
-              <label for="contactDetailsCitySelect">{{__('form.city')}}</label>
+              <label for="contactDetailsCitySelect">{{__('form.city')}} <span class="required">*</span></label>
             </div>
             <div class="form-floating col-6">
               <select name="contactDetailsProvince" id="contactDetailsProvince" class="form-select" aria-label="">
@@ -537,7 +537,7 @@
                 </option>
                 @endforeach
               </select>
-              <label for="contactDetailsProvince">{{__('form.province')}}</label>
+              <label for="contactDetailsProvince">{{__('form.province')}} <span class="required">*</span></label>
             </div>
           </div>
           <div class="row mb-3">
@@ -553,11 +553,11 @@
             <div class="form-floating col-8 pe-2">
               <select name="contactDetailsDistrictArea" id="contactDetailsDistrictArea" class="form-select" aria-label="">
               </select>
-              <label for="contactDetailsDistrictArea">{{__('form.districtArea')}}</label>
+              <label for="contactDetailsDistrictArea">{{__('form.districtArea')}} <span class="required">*</span></label>
             </div>
             <div class="form-floating">
               <input type="text" name="contactDetailsPostalCode" id="contactDetailsPostalCode" class="form-control" value="{{ old('contactDetailsPostalCode') }}" placeholder="" maxlength="7">
-              <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}}</label>
+              <label for="contactDetailsPostalCode" id="postalCode">{{__('form.postalCode')}} <span class="required">*</span></label>
               @if($errors->has('contactDetailsPostalCode'))
               <p>{{ $errors->first('contactDetailsPostalCode') }}</p>
               @endif
@@ -624,7 +624,7 @@
 
         <div class="form-floating h-100 pb-4" id="div-phoneNumberList">
           <div class="form-control pt-2 h-100  mb-4" id="contactDetailsPhoneNumberList" style="overflow-x: hidden; overflow-y: auto;">
-            <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}}</div>
+            <div class="fs-5 text-start title-border fw-bold" for="contactDetailsPhoneNumberList">{{__('form.phoneNumberList')}} <span class="required">*</span></div>
             <div class="row px-3">
               <div class="d-flex justify-content-between mt-2">
                 <div class="col-2 fs-6">{{__('form.typeLabel')}}</div>
@@ -734,7 +734,7 @@
             <div class="col-12 col-lg-6 text-center mb-4">
               <div class="form-floating">
                 <input type="text" name="contactFirstNames[]" id="contactFirstName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="{{old('contactFirstNames')[$loop->index]}}">
-                <label id="contactFirstNameLabel1" for="contactFirstName1">{{__('form.firstNameLabel')}}</label>
+                <label id="contactFirstNameLabel1" for="contactFirstName1">{{__('form.firstNameLabel')}} <span class="required">*</span></label>
               </div>
               @if($errors->has($contactFirstNameIndex))
               <p>{{ $errors->first($contactFirstNameIndex) }}</p>
@@ -743,7 +743,7 @@
             <div class="col-12 col-lg-6 text-center mb-4">
               <div class="form-floating">
                 <input type="text" name="contactLastNames[]" id="contactLastName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32" value="{{old('contactLastNames')[$loop->index]}}">
-                <label id="contactLastNameLabel1" for="contactLastName1">{{__('form.lastNameLabel')}}</label>
+                <label id="contactLastNameLabel1" for="contactLastName1">{{__('form.lastNameLabel')}} <span class="required">*</span></label>
               </div>
               @if($errors->has($contactLastNameIndex))
               <p>{{ $errors->first($contactLastNameIndex) }}</p>
@@ -762,7 +762,7 @@
           <div class="text-center mb-4">
             <div class="form-floating">
               <input type="text" name="contactEmails[]" id="contactEmail1" class="form-control contact-input contact-email-input" placeholder="" maxlength="64" value="{{old('contactEmails')[$loop->index]}}">
-              <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}}</label>
+              <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}} <span class="required">*</span></label>
             </div>
             @if($errors->has($contactEmailIndex))
             <p>{{ $errors->first($contactEmailIndex) }}</p>
@@ -777,11 +777,11 @@
                   <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
                   <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
                 </select>
-                <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}}</label>
+                <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}} <span class="required">*</span></label>
               </div>
               <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
                 <input type="text" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control" placeholder="" maxlength="10" value="{{old('contactTelNumbersA')[$loop->index]}}">
-                <label id="contactTelNumberLabelA1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberA1">{{__('form.numberLabel')}}</label>
+                <label id="contactTelNumberLabelA1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberA1">{{__('form.numberLabel')}} <span class="required">*</span></label>
               </div>
               <div class="form-floating col-12 col-md-3">
                 <input type="text" name="contactTelExtensionsA[]" id="contactTelExtensionA1" class="form-control" placeholder="" maxlength="6" value="{{old('contactTelExtensionsA')[$loop->index]}}">
@@ -850,7 +850,7 @@
             <div class="col-12 col-lg-6 text-center mb-4">
               <div class="form-floating">
                 <input type="text" name="contactFirstNames[]" id="contactFirstName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32">
-                <label id="contactFirstNameLabel1" for="contactFirstName1">{{__('form.firstNameLabel')}}</label>
+                <label id="contactFirstNameLabel1" for="contactFirstName1">{{__('form.firstNameLabel')}} <span class="required">*</span></label>
                 <div class="text-start invalid-feedback nameInvalidRequired" style="display: none;">{{__('form.contactsFirstNamesValidationRequired')}}</div>
                 <div class="text-start invalid-feedback nameInvalidSymbols" style="display: none;">{{__('form.contactsNamesValidationSymbols')}}</div>
               </div>
@@ -858,7 +858,7 @@
             <div class="col-12 col-lg-6 text-center mb-4">
               <div class="form-floating">
                 <input type="text" name="contactLastNames[]" id="contactLastName1" class="form-control contact-input contact-name-input" placeholder="" maxlength="32">
-                <label id="contactLastNameLabel1" for="contactLastName1">{{__('form.lastNameLabel')}}</label>
+                <label id="contactLastNameLabel1" for="contactLastName1">{{__('form.lastNameLabel')}} <span class="required">*</span></label>
                 <div class="text-start invalid-feedback nameInvalidRequired" style="display: none;">{{__('form.contactsLastNamesValidationRequired')}}</div>
                 <div class="text-start invalid-feedback nameInvalidSymbols" style="display: none;">{{__('form.contactsNamesValidationSymbols')}}</div>
               </div>
@@ -874,7 +874,7 @@
           <div class="text-center mb-4">
             <div class="form-floating">
               <input type="text" name="contactEmails[]" id="contactEmail1" class="form-control contact-input contact-email-input" placeholder="" maxlength="64">
-              <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}}</label>
+              <label id="contactEmailLabel1" for="contactEmail1">{{__('form.emailLabel')}} <span class="required">*</span></label>
               <div class="text-start invalid-feedback emailInvalidRequired" style="display: none;">{{__('form.contactsEmailsValidationRequired')}}</div>
               <div class="text-start invalid-feedback emailInvalidFormat" style="display: none;">{{__('form.contactsEmailsValidationFormat')}}</div>
             </div>
@@ -888,11 +888,11 @@
                   <option value="{{__('form.fax')}}">{{__('form.fax')}}</option>
                   <option value="{{__('form.cellphone')}}">{{__('form.cellphone')}}</option>
                 </select>
-                <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}}</label>
+                <label id="contactTelTypeLabelA1" for="contactTelTypeA1">{{__('form.typeLabel')}} <span class="required">*</span></label>
               </div>
               <div class="form-floating col-12 col-md-6 px-md-2 py-4 py-md-0">
                 <input type="text" name="contactTelNumbersA[]" id="contactTelNumberA1" class="form-control contact-input contact-primary-phone-input" placeholder="" maxlength="12">
-                <label id="contactTelNumberLabelA1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberA1">{{__('form.numberLabel')}}</label>
+                <label id="contactTelNumberLabelA1" class="my-4 my-md-0 ms-md-2" for="contactTelNumberA1">{{__('form.numberLabel')}} <span class="required">*</span></label>
               </div>
               <div class="form-floating col-12 col-md-3">
                 <input type="text" name="contactTelExtensionsA[]" id="contactTelExtensionA1" class="form-control contact-input contact-extension-input" placeholder="" maxlength="6">

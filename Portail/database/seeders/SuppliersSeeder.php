@@ -91,7 +91,7 @@ class SuppliersSeeder extends Seeder
                 'product_service_detail' => $i % 2 === 0 ? "Description du produit ou service pour l'entreprise $i." : null,
                 'tps_number' => str_pad($i, 9, '0', STR_PAD_LEFT) . "RT0001",
                 'tvq_number' => str_pad($i, 10, '0', STR_PAD_LEFT) . "TQ0001",
-                'payment_condition' => $i % 2 === 0 ? '30daysNet' : 'CashOnDelivery',
+                'payment_condition' => $i % 2 === 0 ? '30daysNoDeduction' : 'nowPaymentNoDeduction',
                 'currency' => $i % 15 === 0 ? 2 : 1,
                 'communication_mode' => $i % 7 === 0 ? 2 : 1,
                 'created_at' => '2024-06-01 21:35:24',
