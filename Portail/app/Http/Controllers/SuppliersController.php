@@ -607,17 +607,17 @@ class SuppliersController extends Controller
       //Update Address
       if($supplier->address->civic_no != $request->contactDetailsCivicNumber){
         $this->createAccountModificationLine($status, __('form.civicNumberLabel'), [$supplier->address->civic_no], [$request->contactDetailsCivicNumber], $contactDetails_category_id);
-        $supplierModification .= $this->sendModificationMail($request->contactDetailsCivicNumber, $supplier->address->civic_no);
+        $supplierModification .= $this->modificationMailText($request->contactDetailsCivicNumber, $supplier->address->civic_no);
         $supplier->address->civic_no = $request->contactDetailsCivicNumber;
       }
       if($supplier->address->street != $request->contactDetailsStreetName){
         $this->createAccountModificationLine($status, __('form.streetName'), [$supplier->address->street], [$request->contactDetailsStreetName], $contactDetails_category_id);
-        $supplierModification .= $this->sendModificationMail($request->contactDetailsStreetName, $supplier->address->street);
+        $supplierModification .= $this->modificationMailText($request->contactDetailsStreetName, $supplier->address->street);
         $supplier->address->street = $request->contactDetailsStreetName;
       }
       if($supplier->address->office != $request->contactDetailsOfficeNumber){
         $this->createAccountModificationLine($status, __('form.officeNumber'), [$supplier->address->office], [$request->contactDetailsOfficeNumber], $contactDetails_category_id);
-        $supplierModification .= $this->sendModificationMail($request->contactDetailsOfficeNumber, $supplier->address->office);
+        $supplierModification .= $this->modificationMailText($request->contactDetailsOfficeNumber, $supplier->address->office);
         $supplier->address->office = $request->contactDetailsOfficeNumber;
       }
 
@@ -626,40 +626,40 @@ class SuppliersController extends Controller
       $postal_code = strtoupper($postal_code);
       if($supplier->address->postal_code != $postal_code){
         $this->createAccountModificationLine($status, __('form.postalCode'), [$supplier->address->postal_code], [$postal_code], $contactDetails_category_id);
-        $supplierModification .= $this->sendModificationMail($postal_code, $supplier->address->postal_code);
+        $supplierModification .= $this->modificationMailText($postal_code, $supplier->address->postal_code);
         $supplier->address->postal_code = $postal_code;
       }
 
       $province = Province::where('name', $request->contactDetailsProvince)->firstOrFail();
       if($supplier->address->province->id != $province->id){
         $this->createAccountModificationLine($status, __('form.province'), [$supplier->address->province->name], [$province->name], $contactDetails_category_id);
-        $supplierModification .= $this->sendModificationMail($province->name, $supplier->address->province->name);
+        $supplierModification .= $this->modificationMailText($province->name, $supplier->address->province->name);
         $supplier->address->province()->associate($province);
       }
 
       if($request->contactDetailsProvince == "Québec"){
         if($supplier->address->city != $request->contactDetailsCitySelect){
           $this->createAccountModificationLine($status, __('form.city'), [$supplier->address->city], [$request->contactDetailsCitySelect], $contactDetails_category_id);
-          $supplierModification .= $this->sendModificationMail($request->contactDetailsCitySelect, $supplier->address->city);
+          $supplierModification .= $this->modificationMailText($request->contactDetailsCitySelect, $supplier->address->city);
           $supplier->address->city = $request->contactDetailsCitySelect;
         }
       }
       else{
         if($supplier->address->city != $request->contactDetailsInputCity){
           $this->createAccountModificationLine($status, __('form.city'), [$supplier->address->city], [$request->contactDetailsInputCity], $contactDetails_category_id);
-          $supplierModification .= $this->sendModificationMail($request->contactDetailsInputCity, $supplier->address->city);
+          $supplierModification .= $this->modificationMailText($request->contactDetailsInputCity, $supplier->address->city);
           $supplier->address->city = $request->contactDetailsInputCity;
         }
       }
       if($supplier->address->region != $request->contactDetailsDistrictArea){
         $this->createAccountModificationLine($status, __('form.districtArea'), [$supplier->address->region], [$request->contactDetailsDistrictArea], $contactDetails_category_id);
-        $supplierModification .= $this->sendModificationMail($request->contactDetailsDistrictArea, $supplier->address->region);
+        $supplierModification .= $this->modificationMailText($request->contactDetailsDistrictArea, $supplier->address->region);
         $supplier->address->region = $request->contactDetailsDistrictArea;
       }
 
       if($supplier->site != $request->contactDetailsWebsite){
         $this->createAccountModificationLine($status, __('form.website'), [$supplier->site], [$request->contactDetailsWebsite], $contactDetails_category_id);
-        $supplierModification .= $this->sendModificationMail($request->contactDetailsWebsite, $supplier->site);
+        $supplierModification .= $this->modificationMailText($request->contactDetailsWebsite, $supplier->site);
         $supplier->site = $request->contactDetailsWebsite;
       }
       $supplier->address->save();
@@ -747,25 +747,25 @@ class SuppliersController extends Controller
         }
         
         if($contact->email != $request->contactEmails[$i]){
-          $supplierModification .= $this->sendModificationMail($request->contactEmails[$i], $contact->email);
+          $supplierModification .= $this->modificationMailText($request->contactEmails[$i], $contact->email);
           array_push($removedInformations, $contact->email);
           array_push($addedInformations, $request->contactEmails[$i]);
           $contact->email = $request->contactEmails[$i];
         }
         if($contact->first_name != $request->contactFirstNames[$i]){
-          $supplierModification .= $this->sendModificationMail($request->contactFirstNames[$i], $contact->first_name);
+          $supplierModification .= $this->modificationMailText($request->contactFirstNames[$i], $contact->first_name);
           array_push($removedInformations, $contact->first_name);
           array_push($addedInformations, $request->contactFirstNames[$i]);
           $contact->first_name = $request->contactFirstNames[$i];
         }
         if($contact->last_name != $request->contactLastNames[$i]){
-          $supplierModification .= $this->sendModificationMail($request->contactLastNames[$i], $contact->last_name);
+          $supplierModification .= $this->modificationMailText($request->contactLastNames[$i], $contact->last_name);
           array_push($removedInformations, $contact->last_name);
           array_push($addedInformations, $request->contactLastNames[$i]);
           $contact->last_name = $request->contactLastNames[$i];
         }
         if($contact->job != $request->contactJobs[$i]){
-          $supplierModification .= $this->sendModificationMail($request->contactJobs[$i], $contact->job);
+          $supplierModification .= $this->modificationMailText($request->contactJobs[$i], $contact->job);
           array_push($removedInformations, $contact->job);
           array_push($addedInformations, $request->contactJobs[$i]);
           $contact->job = $request->contactJobs[$i];
