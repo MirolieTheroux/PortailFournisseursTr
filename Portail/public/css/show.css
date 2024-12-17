@@ -25,6 +25,17 @@ cursor: pointer;
  margin-bottom: 5px;
 }
 
+.hamburger-nav > div:hover {
+background-color: lightgray;
+cursor: pointer;
+}
+
+.hamburger-nav div svg {
+  width: 17px;
+  height: 17px;
+  margin-bottom: 5px;
+}
+
 .popover-link {
   text-decoration: underline;
   color: #007bff; 

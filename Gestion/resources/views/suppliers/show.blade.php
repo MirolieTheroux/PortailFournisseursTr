@@ -871,10 +871,7 @@
                         @foreach ($supplier->productsServices as $productService)
                           <div class="row align-items-start py-2 hover-options user-select-none" data-code="{{$productService->code}}">
                             <input type="text" name="produits_services[]" value="{{$productService->code}}" class="d-none">
-                            <div class="col-4 col-md-12 col-xl-4 d-flex flex-column justify-content-start">
-                              {{$productService->code}}
-                            </div>
-                            <div class="col-8 col-md-11 offset-md-1 offset-xl-0 col-xl-8 d-flex flex-column justify-content-start">
+                            <div class="col-12 d-flex flex-column justify-content-start">
                               {{$productService->description}}
                             </div>
                           </div>
