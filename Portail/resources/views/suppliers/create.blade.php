@@ -222,7 +222,7 @@
         <div>
           <div class="form-floating">
             <div class="form-control" placeholder="details" id="products-categories" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
-              <div class="mt-lg-0 mt-md-4" id="service-list">
+              <div class="mt-xl-0 mt-md-4" id="service-list">
               </div>
             </div>
             <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
@@ -236,7 +236,7 @@
         <div>
           <div class="form-floating">
             <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-              <div class="mt-lg-0 mt-md-4" id="service-selected">
+              <div class="mt-xl-0 mt-lg-4 mt-md-5" id="service-selected">
               </div>
             </div>
             <label for="products-selected" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelected')}}</label>

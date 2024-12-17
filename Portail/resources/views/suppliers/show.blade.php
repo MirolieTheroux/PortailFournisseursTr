@@ -898,7 +898,7 @@
                 <div>
                   <div class="form-floating">
                     <div class="form-control" placeholder="details" id="products-categories" style="height: 232px; overflow-x: hidden; overflow-y: auto;">
-                      <div class="mt-lg-0 mt-md-4" id="service-list">
+                      <div class="mt-xxl-0 mt-md-4" id="service-list">
                       </div>
                     </div>
                     <label for="products-categories" class="labelbackground">{{__('form.productsAndServiceServicesCategorySelection')}}</label>
@@ -911,7 +911,7 @@
                 <div>
                   <div class="form-floating">
                     <div class="form-control" placeholder="selected" id="products-selected" style="height: 308px; overflow-x: hidden; overflow-y: auto;">
-                      <div class="mt-lg-0 mt-md-4" id="service-selected">
+                      <div class=" mt-xxl-0  mt-lg-4 mt-md-5" id="service-selected">
                         @foreach ($supplier->productsServices as $productService)
                           <div class="row align-items-start py-2 hover-options user-select-none" data-code="{{$productService->code}}">
                             <input type="text" name="products_services[]" value="{{$productService->code}}" class="d-none">
