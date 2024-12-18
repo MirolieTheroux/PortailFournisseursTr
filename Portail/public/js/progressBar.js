@@ -75,13 +75,11 @@ function nextSectionButton(){
         currentStep++;  
         steps[currentStep].classList.add("current");
         showSectionForm(currentStep);
-        console.log("valid");
       }
       else{
         progressBarSteps[currentStep].classList.add("section-invalid");
         progressBarSteps[currentStep].classList.remove("section-valid");
         addErrorIcon(currentStep);
-        console.log("error");
       }
     });
   });
