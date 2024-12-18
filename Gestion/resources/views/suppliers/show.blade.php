@@ -349,7 +349,7 @@
 
       <!--IDENTIFICATION-->
       <div class="container d-flex flex-column h-100 show-section d-none" id="identification-section">
-        <form class="h-100 w-100 d-flex align-items-center" method="POST" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
+        <form class="h-100 w-100 d-flex align-items-center" method="POST" onkeydown="return event.key != 'Enter';" action="{{route('suppliers.updateIdentification', [$supplier])}}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
           <div class="bg-white my-2 rounded form-section w-100">
@@ -420,7 +420,7 @@
 
       <!--COORDONNÉES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="contactDetails-section">
-        <form method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" enctype="multipart/form-data">
+        <form method="POST" action="{{route('suppliers.updateContactDetails', [$supplier])}}" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
           @csrf
           <div class="bg-white rounded my-2 form-section px-3">
             <div class="row">
@@ -1146,7 +1146,7 @@
 
       <!--PIÈCES JOINTES-->
       <div class="container h-100 w-100 d-flex align-items-center justify-content-center show-section d-none" id="attachments-section">
-        <form class="w-100" method="POST" action="{{route('suppliers.updateAttachments', [$supplier])}}" enctype="multipart/form-data">
+        <form class="w-100" method="POST" onkeydown="return event.key != 'Enter';" action="{{route('suppliers.updateAttachments', [$supplier])}}" enctype="multipart/form-data">
         @csrf
           <div class="bg-white rounded my-2 w-100 form-section">
             <h1 class="text-center">{{__('form.attachmentFilesTitle')}}</h1>
