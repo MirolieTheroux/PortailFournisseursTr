@@ -542,7 +542,7 @@ class SuppliersController extends Controller
 		  $mailsController->sendModificationResponsableMail($supplier, $mailModel, $supplierModification);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
-      ->with('message',__('show.successUpdateContactDetails'))
+      ->with('message',__('show.successUpdateIdentification'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#identification-section');
     }
     catch (\Throwable $e) {
@@ -704,7 +704,7 @@ class SuppliersController extends Controller
 		  $mailsController->sendModificationResponsableMail($supplier, $mailModel, $supplierModification);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
-      ->with('message',__('show.successUpdateIdentification'))
+      ->with('message',__('show.successUpdateContactDetails'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contactDetails-section');
     }
     catch (\Throwable $e) {
@@ -1187,7 +1187,7 @@ class SuppliersController extends Controller
           $supplierTradVariable = $supplier->communication_mode == 1 ? __('form.email') : __('form.mail');
         else
           $supplierTradVariable = null;
-        
+
         $requestTradVariable = $request->communication_mode == 1 ? __('form.email') : __('form.mail');
         $this->createAccountModificationLine($status, __('form.communication'), [$supplierTradVariable], [$requestTradVariable], $finance_category_id);
         if (is_null($request->communication_mode)){

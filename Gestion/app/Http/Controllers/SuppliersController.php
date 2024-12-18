@@ -725,7 +725,7 @@ class SuppliersController extends Controller
       $supplier->save();
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
-      ->with('message',__('show.successUpdateContactDetails'))
+      ->with('message',__('show.successUpdateIdentification'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#identification-section');
     }
     catch (\Throwable $e) {
@@ -919,7 +919,7 @@ class SuppliersController extends Controller
         $this->createAccountModificationLine($status, __('form.phoneNumber'), $removedPhoneNumbers, $addedPhoneNumbers, $contactDetails_category_id);
 
       return redirect()->route('suppliers.show', ['supplier' => $supplier->id])
-      ->with('message',__('show.successUpdateIdentification'))
+      ->with('message',__('show.successUpdateContactDetails'))
       ->header('Location', route('suppliers.show', ['supplier' => $supplier->id]) . '#contactDetails-section');
     }
     catch (\Throwable $e) {
