@@ -10,6 +10,8 @@ function getSectionsInfo() {
   const navSectionsDivs = document.querySelectorAll(".nav-button");
   const mobileNavButtons = document.querySelectorAll(".mobile-icon-svg");
   const hamburgerNavButtons = document.querySelectorAll(".hamburger-button");
+  const navbarToggler = document.querySelector('.navbar-toggler');
+  const navbarContent = document.querySelector('#navbarToggleExternalContent');
   const sectionFromUrl = window.location.hash.substring(1);
 
   if (sectionFromUrl) {
@@ -85,6 +87,8 @@ function getSectionsInfo() {
       lastClickedDiv = div;
       div.classList.add("bg-gray");
       div.style.cursor = "pointer";
+      navbarContent.classList.remove('show');
+      navbarToggler.setAttribute('aria-expanded', 'false');
       showSectionDoc(div.id.replace("-hamburger-button", "-section"));
       changeSVGFill(div);
     });

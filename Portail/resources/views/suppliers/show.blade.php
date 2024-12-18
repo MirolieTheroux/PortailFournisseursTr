@@ -11,13 +11,6 @@
 <!--NICE_TO_HAVE::- Peut-être diminuer les titres.-->
 <div class="w-100 border-top border-dark">
   <div class="text-center w-100 p-2 fw-bolder">{{$supplier->name}}</div>
-  <div class="text-center w-100 p-2 fw-bolder">
-    @if($supplier->latestNonModifiedStatus()->status == 'deactivated' && !$supplier->latestNonModifiedStatus()->deactivated_by_admin)
-      <a href="{{route('suppliers.reactivate', ['supplier' => $supplier->id])}}">{{__('show.reactivate')}}</a>
-    @elseif(!$supplier->latestNonModifiedStatus()->deactivated_by_admin)
-      <a href="{{route('suppliers.removeFromList', ['supplier' => $supplier->id])}}" class="text-danger">{{__('show.removeFromList')}}</a>
-    @endif
-  </div>
   <div class="hamburger-nav col-12 text-center">
     <div id="requestStatus-hamburger-button" class="hamburger-button py-1 rounded">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="m-2">
@@ -92,6 +85,13 @@
       </svg>
       {{__('show.finance')}}
     </div>
+  </div>
+  <div class="text-center w-100 p-2 fw-bolder">
+    @if($supplier->latestNonModifiedStatus()->status == 'deactivated' && !$supplier->latestNonModifiedStatus()->deactivated_by_admin)
+      <a href="{{route('suppliers.reactivate', ['supplier' => $supplier->id])}}">{{__('show.reactivate')}}</a>
+    @elseif(!$supplier->latestNonModifiedStatus()->deactivated_by_admin)
+      <a href="{{route('suppliers.removeFromList', ['supplier' => $supplier->id])}}" class="text-danger">{{__('show.removeFromList')}}</a>
+    @endif
   </div>
 </div>
 @endsection
